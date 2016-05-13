@@ -1,0 +1,274 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "reset.sass"
+@import "mixin.sass"
+
+
+body
+	font-size: 16px
+	min-height: 100vh
+	display: block
+	position: relative
+
+header
+	background: url('../images/bg/head_bg.jpg') no-repeat 0 0 #2770c2
+	height: 147px
+
+.headerbox
+	+w1024
+	padding-top: 10px
+
+.head_langBu 
+	display: inline-block
+	width: 100%
+	padding-bottom: 30px
+	li
+		+floatR
+
+	li+li
+		padding-right: 10px
+
+	a
+		@include link
+			color: $text-write
+			border-color: $text-write
+		@include link-hover
+			color: $text-blue
+			border-color: $text-blue
+			background-color: #2163aa		
+		border: 1px solid
+		padding: 2px 5px
+		+fontnone
+		+font12
+		position: relative
+
+.head_logo	
+	font-size: 1.688em
+	+floatL
+	padding-left: 60px
+	a
+		@include link-all
+			color: $text-write
+			+fontnone
+		padding: 4px 0 0 85px
+		position: relative
+		&:before
+			@include beforeb(72px,34px,0,0,0,0)		
+.head_nav
+	+floatL
+	padding: 5px 0 0 60px
+	li
+		display: inline-block
+		padding-right: 50px
+		padding-left: 70px
+		position: relative
+		&:last-of-type
+			padding-right: 0
+			a:before
+				@include beforeb(27px,27px,0,-88px,28px,-5px)	
+		&:nth-of-type(2)
+			a:before
+				@include beforeb(27px,27px,0,-61px,28px,-5px)	
+		&:first-of-type
+			a:before
+				@include beforeb(27px,27px,0,-34px,28px,-5px)		
+		a
+			@include link
+				color: $text-write
+				+fontnone
+				+font18
+			@include link-hover
+				opacity: 0.7
+	li+li
+		border-left: 1px solid $text-write
+
+main
+	+w1024	
+	padding: 30px 0 123px 0
+	text-align: justify
+
+.fontRed
+	color: $text-red
+
+footer
+	background-color: $line-gray
+	position: absolute
+	width: 100%
+	bottom: 0
+	p
+		+w1024
+		+font12
+		color: $text-gray
+		padding: 40px 0
+		text-align: center
+
+aside
+	@include boxsize(24%)
+	vertical-align: top
+
+article
+	@include boxsize(70%)
+	margin-left: 4%
+	vertical-align: top
+
+.searchbox
+	background: $bg-gray
+	padding: 20px
+	text-align: center	
+
+	input
+		width: 100%
+		height: 25px
+	select
+		width: 100%
+		margin-top: 20px
+		height: 30px
+	button
+		@include bubox($bg-blue01,10px,120px)
+		margin: 20px auto 0 auto
+		position: relative
+		&:hover
+			@include bubox-hover($bg-blue01-hover)
+		&:before
+			@include beforeb(27px,27px,0,-115px,10px,3px)
+
+
+.form_box
+	+bordergray
+	padding: 30px	
+	box-sizing: border-box
+	position: relative	
+
+	h2
+		font-weight: bold
+		background: $text-write
+		padding: 2px 3px
+		position: absolute
+		left: 5px
+		top: -10px
+
+	input
+		+bordergray
+		height: 25px
+
+.radioinput
+	display: none
+
+.radioinput + label
+	position: relative
+	padding-left: 20px
+
+.radioinput:checked + label
+	color: $bg-blue03
+
+
+.radioinput + label:before 
+	content: ' '
+	width: 12px
+	height: 12px
+	background-color: #ffffff
+	+bordergray
+	padding: 1px
+	border-radius: 50%
+	display: inline-block
+	position: absolute
+	left: 0
+	top: 0
+
+.radioinput:checked + label:after 
+	content: ' '
+	width: 10px
+	height: 10px
+	border-radius: 50px
+	position: absolute
+	top: 3px
+	background: $bg-blue03
+	left: 3px
+
+.inputCheckbox
+	display: none
+
+.inputCheckbox + label
+	position: relative
+	padding-left: 20px
+
+.inputCheckbox:checked + label
+	color: $bg-blue03
+
+.inputCheckbox + label:before 
+	content: ' '
+	width: 14px
+	height: 14px
+	background-color: #ffffff
+	+bordergray
+	display: inline-block
+	position: absolute
+	left: 0
+	top: 0
+
+.inputCheckbox:checked + label:before 
+	background-color: $bg-blue03
+
+.inputCheckbox:checked + label:after 
+	content: 'v'
+	color: $text-write
+	position: absolute
+	top: 1px
+	left: 4px
+	+font13
+
+.deleteSbu
+	background: $line-gray
+	color: $text-del
+	border-radius: 5px
+	display: inline-block 
+	padding: 8px 0
+	max-width: 80px
+	width: 100%
+	border: none
+	text-align: center
+	+fontnone
+	+font13
+	
+	&:hover
+		background: $text-del
+		color: $text-write
+
+.submitbu
+	background: $line-gray
+	color: $text-del
+	border-radius: 5px
+	display: inline-block 
+	padding: 13px 0
+	max-width: 120px
+	width: 100%
+	border: none
+	text-align: center
+	+fontnone
+	+font16
+	&:hover
+		background: $bg-blue02
+		color: $text-write
+
+.addbu
+	@include buboxS($bg-or,7px,80px)
+	&:hover
+		background: $bg-or-hover
+
+.spanRed:after
+	content: "*"
+	color: $bg-red
+
+.uplodboxR
+	position: relative
+.uploadbox
+	display: none
+	position: absolute
+	z-index: 3
+	background: $text-write
+
+.uploadbox h3
+	text-align: left

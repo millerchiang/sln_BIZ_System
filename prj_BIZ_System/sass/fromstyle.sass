@@ -1,0 +1,86 @@
+@import "mixin.sass"
+
+.regis_col01L	
+	@include boxsize(40%)
+	vertical-align: top
+	margin: 0 0 30px 0
+
+.regis_col01R
+	@include boxsize(58%)
+	vertical-align: top	
+
+.regis_col01R_label
+	@include boxsize(40%)
+	vertical-align: top
+	margin: 0 0 15px 0
+
+.regis_col01R_input
+	@include boxsize(58%)
+	vertical-align: top
+	margin: 0 0 15px 0
+
+.regis_col02L
+	@include boxsize(25%)
+	vertical-align: top
+	margin: 0 0 15px 0
+
+.regis_col02R
+	@include boxsize(73%)
+	vertical-align: top
+	margin: 0 0 15px 0
+
+.regis_col02R .radioinput + label
+	width: 33%
+	padding-bottom: 10px
+	box-sizing: border-box
+	+floatL
+
+.verticalslist .inputCheckbox + label
+	width: 50%
+	padding-bottom: 10px
+	box-sizing: border-box
+	+floatL
+
+.label01
+	display: block
+	width: 100%
+
+.addbu
+	margin: 5px 0
+
+textarea
+	width: 100%
+	height: 90px
+	+bordergray
+
+.regis_table
+	width: 100%
+	th
+		background: $bg-gray
+		padding: 10px 0 10px 15px
+
+	input
+		margin: 10px 0
+		width: 100%
+	td+td
+		padding-left: 10px
+
+.regis_dmlist
+	li
+		+floatL
+		width: 25%
+		text-align: center
+	a
+		+bordergray
+		display: block
+		width: 97px
+		height: 120px
+		background: url(../images/logopic.jpg) no-repeat center
+		margin: 0 auto 10px auto
+		@include link-hover
+			border-color: $bg-blue03
+
+.centerbox
+	width: 100%
+	text-align: center
+

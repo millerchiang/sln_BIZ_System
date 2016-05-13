@@ -1,0 +1,167 @@
+﻿@model prj_BIZ_System.Models.ActivityInfoModel
+
+@{
+    ViewBag.Title = "活動編輯";
+}
+
+<article class="form_box">
+    <h2>活動編輯</h2>
+
+@{
+    int dowhat = 1;
+    string submit = "ActivityInsert";
+    string submitname = "新增";
+    int activity_id = 0;
+    var manager_id = "";
+    var activity_type = "";
+    string activity_type_chk0 = "";
+    string activity_type_chk1 = "";
+    var activity_name = "";
+    DateTime starttime = DateTime.Now;
+    DateTime endtime = DateTime.Now;
+    var addr = "";
+    var organizer = "";
+    var name = "";
+    var phone = "";
+    var email = "";
+    var seller_select = "";
+    var matchmaking_select = "";
+    string seller_select_chk0 = "";
+    string seller_select_chk1 = "";
+    string matchmaking_select_chk0 = "";
+    string matchmaking_select_chk1 = "";
+
+    var activity_name_en = "";
+    var addr_en = "";
+    var organizer_en = "";
+
+    if (Model != null)
+    {
+        dowhat = 2;
+        submit = "ActivityUpdate";
+        submitname = "修改";
+        activity_id = Model.activity_id;
+        manager_id = Model.manager_id;
+        activity_type = Model.activity_type;
+        if (activity_type == "0")
+        {
+            activity_type_chk0 = "checked";
+        }
+        else
+        {
+            activity_type_chk1 = "checked";
+        }
+        activity_name = Model.activity_name;
+        starttime = Model.starttime;
+        endtime = Model.endtime;
+        addr = Model.addr;
+        organizer = Model.organizer;
+        name = Model.name;
+        phone = Model.phone;
+        email = Model.email;
+        seller_select = Model.seller_select;
+        if (seller_select == "0")
+        {
+            seller_select_chk0 = "checked";
+        }
+        else
+        {
+            seller_select_chk1 = "checked";
+        }
+
+        matchmaking_select = Model.matchmaking_select;
+        if (matchmaking_select == "0")
+        {
+            matchmaking_select_chk0 = "checked";
+        }
+        else
+        {
+            matchmaking_select_chk1 = "checked";
+        }
+
+        activity_name_en = Model.activity_name_en;
+        addr_en = Model.addr_en;
+        organizer_en = Model.organizer_en;
+    }
+
+}
+
+
+
+        <form action="@submit" method="post">
+
+            <input type="hidden" name="activity_id" value="@activity_id">
+            <label for="manager_id_l" class="regis_col02L spanRed">建立者帳號:</label>
+            <input type="text" name="manager_id" value="@manager_id" class="regis_col02R">
+            <label for="activity_type_l" class="regis_col02L spanRed">活動類型:</label>
+            <div class="regis_col02R">
+                <input type="radio" name="activity_type" class="radioinput" value="0" id="revenue01" @activity_type_chk0 >
+                <label for="revenue01">商洽會</label>
+                <input type="radio" name="activity_type" value="1" class="radioinput" id="revenue02" @activity_type_chk1>
+                <label for="revenue02">拓銷會</label>
+            </div>
+            <label for="name" class="regis_col02L spanRed">活動名稱(中文):</label>
+            <input type="text" name="activity_name" class="regis_col02R" value="@activity_name">
+            <label for="leader" class="regis_col02L spanRed">活動時間(起):</label>
+
+            @if (dowhat == 1)
+            {
+                <input type="text" name="starttime" value="" class="regis_col02R">
+            }
+            else
+            {
+                <input type="text" name="starttime" value="@starttime" class="regis_col02R">
+            }
+
+            <label for="leader" class="regis_col02L spanRed">活動時間(迄):</label>
+            @if (dowhat == 1)
+            {
+                <input type="text" name="endtime" value="" class="regis_col02R">
+            }
+            else
+            {
+                <input type="text" name="endtime" value="@endtime" class="regis_col02R">
+            }
+
+            <label for="leader" class="regis_col02L spanRed">活動地點(中文):</label>
+            <input type="text" name="addr" value="@addr" class="regis_col02R">
+
+            <label for="leader" class="regis_col02L spanRed">主辦單位(中文):</label>
+            <input type="text" name="organizer" value="@organizer" class="regis_col02R">
+            <label for="leader" class="regis_col02L spanRed">主要聯絡人:</label>
+            <input type="text" name="name" value="@name" class="regis_col02R">
+            <label for="leader" class="regis_col02L spanRed">手機號碼:</label>
+            <input type="text" name="phone" value="@phone" class="regis_col02R">
+            <label for="leader" class="regis_col02L spanRed">電子郵件:</label>
+            <input type="text" name="email" value="@email" class="regis_col02R">
+
+
+            <label for="activity_type_l" class="regis_col02L spanRed">是否顯示商務對接:</label>
+            <div class="regis_col02R">
+                <input type="radio" name="seller_select" class="radioinput" value="0" id="seller_select01" @seller_select_chk0>
+                <label for="seller_select01">否</label>
+                <input type="radio" name="seller_select" value="1" class="radioinput" id="seller_select02" @seller_select_chk1>
+                <label for="seller_select02">是</label>
+            </div>
+
+            <label for="activity_type_l" class="regis_col02L spanRed">是否顯示媒合時程:</label>
+            <div class="regis_col02R">
+                <input type="radio" name="matchmaking_select" class="radioinput" value="0" id="matchmaking_select01" @matchmaking_select_chk0>
+                <label for="matchmaking_select01">否</label>
+                <input type="radio" name="matchmaking_select" value="1" class="radioinput" id="matchmaking_select02" @matchmaking_select_chk1>
+                <label for="matchmaking_select02">是</label>
+            </div>
+
+            <label for="leader" class="regis_col02L">活動名稱(英文):</label>
+            <input type="text" name="activity_name_en" value="@activity_name_en" class="regis_col02R">
+            <label for="leader" class="regis_col02L">活動地點(英文):</label>
+            <input type="text" name="addr_en" value="@addr_en" class="regis_col02R">
+            <label for="leader" class="regis_col02L">主辦單位(英文):</label>
+            <input type="text" name="organizer_en" value="@organizer_en" class="regis_col02R">
+
+            <div class="centerbox">
+             <button type="submit" class="submitbu">@submitname</button>
+            </div>
+        </form>
+
+</article>

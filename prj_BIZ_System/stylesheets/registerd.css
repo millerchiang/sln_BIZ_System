@@ -1,0 +1,161 @@
+.regis_col01L {
+  width: 40%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 30px 0;
+}
+
+.regis_col01R {
+  width: 58%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.regis_col01R_label {
+  width: 40%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col01R_input {
+  width: 58%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col02L {
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col02R {
+  width: 73%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col02R .radioinput + label {
+  width: 33%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.verticalslist .inputCheckbox + label {
+  width: 50%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.label01 {
+  display: block;
+  width: 100%;
+}
+
+.addbu {
+  margin: 5px 0;
+}
+
+textarea {
+  width: 100%;
+  height: 90px;
+  border: 1px solid #cccccc;
+}
+
+.regis_table {
+  width: 100%;
+}
+.regis_table th {
+  background: #f4f4f4;
+  padding: 10px 0 10px 15px;
+}
+.regis_table input {
+  margin: 10px 0;
+  width: 100%;
+}
+.regis_table td + td {
+  padding-left: 10px;
+}
+
+.regis_dmlist li {
+  float: left;
+  width: 25%;
+  text-align: center;
+}
+.regis_dmlist a {
+  border: 1px solid #cccccc;
+  display: block;
+  width: 97px;
+  height: 120px;
+  background: url(../images/logopic.jpg) no-repeat center;
+  margin: 0 auto 10px auto;
+}
+.regis_dmlist a:hover, .regis_dmlist a:focus, .regis_dmlist a:active, .regis_dmlist a.active {
+  border-color: #00bcd5;
+}
+
+.centerbox {
+  width: 100%;
+  text-align: center;
+}
+
+.regis_completebox {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  width: 200px;
+  display: block;
+  margin: 0 0 20px 0;
+  line-height: 25px;
+}
+
+.regis_complete {
+  background: #00bcd5;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.choose_file + input {
+  display: none;
+}
+
+.choose_file {
+  cursor: pointer;
+  z-index: 1;
+  background: #ff9000;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 8px 0;
+  max-width: 100px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+  margin-top: 10px;
+}
+
+#result {
+  width: 180px;
+  height: 157px;
+  border: 1px solid #cccccc;
+  overflow: hidden;
+  background: url(../images/logopic.jpg) no-repeat 0 0;
+}
+
+.uploadbox {
+  border: 1px solid #cccccc;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 30px;
+}
+
+.uploadlist {
+  padding-bottom: 10px;
+}

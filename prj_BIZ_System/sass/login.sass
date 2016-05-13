@@ -1,0 +1,67 @@
+@import "mixin.sass"
+
+.loginbox
+	margin: 0 auto
+	max-width: 600px
+	width: 100%
+	+bordergray
+	padding: 50px
+	box-sizing: border-box
+	overflow: hidden
+
+	form
+		display: inline-block
+		width: 100%
+		padding-bottom: 20px
+
+	p
+		+font15
+		line-height: 2em
+		padding: 10px 0
+	
+.loginboxR
+	+floatL
+	li
+		&:last-of-type
+			text-align: right
+		input
+			width: 300px
+			height: 25px
+			border: 1px solid $text-gray
+	li+li
+		padding-top: 20px
+
+		
+
+.loginbox_submit
+	+floatR
+
+.loginbox_fpw
+	position: relative
+	&:before
+		@include beforeb(27px,27px,0,-142px,-27px,-6px)	
+
+	@include link
+		color: $text-block
+	@include link-hover
+		color: $bg-blue03
+		&:before
+			opacity: 0.5
+	
+.loginbox_submit
+	background:	$bg-blue03
+	color: $text-write
+	padding: 20px 50px
+	border-radius: 5px
+	border: 0
+	+font16
+
+	&:hover
+		background: $bg-blue03-hover
+
+.loginbox_newid
+	+floatR
+	@include link
+		@include bubox($bg-or,15px,130px)	
+	@include link-hover
+		@include bubox_hover($bg-or-hover)

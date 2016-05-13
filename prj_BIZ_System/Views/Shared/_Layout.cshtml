@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -生產力2.0</title>
+    @Styles.Render("~/stylesheets/css")
+    @Scripts.Render("~/bundles/jquery")
+
+</head>
+<body>
+
+    <header>
+        <div class="headerbox">
+            <ul class="head_langBu">
+                <li><a href="">English</a></li>
+                <li><a href="" class="active">中文</a></li>
+            </ul>
+            <h1 class="head_logo">
+                <a href="index.html">Matchmaking System</a>
+            </h1>
+            <nav class="head_nav">
+                <ul>
+                    @if (Request.Cookies["user_id"] != null)
+                    {
+                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                        <li>@Html.ActionLink("活動資訊(Select)", "About", "Home")</li>
+                        <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("活動資訊(Insert)", "Act_Info", "Home")</li>
+                        <li>@Html.ActionLink("登入", "Login", "Home")</li>
+
+                    }
+                    else
+                    {
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year -版權所有 Copyright © 2016 BIZ Matchmaking System. All rights reserved</p>
+    </footer>
+
+<!--    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/screen")
+    @RenderSection("scripts", required: false)
+-->
+</body>
+</html>

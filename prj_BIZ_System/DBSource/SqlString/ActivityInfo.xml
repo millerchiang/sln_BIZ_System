@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="ActivityInfo"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="ActivityInfoModel" type="prj_BIZ_System.Models.ActivityInfoModel"/>
+  </alias>
+  
+  <statements>
+    
+    <!--查詢全部-->
+    <select id="SelectAll" resultMap="ActivityInfo-result">
+      SELECT *
+      FROM activity_info
+    </select>
+    
+    <!--查詢單筆-->
+    <select id="SelectOne" resultMap="ActivityInfo-result">
+      SELECT *
+      FROM activity_info
+      WHERE activity_id = #activity_id#
+    </select>
+    
+    <!--查詢活動名稱-->
+    <select id="SelectActivityName" resultClass="string">
+      SELECT DISTINCT activity_name
+      FROM activity_info
+    </select>
+    
+    
+    <!--新增單筆-->
+    <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+      INSERT INTO activity_info (
+      manager_id, activity_type,
+      activity_name, starttime, endtime,
+      addr, organizer, name, phone,
+      email, seller_select, matchmaking_select,
+      activity_name_en, addr_en, organizer_en
+      ) VALUES (
+      #manager_id#,#activity_type#,
+      #activity_name#,#starttime#,#endtime#,
+      #addr#,#organizer#,#name#,#phone#,
+      #email#,#seller_select#,#matchmaking_select#,
+      #activity_name_en#,#addr_en#,#organizer_en#
+      )
+    </insert>
+    
+    <!--刪除單筆-->
+    <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+      DELETE FROM activity_info
+      WHERE activity_id = #activity_id#
+    </delete>
+   
+    <!--修改單筆-->
+    <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+      UPDATE activity_info
+      SET manager_id = #manager_id#,
+      activity_type = #activity_type#,
+      activity_name = #activity_name#,
+      starttime = #starttime#,
+      endtime = #endtime#,
+      addr = #addr#,
+      organizer = #organizer#,
+      name = #name#,
+      phone = #phone#,
+      email = #email#,
+      seller_select = #seller_select#,
+      matchmaking_select = #matchmaking_select#,
+      activity_name_en = #activity_name_en#,
+      addr_en = #addr_en#,
+      organizer_en = #organizer_en#,
+      update_time = #update_time#
+      WHERE activity_id = #activity_id#
+    </update>
+  
+  </statements>
+
+  <resultMaps>
+    <resultMap id="ActivityInfo-result" class="prj_BIZ_System.Models.ActivityInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="activity_id" column="activity_id"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="activity_type" column="activity_type"/>
+      <result property="activity_name" column="activity_name"/>
+      <result property="starttime" column="starttime"/>
+      <result property="endtime" column="endtime"/>
+      <result property="addr" column="addr"/>
+      <result property="organizer" column="organizer"/>
+      <result property="name" column="name"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="seller_select" column="seller_select"/>
+      <result property="matchmaking_select" column="matchmaking_select"/>
+      <result property="activity_name_en" column="activity_name_en"/>
+      <result property="addr_en" column="addr_en"/>
+      <result property="organizer_en" column="organizer_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+  </resultMaps>
+  
+</sqlMap>
+        
+ 

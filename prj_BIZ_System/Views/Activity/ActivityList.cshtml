@@ -1,0 +1,82 @@
+﻿@using prj_BIZ_System.Models
+
+@{
+    ViewBag.Title = "Activity List";
+}
+
+
+    @if (ViewData["List"] != null)
+    {
+			<table class="edittable">
+
+            <tr>
+                <th>建立者帳號</th>
+                <th>活動類型</th>
+                <th>活動名稱(中文)</th>
+                <th>活動時間(起)</th>
+                <th>活動時間(迄)</th>
+                <th>活動地點(中文)</th>
+                <th>主辦單位(中文)</th>
+                <th>主要聯絡人</th>
+                <th>手機號碼</th>
+                <th>電子郵件</th>
+                <th>是否顯示商務對接</th>
+                <th>是否顯示媒合時程</th>
+                <th>活動名稱(英文)</th>
+                <th>活動地點(英文)</th>
+                <th>主辦單位(英文)</th>
+                <th></th>
+            </tr>
+            @foreach (var newInfo in (IList<ActivityInfoModel>)ViewData["list"])
+            {
+                <tr>
+                    <td>@newInfo.manager_id</td>
+                    <td>@newInfo.activity_type</td>
+                    <td>@newInfo.activity_name</td>
+                    <td>@newInfo.starttime</td>
+                    <td>@newInfo.endtime</td>
+                    <td>@newInfo.addr</td>
+                    <td>@newInfo.organizer</td>
+                    <td>@newInfo.name</td>
+                    <td>@newInfo.phone</td>
+                    <td>@newInfo.email</td>
+                    <td>@newInfo.seller_select</td>
+                    <td>@newInfo.matchmaking_select</td>
+                    <td>@newInfo.activity_name_en</td>
+                    <td>@newInfo.addr_en</td>
+                    <td>@newInfo.organizer_en</td>
+                    <td>
+                        <a href="/Activity/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
+                        <a href="/Activity/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
+                    </td>
+                </tr>
+            }
+        </table>
+            <ul class="pagelist">
+                <li><a href="">&lt;</a></li>
+
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+                <li><a href="">6</a></li>
+                <li><a href="">7</a></li>
+                <li><a href="">8</a></li>
+                <li><a href="">9</a></li>
+                <li><a href="">10</a></li>
+
+                <li><a href="">&gt;</a></li>
+            </ul>
+
+    }
+    else
+    {
+         < span > 無資料 </ span > 
+    }
+
+
+
+
+
+

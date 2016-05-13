@@ -1,0 +1,109 @@
+$text-block: #000000
+$text-gray: #9e9e9e
+$text-write: #ffffff
+$text-blue: #74b3f8
+$text-red: #ff0000
+$text-del :#5e5d5d
+$line-gray: #cccccc
+
+$bg-blue01: #2e7ed1
+$bg-blue02: #03a9f5
+$bg-blue03: #00bcd5
+$bg-blue01-hover: #1b60a9
+$bg-blue02-hover: #1184b9
+$bg-blue03-hover: #189bac
+$bg-gray: #f4f4f4
+$bg-or: #ff9000
+$bg-or-hover: #f46813
+$bg-red: #f2451d
+$bg-red-hover: #c13717
+
+@mixin link 
+	&:link, &:visited
+		@content		
+  
+@mixin link-hover
+	&:hover, &:focus, &:active,&.active
+		@content	
+ 
+@mixin link-all 
+	&:link, &:visited, &:hover, &:focus, &:active
+		@content
+
+@mixin w1024
+	width: 100%
+	max-width: 1024px
+	margin: 0 auto
+
+@mixin font12
+	font-size: 0.750em
+
+@mixin font13
+	font-size: 0.813em
+
+@mixin font15
+	font-size: 0.938em
+
+@mixin font16
+	font-size: 1em
+
+@mixin font18
+	font-size: 1.125em
+
+@mixin fontnone
+	text-decoration: none
+
+@mixin floatR
+	float: right
+@mixin floatL
+	float: left
+
+@mixin bordergray
+	border: 1px solid $line-gray
+
+@mixin beforeb ($wsize,$hsize,$bpleft,$bptop,$pleft,$ptop)
+	content: ""
+	width: $wsize
+	height: $hsize
+	background-image: url(../images/icon-s4a3ab92539.png)
+	background-repeat: no-repeat
+	background-position: $bpleft $bptop
+	position: absolute
+	left: $pleft
+	top: $ptop
+
+
+@mixin bubox ($bg,$pTB,$maxW)
+	background: $bg
+	color: $text-write
+	border-radius: 5px
+	display: inline-block 
+	padding: $pTB 0
+	max-width: $maxW
+	width: 100%
+	border: none
+	text-align: center
+	+fontnone
+	+font16
+
+@mixin buboxS ($bg,$pTB,$maxW)
+	background: $bg
+	color: $text-write
+	border-radius: 5px
+	display: inline-block 
+	padding: $pTB 0
+	max-width: $maxW
+	width: 100%
+	border: none
+	text-align: center
+	+fontnone
+	+font13
+
+	
+
+@mixin bubox_hover ($bgColor)
+	background: $bgColor
+
+@mixin boxsize ($Size)
+	width: $Size
+	display: inline-block
