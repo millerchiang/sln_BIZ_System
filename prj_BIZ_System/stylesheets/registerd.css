@@ -1,19 +1,17 @@
 .regis_col01L {
-  width: 40%;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 0 30px 0;
+  position: absolute;
 }
 
 .regis_col01R {
-  width: 58%;
-  display: inline-block;
-  vertical-align: top;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 220px;
+  padding-bottom: 20px;
 }
 
 .regis_col01R_label {
   width: 40%;
-  display: inline-block;
+  float: left;
   vertical-align: top;
   margin: 0 0 15px 0;
 }
@@ -33,7 +31,22 @@
 }
 
 .regis_col02R {
-  width: 73%;
+  width: 74%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  box-sizing: border-box;
+}
+
+.regis_col03L {
+  width: 13%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col03R {
+  width: 29%;
   display: inline-block;
   vertical-align: top;
   margin: 0 0 15px 0;
@@ -73,7 +86,7 @@ textarea {
 }
 .regis_table th {
   background: #f4f4f4;
-  padding: 10px 0 10px 15px;
+  padding: 10px 0;
 }
 .regis_table input {
   margin: 10px 0;
@@ -100,18 +113,49 @@ textarea {
   border-color: #00bcd5;
 }
 
-.centerbox {
-  width: 100%;
-  text-align: center;
-}
+@media only screen and (max-width: 768px) {
+  .regis_col01L {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 30px 0;
+  }
 
+  .regis_col01R {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .regis_col01R_label, .regis_col01R_input, .regis_col02L, .regis_col02R, .regis_col03L, .regis_col03R {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 15px 0;
+  }
+}
+@media only screen and (max-width: 520px) {
+  .regis_col02R .radioinput + label {
+    width: 50%;
+  }
+
+  .verticalslist .inputCheckbox + label {
+    width: 100%;
+  }
+
+  .regis_dmlist li {
+    width: 50%;
+    padding-bottom: 10px;
+  }
+}
 .regis_completebox {
   border: 1px solid #cccccc;
   background: #ffffff;
-  width: 200px;
+  width: 100%;
   display: block;
   margin: 0 0 20px 0;
   line-height: 25px;
+  box-sizing: border-box;
 }
 
 .regis_complete {
@@ -146,7 +190,22 @@ textarea {
   height: 157px;
   border: 1px solid #cccccc;
   overflow: hidden;
-  background: url(../images/logopic.jpg) no-repeat 0 0;
+  background: #ffffff;
+  text-align: center;
+  position: relative;
+}
+
+#result img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .uploadbox {
@@ -159,3 +218,5 @@ textarea {
 .uploadlist {
   padding-bottom: 10px;
 }
+
+/*# sourceMappingURL=registerd.css.map */

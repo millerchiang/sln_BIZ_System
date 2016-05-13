@@ -238,7 +238,13 @@ aside {
   vertical-align: top;
 }
 
-article {
+.article_col1 {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+.article_col2 {
   width: 71%;
   display: inline-block;
   margin-left: 4%;
@@ -506,10 +512,11 @@ article {
   color: #03a9f5;
 }
 
-.borderTitle h2 {
+.borderTitle {
+  margin-bottom: 10px;
   border-bottom: 4px solid #f4f4f4;
 }
-.borderTitle h2:after {
+.borderTitle:after {
   content: "";
   width: 100%;
   height: 1px;
