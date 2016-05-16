@@ -1,193 +1,289 @@
-﻿@{
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.UserInfoModel
+
+@{
     ViewBag.Title = "Register";
 }
 
-<article class="form_box article_col1">
-    <h2>會員註冊</h2>
-    <form action="">
-        <div class="regis_col01L">
+@{
+    int dowhat = 1;
+    string submit = "UserInsert";
+    string submitname = "確定送出";
+    var user_id = "";
+    var user_pw = "";
+    string enterprise_type01 = "checked";
+    string enterprise_type02 = "";
+    var company = "";
+    var company_en = "";
+    var leader = "";
+    var addr = "";
+    var contact = "";
+    var leader_en = "";
+    var addr_en = "";
+    var contact_en = "";
+    var phone = "";
+    var email = "";
+    string capital = "";
+    string revenue00 = "";
+    string revenue01 = "";
+    string revenue02 = "";
+    string revenue03 = "";
+    string revenue04 = "";
+    string revenue05 = "";
+    string revenue06 = "";
+    var website = "";
+    var info = "";
+    var info_en = "";
 
-            <div id="result">
 
-            </div>
-            <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>
-            <input type="file" id="id_image_large" name="image_large">
-        </div>
-        <div class="regis_col01R">
-<!--
-            <div class="regis_completebox">
-                <div class="regis_complete" style="width:70%">
-                    70%
+    if (Model != null)
+    {
+
+        dowhat = 2;
+        submit = "UserUpdate";
+        submitname = "確認修改";
+        user_id = Model.user_id;
+        user_pw = Model.user_pw;
+        if (Model.enterprise_type == "0")
+        {
+            enterprise_type01 = "checked";
+        }
+        else
+        {
+            enterprise_type02 = "checked";
+        }
+        company = Model.company;
+        company_en = Model.company_en;
+        leader = Model.leader;
+        addr = Model.addr;
+        contact = Model.contact;
+        leader_en = Model.leader_en;
+        addr_en = Model.addr_en;
+        contact_en = Model.contact_en;
+        phone = Model.phone;
+        email = Model.email;
+        capital = Model.capital.ToString();
+        revenue00 = "checked";
+        if (Model.revenue == "0")
+        {
+            revenue00 = "checked";
+        }
+        else if (Model.revenue == "1")
+        {
+            revenue01 = "checked";
+        }
+        else if (Model.revenue == "2")
+        {
+            revenue02 = "checked";
+        }
+        else if (Model.revenue == "3")
+        {
+            revenue03 = "checked";
+        }
+        else if (Model.revenue == "4")
+        {
+            revenue04 = "checked";
+        }
+        else if (Model.revenue == "5")
+        {
+            revenue05 = "checked";
+        }
+        else if (Model.revenue == "6")
+        {
+            revenue06 = "checked";
+        }
+        website = Model.website;
+        info = Model.info;
+        info_en = Model.info_en;
+
+    }
+
+}
+
+
+
+            <article class="form_box article_col1">
+                <h2>會員註冊</h2>
+                <form action="@submit" method="post">
+                    <div class="regis_col01L">
+
+                        <div id="result">
+
+                        </div>
+                        <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>
+                        <input type="file" id="id_image_large" name="logo_img">
+                    </div>
+                    <div class="regis_col01R">
+                        <!--
+                        <div class="regis_completebox">
+                            <div class="regis_complete" style="width:70%">
+                                70%
+                            </div>
+                        </div>
+            -->
+                        <label class="regis_col01R_label">
+                            企業類型
+                        </label>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01>
+                            <label for="enterprise_type01">國內企業</label>
+                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02>
+                            <label for="enterprise_type02">外國企業</label>
+                        </div>
+                        <label for="" class="regis_col01R_label spanRed">
+                            統一編號/帳號
+                        </label>
+                        @if (dowhat == 1)
+                        {
+                            <input type="text" name="user_id" value="@user_id" class="regis_col01R_input spanRed" required>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="user_id" value="@user_id">
+                            <label for="" class="regis_col01R_label">
+                                @user_id
+                            </label>
+
+                        }
+
+                        <label for="" class="regis_col01R_label spanRed">
+                            密碼
+                        </label>
+                        <input type="password" name="user_pw" value="@user_pw" class="regis_col01R_input" required>
+                        <label for="" class="regis_col01R_label">
+                            公司名稱(中)
+                        </label>
+                        <input type="text" name="company" value="@company" class="regis_col01R_input">
+                        <label for="" class="regis_col01R_label spanRed">
+                            公司名稱(英)(中英擇一必填)
+                        </label>
+                        <input type="text" name="company_en" value="@company_en" class="regis_col01R_input">
+
+                    </div>
+                    <label for="leader" class="regis_col02L">代表人(中)</label>
+                    <input type="text" name="leader" value="@leader" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">地址(中)</label>
+                    <input type="text" name="addr" value="@addr" class="regis_col02R">
+                    <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
+                    <input type="text" name="contact" value="@contact" class="regis_col02R">
+                    <label for="leader" class="regis_col02L">代表人(英)</label>
+                    <input type="text" name="leader_en" value="@leader_en" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">地址(英)</label>
+                    <input type="text" name="addr_en" value="@addr_en" class="regis_col02R">
+                    <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
+                    <input type="text" name="contact_en" value="@contact_en" class="regis_col02R">
+                    <label for="name" class="regis_col02L spanRed">電話/分機</label>
+                    <input type="text" name="phone" value="@phone" class="regis_col02R" required>
+                    <label for="email" class="regis_col02L spanRed">電子郵件</label>
+                    <input type="email" name="email" value="@email" class="regis_col02R">
+                    <label for="capital" class="regis_col02L spanRed">資本額</label>
+                    <input type="text" name="capital" value="@capital" class="regis_col02R">
+                    <label for="revenue" class="regis_col02L spanRed">營業額</label>
+                    <div class="regis_col02R">
+                        <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
+                        <label for="revenue00">500萬以下</label>
+                        <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
+                        <label for="revenue01">501-1000萬</label>
+                        <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02 ">
+                        <label for="revenue02">1001-1500萬</label>
+                        <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
+                        <label for="revenue03">1501-3000萬</label>
+                        <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
+                        <label for="revenue04">3001-5000萬</label>
+                        <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
+                        <label for="revenue05">5000萬-1億</label>
+                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06 required>
+                        <label for="revenue06">一億以上</label>
+                    </div>
+                    <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+                    <div class="regis_col02R verticalslist">
+
+                    @foreach (var newInfo in (IList<EnterpriseSortModel>)ViewData["sortlist"])
+                    {
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@newInfo.sort_id"><label for="@newInfo.sort_id">@newInfo.enterprise_sort_id@newInfo.enterprise_sort_name</label>
+
+                    }
+                    </div>
+                    <label for="website" class="regis_col02L">企業網址</label>
+                    <input type="text" name="website" value="@website" class="regis_col02R">
+                    <label class="regis_col02L">企業簡介(中)</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info">@info</textarea>
+                    </div>
+                    <label class="regis_col02L">企業簡介(英)</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info_en">@info_en</textarea>
+                    </div>
+
+                    <!--
+                <div class="regis_col02L">
+                    <label for="" class="label01">公司產品</label>
+                    <a href="" id="addproduct" class="addbu">新增</a>
                 </div>
-            </div>
--->
-            <label class="regis_col01R_label">
-                企業類型
-            </label>
-            <div class="regis_col01R_input">
-                <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise" value="0" checked >
-                <label for="enterprise_type01">國內企業</label>
-                <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise" value="1">
-                <label for="enterprise_type02">外國企業</label>
-            </div>
-            <label for="" class="regis_col01R_label spanRed">
-                統一編號/帳號
-            </label>
-            <input type="text" class="regis_col01R_input spanRed" required>
-            <label for="" class="regis_col01R_label spanRed">
-                密碼
-            </label>
-            <input type="password" class="regis_col01R_input" required>
-            <label for="" class="regis_col01R_label">
-                公司名稱(中)
-            </label>
-            <input type="text" class="regis_col01R_input">
-            <label for="" class="regis_col01R_label">
-                公司名稱(英)
-            </label>
-            <input type="text" class="regis_col01R_input">
-            <label for="" class="regis_col01R_label spanRed">
-                中英名稱擇一必填
-            </label>
+                <div class="regis_col02R">
+                    <table class="regis_table">
 
-        </div>
-        <label for="leader" class="regis_col02L">代表人(中)</label>
-        <input type="text" name="leader" value="" class="regis_col02R">
-        <label for="addr" class="regis_col02L">地址(中)</label>
-        <input type="text" name="addr" value="" class="regis_col02R">
-        <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
-        <input type="text" name="name" class="regis_col02R" value="">
-        <label for="leader" class="regis_col02L">代表人(英)</label>
-        <input type="text" name="leader" value="" class="regis_col02R">
-        <label for="addr" class="regis_col02L">地址(英)</label>
-        <input type="text" name="addr" value="" class="regis_col02R">
-        <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
-        <input type="text" name="name" class="regis_col02R" value="">
-        <label for="name" class="regis_col02L spanRed">電話/分機</label>
-        <input type="text" name="name" class="regis_col02R" value="" required>
-        <label for="email" class="regis_col02L spanRed">電子郵件</label>
-        <input type="email" name="email" value="" class="regis_col02R">
-        <label for="capital" class="regis_col02L spanRed">資本額</label>
-        <input type="text" name="capital" value="" class="regis_col02R">
-        <label for="revenue" class="regis_col02L spanRed">營業額</label>
-        <div class="regis_col02R">
-            <input type="radio" name="revenue" class="radioinput" value="500萬以下" id="revenue01">
-            <label for="revenue01">500萬以下</label>
-            <input type="radio" name="revenue" value="501-1000萬" class="radioinput" id="revenue02">
-            <label for="revenue02">501-1000萬</label>
-            <input type="radio" name="revenue" value="1501-3000萬" class="radioinput" id="revenue03">
-            <label for="revenue03">1501-3000萬</label>
-            <input type="radio" name="revenue" value="3001-5000萬" class="radioinput" id="revenue04">
-            <label for="revenue04">3001-5000萬</label>
-            <input type="radio" name="revenue" value="5000萬-1億" class="radioinput" id="revenue05">
-            <label for="revenue05">5000萬-1億</label>
-            <input type="radio" name="revenue" value="一億以上" class="radioinput" id="revenue06" required>
-            <label for="revenue06">一億以上</label>
-        </div>
-        <label for="verticals" class="regis_col02L">產業別(可複選)</label>
-        <div class="regis_col02R verticalslist">
-            <input type="checkbox" class="inputCheckbox" name="" id="c08"><label for="c08">08食品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c09"><label for="c09">09飲料製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c10"><label for="c10">10菸草製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c11"><label for="c11">11紡織業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c12"><label for="c12">12成衣及服飾品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c13"><label for="c13">13皮革、毛皮及其製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c14"><label for="c14">14木竹製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c15"><label for="c15">15紙漿、紙及紙製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c16"><label for="c16">16印刷及資料儲存媒體複製業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c17"><label for="c17">17石油及煤製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c18"><label for="c18">18化學材料製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c19"><label for="c19">19化學製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c20"><label for="c20">20藥品及醫用化學製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c21"><label for="c21">21橡膠製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c22"><label for="c22">22塑膠製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c23"><label for="c23">23非金屬礦物製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c24"><label for="c24">24基本金屬製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c25"><label for="c25">25金屬製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c26"><label for="c26">26電子零組件製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c27"><label for="c27">27電腦、電子產品及光學製品製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c28"><label for="c28">28電力設備製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c29"><label for="c29">29機械設備製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="c30"><label for="c30">30汽車及其零件製造業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="g00"><label for="g00">G類 批發及零售業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="h00"><label for="h00">H類 運輸及倉儲業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="i00"><label for="i00">I類 住宿及餐飲業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="m00"><label for="m00">M類 專業、科學及技術服務業</label>
-            <input type="checkbox" class="inputCheckbox" name="" id="s00"><label for="s00">S類 其他服務業</label>
-        </div>
-        <label for="website" class="regis_col02L">企業網址</label>
-        <input type="text" name="website" value="" class="regis_col02R">
-        <label class="regis_col02L">企業簡介</label>
-        <div class="regis_col02R">
-            <textarea rows="4"></textarea>
-        </div>
-        <div class="regis_col02L">
-            <label for="" class="label01">公司產品</label>
-            <a href="" id="addproduct" class="addbu">新增</a>
-        </div>
-        <div class="regis_col02R">
-            <table class="regis_table">
-
-                <tr>
-                    <th>產品名稱</th>
-                    <th>產品說明</th>
-                </tr>
-                <tr>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <input type="text">
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="regis_col02L">
-            <label for="" class="label01">公司型錄</label>
-            <a href="" id="addm" class="addbu">新增</a>
-            <a href="" class="deleteSbu" id="deldm">刪除</a>
-        </div>
-        <div class="regis_col02R">
-            <div class="uploadbox centerbox">
-                <h3>上傳型錄</h3>
-                <div class="uploadlist">
-                    <input type="text">
-                    <label class="choose_file" id="upload" for="upsimg">上傳小圖</label>
-                    <input type="file" id="upsimg" name="image_large">
+                        <tr>
+                            <th>產品名稱</th>
+                            <th>產品說明</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text">
+                            </td>
+                            <td>
+                                <input type="text">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="uploadlist">
-                    <input type="text">
-                    <label class="choose_file" id="upload" for="upfile">上傳檔案</label>
-                    <input type="file" id="upfile" name="image_large">
+                <div class="regis_col02L">
+                    <label for="" class="label01">公司型錄</label>
+                    <a href="" id="addm" class="addbu">新增</a>
+                    <a href="" class="deleteSbu" id="deldm">刪除</a>
                 </div>
-                <button type="submit" class="submitbu">確定送出</button>
-            </div>
-            <ul class="regis_dmlist">
-                <li>
-                    <a href=""></a>
-                    <input type="checkbox" class="inputCheckbox" name="" id="dm01"><label for="dm01"></label>
-                </li>
-                <li>
-                    <a href=""></a>
-                    <input type="checkbox" class="inputCheckbox" name="" id="dm02"><label for="dm02"></label>
-                </li>
-                <li>
-                    <a href=""></a>
-                    <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
-                </li>
-                <li>
-                    <a href=""></a>
-                    <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
-                </li>
-            </ul>
-        </div>
-        <div class="centerbox">
-            <button type="submit" class="submitbu">確定送出</button>
-        </div>
+                <div class="regis_col02R">
+                    <div class="uploadbox centerbox">
+                        <h3>上傳型錄</h3>
+                        <div class="uploadlist">
+                            <input type="text">
+                            <label class="choose_file" id="upload" for="upsimg">上傳小圖</label>
+                            <input type="file" id="upsimg" name="image_large">
+                        </div>
+                        <div class="uploadlist">
+                            <input type="text">
+                            <label class="choose_file" id="upload" for="upfile">上傳檔案</label>
+                            <input type="file" id="upfile" name="image_large">
+                        </div>
+                        <button type="submit" class="submitbu">確定送出</button>
+                    </div>
+                    <ul class="regis_dmlist">
+                        <li>
+                            <a href=""></a>
+                            <input type="checkbox" class="inputCheckbox" name="" id="dm01"><label for="dm01"></label>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                            <input type="checkbox" class="inputCheckbox" name="" id="dm02"><label for="dm02"></label>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                            <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
+                        </li>
+                        <li>
+                            <a href=""></a>
+                            <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
+                        </li>
+                    </ul>
+                </div>
+        -->
+                    <div class="centerbox">
+                        <button type="submit" class="submitbu">@submitname</button>
+                    </div>
 
-    </form>
-</article>
+                </form>
+            </article>
