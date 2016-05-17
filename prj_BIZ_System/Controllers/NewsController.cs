@@ -64,7 +64,7 @@ namespace prj_BIZ_System.Controllers
                 model.news_date = DateTime.Parse(Request["news_date"]);
                 model.news_type = Request["news_type"];
                 model.activity_id = int.Parse(Request["activity_id"]);
-                model.manager_id = Request["manager_id"];
+                model.manager_id = Request.Cookies["UserInfo"]["user_id"];
                 model.content = Request["content"];
                 newsService.InsertOne(model);
             }
@@ -80,7 +80,7 @@ namespace prj_BIZ_System.Controllers
             model.news_date = DateTime.Parse(Request["news_date"]);
             model.activity_id = int.Parse(Request["activity_id"]);
             model.news_type = Request["news_type"];
-            model.manager_id = Request["manager_id"];
+            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
             model.content = Request["content"];
             newsService.UpdateOne(model);
             return Redirect("B_NewsList");

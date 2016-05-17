@@ -33,6 +33,10 @@
                     }
                     else
                     {
+                        <li>@Html.ActionLink("新聞列表", "B_NewsList", "News")</li>
+                        <li>@Html.ActionLink("活動列表", "ActivityList", "Activity")</li>
+                        
+
                         if (ViewBag.Title == "Verification")
                         {
                             <li>@Html.ActionLink("登入", "Login", "Home")</li>
