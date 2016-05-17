@@ -1,0 +1,38 @@
+﻿@model prj_BIZ_System.Models.NewsModel
+
+@{
+    ViewBag.Title = "新增新聞訊息";
+}
+
+@{  Model.news_date = DateTime.Now;
+
+}
+
+<article class="form_box article_col1">
+    <h2>新增新聞訊息</h2>
+    <form action=ViewBag.NextAction method="post">
+        <input type="hidden" name="news_no" value="@Model.news_no" />
+
+        <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
+        <input type="text" name="news_title" value="@Model.news_title" class="regis_col02R" />
+
+        <label for="news_date" class="regis_col02L spanRed">發布日期</label>
+        <input type="text" name="news_date" value="@Model.news_date" class="regis_col02R" />
+
+        <label for="website" class="regis_col02L spanRed">報名網址</label>
+        <input type="text" name="website" value="@Model.website" class="regis_col02R" />
+
+        <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
+        <input type="text" name="manager_id" value="@Model.manager_id" class="regis_col02R" />
+
+        <textarea>
+            @Model.content
+        </textarea>
+
+        <div class="centerbox">
+            <button type="submit" class="submitbu">@ViewBag.NextName</button>
+        </div>
+    </form>
+</article>
+
+

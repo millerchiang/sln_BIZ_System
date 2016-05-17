@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="ActivityRegister"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!--
+  <alias>
+    <typeAlias alias="ActivityRegisterModel" type="prj_BIZ_System.Models.ActivityRegisterModel"/>
+  </alias>
+  -->
+  <statements>
+
+    <!--查詢全部-->
+    <select id="SelectAll" resultMap="RegisterResultMap">
+      SELECT *
+      FROM activity_register
+    </select>
+
+    <!--查詢單筆-->
+    <select id="SelectOne" resultMap="RegisterResultMap">
+      SELECT *
+      FROM activity_register
+      <dynamic prepend="WHERE">
+        <isNotNull prepend="AND" property="register_id">
+          register_id = #register_id#
+        </isNotNull>
+        <isNotNull prepend="AND" property="activity_id">
+          activity_id = #activity_id#
+        </isNotNull>
+        <isNotNull prepend="AND" property="user_id">
+          user_id = #user_id#
+        </isNotNull>
+        <isNotNull prepend="AND" property="quantity">
+          quantity = #quantity#
+        </isNotNull>
+        <isNotNull prepend="AND" property="name_a">
+          name_a = #name_a#
+        </isNotNull>
+        <isNotNull prepend="AND" property="title_a">
+          title_a = #title_a#
+        </isNotNull>
+        <isNotNull prepend="AND" property="name_b">
+          name_b = #name_b#
+        </isNotNull>
+        <isNotNull prepend="AND" property="title_b">
+          title_b = #title_b#
+        </isNotNull>
+        <isNotNull prepend="AND" property="telephone">
+          telephone = #telephone#
+        </isNotNull>
+        <isNotNull prepend="AND" property="phone">
+          phone = #phone#
+        </isNotNull>
+        <isNotNull prepend="AND" property="email">
+          email = #email#
+        </isNotNull>
+        <isNotNull prepend="AND" property="catalog_file">
+          catalog_file = #catalog_file#
+        </isNotNull>
+        <isNotNull prepend="AND" property="manager_check">
+          manager_check = #manager_check#
+        </isNotNull>
+        <isNotNull prepend="AND" property="user_info">
+          user_info = #user_info#
+        </isNotNull>
+        <isNotNull prepend="AND" property="user_info_en">
+          user_info_en = #user_info_en#
+        </isNotNull>
+        <isNotNull prepend="AND" property="create_time">
+          create_time = #create_time#
+        </isNotNull>
+        <isNotNull prepend="AND" property="update_time">
+          update_time = #update_time#
+        </isNotNull>
+      </dynamic>
+    </select>
+
+    <!--新增單筆-->
+    <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+      INSERT INTO activity_register (
+      register_id, activity_id, user_id, quantity,
+      name_a, title_a, name_b, title_b, telephone,
+      phone, email, catalog_file, manager_check,
+      user_info, user_info_en, create_time, update_time
+      VALUES (
+      #register_id#, #activity_id#, #user_id#, #quantity#,
+      #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
+      #phone#, #email#, #catalog_file#, #manager_check#,
+      #user_info#, #user_info_en#, #create_time#, #update_time#
+      )
+    </insert>
+
+    <!--刪除單筆-->
+    <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+      DELETE FROM activity_register
+      WHERE register_id = #register_id#
+    </delete>
+
+    <!--修改單筆-->
+    <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+      UPDATE activity_register
+      <dynamic prepend="SET">
+        <isNotNull prepend="," property="register_id">
+          register_id = #register_id#
+        </isNotNull>
+        <isNotNull prepend="," property="activity_id">
+          activity_id = #activity_id#
+        </isNotNull>
+        <isNotNull prepend="," property="user_id">
+          user_id = #user_id#
+        </isNotNull>
+        <isNotNull prepend="," property="quantity">
+          quantity = #quantity#
+        </isNotNull>
+        <isNotNull prepend="," property="name_a">
+          name_a = #name_a#
+        </isNotNull>
+        <isNotNull prepend="," property="title_a">
+          title_a = #title_a#
+        </isNotNull>
+        <isNotNull prepend="," property="name_b">
+          name_b = #name_b#
+        </isNotNull>
+        <isNotNull prepend="," property="title_b">
+          title_b = #title_b#
+        </isNotNull>
+        <isNotNull prepend="," property="telephone">
+          telephone = #telephone#
+        </isNotNull>
+        <isNotNull prepend="," property="phone">
+          phone = #phone#
+        </isNotNull>
+        <isNotNull prepend="," property="email">
+          email = #email#
+        </isNotNull>
+        <isNotNull prepend="," property="catalog_file">
+          catalog_file = #catalog_file#
+        </isNotNull>
+        <isNotNull prepend="," property="manager_check">
+          manager_check = #manager_check#
+        </isNotNull>
+        <isNotNull prepend="," property="user_info">
+          user_info = #user_info#
+        </isNotNull>
+        <isNotNull prepend="," property="user_info_en">
+          user_info_en = #user_info_en#
+        </isNotNull>
+        <isNotNull prepend="," property="create_time">
+          create_time = #create_time#
+        </isNotNull>
+        <isNotNull prepend="," property="update_time">
+          update_time = #update_time#
+        </isNotNull>
+      </dynamic>
+      WHERE register_id = #register_id#
+    </update>
+
+  </statements>
+
+  <resultMaps>
+    <resultMap id="RegisterResultMap" class="prj_BIZ_System.Models.ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="quantity" column="quantity"/>
+      <result property="name_a" column="name_a"/>
+      <result property="title_a" column="title_a"/>
+      <result property="name_b" column="name_b"/>
+      <result property="title_b" column="title_b"/>
+      <result property="telephone" column="telephone"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="catalog_file" column="catalog_file"/>
+      <result property="manager_check" column="manager_check"/>
+      <result property="user_info" column="user_info"/>
+      <result property="user_info_en" column="user_info_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+  </resultMaps>
+
+
+</sqlMap>
+
