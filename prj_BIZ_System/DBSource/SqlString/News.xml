@@ -50,7 +50,7 @@
         news_type = #news_type#,
         activity_id = #activity_id#,
         website = #website#,
-        content = #content#,
+        content = #content#
       WHERE news_no = #news_no#
     </update>
 
