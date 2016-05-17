@@ -9,17 +9,8 @@ using IBatisNet.DataMapper.Configuration;
 
 namespace prj_BIZ_System.Services
 {
-    public class ActivityService
+    public class ActivityService : BaseService
     {
-
-        private DomSqlMapBuilder builder;
-        private ISqlMapper mapper;
-
-        public ActivityService()
-        {
-            builder = new DomSqlMapBuilder();
-            mapper = builder.Configure("DBSource/Config/SqlMap.config");
-        }
 
         /* select方法*/
         public IList<ActivityInfoModel> GetActivityInfoList()

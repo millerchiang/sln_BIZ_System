@@ -10,16 +10,8 @@ using IBatisNet.DataMapper.Configuration;
 
 namespace prj_BIZ_System.Services
 {
-    public class UserService
+    public class UserService : BaseService
     {
-        private DomSqlMapBuilder builder;
-        private ISqlMapper mapper;
-
-        public UserService()
-        {
-            builder = new DomSqlMapBuilder();
-            mapper = builder.Configure("DBSource/Config/SqlMap.config");
-        }
 
         /* insert方法*/
         public void UserInfoInsertOne(UserInfoModel userInfoModel)
