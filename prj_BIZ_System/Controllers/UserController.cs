@@ -1,8 +1,10 @@
 ﻿using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
+using prj_BIZ_System.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -61,16 +63,27 @@ namespace prj_BIZ_System.Controllers
         public ActionResult Register()
         {
             UserInfoModel model = null;
-
-            if (Request["user_id"] != null)
+            User_register_ViewModels urViewModel = new User_register_ViewModels();
+            string user_id = Request["user_id"];
+            if (Request["user_id"] != null) //修改
             {
-                string user_id = Request["user_id"];
                 model = userService.GeUserInfoOne(user_id);
                 ViewBag.user = model;
+                IList < UserSortModel > userSortList  = userService.SelectUserSortByUserId(model.user_id);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                ViewBag.userSortList = serializer.Serialize(userSortList);
+                ViewBag.nextAction = "UserUpdate";
+                ViewBag.nextName = "確認修改";
+            }
+            else //新增
+            {
+                ViewBag.nextAction = "UserInsert";
+                ViewBag.nextName = "確定送出";
             }
 
-            IList<EnterpriseSortModel> userSortModels = userService.GetSortList();
-            ViewData["sortlist"] = userSortModels;
+            IList<EnterpriseSortModel> enterpriseSortModel = userService.GetSortList();
+            urViewModel.enterpriseSortModel = userService.GetSortList();
+            ViewData["sortlist"] = enterpriseSortModel;
 
             return View(model);
         }
@@ -86,7 +99,7 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserUpdate(UserInfoModel model)
+        public ActionResult UserUpdate(UserInfoModel model , int[] sort_id)
         {
 
 //            model.user_id = Request["user_id"];
@@ -110,6 +123,7 @@ namespace prj_BIZ_System.Controllers
             model.info_en = Request["info_en"];
             model.update_time = DateTime.Now;
             userService.UserInfoUpdateOne(model);
+            bool refreshResult = userService.RefreshUserSort(model.user_id,sort_id);
             return Redirect("../Home/Index");
         }
     }

@@ -7,7 +7,7 @@
     <title>@ViewBag.Title -生產力2.0</title>
     @Styles.Render("~/stylesheets/css")
     @Scripts.Render("~/bundles/jquery")
-
+    @RenderSection("pagestyle",false)
 </head>
 <body>
 
@@ -39,17 +39,15 @@
         </div>
     </header>
     <main>
-
-        <div class="container body-content">
-            @RenderBody()
-        </div>
+        @RenderBody()
     </main>
 
     <footer>
         <p>&copy; @DateTime.Now.Year -版權所有 Copyright © 2016 BIZ Matchmaking System. All rights reserved</p>
     </footer>
 
-<!--    @Scripts.Render("~/bundles/jquery")
+<!--    
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/screen")
     @RenderSection("scripts", required: false)
 -->
