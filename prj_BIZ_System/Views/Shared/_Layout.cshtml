@@ -33,6 +33,10 @@
                     }
                     else
                     {
+                        if (ViewBag.Title == "Verification")
+                        {
+                            <li>@Html.ActionLink("登入", "Login", "Home")</li>
+                        }
                     }
                 </ul>
             </nav>

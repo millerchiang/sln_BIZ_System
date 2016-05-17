@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Verification";
+
+    string name= Request["name"];
+    string email= Request["email"];
+}
+
+
+@section pagestyle{
+    <link href="/stylesheets/verification.css" rel="stylesheet" />
+}
+<main>
+    <div class="form_box w600">
+        <h2>會員驗證</h2>
+        <p>
+            @name 您好，歡迎您成為會員!<br/>
+            我們已寄發一封「會員驗證信」至您的註冊信箱(@email)中，
+            請您於三日內開啟信件，點選會員驗證連結，
+            以完成會員註冊作業，謝謝!
+        </p>
+        <div class="centerbox">
+            <a href="" class="submitbuOr">重發驗證信</a>
+        </div>
+
+    </div>
+</main>
