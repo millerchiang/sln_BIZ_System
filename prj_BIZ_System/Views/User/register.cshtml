@@ -5,6 +5,12 @@
     ViewBag.Title = "Register";
 }
 
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+
+
 @{
     int dowhat = 1;
     string submit = "UserInsert";
@@ -200,7 +206,7 @@
 
                     @foreach (var newInfo in (IList<EnterpriseSortModel>)ViewData["sortlist"])
                     {
-                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@newInfo.sort_id"><label for="@newInfo.sort_id">@newInfo.enterprise_sort_id@newInfo.enterprise_sort_name</label>
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@newInfo.sort_id" value="@newInfo.sort_id"><label for="@newInfo.sort_id">@newInfo.enterprise_sort_id@newInfo.enterprise_sort_name</label>
 
                     }
                     </div>
@@ -287,3 +293,31 @@
 
                 </form>
             </article>
+
+<script>
+    $(function () {
+        init();
+        render();
+    });
+
+    function init() {
+        
+
+    }
+
+    function render(){
+
+        @if(ViewBag.NextAction.Equals("UserUpdate")){
+            <text>
+                var UpdateRender = function(){
+                    $.each(userSortList,function(index,el){
+                        $("input[name='sort_id'][value='"+el.sort_id+"']").prop("checked",true);
+                    });
+                };
+                var userSortList = @Html.Raw(ViewBag.userSortList);
+                UpdateRender();
+            </text>
+        }
+    }
+
+</script>

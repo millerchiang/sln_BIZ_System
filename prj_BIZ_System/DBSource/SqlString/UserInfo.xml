@@ -5,17 +5,45 @@
   <alias>
     <typeAlias alias="UserInfoModel" type="prj_BIZ_System.Models.UserInfoModel"/>
     <typeAlias alias="EnterpriseSortModel" type="prj_BIZ_System.Models.EnterpriseSortModel"/>
+    <typeAlias alias="UserSortModel" type="prj_BIZ_System.Models.UserSortModel"/>
   </alias>
 
   <statements>
 
     <!--查詢產業別全部-->
-    <select id="SelectAll_sort" resultMap="UserSort-result">
+    <select id="SelectAll_sort" resultMap="Enterprise_sort-result">
       SELECT *
       FROM enterprise_sort_list
     </select>
 
 
+
+    <!--
+    [[  table = enterprise_sort
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--查詢使用者產業別對應結果全部-->
+    <select id="SelectUserSortByUserId" parameterClass="UserSortModel" resultMap="UserSort-result">
+      SELECT *
+      FROM enterprise_sort
+      where user_id = #user_id#
+    </select>
+    
+    <delete id="DeleteUserSortByUserId" parameterClass="UserSortModel">
+      DELETE FROM enterprise_sort
+      WHERE user_id = #user_id#
+    </delete>
+
+    <insert id="InsertUserSortByUserId" parameterClass="UserSortModel">
+      INSERT INTO enterprise_sort(user_id, sort_id)
+      VALUES (#user_id#, #sort_id#);
+    </insert>
+
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+    
     <!--查詢全部-->
     <select id="SelectAll" resultMap="UserInfo-result">
       SELECT *
@@ -107,14 +135,17 @@
 
     </resultMap>
 
-    <resultMap id="UserSort-result" class="prj_BIZ_System.Models.EnterpriseSortModel">
+    <resultMap id="Enterprise_sort-result" class="prj_BIZ_System.Models.EnterpriseSortModel">
       <result property="sort_id" column="sort_id"/>
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
       <result property="enterprise_sort_name" column="enterprise_sort_name"/>
-
     </resultMap>
 
-
+    <resultMap id="UserSort-result" class="prj_BIZ_System.Models.UserSortModel">
+      <result property="user_id" column="user_id"/>
+      <result property="sort_id" column="sort_id"/>
+    </resultMap>
+    
   </resultMaps>
 
 </sqlMap>

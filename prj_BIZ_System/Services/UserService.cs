@@ -58,6 +58,27 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+        /* 使用者 - 產業對應表 */
+        public IList<UserSortModel> SelectUserSortByUserId(string user_id)
+        {
+            UserSortModel param = new UserSortModel() { user_id = user_id };
+            return mapper.QueryForList<UserSortModel>("UserInfo.SelectUserSortByUserId", param);
+        }
 
+        public bool RefreshUserSort(string user_id , int[] sort_ids)
+        {
+            UserSortModel param = new UserSortModel() { user_id = user_id };
+            int deleteCount = mapper.Delete("UserInfo.DeleteUserSortByUserId", param);
+            UserSortModel tempModel;
+            if( sort_ids != null)
+            {
+                foreach ( int sort_id in sort_ids)
+                {
+                    tempModel = new UserSortModel { user_id = user_id, sort_id = sort_id };
+                    mapper.Insert("UserInfo.InsertUserSortByUserId", tempModel);
+                }
+            }
+            return true;
+        }
     }
 }

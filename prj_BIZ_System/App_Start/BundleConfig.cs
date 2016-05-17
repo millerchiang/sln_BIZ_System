@@ -28,9 +28,7 @@ namespace prj_BIZ_System
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/stylesheets/css").Include(
-                      "~/stylesheets/screen.css",
-                      "~/stylesheets/login.css",
-                      "~/stylesheets/registerd.css"
+                      "~/stylesheets/screen.css"
                       ));
         }
     }
