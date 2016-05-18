@@ -6,6 +6,8 @@
     <typeAlias alias="UserInfoModel" type="prj_BIZ_System.Models.UserInfoModel"/>
     <typeAlias alias="EnterpriseSortModel" type="prj_BIZ_System.Models.EnterpriseSortModel"/>
     <typeAlias alias="UserSortModel" type="prj_BIZ_System.Models.UserSortModel"/>
+    <typeAlias alias="ProductListModel" type="prj_BIZ_System.Models.ProductListModel"/>
+    <typeAlias alias="CatalogListModel" type="prj_BIZ_System.Models.CatalogListModel"/>
   </alias>
 
   <statements>
@@ -19,7 +21,7 @@
 
 
     <!--
-    [[  table = enterprise_sort
+    [[  table=enterprise_sort
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
     <!--查詢使用者產業別對應結果全部-->
@@ -43,7 +45,65 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-    
+
+
+    <!--
+    [[  table=catalog_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--查詢使用者產業別對應結果全部-->
+    <select id="SelectCatalogListByUserId" parameterClass="CatalogListModel" resultMap="CatalogList-result">
+      SELECT *
+      FROM catalog_list
+      WHERE user_id = #user_id#
+    </select>
+
+    <delete id="DeleteCatalogListByUserId" parameterClass="CatalogListModel">
+      DELETE FROM catalog_list
+      WHERE user_id = #user_id#
+    </delete>
+
+    <insert id="InsertCatalogList" parameterClass="CatalogListModel">
+      INSERT INTO catalog_list(
+      catalog_no, user_id, cover_file, catalog_file, deleted)
+      VALUES (#catalog_no#,#user_id#,#cover_file#,#catalog_file#,#deleted#)
+    </insert>
+
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+
+
+    <!--
+    [[  table = product_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--查詢使用者產業別對應結果全部-->
+    <select id="SelectProductListByUserId" parameterClass="ProductListModel" resultMap="ProductList-result">
+      SELECT *
+      FROM product_list;
+      WHERE user_id = #user_id#
+    </select>
+
+    <delete id="DeleteProductListByUserId" parameterClass="ProductListModel">
+      DELETE FROM product_list
+      WHERE user_id = #user_id#
+    </delete>
+
+    <insert id="InsertProductList" parameterClass="ProductListModel">
+      INSERT INTO product_list(
+      product_id, user_id, product_name, product_info, product_name_en,
+      product_info_en, deleted)
+      VALUES (#product_id#,#user_id#,#product_name#,#product_info#,#product_name_en
+      ,#product_info_en#,#deleted#
+      );
+    </insert>
+
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
     <!--查詢全部-->
     <select id="SelectAll" resultMap="UserInfo-result">
       SELECT *
@@ -144,6 +204,24 @@
     <resultMap id="UserSort-result" class="prj_BIZ_System.Models.UserSortModel">
       <result property="user_id" column="user_id"/>
       <result property="sort_id" column="sort_id"/>
+    </resultMap>
+
+    <resultMap id="Catalog_no-result" class="prj_BIZ_System.Models.CatalogListModel">
+      <result property="catalog_no" column="catalog_no" />
+      <result property="user_id" column="user_id" />
+      <result property="cover_file" column="cover_file" />
+      <result property="catalog_file" column="catalog_file" />
+      <result property="deleted" column="deleted" />
+    </resultMap>
+    
+    <resultMap id="ProductList-result" class="prj_BIZ_System.Models.ProductListModel">
+      <result property="product_id" column="product_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="product_name" column="product_name"/>
+      <result property="product_info" column="product_info"/>
+      <result property="product_name_en" column="product_name_en"/>
+      <result property="product_info_en" column="product_info_en"/>
+      <result property="deleted" column="deleted"/>
     </resultMap>
     
   </resultMaps>
