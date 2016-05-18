@@ -14,14 +14,16 @@ namespace prj_BIZ_System.Controllers
     public class HomeController : Controller
     {
 
+        public UserService userService;
+
         public HomeController()
         {
-//            homeService = new ActivityService();
+            userService = new UserService();
         }
 
         public ActionResult Index()
         {
-            if (Request.Cookies["user_id"] != null )
+            if (Request.Cookies["UserInfo"]["user_id"] != null )
                 return View();
             else
                 return Redirect("Login");
@@ -32,11 +34,27 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
 
-
-        public ActionResult Contact()
+        public ActionResult IdentifyUser()
         {
-            ViewBag.Message = "Your contact page.";
+            UserInfoModel model = userService.ChkUserInfoOne(Request["user_id"], Request["user_pw"]);
 
+            if (model == null)
+            {
+                return Redirect("Login");
+            }
+            else
+            {
+                if (model.id_enable=="0")
+                    return Redirect("../User/register?user_id="+ model.user_id);
+
+                Response.Cookies["UserInfo"]["user_id"] = model.user_id;
+            }
+            return Redirect("Index");
+        }
+
+
+        public ActionResult Verification()
+        {
             return View();
         }
         

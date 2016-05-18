@@ -117,6 +117,14 @@
       WHERE user_id = #user_id#
     </select>
 
+    <!--查詢名稱密碼-->
+    <select id="CheckOne" resultMap="UserInfo-result">
+      SELECT *
+      FROM user_info
+      WHERE user_id = #user_id# and user_pw = #user_pw#
+    </select>
+
+
     <!--新增單筆-->
     <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
       INSERT INTO user_info (

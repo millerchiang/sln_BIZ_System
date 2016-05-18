@@ -55,8 +55,11 @@ namespace prj_BIZ_System.Controllers
                 model.info_en = Request["info_en"];
                 userService.UserInfoInsertOne(model);
             }
-            return Redirect("../Home/Index");
-//            return Redirect("UserList");
+
+            string name = Request["company"];
+            if (name == "")
+                name = Request["company_en"];
+            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
         [HttpGet]
@@ -124,7 +127,11 @@ namespace prj_BIZ_System.Controllers
             model.update_time = DateTime.Now;
             userService.UserInfoUpdateOne(model);
             bool refreshResult = userService.RefreshUserSort(model.user_id,sort_id);
-            return Redirect("../Home/Index");
+            //            return Redirect("../Home/Index");
+            string name = Request["company"];
+            if (name == "")
+                name = Request["company_en"];
+            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
     }
 }

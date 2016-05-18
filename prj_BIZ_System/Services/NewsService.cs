@@ -38,5 +38,11 @@ namespace prj_BIZ_System.Services
         {
             mapper.Update("News.UpdateOne", newsModel);
         }
+
+        /* delete方法*/
+        public void DeleteOne(NewsModel newsModel)
+        {
+            mapper.Delete("News.DeleteOne", newsModel);
+        }
     }
 }

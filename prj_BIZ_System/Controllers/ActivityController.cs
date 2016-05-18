@@ -29,7 +29,7 @@ namespace prj_BIZ_System.Controllers
             if (Request["activity_name"] != null)
             {
                 ActivityInfoModel model = new ActivityInfoModel();
-                model.manager_id = Request["manager_id"];
+                model.manager_id = Request.Cookies["UserInfo"]["user_id"];
                 model.activity_type = Request["activity_type"];
                 model.activity_name = Request["activity_name"];
                 model.starttime = DateTime.Parse(Request["starttime"]);
@@ -79,7 +79,7 @@ namespace prj_BIZ_System.Controllers
         {
 
             model.activity_id = int.Parse(Request["activity_id"]);
-            model.manager_id = Request["manager_id"];
+            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
             model.activity_type = Request["activity_type"];
             model.activity_name = Request["activity_name"];
             model.starttime = DateTime.Parse(Request["starttime"]);

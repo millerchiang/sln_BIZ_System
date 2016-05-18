@@ -10,7 +10,7 @@
 			<table class="edittable">
 
             <tr>
-                <th>建立者帳號</th>
+                @*<th>建立者帳號</th>*@
                 <th>活動類型</th>
                 <th>活動名稱(中文)</th>
                 <th>活動時間(起)</th>
@@ -30,7 +30,7 @@
             @foreach (var newInfo in (IList<ActivityInfoModel>)ViewData["list"])
             {
                 <tr>
-                    <td>@newInfo.manager_id</td>
+                    @*<td>@newInfo.manager_id</td>*@
                     <td>@newInfo.activity_type</td>
                     <td>@newInfo.activity_name</td>
                     <td>@newInfo.starttime</td>

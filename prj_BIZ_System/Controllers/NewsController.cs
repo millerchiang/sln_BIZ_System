@@ -35,10 +35,10 @@ namespace prj_BIZ_System.Controllers
         {
             NewsModel newsModel;
             News_EAInfo_ViewModel viewModels = new News_EAInfo_ViewModel();
+            viewModels.ActivityInfoList = activityService.GetActivityInfoList();
             if (Request["Id"] == null)
             {
                 newsModel = new NewsModel();
-                viewModels.ActivityInfoList =  activityService.GetActivityInfoList();
                 viewModels.NewsModel = newsModel;
                 ViewBag.NextAction = "EditActivityInfoInsert";
                 ViewBag.NextName = "新增";       
@@ -64,7 +64,7 @@ namespace prj_BIZ_System.Controllers
                 model.news_date = DateTime.Parse(Request["news_date"]);
                 model.news_type = Request["news_type"];
                 model.activity_id = int.Parse(Request["activity_id"]);
-                model.manager_id = Request["manager_id"];
+                model.manager_id = Request.Cookies["UserInfo"]["user_id"];
                 model.content = Request["content"];
                 newsService.InsertOne(model);
             }
@@ -79,9 +79,19 @@ namespace prj_BIZ_System.Controllers
             model.news_title = Request["news_title"];
             model.news_date = DateTime.Parse(Request["news_date"]);
             model.activity_id = int.Parse(Request["activity_id"]);
-            model.manager_id = Request["manager_id"];
+            model.news_type = Request["news_type"];
+            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
             model.content = Request["content"];
             newsService.UpdateOne(model);
+            return Redirect("B_NewsList");
+        }
+
+        [HttpGet]
+        public ActionResult EditActivityInfoDelete()
+        {
+            NewsModel model = new NewsModel();
+            model.news_no = int.Parse(Request["Id"]);
+            newsService.DeleteOne(model);
             return Redirect("B_NewsList");
         }
 

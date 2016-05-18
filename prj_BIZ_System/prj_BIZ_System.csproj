@@ -256,6 +256,7 @@
     <Content Include="stylesheets\registerd.css" />
     <Content Include="stylesheets\reset.css" />
     <Content Include="stylesheets\screen.css" />
+    <Content Include="stylesheets\verification.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -268,7 +269,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Activity\ActivityList.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Verification.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Activity\EditActivity.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
