@@ -10,7 +10,7 @@ using IBatisNet.DataMapper.Configuration;
 
 namespace prj_BIZ_System.Services
 {
-    public class UserService : BaseService
+    public class UserService : _BaseService
     {
 
         /* insert方法*/

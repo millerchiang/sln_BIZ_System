@@ -6,7 +6,7 @@ using System.Web;
 
 namespace prj_BIZ_System.Services
 {
-    public class NewsService : BaseService
+    public class NewsService : _BaseService
     {
         public NewsService()
         {

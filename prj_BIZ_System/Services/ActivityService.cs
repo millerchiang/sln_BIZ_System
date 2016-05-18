@@ -9,7 +9,7 @@ using IBatisNet.DataMapper.Configuration;
 
 namespace prj_BIZ_System.Services
 {
-    public class ActivityService : BaseService
+    public class ActivityService : _BaseService
     {
 
         /* select方法*/

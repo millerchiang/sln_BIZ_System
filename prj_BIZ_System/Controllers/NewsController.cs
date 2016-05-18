@@ -40,6 +40,7 @@ namespace prj_BIZ_System.Controllers
             {
                 newsModel = new NewsModel();
                 viewModels.NewsModel = newsModel;
+                ViewBag.PageType = "Create";
                 ViewBag.NextAction = "EditActivityInfoInsert";
                 ViewBag.NextName = "新增";       
             }
@@ -48,6 +49,7 @@ namespace prj_BIZ_System.Controllers
                 newsModel.news_no = int.Parse(Request["Id"]);
                 newsModel = newsService.GetNewsOne(newsModel.news_no);
                 viewModels.NewsModel = newsModel;
+                ViewBag.PageType = "Edit";
                 ViewBag.NextAction = "EditActivityInfoUpdate";
                 ViewBag.NextName = "修改";
             }
@@ -57,16 +59,16 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditActivityInfoInsert()
         {
-            if (Request["news_type"] != null)
+            if (Request["manager_id"] != null)
             {
-                NewsModel model = new NewsModel();
-                model.news_title = Request["news_title"];
-                model.news_date = DateTime.Parse(Request["news_date"]);
-                model.news_type = Request["news_type"];
-                model.activity_id = int.Parse(Request["activity_id"]);
-                model.manager_id = Request.Cookies["UserInfo"]["user_id"];
-                model.content = Request["content"];
-                newsService.InsertOne(model);
+                NewsModel newsModel = new NewsModel();
+                newsModel.news_title = Request["news_title"];
+                newsModel.news_date = DateTime.Parse(Request["news_date"]);
+                newsModel.news_type = Request["news_type"];
+                newsModel.activity_id = int.Parse(Request["activity_id"]);
+                newsModel.manager_id = Request.Cookies["UserInfo"]["user_id"];
+                newsModel.content = Request["content"];
+                newsService.InsertOne(newsModel);
             }
             return Redirect("B_NewsList");
         }
@@ -74,24 +76,24 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditActivityInfoUpdate()
         {
-            NewsModel model = new NewsModel();
-            model.news_no = int.Parse(Request["news_no"]);
-            model.news_title = Request["news_title"];
-            model.news_date = DateTime.Parse(Request["news_date"]);
-            model.activity_id = int.Parse(Request["activity_id"]);
-            model.news_type = Request["news_type"];
-            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
-            model.content = Request["content"];
-            newsService.UpdateOne(model);
+            NewsModel newsModel = new NewsModel();
+            newsModel.news_no = int.Parse(Request["news_no"]);
+            newsModel.news_title = Request["news_title"];
+            newsModel.news_date = DateTime.Parse(Request["news_date"]);
+            newsModel.activity_id = int.Parse(Request["activity_id"]);
+            newsModel.news_type = Request["news_type"];
+            newsModel.manager_id = Request.Cookies["UserInfo"]["user_id"];
+            newsModel.content = Request["content"];
+            newsService.UpdateOne(newsModel);
             return Redirect("B_NewsList");
         }
 
         [HttpGet]
         public ActionResult EditActivityInfoDelete()
         {
-            NewsModel model = new NewsModel();
-            model.news_no = int.Parse(Request["Id"]);
-            newsService.DeleteOne(model);
+            NewsModel newsModel = new NewsModel();
+            newsModel.news_no = int.Parse(Request["Id"]);
+            newsService.DeleteOne(newsModel);
             return Redirect("B_NewsList");
         }
 
@@ -99,21 +101,64 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditNewsInfo()
         {
-            NewsModel model;
+            NewsModel newsModel;
             if (Request["Id"] == null)
             {
-                model = new NewsModel();
-                ViewBag.NextAction = "Insert";
+                newsModel = new NewsModel();
+                ViewBag.PageType = "Create";
+                ViewBag.NextAction = "EditNewsInfoInsert";
                 ViewBag.NextName = "新增";
-                ViewBag.NextNewsType = "";
             }
             else {
-                model = new NewsModel();
-                ViewBag.NextAction = "Insert";
+                newsModel = new NewsModel();
+                newsModel.news_no = int.Parse(Request["Id"]);
+                newsModel = newsService.GetNewsOne(newsModel.news_no);
+                ViewBag.PageType = "Edit";
+                ViewBag.NextAction = "EditNewsInfoUpdate";
                 ViewBag.NextName = "修改";
-                ViewBag.NextNewsType = "checked";
             }
-            return View(model);
+            return View(newsModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditNewsInfoInsert()
+        {
+            if (Request["manager_id"] != null)
+            {
+                NewsModel newsModel = new NewsModel();
+                newsModel.news_title = Request["news_title"];
+                newsModel.news_date = DateTime.Parse(Request["news_date"]);
+                newsModel.website = Request["website"];
+                newsModel.news_type = Request["news_type"];
+                newsModel.manager_id = Request.Cookies["UserInfo"]["user_id"];
+                newsModel.content = Request["content"];
+                newsService.InsertOne(newsModel);
+            }
+            return Redirect("B_NewsList");
+        }
+
+        [HttpPost]
+        public ActionResult EditNewsInfoUpdate()
+        {
+            NewsModel newsModel = new NewsModel();
+            newsModel.news_no = int.Parse(Request["news_no"]);
+            newsModel.news_title = Request["news_title"];
+            newsModel.news_date = DateTime.Parse(Request["news_date"]);
+            newsModel.website = Request["website"];
+            newsModel.news_type = Request["news_type"];
+            newsModel.manager_id = Request.Cookies["UserInfo"]["user_id"];
+            newsModel.content = Request["content"];
+            newsService.UpdateOne(newsModel);
+            return Redirect("B_NewsList");
+        }
+
+        [HttpGet]
+        public ActionResult EditNewsInfoDelete()
+        {
+            NewsModel newsModel = new NewsModel();
+            newsModel.news_no = int.Parse(Request["Id"]);
+            newsService.DeleteOne(newsModel);
+            return Redirect("B_NewsList");
         }
     }
 }

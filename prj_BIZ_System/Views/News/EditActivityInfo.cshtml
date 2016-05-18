@@ -11,10 +11,10 @@
 }
 
 @{  
-    if(Model.NewsModel == null)
+    if(ViewBag.PageType == "Create")
     {
         Model.NewsModel.news_no = 0;
-        Model.NewsModel.manager_id = "";
+        Model.NewsModel.manager_id = Request.Cookies["UserInfo"]["user_id"];
         Model.NewsModel.news_title = "";
         Model.NewsModel.news_date = DateTime.Now;
         Model.NewsModel.news_type = "";
@@ -37,19 +37,20 @@
         <input type="text" name="news_date" value="@Model.NewsModel.news_date" class="regis_col02R" />
         
         <input type="hidden" name="news_type" value="0" />
+
         <label for="activity_id" class="regis_col02L spanRed">活動名稱</label>
         <select name="activity_id" class="regis_col02R">
-         <option value="">--請選擇--</option>
+           <option value="">--請選擇--</option>
+         
          @foreach (ActivityInfoModel activityInfoModel in Model.ActivityInfoList)
          {
            <option value="@activityInfoModel.activity_id">@activityInfoModel.activity_name</option>
          }
-          
+
         </select>
 
-
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
-        <input type="text" name="manager_id" value="@Model.NewsModel.manager_id" class="regis_col02R" />
+        <input type="text" readonly name="manager_id" value="@Model.NewsModel.manager_id" class="regis_col02R" />
 
         <div class="centerbox">
             <textarea  name="content">@Model.NewsModel.content</textarea>
