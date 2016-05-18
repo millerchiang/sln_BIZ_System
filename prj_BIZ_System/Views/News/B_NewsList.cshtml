@@ -9,28 +9,50 @@
     <h2>新聞列表</h2>
     <table class="edittable">
         <tr>
+            <th>新聞編號</th>
             <th>建立帳號</th>
             <th>新聞標題</th>
             <th>發布日期</th>
             <th>新聞類型</th>
             <th>活動編號</th>
-            <th>網址</th>
+            <th>活動連結</th>
             <th>內容</th>
             <th></th>
         </tr>
-        @foreach(NewsModel newsModel in Model.NewsList)
+        @foreach (NewsModel newsModel in Model.NewsList)
         {
             <tr>
+                <td>@newsModel.news_no</td>
                 <td>@newsModel.manager_id</td>
                 <td>@newsModel.news_title</td>
                 <td>@newsModel.news_date</td>
                 <td>@newsModel.news_type</td>
                 <td>@newsModel.activity_id</td>
-                <td>@newsModel.website</td>
+                @if (newsModel.website == null){
+                    <td>@newsModel.website</td>
+                }
+                else {
+                    <td>
+                        @if (newsModel.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0){
+                            <a href="@newsModel.website" target="_blank">@newsModel.website</a>
+                        }
+                        else {
+                            <a href="http://@newsModel.website" target="_blank">@newsModel.website</a>
+                        }
+                    </td>
+                }
+
                 <td>@newsModel.content</td>
                 <td>
-                    <a href="/News/EditActivityInfo?Id=@newsModel.news_no" class="editbu">修改</a>
-                    <a href="/News/EditActivityInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                    @if (newsModel.news_type == "0")
+                    {
+                        <a href="/News/EditActivityInfo?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="/News/EditActivityInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                    }
+                    else {
+                        <a href="/News/EditNewsInfo?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="/News/EditNewsInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                    }
                 </td>
             </tr>
         }
