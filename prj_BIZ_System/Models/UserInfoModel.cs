@@ -46,5 +46,15 @@ namespace prj_BIZ_System.Models
         public int sort_id { get; set; }//產業別流水號 
     }
 
+    public class User_ViewModel
+    {
+        public UserInfoModel userinfo { get; set; }
+        public EnterpriseSortModel enterprisesort { get; set; }
+        public UserSortModel usersort { get; set; }
+        public IList<UserInfoModel> userinfoList { get; set; }
+        public IList<EnterpriseSortModel> enterprisesortList { get; set; }
+        public IList<UserSortModel> usersortList { get; set; }
+    }
+
 
 }

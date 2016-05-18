@@ -13,16 +13,18 @@ namespace prj_BIZ_System.Controllers
     {
 
         public UserService userService;
+        public User_ViewModel userModel;
 
         public UserController()
         {
             userService = new UserService();
+            userModel = new User_ViewModel();
         }
 
         public ActionResult UserList()
         {
-            IList<UserInfoModel> userInfoModels = userService.GetUserInfoList();
-            ViewData["list"] = userInfoModels;
+            userModel.userinfoList = userService.GetUserInfoList();
+            ViewData["list"] = userModel.userinfoList;
             return View();
         }
 
@@ -33,7 +35,7 @@ namespace prj_BIZ_System.Controllers
 
             if (Request["user_id"] != null)
             {
-                UserInfoModel model = new UserInfoModel();
+                UserInfoModel model = userModel.userinfo;
                 model.user_id = Request["user_id"];
                 model.user_pw = Request["user_pw"];
                 model.enterprise_type = Request["enterprise_type"];
@@ -59,36 +61,32 @@ namespace prj_BIZ_System.Controllers
             string name = Request["company"];
             if (name == "")
                 name = Request["company_en"];
-            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+            return Redirect("~/Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            UserInfoModel model = null;
-            User_register_ViewModels urViewModel = new User_register_ViewModels();
             string user_id = Request["user_id"];
             if (Request["user_id"] != null) //修改
             {
-                model = userService.GeUserInfoOne(user_id);
-                ViewBag.user = model;
-                IList < UserSortModel > userSortList  = userService.SelectUserSortByUserId(model.user_id);
+                userModel.userinfo = userService.GeUserInfoOne(user_id);
+                ViewBag.user = userModel.userinfo;
+                userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                ViewBag.userSortList = serializer.Serialize(userSortList);
+                ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
                 ViewBag.nextAction = "UserUpdate";
-                ViewBag.nextName = "確認修改";
             }
             else //新增
             {
                 ViewBag.nextAction = "UserInsert";
-                ViewBag.nextName = "確定送出";
             }
 
-            IList<EnterpriseSortModel> enterpriseSortModel = userService.GetSortList();
-            urViewModel.enterpriseSortModel = userService.GetSortList();
-            ViewData["sortlist"] = enterpriseSortModel;
+            userModel.enterprisesortList = userService.GetSortList();
+//            urViewModel.enterpriseSortModel = userService.GetSortList();
+            ViewData["sortlist"] = userModel.enterprisesortList;
 
-            return View(model);
+            return View(userModel.userinfo);
         }
 
 

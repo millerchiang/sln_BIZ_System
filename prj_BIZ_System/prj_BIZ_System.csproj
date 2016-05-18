@@ -194,7 +194,6 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="ViewModels\UserViewModels.cs" />
     <Compile Include="ViewModels\NewsViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
