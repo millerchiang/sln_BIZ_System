@@ -42,16 +42,6 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }//公司名稱
     }
 
-    public class Activity_ViewModel
-    {
-        public ActivityInfoModel activityinfo { get; set; }
-        public IList<ActivityInfoModel> activityinfoList { get; set; }
-        public BuyerInfoModel buyerinfo { get; set; }
-        public IList<BuyerInfoModel> buyerinfoList { get; set; }
-        public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
-        public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
-    }
-
     public class ActivityRegisterModel
     {
         public int register_id { get; set; }//報名編號流水號
@@ -102,9 +92,13 @@ namespace prj_BIZ_System.Models
         public ActivityInfoModel activityinfo { get; set; }
         public ActivityRegisterModel activityregister { get; set; }
         public NewsModel news { get; set; }
+        public BuyerInfoModel buyerinfo { get; set; }
+        public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<NewsModel> newsList { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
     }
 
 
