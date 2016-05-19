@@ -3,15 +3,16 @@ using prj_BIZ_System.Services;
 using prj_BIZ_System.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Controllers
 {
 
-    public class UserController : Controller
+    public class UserController : _BaseController
     {
-
         public UserService userService;
 
         public UserController()
@@ -125,6 +126,75 @@ namespace prj_BIZ_System.Controllers
             userService.UserInfoUpdateOne(model);
             bool refreshResult = userService.RefreshUserSort(model.user_id,sort_id);
             return Redirect("../Home/Index");
+        }
+        
+        public ActionResult ProductList()
+        {
+            string user_id = _loginUser.user_id;
+            IList<ProductListModel> productLists = userService.getAllProduct(user_id);
+            return View(productLists);
+        }
+        
+        [HttpPost]
+        public ActionResult ProductDelete()
+        {
+
+            return Redirect("ProductList");
+        }
+
+        [HttpPost]
+        public ActionResult ProductInsert()
+        {
+
+            return Redirect("ProductList");
+        }
+
+        public ActionResult CatalogList()
+        {
+            string user_id = _loginUser.user_id;
+            IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
+            return View(catalogLists);
+        }
+
+        public ActionResult CatalogCreate(int[] catalog_no)
+        {
+           
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CatalogDelete(int[] catalog_no)
+        {
+            string user_id = _loginUser.user_id;
+            IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
+            //bool isDelSuccess = userService.CatalogListDelete(user_id , catalog_no);
+            //return View("CatalogList");
+            return Redirect("CatalogList");
+        }
+
+        [HttpPost]
+        public ActionResult CatalogUpload(HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
+        {
+            if (cover_file != null && catalog_file !=null)
+            {
+                if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
+                {
+                    string targetCoverPath = Path.Combine(_CatalogCoverDir , cover_file.FileName);
+                    string targetCatalogPath = Path.Combine(_CatalogCatalogDir , catalog_file.FileName);
+                    cover_file.SaveAs(targetCoverPath);
+                    catalog_file.SaveAs(targetCatalogPath);
+
+                    string user_id = _loginUser.user_id;
+                    bool isUploadSuccess = userService.CatalogListInsert(user_id, cover_file.FileName, catalog_file.FileName);
+                }
+            }
+            return Redirect("CatalogList");
+        }
+
+        public ActionResult _NavSearchPartial()
+        {
+            return PartialView();
         }
     }
 }

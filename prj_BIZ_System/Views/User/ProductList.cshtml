@@ -1,0 +1,105 @@
+﻿@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
+
+@{
+    ViewBag.Title = "ProductList";
+}
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+@{
+    //var viewPath = (ViewContext.View).ViewPath;
+}
+
+<div class="article_col1">
+@{
+    Html.RenderAction("_NavSearchPartial");
+}
+    <article class="article_col2 form_box">
+        <h2>產品說明</h2>
+        <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
+
+
+
+            <table class="regis_table">
+
+                <tr>
+                    <th></th>
+                    <th>產品名稱</th>
+                    <th>產品說明</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="inputCheckbox" name="" id="product01">
+                        <label for="product01"></label>
+                    </td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="inputCheckbox" name="" id="product02">
+                        <label for="product02"></label>
+                    </td>
+                    <td>
+                        <input type="text">
+                    </td>
+                    <td>
+                        <input type="text">
+                    </td>
+                    <td>
+                        <a id="addItemLink" href="" class="addbu">新增</a>
+                    </td>
+                </tr>
+            </table>
+            <div class="centerbox">
+                <a id="deleteLink" href="" class="deleteSbu">刪除</a>
+                <a id="saveLink" href="" class="addbublue">儲存</a>
+            </div>
+
+        </form>
+    </article>
+</div>
+<script>
+    $(function () {
+        init();
+    });
+    function init() {
+
+        var $addItemLint = $("#addItemLink");
+        var g_no = 0;
+        $addItemLint.click(function (e) {
+            e.preventDefault();
+            $("table.regis_table").append(genTemplate(g_no++));
+            $(this).appendTo($("table.regis_table tr").last().find("td").last());
+        });
+
+        $("#deleteLink").click(function (e) {
+            e.preventDefault();
+            if (confirm("確認是否要刪除")) {
+                $("#form").attr("action","@Url.Action("ProductDelete", "User")").submit();
+            }
+        });
+
+        $("#saveLink").click(function (e) {
+            e.preventDefault();
+            $("#form").attr("action","@Url.Action("ProductInsert", "User")").submit();
+        })
+    }
+
+    function genTemplate(no) {
+        var template =
+           '<tr>                                                                                 ' +
+           '	<td>                                                                             ' +
+           '		<input type="checkbox" class="inputCheckbox" name="" id="product'+no+'">     ' +
+           '		<label for="product'+no+'"></label>                                          ' +
+           '	</td>                                                                            ' +
+           '	<td><input type="text"></td>                                                     ' +
+           '	<td><input type="text"></td>                                                     ' +
+           '	<td></td>                                                                        ' +
+           '</tr>                                                                                ' ;
+        return template;
+    }
+</script>

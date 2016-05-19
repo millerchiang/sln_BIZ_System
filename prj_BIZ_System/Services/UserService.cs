@@ -6,7 +6,7 @@ using System.Web;
 using Npgsql;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
-
+using System.Collections;
 
 namespace prj_BIZ_System.Services
 {
@@ -66,10 +66,70 @@ namespace prj_BIZ_System.Services
             {
                 foreach ( int sort_id in sort_ids)
                 {
-                    tempModel = new UserSortModel { user_id = user_id, sort_id = sort_id };
+                    tempModel = new UserSortModel(){ user_id = user_id, sort_id = sort_id };
                     mapper.Insert("UserInfo.InsertUserSortByUserId", tempModel);
                 }
             }
+            return true;
+        }
+
+        public IList<ProductListModel> getAllProduct(string user_id)
+        {
+            ProductListModel param = new ProductListModel() { user_id  = user_id };
+            return mapper.QueryForList<ProductListModel>("UserInfo.SelectProductListByUserId", param);
+        }
+
+        public IList<CatalogListModel> getAllCatalog(string user_id)
+        {
+            CatalogListModel param = new CatalogListModel() { user_id = user_id };
+            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByUserId", param);
+        }
+
+        public bool CatalogListInsert(string user_id , string conver_fileName , string catalog_fileName)
+        {
+            CatalogListModel param = new CatalogListModel()
+            {
+                user_id = user_id,
+                cover_file = conver_fileName,
+                catalog_file = catalog_fileName,
+                deleted = "0"
+            };
+            var obj = mapper.Insert("UserInfo.InsertCatalogList", param);
+            return true;
+        }
+
+        public IList<CatalogListModel> SelectCatalogListByCatalogNo(string user_id , int[] catalog_no)
+        {
+            if(catalog_no != null)
+            {
+                ArrayList catalogNoList = new ArrayList(catalog_no);
+                Hashtable map = new Hashtable();
+                map.Add("user_id", user_id);
+                map.Add("list", catalogNoList);
+                return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByCatalogNo", map);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool CatalogListDelete(string user_id , int[] catalog_no)
+        {
+            if (catalog_no != null)
+            {
+                ArrayList param = new ArrayList(catalog_no);
+                int delCount = mapper.Delete("UserInfo.DeleteCatalogLists", param);
+                return true;
+                /*
+                foreach (int no in catalog_no)
+                {
+                    var param = new CatalogListModel() { user_id = user_id, catalog_no = no };
+                }
+                */
+
+            }
+
             return true;
         }
     }
