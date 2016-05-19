@@ -12,7 +12,8 @@ namespace prj_BIZ_System.Services
     public class ActivityService : _BaseService
     {
 
-        /* select方法*/
+        //ActivityInfoModel******************************************************************************//
+
         public IList<ActivityInfoModel> GetActivityInfoList()
         {
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectAll", null); 
@@ -23,20 +24,17 @@ namespace prj_BIZ_System.Services
             return (ActivityInfoModel)mapper.QueryForObject("ActivityInfo.SelectOne", activity_id);
         }
 
-        /* insert方法*/
         public void ActivityInfoInsertOne(ActivityInfoModel activityInfoModel)
         {
             mapper.Insert("ActivityInfo.InsertOne", activityInfoModel);
         }
 
-        /* delect方法*/
         public int ActivityInfoDelectOne(int activity_id)
         {
              Object obj = mapper.Delete("ActivityInfo.DeleteOne", activity_id);
             return (int)obj;
         }
 
-        /*update方法*/
         public int ActivityInfoUpdateOne(ActivityInfoModel activityInfoModel)
         {
            Object obj =  mapper.Update("ActivityInfo.UpdateOne", activityInfoModel);
@@ -48,6 +46,37 @@ namespace prj_BIZ_System.Services
         {
             return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
         }
+
+
+        //NewsModel******************************************************************************//
+
+        public IList<NewsModel> GetNewsAll()
+        {
+            return mapper.QueryForList<NewsModel>("News.NewsSelectAll", null);
+        }
+
+        public NewsModel GetNewsOne(int news_no)
+        {
+            NewsModel newsModel = new NewsModel();
+            newsModel.news_no = news_no;
+            return (NewsModel)mapper.QueryForObject("News.NewsSelectOne", newsModel);
+        }
+
+        public void NewsInsertOne(NewsModel newsModel)
+        {
+            mapper.Insert("News.NewsInsertOne", newsModel);
+        }
+
+        public void NewsUpdateOne(NewsModel newsModel)
+        {
+            mapper.Update("News.NewsUpdateOne", newsModel);
+        }
+
+        public void NewsDeleteOne(int news_no)
+        {
+            mapper.Delete("News.NewsDeleteOne", news_no);
+        }
+
 
 
     }
