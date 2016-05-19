@@ -1,12 +1,10 @@
 ﻿@using prj_BIZ_System.Models
-
+@model prj_BIZ_System.Models.User_ViewModel
 @{
     ViewBag.Title = "User List";
 }
 
 
-@if (ViewData["List"] != null)
-{
     <table class="edittable">
 
         <tr>
@@ -22,7 +20,7 @@
             <th>企業網址</th>
             <th></th>
         </tr>
-        @foreach (var newInfo in (IList<UserInfoModel>)ViewData["list"])
+        @foreach (var newInfo in Model.userinfoList)
         {
             <tr>
                 <td>@newInfo.user_id</td>
@@ -59,12 +57,6 @@
 
             <li><a href="">&gt;</a></li>
         </ul>
-
-}
-else
-{
-         < span > 無資料 </ span >
-}
 
 
 

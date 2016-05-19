@@ -1,12 +1,11 @@
 ﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
 
 @{
     ViewBag.Title = "Activity List";
 }
 
 
-    @if (ViewData["List"] != null)
-    {
 			<table class="edittable">
 
             <tr>
@@ -27,7 +26,7 @@
                 <th>主辦單位(英文)</th>
                 <th></th>
             </tr>
-            @foreach (var newInfo in (IList<ActivityInfoModel>)ViewData["list"])
+            @foreach (ActivityInfoModel newInfo in Model.activityinfoList)
             {
                 <tr>
                     @*<td>@newInfo.manager_id</td>*@
@@ -69,11 +68,6 @@
                 <li><a href="">&gt;</a></li>
             </ul>
 
-    }
-    else
-    {
-         < span > 無資料 </ span > 
-    }
 
 
 

@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.ViewModels.News_BNList_ViewModel
+@model prj_BIZ_System.Models.Activity_ViewModel
 
 @{
     ViewBag.Title = "新聞列表";
@@ -19,8 +19,8 @@
             <th>內容</th>
             <th></th>
         </tr>
-        @foreach (NewsModel newsModel in Model.NewsList)
-        {
+        @foreach (NewsModel newsModel in Model.newsList)
+            {
             <tr>
                 <td>@newsModel.news_no</td>
                 <td>@newsModel.manager_id</td>
@@ -46,12 +46,12 @@
                 <td>
                     @if (newsModel.news_type == "0")
                     {
-                        <a href="/News/EditActivityInfo?Id=@newsModel.news_no" class="editbu">修改</a>
-                            <a href="/News/EditActivityInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        <a href="/Activity/EditNewsActivity?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="/Activity/EditNewActivityDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
                     }
                     else {
-                        <a href="/News/EditNewsInfo?Id=@newsModel.news_no" class="editbu">修改</a>
-                            <a href="/News/EditNewsInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        <a href="/Activity/EditNewsInfo?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="/Activity/EditNewsInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
                     }
                 </td>
             </tr>
@@ -59,7 +59,7 @@
     </table>
 
     <div class="centerbox">
-        <a href="/News/EditActivityInfo" class="submitbu">新增活動訊息</a>
-        <a href="/News/EditNewsInfo" class="submitbu">新增新聞訊息</a>
+        <a href="/Activity/EditNewsActivity" class="submitbu">新增活動訊息</a>
+        <a href="/Activity/EditNewsInfo" class="submitbu">新增新聞訊息</a>
     </div>
 </article>

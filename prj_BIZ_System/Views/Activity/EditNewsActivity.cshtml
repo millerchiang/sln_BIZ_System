@@ -1,0 +1,72 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
+
+
+@{
+    ViewBag.Title = "新增新聞活動訊息";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+@{  
+    if(ViewBag.PageType == "Create")
+    {
+        Model.news.news_no = 0;
+        Model.news.manager_id = Request.Cookies["UserInfo"]["user_id"];
+        Model.news.news_title = "";
+        Model.news.news_date = DateTime.Now;
+        Model.news.news_type = "";
+        Model.news.activity_id = 0;
+        Model.news.website = "";
+        Model.news.content = "";
+    }
+
+}
+
+<article class="form_box article_col1">
+    <h2>新增活動訊息</h2>
+    <form action=@ViewBag.Action method="post">
+        <input type="hidden" name="news_no" value="@Model.news.news_no" />
+
+        <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
+        <input type="text" name="news_title" value="@Model.news.news_title" class="regis_col02R" />
+
+        <label for="news_date" class="regis_col02L spanRed">發布日期</label>
+        <input type="text" name="news_date" value="@Model.news.news_date" class="regis_col02R" />
+        
+        <input type="hidden" name="news_type" value="0" />
+
+        <label for="activity_id" class="regis_col02L spanRed">活動名稱</label>
+        <select name="activity_id" class="regis_col02R">
+           <option value="">--請選擇--</option>
+         
+         @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+         {
+             if (activityInfoModel.activity_id == Model.news.activity_id)
+             {
+                <option value="@activityInfoModel.activity_id" selected="selected">@activityInfoModel.activity_name</option>
+             }
+             else
+             {
+                <option value="@activityInfoModel.activity_id">@activityInfoModel.activity_name</option>
+             }
+         }
+
+        </select>
+
+        <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
+        <input type="text" readonly name="manager_id" value="@Model.news.manager_id" class="regis_col02R" />
+
+        <div class="centerbox">
+            <textarea  name="content">@Model.news.content</textarea>
+        </div>
+
+
+        <div class="centerbox">
+            <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
+        </div>
+    </form>
+</article>
+
