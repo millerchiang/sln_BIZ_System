@@ -27,4 +27,28 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }//修改時間
 
     }
+
+    public class BuyerInfoModel
+    {
+        public int serial_no { get; set; }//流水號
+        public string activity_no { get; set; }//活動編號
+        public string buyer_id { get; set; }//買主帳號
+        public string buyer_need { get; set; }//買主媒合需求
+    }
+
+    public class UserInfoToIdAndCpModel
+    {
+        public string user_id { get; set; }//使用者帳號
+        public string company { get; set; }//公司名稱
+    }
+
+    public class Activity_ViewModel
+    {
+        public ActivityInfoModel activityinfo { get; set; }
+        public IList<ActivityInfoModel> activityinfoList { get; set; }
+        public BuyerInfoModel buyerinfo { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
+        public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
+    }
 }

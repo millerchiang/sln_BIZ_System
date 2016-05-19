@@ -101,7 +101,15 @@ namespace prj_BIZ_System.Controllers
 //            return Content("修改失敗");
         }
 
+        public ActionResult EditBuyerInfo()
+        {
+            Activity_ViewModel model = new Activity_ViewModel();
+             ViewBag.insert_id_cp = Request["insert_id_cp"];
+            model.userinfotoidandcpList = 
+           activityService.GetUserInfoToIdandCp();
 
+            return View(model);
+        }
 
 
     }

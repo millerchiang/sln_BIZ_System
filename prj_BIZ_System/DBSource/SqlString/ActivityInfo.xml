@@ -7,7 +7,11 @@
   </alias>
   
   <statements>
-    
+
+    <!--
+    [[  table = activity_info
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
     <!--查詢全部-->
     <select id="SelectAll" resultMap="ActivityInfo-result">
       SELECT *
@@ -72,6 +76,25 @@
       update_time = #update_time#
       WHERE activity_id = #activity_id#
     </update>
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+
+    <!--
+    [[  table = user_info
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    --> 
+    <!--查詢用戶資訊的帳號和公司名稱-->
+    <select id="SelectUserInfoToIdandCp" resultMap="UserInfo-result">
+      select user_id,company
+      from user_info
+    </select>
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+    
   
   </statements>
 
@@ -97,6 +120,12 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
     </resultMap>
+
+    <resultMap id="UserInfo-result" class="prj_BIZ_System.Models.UserInfoToIdAndCpModel">
+      <result property="user_id" column="user_id"/>
+      <result property="company" column="company"/>
+    </resultMap>
+    
   </resultMaps>
   
 </sqlMap>
