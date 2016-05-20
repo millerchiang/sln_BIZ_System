@@ -26,6 +26,17 @@ namespace prj_BIZ_System.Controllers
             return View(userModel);
         }
 
+
+        [HttpGet]
+        public ActionResult UserInfo()
+        {
+            userModel.enterprisesortList = userService.GetSortList();
+            userModel.userinfo = userService.GeUserInfoOne(Request["user_id"]);
+            userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
+            return View(userModel);
+        }
+
+
         [HttpGet]
         public ActionResult Register()
         {

@@ -1,31 +1,75 @@
-﻿@{
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
+@section pagestyle{
+    <link href="/stylesheets/index.css" rel="stylesheet" />
+}
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<main>
+    <div class="article_col1">
+        <form action="" class="searchbox indexsearch">
+            <input type="text" name="companyName" placeholder="公司名">
+            <select name="" id="">
+                <option value="">產業別</option>
+
+                @foreach (var sortList in Model.enterprisesortList)
+                {
+                    <option value="@sortList.enterprise_sort_id">@sortList.enterprise_sort_name</option>
+                }
+            </select>
+            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        </form>
+        <aside>
+            <div class="newcom">
+                <h3>最新上架企業</h3>
+                <ul class="listlink comicon">
+                @foreach (var userList in Model.userinfoList)
+                {
+                    <li><a href="/User/UserInfo?user_id=@userList.user_id">@userList.company</a></li>
+                }
+                </ul>
+            </div>
+
+        </aside>
+        <article class="article_col2">
+            <div class="newsbox">
+                <div class="newsboxTitle">
+                    <h3>最新活動</h3>
+                    <a href="">More</a>
+                </div>
+                <img src="/images/index_pic.jpg" alt="" class="newsboximg01">
+                <ul class="newsboxList01 listlink dmicon">
+                @foreach (var activityList in Model.activityinfoList)
+                {
+                    <li>
+                        <a href="/Activity/EditActivity?Id=@activityList.activity_id">
+                            <span>活動日期:@activityList.starttime</span>
+                            @activityList.activity_name
+                        </a>
+                    </li>
+                }
+                </ul>
+            </div>
+            <div class="newsbox">
+                <div class="newsboxTitle">
+                    <h3>最新新聞</h3>
+                    <a href="">More</a>
+                </div>
+
+                <ul class="newsboxList02 listlink dmicon">
+                @foreach (var newsList in Model.newsList)
+                {
+                    <li>
+                        <a href="/Activity/EditNewsActivity?Id=@newsList.news_no">@newsList.news_title</a>
+                        <p>@newsList.content</p>
+                    </li>
+                }
+                </ul>
+            </div>
+        </article>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+</main>
