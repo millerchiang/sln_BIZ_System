@@ -21,7 +21,8 @@ namespace prj_BIZ_System.Services
 
         public ActivityInfoModel GetActivityInfoOne(int activity_id)
         {
-            return (ActivityInfoModel)mapper.QueryForObject("ActivityInfo.SelectActivityOne", activity_id);
+            ActivityInfoModel param = new ActivityInfoModel() { activity_id = activity_id };
+            return (ActivityInfoModel)mapper.QueryForObject("ActivityInfo.SelectActivityOne", param);
         }
 
         public void ActivityInfoInsertOne(ActivityInfoModel activityInfoModel)
@@ -31,7 +32,8 @@ namespace prj_BIZ_System.Services
 
         public int ActivityInfoDelectOne(int activity_id)
         {
-             Object obj = mapper.Delete("ActivityInfo.DeleteActivityOne", activity_id);
+            ActivityInfoModel param = new ActivityInfoModel() { activity_id = activity_id };
+            Object obj = mapper.Delete("ActivityInfo.DeleteActivityOne", param);
             return (int)obj;
         }
 
@@ -41,12 +43,13 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+        //NewsModel******************************************************************************//
+
         /*搜尋出user_id和company*/
         public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
         {
             return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
         }
-
 
         //NewsModel******************************************************************************//
 
@@ -57,9 +60,8 @@ namespace prj_BIZ_System.Services
 
         public NewsModel GetNewsOne(int news_no)
         {
-            NewsModel newsModel = new NewsModel();
-            newsModel.news_no = news_no;
-            return (NewsModel)mapper.QueryForObject("ActivityInfo.SelectNewsOne", newsModel);
+            NewsModel param = new NewsModel() { news_no = news_no };
+            return (NewsModel)mapper.QueryForObject("ActivityInfo.SelectNewsOne", param);
         }
 
         public void NewsInsertOne(NewsModel newsModel)
@@ -74,7 +76,8 @@ namespace prj_BIZ_System.Services
 
         public void NewsDeleteOne(int news_no)
         {
-            mapper.Delete("ActivityInfo.DeleteNewsOne", news_no);
+            NewsModel param = new NewsModel() { news_no = news_no };
+            mapper.Delete("ActivityInfo.DeleteNewsOne", param);
         }
 
 

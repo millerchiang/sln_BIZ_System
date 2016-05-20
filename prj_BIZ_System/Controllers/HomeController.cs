@@ -48,6 +48,9 @@ namespace prj_BIZ_System.Controllers
                     return Redirect("../User/register?user_id="+ model.user_id);
 
                 Response.Cookies["UserInfo"]["user_id"] = model.user_id;
+                Response.Cookies["UserInfo"]["company"] = model.user_id;
+                Response.Cookies["UserInfo"]["website"] = model.user_id;
+                Response.Cookies["UserInfo"]["info"] = model.user_id;
             }
             return Redirect("Index");
         }

@@ -7,7 +7,6 @@
     <typeAlias alias="NewsModel" type="prj_BIZ_System.Models.NewsModel"/>
     <typeAlias alias="UserInfoToIdAndCpModel" type="prj_BIZ_System.Models.UserInfoToIdAndCpModel"/>
     <typeAlias alias="ActivityRegisterModel" type="prj_BIZ_System.Models.ActivityRegisterModel"/>
-    
   </alias>
   
   <statements>
@@ -98,6 +97,70 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
+  
+    <!--
+    [[  table = activity_register
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+      <!--查詢活動報名全部-->
+      <select id="SelectActivityRegisterAll" resultMap="ActivityRegister">
+        SELECT *
+        FROM activity_register
+      </select>
+    
+      <!--查詢活動報名單筆-->
+      <select id="SelectActivityRegisterOne" resultMap="ActivityRegister">
+        SELECT *
+        FROM activity_register
+        WHERE register_id = #register_id#
+      </select>
+    
+      <!--新增活動報名單筆-->
+      <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
+        INSERT INTO activity_register (
+        register_id, activity_id, user_id, quantity,
+        name_a, title_a, name_b, title_b, telephone,
+        phone, email, catalog_file, manager_check,
+        user_info, user_info_en, create_time, update_time
+        ) VALUES (
+        #register_id#, #activity_id#, #user_id#, #quantity#,
+        #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
+        #phone#, #email#, #catalog_file#, #manager_check#,
+        #user_info#, #user_info_en#, #create_time#, #update_time#
+        )
+      </insert>
+
+      <!--修改活動報名單筆-->
+      <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+        UPDATE activity_register
+        SET activity_id = #activity_id#,
+          user_id = #user_id#,
+          quantity = #quantity#,
+          name_a = #name_a#,
+          title_a = #title_a#,
+          name_b = #name_b#,
+          title_b = #title_b#,
+          telephone = #telephone#,
+          phone = #phone#,
+          email = #email#,
+          catalog_file = #catalog_file#,
+          manager_check = #manager_check#,
+          user_info = #user_info#,
+          user_info_en = #user_info_en#,
+          create_time = #create_time#,
+          update_time = #update_time#
+        WHERE register_id = #register_id#     
+      </update>
+    
+      <!--刪除活動報名單筆-->
+      <delete id="DeleteActivityRegisterOne" parameterClass="ActivityRegisterModel">
+        DELETE FROM activity_register
+        WHERE register_id = #register_id#
+      </delete>
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
 
 
     <!--
@@ -112,7 +175,7 @@
     </select>
 
     <!--查詢單筆-->
-    <select id="SelectNewsOne" parameterClass="NewsModel">
+    <select id="SelectNewsOne" resultMap="News">
       SELECT *
       FROM news
       WHERE news_no = #news_no#
@@ -154,159 +217,8 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-
-    <!--
-    [[  table = activity_register
-    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    -->
-
-    <!--查詢全部-->
-    <select id="SelectActivityRegisterAll" resultMap="ActivityRegister">
-      SELECT *
-      FROM activity_register
-    </select>
-
-    <!--查詢單筆-->
-    <select id="SelectActivityRegisterOne" resultMap="ActivityRegister">
-      SELECT *
-      FROM activity_register
-      <dynamic prepend="WHERE">
-        <isNotNull prepend="AND" property="register_id">
-          register_id = #register_id#
-        </isNotNull>
-        <isNotNull prepend="AND" property="activity_id">
-          activity_id = #activity_id#
-        </isNotNull>
-        <isNotNull prepend="AND" property="user_id">
-          user_id = #user_id#
-        </isNotNull>
-        <isNotNull prepend="AND" property="quantity">
-          quantity = #quantity#
-        </isNotNull>
-        <isNotNull prepend="AND" property="name_a">
-          name_a = #name_a#
-        </isNotNull>
-        <isNotNull prepend="AND" property="title_a">
-          title_a = #title_a#
-        </isNotNull>
-        <isNotNull prepend="AND" property="name_b">
-          name_b = #name_b#
-        </isNotNull>
-        <isNotNull prepend="AND" property="title_b">
-          title_b = #title_b#
-        </isNotNull>
-        <isNotNull prepend="AND" property="telephone">
-          telephone = #telephone#
-        </isNotNull>
-        <isNotNull prepend="AND" property="phone">
-          phone = #phone#
-        </isNotNull>
-        <isNotNull prepend="AND" property="email">
-          email = #email#
-        </isNotNull>
-        <isNotNull prepend="AND" property="catalog_file">
-          catalog_file = #catalog_file#
-        </isNotNull>
-        <isNotNull prepend="AND" property="manager_check">
-          manager_check = #manager_check#
-        </isNotNull>
-        <isNotNull prepend="AND" property="user_info">
-          user_info = #user_info#
-        </isNotNull>
-        <isNotNull prepend="AND" property="user_info_en">
-          user_info_en = #user_info_en#
-        </isNotNull>
-        <isNotNull prepend="AND" property="create_time">
-          create_time = #create_time#
-        </isNotNull>
-        <isNotNull prepend="AND" property="update_time">
-          update_time = #update_time#
-        </isNotNull>
-      </dynamic>
-    </select>
-
-    <!--新增單筆-->
-    <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
-      INSERT INTO activity_register (
-      register_id, activity_id, user_id, quantity,
-      name_a, title_a, name_b, title_b, telephone,
-      phone, email, catalog_file, manager_check,
-      user_info, user_info_en, create_time, update_time
-      VALUES (
-      #register_id#, #activity_id#, #user_id#, #quantity#,
-      #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
-      #phone#, #email#, #catalog_file#, #manager_check#,
-      #user_info#, #user_info_en#, #create_time#, #update_time#
-      )
-    </insert>
-
-    <!--刪除單筆-->
-    <delete id="DeleteActivityRegisterOne" parameterClass="ActivityRegisterModel">
-      DELETE FROM activity_register
-      WHERE register_id = #register_id#
-    </delete>
-
-    <!--修改單筆-->
-    <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
-      UPDATE activity_register
-      <dynamic prepend="SET">
-        <isNotNull prepend="," property="register_id">
-          register_id = #register_id#
-        </isNotNull>
-        <isNotNull prepend="," property="activity_id">
-          activity_id = #activity_id#
-        </isNotNull>
-        <isNotNull prepend="," property="user_id">
-          user_id = #user_id#
-        </isNotNull>
-        <isNotNull prepend="," property="quantity">
-          quantity = #quantity#
-        </isNotNull>
-        <isNotNull prepend="," property="name_a">
-          name_a = #name_a#
-        </isNotNull>
-        <isNotNull prepend="," property="title_a">
-          title_a = #title_a#
-        </isNotNull>
-        <isNotNull prepend="," property="name_b">
-          name_b = #name_b#
-        </isNotNull>
-        <isNotNull prepend="," property="title_b">
-          title_b = #title_b#
-        </isNotNull>
-        <isNotNull prepend="," property="telephone">
-          telephone = #telephone#
-        </isNotNull>
-        <isNotNull prepend="," property="phone">
-          phone = #phone#
-        </isNotNull>
-        <isNotNull prepend="," property="email">
-          email = #email#
-        </isNotNull>
-        <isNotNull prepend="," property="catalog_file">
-          catalog_file = #catalog_file#
-        </isNotNull>
-        <isNotNull prepend="," property="manager_check">
-          manager_check = #manager_check#
-        </isNotNull>
-        <isNotNull prepend="," property="user_info">
-          user_info = #user_info#
-        </isNotNull>
-        <isNotNull prepend="," property="user_info_en">
-          user_info_en = #user_info_en#
-        </isNotNull>
-        <isNotNull prepend="," property="create_time">
-          create_time = #create_time#
-        </isNotNull>
-        <isNotNull prepend="," property="update_time">
-          update_time = #update_time#
-        </isNotNull>
-      </dynamic>
-      WHERE register_id = #register_id#
-    </update>
-
-
-
+    
+  
   </statements>
 
   <resultMaps>
@@ -332,22 +244,6 @@
       <result property="update_time" column="update_time"/>
     </resultMap>
 
-    <resultMap id="UserInfo" class="UserInfoToIdAndCpModel">
-      <result property="user_id" column="user_id"/>
-      <result property="company" column="company"/>
-    </resultMap>
-
-    <resultMap id="News" class="NewsModel">
-      <result property="news_no" column="news_no"/>
-      <result property="manager_id" column="manager_id"/>
-      <result property="news_title" column="news_title"/>
-      <result property="news_date" column="news_date"/>
-      <result property="news_type" column="news_type"/>
-      <result property="activity_id" column="activity_id"/>
-      <result property="website" column="website"/>
-      <result property="content" column="content"/>
-    </resultMap>
-
     <resultMap id="ActivityRegister" class="ActivityRegisterModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="register_id" column="register_id"/>
@@ -369,6 +265,21 @@
       <result property="update_time" column="update_time"/>
     </resultMap>
 
+    <resultMap id="UserInfo" class="UserInfoToIdAndCpModel">
+      <result property="user_id" column="user_id"/>
+      <result property="company" column="company"/>
+    </resultMap>
+    
+    <resultMap id="News" class="NewsModel">
+      <result property="news_no" column="news_no"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="news_title" column="news_title"/>
+      <result property="news_date" column="news_date"/>
+      <result property="news_type" column="news_type"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="website" column="website"/>
+      <result property="content" column="content"/>
+    </resultMap>
 
   </resultMaps>
   
