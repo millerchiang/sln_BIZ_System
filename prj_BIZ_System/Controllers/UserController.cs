@@ -1,6 +1,5 @@
 ﻿using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
-using prj_BIZ_System.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -13,121 +12,71 @@ namespace prj_BIZ_System.Controllers
     {
 
         public UserService userService;
+        public User_ViewModel userModel;
 
         public UserController()
         {
             userService = new UserService();
+            userModel = new User_ViewModel();
         }
 
         public ActionResult UserList()
         {
-            IList<UserInfoModel> userInfoModels = userService.GetUserInfoList();
-            ViewData["list"] = userInfoModels;
-            return View();
-        }
-
-
-
-        public ActionResult UserInsert()
-        {
-
-            if (Request["user_id"] != null)
-            {
-                UserInfoModel model = new UserInfoModel();
-                model.user_id = Request["user_id"];
-                model.user_pw = Request["user_pw"];
-                model.enterprise_type = Request["enterprise_type"];
-                model.company = Request["company"];
-                //            model.endtime = DateTime.Parse(Request["endtime"]);
-                model.company_en = Request["company_en"];
-                model.leader = Request["leader"];
-                model.addr = Request["addr"];
-                model.leader_en = Request["leader_en"];
-                model.addr_en = Request["addr_en"];
-                model.contact = Request["contact"];
-                model.contact_en = Request["contact_en"];
-                model.phone = Request["phone"];
-                model.email = Request["email"];
-                model.capital = int.Parse(Request["capital"]);
-                model.revenue = Request["revenue"];
-                model.website = Request["website"];
-                model.info = Request["info"];
-                model.info_en = Request["info_en"];
-                userService.UserInfoInsertOne(model);
-            }
-
-            string name = Request["company"];
-            if (name == "")
-                name = Request["company_en"];
-            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+            userModel.userinfoList = userService.GetUserInfoList();
+            return View(userModel);
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            UserInfoModel model = null;
-            User_register_ViewModels urViewModel = new User_register_ViewModels();
-            string user_id = Request["user_id"];
-            if (Request["user_id"] != null) //修改
+            userModel.enterprisesortList = userService.GetSortList();
+            ViewBag.Action = "UserInsertUpdate";
+
+
+            if (Request["user_id"] == null) //新增
             {
-                model = userService.GeUserInfoOne(user_id);
-                ViewBag.user = model;
-                IList < UserSortModel > userSortList  = userService.SelectUserSortByUserId(model.user_id);
+                userModel.userinfo = new UserInfoModel();
+                ViewBag.PageType = "Create";
+                ViewBag.SubmitName = "確定送出";
+                Response.Cookies["UserInfo"]["edit"] = "Add";
+
+            }
+            else //修改
+            {
+                userModel.userinfo = userService.GeUserInfoOne(Request["user_id"]);
+                ViewBag.user = userModel.userinfo;
+                userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                ViewBag.userSortList = serializer.Serialize(userSortList);
-                ViewBag.nextAction = "UserUpdate";
-                ViewBag.nextName = "確認修改";
+                ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
+                ViewBag.PageType = "Edit";
+                ViewBag.SubmitName = "修改";
+                Response.Cookies["UserInfo"]["edit"] = "Update";
             }
-            else //新增
-            {
-                ViewBag.nextAction = "UserInsert";
-                ViewBag.nextName = "確定送出";
-            }
-
-            IList<EnterpriseSortModel> enterpriseSortModel = userService.GetSortList();
-            urViewModel.enterpriseSortModel = userService.GetSortList();
-            ViewData["sortlist"] = enterpriseSortModel;
-
-            return View(model);
+            return View(userModel);
         }
 
 
 
         public ActionResult DeleteUser()
         {
-            UserInfoModel model = new UserInfoModel();
-            model.user_id = Request["user_id"];
-            userService.UserInfoDelectOne(model.user_id);
+            userService.UserInfoDelectOne(Request["user_id"]);
             return Redirect("UserList");
         }
 
         [HttpPost]
-        public ActionResult UserUpdate(UserInfoModel model , int[] sort_id)
+        public ActionResult UserInsertUpdate(UserInfoModel model , int[] sort_id)
         {
+            if (Request.Cookies["UserInfo"]["edit"] == "Add")//新增
+            {
+                userService.UserInfoInsertOne(model);
+            }
+            else //修改
+            {
+                model.update_time = DateTime.Now;
+                userService.UserInfoUpdateOne(model);
+            }
 
-//            model.user_id = Request["user_id"];
-            model.user_pw = Request["user_pw"];
-            model.enterprise_type = Request["enterprise_type"];
-            model.company = Request["company"];
-            //            model.endtime = DateTime.Parse(Request["endtime"]);
-            model.company_en = Request["company_en"];
-            model.leader = Request["leader"];
-            model.addr = Request["addr"];
-            model.leader_en = Request["leader_en"];
-            model.addr_en = Request["addr_en"];
-            model.contact = Request["contact"];
-            model.contact_en = Request["contact_en"];
-            model.phone = Request["phone"];
-            model.email = Request["email"];
-            model.capital = int.Parse(Request["capital"]);
-            model.revenue = Request["revenue"];
-            model.website = Request["website"];
-            model.info = Request["info"];
-            model.info_en = Request["info_en"];
-            model.update_time = DateTime.Now;
-            userService.UserInfoUpdateOne(model);
             bool refreshResult = userService.RefreshUserSort(model.user_id,sort_id);
-            //            return Redirect("../Home/Index");
             string name = Request["company"];
             if (name == "")
                 name = Request["company_en"];

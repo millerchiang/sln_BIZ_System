@@ -1,4 +1,5 @@
-﻿@model prj_BIZ_System.Models.NewsModel
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.NewsModel
 
 @{
     ViewBag.Title = "新增新聞訊息";
@@ -8,13 +9,23 @@
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
 }
 
-@{  Model.news_date = DateTime.Now;
+@{
+    if (ViewBag.PageType == "Create")
+    {
+        Model.news_no = 0;
+        Model.manager_id = Request.Cookies["UserInfo"]["user_id"];
+        Model.news_title = "";
+        Model.news_date = DateTime.Now;
+        Model.news_type = "";
+        Model.website = "";
+        Model.content = "";
+    }
 
 }
 
 <article class="form_box article_col1">
     <h2>新增新聞訊息</h2>
-    <form action=ViewBag.NextAction method="post">
+    <form action=@ViewBag.Action method="post">
         <input type="hidden" name="news_no" value="@Model.news_no" />
 
         <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
@@ -23,18 +34,20 @@
         <label for="news_date" class="regis_col02L spanRed">發布日期</label>
         <input type="text" name="news_date" value="@Model.news_date" class="regis_col02R" />
 
+        <input type="hidden" name="news_type" value="1" />
+
         <label for="website" class="regis_col02L spanRed">報名網址</label>
         <input type="text" name="website" value="@Model.website" class="regis_col02R" />
 
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
-        <input type="text" name="manager_id" value="@Model.manager_id" class="regis_col02R" />
-
-        <textarea>
-            @Model.content
-        </textarea>
+        <input type="text" readonly name="manager_id" value="@Model.manager_id" class="regis_col02R" />
 
         <div class="centerbox">
-            <button type="submit" class="submitbu">@ViewBag.NextName</button>
+            <textarea name="content">@Model.content</textarea>
+        </div>
+
+        <div class="centerbox">
+            <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
         </div>
     </form>
 </article>

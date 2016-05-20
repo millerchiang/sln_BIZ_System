@@ -10,20 +10,20 @@
 
   <statements>
     <!--查詢全部-->
-    <select id="SelectAll" resultMap="NewsResultMap">
+    <select id="NewsSelectAll" resultMap="NewsResultMap">
       SELECT *
       FROM news
     </select>
 
     <!--查詢單筆-->
-    <select id="SelectOne" resultMap="NewsResultMap" parameterClass="prj_BIZ_System.Models.NewsModel">
+    <select id="NewsSelectOne" resultMap="NewsResultMap" parameterClass="prj_BIZ_System.Models.NewsModel">
       SELECT *
       FROM news
       WHERE news_no = #news_no#
     </select>
 
     <!--新增單筆-->
-    <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.NewsModel">
+    <insert id="NewsInsertOne" parameterClass="prj_BIZ_System.Models.NewsModel">
       INSERT INTO news (
       manager_id, news_title, news_date,
       news_type, activity_id,
@@ -36,13 +36,13 @@
     </insert>
 
     <!--刪除單筆-->
-    <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.NewsModel">
+    <delete id="NewsDeleteOne" parameterClass="prj_BIZ_System.Models.NewsModel">
       DELETE FROM news
       WHERE news_no = #news_no#
     </delete>
 
     <!--修改單筆-->
-    <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.NewsModel">
+    <update id="NewsUpdateOne" parameterClass="prj_BIZ_System.Models.NewsModel">
       UPDATE news SET
         manager_id = #manager_id#,
         news_title = #news_title#,

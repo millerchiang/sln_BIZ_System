@@ -23,7 +23,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
-            if (Request.Cookies["UserInfo"]["user_id"] != null )
+            if (Request.Cookies["UserInfo"] != null )
                 return View();
             else
                 return Redirect("Login");

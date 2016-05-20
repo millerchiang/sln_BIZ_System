@@ -7,10 +7,10 @@ using System.Web;
 
 namespace prj_BIZ_System.Services
 {
-    public class BaseService
+    public class _BaseService
     {
         public static ISqlMapper mapper;
-        public BaseService()
+        public _BaseService()
         {
             DomSqlMapBuilder builder = new DomSqlMapBuilder();
             mapper = builder.Configure("DBSource/Config/SqlMap.config");

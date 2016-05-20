@@ -180,22 +180,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActivityInfoModel.cs" />
-    <Compile Include="Models\ActivityRegisterModel.cs" />
-    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\NewsService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="ViewModels\UserViewModels.cs" />
-    <Compile Include="ViewModels\NewsViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -275,9 +269,9 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
-    <Content Include="Views\News\B_NewsList.cshtml" />
-    <Content Include="Views\News\EditActivityInfo.cshtml" />
-    <Content Include="Views\News\EditNewsInfo.cshtml" />
+    <Content Include="Views\Activity\B_NewsList.cshtml" />
+    <Content Include="Views\Activity\EditNewsActivity.cshtml" />
+    <Content Include="Views\Activity\EditNewsInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

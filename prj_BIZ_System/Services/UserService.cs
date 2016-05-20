@@ -10,21 +10,14 @@ using IBatisNet.DataMapper.Configuration;
 
 namespace prj_BIZ_System.Services
 {
-    public class UserService : BaseService
+    public class UserService : _BaseService
     {
 
-        /* insert方法*/
+        //UserInfoModel******************************************************************************//
         public void UserInfoInsertOne(UserInfoModel userInfoModel)
         {
             mapper.Insert("UserInfo.InsertOne", userInfoModel);
         }
-
-        /* select方法*/
-        public IList<EnterpriseSortModel> GetSortList()
-        {
-            return mapper.QueryForList<EnterpriseSortModel>("UserInfo.SelectAll_sort", null);
-        }
-
 
         public IList<UserInfoModel> GetUserInfoList()
         {
@@ -36,27 +29,34 @@ namespace prj_BIZ_System.Services
             return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOne", user_id);
         }
 
-        public UserInfoModel ChkUserInfoOne(string user_id,string user_pw)
+        public UserInfoModel ChkUserInfoOne(string user_id, string user_pw)
         {
             UserInfoModel tempModel = new UserInfoModel { user_id = user_id, user_pw = user_pw };
             return (UserInfoModel)mapper.QueryForObject("UserInfo.CheckOne", tempModel);
         }
 
-        /* delect方法*/
         public int UserInfoDelectOne(string user_id)
         {
             Object obj = mapper.Delete("UserInfo.DeleteOne", user_id);
             return (int)obj;
         }
 
-        /*update方法*/
         public int UserInfoUpdateOne(UserInfoModel userInfoModel)
         {
             Object obj = mapper.Update("UserInfo.UpdateOne", userInfoModel);
             return (int)obj;
         }
 
-        /* 使用者 - 產業對應表 */
+        //EnterpriseSortModel******************************************************************************//
+
+        public IList<EnterpriseSortModel> GetSortList()
+        {
+            return mapper.QueryForList<EnterpriseSortModel>("UserInfo.SelectAll_sort", null);
+        }
+
+
+        //UserSortModel******************************************************************************//
+
         public IList<UserSortModel> SelectUserSortByUserId(string user_id)
         {
             UserSortModel param = new UserSortModel() { user_id = user_id };
@@ -78,5 +78,7 @@ namespace prj_BIZ_System.Services
             }
             return true;
         }
+
+        //******************************************************************************//
     }
 }
