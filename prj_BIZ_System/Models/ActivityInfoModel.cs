@@ -94,11 +94,13 @@ namespace prj_BIZ_System.Models
         public NewsModel news { get; set; }
         public BuyerInfoModel buyerinfo { get; set; }
         public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
+        public UserInfoModel userinfo { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<NewsModel> newsList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
+        public IList<UserInfoModel> userinfoList { get; set; }
     }
 
 

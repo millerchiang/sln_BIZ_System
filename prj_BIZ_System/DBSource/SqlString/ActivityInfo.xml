@@ -12,70 +12,70 @@
     [[  table = activity_info
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢全部-->
-    <select id="SelectAll" resultMap="ActivityInfo-result">
-      SELECT *
-      FROM activity_info
-    </select>
+      <!--查詢全部-->
+      <select id="SelectAll" resultMap="ActivityInfo-result">
+        SELECT *
+        FROM activity_info
+      </select>
     
-    <!--查詢單筆-->
-    <select id="SelectOne" resultMap="ActivityInfo-result">
-      SELECT *
-      FROM activity_info
-      WHERE activity_id = #activity_id#
-    </select>
+      <!--查詢單筆-->
+      <select id="SelectOne" resultMap="ActivityInfo-result">
+        SELECT *
+        FROM activity_info
+        WHERE activity_id = #activity_id#
+      </select>
     
-    <!--查詢活動名稱-->
-    <select id="SelectActivityName" resultClass="string">
-      SELECT DISTINCT activity_name
-      FROM activity_info
-    </select>
+      <!--查詢活動名稱-->
+      <select id="SelectActivityName" resultClass="string">
+        SELECT DISTINCT activity_name
+        FROM activity_info
+      </select>
     
     
-    <!--新增單筆-->
-    <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
-      INSERT INTO activity_info (
-      manager_id, activity_type,
-      activity_name, starttime, endtime,
-      addr, organizer, name, phone,
-      email, seller_select, matchmaking_select,
-      activity_name_en, addr_en, organizer_en
-      ) VALUES (
-      #manager_id#,#activity_type#,
-      #activity_name#,#starttime#,#endtime#,
-      #addr#,#organizer#,#name#,#phone#,
-      #email#,#seller_select#,#matchmaking_select#,
-      #activity_name_en#,#addr_en#,#organizer_en#
-      )
-    </insert>
+      <!--新增單筆-->
+      <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+        INSERT INTO activity_info (
+        manager_id, activity_type,
+        activity_name, starttime, endtime,
+        addr, organizer, name, phone,
+        email, seller_select, matchmaking_select,
+        activity_name_en, addr_en, organizer_en
+        ) VALUES (
+        #manager_id#,#activity_type#,
+        #activity_name#,#starttime#,#endtime#,
+        #addr#,#organizer#,#name#,#phone#,
+        #email#,#seller_select#,#matchmaking_select#,
+        #activity_name_en#,#addr_en#,#organizer_en#
+        )
+      </insert>
     
-    <!--刪除單筆-->
-    <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
-      DELETE FROM activity_info
-      WHERE activity_id = #activity_id#
-    </delete>
+      <!--刪除單筆-->
+      <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+        DELETE FROM activity_info
+        WHERE activity_id = #activity_id#
+      </delete>
    
-    <!--修改單筆-->
-    <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
-      UPDATE activity_info
-      SET manager_id = #manager_id#,
-      activity_type = #activity_type#,
-      activity_name = #activity_name#,
-      starttime = #starttime#,
-      endtime = #endtime#,
-      addr = #addr#,
-      organizer = #organizer#,
-      name = #name#,
-      phone = #phone#,
-      email = #email#,
-      seller_select = #seller_select#,
-      matchmaking_select = #matchmaking_select#,
-      activity_name_en = #activity_name_en#,
-      addr_en = #addr_en#,
-      organizer_en = #organizer_en#,
-      update_time = #update_time#
-      WHERE activity_id = #activity_id#
-    </update>
+      <!--修改單筆-->
+      <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.ActivityInfoModel">
+        UPDATE activity_info
+        SET manager_id = #manager_id#,
+        activity_type = #activity_type#,
+        activity_name = #activity_name#,
+        starttime = #starttime#,
+        endtime = #endtime#,
+        addr = #addr#,
+        organizer = #organizer#,
+        name = #name#,
+        phone = #phone#,
+        email = #email#,
+        seller_select = #seller_select#,
+        matchmaking_select = #matchmaking_select#,
+        activity_name_en = #activity_name_en#,
+        addr_en = #addr_en#,
+        organizer_en = #organizer_en#,
+        update_time = #update_time#
+        WHERE activity_id = #activity_id#
+      </update>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -85,17 +85,82 @@
     [[  table = user_info
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     --> 
-    <!--查詢用戶資訊的帳號和公司名稱-->
-    <select id="SelectUserInfoToIdandCp" resultMap="UserInfo-result">
-      select user_id,company
-      from user_info
-    </select>
+      <!--查詢用戶資訊的帳號和公司名稱-->
+      <select id="SelectUserInfoToIdandCp" resultMap="UserInfo_IdAndCp-result">
+        select user_id,company
+        from user_info
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-    
   
+    <!--
+    [[  table = activity_register
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+      <!--查詢活動報名全部-->
+      <select id="SelectRegisterAll" resultMap="Register-result">
+        SELECT *
+        FROM activity_register
+      </select>
+    
+      <!--查詢活動報名單筆-->
+      <select id="SelectRegisterOne" resultMap="Register-result">
+        SELECT *
+        FROM activity_register
+        WHERE register_id = #register_id#
+      </select>
+    
+      <!--新增活動報名單筆-->
+      <insert id="InsertRegisterOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+        INSERT INTO activity_register (
+        register_id, activity_id, user_id, quantity,
+        name_a, title_a, name_b, title_b, telephone,
+        phone, email, catalog_file, manager_check,
+        user_info, user_info_en, create_time, update_time
+        ) VALUES (
+        #register_id#, #activity_id#, #user_id#, #quantity#,
+        #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
+        #phone#, #email#, #catalog_file#, #manager_check#,
+        #user_info#, #user_info_en#, #create_time#, #update_time#
+        )
+      </insert>
+
+      <!--修改活動報名單筆-->
+      <update id="UpdateRefisterOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+        UPDATE activity_register
+        SET activity_id = #activity_id#,
+          user_id = #user_id#,
+          quantity = #quantity#,
+          name_a = #name_a#,
+          title_a = #title_a#,
+          name_b = #name_b#,
+          title_b = #title_b#,
+          telephone = #telephone#,
+          phone = #phone#,
+          email = #email#,
+          catalog_file = #catalog_file#,
+          manager_check = #manager_check#,
+          user_info = #user_info#,
+          user_info_en = #user_info_en#,
+          create_time = #create_time#,
+          update_time = #update_time#
+        WHERE register_id = #register_id#     
+      </update>
+    
+      <!--刪除活動報名單筆-->
+      <delete id="DeleteRegisterOne" parameterClass="prj_BIZ_System.Models.ActivityRegisterModel">
+        DELETE FROM activity_register
+        WHERE register_id = #register_id#
+      </delete>
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+
+
+
   </statements>
 
   <resultMaps>
@@ -121,10 +186,33 @@
       <result property="update_time" column="update_time"/>
     </resultMap>
 
-    <resultMap id="UserInfo-result" class="prj_BIZ_System.Models.UserInfoToIdAndCpModel">
+    <resultMap id="Register-result" class="prj_BIZ_System.Models.ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="quantity" column="quantity"/>
+      <result property="name_a" column="name_a"/>
+      <result property="title_a" column="title_a"/>
+      <result property="name_b" column="name_b"/>
+      <result property="title_b" column="title_b"/>
+      <result property="telephone" column="telephone"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="catalog_file" column="catalog_file"/>
+      <result property="manager_check" column="manager_check"/>
+      <result property="user_info" column="user_info"/>
+      <result property="user_info_en" column="user_info_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="UserInfo_IdAndCp-result" class="prj_BIZ_System.Models.UserInfoToIdAndCpModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="user_id" column="user_id"/>
       <result property="company" column="company"/>
     </resultMap>
+    
     
   </resultMaps>
   
