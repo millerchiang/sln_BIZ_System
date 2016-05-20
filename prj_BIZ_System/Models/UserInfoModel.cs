@@ -46,16 +46,6 @@ namespace prj_BIZ_System.Models
         public int sort_id { get; set; }//產業別流水號 
     }
 
-    public class User_ViewModel
-    {
-        public UserInfoModel userinfo { get; set; }
-        public EnterpriseSortModel enterprisesort { get; set; }
-        public UserSortModel usersort { get; set; }
-        public IList<UserInfoModel> userinfoList { get; set; }
-        public IList<EnterpriseSortModel> enterprisesortList { get; set; }
-        public IList<UserSortModel> usersortList { get; set; }
-    }
-
     public class ProductListModel
     {
         public string product_id { get; set; } //P+流水號9碼
@@ -75,4 +65,19 @@ namespace prj_BIZ_System.Models
         public string catalog_file { get; set; } //公司型錄檔案位置
         public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
     }
+
+    public class User_ViewModel
+    {
+        public UserInfoModel userinfo { get; set; }
+        public EnterpriseSortModel enterprisesort { get; set; }
+        public UserSortModel usersort { get; set; }
+        public ProductListModel product { get; set; }
+        public CatalogListModel catalog { get; set; }
+        public IList<UserInfoModel> userinfoList { get; set; }
+        public IList<EnterpriseSortModel> enterprisesortList { get; set; }
+        public IList<UserSortModel> usersortList { get; set; }
+        public IList<ProductListModel> productsortList { get; set; }
+        public IList<CatalogListModel> cataloglistList { get; set; }
+    }
+
 }
