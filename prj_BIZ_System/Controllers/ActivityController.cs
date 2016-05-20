@@ -33,7 +33,7 @@ namespace prj_BIZ_System.Controllers
                 activityModel.activityinfo = new ActivityInfoModel();
                 ViewBag.PageType = "Create";
                 ViewBag.SubmitName = "新增";
-            }
+        }
             else {
                 activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["Id"])); 
                 ViewBag.PageType = "Edit";
@@ -54,24 +54,24 @@ namespace prj_BIZ_System.Controllers
 
         [HttpPost]
         public ActionResult ActivityInsertUpdate(ActivityInfoModel model)
-        {
+            {
 
             //            model.activity_id = int.Parse(Request["activity_id"]);
             /*
-                        model.activity_type = Request["activity_type"];
-                        model.activity_name = Request["activity_name"];
-                        model.starttime = DateTime.Parse(Request["starttime"]);
-                        model.endtime = DateTime.Parse(Request["endtime"]);
-                        model.addr = Request["addr"];
-                        model.organizer = Request["organizer"];
-                        model.name = Request["name"];
-                        model.phone = Request["phone"];
-                        model.email = Request["email"];
-                        model.seller_select = Request["seller_select"];
-                        model.matchmaking_select = Request["matchmaking_select"];
-                        model.activity_name_en = Request["activity_name_en"];
-                        model.addr_en = Request["addr_en"];
-                        model.organizer_en = Request["organizer_en"];
+                model.activity_type = Request["activity_type"];
+                model.activity_name = Request["activity_name"];
+                model.starttime = DateTime.Parse(Request["starttime"]);
+                model.endtime = DateTime.Parse(Request["endtime"]);
+                model.addr = Request["addr"];
+                model.organizer = Request["organizer"];
+                model.name = Request["name"];
+                model.phone = Request["phone"];
+                model.email = Request["email"];
+                model.seller_select = Request["seller_select"];
+                model.matchmaking_select = Request["matchmaking_select"];
+                model.activity_name_en = Request["activity_name_en"];
+                model.addr_en = Request["addr_en"];
+                model.organizer_en = Request["organizer_en"];
             */
             model.manager_id = Request.Cookies["UserInfo"]["user_id"];
 
@@ -110,7 +110,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.SubmitName = "新增";
             }
             else {
-
+            
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
@@ -187,6 +187,15 @@ namespace prj_BIZ_System.Controllers
             return Redirect("B_NewsList");
         }
 
+        public ActionResult EditBuyerInfo()
+        {
+            Activity_ViewModel model = new Activity_ViewModel();
+             ViewBag.insert_id_cp = Request["insert_id_cp"];
+            model.userinfotoidandcpList = 
+           activityService.GetUserInfoToIdandCp();
+
+            return View(model);
+        }
         [HttpGet]
         public ActionResult EditNewsInfoDelete()
         {

@@ -41,6 +41,12 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+        /*搜尋出user_id和company*/
+        public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
+        {
+            return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
+        }
+
 
         //NewsModel******************************************************************************//
 

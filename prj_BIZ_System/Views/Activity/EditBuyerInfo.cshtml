@@ -1,0 +1,44 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
+
+@{
+    ViewBag.Title = "買主資訊";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+
+
+<article class="form_box article_col1">
+    <h2>買主資訊</h2>
+    <form action=xxxx method="post">
+        <input type="text" name="insert_id_cp" value="輸入會員帳號或公司名稱" class="regis_col02R" />
+        <button type="button" class="submitbu">搜尋</button>
+
+        <label for="buyer_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label>
+        <select name="buyer_id_cp" class="regis_col02R">
+            <option value="">--請選擇--</option>
+            @foreach (UserInfoToIdAndCpModel userInfoToIdAndCpModel in Model.userinfotoidandcpList)
+            {
+                <option value="@userInfoToIdAndCpModel.user_id">[@userInfoToIdAndCpModel.user_id] [@userInfoToIdAndCpModel.company]</option>
+            }
+        </select>
+
+        <label for="buyer_id" class="regis_col02L spanRed">帳號</label>
+        <input type="text" readonly name="buyer_id" value="456" class="regis_col02R" />
+       
+       
+        <label for="buyer_cp" class="regis_col02L spanRed">公司名稱</label>
+        <input type="text" readonly name="buyer_cp" value="" class="regis_col02R" />
+
+        <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
+        <input type="text" name="buyer_need" value="APPLE222" class="regis_col02R" />
+
+        <div class="centerbox">
+            <button type="submit" class="submitbu">新增</button>
+        </div>
+    </form>
+</article>
+

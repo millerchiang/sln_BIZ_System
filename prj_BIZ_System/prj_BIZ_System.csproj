@@ -269,6 +269,8 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\Activity\EditBuyerInfo.cshtml" />
+    <Content Include="Views\Activity\BuyerInfoList.cshtml" />
     <Content Include="Views\Activity\B_NewsList.cshtml" />
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
