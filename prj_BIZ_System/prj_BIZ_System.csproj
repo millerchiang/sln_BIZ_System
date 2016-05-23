@@ -716,6 +716,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
+    <Folder Include="Content\UploadRootDir\12345678\News\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>

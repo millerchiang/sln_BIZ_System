@@ -2,6 +2,7 @@
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
@@ -52,7 +53,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.PageType = "Create";
                 ViewBag.SubmitName = "確定送出";
                 Response.Cookies["UserInfo"]["edit"] = "Add";
-
+                ViewBag.userSortList = "[]";
             }
             else //修改
             {
@@ -61,6 +62,10 @@ namespace prj_BIZ_System.Controllers
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
+                if (ViewBag.userSortList == null)
+                {
+                    ViewBag.userSortList = "[]";
+                }
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
                 Response.Cookies["UserInfo"]["edit"] = "Update";
@@ -77,10 +82,15 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserInsertUpdate(UserInfoModel model , int[] sort_id)
+        public ActionResult UserInsertUpdate(UserInfoModel model , int[] sort_id , HttpPostedFileBase logo_img)
         {
             if (Request.Cookies["UserInfo"]["edit"] == "Add")//新增
             {
+                if (logo_img != null && logo_img.ContentLength > 0)
+                {
+                    UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, "Register");
+                    model.logo_img = logo_img.FileName;
+                }
                 userService.UserInfoInsertOne(model);
             }
             else //修改
@@ -183,28 +193,9 @@ namespace prj_BIZ_System.Controllers
             {
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
                 {
-                    #region 建立資料夾
-                    string user_id =  Request.Cookies["UserInfo"]["user_id"];
-                    string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
-                    string targetCoverPath = "";
-                    string targetCatalogPath = "";
-                    targetCoverPath = Path.Combine(targetRootDir, UploadConfig.subDirForCover);
-                    targetCatalogPath = Path.Combine(targetRootDir, UploadConfig.subDirForCatalog);
-
-                    if (!Directory.Exists(targetRootDir)){
-                        Directory.CreateDirectory(targetRootDir);
-                        Directory.CreateDirectory(targetCoverPath);
-                        Directory.CreateDirectory(targetCatalogPath);
-                    }
-                    #endregion
-
-                    #region 上傳檔案
-                    string targetCoverFilePath = Path.Combine(targetCoverPath, cover_file.FileName);
-                    string targetCatalogFilePath = Path.Combine(targetCatalogPath, catalog_file.FileName);
-                    cover_file.SaveAs(targetCoverFilePath);
-                    catalog_file.SaveAs(targetCatalogFilePath);
-                    #endregion
-
+                    string user_id = Request.Cookies["UserInfo"]["user_id"];
+                    UploadHelper.doUploadFile(cover_file, UploadConfig.subDirForCover , user_id);
+                    UploadHelper.doUploadFile(catalog_file, UploadConfig.subDirForCatalog, user_id);
                     bool isUploadSuccess = userService.CatalogListInsert(user_id, cover_file.FileName, catalog_file.FileName);
                 }
             }

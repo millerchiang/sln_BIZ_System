@@ -85,11 +85,11 @@
 
             <article class="form_box article_col1">
                 <h2>會員註冊</h2>
-                <form action="@ViewBag.Action" method="post">
+                <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
                         <div id="result">
-
+                            <img src="/images/logopic.jpg" alt="">
                         </div>
                         <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>
                         <input type="file" id="id_image_large" name="logo_img">
@@ -101,7 +101,7 @@
                                 70%
                             </div>
                         </div>
-            -->
+                        -->
                         <label class="regis_col01R_label">
                             企業類型
                         </label>
@@ -210,7 +210,22 @@
     });
 
     function init() {
-        
+        $(function()
+        {
+            $("#id_image_large").change(function(){
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+			
+                    reader.onload = function (e) {
+                        $('#result img').attr('src', e.target.result);
+                    }
+			
+                    reader.readAsDataURL(this.files[0]);
+                }
+                alert("Logo圖片選擇成功");
+            });
+
+        }) ;
 
     }
 
