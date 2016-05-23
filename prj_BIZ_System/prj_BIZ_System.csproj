@@ -178,7 +178,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\CustomConfig.cs" />
+    <Compile Include="App_Start\UploadConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -202,7 +202,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\UploadRootDir\Catalog\cover_file\logopic.jpg" />
     <Content Include="DBSource\SqlString\ActivityInfo.xml" />
     <Content Include="DBSource\SqlString\ActivityRegister.xml" />
     <Content Include="DBSource\SqlString\News.xml" />
@@ -291,7 +290,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\UploadRootDir\Catalog\catalog_file\" />
+    <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
+    <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>

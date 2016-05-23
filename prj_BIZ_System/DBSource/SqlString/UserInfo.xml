@@ -58,31 +58,15 @@
       WHERE user_id = #user_id#
     </select>
 
-    <select id="SelectCatalogListByCatalogNo" parameterClass="map" resultMap="CatalogList-result">
+    <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
       SELECT *
       FROM catalog_list
-      WHERE user_id = #user_id#
-      <dynamic prepend="AND">
-        <isNotNull prepend="" property="list">
-          catalog_no in
-          <iterate property="list" conjunction="," open="(" close=")">
-            #list[]#
-          </iterate>
-        </isNotNull>
-      </dynamic>
+      WHERE user_id = #user_id# and catalog_no = #catalog_no#
     </select>
 
-    <delete id="DeleteCatalogListByUserId" parameterClass="CatalogListModel">
+    <delete id="DeleteCatalogListByCatalogNo" parameterClass="CatalogListModel">
       DELETE FROM catalog_list
-      WHERE user_id = #user_id#
-    </delete>
-
-    <delete id="DeleteCatalogLists" parameterClass="list">
-      DELETE FROM catalog_list
-      WHERE catalog_no in 
-      <iterate property="list" conjunction="," open="(" close=")">
-        #param[]#
-      </iterate>
+      WHERE user_id = #user_id# and catalog_no = #catalog_no#
     </delete>
     
     <insert id="InsertCatalogList" parameterClass="CatalogListModel">
@@ -107,20 +91,27 @@
       WHERE user_id = #user_id#
     </select>
 
-    <delete id="DeleteProductListByUserId" parameterClass="ProductListModel">
+    <delete id="DeleteProductListByProductId" parameterClass="ProductListModel">
       DELETE FROM product_list
-      WHERE user_id = #user_id#
+      WHERE user_id = #user_id# 
+      and product_id = #product_id#
     </delete>
 
     <insert id="InsertProductList" parameterClass="ProductListModel">
       INSERT INTO product_list(
-      product_id, user_id, product_name, product_info, product_name_en,
+      user_id, product_name, product_info, product_name_en,
       product_info_en, deleted)
-      VALUES (#product_id#,#user_id#,#product_name#,#product_info#,#product_name_en#
+      VALUES (#user_id#,#product_name#,#product_info#,#product_name_en#
       ,#product_info_en#,#deleted#
       )
     </insert>
 
+    <update id="UpdateProductList" parameterClass="ProductListModel">
+      UPDATE product_list
+      SET user_id=#user_id#, product_name=#product_name#, product_info=#product_info#, product_name_en=#product_name_en#,
+      product_info_en=#product_info_en#, deleted=#deleted#
+      WHERE product_id=#product_id#
+    </update>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]

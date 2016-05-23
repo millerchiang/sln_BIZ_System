@@ -48,7 +48,7 @@ namespace prj_BIZ_System.Models
 
     public class ProductListModel
     {
-        public int product_id { get; set; } //P+流水號9碼
+        public int? product_id { get; set; } //P+流水號9碼
         public string user_id { get; set; } //使用者帳號  (國內企業輸入統編為會員帳號；國外會員自訂)
         public string product_name { get; set; } //產品名稱(中文)
         public string product_info { get; set; } //產品簡介(中文)

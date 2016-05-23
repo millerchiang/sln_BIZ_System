@@ -10,15 +10,19 @@ namespace prj_BIZ_System.Controllers
 {
     public class _BaseController : Controller
     {
-        public UserInfoModel _loginUser { get; set; }
-        public string _CatalogCoverDir { get; set; }
-        public string _CatalogCatalogDir { get; set; }
+        public HttpCookie _loginUser { get; set; }
+        public string     _loginUserId { get; set; }
+
         public _BaseController()
         {
-            // 測試用資料
-            _loginUser = new UserInfoModel() { user_id = "12345678" };
-            _CatalogCoverDir = CustomConfig.CatalogCoverDir;
-            _CatalogCatalogDir = CustomConfig.CatalogCatalogDir;
+            _loginUser = Request.Cookies["UserInfo"];
+            if (_loginUser == null ) {
+                // 測試用資料
+                _loginUserId = "12345678";
+            }else
+            {
+                _loginUserId = Request.Cookies["UserInfo"]["user_id"];
+            }
         }
     }
 }

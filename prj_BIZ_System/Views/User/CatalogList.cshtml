@@ -17,12 +17,12 @@
         <h2>型錄上傳</h2>
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
             <ul class="regis_dmlist">
-                @if (Model!=null)
+                @if (Model != null)
                 {
                     foreach (var mo in Model)
                     {
                         <li>
-                            <a href="@(CustomConfig.CatalogCoverPath+mo.cover_file)" target="_blank"><img src="@(CustomConfig.CatalogCoverPath+mo.cover_file)"/></a>
+                            <a href="@(ViewBag.coverDir+mo.cover_file)" target="_blank"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
                             <input type="checkbox" class="inputCheckbox" name="catalog_no" id="@(mo.catalog_no)" value="@(mo.catalog_no)"><label for="@(mo.catalog_no)"></label>
                         </li>
                     }
@@ -31,40 +31,12 @@
                 {
                     <text>查無資料</text>
                 }
-                    <!--
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm01"><label for="dm01"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm02"><label for="dm02"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
-                    </li>
-                    -->
-                </ul>
-
-                <div class="centerbox">
-                    <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
-                    <a id="deleteLink" href="" class="deleteSbu" onclick="">刪除</a>
-                </div>
-
-            </form>
+            </ul>
+            <div class="centerbox">
+                <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
+                <a id="deleteLink" href="" class="deleteSbu" onclick="">刪除</a>
+            </div>
+        </form>
         </article>
     </div>
 

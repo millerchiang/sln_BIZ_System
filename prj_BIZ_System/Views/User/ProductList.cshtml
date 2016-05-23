@@ -1,14 +1,11 @@
-﻿@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
+﻿@using prj_BIZ_System.Models
+@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
 
 @{
     ViewBag.Title = "ProductList";
 }
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
-}
-
-@{
-    //var viewPath = (ViewContext.View).ViewPath;
 }
 
 <div class="article_col1">
@@ -18,36 +15,46 @@
     <article class="article_col2 form_box">
         <h2>產品說明</h2>
         <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
-
-
-
             <table class="regis_table">
-
                 <tr>
                     <th></th>
-                    <th>產品名稱</th>
-                    <th>產品說明</th>
+                    <th width="40%">產品名稱</th>
+                    <th width="40%">產品說明</th>
                     <th></th>
                 </tr>
-                <tr>
+                @if(Model != null){
+                    foreach(ProductListModel model in Model)
+                    {
+                        <tr class="_old_prods">
+                            <td>
+                                <input type="hidden" name="isChanged" value="false">
+                                <input type="checkbox" class="inputCheckbox" name="product_id" id="old@(model.product_id)" value="@(model.product_id)">
+                                <label for="old@(model.product_id)"></label>
+                            </td>
+                            <td>
+                                <input type="text" name="product_name"     placeholder="請輸入產品中文名稱.." value="@(model.product_name)">
+                                <input type="text" name="product_name_en"  placeholder="請輸入產品英文名稱.." value="@(model.product_name_en)">
+                            </td>
+                            <td>
+                                <input type="text" name="product_info"     placeholder="請輸入產品中文說明.." value="@(model.product_info)">
+                                <input type="text" name="product_info_en"  placeholder="請輸入產品英文說明.." value="@(model.product_info_en)">
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+                }
+                <tr class="_new_prods">
                     <td>
-                        <input type="checkbox" class="inputCheckbox" name="" id="product01">
-                        <label for="product01"></label>
+                        <input type="checkbox" class="inputCheckbox" name="product_id" id="product0" value="">
+                        <label for="product0"></label>
                     </td>
-                    <td><input type="text"></td>
-                    <td><input type="text"></td>
-                    <td></td>
-                </tr>
-                <tr>
                     <td>
-                        <input type="checkbox" class="inputCheckbox" name="" id="product02">
-                        <label for="product02"></label>
+                        <input type="text" name="product_name"      value="" placeholder="請輸入產品中文名稱..">
+                        <input type="text" name="product_name_en"   value=""  placeholder="請輸入產品英文名稱..">
                     </td>
                     <td>
-                        <input type="text">
-                    </td>
-                    <td>
-                        <input type="text">
+                        <input type="text" name="product_info"      value="" placeholder="請輸入產品中文說明..">
+                        <input type="text" name="product_info_en"   value="" placeholder="請輸入產品英文說明..">
                     </td>
                     <td>
                         <a id="addItemLink" href="" class="addbu">新增</a>
@@ -69,37 +76,125 @@
     function init() {
 
         var $addItemLint = $("#addItemLink");
-        var g_no = 0;
+        var g_no = 1;
         $addItemLint.click(function (e) {
             e.preventDefault();
             $("table.regis_table").append(genTemplate(g_no++));
             $(this).appendTo($("table.regis_table tr").last().find("td").last());
         });
 
+        $("tr._old_prods").find("input[type='text']").change(function () {
+            $(this).parents("tr").find("input[name='isChanged']").val('true');
+        });
+
         $("#deleteLink").click(function (e) {
             e.preventDefault();
             if (confirm("確認是否要刪除")) {
-                $("#form").attr("action","@Url.Action("ProductDelete", "User")").submit();
+                var $selected = $("tr").find("input[name='product_id']:checked");
+                var del_prods = [];
+                $selected.each(function (index, el) {
+                    var value = $(el).val();
+                    if (value != null && value != '') {
+                        del_prods.push(value);
+                    }
+                });
+                var param = {
+                    "del_prods": del_prods
+                };
+
+                $.ajax({
+                    type: "post",
+                    url: "@Url.Action("ProductDelete", "User")",
+                    cache: false,
+                    data: param,
+                    dataType: "json"
+                }).done(function(result) {
+                    if (result == 'success') {
+                        alert("刪除成功");
+                    } else {
+                        alert("刪除失敗");
+                    }
+                    location.reload();
+                });
             }
         });
 
         $("#saveLink").click(function (e) {
             e.preventDefault();
-            $("#form").attr("action","@Url.Action("ProductInsert", "User")").submit();
+            var old_prods = [];
+            var new_prods = [];
+
+            $("tr._old_prods").each(function (index, el) {
+                var isChanged = $(el).find("input[name='isChanged']").val();
+                if (isChanged == 'true') {
+                    new_ProductListModel(old_prods, el);
+                }
+            });
+
+            $("tr._new_prods").each(function (index, el) {
+                new_ProductListModel(new_prods, el);
+            });
+
+            var param = {
+                "old_prods": old_prods ,
+                "new_prods": new_prods
+            };
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("ProductInsert", "User")",
+                cache: false,
+                data: param,
+                dataType: "json"
+            }).done(function(result) {
+                if (result == 'success') {
+                    alert("新增成功");
+                } else {
+                    alert("新增失敗");
+                }
+                location.reload();
+            });
+
         })
+    }
+
+    function new_ProductListModel(collection, el) {
+        var product_id      = $(el).find("input[name='product_id']").val();
+        var product_name    = $(el).find("input[name='product_name']").val();
+        var product_name_en = $(el).find("input[name='product_name_en']").val();
+        var product_info    = $(el).find("input[name='product_info']").val();
+        var product_info_en = $(el).find("input[name='product_info_en']").val();
+        if (product_name != '' || product_name_en != '' || product_info != '' || product_info_en!='') {
+            collection.push(
+                {
+                    "product_id"      : product_id,
+                    "product_name"    : product_name,
+                    "product_name_en" : product_name_en,
+                    "product_info"    : product_info,
+                    "product_info_en" : product_info_en
+                }
+            );
+        }
     }
 
     function genTemplate(no) {
         var template =
-           '<tr>                                                                                 ' +
-           '	<td>                                                                             ' +
-           '		<input type="checkbox" class="inputCheckbox" name="" id="product'+no+'">     ' +
-           '		<label for="product'+no+'"></label>                                          ' +
-           '	</td>                                                                            ' +
-           '	<td><input type="text"></td>                                                     ' +
-           '	<td><input type="text"></td>                                                     ' +
-           '	<td></td>                                                                        ' +
-           '</tr>                                                                                ' ;
+           '<tr class="_new_prods">                                                                                 ' +
+           '	<td>                                                                                                ' +
+           '		<input type="checkbox" class="inputCheckbox" name="product_id" id="product'+ no +'" value="">   ' +
+           '		<label for="product'+no+'"></label>                                                             ' +
+           '	</td>                                                                                               ' +
+           '	<td>                                                                                                ' +
+           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">             ' +
+           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">             ' +
+           '	</td>                                                                                               ' +
+           '	<td>                                                                                                ' +
+           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">             ' +
+           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">             ' +
+           '	</td>                                                                                               ' +
+           '	<td>                                                                                                ' +
+           '	</td>                                                                                               ' +
+           '</tr>                                                                                                   ' ;
         return template;
     }
 </script>

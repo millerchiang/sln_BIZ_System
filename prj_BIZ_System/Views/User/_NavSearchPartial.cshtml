@@ -23,35 +23,13 @@
 
 <script>
     var vn = location.pathname.replace("/User/","");
-    /*
-    var $lis = $(".datalist").find("li");
-    $.each($lis, function (index,el) {
-        var href = $(el).find("a").attr("href");
-        if (href != "") {
-            if (href.replace("/User/","") == vn) {
-                $(el).addClass("inforlistactive");
-                return;
-            }
-        }
-    });
-    */
-    /*
-    var urlMapping = {
-        "ProductList" : 1 ,
-        "CatalogCreate": 2,
-        "CatalogList" : 2
-    }
-    */
-
     var urlMapping = [
         ["ProductList"  , 1],
         ["CatalogCreate", 2],
         ["CatalogList"  , 2]
     ];
 
-    console.log(vn);
     $.each(urlMapping, function (index, el) {
-        console.dir(el);
         if(el[0] == vn){
             $(".datalist").find("li").eq(el[1]).addClass("inforlistactive");
         }
