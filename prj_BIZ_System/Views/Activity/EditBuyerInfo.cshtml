@@ -7,15 +7,15 @@
 
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
-
-
 
 <article class="form_box article_col1">
     <h2>買主資訊</h2>
     <form action=xxxx method="post">
+        <label for="insert_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label> 
         <input type="text" name="insert_id_cp" value="輸入會員帳號或公司名稱" class="regis_col02R" />
-        <button type="button" class="submitbu">搜尋</button>
+        @*<button type="button" class="submitbu">搜尋</button>*@
 
         <label for="buyer_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label>
         <select name="buyer_id_cp" class="regis_col02R">
@@ -39,6 +39,23 @@
         <div class="centerbox">
             <button type="submit" class="submitbu">新增</button>
         </div>
+
+        股名 (輸入 "王","創") : <input id="auto1" type="text" />
+        股號 (輸入 "11","22") : <input id="auto2" type="text" />
+
     </form>
 </article>
+
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function(){
+      var stock_name= ViewBag.userSortList;
+
+      $("#auto1").autocomplete({source: stock_name, delay: 0, minLength: 0});
+      $("#auto2").autocomplete({source: stock_id, delay: 1000, minLength: 2});
+      });
+</script>
+</script>
 

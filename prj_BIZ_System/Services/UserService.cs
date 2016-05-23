@@ -14,10 +14,6 @@ namespace prj_BIZ_System.Services
     {
 
         //UserInfoModel******************************************************************************//
-        public void UserInfoInsertOne(UserInfoModel userInfoModel)
-        {
-            mapper.Insert("UserInfo.InsertOne", userInfoModel);
-        }
 
         public IList<UserInfoModel> GetUserInfoList()
         {
@@ -35,15 +31,21 @@ namespace prj_BIZ_System.Services
             return (UserInfoModel)mapper.QueryForObject("UserInfo.CheckOne", tempModel);
         }
 
-        public int UserInfoDelectOne(string user_id)
+
+        public void UserInfoInsertOne(UserInfoModel userInfoModel)
         {
-            Object obj = mapper.Delete("UserInfo.DeleteOne", user_id);
-            return (int)obj;
+            mapper.Insert("UserInfo.InsertOne", userInfoModel);
         }
 
         public int UserInfoUpdateOne(UserInfoModel userInfoModel)
         {
             Object obj = mapper.Update("UserInfo.UpdateOne", userInfoModel);
+            return (int)obj;
+        }
+
+        public int UserInfoDelectOne(string user_id)
+        {
+            Object obj = mapper.Delete("UserInfo.DeleteOne", user_id);
             return (int)obj;
         }
 

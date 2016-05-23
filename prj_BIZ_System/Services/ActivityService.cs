@@ -16,30 +16,34 @@ namespace prj_BIZ_System.Services
 
         public IList<ActivityInfoModel> GetActivityInfoList()
         {
-            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectAll", null); 
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", null); 
         }
 
         public ActivityInfoModel GetActivityInfoOne(int activity_id)
         {
-            return (ActivityInfoModel)mapper.QueryForObject("ActivityInfo.SelectOne", activity_id);
+            ActivityInfoModel param = new ActivityInfoModel() { activity_id = activity_id };
+            return (ActivityInfoModel)mapper.QueryForObject("ActivityInfo.SelectActivityOne", param);
         }
 
         public void ActivityInfoInsertOne(ActivityInfoModel activityInfoModel)
         {
-            mapper.Insert("ActivityInfo.InsertOne", activityInfoModel);
+            mapper.Insert("ActivityInfo.InsertActivityOne", activityInfoModel);
         }
 
         public int ActivityInfoDelectOne(int activity_id)
         {
-             Object obj = mapper.Delete("ActivityInfo.DeleteOne", activity_id);
+            ActivityInfoModel param = new ActivityInfoModel() { activity_id = activity_id };
+            Object obj = mapper.Delete("ActivityInfo.DeleteActivityOne", param);
             return (int)obj;
         }
 
         public int ActivityInfoUpdateOne(ActivityInfoModel activityInfoModel)
         {
-           Object obj =  mapper.Update("ActivityInfo.UpdateOne", activityInfoModel);
+           Object obj =  mapper.Update("ActivityInfo.UpdateActivityOne", activityInfoModel);
             return (int)obj;
         }
+
+        //NewsModel******************************************************************************//
 
         /*搜尋出user_id和company*/
         public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
@@ -47,34 +51,33 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
         }
 
-
         //NewsModel******************************************************************************//
 
         public IList<NewsModel> GetNewsAll()
         {
-            return mapper.QueryForList<NewsModel>("News.NewsSelectAll", null);
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", null);
         }
 
         public NewsModel GetNewsOne(int news_no)
         {
-            NewsModel newsModel = new NewsModel();
-            newsModel.news_no = news_no;
-            return (NewsModel)mapper.QueryForObject("News.NewsSelectOne", newsModel);
+            NewsModel param = new NewsModel() { news_no = news_no };
+            return (NewsModel)mapper.QueryForObject("ActivityInfo.SelectNewsOne", param);
         }
 
         public void NewsInsertOne(NewsModel newsModel)
         {
-            mapper.Insert("News.NewsInsertOne", newsModel);
+            mapper.Insert("ActivityInfo.InsertNewsOne", newsModel);
         }
 
         public void NewsUpdateOne(NewsModel newsModel)
         {
-            mapper.Update("News.NewsUpdateOne", newsModel);
+            mapper.Update("ActivityInfo.UpdateNewsOne", newsModel);
         }
 
         public void NewsDeleteOne(int news_no)
         {
-            mapper.Delete("News.NewsDeleteOne", news_no);
+            NewsModel param = new NewsModel() { news_no = news_no };
+            mapper.Delete("ActivityInfo.DeleteNewsOne", param);
         }
 
 

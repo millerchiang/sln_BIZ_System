@@ -1,19 +1,23 @@
-﻿using prj_BIZ_System.Models;
+﻿using Newtonsoft.Json;
+using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Controllers
 {
     public class ActivityController : Controller
     {
         public ActivityService activityService;
+        public UserService userService;
         public Activity_ViewModel activityModel;
 
         public ActivityController()
         {
             activityService = new ActivityService();
+            userService = new UserService();
             activityModel = new Activity_ViewModel();
         }
 
@@ -189,18 +193,28 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditBuyerInfo()
         {
-            Activity_ViewModel model = new Activity_ViewModel();
-             ViewBag.insert_id_cp = Request["insert_id_cp"];
-            model.userinfotoidandcpList = 
-           activityService.GetUserInfoToIdandCp();
+            activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
 
-            return View(model);
+            string ReturnString = JsonConvert.SerializeObject(activityModel.userinfotoidandcpList);
+            ViewBag.userSortList = ReturnString;
+            return View(activityModel);
         }
         [HttpGet]
         public ActionResult EditNewsInfoDelete()
         {
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList");
+        }
+
+        //////ActivityRegister
+        [HttpGet]
+        public ActionResult EditRegister(ActivityRegisterModel registerModel)
+        {   
+            activityModel.activityinfoList = activityService.GetActivityInfoList();
+            registerModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            activityModel.activityregister = new ActivityRegisterModel();
+            activityModel.activityregister.user_id = registerModel.user_id;
+            return View(activityModel);
         }
 
 

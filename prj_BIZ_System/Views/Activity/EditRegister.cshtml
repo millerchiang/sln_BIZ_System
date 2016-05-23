@@ -1,0 +1,144 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
+
+@{ 
+    ViewBag.Title = "活動報名";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <aside>
+        <form action="" class="searchbox">
+            <input type="text" name="companyName" placeholder="公司名">
+            <select name="" id="">
+                <option value="text00">產業別</option>
+                <option value="c08">食品製造業</option>
+            </select>
+            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        </form>
+    </aside>
+    <article class="form_box article_col2">
+        <h2>活動報名</h2>
+        <form action="">
+            <label for="activity_id" class="regis_col02L">活動名稱</label>
+            <select name="activity_id" class="regis_col02R bselect">
+                <option>請選擇</option>
+            @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+            {
+                <option value="@activityInfoModel.activity_id">
+                    @activityInfoModel.activity_name
+                </option>
+            }
+            </select>
+           
+            <label for="user_id" class="regis_col02L spanRed">統一編號/帳號</label>
+            <p class="regis_col03R">@Model.activityregister.user_id</p>
+            
+            <label for="leader" class="regis_col03L">公司名稱</label>
+            <p class="regis_col03R">測試公司</p>
+
+            <label for="leader" class="regis_col02L spanRed">活動日期</label>
+            <p class="regis_col03R">2016/06/01</p>
+
+            <label for="leader" class="regis_col03L spanRed">活動地點</label>
+            <p class="regis_col03R">台北市</p>
+
+            <label for="leader" class="regis_col02L spanRed">與會人數</label>
+            <input type="text" name="nop" value="" required class="regis_col03R"><br />
+
+            <label for="leader" class="regis_col02L ">與會人姓名(含職稱)</label>
+            <input type="text" name="nop" value="" class="regis_col03R">
+            <input type="text" name="nop" value="" class="regis_col03L" placeholder="職稱"><br />
+
+            <label for="leader" class="regis_col02L spanRed">主聯絡人</label>
+            <input type="text" name="nop" value="" class="regis_col03R" required>
+            <input type="text" name="nop" value="" class="regis_col03L" placeholder="職稱"><br />
+
+            <label for="leader" class="regis_col02L spanRed">手機號碼</label>
+            <input type="text" name="nop" value="" class="regis_col03R" required>
+            <label for="leader" class="regis_col03L">電話/分機</label>
+            <input type="text" name="nop" value="" class="regis_col03R">
+
+            <label for="email" class="regis_col02L spanRed">電子郵件</label>
+            <input type="email" name="email" value="" class="regis_col02R" required>
+
+
+            <label for="website" class="regis_col02L">公司網址</label>
+            <div class="regis_col02R">
+                <a class="linkb" href="http://www.test.com.tw" target="_block">www.test.com.tw</a>
+            </div>
+
+            <label class="regis_col02L">企業簡介</label>
+            <p class="regis_col02R">
+                企業簡介文字自動帶入
+            </p>
+
+            <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+            <p class="regis_col02R verticalslist">
+                08食品製造業 09飲料製造業
+            </p>
+
+            <div class="regis_col02L">
+                <label for="" class="label01">公司產品</label>
+            </div>
+            <div class="regis_col02R">
+                <table class="regis_table">
+                    <tr>
+                        <th></th>
+                        <th>產品名稱</th>
+                        <th>產品說明</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="inputCheckbox" name="" id="product01">
+                            <label for="product01"></label>
+                        </td>
+                        <td>產品名稱A</td>
+                        <td>產品說明A</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="inputCheckbox" name="" id="product02">
+                            <label for="product02"></label>
+                        </td>
+                        <td>產品名稱B</td>
+                        <td>產品說明B</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="regis_col02L">
+                <label for="" class="label01">公司型錄</label>
+            </div>
+            <div class="regis_col02R uplodboxR">
+
+                <ul class="regis_dmlist">
+                    <li>
+                        <a href=""></a>
+                        <input type="checkbox" class="inputCheckbox" name="" id="dm01"><label for="dm01"></label>
+                    </li>
+                    <li>
+                        <a href=""></a>
+                        <input type="checkbox" class="inputCheckbox" name="" id="dm02"><label for="dm02"></label>
+                    </li>
+                    <li>
+                        <a href=""></a>
+                        <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
+                    </li>
+                    <li>
+                        <a href=""></a>
+                        <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
+                    </li>
+                </ul>
+            </div>
+            <div class="centerbox">
+                <button type="submit" class="submitbuRed">送出報名</button>
+            </div>
+
+        </form>
+    </article>
+</div>
+
+

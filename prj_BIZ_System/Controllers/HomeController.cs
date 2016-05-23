@@ -15,16 +15,27 @@ namespace prj_BIZ_System.Controllers
     {
 
         public UserService userService;
+        public Index_ViewModel indexModel;
+        public ActivityService activityService;
 
         public HomeController()
         {
             userService = new UserService();
+            activityService = new ActivityService();
+            indexModel = new Index_ViewModel();
         }
 
         public ActionResult Index()
         {
-            if (Request.Cookies["UserInfo"] != null )
-                return View();
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                indexModel.enterprisesortList = userService.GetSortList();
+                indexModel.userinfoList = userService.GetUserInfoList();
+                indexModel.activityinfoList = activityService.GetActivityInfoList();
+                indexModel.newsList = activityService.GetNewsAll();
+
+                return View(indexModel);
+            }
             else
                 return Redirect("Login");
         }
@@ -48,6 +59,9 @@ namespace prj_BIZ_System.Controllers
                     return Redirect("../User/register?user_id="+ model.user_id);
 
                 Response.Cookies["UserInfo"]["user_id"] = model.user_id;
+                Response.Cookies["UserInfo"]["company"] = model.user_id;
+                Response.Cookies["UserInfo"]["website"] = model.user_id;
+                Response.Cookies["UserInfo"]["info"] = model.user_id;
             }
             return Redirect("Index");
         }

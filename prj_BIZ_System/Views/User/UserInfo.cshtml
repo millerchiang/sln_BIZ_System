@@ -1,0 +1,137 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.User_ViewModel
+
+@{
+    ViewBag.Title = "User Infomation";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+@{
+    string enterprise_type = "";
+    string revenue = "";
+    if (Model.userinfo.enterprise_type == "0")
+    {
+        enterprise_type = "國內企業";
+    }
+    else
+    {
+        enterprise_type = "外國企業";
+    }
+
+    if (Model.userinfo.revenue == "0")
+    {
+        revenue = "500萬以下";
+    }
+    else if (Model.userinfo.revenue == "1")
+    {
+        revenue = "501-1000萬";
+    }
+    else if (Model.userinfo.revenue == "2")
+    {
+        revenue = "1001-1500萬";
+    }
+    else if (Model.userinfo.revenue == "3")
+    {
+        revenue = "1501-3000萬";
+    }
+    else if (Model.userinfo.revenue == "4")
+    {
+        revenue = "3001-5000萬";
+    }
+    else if (Model.userinfo.revenue == "5")
+    {
+        revenue = "5000萬-1億";
+    }
+    else if (Model.userinfo.revenue == "6")
+    {
+        revenue = "一億以上";
+    }
+
+}
+
+<main>
+
+    <div class="article_col1">
+        <aside>
+            <form action="" class="searchbox">
+                <input type="text" name="companyName" placeholder="公司名">
+                <select name="" id="">
+                    <option value="text00">產業別</option>
+                    <option value="c08">食品製造業</option>
+                </select>
+                <button class="searchbox_submit" type="submit"> 搜尋 </button>
+            </form>
+        </aside>
+        <article class="form_box article_col2">
+            <h2>公司資料</h2>
+            <div class="regis_col01L">
+
+                <div id="result">
+                    <img src="images/logopic.jpg" alt="">
+                </div>
+
+            </div>
+            <div class="regis_col01R">
+                <label class="regis_col01R_label">
+                    企業類型
+                </label>
+                <span class="regis_col01R_input">@enterprise_type</span>
+
+                <label for="" class="regis_col01R_label">
+                    統一編號/帳號
+                </label>
+                <span class="regis_col01R_input">@Model.userinfo.user_id</span>
+
+                <label for="" class="regis_col01R_label">
+                    公司名稱(中)
+                </label>
+                <span class="regis_col01R_input">@Model.userinfo.company</span>
+                <label for="" class="regis_col01R_label spanRed">
+                    公司名稱(英)
+                </label>
+                <span class="regis_col01R_input">@Model.userinfo.company_en</span>
+
+            </div>
+            <label for="leader" class="regis_col02L">代表人(中)</label>
+            <span class="regis_col02R">@Model.userinfo.leader</span>
+            <label for="addr" class="regis_col02L">地址(中)</label>
+            <span class="regis_col02R">@Model.userinfo.addr</span>
+            <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
+            <span class="regis_col02R">@Model.userinfo.contact</span>
+            <label for="leader" class="regis_col02L">代表人(英)</label>
+            <span class="regis_col02R">@Model.userinfo.leader_en</span>
+            <label for="addr" class="regis_col02L">地址(英)</label>
+            <span class="regis_col02R">@Model.userinfo.addr_en</span>
+            <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
+            <span class="regis_col02R">@Model.userinfo.contact_en</span>
+            <label for="name" class="regis_col02L">電話/分機</label>
+            <span class="regis_col02R">@Model.userinfo.phone</span>
+            <label for="email" class="regis_col02L spanRed">電子郵件</label>
+            <span class="regis_col02R">@Model.userinfo.email</span>
+            <label for="capital" class="regis_col02L spanRed">資本額</label>
+            <span class="regis_col02R">@Model.userinfo.capital</span>
+            <label for="revenue" class="regis_col02L spanRed">營業額</label>
+            <span class="regis_col02R">@revenue</span>
+            <label for="verticals" class="regis_col02L">產業別</label>
+            <div class="regis_col02R verticalslist">
+
+                @foreach (var usersortList in Model.usersortList)
+            {
+                    <span class="regis_col02R">@usersortList.sort_id</span>
+                }
+            </div>
+            <label for="website" class="regis_col02L">企業網址</label>
+            <span class="regis_col02R">@Model.userinfo.website</span>
+            <label class="regis_col02L">企業簡介(中)</label>
+            <span class="regis_col02R">@Model.userinfo.info</span>
+            <label class="regis_col02L">企業簡介(英)</label>
+            <span class="regis_col02R">@Model.userinfo.info_en</span>
+
+    </article>
+</div>
+    </main>
+
