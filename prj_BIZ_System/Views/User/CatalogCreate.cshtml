@@ -1,0 +1,32 @@
+﻿@model prj_BIZ_System.Models.CatalogListModel
+
+@{
+    ViewBag.Title = "CatalogCreate";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial");
+    }
+    <article class="article_col2 form_box">
+        <h2>上傳型錄</h2>
+        <form action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
+            <div class="uploadlist">
+                <label class="choose_file" id="upload" for="cover_file">上傳小圖</label>
+                <input type="file" id="cover_file" name="cover_file">
+            </div>
+            <div class="uploadlist">
+                <label class="choose_file" id="upload" for="catalog_file">上傳檔案</label>
+                <input type="file" id="catalog_file" name="catalog_file">
+            </div>
+            <div class="centerbox">
+                <button type="submit" class="submitbu">確定送出</button>
+            </div>
+        </form>
+    </article>
+</div>

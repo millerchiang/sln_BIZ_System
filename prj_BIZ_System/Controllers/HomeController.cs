@@ -15,16 +15,27 @@ namespace prj_BIZ_System.Controllers
     {
 
         public UserService userService;
+        public Index_ViewModel indexModel;
+        public ActivityService activityService;
 
         public HomeController()
         {
             userService = new UserService();
+            activityService = new ActivityService();
+            indexModel = new Index_ViewModel();
         }
 
         public ActionResult Index()
         {
-            if (Request.Cookies["UserInfo"] != null )
-                return View();
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                indexModel.enterprisesortList = userService.GetSortList();
+                indexModel.userinfoList = userService.GetUserInfoList();
+                indexModel.activityinfoList = activityService.GetActivityInfoList();
+                indexModel.newsList = activityService.GetNewsAll();
+
+                return View(indexModel);
+            }
             else
                 return Redirect("Login");
         }

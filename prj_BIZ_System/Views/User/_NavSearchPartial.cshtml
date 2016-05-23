@@ -1,0 +1,39 @@
+﻿@{
+
+}
+
+<aside>
+    <div class="datalist">
+        <h3>我的企業資料庫</h3>
+        <ul class="listlink comicon inforlist">
+            <li><a href="company_info_edit.html">基本資料編輯</a></li>
+            <li><a href="@Url.Action("ProductList","User")">產品說明</a></li>
+            <li><a href="@Url.Action("CatalogList","User")">型錄上傳</a></li>
+        </ul>
+    </div>
+    <form action="" class="searchbox">
+        <input type="text" name="companyName" placeholder="公司名">
+        <select name="" id="">
+            <option value="text00">產業別</option>
+            <option value="c08">食品製造業</option>
+        </select>
+        <button class="searchbox_submit" type="submit"> 搜尋 </button>
+    </form>
+</aside>
+
+<script>
+    var vn = location.pathname.replace("/User/","");
+    var urlMapping = [
+        ["ProductList"  , 1],
+        ["CatalogCreate", 2],
+        ["CatalogList"  , 2]
+    ];
+
+    $.each(urlMapping, function (index, el) {
+        if(el[0] == vn){
+            $(".datalist").find("li").eq(el[1]).addClass("inforlistactive");
+        }
+    });
+
+    
+</script>
