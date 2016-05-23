@@ -11,7 +11,7 @@ using System.Web.Script.Serialization;
 namespace prj_BIZ_System.Controllers
 {
 
-    public class UserController : _BaseController
+    public class UserController : Controller
     {
         public UserService userService;
         public User_ViewModel userModel;
@@ -99,7 +99,7 @@ namespace prj_BIZ_System.Controllers
         #region 產品說明
         public ActionResult ProductList()
         {
-            string user_id =  _loginUserId;
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
             return View(productLists);
         }
@@ -109,7 +109,7 @@ namespace prj_BIZ_System.Controllers
         {
             try
             {
-                string user_id =  _loginUserId;
+                string user_id =  Request.Cookies["UserInfo"]["user_id"];
                 bool isDelSuccess = userService.ProductListDelete(user_id, del_prods);
                 return Json("success");
             }
@@ -124,7 +124,7 @@ namespace prj_BIZ_System.Controllers
         {
             try
             {
-                string user_id =  _loginUserId;
+                string user_id =  Request.Cookies["UserInfo"]["user_id"];
                 userService.ProductListRefresh(user_id, old_prods, new_prods);
                 return Json("success");
             }
@@ -135,10 +135,10 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 型錄上傳
+        #region 型錄管理
         public ActionResult CatalogList()
         {
-            string user_id =  _loginUserId;
+            string user_id =  Request.Cookies["UserInfo"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadConfig.CatalogRootPath + user_id + "/" + UploadConfig.subDirForCover;
             return View(catalogLists);
@@ -146,15 +146,13 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CatalogCreate(int[] catalog_no)
         {
-           
-
             return View();
         }
 
         [HttpPost]
         public ActionResult CatalogDelete(int[] catalog_no)
         {
-            string user_id =  _loginUserId;
+            string user_id =  Request.Cookies["UserInfo"]["user_id"];
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
             #region 刪除檔案
@@ -186,7 +184,7 @@ namespace prj_BIZ_System.Controllers
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
                 {
                     #region 建立資料夾
-                    string user_id =  _loginUserId;
+                    string user_id =  Request.Cookies["UserInfo"]["user_id"];
                     string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
                     string targetCoverPath = "";
                     string targetCatalogPath = "";

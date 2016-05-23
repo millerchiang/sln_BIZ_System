@@ -182,7 +182,6 @@
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -191,8 +190,8 @@
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivityService.cs" />
-    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\_BaseService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -236,6 +235,9 @@
     <Content Include="sass\screen.sass" />
     <Content Include="DBSource\Config\providers.config" />
     <Content Include="DBSource\Config\SqlMap.config" />
+    <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
+    <Content Include="ClassDiagram3.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -284,7 +286,7 @@
     <Content Include="Views\Activity\B_NewsList.cshtml" />
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
-	<Content Include="Views\User\ProductList.cshtml" />
+    <Content Include="Views\User\ProductList.cshtml" />
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />

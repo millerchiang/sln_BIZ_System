@@ -51,24 +51,27 @@
     [[  table=catalog_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢使用者產業別對應結果全部-->
+    <!--查詢型錄全部-->
     <select id="SelectCatalogListByUserId" parameterClass="CatalogListModel" resultMap="CatalogList-result">
       SELECT *
       FROM catalog_list
       WHERE user_id = #user_id#
     </select>
 
+    <!--查詢型錄部份-->
     <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
       SELECT *
       FROM catalog_list
       WHERE user_id = #user_id# and catalog_no = #catalog_no#
     </select>
 
+    <!--刪除型錄-->
     <delete id="DeleteCatalogListByCatalogNo" parameterClass="CatalogListModel">
       DELETE FROM catalog_list
       WHERE user_id = #user_id# and catalog_no = #catalog_no#
     </delete>
-    
+
+    <!--新增型錄-->
     <insert id="InsertCatalogList" parameterClass="CatalogListModel">
       INSERT INTO catalog_list(
       user_id, cover_file, catalog_file, deleted)
@@ -85,18 +88,21 @@
     [[  table = product_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
+    <!--查詢產品全部-->
     <select id="SelectProductListByUserId" parameterClass="ProductListModel" resultMap="ProductList-result">
       SELECT *
       FROM product_list
       WHERE user_id = #user_id#
     </select>
 
+    <!--刪除產品-->
     <delete id="DeleteProductListByProductId" parameterClass="ProductListModel">
       DELETE FROM product_list
       WHERE user_id = #user_id# 
       and product_id = #product_id#
     </delete>
 
+    <!--新增產品-->
     <insert id="InsertProductList" parameterClass="ProductListModel">
       INSERT INTO product_list(
       user_id, product_name, product_info, product_name_en,
@@ -106,6 +112,7 @@
       )
     </insert>
 
+    <!--更新產品-->
     <update id="UpdateProductList" parameterClass="ProductListModel">
       UPDATE product_list
       SET user_id=#user_id#, product_name=#product_name#, product_info=#product_info#, product_name_en=#product_name_en#,
