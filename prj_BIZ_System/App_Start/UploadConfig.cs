@@ -28,7 +28,17 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string subDirForCatalog { get; set; }
 
-        public static void RegisterCustomSetting(string rootPath , string realRootDir)
+        /// <summary>
+        /// Logo圖片儲存路徑
+        /// </summary>
+        public static string subDirForLogo { get; set; }
+
+        /// <summary>
+        /// 新聞訊息圖片儲存路徑
+        /// </summary>
+        public static string subDirForNews { get; set; }
+
+        public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
             CatalogRootPath = "/" + rootPath + "/" + "UploadRootDir/";
             CatalogRootDir = Path.Combine(realRootDir, "UploadRootDir/");
@@ -36,7 +46,34 @@ namespace prj_BIZ_System.App_Start
             #region 型錄顯示 和 存檔位置
             subDirForCover = "Catalog/cover_file/";
             subDirForCatalog = "Catalog/catalog_file/";
+            subDirForLogo = "Logo/";
+            subDirForNews = "News/";
             #endregion
+        }
+    }
+
+
+    public class UploadHelper
+    {
+        public static void doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
+        {
+            string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
+            string targetFilePath = "";
+            targetFilePath = Path.Combine(targetRootDir, subFileDir);
+            if (!Directory.Exists(UploadConfig.CatalogRootDir))
+            {
+                Directory.CreateDirectory(UploadConfig.CatalogRootDir);
+            }
+            if (!Directory.Exists(targetRootDir))
+            {
+                Directory.CreateDirectory(targetRootDir);
+            }
+            if (!Directory.Exists(targetFilePath))
+            {
+                Directory.CreateDirectory(targetFilePath);
+            }
+            string targetCoverFilePath = Path.Combine(targetFilePath, uploadFile.FileName);
+            uploadFile.SaveAs(targetCoverFilePath);
         }
     }
 }
