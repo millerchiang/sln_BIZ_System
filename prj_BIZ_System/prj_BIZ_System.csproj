@@ -198,7 +198,9 @@
     <Content Include="DBSource\SqlString\ActivityInfo.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\UserInfo.xml" />
+    <Content Include="DBSource\SqlString\UserInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
