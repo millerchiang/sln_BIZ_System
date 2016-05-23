@@ -31,7 +31,7 @@ namespace prj_BIZ_System.Models
     public class BuyerInfoModel
     {
         public int serial_no { get; set; }//流水號
-        public string activity_no { get; set; }//活動編號
+        public int activity_no { get; set; }//活動編號
         public string buyer_id { get; set; }//買主帳號
         public string buyer_need { get; set; }//買主媒合需求
     }

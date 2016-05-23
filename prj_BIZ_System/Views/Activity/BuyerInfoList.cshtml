@@ -1,4 +1,5 @@
 ﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
 
 
 @{
@@ -6,18 +7,26 @@
 }
 
 <article class="form_box article_col1">
-    <h2>新聞列表</h2>
+    <h2>買主資訊列表</h2>
     <table class="edittable">
         <tr>
-            <th>登入帳號</th>
-            <th>公司名稱</th>
-            <th>媒合需求</th>
-            <th></th>
-            <th>新聞類型</th>
             <th>活動編號</th>
-            <th>活動連結</th>
-            <th>內容</th>
+            <th>買主帳號</th>
+            <th>買主媒合需求</th>
             <th></th>
         </tr>
+        @foreach(BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+        {
+            <tr>
+                <td>@buyerInfoModel.activity_no</td>
+                <td>@buyerInfoModel.buyer_id</td>
+                <td>@buyerInfoModel.buyer_need</td>
+                <td>
+                    <a href="/Activity/EditBuyerInfo?Id=@buyerInfoModel.serial_no" class="editbu">修改</a>
+                    <a href="/Activity/EditBuyerInfoDelete?Id=@buyerInfoModel.serial_no" class="deletebu">刪除</a>
+                </td>
+            </tr>
+        }
     </table>
+
 </article>
