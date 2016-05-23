@@ -1,0 +1,56 @@
+﻿@using prj_BIZ_System.App_Start
+@model IList<prj_BIZ_System.Models.CatalogListModel>
+
+@{
+    ViewBag.Title = "CatalogList";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial");
+    }
+    <article class="article_col2 form_box">
+        <h2>型錄上傳</h2>
+        <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
+            <ul class="regis_dmlist">
+                @if (Model != null)
+                {
+                    foreach (var mo in Model)
+                    {
+                        <li>
+                            <a href="@(ViewBag.coverDir+mo.cover_file)" target="_blank"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
+                            <input type="checkbox" class="inputCheckbox" name="catalog_no" id="@(mo.catalog_no)" value="@(mo.catalog_no)"><label for="@(mo.catalog_no)"></label>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <text>查無資料</text>
+                }
+            </ul>
+            <div class="centerbox">
+                <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
+                <a id="deleteLink" href="" class="deleteSbu" onclick="">刪除</a>
+            </div>
+        </form>
+        </article>
+    </div>
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $("#deleteLink").click(function (e) {
+            e.preventDefault();
+            if(confirm("確認是否要刪除")){
+                $("#deleteForm").submit();
+            }
+        });
+    }
+</script>

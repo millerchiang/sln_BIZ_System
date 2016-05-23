@@ -58,15 +58,21 @@
       WHERE user_id = #user_id#
     </select>
 
-    <delete id="DeleteCatalogListByUserId" parameterClass="CatalogListModel">
-      DELETE FROM catalog_list
-      WHERE user_id = #user_id#
-    </delete>
+    <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
+      SELECT *
+      FROM catalog_list
+      WHERE user_id = #user_id# and catalog_no = #catalog_no#
+    </select>
 
+    <delete id="DeleteCatalogListByCatalogNo" parameterClass="CatalogListModel">
+      DELETE FROM catalog_list
+      WHERE user_id = #user_id# and catalog_no = #catalog_no#
+    </delete>
+    
     <insert id="InsertCatalogList" parameterClass="CatalogListModel">
       INSERT INTO catalog_list(
-      catalog_no, user_id, cover_file, catalog_file, deleted)
-      VALUES (#catalog_no#,#user_id#,#cover_file#,#catalog_file#,#deleted#)
+      user_id, cover_file, catalog_file, deleted)
+      VALUES (#user_id#,#cover_file#,#catalog_file#,#deleted#)
     </insert>
 
     <!--
@@ -79,27 +85,33 @@
     [[  table = product_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢使用者產業別對應結果全部-->
     <select id="SelectProductListByUserId" parameterClass="ProductListModel" resultMap="ProductList-result">
       SELECT *
-      FROM product_list;
+      FROM product_list
       WHERE user_id = #user_id#
     </select>
 
-    <delete id="DeleteProductListByUserId" parameterClass="ProductListModel">
+    <delete id="DeleteProductListByProductId" parameterClass="ProductListModel">
       DELETE FROM product_list
-      WHERE user_id = #user_id#
+      WHERE user_id = #user_id# 
+      and product_id = #product_id#
     </delete>
 
     <insert id="InsertProductList" parameterClass="ProductListModel">
       INSERT INTO product_list(
-      product_id, user_id, product_name, product_info, product_name_en,
+      user_id, product_name, product_info, product_name_en,
       product_info_en, deleted)
-      VALUES (#product_id#,#user_id#,#product_name#,#product_info#,#product_name_en
+      VALUES (#user_id#,#product_name#,#product_info#,#product_name_en#
       ,#product_info_en#,#deleted#
-      );
+      )
     </insert>
 
+    <update id="UpdateProductList" parameterClass="ProductListModel">
+      UPDATE product_list
+      SET user_id=#user_id#, product_name=#product_name#, product_info=#product_info#, product_name_en=#product_name_en#,
+      product_info_en=#product_info_en#, deleted=#deleted#
+      WHERE product_id=#product_id#
+    </update>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -200,7 +212,6 @@
       <result property="addr_en" column="addr_en"/>
       <result property="contact_en" column="contact_en"/>
       <result property="info_en" column="info_en"/>
-
     </resultMap>
 
     <resultMap id="Enterprise_sort-result" class="prj_BIZ_System.Models.EnterpriseSortModel">
@@ -214,7 +225,7 @@
       <result property="sort_id" column="sort_id"/>
     </resultMap>
 
-    <resultMap id="Catalog_no-result" class="prj_BIZ_System.Models.CatalogListModel">
+    <resultMap id="CatalogList-result" class="prj_BIZ_System.Models.CatalogListModel">
       <result property="catalog_no" column="catalog_no" />
       <result property="user_id" column="user_id" />
       <result property="cover_file" column="cover_file" />

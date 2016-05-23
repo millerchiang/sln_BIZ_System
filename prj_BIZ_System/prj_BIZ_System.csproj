@@ -178,9 +178,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UploadConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,7 +266,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -280,10 +284,17 @@
     <Content Include="Views\Activity\B_NewsList.cshtml" />
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
+	<Content Include="Views\User\ProductList.cshtml" />
+    <Content Include="Views\User\_NavSearchPartial.cshtml" />
+    <Content Include="Views\User\CatalogCreate.cshtml" />
+    <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
+    <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
+    <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

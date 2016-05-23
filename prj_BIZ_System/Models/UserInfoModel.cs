@@ -48,7 +48,7 @@ namespace prj_BIZ_System.Models
 
     public class ProductListModel
     {
-        public string product_id { get; set; } //P+流水號9碼
+        public int? product_id { get; set; } //P+流水號9碼
         public string user_id { get; set; } //使用者帳號  (國內企業輸入統編為會員帳號；國外會員自訂)
         public string product_name { get; set; } //產品名稱(中文)
         public string product_info { get; set; } //產品簡介(中文)
@@ -59,7 +59,7 @@ namespace prj_BIZ_System.Models
 
     public class CatalogListModel
     {
-        public string catalog_no { get; set; } //型錄編號
+        public int catalog_no { get; set; } //型錄編號
         public string user_id { get; set; } //使用者帳號
         public string cover_file { get; set; } //公司型錄封面位置
         public string catalog_file { get; set; } //公司型錄檔案位置
