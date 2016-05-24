@@ -5,6 +5,8 @@
     ViewBag.Title = "新增新聞訊息";
 }
 
+@Scripts.Render("~/bundles/ckeditor")
+
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
 }
@@ -43,7 +45,7 @@
         <input type="text" readonly name="manager_id" value="@Model.manager_id" class="regis_col02R" />
 
         <div class="centerbox">
-            <textarea name="content">@Model.content</textarea>
+            <textarea name="content" class="ckeditor">@Model.content</textarea>
         </div>
 
         <div class="centerbox">
@@ -52,4 +54,6 @@
     </form>
 </article>
 
-
+<script type="text/javascript" language="javascript">
+    var editor = CKEDITOR.editor.replace('#content', { skin: 'kama', width: '800px' });
+</script>
