@@ -42,7 +42,7 @@
                     </td>
                 }
 
-                <td>@newsModel.content</td>
+                <td>@Html.Raw(@newsModel.content)</td>
                 <td>
                     @if (newsModel.news_type == "0")
                     {
