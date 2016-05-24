@@ -173,7 +173,6 @@ namespace prj_BIZ_System.Controllers
             }
             return View(activityModel.news);
         }
-
         [HttpPost]
         public ActionResult EditNewsInfoInsertUpdate(NewsModel news)
         {
