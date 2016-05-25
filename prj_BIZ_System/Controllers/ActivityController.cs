@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using prj_BIZ_System.App_Start;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -211,6 +212,20 @@ namespace prj_BIZ_System.Controllers
             return Redirect("B_NewsList");
         }
 
+        public ActionResult NewsInfoUpload(HttpPostedFileBase upload, string CKEditorFuncNum)
+        {
+            string result = "";
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, user_id);
+
+            var imageUrl = Url.Content(UploadConfig.CatalogRootPath + user_id + "/" + UploadConfig.subDirForNews + upload.FileName);
+
+            var vMessage = string.Empty;
+
+            result = @"<html><body><script>window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ", \"" + imageUrl + "\", \"" + vMessage + "\");</script></body></html>";
+            return Content(result);
+        }
+
         ////BuyerInfo
         /*買主資訊列表*/
         [HttpGet]
@@ -283,12 +298,20 @@ namespace prj_BIZ_System.Controllers
 
         //////ActivityRegister
         [HttpGet]
-        public ActionResult EditRegister(ActivityRegisterModel registerModel)
+        public ActionResult EditActivityRegister(ActivityRegisterModel activityRegisterModel)
         {
             activityModel.activityinfoList = activityService.GetActivityInfoList();
-            registerModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            
+
             activityModel.activityregister = new ActivityRegisterModel();
-            activityModel.activityregister.user_id = registerModel.user_id;
+            activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            activityModel.userinfo = new UserInfoModel();
+            activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
+            activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
+            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
+            activityModel.userinfo.info = Request.Cookies["UserInfo"]["info"];
+
             return View(activityModel);
         }
 

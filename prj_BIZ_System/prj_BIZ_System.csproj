@@ -680,7 +680,7 @@
     <Content Include="stylesheets\reset.css" />
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\verification.css" />
-    <None Include="Views\Activity\EditRegister.cshtml" />
+    <None Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

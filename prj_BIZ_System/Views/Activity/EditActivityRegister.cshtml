@@ -1,7 +1,7 @@
 ﻿@using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Activity_ViewModel
 
-@{ 
+@{
     ViewBag.Title = "活動報名";
 }
 
@@ -20,31 +20,35 @@
             <button class="searchbox_submit" type="submit"> 搜尋 </button>
         </form>
     </aside>
+
     <article class="form_box article_col2">
         <h2>活動報名</h2>
         <form action="">
             <label for="activity_id" class="regis_col02L">活動名稱</label>
-            <select name="activity_id" class="regis_col02R bselect">
+            <select name="" id="activity_id" class="regis_col02R bselect">
                 <option>請選擇</option>
-            @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
-            {
-                <option value="@activityInfoModel.activity_id">
-                    @activityInfoModel.activity_name
-                </option>
-            }
+                @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+                {
+                    <option value="@activityInfoModel.activity_id">
+                        @activityInfoModel.activity_name
+                    </option>
+                }
             </select>
-           
-            <label for="user_id" class="regis_col02L spanRed">統一編號/帳號</label>
+
+            <label for="leader" class="regis_col02L spanRed">統一編號/帳號</label>
             <p class="regis_col03R">@Model.activityregister.user_id</p>
-            
+
             <label for="leader" class="regis_col03L">公司名稱</label>
-            <p class="regis_col03R">測試公司</p>
+            <p class="regis_col03R">@Model.userinfo.company</p>
 
-            <label for="leader" class="regis_col02L spanRed">活動日期</label>
-            <p class="regis_col03R">2016/06/01</p>
 
-            <label for="leader" class="regis_col03L spanRed">活動地點</label>
-            <p class="regis_col03R">台北市</p>
+           
+            <label for="starttime" class="regis_col02L spanRed">活動日期</label>
+            <p id="starttime" class="regis_col03R"></p>
+
+            <label for="activityAddr" class="regis_col03L spanRed">活動地點</label>
+            <p id="activityAddr" class="regis_col03R"></p>
+         
 
             <label for="leader" class="regis_col02L spanRed">與會人數</label>
             <input type="text" name="nop" value="" required class="regis_col03R"><br />
@@ -59,6 +63,7 @@
 
             <label for="leader" class="regis_col02L spanRed">手機號碼</label>
             <input type="text" name="nop" value="" class="regis_col03R" required>
+
             <label for="leader" class="regis_col03L">電話/分機</label>
             <input type="text" name="nop" value="" class="regis_col03R">
 
@@ -68,12 +73,12 @@
 
             <label for="website" class="regis_col02L">公司網址</label>
             <div class="regis_col02R">
-                <a class="linkb" href="http://www.test.com.tw" target="_block">www.test.com.tw</a>
+                <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
             </div>
 
-            <label class="regis_col02L">企業簡介</label>
+            <label for="info" class="regis_col02L">企業簡介</label>
             <p class="regis_col02R">
-                企業簡介文字自動帶入
+                @Model.userinfo.info
             </p>
 
             <label for="verticals" class="regis_col02L">產業別(可複選)</label>
@@ -142,3 +147,13 @@
 </div>
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#activity_id").change(function () {
+            $("#starttime").text();
+            $("#activityAddr").text();
+        });
+    });
+
+</script>

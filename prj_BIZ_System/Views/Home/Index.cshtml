@@ -65,7 +65,7 @@
                 {
                     <li>
                         <a href="/Activity/EditNewsActivity?Id=@newsList.news_no">@newsList.news_title</a>
-                        <p>@newsList.content</p>
+                        <p>@Html.Raw(@newsList.content)</p>
                     </li>
                 }
                 </ul>

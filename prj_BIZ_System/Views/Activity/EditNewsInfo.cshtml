@@ -45,7 +45,7 @@
         <input type="text" readonly name="manager_id" value="@Model.manager_id" class="regis_col02R" />
 
         <div class="centerbox">
-            <textarea name="content" class="ckeditor">@Model.content</textarea>
+            <textarea  id="content" name="content">@Model.content</textarea>
         </div>
 
         <div class="centerbox">
@@ -55,5 +55,11 @@
 </article>
 
 <script type="text/javascript" language="javascript">
-    var editor = CKEDITOR.editor.replace('#content', { skin: 'kama', width: '800px' });
+    var editor = CKEDITOR.editor.replace('content',
+        {
+            skin: 'kama',
+            width: '900px',
+            filebrowserImageUploadUrl: '/Activity/NewsInfoUpload'
+            //filebrowserImageBrowseUrl: 'xxxxxx' 
+        });
 </script>
