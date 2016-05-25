@@ -57,13 +57,13 @@
                         <input type="text" name="product_info_en"   value="" placeholder="請輸入產品英文說明..">
                     </td>
                     <td>
-                        <a id="addItemLink" href="" class="addbu">新增</a>
+                        <a id="addItemLink" href="javascript:void(0)" class="addbu">新增</a>
                     </td>
                 </tr>
             </table>
             <div class="centerbox">
-                <a id="deleteLink" href="" class="deleteSbu">刪除</a>
-                <a id="saveLink" href="" class="addbublue">儲存</a>
+                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">刪除</a>
+                <a id="saveLink" href="javascript:void(0)" class="addbublue">儲存</a>
             </div>
 
         </form>
@@ -78,7 +78,6 @@
         var $addItemLint = $("#addItemLink");
         var g_no = 1;
         $addItemLint.click(function (e) {
-            e.preventDefault();
             $("table.regis_table").append(genTemplate(g_no++));
             $(this).appendTo($("table.regis_table tr").last().find("td").last());
         });
@@ -87,8 +86,7 @@
             $(this).parents("tr").find("input[name='isChanged']").val('true');
         });
 
-        $("#deleteLink").click(function (e) {
-            e.preventDefault();
+        $("#deleteLink").click(function () {
             if (confirm("確認是否要刪除")) {
                 var $selected = $("tr").find("input[name='product_id']:checked");
                 var del_prods = [];
@@ -119,8 +117,7 @@
             }
         });
 
-        $("#saveLink").click(function (e) {
-            e.preventDefault();
+        $("#saveLink").click(function () {
             var old_prods = [];
             var new_prods = [];
 
@@ -185,12 +182,12 @@
            '		<label for="product'+no+'"></label>                                                             ' +
            '	</td>                                                                                               ' +
            '	<td>                                                                                                ' +
-           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">             ' +
-           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">             ' +
+           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">           ' +
+           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">           ' +
            '	</td>                                                                                               ' +
            '	<td>                                                                                                ' +
-           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">             ' +
-           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">             ' +
+           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">           ' +
+           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">           ' +
            '	</td>                                                                                               ' +
            '	<td>                                                                                                ' +
            '	</td>                                                                                               ' +

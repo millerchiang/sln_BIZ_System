@@ -86,9 +86,9 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"]["edit"] == "Add")//新增
             {
-                if (logo_img != null && logo_img.ContentLength > 0)
+                if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.user_id))
                 {
-                    UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, "Register");
+                    UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
                 userService.UserInfoInsertOne(model);

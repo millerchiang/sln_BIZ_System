@@ -189,15 +189,18 @@
     <Compile Include="App_Start\UploadConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActivityInfoModel.cs" />
+    <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActivityService.cs" />
+    <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
   </ItemGroup>
@@ -269,6 +272,9 @@
     <Content Include="DBSource\SqlString\ActivityInfo.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DBSource\SqlString\Push.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\UserInfo.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -305,9 +311,6 @@
     <Content Include="sass\screen.sass" />
     <Content Include="DBSource\Config\providers.config" />
     <Content Include="DBSource\Config\SqlMap.config" />
-    <Content Include="ClassDiagram1.cd" />
-    <Content Include="ClassDiagram2.cd" />
-    <Content Include="ClassDiagram3.cd" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -679,6 +682,7 @@
     <Content Include="stylesheets\registerd.css" />
     <Content Include="stylesheets\reset.css" />
     <Content Include="stylesheets\screen.css" />
+    <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
     <None Include="Views\Activity\EditRegister.cshtml" />
     <Content Include="Web.config" />
@@ -711,6 +715,9 @@
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
+    <Content Include="Views\Push\EditPushSample.cshtml" />
+    <Content Include="Views\Push\SearchPushList.cshtml" />
+    <Content Include="Views\Push\EditPushList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

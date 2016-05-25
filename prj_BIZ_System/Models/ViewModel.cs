@@ -45,4 +45,12 @@ namespace prj_BIZ_System.Models
 
     }
 
+    public class Push_ViewModel
+    {
+        public PushListModel pushList { get; set; }
+        public PushSampleModel pushSample { get; set; }
+        public IList<PushListModel> pushListList { get; set; }
+        public IList<PushSampleModel> pushSampleList { get; set; }
+        public IList<ActivityInfoModel> activityinfoList { get; set; }
+    }
 }

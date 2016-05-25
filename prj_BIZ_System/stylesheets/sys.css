@@ -1,0 +1,394 @@
+.regis_col01L {
+  position: absolute;
+}
+
+.regis_col01R {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 220px;
+  min-height: 220px;
+}
+
+.regis_col01R_label {
+  width: 40%;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  float: left;
+}
+
+.regis_col01R_input {
+  width: 58%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+}
+
+.regis_col02L {
+  width: 25%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  float: left;
+  clear: left;
+}
+
+.regis_col02R {
+  width: 74%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  box-sizing: border-box;
+  float: left;
+}
+
+.regis_col03L {
+  width: 13%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 1%;
+  float: left;
+}
+
+.regis_col03R {
+  width: 29%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  float: left;
+}
+
+.regis_col02R .radioinput + label {
+  width: 33%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.verticalslist .inputCheckbox + label {
+  width: 50%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.label01 {
+  display: block;
+  width: 100%;
+}
+
+.addbu {
+  margin: 5px 0;
+}
+
+textarea {
+  width: 100%;
+  height: 90px;
+  border: 1px solid #cccccc;
+  box-sizing: border-box;
+}
+
+.regis_table {
+  width: 100%;
+}
+.regis_table th {
+  background: #f4f4f4;
+  padding: 10px 0;
+}
+.regis_table th + th {
+  padding-left: 16px;
+}
+.regis_table input {
+  width: 100%;
+}
+.regis_table td + td {
+  padding-left: 15px;
+}
+.regis_table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.datalist {
+  border: 1px solid #cccccc;
+  padding: 15px 0;
+}
+.datalist h3 {
+  color: #2e7ed1;
+  position: relative;
+  padding: 5px 15px 15px 45px;
+  border-bottom: 1px solid #cccccc;
+}
+.datalist h3:before {
+  content: "";
+  width: 27px;
+  height: 27px;
+  background-image: url(../images/icon-s3235817286.png);
+  background-repeat: no-repeat;
+  background-position: 0 -34px;
+  position: absolute;
+  left: 15px;
+  top: 0;
+}
+.datalist ul {
+  padding: 15px;
+}
+.datalist ul a {
+  font-size: 0.813em;
+}
+
+@media only screen and (max-width: 768px) {
+  .regis_col01L {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 30px 0;
+  }
+
+  .regis_col01R {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .regis_col01R_label, .regis_col01R_input, .regis_col02L, .regis_col02R, .regis_col03L, .regis_col03R {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 15px 0;
+  }
+}
+@media only screen and (max-width: 520px) {
+  .regis_col02R .radioinput + label {
+    width: 50%;
+  }
+
+  .verticalslist .inputCheckbox + label {
+    width: 100%;
+  }
+
+  .regis_col01L {
+    position: static;
+    min-height: auto;
+  }
+
+  .regis_col01R {
+    padding-left: 0;
+  }
+
+  #result {
+    margin: 0 auto;
+  }
+}
+select {
+  height: 30px;
+  border: 1px solid #cccccc;
+  padding: 5px;
+}
+
+.regis_col04R {
+  width: 74%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  box-sizing: border-box;
+  float: left;
+}
+
+.article_col1s {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.magb30 {
+  margin-bottom: 30px;
+}
+
+.rightbox {
+  float: right;
+}
+
+a.rightbox + a.rightbox {
+  margin-right: 10px;
+}
+
+.edittable td:last-of-type {
+  width: auto;
+}
+
+.form_box + article {
+  padding-top: 15px;
+  position: relative;
+}
+
+.sys_searchboxco2 + article {
+  padding-top: 15px;
+  clear: both;
+}
+
+.sys_searchbox {
+  display: inline-block;
+  width: 100%;
+}
+
+.sys_searchboxcol01L {
+  width: 70%;
+  float: left;
+}
+
+.sys_searchboxcol01R {
+  width: 30%;
+  float: left;
+  padding-left: 30px;
+  box-sizing: border-box;
+}
+
+.form_box {
+  padding: 25px 15px 10px 15px;
+}
+
+.borderTitle2 + .addbured {
+  float: right;
+}
+
+.borderTitle2 {
+  margin-bottom: 15px;
+  font-size: 1.125em;
+  display: inline-block;
+  padding-left: 8px;
+  position: relative;
+}
+.borderTitle2:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-style: solid;
+  border-width: 6px 6px 0 0;
+  border-color: #ff9000 transparent transparent transparent;
+}
+
+.sys_searchboxco2 {
+  width: 50%;
+  float: left;
+}
+.sys_searchboxco2 .form_box {
+  display: inline-block;
+  width: 100%;
+}
+
+.sys_searchboxco2 + .sys_searchboxco2 {
+  box-sizing: border-box;
+  padding-left: 20px;
+}
+
+.popupbox {
+  display: none;
+  width: 300px;
+}
+.popupbox h3 {
+  background: #2e7ed1;
+  color: #ffffff;
+  padding: 10px;
+}
+.popupbox p {
+  padding: 10px;
+}
+
+.import_ok {
+  position: relative;
+}
+.import_ok:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-image: url(../images/icon-s3235817286.png);
+  background-repeat: no-repeat;
+  background-position: 0 -142px;
+  position: absolute;
+  left: 0;
+  top: 7px;
+}
+
+.import_no {
+  position: relative;
+}
+.import_no:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-image: url(../images/icon-s3235817286.png);
+  background-repeat: no-repeat;
+  background-position: 0 -162px;
+  position: absolute;
+  left: 0;
+  top: 7px;
+}
+
+.import_ok, .import_no {
+  padding: 10px 0 10px 26px;
+  display: block;
+}
+
+#upexl {
+  display: none;
+}
+
+.edittable tbody td {
+  padding: 10px 5px;
+  text-align: center;
+}
+
+tfoot tr.tfootbg {
+  background: #FFFFE1;
+}
+tfoot p {
+  line-height: 2em;
+}
+
+#editform .regis_col04R p {
+  line-height: 1.8em;
+}
+
+.regis_col05R {
+  width: 6.2em;
+  float: left;
+}
+
+.membertable tbody, .membertable tr, .membertable td {
+  width: 100%;
+  display: inline-block;
+}
+.membertable td {
+  padding: 10px 5px 10px 10px;
+  font-size: 0.938em;
+}
+.membertable tr:nth-child(odd) {
+  background: #FFFFE1;
+}
+.membertable tr:nth-child(even) {
+  background: #EDFFE0;
+}
+.membertable tr:hover {
+  background: #EBF5FF;
+}
+
+@media only screen and (max-width: 520px) {
+  .sys_searchboxcol01L, .sys_searchboxcol01R, .sys_searchboxco2 {
+    width: 100%;
+  }
+
+  .sys_searchboxcol01R {
+    text-align: center;
+    padding: 0 0 10px 0;
+  }
+
+  .sys_searchboxco2 + .sys_searchboxco2 {
+    padding: 0;
+    margin-top: 20px;
+  }
+}
+
+/*# sourceMappingURL=sys.css.map */
