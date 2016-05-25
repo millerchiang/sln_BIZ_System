@@ -7,6 +7,7 @@
     <typeAlias alias="NewsModel" type="prj_BIZ_System.Models.NewsModel"/>
     <typeAlias alias="UserInfoToIdAndCpModel" type="prj_BIZ_System.Models.UserInfoToIdAndCpModel"/>
     <typeAlias alias="ActivityRegisterModel" type="prj_BIZ_System.Models.ActivityRegisterModel"/>
+    <typeAlias alias="BuyerInfoModel" type="prj_BIZ_System.Models.BuyerInfoModel"/>
   </alias>
   
   <statements>
@@ -162,57 +163,99 @@
     ]]
     -->
 
-
     <!--
     [[  table = news
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
+      <!--查詢全部-->
+      <select id="SelectNewsAll" resultMap="News">
+        SELECT *
+        FROM news
+      </select>
 
-    <!--查詢全部-->
-    <select id="SelectNewsAll" resultMap="News">
-      SELECT *
-      FROM news
-    </select>
+      <!--查詢單筆-->
+      <select id="SelectNewsOne" resultMap="News">
+        SELECT *
+        FROM news
+        WHERE news_no = #news_no#
+      </select>
 
-    <!--查詢單筆-->
-    <select id="SelectNewsOne" resultMap="News">
-      SELECT *
-      FROM news
-      WHERE news_no = #news_no#
-    </select>
+      <!--新增單筆-->
+      <insert id="InsertNewsOne" parameterClass="NewsModel">
+        INSERT INTO news (
+        manager_id, news_title, news_date,
+        news_type, activity_id,
+        website, content
+        ) VALUES (
+        #manager_id#, #news_title#, #news_date#,
+        #news_type#, #activity_id#,
+        #website#, #content#
+        )
+      </insert>
 
-    <!--新增單筆-->
-    <insert id="InsertNewsOne" parameterClass="NewsModel">
-      INSERT INTO news (
-      manager_id, news_title, news_date,
-      news_type, activity_id,
-      website, content
-      ) VALUES (
-      #manager_id#, #news_title#, #news_date#,
-      #news_type#, #activity_id#,
-      #website#, #content#
-      )
-    </insert>
+      <!--刪除單筆-->
+      <delete id="DeleteNewsOne" parameterClass="NewsModel">
+        DELETE FROM news
+        WHERE news_no = #news_no#
+      </delete>
 
-    <!--刪除單筆-->
-    <delete id="DeleteNewsOne" parameterClass="NewsModel">
-      DELETE FROM news
-      WHERE news_no = #news_no#
-    </delete>
+      <!--修改單筆-->
+      <update id="UpdateNewsOne" parameterClass="NewsModel">
+        UPDATE news SET
+        manager_id = #manager_id#,
+        news_title = #news_title#,
+        news_date = #news_date#,
+        news_type = #news_type#,
+        activity_id = #activity_id#,
+        website = #website#,
+        content = #content#
+        WHERE news_no = #news_no#
+      </update>
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
 
-    <!--修改單筆-->
-    <update id="UpdateNewsOne" parameterClass="NewsModel">
-      UPDATE news SET
-      manager_id = #manager_id#,
-      news_title = #news_title#,
-      news_date = #news_date#,
-      news_type = #news_type#,
-      activity_id = #activity_id#,
-      website = #website#,
-      content = #content#
-      WHERE news_no = #news_no#
-    </update>
+    <!--
+    [[  table = buyer_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+      <!--查詢買主資訊全部-->
+      <select id="SelectBuyerInfoAll" resultMap="BuyerInfo">
+        SELECT *
+        FROM buyer_list
+      </select>
+      
+      <!--查詢買主資訊單筆-->
+      <select id="SelectBuyerInfoOne" resultMap="BuyerInfo">
+        SELECT *
+        FROM buyer_list
+        WHERE serial_no = #serial_no#
+      </select>
+    
+      <!--新增買主資訊單筆-->
+      <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
+        INSERT INTO buyer_list (
+        activity_no, buyer_id, buyer_need
+        ) VALUES (
+        #activity_no#, #buyer_id#, #buyer_need#
+        )
+      </insert>
 
+      <!--刪除買主資訊單筆-->
+      <delete id="DeleteBuyerInfoOne" parameterClass="BuyerInfoModel">
+        DELETE FROM buyer_list
+        WHERE serial_no = #serial_no#
+      </delete>
+   
+      <!--修改買主資訊單筆-->
+      <update id="UpdateBuyerInfoOne" parameterClass="BuyerInfoModel">
+        UPDATE buyer_list SET
+        activity_no = #activity_no#,
+        buyer_id = #buyer_id#,
+        buyer_need = #buyer_need#
+        WHERE serial_no = #serial_no#
+      </update>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -279,6 +322,13 @@
       <result property="activity_id" column="activity_id"/>
       <result property="website" column="website"/>
       <result property="content" column="content"/>
+    </resultMap>
+
+    <resultMap id="BuyerInfo" class="BuyerInfoModel">
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_no" column="activity_no"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_need" column="buyer_need"/>
     </resultMap>
 
   </resultMaps>

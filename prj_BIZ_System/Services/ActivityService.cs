@@ -45,14 +45,6 @@ namespace prj_BIZ_System.Services
 
         //NewsModel******************************************************************************//
 
-        /*搜尋出user_id和company*/
-        public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
-        {
-            return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
-        }
-
-        //NewsModel******************************************************************************//
-
         public IList<NewsModel> GetNewsAll()
         {
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", null);
@@ -80,7 +72,41 @@ namespace prj_BIZ_System.Services
             mapper.Delete("ActivityInfo.DeleteNewsOne", param);
         }
 
+        //UserInfoToIdAndCpModel******************************************************************************//
+        /*搜尋出user_id和company*/
+        public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
+        {
+            return mapper.QueryForList<UserInfoToIdAndCpModel>("ActivityInfo.SelectUserInfoToIdandCp", null);
+        }
 
+        //BuyerInfoModel******************************************************************************//
+        
+        public IList<BuyerInfoModel> GetBuyerInfoAll()
+        {
+            return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", null);
+        }
+
+        public BuyerInfoModel GetBuyerInfoOne(int serial_no)
+        {
+            BuyerInfoModel param = new BuyerInfoModel() {serial_no = serial_no };
+            return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerInfoOne", param);
+        }
+
+        public void BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
+        {
+            mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
+        }
+
+        public void BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)
+        {
+            mapper.Update("ActivityInfo.UpdateBuyerInfoOne", buyerInfoModel);
+        }
+
+        public void BuyerInfoDeleteOne(int serial_no)
+        {
+            BuyerInfoModel param = new BuyerInfoModel() { serial_no = serial_no };
+            mapper.Delete("ActivityInfo.DeleteBuyerInfoOne", param);
+        }
 
     }
 

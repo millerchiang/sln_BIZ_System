@@ -1,4 +1,5 @@
-﻿using System;
+﻿using prj_BIZ_System.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace prj_BIZ_System
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private string uploadFileBaseDir = "Content";
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -19,6 +21,8 @@ namespace prj_BIZ_System
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            UploadConfig.RegisterCustomSetting(uploadFileBaseDir,Server.MapPath("~/"+ uploadFileBaseDir));
         }
     }
 }

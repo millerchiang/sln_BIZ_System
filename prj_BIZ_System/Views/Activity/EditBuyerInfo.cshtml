@@ -7,55 +7,88 @@
 
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@{ 
+    if(ViewBag.PageType == "Create")
+    {
+        Model.buyerinfo.serial_no = 0;
+        Model.buyerinfo.activity_no = 0;
+        Model.buyerinfo.buyer_id = "";
+        Model.buyerinfo.buyer_need = "";
+    }
 }
 
 <article class="form_box article_col1">
     <h2>買主資訊</h2>
-    <form action=xxxx method="post">
-        <label for="insert_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label> 
-        <input type="text" name="insert_id_cp" value="輸入會員帳號或公司名稱" class="regis_col02R" />
-        @*<button type="button" class="submitbu">搜尋</button>*@
+
+    <form action=@ViewBag.Action method="post">
+        <input type="hidden" name="serial_no" value="@Model.buyerinfo.serial_no" />
+        @if (Model.buyerinfo.serial_no == 0)
+        {
+            <label for="insert_id_cp" class="regis_col02L spanRed">輸入會員帳號或公司名稱:</label>
+            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" />
+        }
+
+        <label for="activity_no" class="regis_col02L spanRed">活動名稱</label>
+        <select name="activity_no" class="regis_col02R">
+            <option value="">--請選擇--</option>
+            @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+            {
+                if (activityInfoModel.activity_id == Model.buyerinfo.activity_no)
+                {
+                    <option value="@activityInfoModel.activity_id" selected="selected">@activityInfoModel.activity_name</option>
+                }
+                else
+                {
+                    <option value="@activityInfoModel.activity_id">@activityInfoModel.activity_name</option>
+                }
+            }
+        </select>
 
         <label for="buyer_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label>
         <select name="buyer_id_cp" class="regis_col02R">
             <option value="">--請選擇--</option>
             @foreach (UserInfoToIdAndCpModel userInfoToIdAndCpModel in Model.userinfotoidandcpList)
-            {
-                <option value="@userInfoToIdAndCpModel.user_id">[@userInfoToIdAndCpModel.user_id] [@userInfoToIdAndCpModel.company]</option>
+            {   
+                <option value="">[@userInfoToIdAndCpModel.user_id] [@userInfoToIdAndCpModel.company]</option>
             }
         </select>
 
         <label for="buyer_id" class="regis_col02L spanRed">帳號</label>
-        <input type="text" readonly name="buyer_id" value="456" class="regis_col02R" />
-       
-       
+        <input id="buyer_id" type="text" readonly name="buyer_id" value="@Model.buyerinfo.buyer_id" class="regis_col02R" />
+
+
         <label for="buyer_cp" class="regis_col02L spanRed">公司名稱</label>
-        <input type="text" readonly name="buyer_cp" value="" class="regis_col02R" />
+        <input id="buyer_cp" type="text" readonly name="buyer_cp" value="" class="regis_col02R" />
 
         <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
-        <input type="text" name="buyer_need" value="APPLE222" class="regis_col02R" />
+        <input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" />
 
         <div class="centerbox">
-            <button type="submit" class="submitbu">新增</button>
+            <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
         </div>
-
-        股名 (輸入 "王","創") : <input id="auto1" type="text" />
-        股號 (輸入 "11","22") : <input id="auto2" type="text" />
-
     </form>
 </article>
 
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.2/jquery-ui.min.js"></script>
-<script type="text/javascript">
 
-
-    $(document).ready(function(){
-      var stock_name= ViewBag.userSortList;
-
-      $("#auto1").autocomplete({source: stock_name, delay: 0, minLength: 0});
-      $("#auto2").autocomplete({source: stock_id, delay: 1000, minLength: 2});
-      });
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
 </script>
+
+<script type="text/javascript" language="javascript">
+
+        $(document).ready(function () {
+            $("#insert_id_cp").autocomplete({
+                source: "@Url.Action("GetUserInfoToIdCp")",
+                select: function (event, ui) {
+                    var data = ui.item.label;
+                    var arr = data.split(',');
+                    $("#buyer_id").val(arr[0]);
+                    $("#buyer_cp").val(arr[1]);
+                }
+            });
+        })
 </script>
 
