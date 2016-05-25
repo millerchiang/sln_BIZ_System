@@ -33,6 +33,9 @@ namespace prj_BIZ_System
             bundles.Add(new StyleBundle("~/stylesheets/css").Include(
                       "~/stylesheets/screen.css"
                       ));
+            bundles.Add(new StyleBundle("~/stylesheets/css/sys").Include(
+                      "~/stylesheets/sys.css"
+                      ));
         }
     }
 }

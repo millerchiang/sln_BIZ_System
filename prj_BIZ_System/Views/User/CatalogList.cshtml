@@ -34,7 +34,7 @@
             </ul>
             <div class="centerbox">
                 <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
-                <a id="deleteLink" href="" class="deleteSbu" onclick="">刪除</a>
+                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu" onclick="">刪除</a>
             </div>
         </form>
         </article>
@@ -46,8 +46,7 @@
     })
 
     function init() {
-        $("#deleteLink").click(function (e) {
-            e.preventDefault();
+        $("#deleteLink").click(function () {
             if(confirm("確認是否要刪除")){
                 $("#deleteForm").submit();
             }

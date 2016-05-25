@@ -1,0 +1,72 @@
+﻿@model prj_BIZ_System.Models.Push_ViewModel
+
+@{
+    ViewBag.Title = "EditPushList";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1s">
+    <form class="form_box sys_searchbox">
+        <h2>新增推播</h2>
+        <label for="" class="regis_col02L">推播名稱</label>
+        <input type="text" class="regis_col02R">
+
+        <label for="" class="regis_col02L">建立帳號</label>
+        <span class="regis_col02R">自動帶入</span>
+
+        <label for="" class="regis_col02L">推播類型</label>
+        <select name="" id="" class="regis_col02R bselect">
+            <option value="app">APP</option>
+            <option value="email">Email</option>
+            <option value="sms">簡訊</option>
+        </select>
+
+        <label for="" class="regis_col02L">推播對象</label>
+        <div class="regis_col04R">
+            <input type="radio" class="radioinput" id="member_all" name="member" value="" checked>
+            <label for="member_all">全體會員</label>
+        </div>
+
+        <label for="" class="regis_col02L"></label>
+        <div class="regis_col04R">
+            <input type="radio" class="radioinput" id="member_activity" name="member" value="">
+            <label for="member_activity">活動會員</label>
+            <select name="" id="">
+                <option value="app">XX商洽會</option>
+            </select>
+        </div>
+
+        <label for="" class="regis_col02L">發送時機</label>
+        <div class="regis_col04R">
+            <input type="radio" class="radioinput" id="time_date" name="time" value="" checked>
+            <label for="time_date">指定日期</label>
+            <input type="text" class="datepicker">
+        </div>
+
+        <!--
+        <label for="" class="regis_col02L"></label>
+        <div class="regis_col04R">
+            <input type="radio" class="radioinput" id="time_day" name="time" value="" checked>
+            <label for="time_day">活動前</label>
+            <input type="number">天
+        </div>
+        -->
+
+        <label for="" class="regis_col02L">使用範本</label>
+        <select name="" id="" class="regis_col02R bselect">
+            <option value="templateA">範本A</option>
+            <option value="templateB">範本B</option>
+            <option value="templateC">範本C</option>
+        </select>
+
+        <div class="centerbox">
+            <button type="submit" class="buinfor">新增</button>
+        </div>
+
+    </form>
+
+</div>
+

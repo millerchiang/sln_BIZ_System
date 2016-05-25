@@ -1,0 +1,278 @@
+﻿@model prj_BIZ_System.Models.Push_ViewModel
+
+@{
+    ViewBag.Title = "EditPushSample";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+
+    <div class="sys_searchboxco2">
+
+        <article class="form_box">
+            <h2>範本列表</h2>
+            <a href="javascript:void(0)" class="addbu rightbox" id="tempaddbu">新增範本</a>
+            <table class="edittable">
+                <tr>
+                    <th>範本名稱</th>
+                    <th>編輯</th>
+
+                </tr>
+                @*
+    @if (Model.pushSampleList != null)
+    {
+        foreach (var pushSample in Model.pushSampleList)
+        {
+            <tr>
+                <td>@pushSample.sample_title</td>
+                <td>
+                    <div class="centerbox">
+                        <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showEdit('@pushSample.sample_id')">編輯</a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+    }
+                *@
+                <!--
+                    
+                <tr>
+                    <td>範本A</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>範本B</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>範本C</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                -->
+
+            </table>
+            <ul class="pagelist">
+                <li><a href="">&lt;</a></li>
+
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+                <li><a href="">6</a></li>
+                <li><a href="">7</a></li>
+                <li><a href="">8</a></li>
+                <li><a href="">9</a></li>
+                <li><a href="">10</a></li>
+
+                <li><a href="">&gt;</a></li>
+            </ul>
+
+        </article>
+    </div>
+    <div class="sys_searchboxco2">
+        <form action="@Url.Action("PushSampleInsertUpdate", "Push")" class="form_box" id="editform" method="post">
+            <input type="hidden" name="pagetype" value="">
+            <input type="hidden" name="sample_id" value="">
+            <h2>新增範本</h2>
+            <label for="leader" class="regis_col02L ">範本名稱</label>
+            <input type="text" name="sample_title" value="" class="regis_col02R">
+
+            <label for="addr" class="regis_col02L">範本內容</label>
+            <div class="regis_col02R">
+                <textarea name="content" class=""></textarea>
+            </div>
+            <div class="centerbox">
+                <a href="javascript:void(0)" class="buinfor" id="temp_edit" style="display:none">修改</a>
+                <a href="javascript:void(0)" class="submitbuOr" id="temp_add">確定新增</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        init();
+        loadData();
+    });
+    function init() {
+
+        $("#tempaddbu").on('click', function () {
+            $("#temp_edit").hide();
+            $("#temp_add").show();
+            $("input,textarea").val("");
+            $("#editform h2").text("新增範本");
+        });
+
+        $("#temp_add").click(function () {
+            $("input[name='pagetype']").val("Insert");
+            $("#editform").submit();
+        });
+
+        $("#editform").submit(function () {
+            var new_title = $("input[name='sample_title']").val();
+            var new_content = $("textarea[name='content']").val();
+            var errMsg = checkValidationOk(new_title, new_content);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+
+        $("#temp_edit").click(function () {
+            $("input[name='pagetype']").val("Update");
+            var new_title = $("input[name='sample_title']").val();
+            var new_content = $("textarea[name='content']").val();
+            var errMsg = checkValidationOk(new_title, new_content);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("PushSampleInsertUpdate", "Push")",
+                cache: false,
+                data: $("#editform").serialize(),
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var isUpdateSuccess = result;
+                    if (isUpdateSuccess == true) {
+                        var sample_id = $("input[name='sample_id']").val();
+                        var new_title = $("input[name='sample_title']").val();
+                        var new_content = $("textarea[name='content']").val();
+                        var $selectedTr = $(".edittable tr").find("._id:contains('" + sample_id + "')");
+
+                        var $trs = $selectedTr.parents('tr');
+                        var $selectedTitle = $selectedTr.next().next();
+                        var $selectedContent = $selectedTr.next().next().next();
+                        $selectedTitle.text(new_title);
+                        $trs.find('td').eq(0).text(new_title);
+                        $selectedContent.text(new_content);
+                        alert("修改成功");
+                    } else {
+                        alert("修改失敗");
+                    }
+                }
+                else {
+                    alert("修改失敗");
+                }
+            });
+        });
+    }
+
+    function loadData() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("EditPushSampleJson", "Push")",
+            cache: false,
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null && result.pushSampleList != null) {
+                var pushSampleList = result.pushSampleList;
+                if (pushSampleList != null && pushSampleList.length > 0) {
+                    $.each(pushSampleList, function (index, el) {
+                        $(".edittable").append(genTemplate(el));
+                    });
+
+                    $(".edittable tr").find("a.editbu").click(function () {
+                        var id = $(this).next().next().text();
+                        var title = $(this).next().next().next().text();
+                        var content = $(this).next().next().next().next().text();
+                        displayDetail(id, title, content);
+                    });
+
+                    $(".edittable tr").find("a.deletebu").click(function () {
+                        var id = $(this).next().text();
+                        if (confirm("是否確定要刪除!")) {
+                            doDelete(id);
+                        }
+                    });
+                } else {
+                    alert("尚無資料");
+                }
+            }
+            else {
+            }
+        });
+    }
+
+    function checkValidationOk(title, content) {
+        var errMsg = '';
+        if (title == null || title =='') {
+            errMsg += '範本名稱不可為空白\n';
+        }
+        if (content == null || content == '') {
+            errMsg += '範本內容不可為空白\n';
+        }
+        return errMsg;
+    }
+
+    function doDelete(id) {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("DeletePushSampleJson", "Push")",
+            cache: false,
+            data: { "sample_id": id },
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var isDelSuccess = result;
+                if (isDelSuccess == true) {
+                    //alert("刪除成功");
+                    location.reload();
+                } else {
+                    //alert("刪除失敗");
+                }
+            }
+            else {
+            }
+        });
+    }
+
+    function genTemplate(mo) {
+        var template =
+            '<tr>                                                                                   ' +
+            '    <td class="_title">' + mo.sample_title + '</td>                                    ' +
+            '    <td>                                                                               ' +
+            '        <div class="centerbox">                                                        ' +
+            '            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>             ' +
+            '            <a href="javascript:void(0)" class="deletebu">刪除</a>                      ' +
+            '            <span style="display:none" class="_id">' + mo.sample_id + '</span>         ' +
+            '            <span style="display:none" class="_title">' + mo.sample_title + '</span>   ' +
+            '            <span style="display:none" class="_content">' + mo.content + '</span>      ' +
+            '        </div>                                                                         ' +
+            '    </td>                                                                              ' +
+            '</tr>                                                                                  ';
+        return template;
+    }
+
+    function displayDetail(id, title, content) {
+        $("#temp_edit").show();
+        $("#temp_add").hide();
+        $("input[name='sample_id']").val(id);
+        $("input[name='sample_title']").val(title);
+        $("textarea[name='content']").val(content);
+        $("#editform h2").text("詳細資料");
+    }
+</script>
