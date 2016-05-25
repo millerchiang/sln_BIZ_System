@@ -32,9 +32,10 @@ namespace prj_BIZ_System.Services
         }
 
 
-        public void UserInfoInsertOne(UserInfoModel userInfoModel)
+        public object UserInfoInsertOne(UserInfoModel userInfoModel)
         {
-            mapper.Insert("UserInfo.InsertOne", userInfoModel);
+            var result = mapper.Insert("UserInfo.InsertOne", userInfoModel);
+            return result;
         }
 
         public int UserInfoUpdateOne(UserInfoModel userInfoModel)

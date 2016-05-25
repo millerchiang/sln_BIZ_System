@@ -15,46 +15,16 @@ namespace prj_BIZ_System.WebService
         private UserService userService = new UserService();
 
         [HttpPost]
-        public string CheckUserInfo([FromBody]string userinfo)
+        public string CheckUserInfo([FromBody]UserInfoModel userInfoModel)
         {
-            string[] userinfoArray = userinfo.Split(',');
-            return new JavaScriptSerializer().Serialize(userService.ChkUserInfoOne(userinfoArray[0], userinfoArray[1]));
+            return new JavaScriptSerializer().Serialize(userService.ChkUserInfoOne(userInfoModel.user_id, userInfoModel.user_pw));
         }
 
         [HttpPost]
         public string UserInfoInsert([FromBody]UserInfoModel userInfoModel)
         {
-            object result = userService.UserInfoInsertOne(userInfoModel);
-            return result.ToString();
+            return new JavaScriptSerializer().Serialize(userService.UserInfoInsertOne(userInfoModel)); 
         }
 
-        // GET: api/UserInfo
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/UserInfo/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/UserInfo
-        public void Post([FromBody]string value)
-        {
-
-        }
-
-        // PUT: api/UserInfo/5
-        public void Put(int id, [FromBody]string value)
-        {
-
-        }
-
-        // DELETE: api/UserInfo/5
-        public void Delete(int id)
-        {
-        }
     }
 }

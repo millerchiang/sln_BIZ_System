@@ -213,6 +213,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
+    <Compile Include="WebService\ActivityController.cs" />
     <Compile Include="WebService\UserInfoController.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ namespace prj_BIZ_System.Models
 {
     public class UserInfoModel  //user_info
     {
+        public int id { get; set; }//流水號
         public string user_id { get; set; }//使用者帳號 
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
