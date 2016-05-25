@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -101,6 +102,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult B_NewsList()
         {
             activityModel.newsList = activityService.GetNewsAll();
+            foreach (NewsModel newsModel in activityModel.newsList)
+            {
+                if (newsModel.news_type == "1")
+                {
+                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
+                }
+            }
             return View(activityModel);
         }
 
@@ -168,6 +176,7 @@ namespace prj_BIZ_System.Controllers
             else {
                 //                activityModel.news.news_no = int.Parse(Request["Id"]);
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
+                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
             }

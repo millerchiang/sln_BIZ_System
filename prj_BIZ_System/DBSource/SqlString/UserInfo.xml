@@ -146,7 +146,10 @@
 
     <!--新增單筆-->
     <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
-      INSERT INTO user_info (
+      <selectKey resultClass="int" property="id" type="post"> 
+        SELECT currval('user_info_seq') 
+      </selectKey>
+      INSERT INTO user_info_backup (
       user_id, user_pw,
       enterprise_type, company, leader,
       addr, contact, phone, email, capital, revenue, website, info,
