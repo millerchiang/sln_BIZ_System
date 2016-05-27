@@ -26,12 +26,16 @@ namespace prj_BIZ_System.Controllers
             activityModel = new Activity_ViewModel();
         }
 
+        ////Activityinfo
+        #region 活動列表
         public ActionResult ActivityList()
         {
             activityModel.activityinfoList = activityService.GetActivityInfoList();
             return View(activityModel);
         }
+        #endregion
 
+        #region 新增修改刪除活動
         [HttpGet]
         public ActionResult EditActivity()
         {
@@ -52,11 +56,8 @@ namespace prj_BIZ_System.Controllers
             return View(activityModel.activityinfo);
         }
 
-
-
         public ActionResult DeleteActivity()
         {
-
             activityService.ActivityInfoDelectOne(int.Parse(Request["Id"]));
             return Redirect("ActivityList");
         }
@@ -64,24 +65,6 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ActivityInsertUpdate(ActivityInfoModel model)
         {
-
-            //            model.activity_id = int.Parse(Request["activity_id"]);
-            /*
-                model.activity_type = Request["activity_type"];
-                model.activity_name = Request["activity_name"];
-                model.starttime = DateTime.Parse(Request["starttime"]);
-                model.endtime = DateTime.Parse(Request["endtime"]);
-                model.addr = Request["addr"];
-                model.organizer = Request["organizer"];
-                model.name = Request["name"];
-                model.phone = Request["phone"];
-                model.email = Request["email"];
-                model.seller_select = Request["seller_select"];
-                model.matchmaking_select = Request["matchmaking_select"];
-                model.activity_name_en = Request["activity_name_en"];
-                model.addr_en = Request["addr_en"];
-                model.organizer_en = Request["organizer_en"];
-            */
             model.manager_id = Request.Cookies["UserInfo"]["user_id"];
 
             if (model.activity_id == 0)
@@ -93,12 +76,11 @@ namespace prj_BIZ_System.Controllers
 
             }
             return Redirect("ActivityList");
-
-            //            return Content("修改失敗");
         }
+        #endregion
 
-        //////News
-        /* 新聞列表*/
+        ////News
+        #region 新聞列表*/
         [HttpGet]
         public ActionResult B_NewsList()
         {
@@ -112,8 +94,9 @@ namespace prj_BIZ_System.Controllers
             }
             return View(activityModel);
         }
+        #endregion
 
-        /* 新增活動訊息*/
+        #region 新增修改刪除活動訊息
         [HttpGet]
         public ActionResult EditNewsActivity()
         {
@@ -137,15 +120,6 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditNewsActivityInsertUpdate(NewsModel model)
         {
-            //            NewsModel news = model.news;
-            //            news.news_no = int.Parse(Request["news_no"]);
-            /*
-                        model.news_title = Request["news_title"];
-                        model.news_date = DateTime.Parse(Request["news_date"]);
-                        model.activity_id = int.Parse(Request["activity_id"]);
-                        model.news_type = Request["news_type"];
-                        model.content = Request["content"];
-            */
             model.manager_id = Request.Cookies["UserInfo"]["user_id"];
 
             if (model.news_no == 0)
@@ -162,8 +136,9 @@ namespace prj_BIZ_System.Controllers
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList");
         }
+        #endregion
 
-        /*新增新聞訊息*/
+        #region 新增修改刪除新聞訊息
         [HttpGet]
         public ActionResult EditNewsInfo()
         {
@@ -211,7 +186,9 @@ namespace prj_BIZ_System.Controllers
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList");
         }
+        #endregion
 
+        #region 新聞文字編輯器圖片上傳
         public ActionResult NewsInfoUpload(HttpPostedFileBase upload, string CKEditorFuncNum)
         {
             string result = "";
@@ -225,31 +202,33 @@ namespace prj_BIZ_System.Controllers
             result = @"<html><body><script>window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ", \"" + imageUrl + "\", \"" + vMessage + "\");</script></body></html>";
             return Content(result);
         }
+        #endregion
 
         ////BuyerInfo
-        /*買主資訊列表*/
+        #region 買主資訊列表
         [HttpGet]
         public ActionResult BuyerInfoList()
         {
             activityModel.buyerinfoList = activityService.GetBuyerInfoAll();
             return View(activityModel);
-               
-        }
 
-        /*新增買主資訊*/
+        }
+        #endregion
+
+        #region 新增修改刪除買主資訊*/
         [HttpGet]
         public ActionResult EditBuyerInfo()
         {
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
             activityModel.activityinfoList = activityService.GetActivityInfoList();
             ViewBag.Action = "EditBuyerInfoInsertUpdate";
-            if(Request["Id"] == null)
+            if (Request["Id"] == null)
             {
                 activityModel.buyerinfo = new BuyerInfoModel();
                 ViewBag.PageType = "Create";
                 ViewBag.SubmitName = "新增";
             }
-            else{
+            else {
                 activityModel.buyerinfo = activityService.GetBuyerInfoOne(int.Parse(Request["Id"]));
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
@@ -260,11 +239,11 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditBuyerInfoInsertUpdate(BuyerInfoModel model)
         {
-            if(model.serial_no == 0)
+            if (model.serial_no == 0)
             {
                 activityService.BuyerInfoInsertOne(model);
             }
-            else{
+            else {
                 activityService.BuyerInfoUpdateOne(model);
             }
             return Redirect("BuyerInfoList");
@@ -291,17 +270,19 @@ namespace prj_BIZ_System.Controllers
 
         [HttpGet]
         public ActionResult EditBuyerInfoDelete()
-        {   
+        {
             activityService.BuyerInfoDeleteOne(int.Parse(Request["Id"]));
             return Redirect("BuyerInfoList");
         }
+        #endregion
 
-        //////ActivityRegister
+        ////ActivityRegister
+        #region 活動報名
         [HttpGet]
-        public ActionResult EditActivityRegister(ActivityRegisterModel activityRegisterModel)
+        public ActionResult EditActivityRegister()
         {
             activityModel.activityinfoList = activityService.GetActivityInfoList();
-            
+            ViewBag.Action = "EditActivityRegisterInsert";
 
             activityModel.activityregister = new ActivityRegisterModel();
             activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
@@ -312,9 +293,59 @@ namespace prj_BIZ_System.Controllers
             activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
             activityModel.userinfo.info = Request.Cookies["UserInfo"]["info"];
 
+            activityModel.enterprisesortandlistList = activityService.GetEnterpriseSortAndListOne(Request.Cookies["UserInfo"]["user_id"]);
+            activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
+            activityModel.cataloglistList = userService.getAllCatalog(Request.Cookies["UserInfo"]["user_id"]);
+
+            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+                UploadConfig.subDirForCover;
+
             return View(activityModel);
         }
+        [HttpPost]
+        public ActionResult EditActivityRegisterInsert(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
+        {
+            activityRegisterModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
+            activityRegisterModel.manager_check = "0";
+            activityRegisterModel.create_time = DateTime.Now;
+            activityService.ActivityRegisterInserOne(activityRegisterModel);
 
+            ActivityProductSelectModel activityProductSelectModel = new ActivityProductSelectModel();
+            activityProductSelectModel.user_id = activityRegisterModel.user_id;
+            activityProductSelectModel.activity_id = activityRegisterModel.activity_id;
+            
+            foreach (int id in product_id)
+            {
+                activityProductSelectModel.product_id = id;
+                activityService.ActivityProductInsertOne(activityProductSelectModel);
+            }
 
+            ActivityCatalogSelectModel activityCatalogSelectModel = new ActivityCatalogSelectModel();
+            activityCatalogSelectModel.user_id = activityRegisterModel.user_id;
+            activityCatalogSelectModel.activity_id = activityRegisterModel.activity_id;
+
+            foreach (int no in catalog_no)
+            {
+                activityCatalogSelectModel.catalog_no = no;
+                activityService.ActivityCatalogInsertOne(activityCatalogSelectModel);
+            }
+
+            return Content("新增成功");
+        }
+
+        public ActionResult selectedActivityId(int activity_id)
+        {
+            activityModel.activityinfo = activityService.GetActivityInfoOne(activity_id);
+            return Json(activityModel.activityinfo, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region 活動報名審核
+        //public ActionResult ActivityRegisterCheck()
+        //{
+
+        //}
+        #endregion
     }
 }

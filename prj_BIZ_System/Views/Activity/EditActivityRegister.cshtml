@@ -9,6 +9,7 @@
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
+
 <div class="article_col1">
     <aside>
         <form action="" class="searchbox">
@@ -23,9 +24,9 @@
 
     <article class="form_box article_col2">
         <h2>活動報名</h2>
-        <form action="">
+        <form id="insertForm" action="@ViewBag.Action" method="post">
             <label for="activity_id" class="regis_col02L">活動名稱</label>
-            <select name="" id="activity_id" class="regis_col02R bselect">
+            <select name="activity_id" id="activity_id" class="regis_col02R bselect">
                 <option>請選擇</option>
                 @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
                 {
@@ -42,33 +43,35 @@
             <p class="regis_col03R">@Model.userinfo.company</p>
 
 
-           
-            <label for="starttime" class="regis_col02L spanRed">活動日期</label>
+            <label for="starttime" class="regis_col02L spanRed">活動日期(起)</label>
             <p id="starttime" class="regis_col03R"></p>
 
-            <label for="activityAddr" class="regis_col03L spanRed">活動地點</label>
-            <p id="activityAddr" class="regis_col03R"></p>
-         
+            <label for="endtime" class="regis_col03L spanRed">(迄)</label>
+            <p id="endtime" class="regis_col03R"></p>
 
-            <label for="leader" class="regis_col02L spanRed">與會人數</label>
-            <input type="text" name="nop" value="" required class="regis_col03R"><br />
+            <label for="activityAddr" class="regis_col02L spanRed">活動地點</label>
+            <p id="activityAddr" class="regis_col02R"></p>
 
-            <label for="leader" class="regis_col02L ">與會人姓名(含職稱)</label>
-            <input type="text" name="nop" value="" class="regis_col03R">
-            <input type="text" name="nop" value="" class="regis_col03L" placeholder="職稱"><br />
 
-            <label for="leader" class="regis_col02L spanRed">主聯絡人</label>
-            <input type="text" name="nop" value="" class="regis_col03R" required>
-            <input type="text" name="nop" value="" class="regis_col03L" placeholder="職稱"><br />
+            <label for="quantity" class="regis_col02L spanRed">與會人數</label>
+            <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
 
-            <label for="leader" class="regis_col02L spanRed">手機號碼</label>
-            <input type="text" name="nop" value="" class="regis_col03R" required>
+            <label for="name_a" class="regis_col02L ">與會人姓名(含職稱)</label>
+            <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
+            <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
 
-            <label for="leader" class="regis_col03L">電話/分機</label>
-            <input type="text" name="nop" value="" class="regis_col03R">
+            <label for="name_b" class="regis_col02L spanRed">主聯絡人</label>
+            <input type="text" name="name_b" value="@Model.activityregister.name_b" class="regis_col03R" required>
+            <input type="text" name="title_b" value="@Model.activityregister.title_b" class="regis_col03L" placeholder="職稱"><br />
+
+            <label for="phone" class="regis_col02L spanRed">手機號碼</label>
+            <input type="text" name="phone" value="@Model.activityregister.phone" class="regis_col03R" required>
+
+            <label for="telephone" class="regis_col03L">電話/分機</label>
+            <input type="text" name="telephone" value="@Model.activityregister.telephone" class="regis_col03R">
 
             <label for="email" class="regis_col02L spanRed">電子郵件</label>
-            <input type="email" name="email" value="" class="regis_col02R" required>
+            <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
 
 
             <label for="website" class="regis_col02L">公司網址</label>
@@ -81,9 +84,12 @@
                 @Model.userinfo.info
             </p>
 
-            <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+            <label for="verticals" class="regis_col02L">產業別</label>
             <p class="regis_col02R verticalslist">
-                08食品製造業 09飲料製造業
+                @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
+                {
+                    @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
+                }
             </p>
 
             <div class="regis_col02L">
@@ -96,50 +102,41 @@
                         <th>產品名稱</th>
                         <th>產品說明</th>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="inputCheckbox" name="" id="product01">
-                            <label for="product01"></label>
-                        </td>
-                        <td>產品名稱A</td>
-                        <td>產品說明A</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="inputCheckbox" name="" id="product02">
-                            <label for="product02"></label>
-                        </td>
-                        <td>產品名稱B</td>
-                        <td>產品說明B</td>
-                    </tr>
+                    @foreach (ProductListModel productListModel in Model.productsortList)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="product_id" class="inputCheckbox"
+                                       id="product@(productListModel.product_id)"
+                                       value="@productListModel.product_id">
+                                <label for="product@(productListModel.product_id)"></label>
+                            </td>
+                            <td>@productListModel.product_name</td>
+                            <td>@productListModel.product_info</td>
+                        </tr>
+                    }
                 </table>
             </div>
             <div class="regis_col02L">
                 <label for="" class="label01">公司型錄</label>
             </div>
             <div class="regis_col02R uplodboxR">
-
                 <ul class="regis_dmlist">
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm01"><label for="dm01"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm02"><label for="dm02"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm03"><label for="dm03"></label>
-                    </li>
-                    <li>
-                        <a href=""></a>
-                        <input type="checkbox" class="inputCheckbox" name="" id="dm04"><label for="dm04"></label>
-                    </li>
+                    @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
+                    {
+                        <li>
+                            <a href="@(ViewBag.coverDir+catalogListModel.cover_file)"><img src="@(ViewBag.coverDir+catalogListModel.cover_file)" /></a>
+                            <input type="checkbox" name="catalog_no" class="inputCheckbox"
+                                   id="catalog@(catalogListModel.catalog_no)"
+                                   value="@catalogListModel.catalog_no">
+                            <label for="catalog@(catalogListModel.catalog_no)"></label>
+                        </li>
+                    }
                 </ul>
             </div>
+
             <div class="centerbox">
-                <button type="submit" class="submitbuRed">送出報名</button>
+                <button id="submitInfo" type="submit" class="submitbuRed">送出報名</button>
             </div>
 
         </form>
@@ -147,13 +144,42 @@
 </div>
 
 
+
+
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+
+<script type="text/javascript" src="~/Scripts/date.f-0.5.0.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
 
         $("#activity_id").change(function () {
-            $("#starttime").text();
-            $("#activityAddr").text();
+            var id = $("#activity_id").val();
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("selectedActivityId", "Activity")",
+                cache: false,
+                data: { "activity_id": id },
+                dataType: "json",
+                success: function (result) {
+                    $("#starttime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
+                    $("#endtime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
+                    $("#activityAddr").text(result.addr);
+                }
+            })
         });
+
+        $("#submitInfo").click(function () {
+            if (confirm('確認是否報名此活動?')) {
+                return true
+            } else {
+                return false
+            }
+        });
+
     });
 
 </script>

@@ -242,6 +242,7 @@
 /// <reference path="ckeditor/skins/office2003/skin.js" />
 /// <reference path="ckeditor/skins/v2/skin.js" />
 /// <reference path="ckeditor/themes/default/theme.js" />
+/// <reference path="date.f-0.5.0.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-1.10.2.js" />

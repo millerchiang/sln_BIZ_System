@@ -14,12 +14,22 @@ namespace prj_BIZ_System.Models
         public BuyerInfoModel buyerinfo { get; set; }
         public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
         public UserInfoModel userinfo { get; set; }
+        public EnterpriseSortAndListModel enterprisesortandlist { get; set; }
+        public ProductListModel product { get; set; }
+        public CatalogListModel catalog { get; set; }
+        public ActivityProductSelectModel activityproductselect { get; set; }
+        public ActivityCatalogSelectModel activitycatalogselect { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<NewsModel> newsList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
+        public IList<EnterpriseSortAndListModel> enterprisesortandlistList { get; set; }
+        public IList<ProductListModel> productsortList { get; set; }
+        public IList<CatalogListModel> cataloglistList { get; set; }
+        public IList<ActivityProductSelectModel> activityproductselectList { get; set; }
+        public IList<ActivityCatalogSelectModel> activitycatalogselectList { get; set; }
     }
 
     public class User_ViewModel

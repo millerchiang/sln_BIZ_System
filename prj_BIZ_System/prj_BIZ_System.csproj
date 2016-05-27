@@ -675,6 +675,7 @@
     <Content Include="Scripts\ckeditor\skins\v2\skin.js" />
     <Content Include="Scripts\ckeditor\skins\v2\templates.css" />
     <Content Include="Scripts\ckeditor\themes\default\theme.js" />
+    <Content Include="Scripts\date.f-0.5.0.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -699,6 +700,7 @@
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
+    <Content Include="Views\Activity\ActivityRegisterCheck.cshtml" />
     <None Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

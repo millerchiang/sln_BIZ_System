@@ -75,18 +75,42 @@ namespace prj_BIZ_System.Models
         public string content { get; set; }//內容
     }
 
-/*
-    public class News_BNList_ViewModel
+    public class EnterpriseSortAndListModel
     {
-        public IList<NewsModel> NewsList { get; set; }
+        public string user_id { get; set; }//使用者帳號
+        public int sort_id { get; set; }//產業別流水號
+        public string enterprise_sort_id { get; set; }//產業別編號
+        public string enterprise_sort_name { get; set; }//產業別名稱
     }
 
-    public class News_EAInfo_ViewModel
+    public class ActivityProductSelectModel
     {
-        public IList<ActivityInfoModel> ActivityInfoList { get; set; }
-        public NewsModel NewsModel { get; set; }
+        public int serial_no { get; set; }//流水號
+        public string user_id { get; set; }//使用者帳號
+        public int activity_id { get; set; }//活動編號
+        public int product_id { get; set; }//產品編號
     }
-*/
+
+    public class ActivityCatalogSelectModel
+    {
+        public int serial_no { get; set; }//流水號
+        public string user_id { get; set; }//使用者帳號
+        public int activity_id { get; set; }//活動編號
+        public int catalog_no { get; set; }//型錄編號
+    }
+
+    /*
+        public class News_BNList_ViewModel
+        {
+            public IList<NewsModel> NewsList { get; set; }
+        }
+
+        public class News_EAInfo_ViewModel
+        {
+            public IList<ActivityInfoModel> ActivityInfoList { get; set; }
+            public NewsModel NewsModel { get; set; }
+        }
+    */
 
 
 }
