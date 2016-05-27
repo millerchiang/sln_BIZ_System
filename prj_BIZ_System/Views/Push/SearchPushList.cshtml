@@ -1,4 +1,5 @@
-﻿@model IEnumerable<prj_BIZ_System.Models.PushListModel>
+﻿@using prj_BIZ_System.Models
+@model IEnumerable<prj_BIZ_System.Models.PushListModel>
 
 @{
     ViewBag.Title = "SearchPushList";
@@ -14,13 +15,15 @@
 
         <div class="sys_searchboxcol01L">
             <label for="" class="regis_col02L">推播類型</label>
-            <select name="pushtype" id="" class="regis_col02R">
-                <option value="APP">APP</option>
-                <option value="Email">E-mail</option>
+            <select name="push_type" id="" class="regis_col02R">
+                <option value="" >請選擇</option>
+                <option value="0" @("0".Equals(ViewBag.Where_PushType) ?"selected":"")>APP</option>
+                <option value="1" @("1".Equals(ViewBag.Where_PushType) ?"selected":"")>Email</option>
+                <option value="2" @("2".Equals(ViewBag.Where_PushType) ?"selected":"")>簡訊</option>
             </select>
 
             <label for="" class="regis_col02L">推播名稱</label>
-            <input type="text" class="regis_col02R">
+            <input name="push_name" type="text" class="regis_col02R" value="@ViewBag.Where_PushName">
         </div>
         <div class="sys_searchboxcol01R">
             <button type="submit" class="buinfor">搜尋</button>
@@ -28,7 +31,7 @@
     </form>
     <article>
         <h2 class="borderTitle2">推播列表</h2>
-        <a href="custom_push_add.html" class="addbublue rightbox">新增推播</a>
+        <a href="@Url.Action("EditPushList","Push")" class="addbured rightbox">新增推播</a>
         <table class="edittable">
             <tr>
                 <th>推播類型</th>
@@ -36,83 +39,40 @@
                 <th>推播對象</th>
                 <th>發送時機</th>
                 <th>範本</th>
-                <th>立即發送</th>
+                <!--<th>測試發送</th>-->
                 <th>修改</th>
-
+                <th>刪除</th>
             </tr>
-            <tr>
-                <td>APP</td>
-                <td>活動宣傳</td>
-                <td>全體會員</td>
-                <td>活動開始前10天</td>
-                <td>範本A</td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu">發送</a>
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="custom_push_add.html" class="editbu">修改</a>
-                    </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td>APP</td>
-                <td>活動宣傳</td>
-                <td>全體會員</td>
-                <td>活動開始前10天</td>
-                <td>範本A</td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu">發送</a>
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="custom_push_add.html" class="editbu">修改</a>
-                    </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td>APP</td>
-                <td>活動宣傳</td>
-                <td>全體會員</td>
-                <td>活動開始前10天</td>
-                <td>範本A</td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu">發送</a>
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="custom_push_add.html" class="editbu">修改</a>
-                    </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td>APP</td>
-                <td>活動宣傳</td>
-                <td>全體會員</td>
-                <td>活動開始前10天</td>
-                <td>範本A</td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu">發送</a>
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="custom_push_add.html" class="editbu">修改</a>
-                    </div>
-                </td>
-
-            </tr>
-
+            @if (Model != null)
+            {
+                foreach (PushListModel md in Model)
+                {
+                    <tr>
+                        <td>@showPushTypeText(md.push_type)</td>
+                        <td>@md.push_name</td>
+                        <td>@showPushObjectsText(md.push_objects)</td>
+                        <td>@md.push_date</td>
+                        <td>@md.sample_title</td>
+                        <!--
+                        <td>
+                            <div class="centerbox">
+                                <a href="" class="addbu">發送</a>
+                            </div>
+                        </td>
+                        -->
+                        <td>
+                            <div class="centerbox">
+                                <a href="@Url.Action("EditPushList","Push",new { push_id = md.push_id })" class="editbu">修改</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="@Url.Action("DeletePushList","Push",new { push_id = md.push_id })" class="deleteSbu" onclick="if(doDelete()){return false;}">刪除</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
         </table>
         <ul class="pagelist">
             <li><a href="">&lt;</a></li>
@@ -132,3 +92,38 @@
         </ul>
     </article>
 </div>
+
+<script>
+    function doDelete(push_id) {
+        var result = confirm("確定要刪除嗎?");
+        return !result;
+    }
+</script>
+
+@functions{
+    public string showPushObjectsText(string push_objects)
+    {
+        switch (push_objects)
+        {
+            case "0":
+                return "全體會員";
+            case "1":
+                return "活動會員";
+        }
+        return "";
+    }
+
+    public string showPushTypeText(string push_type)
+    {
+        switch (push_type)
+        {
+            case "0":
+                return "APP";
+            case "1":
+                return "Email";
+            case "2":
+                return "簡訊";
+        }
+        return "";
+    }
+}
