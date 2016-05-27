@@ -57,7 +57,7 @@
           push_type = #push_type#
         </isNotEmpty>
         <isNotEmpty prepend="and" property="push_name">
-          push_name like '%#push_name#%'
+          push_name like '%'||#push_name#||'%'
         </isNotEmpty>
       </dynamic>
     </select>
