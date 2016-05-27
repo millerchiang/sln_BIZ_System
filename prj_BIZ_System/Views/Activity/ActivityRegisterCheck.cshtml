@@ -1,189 +1,211 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "活動報名審核";
 }
 
 @section pagestyle{
-    <link href="~/stylesheets/screen.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
 
-<header>
-    <div class="headerbox">
-        <ul class="head_langBu">
-            <li><a href="">English</a></li>
-            <li><a href="" class="active">中文</a></li>
-        </ul>
-        <h1 class="head_logo">
-            <a href="index.html">Matchmaking System</a>
-        </h1>
-        <nav class="head_nav">
-            <ul>
-                <li><a href="">企業資料庫</a></li>
-                <li><a href="">最新消息</a></li>
-                <li><a href="">帳戶管理</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-<main>
+@Styles.Render("~/Content/css/jqueryUI")
 
-    <div class="article_col1">
-        <form class="form_box sys_searchbox">
-            <h2>報名查詢</h2>
-            <div class="sys_searchboxcol01L">
-                <label for="" class="regis_col02L">活動名稱</label>
-                <input type="text" class="regis_col02R">
+<div class="article_col1">
+    <form class="form_box sys_searchbox">
+        <h2>報名查詢</h2>
+        <div class="sys_searchboxcol01L">
+            <label for="" class="regis_col02L">活動名稱</label>
+            <input type="text" class="regis_col02R">
 
-                <label for="" class="regis_col02L">報名期間</label>
-                <div class="regis_col02R">
-                    <input type="text" id="startDate" name="startDate" maxDate="endDate" value="" /> ~
-                    <input type="text" id="endDate" name="endDate" minDate="startDate" value="" />
-                </div>
-
-                <label for="" class="regis_col02L">廠商名稱</label>
-                <input type="text" class="regis_col02R">
+            <label for="" class="regis_col02L">報名期間</label>
+            <div class="regis_col02R">
+                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="" /> ~
+                <input type="text" id="endDate" name="endDate" minDate="startDate" value="" />
             </div>
-            <div class="sys_searchboxcol01R">
-                <button type="submit" class="buinfor">搜尋</button>
-            </div>
-        </form>
-        <article>
-            <h2 class="borderTitle2">活動報名列表</h2>
-            <table class="edittable">
-                <tr>
-                    <th>報名時間</th>
-                    <th>報名廠商</th>
-                    <th>報名活動</th>
-                    <th>報名人數</th>
-                    <th>審核</th>
-                    <th>審核修改</th>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-01.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="#applicationbox" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-02.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="#applicationbox" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-01.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="#applicationbox" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-02.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="#applicationbox" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-01.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2016/06/12</td>
-                    <td>新北市電腦公會</td>
-                    <td>新北商洽會</td>
-                    <td>25</td>
-                    <td>
-                        <div class="centerbox">
-                            <img src="../../images/icon/capplicaicon-02.png" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="" class="addbu editopen">修改</a>
-                        </div>
-                    </td>
-                </tr>
 
-            </table>
-            <ul class="pagelist">
-                <li><a href="">&lt;</a></li>
-
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
-                <li><a href="">6</a></li>
-                <li><a href="">7</a></li>
-                <li><a href="">8</a></li>
-                <li><a href="">9</a></li>
-                <li><a href="">10</a></li>
-
-                <li><a href="">&gt;</a></li>
-            </ul>
-        </article>
-    </div>
-    <div class="popupbox" id="applicationbox">
-        <h3>審核修改</h3>
-        <p></p>
-        <div class="centerbox">
-            <a href="" class="addbu">是</a>
-            <a href="" class="deleteSbu">否</a>
+            <label for="" class="regis_col02L">廠商名稱</label>
+            <input type="text" class="regis_col02R">
         </div>
-    </div>
-    <div id="dialog" title="審核修改">
-        <p>是否通過審核</p>
-    </div>
-</main>
+        <div class="sys_searchboxcol01R">
+            <button type="submit" class="buinfor">搜尋</button>
+        </div>
+    </form>
+    <article>
+        <h2 class="borderTitle2">活動報名列表</h2>
+        <table class="edittable">
+            <tr>
+                <th>報名時間</th>
+                <th>報名廠商</th>
+                <th>報名活動</th>
+                <th>報名人數</th>
+                <th>審核</th>
+                <th>審核修改</th>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-01.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="#applicationbox" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-02.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="#applicationbox" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-01.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="#applicationbox" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-02.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="#applicationbox" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-01.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2016/06/12</td>
+                <td>新北市電腦公會</td>
+                <td>新北商洽會</td>
+                <td>25</td>
+                <td>
+                    <div class="centerbox">
+                        <img src="../../images/icon/capplicaicon-02.png" alt="">
+                    </div>
+                </td>
+                <td>
+                    <div class="centerbox">
+                        <a href="" class="addbu editopen">修改</a>
+                    </div>
+                </td>
+            </tr>
 
+        </table>
+        <ul class="pagelist">
+            <li><a href="">&lt;</a></li>
 
+            <li><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li><a href="">5</a></li>
+            <li><a href="">6</a></li>
+            <li><a href="">7</a></li>
+            <li><a href="">8</a></li>
+            <li><a href="">9</a></li>
+            <li><a href="">10</a></li>
+
+            <li><a href="">&gt;</a></li>
+        </ul>
+    </article>
+</div>
+<div class="popupbox" id="applicationbox">
+    <h3>審核修改</h3>
+    <p></p>
+    <div class="centerbox">
+        <a href="" class="addbu">是</a>
+        <a href="" class="deleteSbu">否</a>
+    </div>
+</div>
+<div id="dialog" title="審核修改">
+    <p>是否通過審核</p>
+</div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/datetimepicker")
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            buttons: {
+                "是": function () {
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(".editopen").click(function () {
+            $("#dialog").dialog("open");
+        });
+        $('input[name$="Date"]').datepicker({
+            dateFormat: 'yy/mm/dd',
+            beforeShow: function () {
+                if ($(this).attr('maxDate')) {
+                    var dateItem = $('#' + $(this).attr('maxDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datepicker('option', 'maxDate', dateItem.val());
+                    }
+                }
+
+                if ($(this).attr('minDate')) {
+                    var dateItem = $('#' + $(this).attr('minDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datepicker('option', 'minDate', dateItem.val());
+                    }
+                }
+            }
+        });
+
+    });
+</script>

@@ -39,7 +39,7 @@ namespace prj_BIZ_System
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/css/timepicker").Include(
+            bundles.Add(new StyleBundle("~/Content/css/jqueryUI").Include(
                       "~/Content/jquery-ui-timepicker-addon.css",
                       "~/Content/jquery-ui.css"
                       ));

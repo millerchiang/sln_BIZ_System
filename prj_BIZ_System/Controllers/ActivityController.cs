@@ -342,10 +342,10 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 活動報名審核
-        //public ActionResult ActivityRegisterCheck()
-        //{
-
-        //}
+        public ActionResult ActivityRegisterCheck()
+        {
+            return View();
+        }
         #endregion
     }
 }
