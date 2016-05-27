@@ -43,6 +43,13 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public int getPushListCountBySampleId(int sample_id)
+        {
+            var param = new PushListModel { sample_id = sample_id };
+            int userCount = (int)mapper.QueryForObject("Push.SelectPushListCountBySampleId", param );
+            return userCount ;
+        }
+
         public IList<PushListModel> getPushListByCondition(string push_type , string push_name)
         {
             var param = new PushListModel { push_type = push_type, push_name = push_name };

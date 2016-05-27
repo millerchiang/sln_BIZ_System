@@ -67,7 +67,13 @@
       FROM manager.push_list
       where push_id = $push_id$
     </select>
-    
+
+    <select id ="SelectPushListCountBySampleId" resultClass="int" parameterClass="PushList">
+      SELECT count(*)
+      FROM manager.push_list
+      where sample_id = $sample_id$
+    </select>
+
     <delete id="DeletePushList" parameterClass="PushList">
       DELETE FROM manager.push_list
       WHERE push_id=#push_id#

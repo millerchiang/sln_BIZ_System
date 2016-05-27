@@ -138,7 +138,7 @@
             type: "get",
             url: "@Url.Action("EditPushSampleJson", "Push")",
             cache: false,
-            dataType: "json"
+            dataType: "json",
         }).done(function (result) {
             if (result != null && result.pushSampleList != null) {
                 var pushSampleList = result.pushSampleList;
@@ -155,10 +155,8 @@
                     });
 
                     $(".edittable tr").find("a.deletebu").click(function () {
-                        var id = $(this).next().text();
-                        if (confirm("是否確定要刪除!")) {
-                            doDelete(id);
-                        }
+                        var sample_id = $(this).next().text();
+                        checkPushListExists(sample_id);
                     });
                 } else {
                     alert("尚無資料");
@@ -198,6 +196,25 @@
                 }
             }
             else {
+            }
+        });
+    }
+
+    function checkPushListExists(sample_id) {
+        $.ajax({
+            type: 'get',
+            url:"@Url.Action("SearchPushListCount","Push")",
+            data: { "sample_id" : sample_id },
+            dataType :"json",
+            cache:false
+        }).done(function (result) {
+            var count = result;
+            if (count > 0) {
+                alert("尚有推播資料使用此範本,無法刪除!!");
+            } else {
+                if (confirm("是否確定要刪除!")) {
+                    doDelete(sample_id);
+                }
             }
         });
     }

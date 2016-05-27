@@ -34,7 +34,14 @@ namespace prj_BIZ_System.Controllers
             ViewBag.Where_PushName = push_name;
             return View(result);
         }
-        
+
+        // GET: Push
+        public ActionResult SearchPushListCount(int sample_id)
+        {
+            int count = pushService.getPushListCountBySampleId(sample_id);
+            return Json(count,JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult EditPushList(int? push_id)
         {
             //var manager_id = "admin"; //管理者編號 
