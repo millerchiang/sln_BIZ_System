@@ -12,7 +12,14 @@ namespace prj_BIZ_System.Controllers
     {
         public PushService pushService;
         public Push_ViewModel pushViewModel;
-
+        /*
+        private enum PushTypeEnum : int
+        {
+            APP    = 0,
+            Email  = 1,
+            簡訊   = 2
+        }
+        */
         public PushController()
         {
             pushService = new PushService();
@@ -20,14 +27,60 @@ namespace prj_BIZ_System.Controllers
         }
 
         // GET: Push
-        public ActionResult SearchPushList()
+        public ActionResult SearchPushList(string push_type,string push_name)
         {
-            return View();
+            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name);
+            ViewBag.Where_PushType = push_type;
+            ViewBag.Where_PushName = push_name;
+            return View(result);
+        }
+        
+        public ActionResult EditPushList(int? push_id)
+        {
+            //var manager_id = "admin"; //管理者編號 
+            //PushTypeEnum push_type = new PushTypeEnum();
+            //ViewBag.push_type = push_type;
+            pushViewModel.activityinfoList = pushService.getActivityInfoListAfterNow();
+            pushViewModel.pushSampleList = pushService.getPushSampleAll();
+            ViewBag.Action = "EditPushListInsertUpdate";
+
+            if (push_id == null)
+            {
+                //正常是要從使用者
+                pushViewModel.pushList = new PushListModel();
+                pushViewModel.pushList.push_date = DateTime.Now;
+                pushViewModel.pushList.push_objects = "0";
+                ViewBag.SubmitName = "新增";
+                ViewBag.PageType = "Create";
+            }
+            else
+            {
+                pushViewModel.pushList = pushService.getPushListOne(push_id);
+                ViewBag.SubmitName = "修改";
+                ViewBag.PageType = "Edit";
+            }
+            return View(pushViewModel);
         }
 
-        public ActionResult EditPushList()
+        [HttpPost]
+        public ActionResult EditPushListInsertUpdate(PushListModel model)
         {
-            return View();
+            if (model.push_id == null)
+            {
+                model.manager_id = "admin"; //之後要從 Cookie抓
+                pushService.PushListInsertOne(model);
+            }
+            else
+            {
+                pushService.PushListUpdateOne(model);
+            }
+            return Redirect("SearchPushList");
+        }
+
+        public ActionResult DeletePushList(int? push_id)
+        {
+            bool isDelSuccess = pushService.DeletePushListOne(push_id);
+            return Redirect("SearchPushList");
         }
 
         [HttpPost]
