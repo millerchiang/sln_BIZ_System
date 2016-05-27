@@ -1,4 +1,5 @@
-﻿@model prj_BIZ_System.Models.Push_ViewModel
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Push_ViewModel
 
 @{
     ViewBag.Title = "EditPushList";
@@ -8,42 +9,54 @@
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
 
+@Styles.Render("~/Content/css/timepicker")
+
 <div class="article_col1s">
-    <form class="form_box sys_searchbox">
-        <h2>新增推播</h2>
+    <form id="form"class="form_box sys_searchbox" action="@ViewBag.Action" method="post">
+        <h2>@(ViewBag.SubmitName)推播</h2>
         <label for="" class="regis_col02L">推播名稱</label>
-        <input type="text" class="regis_col02R">
+        <input type="text" name="push_name" class="regis_col02R" value="@Model.pushList.push_name">
 
         <label for="" class="regis_col02L">建立帳號</label>
-        <span class="regis_col02R">自動帶入</span>
+        <span class="regis_col02R"><!--自動帶入-->@Model.pushList.manager_id</span>
+        <input type="hidden" name="push_id" value="@Model.pushList.push_id">
 
         <label for="" class="regis_col02L">推播類型</label>
-        <select name="" id="" class="regis_col02R bselect">
-            <option value="app">APP</option>
-            <option value="email">Email</option>
-            <option value="sms">簡訊</option>
+        <select name="push_type" id="" class="regis_col02R bselect">
+            <option value="0" @("0".Equals(Model.pushList.push_type)?"selected":"")>APP</option>
+            <option value="1" @("1".Equals(Model.pushList.push_type)?"selected":"")>Email</option>
+            <option value="2" @("2".Equals(Model.pushList.push_type)?"selected":"")>簡訊</option>
         </select>
 
         <label for="" class="regis_col02L">推播對象</label>
         <div class="regis_col04R">
-            <input type="radio" class="radioinput" id="member_all" name="member" value="" checked>
+            <input type="radio" class="radioinput" id="member_all" name="push_objects" value="0" @("0".Equals(Model.pushList.push_objects) ?"checked":"")>
             <label for="member_all">全體會員</label>
         </div>
 
         <label for="" class="regis_col02L"></label>
         <div class="regis_col04R">
-            <input type="radio" class="radioinput" id="member_activity" name="member" value="">
+            <input type="radio" class="radioinput" id="member_activity" name="push_objects" value="1" @("1".Equals(Model.pushList.push_objects) ?"checked":"")>
             <label for="member_activity">活動會員</label>
-            <select name="" id="">
-                <option value="app">XX商洽會</option>
+            <select name="activity_id" id="activity_id">
+                <!--<option value="app">XX商洽會</option>-->
+                @if (Model.activityinfoList != null)
+                {
+                    foreach (ActivityInfoModel aiModel in Model.activityinfoList)
+                    {
+                        <option value="@aiModel.activity_id" @(aiModel.activity_id.Equals(Model.pushList.activity_id)?"selected":"") >@aiModel.activity_name</option>
+                    }
+                }
             </select>
         </div>
 
         <label for="" class="regis_col02L">發送時機</label>
         <div class="regis_col04R">
-            <input type="radio" class="radioinput" id="time_date" name="time" value="" checked>
-            <label for="time_date">指定日期</label>
-            <input type="text" class="datepicker">
+            <!--
+                <input type="radio" class="radioinput" id="time_date" name="time" value="" checked>
+                <label for="time_date">指定日期</label>
+            -->
+            <input type="text" name="push_date" class="datepicker" value="@Model.pushList.push_date">
         </div>
 
         <!--
@@ -56,17 +69,78 @@
         -->
 
         <label for="" class="regis_col02L">使用範本</label>
-        <select name="" id="" class="regis_col02R bselect">
-            <option value="templateA">範本A</option>
-            <option value="templateB">範本B</option>
-            <option value="templateC">範本C</option>
+        <select name="sample_id" id="" class="regis_col02R bselect">
+            @if (Model.pushSampleList != null)
+            {
+                foreach (PushSampleModel pushSample in Model.pushSampleList)
+                {
+                    <option value="@pushSample.sample_id">@pushSample.sample_title</option>
+                }
+            }
         </select>
 
         <div class="centerbox">
-            <button type="submit" class="buinfor">新增</button>
+            <button type="submit" class="buinfor">@ViewBag.SubmitName</button>
+            <button type="button" class="submitbu" onclick="javascript:history.back()">取消</button>
         </div>
 
     </form>
 
 </div>
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/datetimepicker")
+<script>
+    $(function () {
 
+        $("#form").submit(function () {
+            var push_name = $("input[name='push_name']").val();
+            var errMsg = checkValidationOk(push_name);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        })
+
+        $("input[name='push_objects']").change(function () {
+            setDisableForPushObjects()
+        });
+        setDisableForPushObjects();
+
+        var push_date_val = $("input[name='push_date']").val();
+        $('input[name="push_date"]').datetimepicker({
+            beforeShow: function () {
+                if ($(this).attr('maxDate')) {
+                    var dateItem = $('#' + $(this).attr('maxDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                    }
+                }
+
+                if ($(this).attr('minDate')) {
+                    var dateItem = $('#' + $(this).attr('minDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'minDate', dateItem.val());
+                    }
+                }
+            }
+        }).datetimepicker('setDate', push_date_val);
+    });
+
+    function setDisableForPushObjects() {
+        var checkedVal = $("input[name='push_objects']:checked").val();
+        if (checkedVal == '1') {
+            $("select[name='activity_id']").prop("disabled", false);
+        } else {
+            $("select[name='activity_id']").prop("disabled", true);
+        }
+    }
+
+    function checkValidationOk(name) {
+        var errMsg = '';
+        if (name == null || name == '') {
+            errMsg += '推播名稱不可為空白\n';
+        }
+        return errMsg;
+    }
+
+</script>
