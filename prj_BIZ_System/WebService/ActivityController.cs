@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.Services;
+﻿using prj_BIZ_System.Models;
+using prj_BIZ_System.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,15 @@ namespace prj_BIZ_System.WebService
         ActivityService activityService = new ActivityService();
 
         [HttpGet]
-        public string GetActivityInfo()
+        public IList<ActivityInfoModel> GetActivityInfo()
         {
-            return new JavaScriptSerializer().Serialize(activityService.GetActivityInfoList());
+            return activityService.GetActivityInfoList();
         }
 
         [HttpGet]
-        public string GetNewsInfo()
+        public IList<NewsModel> GetNewsInfo()
         {
-            return new JavaScriptSerializer().Serialize(activityService.GetNewsAll());
+            return activityService.GetNewsAll();
         }
     }
 }

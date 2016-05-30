@@ -50,32 +50,32 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
-        //EnterpriseSortModel******************************************************************************//
+        //EnterpriseSortListModel******************************************************************************//
 
-        public IList<EnterpriseSortModel> GetSortList()
+        public IList<EnterpriseSortListModel> GetSortList()
         {
-            return mapper.QueryForList<EnterpriseSortModel>("UserInfo.SelectAll_sort", null);
+            return mapper.QueryForList<EnterpriseSortListModel>("UserInfo.SelectAll_sort", null);
         }
 
 
-        //UserSortModel******************************************************************************//
+        //EnterpriseSortModel******************************************************************************//
 
-        public IList<UserSortModel> SelectUserSortByUserId(string user_id)
+        public IList<EnterpriseSortModel> SelectUserSortByUserId(string user_id)
         {
-            UserSortModel param = new UserSortModel() { user_id = user_id };
-            return mapper.QueryForList<UserSortModel>("UserInfo.SelectUserSortByUserId", param);
+            EnterpriseSortModel param = new EnterpriseSortModel() { user_id = user_id };
+            return mapper.QueryForList<EnterpriseSortModel>("UserInfo.SelectUserSortByUserId", param);
         }
 
         public bool RefreshUserSort(string user_id , int[] sort_ids)
         {
-            UserSortModel param = new UserSortModel() { user_id = user_id };
+            EnterpriseSortModel param = new EnterpriseSortModel() { user_id = user_id };
             int deleteCount = mapper.Delete("UserInfo.DeleteUserSortByUserId", param);
-            UserSortModel tempModel;
+            EnterpriseSortModel tempModel;
             if( sort_ids != null)
             {
                 foreach ( int sort_id in sort_ids)
                 {
-                    tempModel = new UserSortModel(){ user_id = user_id, sort_id = sort_id };
+                    tempModel = new EnterpriseSortModel(){ user_id = user_id, sort_id = sort_id };
                     mapper.Insert("UserInfo.InsertUserSortByUserId", tempModel);
                 }
             }

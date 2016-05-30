@@ -34,14 +34,14 @@ namespace prj_BIZ_System.Models
 
     }
 
-    public class EnterpriseSortModel //enterprise_sort_list
+    public class EnterpriseSortListModel //enterprise_sort_list
     {
         public int sort_id { get; set; }//產業別流水號 
         public string enterprise_sort_id { get; set; }//產業別編號
         public string enterprise_sort_name { get; set; }//產業別名稱
     }
 
-    public class UserSortModel  //enterprise_sort
+    public class EnterpriseSortModel  //enterprise_sort
     {
         public string user_id { get; set; }//使用者帳號
         public int sort_id { get; set; }//產業別流水號 
