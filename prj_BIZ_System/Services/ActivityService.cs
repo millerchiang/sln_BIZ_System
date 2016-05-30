@@ -108,6 +108,36 @@ namespace prj_BIZ_System.Services
             mapper.Delete("ActivityInfo.DeleteBuyerInfoOne", param);
         }
 
+        //EnterpriseSortAndListModel******************************************************************************//
+        public IList<EnterpriseSortAndListModel> GetEnterpriseSortAndListAll()
+        {
+            return mapper.QueryForList<EnterpriseSortAndListModel>
+               ("ActivityInfo.SelectEnterpriseAll", null);
+        }
+
+        public IList<EnterpriseSortAndListModel> GetEnterpriseSortAndListOne(string user_id)
+        {
+            EnterpriseSortAndListModel param = new EnterpriseSortAndListModel() {user_id = user_id };
+            return mapper.QueryForList<EnterpriseSortAndListModel>("ActivityInfo.SelectEnterpriseByUserId", param);
+        }
+
+        //ActivityRegisterModel******************************************************************************//
+        public void ActivityRegisterInserOne(ActivityRegisterModel activityRegisterModel)
+        {
+            mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
+        }
+
+        //ActivityProductSelectModel******************************************************************************//
+        public void ActivityProductInsertOne(ActivityProductSelectModel activityProductSelectModel)
+        {
+            mapper.Insert("ActivityInfo.InsertActivityProductOne", activityProductSelectModel);
+        }
+
+        //ActivityCatalogSelectModel******************************************************************************//
+        public void ActivityCatalogInsertOne(ActivityCatalogSelectModel activityCatalogSelectModel)
+        {
+            mapper.Insert("ActivityInfo.InsertActivityCatalogOne", activityCatalogSelectModel);
+        }
     }
 
 }

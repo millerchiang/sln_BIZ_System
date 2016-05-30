@@ -21,54 +21,6 @@
                     <th>編輯</th>
 
                 </tr>
-                @*
-    @if (Model.pushSampleList != null)
-    {
-        foreach (var pushSample in Model.pushSampleList)
-        {
-            <tr>
-                <td>@pushSample.sample_title</td>
-                <td>
-                    <div class="centerbox">
-                        <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showEdit('@pushSample.sample_id')">編輯</a>
-                    </div>
-                </td>
-
-            </tr>
-        }
-    }
-                *@
-                <!--
-                    
-                <tr>
-                    <td>範本A</td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
-                        </div>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>範本B</td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
-                        </div>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>範本C</td>
-                    <td>
-                        <div class="centerbox">
-                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
-                        </div>
-                    </td>
-
-                </tr>
-                -->
-
             </table>
             <ul class="pagelist">
                 <li><a href="">&lt;</a></li>
@@ -186,7 +138,7 @@
             type: "get",
             url: "@Url.Action("EditPushSampleJson", "Push")",
             cache: false,
-            dataType: "json"
+            dataType: "json",
         }).done(function (result) {
             if (result != null && result.pushSampleList != null) {
                 var pushSampleList = result.pushSampleList;
@@ -203,10 +155,8 @@
                     });
 
                     $(".edittable tr").find("a.deletebu").click(function () {
-                        var id = $(this).next().text();
-                        if (confirm("是否確定要刪除!")) {
-                            doDelete(id);
-                        }
+                        var sample_id = $(this).next().text();
+                        checkPushListExists(sample_id);
                     });
                 } else {
                     alert("尚無資料");
@@ -246,6 +196,25 @@
                 }
             }
             else {
+            }
+        });
+    }
+
+    function checkPushListExists(sample_id) {
+        $.ajax({
+            type: 'get',
+            url:"@Url.Action("SearchPushListCount","Push")",
+            data: { "sample_id" : sample_id },
+            dataType :"json",
+            cache:false
+        }).done(function (result) {
+            var count = result;
+            if (count > 0) {
+                alert("尚有推播資料使用此範本,無法刪除!!");
+            } else {
+                if (confirm("是否確定要刪除!")) {
+                    doDelete(sample_id);
+                }
             }
         });
     }

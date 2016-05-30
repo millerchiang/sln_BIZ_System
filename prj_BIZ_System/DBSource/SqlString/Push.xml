@@ -37,14 +37,41 @@
     <!--table=manager.push_list-->
     <insert id="InsertPushList" parameterClass="PushList">
       INSERT INTO manager.push_list(
-      manager_id, push_type, push_objects, activity_id, push_date,sample_id)
-      VALUES (#manager_id#,#push_type#,#push_objects#,#activity_id#,#push_date#,#
+      manager_id, push_type,push_name, push_objects, activity_id, push_date,sample_id)
+      VALUES (#manager_id#,#push_type#,#push_name#,#push_objects#,#activity_id#,#push_date#,#
       sample_id#)
     </insert>
 
     <select id="SelectPushList" resultMap="PushList-result">
       SELECT *
       FROM manager.push_list
+    </select>
+
+    <select id="getPushListByCondition" resultMap="PushList-result" parameterClass="PushList">
+      SELECT *
+      FROM manager.push_list l
+      left join manager.push_sample s
+      on l.sample_id = s.sample_id 
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="push_type">
+          push_type = #push_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="push_name">
+          push_name like '%'||#push_name#||'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id ="SelectPushListOne" resultMap="PushListOne-result" parameterClass="PushList">
+      SELECT *
+      FROM manager.push_list
+      where push_id = $push_id$
+    </select>
+
+    <select id ="SelectPushListCountBySampleId" resultClass="int" parameterClass="PushList">
+      SELECT count(*)
+      FROM manager.push_list
+      where sample_id = $sample_id$
     </select>
 
     <delete id="DeletePushList" parameterClass="PushList">
@@ -54,11 +81,22 @@
 
     <update id="UpdatePushList" parameterClass="PushList">
       UPDATE manager.push_list
-      SET  manager_id=#manager_id# push_type=#push_type#, push_objects=#push_objects#, activity_id=$activity_id$,
+      SET push_type=#push_type#, push_name=#push_name#, push_objects=#push_objects#, activity_id=$activity_id$,
       push_date=#push_date#, sample_id=$sample_id$, update_time=now()
       WHERE push_id=#push_id#
     </update>
-    
+
+    <!--查詢活動-->
+    <select id="SelectActivityAll" resultMap="ActivityInfo-result">
+      SELECT *
+      FROM activity_info
+    </select>
+
+    <select id="SelectActivityAfterNow" parameterClass="prj_BIZ_System.Models.ActivityInfoModel" resultMap="ActivityInfo-result">
+      SELECT *
+      FROM activity_info
+      where starttime > #starttime#
+    </select>
   </statements>
 
   <resultMaps>
@@ -78,6 +116,23 @@
       <result property="push_id" column="push_id"></result>
       <result property="manager_id" column="manager_id"></result>
       <result property="push_type" column="push_type"></result>
+      <result property="push_name" column="push_name"></result>
+      <result property="push_objects" column="push_objects"></result>
+      <result property="activity_id" column="activity_id"></result>
+      <result property="push_date" column="push_date"></result>
+      <result property="sample_id" column="sample_id"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <!--PushSample 的 sample_title-->
+      <result property="sample_title" column="sample_title"></result>
+    </resultMap>
+
+    <resultMap id="PushListOne-result" class="prj_BIZ_System.Models.PushListModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="push_id" column="push_id"></result>
+      <result property="manager_id" column="manager_id"></result>
+      <result property="push_type" column="push_type"></result>
+      <result property="push_name" column="push_name"></result>
       <result property="push_objects" column="push_objects"></result>
       <result property="activity_id" column="activity_id"></result>
       <result property="push_date" column="push_date"></result>
@@ -86,6 +141,11 @@
       <result property="update_time" column="update_time"></result>
     </resultMap>
     
+    <resultMap id="ActivityInfo-result" class="prj_BIZ_System.Models.ActivityInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="activity_id" column="activity_id"/>
+      <result property="activity_name" column="activity_name"/>
+    </resultMap>
    
   </resultMaps>
 
