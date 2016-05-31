@@ -61,6 +61,9 @@ namespace prj_BIZ_System.Models
         public string user_info_en { get; set; }//公司簡介(英文) (預設與用戶資訊相同)
         public DateTime create_time { get; set; }//建立時間
         public DateTime update_time { get; set; }//修改時間
+
+        public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
     }
 
     public class NewsModel
@@ -73,6 +76,8 @@ namespace prj_BIZ_System.Models
         public int activity_id { get; set; }//活動編號
         public string website { get; set; }//網址
         public string content { get; set; }//內容
+        public DateTime create_time { get; set; }//建立時間
+        public DateTime update_time { get; set; }//修改時間
     }
 
     public class EnterpriseSortAndListModel
