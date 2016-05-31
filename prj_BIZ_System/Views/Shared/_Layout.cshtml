@@ -23,7 +23,7 @@
             </h1>
             <nav class="head_nav">
                 <ul>
-                    @if (Request.Cookies["user_id"] != null)
+                    @if (Request.Cookies["UserInfo"]["user_id"] != null)
                     {
                         <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                         <li>@Html.ActionLink("活動資訊(Select)", "About", "Home")</li>
@@ -34,14 +34,24 @@
                     }
                     else
                     {
-                        <li>@Html.ActionLink("新聞列表", "B_NewsList", "Activity")</li>
-                        <li>@Html.ActionLink("活動列表", "ActivityList", "Activity")</li>
-                        <li>@Html.ActionLink("買主資訊列表", "BuyerInfoList", "Activity")</li>
 
                         if (ViewBag.Title == "Verification")
                         {
                             <li>@Html.ActionLink("登入", "Login", "Home")</li>
                         }
+                        else if (ViewBag.Title == "Register")
+                        {
+                            <li>@Html.ActionLink("產品說明編輯", "ProductList", "User")</li>
+                            <li>@Html.ActionLink("型錄文件上傳", "CatalogList", "User")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("新聞列表", "B_NewsList", "Activity")</li>
+                            <li>@Html.ActionLink("活動列表", "ActivityList", "Activity")</li>
+                            <li>@Html.ActionLink("買主資訊列表", "BuyerInfoList", "Activity")</li>
+
+                        }
+
                     }
                 </ul>
             </nav>
