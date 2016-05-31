@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MailConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\UploadConfig.cs" />
@@ -220,6 +221,9 @@
     <Compile Include="WebService\UserInfoController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Start\MailTemplate\AccountMailValidate.html" />
+    <Content Include="App_Start\MailTemplate\ActivityCheckNotify.html" />
+    <Content Include="App_Start\MailTemplate\ForgetPassword.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -337,6 +341,8 @@
     <Content Include="Scripts\ckeditor\ckeditor_php4.php" />
     <Content Include="Scripts\ckeditor\ckeditor.php" />
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
+    <Content Include="App_Start\Key\AccountEmailValidate.pub" />
+    <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
     <Content Include="Scripts\ckeditor\config.js" />

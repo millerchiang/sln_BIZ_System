@@ -149,7 +149,7 @@
       <selectKey resultClass="int" property="id" type="post"> 
         SELECT currval('user_info_seq') 
       </selectKey>
-      INSERT INTO user_info_backup (
+      INSERT INTO user_info (
       user_id, user_pw,
       enterprise_type, company, leader,
       addr, contact, phone, email, capital, revenue, website, info,
@@ -194,11 +194,17 @@
       WHERE user_id = #user_id#
     </update>
 
+    <update id="UpdateIdEnable" parameterClass="UserInfoModel">
+      UPDATE user_info
+      SET id_enable = #id_enable#
+      WHERE id = $id$
+    </update>
   </statements>
 
   <resultMaps>
     <resultMap id="UserInfo-result" class="prj_BIZ_System.Models.UserInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="id" column="id"/>
       <result property="user_id" column="user_id"/>
       <result property="user_pw" column="user_pw"/>
       <result property="id_enable" column="id_enable"/>

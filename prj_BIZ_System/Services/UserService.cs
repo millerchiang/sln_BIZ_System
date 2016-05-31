@@ -50,6 +50,12 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+
+        public bool UserInfoUpdateIdEnable(int id , string id_enable)
+        {
+            var param = new UserInfoModel() { id = id, id_enable = id_enable };
+            return mapper.Update("UserInfo.UpdateIdEnable", param) > 0 ;
+        }
         //EnterpriseSortModel******************************************************************************//
 
         public IList<EnterpriseSortModel> GetSortList()

@@ -1,4 +1,5 @@
 ﻿using IBatisNet.DataMapper;
+using prj_BIZ_System.App_Start;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -27,6 +28,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
+
             if (Request.Cookies["UserInfo"] != null)
             {
                 indexModel.enterprisesortList = userService.GetSortList();
@@ -79,5 +81,14 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
         
+
+        public ActionResult MailValidateResult()
+        {
+            var result = TempData["MailValidateResult"];
+            if(result == null)
+            {
+                result = "";            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
