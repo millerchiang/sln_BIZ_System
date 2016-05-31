@@ -349,7 +349,7 @@ namespace prj_BIZ_System.Controllers
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
         }
-
+        
         [HttpPost]
         public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel model, int register_id, string manager_check)
         { 
@@ -358,27 +358,50 @@ namespace prj_BIZ_System.Controllers
             activityService.ActivityRegisterUpdateOne(model);
             return Redirect("ActivityRegisterCheck");
         }
+        #endregion
 
-        public ActionResult GetRegisterSearchByCondition(string term, string selectActivityName, string company)
+        #region 活動報名查詢
+        public ActionResult GetRegisterSearchByActivityName(string term, string selectActivityName, string selectCompany)
         {   
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, company);
-            ArrayList arrayList = new ArrayList();
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList activityNameList = new ArrayList();
+            
 
             foreach (ActivityRegisterModel model in activityModel.activityregisterList)
             {
-                arrayList.Add(model.activity_name);
-                arrayList.Add(model.company);
+                activityNameList.Add(model.activity_name);
+                
             }
-            string[] items = (string[])arrayList.ToArray(typeof(string));
+            string[] activityNameItems = (string[])activityNameList.ToArray(typeof(string));
 
-            var fiilteredItems = items.Where(
+            var fiilteredItems = activityNameItems.Where(
                 item => item.IndexOf(term,
                 StringComparison.InvariantCultureIgnoreCase) >= 0
                 );
+
             return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetRegisterSearchByCompany(string term, string selectActivityName, string selectCompany)
+        {
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList companyList = new ArrayList();
+            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
+            {
+                
+                companyList.Add(model.company);
+            }
 
+            string[] companyItems = (string[])companyList.ToArray(typeof(string));
+
+            var fiilteredItems = companyItems.Where(
+                item => item.IndexOf(term,
+                StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+
+            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
+        }
         #endregion
+
     }
 }
