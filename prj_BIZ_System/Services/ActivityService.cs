@@ -127,6 +127,17 @@ namespace prj_BIZ_System.Services
             mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
         }
 
+        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name , company = company };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
+        }
+
+        public void ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
+        {
+            mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);
+        }
+
         //ActivityProductSelectModel******************************************************************************//
         public void ActivityProductInsertOne(ActivityProductSelectModel activityProductSelectModel)
         {
