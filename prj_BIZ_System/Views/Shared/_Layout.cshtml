@@ -23,7 +23,7 @@
             </h1>
             <nav class="head_nav">
                 <ul>
-                    @if (Request.Cookies["UserInfo"]["user_id"] != null)
+                    @if (Request.Cookies["UserInfo"] != null)
                     {
                         <li>@Html.ActionLink("首頁", "Index", "Home")</li>
                         <li>@Html.ActionLink("活動資訊(Select)", "About", "Home")</li>
