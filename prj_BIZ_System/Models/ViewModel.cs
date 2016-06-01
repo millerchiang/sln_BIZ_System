@@ -35,13 +35,13 @@ namespace prj_BIZ_System.Models
     public class User_ViewModel
     {
         public UserInfoModel userinfo { get; set; }
-        public EnterpriseSortModel enterprisesort { get; set; }
-        public UserSortModel usersort { get; set; }
+        public EnterpriseSortListModel enterprisesort { get; set; }
+        public EnterpriseSortModel usersort { get; set; }
         public ProductListModel product { get; set; }
         public CatalogListModel catalog { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
-        public IList<EnterpriseSortModel> enterprisesortList { get; set; }
-        public IList<UserSortModel> usersortList { get; set; }
+        public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
+        public IList<EnterpriseSortModel> usersortList { get; set; }
         public IList<ProductListModel> productsortList { get; set; }
         public IList<CatalogListModel> cataloglistList { get; set; }
     }
@@ -49,7 +49,7 @@ namespace prj_BIZ_System.Models
     public class Index_ViewModel
     {
         public IList<UserInfoModel> userinfoList { get; set; }
-        public IList<EnterpriseSortModel> enterprisesortList { get; set; }
+        public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<NewsModel> newsList { get; set; }
 

@@ -6,6 +6,8 @@
     ViewBag.Title = "新增新聞活動訊息";
 }
 
+@Scripts.Render("~/bundles/ckeditor")
+
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
 }
@@ -60,7 +62,7 @@
         <input type="text" readonly name="manager_id" value="@Model.news.manager_id" class="regis_col02R" />
 
         <div class="centerbox">
-            <textarea  name="content">@Model.news.content</textarea>
+            <textarea  id="content" name="content">@Model.news.content</textarea>
         </div>
 
 
@@ -69,4 +71,13 @@
         </div>
     </form>
 </article>
+
+<script type="text/javascript">
+    var editor = CKEDITOR.editor.replace("content",
+        {
+            skin: "kama",
+            width: "900px",
+            filebrowserImageUploadUrl: "/Activity/NewsInfoUpload"
+        });
+</script>
 

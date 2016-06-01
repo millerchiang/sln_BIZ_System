@@ -1,4 +1,7 @@
-﻿@{
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
+
+@{
     ViewBag.Title = "活動報名審核";
 }
 
@@ -12,17 +15,19 @@
     <form class="form_box sys_searchbox">
         <h2>報名查詢</h2>
         <div class="sys_searchboxcol01L">
-            <label for="" class="regis_col02L">活動名稱</label>
-            <input type="text" class="regis_col02R">
+            <label for="selectActivityName" class="regis_col02L">活動名稱</label>
+            <input id="selectActivityName" type="text" name="selectActivityName" class="regis_col02R"
+                   value="@ViewBag.Where_ActivityName">
 
             <label for="" class="regis_col02L">報名期間</label>
             <div class="regis_col02R">
-                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="" /> ~
+                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="" />
                 <input type="text" id="endDate" name="endDate" minDate="startDate" value="" />
             </div>
 
-            <label for="" class="regis_col02L">廠商名稱</label>
-            <input type="text" class="regis_col02R">
+            <label for="selectCompany" class="regis_col02L">廠商名稱</label>
+            <input id="selectCompany" type="text" name="selectCompany" class="regis_col02R"
+                   value="@ViewBag.Where_Company">
         </div>
         <div class="sys_searchboxcol01R">
             <button type="submit" class="buinfor">搜尋</button>
@@ -39,103 +44,32 @@
                 <th>審核</th>
                 <th>審核修改</th>
             </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-01.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="#applicationbox" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-02.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="#applicationbox" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-01.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="#applicationbox" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-02.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="#applicationbox" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-01.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>2016/06/12</td>
-                <td>新北市電腦公會</td>
-                <td>新北商洽會</td>
-                <td>25</td>
-                <td>
-                    <div class="centerbox">
-                        <img src="../../images/icon/capplicaicon-02.png" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="centerbox">
-                        <a href="" class="addbu editopen">修改</a>
-                    </div>
-                </td>
-            </tr>
+            @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+            {
+                <tr>
+                    <td>@activityRegisterModel.create_time</td>
+                    <td>@activityRegisterModel.company</td>
+                    <td>@activityRegisterModel.activity_name</td>
+                    <td>@activityRegisterModel.quantity</td>
+                    <td>
 
+                        <div class="centerbox">
+                            @if (@activityRegisterModel.manager_check == "0")
+                            {
+                                <img src="../../images/icon/capplicaicon-02.png" id="photo@(activityRegisterModel.register_id)">
+                            }
+                            else {
+                                <img src="../../images/icon/capplicaicon-01.png" id="photo@(activityRegisterModel.register_id)">
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <div class="centerbox">
+                            <button id="updateManagerCheck@(activityRegisterModel.register_id)" class="addbu editopen" value="@activityRegisterModel.register_id">修改</button>
+                        </div>
+                    </td>
+                </tr>
+            }
         </table>
         <ul class="pagelist">
             <li><a href="">&lt;</a></li>
@@ -155,14 +89,7 @@
         </ul>
     </article>
 </div>
-<div class="popupbox" id="applicationbox">
-    <h3>審核修改</h3>
-    <p></p>
-    <div class="centerbox">
-        <a href="" class="addbu">是</a>
-        <a href="" class="deleteSbu">否</a>
-    </div>
-</div>
+
 <div id="dialog" title="審核修改">
     <p>是否通過審核</p>
 </div>
@@ -171,23 +98,58 @@
 @Scripts.Render("~/bundles/datetimepicker")
 
 <script type="text/javascript">
-    $(function () {
+    $(document).ready(function () {
 
+        var updateId;
+        var photoId;
+        /* button 修改的欄位*/
+        $(".editopen").click(function () {
+            $("#dialog").dialog("open");
+            updateId = this.id;
+            //alert(id);
+        });
+
+        /* 確認視窗 */
         $("#dialog").dialog({
             autoOpen: false,
             buttons: {
                 "是": function () {
+                    var id = updateId.slice(18);//updateManagerCheck
+                    photoId = "#photo" + id;
+                    $.ajax({
+                        type: "post",
+                        url: "@Url.Action("EditActivityRegisterUpdate", "Activity")",
+                        cache: false,
+                        data: { "register_id": id, "manager_check": 1 },
+                        dataType: "json",
+                        success: function (result) {
+
+                        }
+                    })
+                    $(photoId).attr("src", "../../images/icon/capplicaicon-01.png");
                     $(this).dialog("close");
                 },
                 "否": function () {
+                    var id = updateId.slice(18);//updateManagerCheck
+                    photoId = "#photo" + id;
+                    //alert(photoId);
+                    $.ajax({
+                        type: "post",
+                        url: "@Url.Action("EditActivityRegisterUpdate", "Activity")",
+                        cache: false,
+                        data: { "register_id": id, "manager_check": 0 },
+                        dataType: "json",
+                        success: function () {
+
+                        }
+                    })
+                    $(photoId).attr("src", "../../images/icon/capplicaicon-02.png");
                     $(this).dialog("close");
+
                 }
             }
         });
-
-        $(".editopen").click(function () {
-            $("#dialog").dialog("open");
-        });
+        /* 報名時間選擇器*/
         $('input[name$="Date"]').datepicker({
             dateFormat: 'yy/mm/dd',
             beforeShow: function () {
@@ -207,5 +169,20 @@
             }
         });
 
+        /* 活動名稱搜尋*/
+        $("#selectActivityName").autocomplete({
+            source: "@Url.Action("GetRegisterSearchByActivityName", "Activity")",
+            select: function (event, ui) {
+                var data = ui.item.label;
+            }
+        });
+
+        /*廠商名稱搜尋*/
+        $("#selectCompany").autocomplete({
+            source: "@Url.Action("GetRegisterSearchByCompany", "Activity")",
+            select: function (event, ui) {
+                var data = ui.item.label;
+            }
+        });
     });
 </script>

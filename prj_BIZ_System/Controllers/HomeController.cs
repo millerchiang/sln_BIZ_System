@@ -35,10 +35,7 @@ namespace prj_BIZ_System.Controllers
                 indexModel.newsList = activityService.GetNewsAll();
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {
-                    if (newsModel.news_type == "1")
-                    {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
-                    }
                 }
 
                 return View(indexModel);

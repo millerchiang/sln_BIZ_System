@@ -87,10 +87,7 @@ namespace prj_BIZ_System.Controllers
             activityModel.newsList = activityService.GetNewsAll();
             foreach (NewsModel newsModel in activityModel.newsList)
             {
-                if (newsModel.news_type == "1")
-                {
-                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
-                }
+              newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
             }
             return View(activityModel);
         }
@@ -111,6 +108,7 @@ namespace prj_BIZ_System.Controllers
             else {
 
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
+                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
             }
@@ -342,10 +340,68 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 活動報名審核
-        public ActionResult ActivityRegisterCheck()
+
+        [HttpGet]
+        public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany)
         {
-            return View();
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ViewBag.Where_ActivityName = selectActivityName;
+            ViewBag.Where_Company = selectCompany;
+            return View(activityModel);
+        }
+        
+        [HttpPost]
+        public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel model, int register_id, string manager_check)
+        { 
+            model.register_id = register_id;
+            model.manager_check = manager_check;
+            activityService.ActivityRegisterUpdateOne(model);
+            return Redirect("ActivityRegisterCheck");
         }
         #endregion
+
+        #region 活動報名查詢
+        public ActionResult GetRegisterSearchByActivityName(string term, string selectActivityName, string selectCompany)
+        {   
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList activityNameList = new ArrayList();
+            
+
+            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
+            {
+                activityNameList.Add(model.activity_name);
+                
+            }
+            string[] activityNameItems = (string[])activityNameList.ToArray(typeof(string));
+
+            var fiilteredItems = activityNameItems.Where(
+                item => item.IndexOf(term,
+                StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+
+            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetRegisterSearchByCompany(string term, string selectActivityName, string selectCompany)
+        {
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList companyList = new ArrayList();
+            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
+            {
+                
+                companyList.Add(model.company);
+            }
+
+            string[] companyItems = (string[])companyList.ToArray(typeof(string));
+
+            var fiilteredItems = companyItems.Where(
+                item => item.IndexOf(term,
+                StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+
+            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
     }
 }
