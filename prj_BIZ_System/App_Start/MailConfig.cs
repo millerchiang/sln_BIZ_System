@@ -76,7 +76,7 @@ namespace prj_BIZ_System.App_Start
             return paramDict;
         }
         /// <summary>
-        /// 發送Email (收信者Email , Email內容 , Email種類)
+        /// 發送Email (收信者Email地址 , Email內容 , Email種類)
         /// </summary>
         public static void doSendMail(string to, Dictionary<string, string> param, MailType type)
         {

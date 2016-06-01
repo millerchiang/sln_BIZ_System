@@ -87,7 +87,8 @@ namespace prj_BIZ_System.Controllers
             var result = TempData["MailValidateResult"];
             if(result == null)
             {
-                result = "";            }
+                result = "";
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
