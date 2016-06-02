@@ -17,6 +17,9 @@ namespace prj_BIZ_System
             bundles.Add(new ScriptBundle("~/bundles/ckeditor").Include(
                         "~/Scripts/ckeditor/ckeditor.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fancybox").Include(
+                        "~/Scripts/fancybox/jquery.fancybox.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryUI").Include(
                         "~/Scripts/jqueryUI/jquery-ui.min.js"));
 
@@ -51,6 +54,10 @@ namespace prj_BIZ_System
 
             bundles.Add(new StyleBundle("~/stylesheets/css/sys").Include(
                       "~/stylesheets/sys.css"
+                      ));
+
+            bundles.Add(new StyleBundle("~/Scripts/css/fancybox").Include(
+                      "~/Scripts/fancybox/jquery.fancybox.css"
                       ));
         }
     }

@@ -163,6 +163,7 @@ namespace prj_BIZ_System.Controllers
             string user_id =  Request.Cookies["UserInfo"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
+            ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
             return View(catalogLists);
         }
 
