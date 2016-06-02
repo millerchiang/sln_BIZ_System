@@ -9,7 +9,6 @@
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
-
 <div class="article_col1">
     <aside>
         <form action="" class="searchbox">
@@ -30,9 +29,17 @@
                 <option>請選擇</option>
                 @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
                 {
-                    <option value="@activityInfoModel.activity_id">
-                        @activityInfoModel.activity_name
-                    </option>
+                    if (activityInfoModel.activity_id == Model.activityregister.activity_id)
+                    {
+                        <option value="@activityInfoModel.activity_id" selected="selected">
+                            @activityInfoModel.activity_name
+                        </option>
+                    }
+                    else {
+                        <option value="@activityInfoModel.activity_id">
+                            @activityInfoModel.activity_name
+                        </option>
+                    }
                 }
             </select>
 
@@ -44,13 +51,13 @@
 
 
             <label for="starttime" class="regis_col02L spanRed">活動日期(起)</label>
-            <p id="starttime" class="regis_col03R"></p>
+            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
 
             <label for="endtime" class="regis_col03L spanRed">(迄)</label>
-            <p id="endtime" class="regis_col03R"></p>
+            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
 
             <label for="activityAddr" class="regis_col02L spanRed">活動地點</label>
-            <p id="activityAddr" class="regis_col02R"></p>
+            <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
 
 
             <label for="quantity" class="regis_col02L spanRed">與會人數</label>
@@ -102,19 +109,34 @@
                         <th>產品名稱</th>
                         <th>產品說明</th>
                     </tr>
-                    @foreach (ProductListModel productListModel in Model.productsortList)
+                    @if (ViewBag.PageType.Equals("CreateRegister"))
                     {
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="product_id" class="inputCheckbox"
-                                       id="product@(productListModel.product_id)"
-                                       value="@productListModel.product_id">
-                                <label for="product@(productListModel.product_id)"></label>
-                            </td>
-                            <td>@productListModel.product_name</td>
-                            <td>@productListModel.product_info</td>
-                        </tr>
+                        foreach (ProductListModel productListModel in Model.productsortList)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="product_id" class="inputCheckbox"
+                                           id="product@(productListModel.product_id)"
+                                           value="@productListModel.product_id">
+                                    <label for="product@(productListModel.product_id)"></label>
+                                </td>
+                                <td>@productListModel.product_name</td>
+                                <td>@productListModel.product_info</td>
+                            </tr>
+                        }
                     }
+                    else {
+                        foreach (ActivityProductSelectModel activityProductSelectModel in Model.activityproductselectList)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@activityProductSelectModel.product_name</td>
+                                <td>@activityProductSelectModel.product_info</td>
+                            </tr>
+                        }
+                    }
+
+
                 </table>
             </div>
             <div class="regis_col02L">
@@ -122,21 +144,35 @@
             </div>
             <div class="regis_col02R uplodboxR">
                 <ul class="regis_dmlist">
-                    @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
+
+                    @if (ViewBag.PageType.Equals("CreateRegister"))
                     {
-                        <li>
-                            <a href="@(ViewBag.coverDir+catalogListModel.cover_file)"><img src="@(ViewBag.coverDir+catalogListModel.cover_file)" /></a>
-                            <input type="checkbox" name="catalog_no" class="inputCheckbox"
-                                   id="catalog@(catalogListModel.catalog_no)"
-                                   value="@catalogListModel.catalog_no">
-                            <label for="catalog@(catalogListModel.catalog_no)"></label>
-                        </li>
+                        foreach (CatalogListModel catalogListModel in Model.cataloglistList)
+                        {
+                            <li>
+                                <a href="@(ViewBag.coverDir + catalogListModel.cover_file)"><img src="@(ViewBag.coverDir + catalogListModel.cover_file)" /></a>
+                                <input type="checkbox" name="catalog_no" class="inputCheckbox"
+                                       id="catalog@(catalogListModel.catalog_no)"
+                                       value="@catalogListModel.catalog_no">
+                                <label for="catalog@(catalogListModel.catalog_no)"></label>
+                            </li>
+                        }
+                    }
+                    else {
+                        foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
+                        {
+                            <li>
+                                <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
+                                    <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                </a>
+                            </li>
+                        }
                     }
                 </ul>
             </div>
 
             <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">送出報名</button>
+                <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
             </div>
 
         </form>

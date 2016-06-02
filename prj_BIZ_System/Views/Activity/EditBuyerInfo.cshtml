@@ -14,7 +14,7 @@
     if(ViewBag.PageType == "Create")
     {
         Model.buyerinfo.serial_no = 0;
-        Model.buyerinfo.activity_no = 0;
+        Model.buyerinfo.activity_id = 0;
         Model.buyerinfo.buyer_id = "";
         Model.buyerinfo.buyer_need = "";
     }
@@ -31,12 +31,12 @@
             <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" />
         }
 
-        <label for="activity_no" class="regis_col02L spanRed">活動名稱</label>
-        <select name="activity_no" class="regis_col02R">
+        <label for="activity_id" class="regis_col02L spanRed">活動名稱</label>
+        <select name="activity_id" class="regis_col02R">
             <option value="">--請選擇--</option>
             @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
             {
-                if (activityInfoModel.activity_id == Model.buyerinfo.activity_no)
+                if (activityInfoModel.activity_id == Model.buyerinfo.activity_id)
                 {
                     <option value="@activityInfoModel.activity_id" selected="selected">@activityInfoModel.activity_name</option>
                 }
