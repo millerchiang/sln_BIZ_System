@@ -101,13 +101,13 @@ namespace prj_BIZ_System.Controllers
                 var old_model = userService.GeUserInfoOne(current_user_id);
                 model.update_time = DateTime.Now;
                 model.user_id = current_user_id;
-                userService.UserInfoUpdateOne(model);
                 if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(current_user_id))
                 {
                     UploadHelper.deleteUploadFile(old_model.logo_img, "logo",current_user_id);
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
+                userService.UserInfoUpdateOne(model);
 
             }
 
