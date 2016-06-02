@@ -25,10 +25,35 @@ namespace prj_BIZ_System.App_Start
         {
             mailSetings = new MailSetting[10];
 
-            // 帳號Email認證
-            MailSetting AccountValidateMail = new MailSetting { subject= "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", account = sendAccount, password= password, isEnableHtml=true , template_file_name= "AccountMailValidate.html" };
-            AccountValidateMail.template_file_content = File.ReadAllText(Path.Combine(baseDir+TemplateDir, AccountValidateMail.template_file_name));
-            mailSetings[(int)MailType.AccountMailValidate] = AccountValidateMail;
+            //Email驗證
+            MailSetting AccountMailValidate = new MailSetting { subject= "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", account = sendAccount, password= password, isEnableHtml=true};
+            AccountMailValidate.template_file_name=new List<string>(new string[] { "AccountMailValidate.html" });
+            AccountMailValidate.template_file_content = new List<string>();
+            foreach (string file_name in AccountMailValidate.template_file_name)
+            {
+                AccountMailValidate.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
+            }
+            mailSetings[(int)MailType.AccountMailValidate] = AccountMailValidate;
+
+            //忘記密碼
+            MailSetting ForgetPassword = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]忘記密碼通知信", account = sendAccount, password = password, isEnableHtml = true };
+            ForgetPassword.template_file_name = new List<string>(new string[] { "ForgetPassword.html" });
+            ForgetPassword.template_file_content = new List<string>();
+            foreach (string file_name in ForgetPassword.template_file_name)
+            {
+                ForgetPassword.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
+            }
+            mailSetings[(int)MailType.ForgetPassword] = ForgetPassword;
+
+            //報名審核
+            MailSetting ActivityCheckNotify = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]活動報名審核結果通知", account = sendAccount, password = password, isEnableHtml = true };
+            ActivityCheckNotify.template_file_name = new List<string>(new string[] { "ActivityCheckNotify_Fail.html" , "ActivityCheckNotify_Success.html" });
+            ActivityCheckNotify.template_file_content = new List<string>();
+            foreach (string file_name in ActivityCheckNotify.template_file_name)
+            {
+                ActivityCheckNotify.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
+            }
+            mailSetings[(int)MailType.ActivityCheckNotify] = ActivityCheckNotify;
         }
     }
 
@@ -57,14 +82,15 @@ namespace prj_BIZ_System.App_Start
         }
 
         /// <summary>
-        /// 活動報名審核結果通知
+        /// 活動報名審核結果通知( manager_check -> 後台審核 ("0"：不通過；"1"：通過)) ; 其他 -> model屬性值
         /// </summary>
-        public static Dictionary<string, string> fillActivityCheckNotify(
+        public static Dictionary<string, string> fillActivityCheckNotify(string manager_check,
             int activity_id, string activity_name, string starttime , string addr ,
             int quantity, string name, string phone, string email
             )
         {
             Dictionary<string, string> paramDict = new Dictionary<string, string>();
+            paramDict.Add("check"     , manager_check);
             paramDict.Add("(@活動編號)", activity_id.ToString());
             paramDict.Add("(@活動名稱)", activity_name);
             paramDict.Add("(@活動時間)", starttime);
@@ -83,7 +109,14 @@ namespace prj_BIZ_System.App_Start
             if (!string.IsNullOrEmpty(to))
             {
                 MailSetting[] mailSetings = MailConfig.mailSetings;
-                string content= mailSetings[(int)type].template_file_content;
+
+                int content_index = 0;
+                if (param.ContainsKey("check"))
+                {
+                    content_index = int.Parse(param["check"]);
+                }
+
+                string content= mailSetings[(int)type].template_file_content[content_index];
                 MailMessage msg = new MailMessage();
                 msg.From = new MailAddress(mailSetings[(int)type].account);
                 msg.IsBodyHtml = mailSetings[(int)type].isEnableHtml;
@@ -124,14 +157,14 @@ namespace prj_BIZ_System.App_Start
 
     public struct MailSetting
     {
-        public string   subject;
-        public string   from;
-        public string   to;
-        public string   template_file_name;
-        public string   template_file_content;
-        public bool     isEnableHtml;
-        public string   account;
-        public string   password;
+        public string       subject;
+        public string       from;
+        public string       to;
+        public List<string> template_file_name;
+        public List<string> template_file_content;
+        public bool         isEnableHtml;
+        public string       account;
+        public string       password;
     }
 
     public class SecurityHelper
