@@ -89,7 +89,14 @@
                     <div class="regis_col01L">
 
                         <div id="result">
-                            <img src="/images/logopic.jpg" alt="">
+                            @if (Model.userinfo.logo_img != null)
+                            {
+                                <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                            }
+                            else
+                            {
+                                <img src="/images/logopic.jpg" alt="">
+                            }
                         </div>
                         <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>
                         <input type="file" id="id_image_large" name="logo_img">
