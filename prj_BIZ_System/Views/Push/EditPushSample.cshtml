@@ -138,7 +138,7 @@
             type: "get",
             url: "@Url.Action("EditPushSampleJson", "Push")",
             cache: false,
-            dataType: "json",
+            dataType: "json"
         }).done(function (result) {
             if (result != null && result.pushSampleList != null) {
                 var pushSampleList = result.pushSampleList;
