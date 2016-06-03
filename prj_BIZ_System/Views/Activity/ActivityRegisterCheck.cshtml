@@ -102,6 +102,7 @@
 
         var updateId;
         var photoId;
+
         /* button 修改的欄位*/
         $(".editopen").click(function () {
             $("#dialog").dialog("open");
@@ -171,7 +172,7 @@
 
         /* 活動名稱搜尋*/
         $("#selectActivityName").autocomplete({
-            source: "@Url.Action("GetRegisterSearchByCondition", "Activity")",
+            source: "@Url.Action("GetRegisterSearchByActivityName", "Activity")",
             select: function (event, ui) {
                 var data = ui.item.label;
             }
@@ -179,7 +180,7 @@
 
         /*廠商名稱搜尋*/
         $("#selectCompany").autocomplete({
-            source: "@Url.Action("GetRegisterSearchByCondition", "Activity")",
+            source: "@Url.Action("GetRegisterSearchByCompany", "Activity")",
             select: function (event, ui) {
                 var data = ui.item.label;
             }

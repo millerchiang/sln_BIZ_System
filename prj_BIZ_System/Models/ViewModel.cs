@@ -64,4 +64,11 @@ namespace prj_BIZ_System.Models
         public IList<PushSampleModel> pushSampleList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
     }
+
+    public class Match_ViewModel
+    {
+        public IList<ActivityRegisterModel> activityregisterList { get; set; }
+        public IList<ActivityInfoModel> activityinfoList { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
+    }
 }

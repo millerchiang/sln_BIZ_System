@@ -121,12 +121,16 @@
           <isNotEmpty prepend="and" property="company">
             company like '%'||#company#||'%'
           </isNotEmpty>
-          <isNotEmpty prepend="and" property="">
-            
-          </isNotEmpty>
         </dynamic>
         ORDER BY r.create_time
-      </select>  
+      </select>
+       
+      <!--查詢活動報名單筆-->
+      <select id="SelectActivityRegisterOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register
+        WHERE register_id = #register_id#
+      </select>
     
       <!--新增活動報名單筆-->
       <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
@@ -236,9 +240,9 @@
       <!--新增買主資訊單筆-->
       <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
         INSERT INTO buyer_list (
-        activity_no, buyer_id, buyer_need
+        activity_id, buyer_id, buyer_need
         ) VALUES (
-        #activity_no#, #buyer_id#, #buyer_need#
+        #activity_id#, #buyer_id#, #buyer_need#
         )
       </insert>
 
@@ -251,7 +255,7 @@
       <!--修改買主資訊單筆-->
       <update id="UpdateBuyerInfoOne" parameterClass="BuyerInfoModel">
         UPDATE buyer_list SET
-        activity_no = #activity_no#,
+        activity_id = #activity_id#,
         buyer_id = #buyer_id#,
         buyer_need = #buyer_need#
         WHERE serial_no = #serial_no#
@@ -299,7 +303,16 @@
         #user_id#, #activity_id#, #product_id#
         )
       </insert>
-    
+      
+      <!--選取哪家廠商的哪個活動所選的公司產品-->
+      <select id="SelectActivityProductByCondition" resultMap="ActivityProductSelectByCondition" parameterClass="ActivityProductSelectModel">
+        SELECT *
+        FROM activity_product_select aps
+        INNER JOIN product_list pl
+        ON aps.product_id = pl.product_id
+        WHERE aps.user_id = #user_id#
+        AND aps.activity_id = #activity_id#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -317,6 +330,16 @@
       #user_id#, #activity_id#, #catalog_no#
       )
     </insert>
+
+    <!--選取哪家廠商的哪個活動所選的公司型錄-->
+    <select id="SelectActivityCatalogByCondition" resultMap="ActivityCatalogSelectByCondition" parameterClass="ActivityCatalogSelectModel">
+      SELECT *
+      FROM activity_catalog_select aps
+      INNER JOIN catalog_list cl
+      ON aps.catalog_no = cl.catalog_no
+      WHERE aps.user_id = #user_id#
+      AND aps.activity_id = #activity_id#
+    </select>
 
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -417,7 +440,7 @@
     <resultMap id="BuyerInfo" class="BuyerInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱--> 
       <result property="serial_no" column="serial_no"/>
-      <result property="activity_no" column="activity_no"/>
+      <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
     </resultMap>
@@ -438,12 +461,34 @@
       <result property="product_id" column="product_id"/>
     </resultMap>
 
+    <resultMap id="ActivityProductSelectByCondition" class="ActivityProductSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="user_id" column="user_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="product_id" column="product_id"/>
+      <!--productlist 的 product_name, product_info-->
+      <result property="product_name" column="product_name"/>
+      <result property="product_info" column="product_info"/>
+    </resultMap>
+
     <resultMap id="ActivityCatalogSelect" class="ActivityCatalogSelectModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="serial_no" column="serial_no"/>
       <result property="user_id" column="user_id"/>
       <result property="activity_id" column="activity_id"/>
       <result property="catalog_no" column="catalog_no"/>
+    </resultMap>
+
+    <resultMap id="ActivityCatalogSelectByCondition" class="ActivityCatalogSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="user_id" column="user_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="catalog_no" column="catalog_no"/>
+      <!--cataloglist 的 cover_file, catalog_file-->
+      <result property="cover_file" column="cover_file"/>
+      <result property="catalog_file" column="catalog_file"/>
     </resultMap>
     
   </resultMaps>

@@ -7,6 +7,7 @@
 
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
 }
 
 <div class="article_col1">
@@ -22,7 +23,7 @@
                     foreach (var mo in Model)
                     {
                         <li>
-                            <a href="@(ViewBag.coverDir+mo.cover_file)" target="_blank"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
+                            <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
                             <input type="checkbox" class="inputCheckbox" name="catalog_no" id="@(mo.catalog_no)" value="@(mo.catalog_no)"><label for="@(mo.catalog_no)"></label>
                         </li>
                     }
@@ -40,12 +41,19 @@
         </article>
     </div>
 
+@Scripts.Render("~/bundles/fancybox")
+
 <script>
     $(function () {
         init();
     })
 
     function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
         $("#deleteLink").click(function () {
             if(confirm("確認是否要刪除")){
                 $("#deleteForm").submit();

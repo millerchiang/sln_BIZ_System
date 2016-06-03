@@ -73,6 +73,7 @@ namespace prj_BIZ_System.Controllers
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
+                ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
                 if (ViewBag.userSortList == null)
                 {
                     ViewBag.userSortList = "[]";
@@ -105,12 +106,27 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                userService.UserInfoInsertOne(model);
+                var id = userService.UserInfoInsertOne(model);
+                if( id != null)
+                {
+                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email , Request.Url.Host , Request.Url.Port);
+            }
+                
             }
             else //修改
             {
+                string current_user_id = Request.Cookies["UserInfo"]["user_id"];
+                var old_model = userService.GeUserInfoOne(current_user_id);
                 model.update_time = DateTime.Now;
+                model.user_id = current_user_id;
+                if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(current_user_id))
+                {
+                    UploadHelper.deleteUploadFile(old_model.logo_img, "logo",current_user_id);
+                    UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
+                    model.logo_img = logo_img.FileName;
+                }
                 userService.UserInfoUpdateOne(model);
+
             }
 
             bool refreshResult = userService.RefreshUserSort(model.user_id,sort_id);
@@ -121,7 +137,70 @@ namespace prj_BIZ_System.Controllers
             if (model.id_enable=="1")
                 return Redirect("../Home/Index");
             else
-                return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+        }
+
+        
+
+        public ActionResult AccountMailValidate(string validate_linkX)
+        {
+            string link = SecurityHelper.Decrypt(validate_linkX);
+            string[] datas = link.Split(new string[]{ "+" }, StringSplitOptions.RemoveEmptyEntries);
+
+            const int expired_limit_days = 3; //期限
+            const string status_success     = "您的會員帳號已成功開通，請於首頁登入使用，謝謝。";
+            const string status_expired     = "您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。";
+            const string status_beValidated = "您已驗證過本會員帳號，請於首頁登入使用，謝謝。";
+            const string status_fail        = "您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。";
+
+            UserInfoModel dbUser = userService.GeUserInfoOne(datas[1]);
+            string result ;
+            if ("0".Equals(dbUser.id_enable))
+            {
+                if (dbUser.id.ToString().Equals(datas[0].ToString()))
+                {
+                    if (datas[2]!=null)
+                    {
+                        DateTime checkTime = DateTime.Parse(datas[2]);
+                        var days = new TimeSpan(DateTime.Now.Ticks - checkTime.Ticks).Days;
+                        if (days > expired_limit_days ) 
+                        {
+                            result = status_expired;
+                        }
+                        else
+                        {
+                            if (userService.UserInfoUpdateIdEnable(dbUser.id, "1"))
+                            {
+                                result = status_success;
+                            }
+                            else
+                            {
+                                result = status_fail​;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result = status_fail​;
+                    }
+                }
+                else
+                {
+                    result = status_fail​;
+                }
+            }
+            else if("1".Equals(dbUser.id_enable))
+            {
+                result = status_beValidated;
+            }
+            else
+            {
+                result = status_fail;
+            }
+
+            TempData["MailValidateResult"] = result;
+
+            return Redirect("../Home/Login");
         }
 
         #region 產品說明
@@ -168,7 +247,8 @@ namespace prj_BIZ_System.Controllers
         {
             string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
-            ViewBag.coverDir = UploadConfig.CatalogRootPath + user_id + "/" + UploadConfig.subDirForCover;
+            ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
+            ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
             return View(catalogLists);
         }
 

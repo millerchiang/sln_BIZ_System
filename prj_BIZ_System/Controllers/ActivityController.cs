@@ -89,7 +89,7 @@ namespace prj_BIZ_System.Controllers
             {
 //                if (newsModel.news_type == "1")
 //                {
-                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
+              newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
 //                }
             }
             return View(activityModel);
@@ -284,8 +284,6 @@ namespace prj_BIZ_System.Controllers
             activityModel.activityinfoList = activityService.GetActivityInfoList();
             ViewBag.Action = "EditActivityRegisterInsert";
 
-            activityModel.activityregister = new ActivityRegisterModel();
-            activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
@@ -297,11 +295,34 @@ namespace prj_BIZ_System.Controllers
             activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
             activityModel.cataloglistList = userService.getAllCatalog(Request.Cookies["UserInfo"]["user_id"]);
 
+            if (Request["register_id"] == null)
+            {
+                activityModel.activityregister = new ActivityRegisterModel();
+                activityModel.activityinfo = new ActivityInfoModel();
+                activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+
             ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
                 UploadConfig.subDirForCover;
+                ViewBag.PageType = "CreateRegister";
+                ViewBag.SubmitName = "送出報名";
 
+            }else {
+                activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
+                activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+
+                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+
+                activityModel.activityproductselectList = activityService.GetActivityProductSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+                activityModel.activitycatalogselectList = activityService.GetActivityCatalogSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+
+                ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+                UploadConfig.subDirForCover;
+                ViewBag.PageType = "AlreadyRegister";
+                ViewBag.SubmitName = "已送出報名";
+            }
             return View(activityModel);
         }
+
         [HttpPost]
         public ActionResult EditActivityRegisterInsert(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
         {
@@ -347,5 +368,49 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
         #endregion
+
+        #region 活動報名查詢
+        public ActionResult GetRegisterSearchByActivityName(string term, string selectActivityName, string selectCompany)
+        {   
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList activityNameList = new ArrayList();
+            
+
+            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
+            {
+                activityNameList.Add(model.activity_name);
+                
+            }
+            string[] activityNameItems = (string[])activityNameList.ToArray(typeof(string));
+
+            var fiilteredItems = activityNameItems.Where(
+                item => item.IndexOf(term,
+                StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+
+            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetRegisterSearchByCompany(string term, string selectActivityName, string selectCompany)
+        {
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ArrayList companyList = new ArrayList();
+            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
+            {
+                
+                companyList.Add(model.company);
+            }
+
+            string[] companyItems = (string[])companyList.ToArray(typeof(string));
+
+            var fiilteredItems = companyItems.Where(
+                item => item.IndexOf(term,
+                StringComparison.InvariantCultureIgnoreCase) >= 0
+                );
+
+            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
     }
 }
