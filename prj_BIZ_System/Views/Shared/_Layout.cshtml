@@ -1,4 +1,14 @@
 ﻿<!DOCTYPE html>
+
+@if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+{
+
+    if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+}
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -23,6 +33,47 @@
             </h1>
             <nav class="head_nav">
                 <ul>
+                    @if (ViewBag.Title == "Register")
+                    {
+                        if (ViewBag.PageType == "Create")
+                        {
+                            <li>@Html.ActionLink("登入", "Login", "Home")</li>
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("產品說明編輯", "ProductList", "User")</li>
+                            <li>@Html.ActionLink("型錄文件上傳", "CatalogList", "User")</li>
+                        }
+                    }
+                    else if (ViewBag.Title == "Index")
+                    {
+                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+                        <li>@Html.ActionLink("最新消息", "News", "Home")</li>
+                    }
+                    else if (ViewBag.Title == "News")
+                    {
+                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+                    }
+                    else if (ViewBag.Title == "NewsView")
+                    {
+                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                        <li>@Html.ActionLink("最新消息", "News", "Home")</li>
+                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+                    }
+                    else if (ViewBag.Title == "ProductList")
+                    {
+                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+                        <li>@Html.ActionLink("型錄文件上傳", "CatalogList", "User")</li>
+                    }
+                    else if (ViewBag.Title == "CatalogList")
+                    {
+                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+                        <li>@Html.ActionLink("產品說明編輯", "ProductList", "User")</li>
+                    }
+                    
+
+<!--
                     @if (Request.Cookies["UserInfo"] != null)
                     {
                         <li>@Html.ActionLink("首頁", "Index", "Home")</li>
@@ -53,6 +104,7 @@
                         }
 
                     }
+-->
                 </ul>
             </nav>
         </div>

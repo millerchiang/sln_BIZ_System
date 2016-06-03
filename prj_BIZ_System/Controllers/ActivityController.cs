@@ -87,7 +87,10 @@ namespace prj_BIZ_System.Controllers
             activityModel.newsList = activityService.GetNewsAll();
             foreach (NewsModel newsModel in activityModel.newsList)
             {
-              newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
+//                if (newsModel.news_type == "1")
+//                {
+                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
+//                }
             }
             return View(activityModel);
         }
@@ -108,7 +111,6 @@ namespace prj_BIZ_System.Controllers
             else {
 
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
-                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
             }
@@ -340,45 +342,10 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 活動報名審核
-
-        [HttpGet]
-        public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany)
+        public ActionResult ActivityRegisterCheck()
         {
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
-            ViewBag.Where_ActivityName = selectActivityName;
-            ViewBag.Where_Company = selectCompany;
-            return View(activityModel);
+            return View();
         }
-
-        [HttpPost]
-        public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel model, int register_id, string manager_check)
-        { 
-            model.register_id = register_id;
-            model.manager_check = manager_check;
-            activityService.ActivityRegisterUpdateOne(model);
-            return Redirect("ActivityRegisterCheck");
-        }
-
-        public ActionResult GetRegisterSearchByCondition(string term, string selectActivityName, string company)
-        {   
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, company);
-            ArrayList arrayList = new ArrayList();
-
-            foreach (ActivityRegisterModel model in activityModel.activityregisterList)
-            {
-                arrayList.Add(model.activity_name);
-                arrayList.Add(model.company);
-            }
-            string[] items = (string[])arrayList.ToArray(typeof(string));
-
-            var fiilteredItems = items.Where(
-                item => item.IndexOf(term,
-                StringComparison.InvariantCultureIgnoreCase) >= 0
-                );
-            return Json(fiilteredItems, JsonRequestBehavior.AllowGet);
-        }
-
-
         #endregion
     }
 }

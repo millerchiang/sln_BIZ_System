@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Index_ViewModel
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
 }
 @section pagestyle{
     <link href="/stylesheets/index.css" rel="stylesheet" />
@@ -65,7 +65,6 @@
                 {
                     <li>
                         <a href="/Activity/EditNewsActivity?Id=@newsList.news_no">@newsList.news_title</a>
-                        <p>@Html.Raw(@newsList.content)</p>
                     </li>
                 }
                 </ul>

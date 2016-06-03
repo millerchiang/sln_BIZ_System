@@ -704,6 +704,7 @@
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
+    <Content Include="stylesheets\news.css" />
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\registerd.css" />
     <Content Include="stylesheets\reset.css" />
@@ -738,13 +739,15 @@
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
-    <Content Include="Views\User\_NavSearchPartial.cshtml" />
+    <Content Include="Views\Shared\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
     <Content Include="Views\Push\EditPushSample.cshtml" />
     <Content Include="Views\Push\SearchPushList.cshtml" />
     <Content Include="Views\Push\EditPushList.cshtml" />
+    <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\Home\NewsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

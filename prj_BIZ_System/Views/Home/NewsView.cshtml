@@ -1,0 +1,35 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
+    ViewBag.Title = "NewsView";
+}
+@section pagestyle{
+    <link href="/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle">@Model.news.news_title</h2>
+        <p class="news_content">
+            發布日期: @Model.news.news_date<br />
+            @Html.Raw(@Model.news.content)
+            <br />
+            @if (Model.news.news_type == "1")
+            {
+                <h>相關資訊連結:</h><a href="@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
+            }
+            else
+            {
+                <div class="centerbox">
+                    <a href="" class="submitbuRed">報名資訊</a>
+                    <a href="" class="buinfor">買主資訊</a>
+                </div>
+
+            }
+        </p>
+</article>
+</div>

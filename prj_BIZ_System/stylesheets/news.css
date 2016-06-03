@@ -1,0 +1,33 @@
+.news_list {
+  padding: 10px 0 5px 0;
+}
+.news_list li {
+  border-bottom: 1px dotted #cccccc;
+  line-height: 2.6em;
+}
+.news_list a:link, .news_list a:visited {
+  font-size: 0.938em;
+}
+.news_list a span {
+  color: #ffffff;
+  padding: 2px 3px;
+}
+.news_list a.news_activity span {
+  background: #ff9000;
+}
+.news_list a.news_activity:hover span {
+  background: #f46813;
+}
+.news_list a.news_newspage span {
+  background: #03a9f5;
+}
+.news_list a.news_newspage:hover span {
+  background: #1184b9;
+}
+
+.news_content {
+  line-height: 2em;
+  padding: 0 0 15px 0;
+}
+
+/*# sourceMappingURL=news.css.map */

@@ -10,11 +10,11 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial");
-    }
+@{
+    Html.RenderAction("_NavSearchPartial", "User");
+}
     <article class="article_col2 form_box">
-        <h2>型錄上傳</h2>
+        <h2>@Request.Cookies["UserInfo"]["company"] - 型錄上傳</h2>
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
             <ul class="regis_dmlist">
                 @if (Model != null)

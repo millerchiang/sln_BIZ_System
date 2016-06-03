@@ -45,19 +45,30 @@ namespace prj_BIZ_System.Controllers
         {
             userModel.enterprisesortList = userService.GetSortList();
             ViewBag.Action = "UserInsertUpdate";
+            string userid = Request["user_id"];
+            if (userid == null)
+            {
+                if (Request.Cookies["UserInfo"] != null)
+                    userid = Request.Cookies["UserInfo"]["user_id"];
+            }
+            else if (userid=="new")
+            {
+                userid = null; 
+            }
 
+            HttpCookie cookie = new HttpCookie("Action");
 
-            if (Request["user_id"] == null) //新增
+            if (userid == null) //新增
             {
                 userModel.userinfo = new UserInfoModel();
                 ViewBag.PageType = "Create";
                 ViewBag.SubmitName = "確定送出";
-                Response.Cookies["UserInfo"]["edit"] = "Add";
+                cookie.Values.Add("edit", "Add");
                 ViewBag.userSortList = "[]";
             }
             else //修改
             {
-                userModel.userinfo = userService.GeUserInfoOne(Request["user_id"]);
+                userModel.userinfo = userService.GeUserInfoOne(userid);
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -68,8 +79,11 @@ namespace prj_BIZ_System.Controllers
                 }
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
-                Response.Cookies["UserInfo"]["edit"] = "Update";
+                cookie.Values.Add("edit", "Update");
+                cookie.Values.Add("user_id", userid);
             }
+
+            Response.AppendCookie(cookie);
             return View(userModel);
         }
 
@@ -84,7 +98,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult UserInsertUpdate(UserInfoModel model , int[] sort_id , HttpPostedFileBase logo_img)
         {
-            if (Request.Cookies["UserInfo"]["edit"] == "Add")//新增
+            if (Request.Cookies["Action"]["edit"] == "Add")//新增
             {
                 if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.user_id))
                 {
@@ -103,13 +117,17 @@ namespace prj_BIZ_System.Controllers
             string name = Request["company"];
             if (name == "")
                 name = Request["company_en"];
-            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+
+            if (model.id_enable=="1")
+                return Redirect("../Home/Index");
+            else
+                return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
         #region 產品說明
         public ActionResult ProductList()
         {
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = Request.Cookies["Action"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
             return View(productLists);
         }
@@ -119,7 +137,7 @@ namespace prj_BIZ_System.Controllers
         {
             try
             {
-                string user_id =  Request.Cookies["UserInfo"]["user_id"];
+                string user_id =  Request.Cookies["Action"]["user_id"];
                 bool isDelSuccess = userService.ProductListDelete(user_id, del_prods);
                 return Json("success");
             }
@@ -134,7 +152,7 @@ namespace prj_BIZ_System.Controllers
         {
             try
             {
-                string user_id =  Request.Cookies["UserInfo"]["user_id"];
+                string user_id =  Request.Cookies["Action"]["user_id"];
                 userService.ProductListRefresh(user_id, old_prods, new_prods);
                 return Json("success");
             }
@@ -148,7 +166,7 @@ namespace prj_BIZ_System.Controllers
         #region 型錄管理
         public ActionResult CatalogList()
         {
-            string user_id =  Request.Cookies["UserInfo"]["user_id"];
+            string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadConfig.CatalogRootPath + user_id + "/" + UploadConfig.subDirForCover;
             return View(catalogLists);
@@ -162,7 +180,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult CatalogDelete(int[] catalog_no)
         {
-            string user_id =  Request.Cookies["UserInfo"]["user_id"];
+            string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
             #region 刪除檔案
@@ -193,7 +211,7 @@ namespace prj_BIZ_System.Controllers
             {
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
                 {
-                    string user_id = Request.Cookies["UserInfo"]["user_id"];
+                    string user_id = Request.Cookies["Action"]["user_id"];
                     UploadHelper.doUploadFile(cover_file, UploadConfig.subDirForCover , user_id);
                     UploadHelper.doUploadFile(catalog_file, UploadConfig.subDirForCatalog, user_id);
                     bool isUploadSuccess = userService.CatalogListInsert(user_id, cover_file.FileName, catalog_file.FileName);

@@ -233,7 +233,7 @@ header {
 .head_nav li:hover ul {
   display: block;
 }
-.head_nav li + li {
+.head_nav li {
   margin-top: 15px;
 }
 

@@ -38,8 +38,10 @@
         Model.userinfo.website = "";
         Model.userinfo.info = "";
         Model.userinfo.info_en = "";
+        Model.userinfo.id_enable = "0";
+
     }
-    else{
+    else {
 
         if (Model.userinfo.enterprise_type == "0")
         {
@@ -77,6 +79,8 @@
         {
             revenue06 = "checked";
         }
+        Model.userinfo.id_enable = "0";
+
     }
 
 }
@@ -102,6 +106,8 @@
                             </div>
                         </div>
                         -->
+                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+
                         <label class="regis_col01R_label">
                             企業類型
                         </label>
