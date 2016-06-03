@@ -94,8 +94,7 @@ namespace prj_BIZ_System.Controllers
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {
-                    sendAccountMailValidate( id , model);
-
+                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email , Request.Url.Host , Request.Url.Port);
                 }
                 
             }
@@ -112,25 +111,7 @@ namespace prj_BIZ_System.Controllers
             return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
-        /* 發送認證Email */
-        private void sendAccountMailValidate(object id , UserInfoModel model)
-        {
-            const string validateActionName = "AccountMailValidate";
-
-            string link = id + "+" + model.user_id + "+" + DateTime.Now.ToString("yyyy-MM-dd");
-            string validate_linkX = SecurityHelper.Encrypt(link);
-            //檢查用
-            string check_link = SecurityHelper.Decrypt(validate_linkX);
-
-            string host = Request.Url.Host;
-            int port = Request.Url.Port;
-
-            var param = MailHelper.fillAccountMailValidte(model.user_id , "http://"+host+":"+port.ToString()+"/User/"+ validateActionName+ "?validate_linkX=" + validate_linkX);
-            if (!string.IsNullOrEmpty(model.email))
-            {
-                MailHelper.doSendMail(model.email, param, MailType.AccountMailValidate);
-            }
-        }
+        
 
         public ActionResult AccountMailValidate(string validate_linkX)
         {
