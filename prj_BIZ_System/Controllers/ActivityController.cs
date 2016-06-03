@@ -278,13 +278,11 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名
         [HttpGet]
         public ActionResult EditActivityRegister()
-        {
+        {   
             activityModel.activityinfoList = activityService.GetActivityInfoList();
             ViewBag.Action = "EditActivityRegisterInsert";
 
-            activityModel.activityregister = new ActivityRegisterModel();
-            activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
-
+ 
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
@@ -295,11 +293,34 @@ namespace prj_BIZ_System.Controllers
             activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
             activityModel.cataloglistList = userService.getAllCatalog(Request.Cookies["UserInfo"]["user_id"]);
 
-            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
-                UploadConfig.subDirForCover;
+            if (Request["register_id"] == null)
+            {
+                activityModel.activityregister = new ActivityRegisterModel();
+                activityModel.activityinfo = new ActivityInfoModel();
+                activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
+                ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+                UploadConfig.subDirForCover;
+                ViewBag.PageType = "CreateRegister";
+                ViewBag.SubmitName = "送出報名";
+
+            }else {
+                activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
+                activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+
+                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+
+                activityModel.activityproductselectList = activityService.GetActivityProductSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+                activityModel.activitycatalogselectList = activityService.GetActivityCatalogSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+
+                ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+                UploadConfig.subDirForCover;
+                ViewBag.PageType = "AlreadyRegister";
+                ViewBag.SubmitName = "已送出報名";
+            }
             return View(activityModel);
         }
+
         [HttpPost]
         public ActionResult EditActivityRegisterInsert(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
         {
