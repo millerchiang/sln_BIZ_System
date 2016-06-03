@@ -23,7 +23,7 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpPost]
-        public string UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
+        public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
             string[] strings = sort_id.Split(',');
             int[] enterprise_sort_id = new int[strings.Length];
@@ -31,8 +31,21 @@ namespace prj_BIZ_System.WebService
             {
                 enterprise_sort_id[i] = int.Parse(strings[i]);
             }
-            userService.RefreshUserSort(userInfoModel.user_id, enterprise_sort_id);
-            return new JavaScriptSerializer().Serialize(userService.UserInfoInsertOne(userInfoModel)); 
+            try
+            {
+                userService.RefreshUserSort(userInfoModel.user_id, enterprise_sort_id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return userService.UserInfoInsertOne(userInfoModel); 
+        }
+
+        [HttpGet]
+        public IList<EnterpriseSortListModel> GetSortList()
+        {
+            return userService.GetSortList();
         }
 
     }
