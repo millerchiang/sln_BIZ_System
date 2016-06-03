@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "帳戶管理";
+    ViewBag.Title = "帳戶管理(賣家)";
 }
 
 @section pagestyle{
@@ -37,7 +37,16 @@
                         <a href="news_activity.html" class="iconlink">@activityRegisterModel.activity_name</a>
                         <div class="centerbox">
                             <a href="@Url.Action("EditActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
-                            <a href="@Url.Action("BusinessMatch","Match", new { activity_id = activityRegisterModel.activity_id })" class="deleteSbu">媒合申請</a>
+                            <a href="@Url.Action("SellerBusinessMatch","Match", new { activity_id = activityRegisterModel.activity_id })" class="deleteSbu">活動媒合</a>
+                        </div>
+                    </li>
+                }
+                @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                {
+                    <li>
+                        <a href="news_activity.html" class="iconlink">@buyerInfoModel.activity_name</a>
+                        <div class="centerbox">
+                            <a href="@Url.Action("BuyerBusinessMatch","Match", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">活動媒合</a>
                         </div>
                     </li>
                 }

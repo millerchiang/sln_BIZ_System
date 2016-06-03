@@ -753,7 +753,7 @@
     <Content Include="Views\Push\SearchPushList.cshtml" />
     <Content Include="Views\Push\EditPushList.cshtml" />
     <Content Include="Views\Match\AccountManage.cshtml" />
-    <Content Include="Views\Match\BusinessMatch.cshtml" />
+    <Content Include="Views\Match\SellerBusinessMatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,6 +36,8 @@ namespace prj_BIZ_System.Models
         public string buyer_need { get; set; }//買主媒合需求
 
         public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
+        public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string manager_check { get; set; }//ActivityRegisterModel 的 後台審核 (0：不通過；1：通過)
     }
 
     public class UserInfoToIdAndCpModel
