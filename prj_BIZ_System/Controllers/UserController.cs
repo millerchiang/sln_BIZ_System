@@ -93,7 +93,13 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                userService.UserInfoInsertOne(model);
+                var id = userService.UserInfoInsertOne(model);
+                if( id != null)
+                {
+                    sendAccountMailValidate( id , model);
+
+                }
+                
             }
             else //修改
             {
@@ -116,6 +122,87 @@ namespace prj_BIZ_System.Controllers
             if (name == "")
                 name = Request["company_en"];
             return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+        }
+
+        /* 發送認證Email */
+        private void sendAccountMailValidate(object id , UserInfoModel model)
+        {
+            const string validateActionName = "AccountMailValidate";
+
+            string link = id + "+" + model.user_id + "+" + DateTime.Now.ToString("yyyy-MM-dd");
+            string validate_linkX = SecurityHelper.Encrypt(link);
+            //檢查用
+            string check_link = SecurityHelper.Decrypt(validate_linkX);
+
+            string host = Request.Url.Host;
+            int port = Request.Url.Port;
+
+            var param = MailHelper.fillAccountMailValidte(model.user_id , "http://"+host+":"+port.ToString()+"/User/"+ validateActionName+ "?validate_linkX=" + validate_linkX);
+            if (!string.IsNullOrEmpty(model.email))
+            {
+                MailHelper.doSendMail(model.email, param, MailType.AccountMailValidate);
+            }
+        }
+
+        public ActionResult AccountMailValidate(string validate_linkX)
+        {
+            string link = SecurityHelper.Decrypt(validate_linkX);
+            string[] datas = link.Split(new string[]{ "+" }, StringSplitOptions.RemoveEmptyEntries);
+
+            const int expired_limit_days = 3; //期限
+            const string status_success     = "您的會員帳號已成功開通，請於首頁登入使用，謝謝。";
+            const string status_expired     = "您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。";
+            const string status_beValidated = "您已驗證過本會員帳號，請於首頁登入使用，謝謝。";
+            const string status_fail        = "您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。";
+
+            UserInfoModel dbUser = userService.GeUserInfoOne(datas[1]);
+            string result ;
+            if ("0".Equals(dbUser.id_enable))
+            {
+                if (dbUser.id.ToString().Equals(datas[0].ToString()))
+                {
+                    if (datas[2]!=null)
+                    {
+                        DateTime checkTime = DateTime.Parse(datas[2]);
+                        var days = new TimeSpan(DateTime.Now.Ticks - checkTime.Ticks).Days;
+                        if (days > expired_limit_days ) 
+                        {
+                            result = status_expired;
+                        }
+                        else
+                        {
+                            if (userService.UserInfoUpdateIdEnable(dbUser.id, "1"))
+                            {
+                                result = status_success;
+                            }
+                            else
+                            {
+                                result = status_fail​;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result = status_fail​;
+                    }
+                }
+                else
+                {
+                    result = status_fail​;
+                }
+            }
+            else if("1".Equals(dbUser.id_enable))
+            {
+                result = status_beValidated;
+            }
+            else
+            {
+                result = status_fail;
+            }
+
+            TempData["MailValidateResult"] = result;
+
+            return Redirect("../Home/Login");
         }
 
         #region 產品說明

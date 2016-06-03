@@ -31,3 +31,23 @@
 
     <a href="/User/Register" class="loginbox_newid">創造新帳號</a>
 </div>
+
+<script>
+    $(function () {
+        loadData();
+    });
+
+    function loadData (){
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("MailValidateResult", "Home")",
+            cache: false,
+            dataType: "json",
+            success: function (msg) {
+                if (msg != '') {
+                    alert(msg);
+                }
+            }
+        });
+    }
+</script>
