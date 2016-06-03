@@ -200,6 +200,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MailConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\UploadConfig.cs" />
@@ -226,6 +227,10 @@
     <Compile Include="WebService\UserInfoController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Start\MailTemplate\AccountMailValidate.html" />
+    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
+    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Fail.html" />
+    <Content Include="App_Start\MailTemplate\ForgetPassword.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\jquery-ui.css" />
@@ -344,6 +349,8 @@
     <Content Include="Scripts\ckeditor\ckeditor_php4.php" />
     <Content Include="Scripts\ckeditor\ckeditor.php" />
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
+    <Content Include="App_Start\Key\AccountEmailValidate.pub" />
+    <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
@@ -689,6 +696,12 @@
     <Content Include="Scripts\datetimepicker\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\datetimepicker\jquery-ui-timepicker-zh-TW.js" />
     <Content Include="Scripts\date.f-0.5.0.js" />
+    <Content Include="Scripts\fancybox\blank.gif" />
+    <Content Include="Scripts\fancybox\fancybox_loading.gif" />
+    <Content Include="Scripts\fancybox\fancybox_overlay.png" />
+    <Content Include="Scripts\fancybox\fancybox_sprite.png" />
+    <Content Include="Scripts\fancybox\jquery.fancybox.css" />
+    <Content Include="Scripts\fancybox\jquery.fancybox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -760,6 +773,7 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
+    <Folder Include="Scripts\fancybox\helpers\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>
