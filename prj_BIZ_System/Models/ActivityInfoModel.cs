@@ -37,7 +37,8 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
-        public string manager_check { get; set; }//ActivityRegisterModel 的 後台審核 (0：不通過；1：通過)
+        public string user_id { get; set; }//UserInfoModel 的 使用者帳號
+
     }
 
     public class UserInfoToIdAndCpModel
@@ -59,7 +60,6 @@ namespace prj_BIZ_System.Models
         public string telephone { get; set; }//連絡電話
         public string phone { get; set; }//手機號碼
         public string email { get; set; }//電子郵件
-        public string catalog_file { get; set; }//公司型錄檔案位置 (企業型錄，使用者自行上傳)
         public string manager_check { get; set; }//後台審核 (0：不通過；1：通過)
         public string user_info { get; set; }//公司簡介(中文) (預設與用戶資訊相同)
         public string user_info_en { get; set; }//公司簡介(英文) (預設與用戶資訊相同)

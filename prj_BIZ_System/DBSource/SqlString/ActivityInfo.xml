@@ -137,12 +137,12 @@
         INSERT INTO activity_register (
         activity_id, user_id, quantity,
         name_a, title_a, name_b, title_b, telephone,
-        phone, email, catalog_file, manager_check,
+        phone, email, manager_check,
         user_info, user_info_en, create_time, update_time
         ) VALUES (
         #activity_id#, #user_id#, #quantity#,
         #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
-        #phone#, #email#, #catalog_file#, #manager_check#,
+        #phone#, #email#, #manager_check#,
         #user_info#, #user_info_en#, #create_time#, #update_time#
         )
       </insert>
@@ -384,7 +384,6 @@
       <result property="telephone" column="telephone"/>
       <result property="phone" column="phone"/>
       <result property="email" column="email"/>
-      <result property="catalog_file" column="catalog_file"/>
       <result property="manager_check" column="manager_check"/>
       <result property="user_info" column="user_info"/>
       <result property="user_info_en" column="user_info_en"/>
@@ -405,7 +404,6 @@
       <result property="telephone" column="telephone"/>
       <result property="phone" column="phone"/>
       <result property="email" column="email"/>
-      <result property="catalog_file" column="catalog_file"/>
       <result property="manager_check" column="manager_check"/>
       <result property="user_info" column="user_info"/>
       <result property="user_info_en" column="user_info_en"/>

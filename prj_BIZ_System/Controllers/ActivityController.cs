@@ -363,9 +363,22 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 活動報名審核
-        public ActionResult ActivityRegisterCheck()
+        [HttpGet]
+        public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany)
         {
-            return View();
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany);
+            ViewBag.Where_ActivityName = selectActivityName;
+            ViewBag.Where_Company = selectCompany;
+            return View(activityModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel model, int register_id, string manager_check)
+        {
+            model.register_id = register_id;
+            model.manager_check = manager_check;
+            activityService.ActivityRegisterUpdateOne(model);
+            return Redirect("ActivityRegisterCheck");
         }
         #endregion
 

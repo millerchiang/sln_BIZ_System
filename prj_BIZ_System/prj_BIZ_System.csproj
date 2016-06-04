@@ -299,7 +299,9 @@
     <Content Include="DBSource\SqlString\ActivityInfo.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\Match.xml" />
+    <Content Include="DBSource\SqlString\Match.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -728,6 +730,7 @@
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\registerd.css" />
     <Content Include="stylesheets\reset.css" />
+    <Content Include="stylesheets\schedule.css" />
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
@@ -770,6 +773,8 @@
     <Content Include="Views\Match\SellerBusinessMatch.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\NewsView.cshtml" />
+    <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
+    <Content Include="Views\Match\MatchTimeArrange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
