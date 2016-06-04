@@ -135,9 +135,20 @@ namespace prj_BIZ_System.Services
             return (ActivityRegisterModel)mapper.QueryForObject("ActivityInfo.SelectActivityRegisterOne", param);
         }
 
+        public ActivityRegisterModel GetActivityRegisterSelectOne(int activity_id,string user_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id, user_id = user_id };
+            return (ActivityRegisterModel)mapper.QueryForObject("ActivityInfo.SelectActivityRegisterSelectOne", param);
+        }
+
         public void ActivityRegisterInserOne(ActivityRegisterModel activityRegisterModel)
         {
             mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
+        }
+
+        public void ActivityRegisterUpdateOneChk(ActivityRegisterModel activityRegisterModel)
+        {
+            mapper.Update("ActivityInfo.UpdateActivityRegisterOneChk", activityRegisterModel);
         }
 
         public void ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
@@ -145,7 +156,19 @@ namespace prj_BIZ_System.Services
             mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);
         }
 
+        public void ActivityRegisterDeleteOne(int activity_id, string user_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id, user_id = user_id };
+            mapper.Update("ActivityInfo.DeleteActivityRegisterOne", param);
+        }
+
         //ActivityProductSelectModel******************************************************************************//
+        public void ActivityProductDeleteOne(int activity_id,string user_id)
+        {
+            ActivityProductSelectModel param = new ActivityProductSelectModel { activity_id = activity_id, user_id = user_id };
+            mapper.Delete("ActivityInfo.DeleteActivityProductOne", param);
+        }
+
         public void ActivityProductInsertOne(ActivityProductSelectModel activityProductSelectModel)
         {
             mapper.Insert("ActivityInfo.InsertActivityProductOne", activityProductSelectModel);
@@ -158,6 +181,12 @@ namespace prj_BIZ_System.Services
         }
 
         //ActivityCatalogSelectModel******************************************************************************//
+        public void ActivityCatalogDeleteOne(int activity_id, string user_id)
+        {
+            ActivityCatalogSelectModel param = new ActivityCatalogSelectModel { activity_id = activity_id, user_id = user_id };
+            mapper.Delete("ActivityInfo.DeleteActivityCatalogOne", param);
+        }
+
         public void ActivityCatalogInsertOne(ActivityCatalogSelectModel activityCatalogSelectModel)
         {
             mapper.Insert("ActivityInfo.InsertActivityCatalogOne", activityCatalogSelectModel);

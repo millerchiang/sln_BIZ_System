@@ -131,8 +131,15 @@
         FROM activity_register
         WHERE register_id = #register_id#
       </select>
-    
-      <!--新增活動報名單筆-->
+
+    <!--查詢活動報名單筆 by activity and user-->
+    <select id="SelectActivityRegisterSelectOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
+      SELECT *
+      FROM activity_register
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </select>
+
+    <!--新增活動報名單筆-->
       <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
         INSERT INTO activity_register (
         activity_id, user_id, quantity,
@@ -147,19 +154,37 @@
         )
       </insert>
 
-      <!--修改活動報名單筆-->
-      <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+    <!--修改活動報名單筆-->
+    <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+      UPDATE activity_register
+      SET
+      quantity = #quantity#,
+      name_a = #name_a#,
+      title_a = #title_a#,
+      name_b = #name_b#,
+      title_b = #title_b#,
+      telephone = #telephone#,
+      phone = #phone#,
+      email = #email#,
+      user_info = #user_info#,
+      user_info_en = #user_info_en#,
+      update_time = now()
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </update>
+
+    <!--檢核活動報名單筆-->
+      <update id="UpdateActivityRegisterOneChk" parameterClass="ActivityRegisterModel">
         UPDATE activity_register
-        SET 
-          manager_check = #manager_check#,
-          update_time = now()
-        WHERE register_id = #register_id#     
+        SET
+        manager_check = #manager_check#,
+        update_time = now()
+        WHERE register_id = #register_id#
       </update>
     
       <!--刪除活動報名單筆-->
       <delete id="DeleteActivityRegisterOne" parameterClass="ActivityRegisterModel">
         DELETE FROM activity_register
-        WHERE register_id = #register_id#
+        WHERE activity_id = #activity_id# and user_id = #user_id#
       </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -303,8 +328,15 @@
         #user_id#, #activity_id#, #product_id#
         )
       </insert>
-      
-      <!--選取哪家廠商的哪個活動所選的公司產品-->
+    
+    <!--刪除單一活動企業產品-->
+    <delete id="DeleteActivityProductOne" parameterClass="ActivityProductSelectModel">
+      DELETE FROM activity_product_select
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </delete>
+
+
+    <!--選取哪家廠商的哪個活動所選的公司產品-->
       <select id="SelectActivityProductByCondition" resultMap="ActivityProductSelectByCondition" parameterClass="ActivityProductSelectModel">
         SELECT *
         FROM activity_product_select aps
@@ -330,6 +362,12 @@
       #user_id#, #activity_id#, #catalog_no#
       )
     </insert>
+
+    <!--刪除單一活動企業型錄-->
+    <delete id="DeleteActivityCatalogOne" parameterClass="ActivityCatalogSelectModel">
+      DELETE FROM activity_catalog_select
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </delete>
 
     <!--選取哪家廠商的哪個活動所選的公司型錄-->
     <select id="SelectActivityCatalogByCondition" resultMap="ActivityCatalogSelectByCondition" parameterClass="ActivityCatalogSelectModel">
