@@ -70,19 +70,10 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult NewsView()
         {
-            if (Request.Cookies["UserInfo"] != null)
+            if (Request.Cookies["UserInfo"] != null && Request["Id"] !=null)
             {
-                //                indexModel.enterprisesortList = userService.GetSortList();
-                //               indexModel.userinfoList = userService.GetUserInfoList();
-//                indexModel.activityinfoList = activityService.GetActivityInfoList();
                 indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
-
-
-                //                foreach (NewsModel newsModel in indexModel.newsList)
-                //  
-//                NewsModel newsModel =new NewsModel();
                 indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
-                //                }
 
                 return View(indexModel);
             }

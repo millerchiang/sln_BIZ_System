@@ -732,6 +732,8 @@
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
     <Content Include="Views\Activity\ActivityRegisterCheck.cshtml" />
+    <Content Include="Views\Activity\ActivityInfo.cshtml" />
+    <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <None Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

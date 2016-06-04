@@ -9,213 +9,249 @@
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
+@if (ViewBag.PageType == "CreateRegister")
+{
+
+    Model.activityregister.user_info = Model.userinfo.info;
+    Model.activityregister.user_info_en = Model.userinfo.info_en;
+}
+
+
+
+
 <div class="article_col1">
-    <aside>
-        <form action="" class="searchbox">
-            <input type="text" name="companyName" placeholder="公司名">
-            <select name="" id="">
-                <option value="text00">產業別</option>
-                <option value="c08">食品製造業</option>
-            </select>
-            <button class="searchbox_submit" type="submit"> 搜尋 </button>
-        </form>
-    </aside>
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
 
-    <article class="form_box article_col2">
-        <h2>活動報名</h2>
-        <form id="insertForm" action="@ViewBag.Action" method="post">
-            <label for="activity_id" class="regis_col02L">活動名稱</label>
-            <select name="activity_id" id="activity_id" class="regis_col02R bselect">
-                <option>請選擇</option>
-                @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
-                {
-                    if (activityInfoModel.activity_id == Model.activityregister.activity_id)
+        <article class="form_box article_col2">
+            <h2>活動報名</h2>
+            <form id="insertForm" action="@ViewBag.Action" method="post">
+                <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
+                <label for="activity_id" class="regis_col02L">活動名稱</label>
+                <p class="regis_col03R">@Model.activityinfo.activity_name</p>
+
+
+                <label for="leader" class="regis_col02L ">統一編號/帳號</label>
+                <p class="regis_col03R">@Model.activityregister.user_id</p>
+
+                <label for="leader" class="regis_col03L">公司名稱</label>
+                <p class="regis_col03R">@Model.userinfo.company</p>
+
+
+                <label for="starttime" class="regis_col02L ">活動日期(起)</label>
+                <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
+
+                <label for="endtime" class="regis_col03L ">(迄)</label>
+                <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
+
+                <label for="activityAddr" class="regis_col02L ">活動地點</label>
+                <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
+
+
+                <label for="quantity" class="regis_col02L spanRed">與會人數</label>
+                <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
+
+                <label for="name_a" class="regis_col02L ">與會人姓名(含職稱)</label>
+                <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
+                <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
+
+                <label for="name_b" class="regis_col02L spanRed">主聯絡人</label>
+                <input type="text" name="name_b" value="@Model.activityregister.name_b" class="regis_col03R" required>
+                <input type="text" name="title_b" value="@Model.activityregister.title_b" class="regis_col03L" placeholder="職稱"><br />
+
+                <label for="phone" class="regis_col02L spanRed">手機號碼</label>
+                <input type="text" name="phone" value="@Model.activityregister.phone" class="regis_col03R" required>
+
+                <label for="telephone" class="regis_col03L">電話/分機</label>
+                <input type="text" name="telephone" value="@Model.activityregister.telephone" class="regis_col03R">
+
+                <label for="email" class="regis_col02L spanRed">電子郵件</label>
+                <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
+
+
+                <label for="website" class="regis_col02L">公司網址</label>
+                <div class="regis_col02R">
+                    <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
+                </div>
+
+
+                <label class="regis_col02L">企業簡介(中)</label>
+                <div class="regis_col02R">
+                    <textarea rows="4" name="user_info">@Model.activityregister.user_info</textarea>
+                </div>
+                <label class="regis_col02L">企業簡介(英)</label>
+                <div class="regis_col02R">
+                    <textarea rows="4" name="user_info_en">@Model.activityregister.user_info_en</textarea>
+                </div>
+
+
+                <label for="verticals" class="regis_col02L">產業別</label>
+                <p class="regis_col02R verticalslist">
+                    @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
                     {
-                        <option value="@activityInfoModel.activity_id" selected="selected">
-                            @activityInfoModel.activity_name
-                        </option>
+                        @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
                     }
-                    else {
-                        <option value="@activityInfoModel.activity_id">
-                            @activityInfoModel.activity_name
-                        </option>
+                </p>
+
+                <div class="regis_col02L">
+                    <label for="" class="label01">公司產品</label>
+                </div>
+                <div class="regis_col02R">
+                    <table class="regis_table">
+                        <tr>
+                            <th></th>
+                            <th>產品名稱</th>
+                            <th>產品說明</th>
+                        </tr>
+                                 @*
+                                @if (ViewBag.PageType.Equals("CreateRegister"))
+                                {
+                                *@
+
+                                    @foreach (ProductListModel productListModel in Model.productsortList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="product_id" class="inputCheckbox"
+                                                       id="product@(productListModel.product_id)"
+                                                       value="@productListModel.product_id">
+                                                <label for="product@(productListModel.product_id)"></label>
+                                            </td>
+                                            <td>@productListModel.product_name</td>
+                                            <td>@productListModel.product_info</td>
+                                        </tr>
+                                    }
+                                
+                                    @*
+                                    }
+                                else {
+                                    foreach (ActivityProductSelectModel activityProductSelectModel in Model.activityproductselectList)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@activityProductSelectModel.product_name</td>
+                                            <td>@activityProductSelectModel.product_info</td>
+                                        </tr>
+                                    }
+                                }
+                                 *@
+
+                        </table>
+                    </div>
+                    <div class="regis_col02L">
+                        <label for="" class="label01">公司型錄</label>
+                    </div>
+                    <div class="regis_col02R uplodboxR">
+                        <ul class="regis_dmlist">
+                            @*
+                            @if (ViewBag.PageType.Equals("CreateRegister"))
+                            {
+*@
+                                @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
+                                {
+                                    <li>
+                                        <a href="@(ViewBag.coverDir + catalogListModel.cover_file)"><img src="@(ViewBag.coverDir + catalogListModel.cover_file)" /></a>
+                                        <input type="checkbox" name="catalog_no" class="inputCheckbox"
+                                               id="catalog@(catalogListModel.catalog_no)"
+                                               value="@catalogListModel.catalog_no">
+                                        <label for="catalog@(catalogListModel.catalog_no)"></label>
+                                    </li>
+                                }
+@*
+                            }
+                            else {
+                                foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
+                                {
+                                    <li>
+                                        <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
+                                            <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                        </a>
+                                    </li>
+                                }
+                            }
+*@
+                        </ul>
+                    </div>
+
+                    <div class="centerbox">
+                        <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
+                    </div>
+
+                </form>
+            </article>
+    </div>
+
+
+
+
+    <script type="text/javascript"
+            src="/Scripts/jquery-ui-1.10.2.min.js">
+    </script>
+
+
+    <script type="text/javascript" src="~/Scripts/date.f-0.5.0.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#activity_id").change(function () {
+                var id = $("#activity_id").val();
+                $.ajax({
+                    type: "get",
+                    url: "@Url.Action("selectedActivityId", "Activity")",
+                    cache: false,
+                    data: { "activity_id": id },
+                    dataType: "json",
+                    success: function (result) {
+                        $("#starttime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
+                        $("#endtime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
+                        $("#activityAddr").text(result.addr);
                     }
+                })
+            });
+
+            $("#submitInfo").click(function () {
+                if (confirm('確認是否報名此活動?')) {
+                    return true
+                } else {
+                    return false
                 }
-            </select>
+            });
 
-            <label for="leader" class="regis_col02L spanRed">統一編號/帳號</label>
-            <p class="regis_col03R">@Model.activityregister.user_id</p>
-
-            <label for="leader" class="regis_col03L">公司名稱</label>
-            <p class="regis_col03R">@Model.userinfo.company</p>
-
-
-            <label for="starttime" class="regis_col02L spanRed">活動日期(起)</label>
-            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
-
-            <label for="endtime" class="regis_col03L spanRed">(迄)</label>
-            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
-
-            <label for="activityAddr" class="regis_col02L spanRed">活動地點</label>
-            <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
-
-
-            <label for="quantity" class="regis_col02L spanRed">與會人數</label>
-            <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
-
-            <label for="name_a" class="regis_col02L ">與會人姓名(含職稱)</label>
-            <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
-            <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
-
-            <label for="name_b" class="regis_col02L spanRed">主聯絡人</label>
-            <input type="text" name="name_b" value="@Model.activityregister.name_b" class="regis_col03R" required>
-            <input type="text" name="title_b" value="@Model.activityregister.title_b" class="regis_col03L" placeholder="職稱"><br />
-
-            <label for="phone" class="regis_col02L spanRed">手機號碼</label>
-            <input type="text" name="phone" value="@Model.activityregister.phone" class="regis_col03R" required>
-
-            <label for="telephone" class="regis_col03L">電話/分機</label>
-            <input type="text" name="telephone" value="@Model.activityregister.telephone" class="regis_col03R">
-
-            <label for="email" class="regis_col02L spanRed">電子郵件</label>
-            <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
-
-
-            <label for="website" class="regis_col02L">公司網址</label>
-            <div class="regis_col02R">
-                <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
-            </div>
-
-            <label for="info" class="regis_col02L">企業簡介</label>
-            <p class="regis_col02R">
-                @Model.userinfo.info
-            </p>
-
-            <label for="verticals" class="regis_col02L">產業別</label>
-            <p class="regis_col02R verticalslist">
-                @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
-                {
-                    @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
-                }
-            </p>
-
-            <div class="regis_col02L">
-                <label for="" class="label01">公司產品</label>
-            </div>
-            <div class="regis_col02R">
-                <table class="regis_table">
-                    <tr>
-                        <th></th>
-                        <th>產品名稱</th>
-                        <th>產品說明</th>
-                    </tr>
-                    @if (ViewBag.PageType.Equals("CreateRegister"))
-                    {
-                        foreach (ProductListModel productListModel in Model.productsortList)
-                        {
-                            <tr>
-                                <td>
-                                    <input type="checkbox" name="product_id" class="inputCheckbox"
-                                           id="product@(productListModel.product_id)"
-                                           value="@productListModel.product_id">
-                                    <label for="product@(productListModel.product_id)"></label>
-                                </td>
-                                <td>@productListModel.product_name</td>
-                                <td>@productListModel.product_info</td>
-                            </tr>
-                        }
-                    }
-                    else {
-                        foreach (ActivityProductSelectModel activityProductSelectModel in Model.activityproductselectList)
-                        {
-                            <tr>
-                                <td></td>
-                                <td>@activityProductSelectModel.product_name</td>
-                                <td>@activityProductSelectModel.product_info</td>
-                            </tr>
-                        }
-                    }
-
-
-                </table>
-            </div>
-            <div class="regis_col02L">
-                <label for="" class="label01">公司型錄</label>
-            </div>
-            <div class="regis_col02R uplodboxR">
-                <ul class="regis_dmlist">
-
-                    @if (ViewBag.PageType.Equals("CreateRegister"))
-                    {
-                        foreach (CatalogListModel catalogListModel in Model.cataloglistList)
-                        {
-                            <li>
-                                <a href="@(ViewBag.coverDir + catalogListModel.cover_file)"><img src="@(ViewBag.coverDir + catalogListModel.cover_file)" /></a>
-                                <input type="checkbox" name="catalog_no" class="inputCheckbox"
-                                       id="catalog@(catalogListModel.catalog_no)"
-                                       value="@catalogListModel.catalog_no">
-                                <label for="catalog@(catalogListModel.catalog_no)"></label>
-                            </li>
-                        }
-                    }
-                    else {
-                        foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
-                        {
-                            <li>
-                                <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
-                                    <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-
-            <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
-            </div>
-
-        </form>
-    </article>
-</div>
-
-
-
-
-<script type="text/javascript"
-        src="/Scripts/jquery-ui-1.10.2.min.js">
-</script>
-
-
-<script type="text/javascript" src="~/Scripts/date.f-0.5.0.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        $("#activity_id").change(function () {
-            var id = $("#activity_id").val();
-            $.ajax({
-                type: "get",
-                url: "@Url.Action("selectedActivityId", "Activity")",
-                cache: false,
-                data: { "activity_id": id },
-                dataType: "json",
-                success: function (result) {
-                    $("#starttime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
-                    $("#endtime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
-                    $("#activityAddr").text(result.addr);
-                }
-            })
         });
 
-        $("#submitInfo").click(function () {
-            if (confirm('確認是否報名此活動?')) {
-                return true
-            } else {
-                return false
+    </script>
+
+    <script>
+        $(function () {
+            init();
+            render();
+        });
+
+        function init() {
+
+        }
+
+        function render(){
+
+            @if(ViewBag.Action.Equals("EditActivityRegisterUpdate")){
+                <text>
+                    var UpdateRender = function(){
+                        $.each(productselectList,function(index,el){
+                            $("input[name='product_id'][value='"+el.product_id+"']").prop("checked",true);
+                        });
+
+                        $.each(catalogselectList,function(index,el){
+                            $("input[name='catalog_no'][value='"+el.catalog_no+"']").prop("checked",true);
+                        });
+                    };
+                    var productselectList = @Html.Raw(ViewBag.productselectList);
+                    var catalogselectList = @Html.Raw(ViewBag.catalogselectList);
+                    UpdateRender();
+                </text>
+
             }
-        });
+        }
 
-    });
-
-</script>
+    </script>

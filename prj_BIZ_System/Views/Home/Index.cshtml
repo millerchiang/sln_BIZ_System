@@ -46,7 +46,7 @@
                 @foreach (var activityList in Model.activityinfoList)
                 {
                     <li>
-                        <a href="/Activity/EditActivity?Id=@activityList.activity_id">
+                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
                             <span>活動日期:@activityList.starttime</span>
                             @activityList.activity_name
                         </a>
