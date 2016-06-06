@@ -303,7 +303,21 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult _NavSearchPartial()
         {
-            return PartialView();
+            IList<EnterpriseSortListModel> result ;
+            var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
+            if (isCacheON)
+            {
+                if(CacheDataStore.EnterpriseSortListModelCache == null)
+                {
+                    CacheDataStore.EnterpriseSortListModelCache = userService.GetSortList();
+                }
+                result = CacheDataStore.EnterpriseSortListModelCache;
+            }
+            else
+            {
+                result = userService.GetSortList();
+            }
+            return PartialView(result);
         }
     }
 }

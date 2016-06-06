@@ -1,4 +1,7 @@
-﻿@{
+﻿@using prj_BIZ_System.Models
+@model IList<EnterpriseSortListModel>
+
+@{
 
 }
 
@@ -16,8 +19,14 @@
     <form action="" class="searchbox">
         <input type="text" name="companyName" placeholder="公司名">
         <select name="" id="">
-            <option value="text00">產業別</option>
-            <option value="c08">食品製造業</option>
+            <option value="">產業別</option>
+            @if (Model != null)
+            {
+                foreach (EnterpriseSortListModel md in Model)
+                {
+                    <option value="@md.enterprise_sort_id">@md.enterprise_sort_name</option>
+                }
+            }
         </select>
         <button class="searchbox_submit" type="submit"> 搜尋 </button>
     </form>

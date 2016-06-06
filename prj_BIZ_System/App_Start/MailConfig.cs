@@ -13,7 +13,7 @@ namespace prj_BIZ_System.App_Start
 {
 	public class MailConfig
 	{
-        public static string TemplateDir = "/MailTemplate/";
+        public static string TemplateDir = "MailTemplate/";
 
         public static string smtpServer = "smtp.gmail.com";
         public static int smtpPort = 587;
@@ -188,7 +188,7 @@ namespace prj_BIZ_System.App_Start
 
     public class SecurityHelper
     {
-        public static string KeyDir = "/Key/";
+        public static string KeyDir = "Key/";
         private static RSACryptoServiceProvider rsap;
         private static string pub;
         private static string pvt;
