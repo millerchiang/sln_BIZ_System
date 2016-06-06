@@ -36,27 +36,29 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult WhetherMetchBuyer(int activity_id)
         {
-            IList<BuyerInfoModel> allbuyersForAcivities = matchService.GetSellerMatchToBuyerNameAndNeed(activity_id);
+            //IList<ActivityRegisterModel> allSellerForAcivities = matchService.GetSellerJoinThoseActivityList(Request.Cookies["UserInfo"]["user_id"]);
+            IList<MatchmakingNeedModel> allbuyersForAcivities = new List<MatchmakingNeedModel>();
 
-            //bool isExistsCheckedBuyers = false;
-            //IList< MatchmakingNeedModel> che
-            //foreach (BuyerInfoModel xx in allbuyersForAcivities)
+            allbuyersForAcivities = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
+
+            //if (allbuyersForAcivities == null)
             //{
-            //    matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"], xx.buyer_id);
+            //    return Redirect("SellerBusinessMatch");
+            //}
+            //else {
+            //    return Redirect("MatchTimeArrange");
             //}
 
-            
-            return Redirect("SellerBusinessMatch");
-            //return Redirect("MatchTimeArrange");
+            return Json(allbuyersForAcivities, JsonRequestBehavior.AllowGet);
+
         }
 
         #region 商務對接(賣家)
         [HttpGet]
-        public ActionResult SellerBusinessMatch()
+        public ActionResult SellerBusinessMatch(int activity_id)
         {
             ViewBag.Action = "EditSellerMatchBuyerToInsert";
-            //matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeed(int.Parse(Request["activity_id"]));
-            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeed(32);
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeed(activity_id);
             return View(matchModel);
         }
 

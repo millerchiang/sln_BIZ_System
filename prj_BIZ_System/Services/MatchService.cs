@@ -20,7 +20,13 @@ namespace prj_BIZ_System.Services
             ActivityRegisterModel param = new ActivityRegisterModel() { activity_id = activity_id };
             return mapper.QueryForList<ActivityRegisterModel>("Match.SelectBuyerMatchToSellerName", param);
         }
-            
+
+        public IList<ActivityRegisterModel> GetSellerJoinThoseActivityList(string user_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel() { user_id = user_id };
+            return mapper.QueryForList<ActivityRegisterModel>("Match.SelectSellerJoinThoseActivity", param);
+        }
+
         //ActivityInfoModel
         public IList<ActivityInfoModel> GetAccountNotRegisterActivity(string user_id)
         {
@@ -42,6 +48,8 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<BuyerInfoModel>("Match.SelectBuyerAccountPassActivity", param);
         }
 
+
+
         //MatchmakingNeedModel
         public void MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
         {
@@ -59,11 +67,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectSellerForActivityMatchBuyer", param);
         }
 
-        /*public IList<MatchmakingNeedModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
+        public IList<MatchmakingNeedModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
         {
             MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, seller_id = user_id};
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivitySellerCheckBuyer", param);
-        }*/
+        }
 
     }
 }
