@@ -215,6 +215,7 @@
     </Compile>
     <Compile Include="Models\ActivityInfoModel.cs" />
     <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\ManagerModel.cs" />
     <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -302,6 +303,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Match.xml" />
+    <Content Include="DBSource\SqlString\Manager.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -717,6 +721,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\util_cls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="stylesheets\account.css" />
     <Content Include="stylesheets\business.css" />
@@ -769,6 +774,8 @@
     <Content Include="Views\Push\EditPushList.cshtml" />
     <Content Include="Views\Match\AccountManage.cshtml" />
     <Content Include="Views\Match\BusinessMatch.cshtml" />
+    <Content Include="Views\Manager\ManagerInfo.cshtml" />
+    <Content Include="Views\Manager\Group.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -776,7 +783,6 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
     <Folder Include="Scripts\fancybox\helpers\" />
-    <Folder Include="Views\Manager\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>

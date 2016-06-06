@@ -1,0 +1,369 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_ViewModel
+
+@{
+    ViewBag.Title = "ManagerInfo";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+
+    <div class="sys_searchboxco2">
+        <form class="form_box sys_searchbox">
+            <h2>管理者帳號查詢</h2>
+            <div class="sys_searchboxcol01L">
+                <label for="" class="regis_col02L">管理帳號</label>
+                <input type="text" class="regis_col02R" name="manager_id" value="@ViewBag.Where_ManagerId">
+
+                <label for="" class="regis_col02L">群組</label>
+                <select name="grp_id" id="group_select_0" class="regis_col02R">
+                    <option value="">請選擇</option>
+                    @if (Model.groupList != null)
+                    {
+                        foreach (var group in Model.groupList)
+                        {
+                            <option value="@group.grp_id" @(group.grp_id.Equals(ViewBag.Where_GroupId) ?"selected":"") >@group.grp_name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="sys_searchboxcol01R">
+                <button type="submit" class="buinfor">搜尋</button>
+            </div>
+
+        </form>
+        <article>
+            <h2 class="borderTitle2">查詢結果</h2>
+            <a href="javascript:void(0)" class="addbu rightbox" id="accaddbu">新增帳號</a>
+            <table class="edittable">
+                <tr>
+                    <th>管理帳號</th>
+                    <th>群組</th>
+                    <th>詳細資料</th>
+                </tr>
+                @if (Model.managerInfoList != null)
+                {
+                    foreach (ManagerInfoModel md in Model.managerInfoList)
+                    {
+                        <tr>
+                            <td>@md.manager_id</td>
+                            <td>@md.grp_name</td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="javascript:void(0)" class="deletebu detailedbu" onclick="util_cls.form.row2form('@(md.manager_id)','acc_from')">詳細資料</a>
+                                    <span style="display:none" id="rowdata_@(md.manager_id)">{"manager_id":"@(md.manager_id)","name":"@(md.name)","phone":"@(md.phone)","email":"@(md.email)","grp_id":"@(md.grp_id)"}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                <!--
+                <tr>
+                    <td>80680202</td>
+                    <td>系統管理者</td>
+
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="deletebu detailedbu">詳細資料</a>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>80680202</td>
+                    <td>系統管理者</td>
+
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="deletebu detailedbu">詳細資料</a>
+                        </div>
+                    </td>
+
+                </tr>
+                -->
+            </table>
+            <ul class="pagelist">
+                <li><a href="">&lt;</a></li>
+
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+                <li><a href="">6</a></li>
+                <li><a href="">7</a></li>
+                <li><a href="">8</a></li>
+                <li><a href="">9</a></li>
+                <li><a href="">10</a></li>
+
+                <li><a href="">&gt;</a></li>
+            </ul>
+        </article>
+    </div>
+    <div class="sys_searchboxco2">
+        <form action="@Url.Action("ManagerInfoInsertUpdate","Manager")" class="form_box" id="acc_from" method="post">
+            <input type="hidden" name="pagetype" value="">
+            <h2>新增帳號</h2>
+            <label for="leader" class="regis_col02L spanRed">管理帳號</label>
+            <input type="text" class="regis_col02R" name="manager_id" >
+            <!--
+            <label for="addr" class="regis_col02L">密碼</label>
+            <input type="password" class="regis_col02R" name="manager_pw">
+            -->
+
+            <label for="addr" class="regis_col02L">姓名</label>
+            <input type="text" class="regis_col02R" name="name">
+
+            <label for="addr" class="regis_col02L">電話</label>
+            <input type="text" class="regis_col02R" name="phone">
+
+            <label for="email" class="regis_col02L spanRed">電子郵件</label>
+            <input type="text" class="regis_col02R" name="email">
+
+            <label for="email" class="regis_col02L">群組</label>
+            <select name="grp_id" id="group_select" class="regis_col02R">
+                <option value="">請選擇</option>
+                 @if (Model.groupList != null)
+                 {
+                     foreach (var group in Model.groupList)
+                     {
+                        <option value="@group.grp_id">@group.grp_name</option>
+                     }
+                 }
+            </select>
+            <div class="centerbox">
+                <a href="javascript:void(0)" class="buinfor" id="acc_edit" style="display: none;">修改</a>
+                <a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">刪除</a>
+                <a href="javascript:void(0)" class="submitbuOr" id="acc_add">確定新增</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/util_cls.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        init();
+        //loadData();
+    });
+    var g_selected_managerInfo;
+
+    function init() {
+
+        $(".detailedbu").on('click', function () {
+            $('#acc_edit,#acc_del').show();
+            $('#acc_add').hide();
+            $("input[name='manager_id']").prop("readonly", true);
+            $("#acc_from h2").text("詳細資料");
+        });
+
+        $("#acc_del").on("click", function () {
+            if (confirm("是否確定要刪除")) {
+                doDelete($("input[name='manager_id']").val());
+            }
+        });
+
+        function doDelete(id) {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("DeleteManagerInfoJson", "Mananger")",
+                cache: false,
+                data: { "sample_id": id },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var isDelSuccess = result;
+                    if (isDelSuccess == true) {
+                        //alert("刪除成功");
+                        location.reload();
+                    } else {
+                        //alert("刪除失敗");
+                    }
+                }
+                else {
+                }
+            });
+        }
+
+
+        $("#accaddbu").on('click', function () {
+            $("#acc_add").show();
+            $("#acc_edit,#acc_del").hide();
+            $("input[name='manager_id']").prop("readonly", false);
+            $("input").val("");
+            $("#acc_from h2").text("新增帳號");
+            $('#group_select').each(function () {
+                this.selectedIndex = 0;
+            });
+        });
+
+        $("#acc_add").click(function () {
+            $("input[name='pagetype']").val("Insert");
+            $("#acc_from").submit();
+        });
+
+        $("#acc_from").submit(function () {
+            var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+            var email = $('#acc_from').find("input[name='email']").val();
+            var grp_id = $('#acc_from').find("select[name='grp_id']").val();
+            var errMsg = checkValidationOk(manager_id, email, grp_id);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+
+        $("#acc_edit").click(function () {
+            $("input[name='pagetype']").val("Update");
+            var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+            var email = $('#acc_from').find("input[name='email']").val();
+            var grp_id = $('#acc_from').find("select[name='grp_id']").val();
+            var errMsg = checkValidationOk(manager_id, email, grp_id);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("ManagerInfoInsertUpdate", "Manager")",
+                cache: false,
+                data: $("#acc_from").serialize(),
+                dataType: "json"
+            }).done(function (result) {
+                alert(result);
+                if (result == true) {
+                    alert('bbb');
+                    var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+                    util_cls.form.form2row(manager_id, 'acc_from');
+                }
+                /*
+                if (result != null) {
+                    var isUpdateSuccess = result;
+                    if (isUpdateSuccess == true) {
+                        var sample_id = $("input[name='sample_id']").val();
+                        var new_title = $("input[name='sample_title']").val();
+                        var new_content = $("textarea[name='content']").val();
+                        var $selectedTr = $(".edittable tr").find("._id:contains('" + sample_id + "')");
+
+                        var $trs = $selectedTr.parents('tr');
+                        var $selectedTitle = $selectedTr.next().next();
+                        var $selectedContent = $selectedTr.next().next().next();
+                        $selectedTitle.text(new_title);
+                        $trs.find('td').eq(0).text(new_title);
+                        $selectedContent.text(new_content);
+                        alert("修改成功");
+                    } else {
+                        alert("修改失敗");
+                    }
+                }
+                else {
+                    alert("修改失敗");
+                }
+                */
+            });
+        });
+    }
+
+    @*
+    function loadData() {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("EditPushSampleJson", "Push")",
+            cache: false,
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null && result.pushSampleList != null) {
+                var pushSampleList = result.pushSampleList;
+                if (pushSampleList != null && pushSampleList.length > 0) {
+                    $.each(pushSampleList, function (index, el) {
+                        $(".edittable").append(genTemplate(el));
+                    });
+
+                    $(".edittable tr").find("a.editbu").click(function () {
+                        var id = $(this).next().next().text();
+                        var title = $(this).next().next().next().text();
+                        var content = $(this).next().next().next().next().text();
+                        displayDetail(id, title, content);
+                    });
+
+                    $(".edittable tr").find("a.deletebu").click(function () {
+                        var sample_id = $(this).next().text();
+                        checkPushListExists(sample_id);
+                    });
+                } else {
+                    alert("尚無資料");
+                }
+            }
+            else {
+            }
+        });
+    }
+    *@
+
+    function checkValidationOk(manager_id, email , grp_id) {
+        var errMsg = '';
+        if (manager_id == null || manager_id == '') {
+            errMsg += '管理帳號不可為空白\n';
+        }
+        if (email == null || email == '') {
+            errMsg += '電子郵件不可為空白\n';
+        }
+        if (grp_id == "") {
+            errMsg += '請選擇群組';
+        }
+        return errMsg;
+    }
+
+    function doDelete(id) {
+        $.ajax({
+            type: "get",
+            url: "@Url.Action("DeletePushSampleJson", "Push")",
+            cache: false,
+            data: { "sample_id": id },
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var isDelSuccess = result;
+                if (isDelSuccess == true) {
+                    //alert("刪除成功");
+                    location.reload();
+                } else {
+                    //alert("刪除失敗");
+                }
+            }
+            else {
+            }
+        });
+    }
+
+    /*
+    function genTemplate(mo) {
+        var template =
+            '<tr>                                                                                   ' +
+            '    <td class="_title">' + mo.sample_title + '</td>                                    ' +
+            '    <td>                                                                               ' +
+            '        <div class="centerbox">                                                        ' +
+            '            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>             ' +
+            '            <a href="javascript:void(0)" class="deletebu">刪除</a>                      ' +
+            '            <span style="display:none" class="_id">' + mo.sample_id + '</span>         ' +
+            '            <span style="display:none" class="_title">' + mo.sample_title + '</span>   ' +
+            '            <span style="display:none" class="_content">' + mo.content + '</span>      ' +
+            '        </div>                                                                         ' +
+            '    </td>                                                                              ' +
+            '</tr>                                                                                  ';
+        return template;
+    }
+    */
+    function displayDetail(id, title, content) {
+        $("#temp_edit").show();
+        $("#temp_add").hide();
+        $("input[name='sample_id']").val(id);
+        $("input[name='sample_title']").val(title);
+        $("input[name='content']").val(content);
+        $("#editform h2").text("詳細資料");
+    }
+
+</script>

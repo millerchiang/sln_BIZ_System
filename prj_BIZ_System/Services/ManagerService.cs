@@ -7,75 +7,45 @@ using Npgsql;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace prj_BIZ_System.Services
 {
     public class ManagerService : _BaseService
     {
-        public IList<PushSampleModel> getPushSampleAll()
+
+        #region 帳號管理
+        public IList<GroupModel> getAllGroup()
         {
-            return mapper.QueryForList<PushSampleModel>("Push.SelectPushSample", null);
+            return mapper.QueryForList<GroupModel>("Manager.SelectAllGroup", null);
         }
 
-        public void PushSampleInsertOne(PushSampleModel model)
+        public IList<ManagerInfoModel> getManagerInfoByCondition(int? grp_id , string manager_id)
         {
-            var result = mapper.Insert("Push.InsertPushSample", model);
-            return ;
+            var param = new ManagerInfoModel() { grp_id = grp_id, manager_id = manager_id };
+            return mapper.QueryForList<ManagerInfoModel>("Manager.getManagerInfoByCondition", param);
         }
 
-        public bool PushSampleUpdateOne(PushSampleModel model)
+        public void ManagerInfoInsertOne(ManagerInfoModel model)
         {
-            return mapper.Update("Push.UpdatePushSample", model) > 0;
+            model.enable = 1;
+            mapper.Insert("Manager.InsertManagerInfo", model);
         }
 
-        public bool PushSampleDeleteOne(int sample_id)
+        public bool ManagerInfoUpdateOne(ManagerInfoModel model)
         {
-            var param = new PushSampleModel { sample_id = sample_id };
-            return mapper.Delete("Push.DeletePushSample", param) > 0;
+            return mapper.Update("Manager.UpdateManagerInfo", model) > 0;
         }
 
-        public IList<ActivityInfoModel> getActivityInfoListAfterNow()
+        public bool ManagerInfoDeleteOne(string manager_id)
         {
-            //DateTime dt = new DateTime(2016, 5, 12);
-            DateTime dt = new DateTime(2016, 5, 1);
-            var param = new ActivityInfoModel { starttime = dt };
-            IList<ActivityInfoModel> result = mapper.QueryForList<ActivityInfoModel>("Push.SelectActivityAfterNow", param);
-            return result;
+            var param = new ManagerInfoModel() { manager_id = manager_id };
+            return mapper.Delete("Manager.DeleteManagerInfo", param) > 0;
         }
+        #endregion
 
-        public int getPushListCountBySampleId(int sample_id)
-        {
-            var param = new PushListModel { sample_id = sample_id };
-            int userCount = (int)mapper.QueryForObject("Push.SelectPushListCountBySampleId", param );
-            return userCount ;
-        }
+        #region 群組管理
 
-        public IList<PushListModel> getPushListByCondition(string push_type , string push_name)
-        {
-            var param = new PushListModel { push_type = push_type, push_name = push_name };
-            return mapper.QueryForList<PushListModel>("Push.getPushListByCondition", param);
-        }
-
-        public PushListModel getPushListOne(int? push_id)
-        {
-            var param = new PushListModel { push_id = push_id };
-            return mapper.QueryForObject<PushListModel>("Push.SelectPushListOne", param);
-        }
-
-        public void PushListInsertOne(PushListModel model)
-        {
-            mapper.Insert("Push.InsertPushList", model);
-        }
-
-        public void PushListUpdateOne(PushListModel model)
-        {
-            mapper.Update("Push.UpdatePushList", model);
-        }
-
-        public bool DeletePushListOne(int? push_id)
-        {
-            var param = new PushListModel { push_id = push_id };
-            return mapper.Delete("Push.DeletePushList", param) > 0 ;
-        }
+        #endregion
     }
 }
