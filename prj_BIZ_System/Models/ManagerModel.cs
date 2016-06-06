@@ -9,7 +9,7 @@ namespace prj_BIZ_System.Models
     {
         public string manager_id { get; set; }      //管理者帳號
         public string manager_pw { get; set; }      //管理者密碼
-        public short enable { get; set; }           //帳號有效
+        public string enable { get; set; }          //帳號有效
         public string name { get; set; }            //姓名
         public string phone { get; set; }           //電話
         public string email { get; set; }           //電子郵件
@@ -19,11 +19,6 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }   //資料更新時間
 
         public string grp_name { get; set; }             //群組名稱
-
-        public ManagerInfoModel()
-        {
-            manager_pw = "11111";
-        }
     }
 
     public class GroupModel

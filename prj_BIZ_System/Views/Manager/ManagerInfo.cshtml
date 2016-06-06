@@ -16,10 +16,10 @@
             <h2>管理者帳號查詢</h2>
             <div class="sys_searchboxcol01L">
                 <label for="" class="regis_col02L">管理帳號</label>
-                <input type="text" class="regis_col02R" name="manager_id" value="@ViewBag.Where_ManagerId">
+                <input type="text" class="regis_col02R" name="where_manager_id" value="@ViewBag.Where_ManagerId">
 
                 <label for="" class="regis_col02L">群組</label>
-                <select name="grp_id" id="group_select_0" class="regis_col02R">
+                <select name="where_grp_id" id="group_select_0" class="regis_col02R">
                     <option value="">請選擇</option>
                     @if (Model.groupList != null)
                     {
@@ -60,30 +60,6 @@
                         </tr>
                     }
                 }
-                <!--
-                <tr>
-                    <td>80680202</td>
-                    <td>系統管理者</td>
-
-                    <td>
-                        <div class="centerbox">
-                            <a href="javascript:void(0)" class="deletebu detailedbu">詳細資料</a>
-                        </div>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>80680202</td>
-                    <td>系統管理者</td>
-
-                    <td>
-                        <div class="centerbox">
-                            <a href="javascript:void(0)" class="deletebu detailedbu">詳細資料</a>
-                        </div>
-                    </td>
-
-                </tr>
-                -->
             </table>
             <ul class="pagelist">
                 <li><a href="">&lt;</a></li>
@@ -109,10 +85,6 @@
             <h2>新增帳號</h2>
             <label for="leader" class="regis_col02L spanRed">管理帳號</label>
             <input type="text" class="regis_col02R" name="manager_id" >
-            <!--
-            <label for="addr" class="regis_col02L">密碼</label>
-            <input type="password" class="regis_col02R" name="manager_pw">
-            -->
 
             <label for="addr" class="regis_col02L">姓名</label>
             <input type="text" class="regis_col02R" name="name">
@@ -146,7 +118,6 @@
 <script>
     $(function () {
         init();
-        //loadData();
     });
     var g_selected_managerInfo;
 
@@ -168,9 +139,9 @@
         function doDelete(id) {
             $.ajax({
                 type: "get",
-                url: "@Url.Action("DeleteManagerInfoJson", "Mananger")",
+                url: "@Url.Action("DeleteManagerInfoJson", "Manager")",
                 cache: false,
-                data: { "sample_id": id },
+                data: { "manager_id": id },
                 dataType: "json"
             }).done(function (result) {
                 if (result != null) {
@@ -233,75 +204,18 @@
                 data: $("#acc_from").serialize(),
                 dataType: "json"
             }).done(function (result) {
-                alert(result);
                 if (result == true) {
-                    alert('bbb');
                     var manager_id = $('#acc_from').find("input[name='manager_id']").val();
                     util_cls.form.form2row(manager_id, 'acc_from');
+                    var new_grp_id = util_cls.json.getValueFromJsonStr($("#rowdata_" + manager_id).text(),"grp_id");
+                    var new_grp_name = $("#group_select_0").find("option[value='" + grp_id + "']").text();
+                    $("#rowdata_" + manager_id).parents("tr").find("td").eq(1).text(new_grp_name);
+                } else {
+                    alert("更新失敗");
                 }
-                /*
-                if (result != null) {
-                    var isUpdateSuccess = result;
-                    if (isUpdateSuccess == true) {
-                        var sample_id = $("input[name='sample_id']").val();
-                        var new_title = $("input[name='sample_title']").val();
-                        var new_content = $("textarea[name='content']").val();
-                        var $selectedTr = $(".edittable tr").find("._id:contains('" + sample_id + "')");
-
-                        var $trs = $selectedTr.parents('tr');
-                        var $selectedTitle = $selectedTr.next().next();
-                        var $selectedContent = $selectedTr.next().next().next();
-                        $selectedTitle.text(new_title);
-                        $trs.find('td').eq(0).text(new_title);
-                        $selectedContent.text(new_content);
-                        alert("修改成功");
-                    } else {
-                        alert("修改失敗");
-                    }
-                }
-                else {
-                    alert("修改失敗");
-                }
-                */
             });
         });
     }
-
-    @*
-    function loadData() {
-        $.ajax({
-            type: "get",
-            url: "@Url.Action("EditPushSampleJson", "Push")",
-            cache: false,
-            dataType: "json"
-        }).done(function (result) {
-            if (result != null && result.pushSampleList != null) {
-                var pushSampleList = result.pushSampleList;
-                if (pushSampleList != null && pushSampleList.length > 0) {
-                    $.each(pushSampleList, function (index, el) {
-                        $(".edittable").append(genTemplate(el));
-                    });
-
-                    $(".edittable tr").find("a.editbu").click(function () {
-                        var id = $(this).next().next().text();
-                        var title = $(this).next().next().next().text();
-                        var content = $(this).next().next().next().next().text();
-                        displayDetail(id, title, content);
-                    });
-
-                    $(".edittable tr").find("a.deletebu").click(function () {
-                        var sample_id = $(this).next().text();
-                        checkPushListExists(sample_id);
-                    });
-                } else {
-                    alert("尚無資料");
-                }
-            }
-            else {
-            }
-        });
-    }
-    *@
 
     function checkValidationOk(manager_id, email , grp_id) {
         var errMsg = '';
@@ -315,55 +229,6 @@
             errMsg += '請選擇群組';
         }
         return errMsg;
-    }
-
-    function doDelete(id) {
-        $.ajax({
-            type: "get",
-            url: "@Url.Action("DeletePushSampleJson", "Push")",
-            cache: false,
-            data: { "sample_id": id },
-            dataType: "json"
-        }).done(function (result) {
-            if (result != null) {
-                var isDelSuccess = result;
-                if (isDelSuccess == true) {
-                    //alert("刪除成功");
-                    location.reload();
-                } else {
-                    //alert("刪除失敗");
-                }
-            }
-            else {
-            }
-        });
-    }
-
-    /*
-    function genTemplate(mo) {
-        var template =
-            '<tr>                                                                                   ' +
-            '    <td class="_title">' + mo.sample_title + '</td>                                    ' +
-            '    <td>                                                                               ' +
-            '        <div class="centerbox">                                                        ' +
-            '            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>             ' +
-            '            <a href="javascript:void(0)" class="deletebu">刪除</a>                      ' +
-            '            <span style="display:none" class="_id">' + mo.sample_id + '</span>         ' +
-            '            <span style="display:none" class="_title">' + mo.sample_title + '</span>   ' +
-            '            <span style="display:none" class="_content">' + mo.content + '</span>      ' +
-            '        </div>                                                                         ' +
-            '    </td>                                                                              ' +
-            '</tr>                                                                                  ';
-        return template;
-    }
-    */
-    function displayDetail(id, title, content) {
-        $("#temp_edit").show();
-        $("#temp_add").hide();
-        $("input[name='sample_id']").val(id);
-        $("input[name='sample_title']").val(title);
-        $("input[name='content']").val(content);
-        $("#editform h2").text("詳細資料");
     }
 
 </script>

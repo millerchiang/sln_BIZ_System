@@ -19,12 +19,12 @@ namespace prj_BIZ_System.Controllers
         }
 
         // GET: ManagerInfo
-        public ActionResult ManagerInfo(int? grp_id , string manager_id)
+        public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(grp_id, manager_id);
-            ViewBag.Where_GroupId = grp_id;
-            ViewBag.Where_ManagerId = manager_id;
+            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            ViewBag.Where_GroupId = where_grp_id;
+            ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);
         }
 
@@ -48,7 +48,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeleteManagerInfoJson(string manager_id)
         {
-            bool isDelSuccess = managerService.ManagerInfoDeleteOne(manager_id);
+            //非真的刪 , 只是停用
+            bool isDelSuccess = managerService.ManagerInfoDisableOne(manager_id);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }
 

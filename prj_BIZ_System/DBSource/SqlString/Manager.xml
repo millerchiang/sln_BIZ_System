@@ -43,8 +43,8 @@
     <!--新增管理帳號-->
     <insert id="InsertManagerInfo" parameterClass="ManagerInfo">
       INSERT INTO manager.manager_info(
-      manager_id, manager_pw, enable, name, phone, email, create_manager)
-      VALUES (#manager_id# , #manager_pw#,$enable$,#name#,#phone#,#email#,#create_manager#)
+      manager_id, manager_pw, enable, name, phone, email , grp_id, create_manager)
+      VALUES (#manager_id# , #manager_pw#,$enable$,#name#,#phone#,#email#,$grp_id$,#create_manager#)
     </insert>
 
     <!--查詢全部管理帳號-->
@@ -56,11 +56,14 @@
 
     <!--查詢特定條件的管理帳號-->
     <select id="getManagerInfoByCondition" resultMap="ManagerInfoByCondition-result" parameterClass="ManagerInfo">
+      <![CDATA[
       SELECT *
       FROM manager.manager_info m
       left join manager.group g
       on m.grp_id = g.grp_id
-      <dynamic prepend="where">
+      where m.enable <> '0' 
+      ]]>
+      <dynamic prepend="">
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
         </isNotEmpty>
@@ -90,10 +93,18 @@
       WHERE manager_id=#manager_id#
     </delete>
 
+    
+    <!--停/啟用管理帳號-->
+    <update id="ManagerInfoDisableOne" parameterClass="ManagerInfo">
+      UPDATE manager.manager_info
+      SET enable=#enable# , update_time=now()
+      WHERE manager_id=#manager_id#
+    </update>
+    
     <!--修改管理帳號-->
     <update id="UpdateManagerInfo" parameterClass="ManagerInfo">
       UPDATE manager.manager_info
-      SET enable=#enable#, name=#name#, phone=#phone#, email=#email#, update_time=now()
+      SET name=#name#, phone=#phone#, email=#email#, update_time=now()
       WHERE manager_id=#manager_id#
     </update>
 

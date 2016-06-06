@@ -1,6 +1,7 @@
 ﻿var util_cls = {};
 
 util_cls.form = {};
+util_cls.json = {};
 
 util_cls.form.row2form = function (id , form_id) {
     var jsonStr = $("#rowdata_" + id).text();
@@ -21,18 +22,25 @@ util_cls.form.form2row = function (id, form_id) {
     var oldJsonObj = JSON.parse(oldJsonStr);
     var newJsonStr = $form.serialize();
     var newJsonAry = $form.serializeArray();
-    var newJsonObj = JSON.parse(newJsonStr);
 
     for (var x in oldJsonObj) {
-        //oldJsonStr[x] = newJsonObj[x];
         for (var i = 0 ; i < newJsonAry.length;i++){
             if (newJsonAry[i].name == x) {
-                oldJsonStr[x] = ewJsonAry[i].value;
+                oldJsonObj[x] = newJsonAry[i].value;
                 break;
             }
         }
     }
 
-    $("#rowdata_" + id).text(JSON.stringify(oldJsonStr));
+    $("#rowdata_" + id).text(JSON.stringify(oldJsonObj));
 
+}
+
+util_cls.json.getValueFromJsonStr = function (jsonstr, key) {
+    var result = "";
+    if (jsonstr != null && jsonstr != '') {
+        var jsonObj = JSON.parse(jsonstr);
+        result = jsonObj[key];
+    }
+    return result;
 }

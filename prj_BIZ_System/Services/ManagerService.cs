@@ -28,7 +28,8 @@ namespace prj_BIZ_System.Services
 
         public void ManagerInfoInsertOne(ManagerInfoModel model)
         {
-            model.enable = 1;
+            model.enable = "1";
+            model.manager_pw = "11111"; //預設密碼
             mapper.Insert("Manager.InsertManagerInfo", model);
         }
 
@@ -42,6 +43,13 @@ namespace prj_BIZ_System.Services
             var param = new ManagerInfoModel() { manager_id = manager_id };
             return mapper.Delete("Manager.DeleteManagerInfo", param) > 0;
         }
+
+        public bool ManagerInfoDisableOne(string manager_id)
+        {
+            var param = new ManagerInfoModel() { manager_id = manager_id , enable = "0" };
+            return mapper.Update("Manager.ManagerInfoDisableOne", param) > 0;
+        }
+
         #endregion
 
         #region 群組管理
