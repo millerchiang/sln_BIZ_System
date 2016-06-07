@@ -4,6 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <alias>
     <typeAlias alias="MatchmakingNeedModel" type="prj_BIZ_System.Models.MatchmakingNeedModel"/>
+    <typeAlias alias="SchedulePeriodSetModel" type="prj_BIZ_System.Models.SchedulePeriodSetModel"/>
   </alias>
 
   <statements>
@@ -160,11 +161,44 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-    
 
+    <!--
+    [[  table = manager.schedule_period_set
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--新增某活動要媒合的時段-->
+    <insert id="InsertMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+      INSERT INTO manager.schedule_period_set (
+      activity_id, time_start, time_end
+      ) VALUES (
+      #activity_id#, #time_start#, #time_end#
+      )
+    </insert>
+    
+    <!--查詢某活動的所有媒合時段-->
+    <select id="SelectActivityMatchTimeInterval" resultMap="SchedulePeriodSet" parameterClass="SchedulePeriodSetModel">
+      SELECT *
+      FROM manager.schedule_period_set
+      WHERE activity_id = #activity_id#
+    </select>
+    
+    <!--刪除-->
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+    
   </statements>
   
   <resultMaps>
+    <resultMap id="SchedulePeriodSet" class="SchedulePeriodSetModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="period_sn" column="period_sn"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="time_start" column="time_start"/>
+      <result property="time_end" column="time_end"/>
+    </resultMap>
+    
     <resultMap id="MatchmakingNeed" class="MatchmakingNeedModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="serial_no" column="serial_no"/>

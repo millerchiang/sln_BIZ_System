@@ -780,6 +780,8 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
+    <Content Include="Views\Match\MatchScheduleList.cshtml" />
+    <Content Include="Views\Match\MatchScheduleTime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

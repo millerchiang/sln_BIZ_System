@@ -85,5 +85,17 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
         }
 
+        //SchedulePeriodSetModel
+        public void MatchTimeIntervalInsert(SchedulePeriodSetModel schedulePeriodSetModel)
+        {
+            mapper.Insert("Match.InsertMatchTimeInterval", schedulePeriodSetModel);
+        }
+
+        public IList<SchedulePeriodSetModel> GetActivityMatchTimeIntervalList(int activity_id)
+        {
+            SchedulePeriodSetModel param = new SchedulePeriodSetModel() { activity_id = activity_id};
+            return mapper.QueryForList<SchedulePeriodSetModel>("Match.SelectActivityMatchTimeInterval",param);
+        }
+
     }
 }

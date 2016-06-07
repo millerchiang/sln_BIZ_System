@@ -132,8 +132,28 @@ namespace prj_BIZ_System.Controllers
             matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);
         }
+        #endregion
+
+        #region 媒合時程表時間設定
+        [HttpGet]
+        public ActionResult MatchScheduleTime()
+        {
+            ViewBag.Action = "StoreMatchTimeInterval";
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
+            return View(matchModel);
+        }
+        [HttpPost]
+        public ActionResult StoreMatchTimeInterval(SchedulePeriodSetModel schedulePeriodSetModel)
+        {   
+            matchService.MatchTimeIntervalInsert(schedulePeriodSetModel);
+
+            return Redirect("MatchScheduleTime");
+        }
+
 
         #endregion
+
 
 
 
