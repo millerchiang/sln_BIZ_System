@@ -41,15 +41,15 @@ namespace prj_BIZ_System.Controllers
 
             allbuyersForAcivities = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
 
-            //if (allbuyersForAcivities == null)
-            //{
-            //    return Redirect("SellerBusinessMatch");
-            //}
-            //else {
-            //    return Redirect("MatchTimeArrange");
-            //}
+            if (allbuyersForAcivities == null)
+            {
+                return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
+            }
+            else {
+                return Redirect("MatchTimeArrange?activity_id=" + activity_id);
+            }
 
-            return Json(allbuyersForAcivities, JsonRequestBehavior.AllowGet);
+//            return Json(allbuyersForAcivities, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -103,7 +103,7 @@ namespace prj_BIZ_System.Controllers
         #region 媒合時程安排(賣家與買主)
         public ActionResult MatchTimeArrange()
         {
-            matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], Request["buyer_id"]);
+            matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);     
         }
         #endregion

@@ -47,7 +47,18 @@
                     }
                     else if (ViewBag.Title == "Index")
                     {
-                        <li>@Html.ActionLink("我的企業資料庫", "Register", "User")</li>
+
+
+                        <li>@Html.ActionLink("企業資料庫", "Register", "User")</li>
+                        <li>
+                            <a href="javascript:void(0)">帳號管理</a>
+                            <ul>
+                                <li><a href="/User/Register">我的資料庫</a></li>
+                                <li><a href="catalog_list_movie.html">活動報名</a></li>
+                                <li><a href="catalog_list_movie.html">商務對接</a></li>
+                                <li><a href="catalog_list_movie.html">媒合時間安排</a></li>
+                            </ul>
+                        </li>
                         <li>@Html.ActionLink("最新消息", "News", "Home")</li>
                     }
                     else if (ViewBag.Title == "News")

@@ -127,7 +127,6 @@
         ON mn.buyer_id = ui.user_id
         WHERE activity_id = #activity_id#
         AND seller_id = #seller_id#
-        AND buyer_id = #buyer_id#
       </select>
     
       <!--查詢某活動的賣家有無勾選買主-->
