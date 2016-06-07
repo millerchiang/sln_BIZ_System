@@ -201,7 +201,15 @@
         FROM news
       </select>
 
-      <!--查詢單筆-->
+    <!--查詢某新聞型態清單-->
+    <select id="SelectNewsType" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = #news_type#
+    </select>
+
+
+    <!--查詢單筆-->
       <select id="SelectNewsOne" resultMap="News">
         SELECT *
         FROM news
@@ -254,8 +262,17 @@
         SELECT *
         FROM buyer_list
       </select>
-      
-      <!--查詢買主資訊單筆-->
+
+    <!--查詢某活動買主資訊-->
+    <select id="SelectBuyerInfoActivity" resultMap="BuyerInfo1">
+      SELECT *
+      FROM buyer_list bl
+      INNER JOIN user_info ui
+      ON bl.buyer_id = ui.user_id
+      Where activity_id =#activity_id#
+    </select>
+
+    <!--查詢買主資訊單筆-->
       <select id="SelectBuyerInfoOne" resultMap="BuyerInfo">
         SELECT *
         FROM buyer_list
@@ -480,6 +497,16 @@
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
     </resultMap>
+
+    <resultMap id="BuyerInfo1" class="BuyerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_need" column="buyer_need"/>
+      <result property="company" column="company"/>
+    </resultMap>
+
 
     <resultMap id="EnterpriseSort" class="EnterpriseSortAndListModel">
       <!--property是Model屬性,column是資料庫欄位名稱--> 

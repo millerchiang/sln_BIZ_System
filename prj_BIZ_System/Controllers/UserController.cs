@@ -60,6 +60,7 @@ namespace prj_BIZ_System.Controllers
 
             if (userid == null) //新增
             {
+                ViewBag.tname = "會員註冊";
                 userModel.userinfo = new UserInfoModel();
                 ViewBag.PageType = "Create";
                 ViewBag.SubmitName = "確定送出";
@@ -68,6 +69,7 @@ namespace prj_BIZ_System.Controllers
             }
             else //修改
             {
+                ViewBag.tname = "我的會員資料";
                 userModel.userinfo = userService.GeUserInfoOne(userid);
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);

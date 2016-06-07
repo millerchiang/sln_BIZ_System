@@ -16,6 +16,9 @@
 }
     <article class="article_col2 form_box">
         <h2>@Request.Cookies["UserInfo"]["company"] - 型錄上傳</h2>
+        <a href="/User/Register" class="buinfor">我的會員資料</a>
+        <a href="/User/ProductList" class="buinfor">產品說明</a><br></br>
+
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
             <ul class="regis_dmlist">
                 @if (Model != null)

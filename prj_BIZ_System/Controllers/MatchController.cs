@@ -49,7 +49,7 @@ namespace prj_BIZ_System.Controllers
             else {
                 return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
             }
-           
+
         }
         #endregion
 
@@ -130,7 +130,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeBuyer()
         {
             matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
-            return View(matchModel);
+            return View(matchModel);     
         }
         #endregion
 

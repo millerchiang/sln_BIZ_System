@@ -44,10 +44,16 @@ namespace prj_BIZ_System.Services
         }
 
         //NewsModel******************************************************************************//
-
         public IList<NewsModel> GetNewsAll()
         {
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", null);
+        }
+
+
+        public IList<NewsModel> GetNewsType(string news_type)
+        {
+            NewsModel param = new NewsModel() { news_type = news_type };
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsType", param);
         }
 
         public NewsModel GetNewsOne(int news_no)
@@ -84,6 +90,12 @@ namespace prj_BIZ_System.Services
         public IList<BuyerInfoModel> GetBuyerInfoAll()
         {
             return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", null);
+        }
+
+        public IList<BuyerInfoModel> GetBuyerInfoActivity(int activity_id)
+        {
+            BuyerInfoModel param = new BuyerInfoModel() { activity_id = activity_id };
+            return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoActivity", param);
         }
 
         public BuyerInfoModel GetBuyerInfoOne(int serial_no)
