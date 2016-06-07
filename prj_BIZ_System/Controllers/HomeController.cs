@@ -17,6 +17,7 @@ namespace prj_BIZ_System.Controllers
 
         public UserService userService;
         public Index_ViewModel indexModel;
+        public User_ViewModel userModel;
         public ActivityService activityService;
 
         public HomeController()
@@ -24,6 +25,8 @@ namespace prj_BIZ_System.Controllers
             userService = new UserService();
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
+            userModel = new User_ViewModel();
+
         }
 
 
@@ -73,6 +76,21 @@ namespace prj_BIZ_System.Controllers
             else
                 return Redirect("Login");
         }
+
+        public ActionResult Company()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.enterprisesortList = userService.GetSortList();
+                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+
+                return View(userModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
 
         public ActionResult NewsView()
         {

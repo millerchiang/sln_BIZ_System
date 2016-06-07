@@ -58,6 +58,15 @@
       WHERE user_id = #user_id#
     </select>
 
+    <!--查詢型錄全部-->
+    <select id="SelectCatalogListTop5" resultMap="CatalogList-result">
+      SELECT *
+      FROM catalog_list
+      Order By catalog_no Desc Limit 5
+      
+    </select>
+
+
     <!--查詢型錄部份-->
     <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
       SELECT *
