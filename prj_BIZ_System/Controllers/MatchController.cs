@@ -34,31 +34,31 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        public ActionResult WhetherMetchBuyer(int activity_id)
+        #region 是否媒合買家
+        [HttpGet]
+        public ActionResult WhetherMetchBuyer()
         {
-            //IList<ActivityRegisterModel> allSellerForAcivities = matchService.GetSellerJoinThoseActivityList(Request.Cookies["UserInfo"]["user_id"]);
-            IList<MatchmakingNeedModel> allbuyersForAcivities = new List<MatchmakingNeedModel>();
+            int activity_id = int.Parse(Request["activity_id"]);
 
-            allbuyersForAcivities = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
+            matchModel.matchmakingNeedList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
 
-            if (allbuyersForAcivities == null)
-            {
-                return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
+            if (matchModel.matchmakingNeedList.Any())
+            {    
+                return Redirect("MatchTimeArrangeSeller?activity_id=" + activity_id);
             }
             else {
-                return Redirect("MatchTimeArrange?activity_id=" + activity_id);
+                return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
             }
 
-//            return Json(allbuyersForAcivities, JsonRequestBehavior.AllowGet);
-
         }
+        #endregion
 
         #region 商務對接(賣家)
         [HttpGet]
-        public ActionResult SellerBusinessMatch(int activity_id)
+        public ActionResult SellerBusinessMatch()
         {
             ViewBag.Action = "EditSellerMatchBuyerToInsert";
-            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeed(activity_id);
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeed(int.Parse(Request["activity_id"]));
             return View(matchModel);
         }
 
@@ -75,6 +75,24 @@ namespace prj_BIZ_System.Controllers
             }
 
             return Content("成功送出想媒合的買家");
+        }
+        #endregion
+
+        #region 是否媒合賣家
+        public ActionResult WhetherMetchSeller()
+        {
+            int activity_id = int.Parse(Request["activity_id"]);
+
+            matchModel.matchmakingNeedList = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
+
+            if (matchModel.matchmakingNeedList.Any())
+            {
+                return Redirect("MatchTimeArrangeBuyer?activity_id=" + activity_id);
+            }
+            else {
+                return Redirect("BuyerBusinessMatch?activity_id=" + activity_id);   
+            }
+
         }
         #endregion
 
@@ -100,13 +118,24 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合時程安排(賣家與買主)
-        public ActionResult MatchTimeArrange()
+        #region 媒合時程安排(賣家)
+        public ActionResult MatchTimeArrangeSeller()
         {
             matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);     
         }
         #endregion
+
+        #region 媒合時程安排(買家)
+        public ActionResult MatchTimeArrangeBuyer()
+        {
+            matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
+            return View(matchModel);     
+        }
+
+        #endregion
+
+
 
 
     }

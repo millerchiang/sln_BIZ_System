@@ -778,7 +778,8 @@
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\NewsView.cshtml" />
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
-    <Content Include="Views\Match\MatchTimeArrange.cshtml" />
+    <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
+    <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

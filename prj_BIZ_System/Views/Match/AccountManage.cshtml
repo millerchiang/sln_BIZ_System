@@ -37,7 +37,7 @@
                         <a href="news_activity.html" class="iconlink">@activityRegisterModel.activity_name</a>
                         <div class="centerbox">
                             <a href="@Url.Action("EditActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
-                            <a href="@Url.Action("WhetherMetchBuyer","Match",new { activity_id = activityRegisterModel.activity_id})" class="deleteSbu">活動媒合</a>
+                            <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="deleteSbu">活動媒合</a>
                         </div>
                     </li>
                 }
@@ -46,7 +46,7 @@
                     <li>
                         <a href="news_activity.html" class="iconlink">@buyerInfoModel.activity_name</a>
                         <div class="centerbox">
-                            <a href="@Url.Action("BuyerBusinessMatch","Match", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">活動媒合</a>
+                            <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">活動媒合</a>
                         </div>
                     </li>
                 }
@@ -68,7 +68,7 @@
         </section>
     </article>
 </div>
-@*
+
 <script type="text/javascript">
     $(document).ready(function () {
        
@@ -82,14 +82,10 @@
         data: { "activity_id": activity_id },
         dataType: "json",
         success: function (result) {
-            alert("0:" + result);
             if (result != null) {
                 if (result.length > 0) {
-                    alert("1:" + location.host + "/Match/MatchTimeArrange?activity_id=" + activity_id);
-//                    location.load(location.host + "/Match/MatchTimeArrange?activity_id=" + activity_id);
-                    window.location = location.host + "/Match/MatchTimeArrange?activity_id=" + activity_id;
+                    location.load(location.host + "/Match/MatchTimeArrange?activity_id=" + activity_id);
                 } else {
-                    alert("2:" + location.host + "/Match/SellerBusinessMatch?activity_id=" + activity_id);
                     location.href(location.host + "/Match/SellerBusinessMatch?activity_id=" + activity_id);
                 }
             }
@@ -97,4 +93,3 @@
     });
     }
 </script>
-*@

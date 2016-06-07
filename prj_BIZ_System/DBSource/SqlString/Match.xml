@@ -129,12 +129,32 @@
         AND seller_id = #seller_id#
       </select>
     
+      <!--查詢買家對哪個活動有意願洽談的賣主-->
+      <select id="SelectBuyerForActivityMatchSeller" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
+        SELECT *
+        FROM matchmaking_need mn
+        INNER JOIN user_info ui
+        ON mn.seller_id = ui.user_id
+        WHERE mn.activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        <!-- buyer_reply = '1'-->
+      </select>
+    
       <!--查詢某活動的賣家有無勾選買主-->
       <select id="SelectCertainActivitySellerCheckBuyer" resultMap="MatchmakingNeed" parameterClass="MatchmakingNeedModel">
         SELECT *
         FROM matchmaking_need
         WHERE activity_id = #activity_id#
         AND seller_id = #seller_id#
+      </select>
+    
+      <!--查詢某活動的買家有無勾選賣主-->
+      <select id="SelectCertainActivityBuyerCheckSeller" resultMap="MatchmakingNeed" parameterClass="MatchmakingNeedModel">
+        SELECT *
+        FROM matchmaking_need
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND buyer_reply = '1'
       </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
