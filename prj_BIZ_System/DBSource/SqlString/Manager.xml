@@ -13,10 +13,19 @@
     <!--table=manager.group-->
     <!--查詢全部群組-->
     <select id="SelectAllGroup" resultMap="Group-result">
+      <![CDATA[
       SELECT *
       FROM manager.group
+      WHERE grp_id <> 0
+      ]]>
     </select>
 
+    <select id="SelectGroupOne" resultMap="Group-result">
+      SELECT *
+      FROM manager.group
+      WHERE grp_id = $grp_id$
+    </select>
+    
     <!--新增群組-->
     <insert id="InsertGroup" parameterClass="Group">
       <selectKey   resultClass="int" property="grp_id" type="post"> SELECT currval('manager.group_grp_id_seq') </selectKey>
@@ -54,8 +63,18 @@
       FROM manager.manager_info
     </select>
 
+    <!--查詢特定群組的所有管理帳號-->
+    <select id="GetManagerInfoByGrpId" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
+      <![CDATA[
+      SELECT *
+      FROM manager.manager_info 
+      where enable <> '0' 
+      and grp_id = $grp_id$
+      ]]>
+    </select>
+    
     <!--查詢特定條件的管理帳號-->
-    <select id="getManagerInfoByCondition" resultMap="ManagerInfoByCondition-result" parameterClass="ManagerInfo">
+    <select id="SelectManagerInfoByCondition" resultMap="ManagerInfoByCondition-result" parameterClass="ManagerInfo">
       <![CDATA[
       SELECT *
       FROM manager.manager_info m
@@ -97,7 +116,7 @@
     <!--停/啟用管理帳號-->
     <update id="ManagerInfoDisableOne" parameterClass="ManagerInfo">
       UPDATE manager.manager_info
-      SET enable=#enable# , update_time=now()
+      SET enable=#enable# , grp_id = $grp_id$ ,update_time=now()
       WHERE manager_id=#manager_id#
     </update>
     
@@ -126,7 +145,9 @@
     <resultMap id="ManagerInfo-result" class="prj_BIZ_System.Models.ManagerInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="manager_id" column="manager_id"></result>
+      <!--
       <result property="manager_pw" column="manager_pw"></result>
+      -->
       <result property="enable" column="enable"></result>
       <result property="name" column="name"></result>
       <result property="phone" column="phone"></result>
@@ -142,7 +163,9 @@
     <resultMap id="ManagerInfoByCondition-result" class="prj_BIZ_System.Models.ManagerInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="manager_id" column="manager_id"></result>
+      <!--
       <result property="manager_pw" column="manager_pw"></result>
+      -->
       <result property="enable" column="enable"></result>
       <result property="name" column="name"></result>
       <result property="phone" column="phone"></result>

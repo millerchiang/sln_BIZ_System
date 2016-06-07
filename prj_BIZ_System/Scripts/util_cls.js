@@ -36,11 +36,11 @@ util_cls.form.form2row = function (id, form_id) {
 
 }
 
-util_cls.json.getValueFromJsonStr = function (jsonstr, key) {
+util_cls.json.getValueFromJsonStr = function (jsonstr, i) {
     var result = "";
     if (jsonstr != null && jsonstr != '') {
         var jsonObj = JSON.parse(jsonstr);
-        result = jsonObj[key];
+        result = jsonObj[i];
     }
     return result;
 }

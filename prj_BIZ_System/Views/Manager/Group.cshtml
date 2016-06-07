@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model IEnumerable<prj_BIZ_System.Models.GroupModel>
+@model prj_BIZ_System.Models.Manager_ViewModel
 
 @{
     ViewBag.Title = "Group";
@@ -22,6 +22,22 @@
                     <th>編輯</th>
 
                 </tr>
+                @if (Model.groupList != null)
+                {
+                    foreach(GroupModel md in Model.groupList)
+                    {
+                        <tr>
+                            <td>@md.grp_name</td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDetail(@md.grp_id)">編輯</a>
+                                    <span style="display:none" id="rowdata_@(md.grp_id)">{"grp_id":"@(md.grp_id)","grp_name":"@(md.grp_name)","limit":"@(md.limit)"}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                <!--
                 <tr>
                     <td>系統管理者</td>
                     <td>
@@ -49,7 +65,7 @@
                     </td>
 
                 </tr>
-
+                -->
             </table>
             <ul class="pagelist">
                 <li><a href="">&lt;</a></li>
@@ -71,7 +87,7 @@
         </article>
     </div>
     <div class="sys_searchboxco2">
-        <form action="" class="form_box" id="editform">
+        <form action="@Url.Action("GroupInsertUpdate","Manager")" class="form_box" id="editform" method="post">
             <h2>群組詳細資料</h2>
             <label for="leader" class="regis_col02L ">群組名稱</label>
             <input type="text" value="" class="regis_col02R">
@@ -85,72 +101,73 @@
                 </p>
                 <p>
                     <span class="regis_col05R">1 會員管理</span>
-                    <input type="radio" class="radioinput" id="group_member10" name="group_member1" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member10" name="manager" value="0" checked>
                     <label for="group_member10">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member11" name="group_member1" value="">
+                    <input type="radio" class="radioinput" id="group_member11" name="manager" value="1">
                     <label for="group_member11">有權限</label>
                 </p>
 
                 <p>
                     <span class="regis_col05R">2 活動管理</span>
-                    <input type="radio" class="radioinput" id="group_member20" name="group_member2" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member20" name="activity" value="0" checked>
                     <label for="group_member20">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member21" name="group_member2" value="">
+                    <input type="radio" class="radioinput" id="group_member21" name="activity" value="1">
                     <label for="group_member21">有權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member22" name="group_member2" value="">
+                    <input type="radio" class="radioinput" id="group_member22" name="activity" value="2">
                     <label for="group_member22">部份權限</label>
                 </p>
 
                 <p>
                     <span class="regis_col05R">3 推播管理</span>
-                    <input type="radio" class="radioinput" id="group_member30" name="group_member3" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member30" name="push" value="0" checked>
                     <label for="group_member30">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member31" name="group_member3" value="">
+                    <input type="radio" class="radioinput" id="group_member31" name="push" value="1">
                     <label for="group_member31">有權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member32" name="group_member3" value="">
+                    <input type="radio" class="radioinput" id="group_member32" name="push" value="2">
                     <label for="group_member32">部份權限</label>
                 </p>
 
 
                 <p>
                     <span class="regis_col05R">4 新聞管理</span>
-                    <input type="radio" class="radioinput" id="group_member40" name="group_member4" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member40" name="news" value="0" checked>
                     <label for="group_member40">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member41" name="group_member4" value="">
+                    <input type="radio" class="radioinput" id="group_member41" name="news" value="1">
                     <label for="group_member41">有權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member42" name="group_member4" value="">
+                    <input type="radio" class="radioinput" id="group_member42" name="news" value="2">
                     <label for="group_member42">部份權限</label>
                 </p>
 
                 <p>
                     <span class="regis_col05R">	5 管理者權限</span>
-                    <input type="radio" class="radioinput" id="group_member50" name="group_member5" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member50" name="admin" value="0" checked>
                     <label for="group_member50">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member51" name="group_member5" value="">
+                    <input type="radio" class="radioinput" id="group_member51" name="admin" value="1">
                     <label for="group_member51">有權限</label>
                 </p>
 
                 <p>
                     <span class="regis_col05R">6 統計資料</span>
-                    <input type="radio" class="radioinput" id="group_member60" name="group_member6" value="" checked>
+                    <input type="radio" class="radioinput" id="group_member60" name="statistic" value="0" checked>
                     <label for="group_member60">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member61" name="group_member6" value="">
+                    <input type="radio" class="radioinput" id="group_member61" name="statistic" value="1">
                     <label for="group_member61">有權限</label>
                 </p>
             </div>
 
-            <label for="leader" class="regis_col02L ">成員</label>
+            <label id="managers_label" for="leader" class="regis_col02L ">成員</label>
 
-            <table class="regis_col02R membertable">
+            <table id="managers_tb" class="regis_col02R membertable">
+                <!--
                 <tr>
                     <td>Fion</td>
                 </tr>
@@ -187,7 +204,7 @@
                 <tr>
                     <td>Herman</td>
                 </tr>
-
+                -->
             </table>
 
             <div class="centerbox">
@@ -204,13 +221,38 @@
 						$("#temp_edit,#editform").show();
 						$("#temp_add").hide();
 						$("#editform h2").text("詳細資料");
-
+						$("#managers_tb,#managers_label").css("display", "block");
 					})
 					$("#tempaddbu").on('click',function(){
 						$("#temp_edit").hide();
 						$("#temp_add,#editform").show();
 						$("input,textarea").val("");
+						$("#managers_tb,#managers_label").css("display", "none");
 						$("#editform h2").text("新增群組");
 					})
 			});
+			
+			function showDetail(grp_id){
+			    $.ajax({
+			        type:"GET",
+			        url:"@Url.Action("GetGroupDetail", "Manager")",
+			        data:{"grp_id" : grp_id},
+			        cache:false,
+			        datatype:"json"
+			    }).done(function (result) {
+			        if (result != null) {
+			            var memangers = result.memangers;
+			            var limits = result.limits;
+			            for (var i in limits) {
+			                $("input[name='"+i+"']").val(limits[i]);
+			            }
+
+			            $("#managers_tb").html("");
+			            for (var i in memangers) {
+			                $("#managers_tb").append("<tr><td>" + memangers[i].name + "</td></tr>");
+			            }
+			        }
+			    });
+
+			}
 </script>
