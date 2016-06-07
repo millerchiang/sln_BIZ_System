@@ -69,27 +69,3 @@
     </article>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-       
-    });
-
-    function redirectUrl(activity_id) {
-        $.ajax({
-            type: "get",
-            url: "@Url.Action("WhetherMetchBuyer", "Match")",
-            cache: false,
-        data: { "activity_id": activity_id },
-        dataType: "json",
-        success: function (result) {
-            if (result != null) {
-                if (result.length > 0) {
-                    location.load(location.host + "/Match/MatchTimeArrange?activity_id=" + activity_id);
-                } else {
-                    location.href(location.host + "/Match/SellerBusinessMatch?activity_id=" + activity_id);
-                }
-            }
-        }
-    });
-    }
-</script>
