@@ -225,6 +225,18 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 某活動買主資訊列表
+        [HttpGet]
+        public ActionResult BuyerInfoActivity()
+        {
+
+            activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"]));
+            return View(activityModel);
+
+        }
+        #endregion
+
+
         #region 新增修改刪除買主資訊*/
         [HttpGet]
         public ActionResult EditBuyerInfo()

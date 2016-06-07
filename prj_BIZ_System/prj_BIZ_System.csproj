@@ -739,6 +739,7 @@
     <Content Include="Views\Activity\ActivityRegisterCheck.cshtml" />
     <Content Include="Views\Activity\ActivityInfo.cshtml" />
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
+    <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <None Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

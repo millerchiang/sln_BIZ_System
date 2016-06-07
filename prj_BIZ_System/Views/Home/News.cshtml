@@ -13,7 +13,7 @@
     Html.RenderAction("_NavSearchPartial", "User");
 }
     <article class="article_col2">
-        <h2 class="borderTitle">最新消息</h2>
+        <h2 class="borderTitle">@ViewBag.tname</h2>
 
         <ul class="news_list listlink">
             @foreach (var newsList in Model.newsList)

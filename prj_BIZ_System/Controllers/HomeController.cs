@@ -51,16 +51,22 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-//                indexModel.enterprisesortList = userService.GetSortList();
- //               indexModel.userinfoList = userService.GetUserInfoList();
-//                indexModel.activityinfoList = activityService.GetActivityInfoList();
-                indexModel.newsList = activityService.GetNewsAll();
 
+                if (Request["Type"] == null)
+                {
+                    ViewBag.tname = "最新消息";
+                    indexModel.newsList = activityService.GetNewsAll();
+                }
+                else
+                {
+                    if (Request["Type"]=="0")
+                        ViewBag.tname = "活動消息";
+                    else
+                        ViewBag.tname = "最新新聞";
 
-//                foreach (NewsModel newsModel in indexModel.newsList)
-//                {
-//                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
-//                }
+                    indexModel.newsList = activityService.GetNewsType(Request["Type"]);
+                }
+
 
                 return View(indexModel);
             }
