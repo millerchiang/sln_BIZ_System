@@ -1,0 +1,258 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_ViewModel
+
+@{
+    ViewBag.Title = "Group";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+
+    <div class="sys_searchboxco2">
+
+        <article class="form_box">
+            <h2>群組列表</h2>
+            <a href="javascript:void(0)" class="addbu rightbox" id="tempaddbu">新增群組</a>
+            <table class="edittable">
+                <tr>
+                    <th>群組名稱</th>
+                    <th>編輯</th>
+
+                </tr>
+                @if (Model.groupList != null)
+                {
+                    foreach(GroupModel md in Model.groupList)
+                    {
+                        <tr>
+                            <td>@md.grp_name</td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDetail(@md.grp_id)">編輯</a>
+                                    <span style="display:none" id="rowdata_@(md.grp_id)">{"grp_id":"@(md.grp_id)","grp_name":"@(md.grp_name)","limit":"@(md.limit)"}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                <!--
+                <tr>
+                    <td>系統管理者</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>電腦公會人員</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>測試人員</td>
+                    <td>
+                        <div class="centerbox">
+                            <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                        </div>
+                    </td>
+
+                </tr>
+                -->
+            </table>
+            <ul class="pagelist">
+                <li><a href="">&lt;</a></li>
+
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+                <li><a href="">6</a></li>
+                <li><a href="">7</a></li>
+                <li><a href="">8</a></li>
+                <li><a href="">9</a></li>
+                <li><a href="">10</a></li>
+
+                <li><a href="">&gt;</a></li>
+            </ul>
+
+        </article>
+    </div>
+    <div class="sys_searchboxco2">
+        <form action="@Url.Action("GroupInsertUpdate","Manager")" class="form_box" id="editform" method="post">
+            <h2>群組詳細資料</h2>
+            <label for="leader" class="regis_col02L ">群組名稱</label>
+            <input type="text" value="" class="regis_col02R">
+
+            <label for="addr" class="regis_col02L">群組設定</label>
+            <div class="regis_col04R">
+                <p>
+                    <span class="fontRed">#</span>無權限:無法觀看 管理該功能內容<br />
+                    <span class="fontRed">#</span>有權限:可管理該功能全部內容<br />
+                    <span class="fontRed">#</span>部分權限:僅可管理自己群組新增的項目
+                </p>
+                <p>
+                    <span class="regis_col05R">1 會員管理</span>
+                    <input type="radio" class="radioinput" id="group_member10" name="manager" value="0" checked>
+                    <label for="group_member10">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member11" name="manager" value="1">
+                    <label for="group_member11">有權限</label>
+                </p>
+
+                <p>
+                    <span class="regis_col05R">2 活動管理</span>
+                    <input type="radio" class="radioinput" id="group_member20" name="activity" value="0" checked>
+                    <label for="group_member20">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member21" name="activity" value="1">
+                    <label for="group_member21">有權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member22" name="activity" value="2">
+                    <label for="group_member22">部份權限</label>
+                </p>
+
+                <p>
+                    <span class="regis_col05R">3 推播管理</span>
+                    <input type="radio" class="radioinput" id="group_member30" name="push" value="0" checked>
+                    <label for="group_member30">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member31" name="push" value="1">
+                    <label for="group_member31">有權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member32" name="push" value="2">
+                    <label for="group_member32">部份權限</label>
+                </p>
+
+
+                <p>
+                    <span class="regis_col05R">4 新聞管理</span>
+                    <input type="radio" class="radioinput" id="group_member40" name="news" value="0" checked>
+                    <label for="group_member40">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member41" name="news" value="1">
+                    <label for="group_member41">有權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member42" name="news" value="2">
+                    <label for="group_member42">部份權限</label>
+                </p>
+
+                <p>
+                    <span class="regis_col05R">	5 管理者權限</span>
+                    <input type="radio" class="radioinput" id="group_member50" name="admin" value="0" checked>
+                    <label for="group_member50">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member51" name="admin" value="1">
+                    <label for="group_member51">有權限</label>
+                </p>
+
+                <p>
+                    <span class="regis_col05R">6 統計資料</span>
+                    <input type="radio" class="radioinput" id="group_member60" name="statistic" value="0" checked>
+                    <label for="group_member60">無權限</label>
+
+                    <input type="radio" class="radioinput" id="group_member61" name="statistic" value="1">
+                    <label for="group_member61">有權限</label>
+                </p>
+            </div>
+
+            <label id="managers_label" for="leader" class="regis_col02L ">成員</label>
+
+            <table id="managers_tb" class="regis_col02R membertable">
+                <!--
+                <tr>
+                    <td>Fion</td>
+                </tr>
+                <tr>
+                    <td>Darren</td>
+                </tr>
+                <tr>
+                    <td>Herman</td>
+                </tr>
+                <tr>
+                    <td>Fion</td>
+                </tr>
+                <tr>
+                    <td>Darren</td>
+                </tr>
+                <tr>
+                    <td>Herman</td>
+                </tr>
+                <tr>
+                    <td>Fion</td>
+                </tr>
+                <tr>
+                    <td>Darren</td>
+                </tr>
+                <tr>
+                    <td>Herman</td>
+                </tr>
+                <tr>
+                    <td>Fion</td>
+                </tr>
+                <tr>
+                    <td>Darren</td>
+                </tr>
+                <tr>
+                    <td>Herman</td>
+                </tr>
+                -->
+            </table>
+
+            <div class="centerbox">
+                <a href="" class="buinfor" id="temp_edit" style="display:none">修改</a>
+                <a href="" class="submitbuOr" id="temp_add">新增</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+			$(function(){
+					$(".tempeditbu").on('click',function(){
+						$("#temp_edit,#editform").show();
+						$("#temp_add").hide();
+						$("#editform h2").text("詳細資料");
+						$("#managers_tb,#managers_label").css("display", "block");
+					})
+					$("#tempaddbu").on('click',function(){
+						$("#temp_edit").hide();
+						$("#temp_add,#editform").show();
+						$("input,textarea").val("");
+						$("#managers_tb,#managers_label").css("display", "none");
+						$("#editform h2").text("新增群組");
+					})
+			});
+			
+			function showDetail(grp_id){
+			    $.ajax({
+			        type:"GET",
+			        url:"@Url.Action("GetGroupDetail", "Manager")",
+			        data:{"grp_id" : grp_id},
+			        cache:false,
+			        datatype:"json"
+			    }).done(function (result) {
+			        if (result != null) {
+			            var memangers = result.memangers;
+			            var limits = result.limits;
+			            for (var i in limits) {
+			                $("input[name='"+i+"']").val(limits[i]);
+			            }
+
+			            $("#managers_tb").html("");
+			            for (var i in memangers) {
+			                $("#managers_tb").append("<tr><td>" + memangers[i].name + "</td></tr>");
+			            }
+			        }
+			    });
+
+			}
+</script>

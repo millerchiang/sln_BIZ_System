@@ -74,4 +74,12 @@ namespace prj_BIZ_System.Models
         public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
     }
+
+    public class Manager_ViewModel
+    {
+        public ManagerInfoModel managerInfo { get; set; }
+        public GroupModel group { get; set; }
+        public IList<ManagerInfoModel> managerInfoList { get; set; }
+        public IList<GroupModel> groupList { get; set; }
+    }
 }
