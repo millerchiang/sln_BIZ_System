@@ -17,13 +17,24 @@
             企業資料庫
         </h2>
         <section class="form_box">
-            <h2>產業別</h2>
+            <h2>搜尋結果</h2>
             <ul class="listlink col2 comicon article_col1">
 
-
-                @foreach (var sortList in Model.enterprisesortList)
+                @if (ViewBag.model == "companysortList")
                 {
-                    <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id@sortList.enterprise_sort_name</a></li>
+
+                    foreach (var sortList in Model.companysortList)
+                    {
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                    }
+                }
+                else
+                {
+                    foreach (var sortList in Model.userinfoList)
+                    {
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                    }
+
                 }
 
             </ul>

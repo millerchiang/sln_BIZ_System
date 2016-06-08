@@ -33,9 +33,15 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult UserInfo()
         {
-            userModel.enterprisesortList = userService.GetSortList();
-            userModel.userinfo = userService.GeUserInfoOne(Request["user_id"]);
+            string user_id = Request["user_id"];
+//            userModel.enterprisesortList = userService.GetSortList();
+            userModel.userinfo = userService.GeUserInfoOne(user_id);
             userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
+            userModel.productsortList = userService.getAllProduct(user_id);
+            userModel.cataloglistList = userService.getAllCatalog(user_id);
+            ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
+            ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
+            ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
             return View(userModel);
         }
 
@@ -123,7 +129,8 @@ namespace prj_BIZ_System.Controllers
                 model.user_id = current_user_id;
                 if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(current_user_id))
                 {
-                    UploadHelper.deleteUploadFile(old_model.logo_img, "logo",current_user_id);
+                    if (old_model.logo_img!=null)
+                        UploadHelper.deleteUploadFile(old_model.logo_img, "logo",current_user_id);
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
@@ -139,7 +146,7 @@ namespace prj_BIZ_System.Controllers
             if (model.id_enable=="1")
                 return Redirect("../Home/Index");
             else
-            return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+                return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
         
