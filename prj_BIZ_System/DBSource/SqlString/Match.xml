@@ -5,6 +5,7 @@
   <alias>
     <typeAlias alias="MatchmakingNeedModel" type="prj_BIZ_System.Models.MatchmakingNeedModel"/>
     <typeAlias alias="SchedulePeriodSetModel" type="prj_BIZ_System.Models.SchedulePeriodSetModel"/>
+    <typeAlias alias="MatchmakingScheduleModel" type="prj_BIZ_System.Models.MatchmakingScheduleModel"/>
   </alias>
 
   <statements>
@@ -187,14 +188,38 @@
       DELETE FROM manager.schedule_period_set
       WHERE period_sn = #period_sn#
     </delete>
+    
+    <!--更新某活動的某個媒合時段-->
+    <update id="UpdateMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+      UPDATE manager.schedule_period_set
+      SET 
+      time_start = #time_start#,
+      time_end   = #time_end#
+      WHERE period_sn = #period_sn#
+    </update>
+    
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
     
+    
+    
   </statements>
   
   <resultMaps>
+
+    <resultMap id="MatchmakingSchedule" class="MatchmakingScheduleModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="period_sn" column="period_sn"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="seller_id" column="seller_id"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+    
     <resultMap id="SchedulePeriodSet" class="SchedulePeriodSetModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="period_sn" column="period_sn"/>
