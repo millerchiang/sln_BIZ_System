@@ -8,6 +8,8 @@ using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System.Web.Script.Serialization;
 using WebApiContrib.ModelBinders;
+using prj_BIZ_System.App_Start;
+using System.Web;
 
 namespace prj_BIZ_System.WebService
 {
@@ -25,21 +27,71 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
-            string[] strings = sort_id.Split(',');
-            int[] enterprise_sort_id = new int[strings.Length];
-            for (int i = 0; i < strings.Length; i++)
+            bool isInsertSuccess = insertEnterpriseId(userInfoModel, sort_id);
+            object userInfoId = null;
+            if (isInsertSuccess)
             {
-                enterprise_sort_id[i] = int.Parse(strings[i]);
+                userInfoId = insertUserInfoAndSendEmail(userInfoModel);
             }
-            try
+            if (isInsertSuccess == true && userInfoId != null)
             {
-                userService.RefreshUserSort(userInfoModel.user_id, enterprise_sort_id);
+                return userInfoId;
             }
-            catch (Exception ex)
+            else
             {
                 return null;
             }
-            return userService.UserInfoInsertOne(userInfoModel); 
+        }
+
+        private bool insertEnterpriseId(UserInfoModel userInfoModel, string sort_id)
+        {
+            bool isInsertUserSort = true;
+            if (sort_id != null)
+            {
+                string[] strings = sort_id.Split(',');
+                int[] enterprise_sort_id = new int[strings.Length];
+
+                for (int i = 0; i < strings.Length; i++)
+                {
+                    enterprise_sort_id[i] = int.Parse(strings[i]);
+                }
+                try
+                {
+                    userService.RefreshUserSort(userInfoModel.user_id, enterprise_sort_id);
+                }
+                catch (Exception ex)
+                {
+                    isInsertUserSort = false;
+                }
+            }
+            else
+            {
+                isInsertUserSort = false;
+            }
+
+            return isInsertUserSort;
+        }
+
+        private object insertUserInfoAndSendEmail(UserInfoModel userInfoModel)
+        {
+            object userInfoId = userService.UserInfoInsertOne(userInfoModel);
+            if (userInfoId != null)
+            {
+                SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
+                return userInfoId;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public void SendAccountMailValidate(object id, string user_id, string email)
+        {
+            var ip = HttpContext.Current.Request.Url.Host;
+            var port = HttpContext.Current.Request.Url.Port;
+            MailHelper.sendAccountMailValidate(id, user_id, email, ip, port);
         }
 
         [HttpGet]
