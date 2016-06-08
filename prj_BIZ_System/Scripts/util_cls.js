@@ -7,11 +7,11 @@ util_cls.form.row2form = function (id , form_id) {
     var jsonStr = $("#rowdata_" + id).text();
     var jsonObj = JSON.parse(jsonStr);
     var $form = $('#' + form_id);
-    for (var x in jsonObj) {
-        if ($form.find('input[name="' + x + '"]').size() > 0) {
-            $form.find('input[name="' + x + '"]').val(jsonObj[x]);
-        } else if ($form.find('select[name="' + x + '"]').size() > 0) {
-            $form.find('select[name="' + x + '"]').val(jsonObj[x]);
+    for (var i in jsonObj) {
+        if ($form.find('input[name="' + i + '"]').size() > 0) {
+            $form.find('input[name="' + i + '"]').val(jsonObj[i]);
+        } else if ($form.find('select[name="' + i + '"]').size() > 0) {
+            $form.find('select[name="' + i + '"]').val(jsonObj[i]);
         }
     }
 }
