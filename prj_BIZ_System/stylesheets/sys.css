@@ -348,6 +348,10 @@ tfoot p {
   line-height: 2em;
 }
 
+.centerbox2 {
+    text-align:center;
+}
+
 #editform .regis_col04R p {
   line-height: 1.8em;
 }
