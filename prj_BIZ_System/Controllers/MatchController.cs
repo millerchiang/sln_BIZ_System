@@ -141,17 +141,25 @@ namespace prj_BIZ_System.Controllers
             ViewBag.Action = "StoreMatchTimeInterval";
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
             matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
             return View(matchModel);
         }
+
         [HttpPost]
         public ActionResult StoreMatchTimeInterval(SchedulePeriodSetModel schedulePeriodSetModel)
-        {   
+        {
+            
             matchService.MatchTimeIntervalInsert(schedulePeriodSetModel);
-
-            return Redirect("MatchScheduleTime");
+            return Redirect("MatchScheduleTime?activity_id=" + schedulePeriodSetModel.activity_id);
         }
 
-
+        [HttpGet]
+        public ActionResult MatchTimeIntervalDelect()
+        {
+            int activity_id = int.Parse(Request["activity_id"]);
+            matchService.MatchTimeIntervalDeleteOne(int.Parse(Request["period_sn"]));
+            return Redirect("MatchScheduleTime?activity_id=" + activity_id);
+        }
         #endregion
 
 

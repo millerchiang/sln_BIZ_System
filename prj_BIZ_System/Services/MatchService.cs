@@ -97,5 +97,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<SchedulePeriodSetModel>("Match.SelectActivityMatchTimeInterval",param);
         }
 
+        public void MatchTimeIntervalDeleteOne(int period_sn)
+        {
+            SchedulePeriodSetModel param = new SchedulePeriodSetModel() {period_sn = period_sn };
+            mapper.Delete("Match.DeleteMatchTimeInterval", param);
+        }
+
     }
 }

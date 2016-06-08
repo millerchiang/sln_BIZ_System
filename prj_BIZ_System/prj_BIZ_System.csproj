@@ -303,11 +303,10 @@
     <Content Include="DBSource\SqlString\ActivityInfo.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\Match.xml" />
-    <Content Include="DBSource\SqlString\Manager.xml">
+    <Content Include="DBSource\SqlString\Match.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\Match.xml">
+    <Content Include="DBSource\SqlString\Manager.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">

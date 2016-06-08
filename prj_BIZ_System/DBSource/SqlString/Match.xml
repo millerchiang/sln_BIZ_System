@@ -182,7 +182,11 @@
       WHERE activity_id = #activity_id#
     </select>
     
-    <!--刪除-->
+    <!--刪除某活動的某個媒合時段-->
+    <delete id="DeleteMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+      DELETE FROM manager.schedule_period_set
+      WHERE period_sn = #period_sn#
+    </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
