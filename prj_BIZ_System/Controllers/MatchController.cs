@@ -1,7 +1,6 @@
 ﻿using prj_BIZ_System.Services;
 using prj_BIZ_System.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -134,7 +133,7 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合時程表時間設定
+        #region 媒合時程表時間設定新增與刪除
         [HttpGet]
         public ActionResult MatchScheduleTime()
         {
@@ -146,10 +145,26 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult StoreMatchTimeInterval(SchedulePeriodSetModel schedulePeriodSetModel)
+        public ActionResult StoreMatchTimeInterval(SchedulePeriodSetModel schedulePeriodSetModel, int[] old_period_sn, DateTime[] old_time_start, DateTime[] old_time_end)
         {
-            
-            matchService.MatchTimeIntervalInsert(schedulePeriodSetModel);
+            SchedulePeriodSetModel model = new SchedulePeriodSetModel();
+            if (old_period_sn != null)
+            {
+                for (int i = 0; i< old_period_sn.Length; i++)
+                {
+                    model.period_sn = old_period_sn[i];
+                    model.time_start = old_time_start[i];
+                    model.time_end = old_time_end[i];
+                    matchService.MatchTimeIntervalUpdateOne(model);  
+                }
+            }
+
+            if ((schedulePeriodSetModel.time_start.ToString() != "0001/1/1 上午 12:00:00")
+                ||(schedulePeriodSetModel.time_end.ToString() != "0001/1/1 上午 12:00:00"))
+            {
+                matchService.MatchTimeIntervalInsert(schedulePeriodSetModel);
+            }
+
             return Redirect("MatchScheduleTime?activity_id=" + schedulePeriodSetModel.activity_id);
         }
 
@@ -162,9 +177,13 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 媒合時程大表
+        public ActionResult MatchScheduleList()
+        {
+            return View();
+        }
 
-
-
+        #endregion
 
     }
 }

@@ -103,5 +103,10 @@ namespace prj_BIZ_System.Services
             mapper.Delete("Match.DeleteMatchTimeInterval", param);
         }
 
+        public void MatchTimeIntervalUpdateOne(SchedulePeriodSetModel schedulePeriodSetModel)
+        {
+            mapper.Update("Match.UpdateMatchTimeInterval", schedulePeriodSetModel);
+        }
+
     }
 }
