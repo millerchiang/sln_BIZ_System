@@ -247,6 +247,7 @@
 /// <reference path="datetimepicker/jquery-ui-slideraccess.js" />
 /// <reference path="datetimepicker/jquery-ui-timepicker-addon.js" />
 /// <reference path="datetimepicker/jquery-ui-timepicker-zh-tw.js" />
+/// <reference path="fancybox/jquery.fancybox.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-1.10.2.js" />

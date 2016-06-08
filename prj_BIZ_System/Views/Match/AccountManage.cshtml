@@ -1,0 +1,66 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Match_ViewModel
+
+
+@{
+    ViewBag.Title = "帳戶管理";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/account.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <aside>
+        <form action="" class="searchbox">
+            <input type="text" name="companyName" placeholder="公司名">
+            <select name="" id="">
+                <option value="text00">產業別</option>
+                <option value="c08">食品製造業</option>
+            </select>
+            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        </form>
+    </aside>
+    <article class="article_col2">
+        <h2 class="borderTitle">
+            帳號管理
+        </h2>
+        <a href="company_info_edit.html" class="buinfor">基本資料編輯</a>
+        <a href="company_info_edit_product.html" class="buinfor">產品說明</a>
+        <a href="company_info_edit_dm.html" class="buinfor">型錄上傳</a>
+        <section class="form_box w55">
+            <h2>活動列表</h2>
+            <ul>
+                @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+                {
+                    <li>
+                        <a href="news_activity.html" class="iconlink">@activityRegisterModel.activity_name</a>
+                        <div class="centerbox">
+                            <a href="@Url.Action("EditActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
+                            <a href="@Url.Action("BusinessMatch","Match", new { activity_id = activityRegisterModel.activity_id })" class="deleteSbu">媒合申請</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </section>
+        <section class="form_box w45">
+            <h2>推薦活動</h2>
+            <ul>
+                @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+                {
+                    <li>
+                        <a href="" class="iconlink2">@activityInfoModel.activity_name</a>
+                        <div class="centerbox">
+                            <a href="@Url.Action("EditActivityRegister","Activity",new { activity_id = activityInfoModel.activity_id})" class="addbu">報名</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </section>
+    </article>
+</div>
+
+
+
+
+

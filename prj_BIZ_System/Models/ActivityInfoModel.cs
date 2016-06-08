@@ -31,9 +31,11 @@ namespace prj_BIZ_System.Models
     public class BuyerInfoModel
     {
         public int serial_no { get; set; }//流水號
-        public int activity_no { get; set; }//活動編號
+        public int activity_id { get; set; }//活動編號
         public string buyer_id { get; set; }//買主帳號
         public string buyer_need { get; set; }//買主媒合需求
+
+        public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
     }
 
     public class UserInfoToIdAndCpModel
@@ -61,6 +63,11 @@ namespace prj_BIZ_System.Models
         public string user_info_en { get; set; }//公司簡介(英文) (預設與用戶資訊相同)
         public DateTime create_time { get; set; }//建立時間
         public DateTime update_time { get; set; }//修改時間
+
+        public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
+        public string buyer_need { get; set; }//BuyerInfoModel 的 買主媒合需求
+
     }
 
     public class NewsModel
@@ -73,6 +80,8 @@ namespace prj_BIZ_System.Models
         public int activity_id { get; set; }//活動編號
         public string website { get; set; }//網址
         public string content { get; set; }//內容
+        public DateTime create_time { get; set; }//建立時間
+        public DateTime update_time { get; set; }//修改時間
     }
 
     public class EnterpriseSortAndListModel
@@ -89,6 +98,9 @@ namespace prj_BIZ_System.Models
         public string user_id { get; set; }//使用者帳號
         public int activity_id { get; set; }//活動編號
         public int product_id { get; set; }//產品編號
+
+        public string product_name { get; set; } //ProductListModel 的 產品名稱(中文)
+        public string product_info { get; set; } //ProductListModel 的 產品簡介(中文)
     }
 
     public class ActivityCatalogSelectModel
@@ -97,20 +109,9 @@ namespace prj_BIZ_System.Models
         public string user_id { get; set; }//使用者帳號
         public int activity_id { get; set; }//活動編號
         public int catalog_no { get; set; }//型錄編號
+
+        public string cover_file { get; set; } //CatalogListModel 的 公司型錄封面位置
+        public string catalog_file { get; set; } //CatalogListModel 的 公司型錄檔案位置
     }
-
-    /*
-        public class News_BNList_ViewModel
-        {
-            public IList<NewsModel> NewsList { get; set; }
-        }
-
-        public class News_EAInfo_ViewModel
-        {
-            public IList<ActivityInfoModel> ActivityInfoList { get; set; }
-            public NewsModel NewsModel { get; set; }
-        }
-    */
-
 
 }

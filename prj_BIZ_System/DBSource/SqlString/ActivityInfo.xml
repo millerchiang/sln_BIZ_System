@@ -106,14 +106,27 @@
     [[  table = activity_register
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-      <!--查詢活動報名全部-->
-      <select id="SelectActivityRegisterAll" resultMap="ActivityRegister">
+      <!--查詢活動報名審核全部-->
+      <select id="SelectActivityCheckAll" resultMap="ActivityRegisterCheck" parameterClass="ActivityRegisterModel">
         SELECT *
-        FROM activity_register
+        FROM activity_register r
+        INNER JOIN user_info u
+        ON r.user_id = u.user_id
+        INNER JOIN activity_info a
+        ON r.activity_id = a.activity_id
+        <dynamic prepend="where">
+          <isNotEmpty prepend="and" property="activity_name">
+            activity_name  like '%'||#activity_name#||'%'
+          </isNotEmpty>
+          <isNotEmpty prepend="and" property="company">
+            company like '%'||#company#||'%'
+          </isNotEmpty>
+        </dynamic>
+        ORDER BY r.create_time
       </select>
-    
+       
       <!--查詢活動報名單筆-->
-      <select id="SelectActivityRegisterOne" resultMap="ActivityRegister">
+      <select id="SelectActivityRegisterOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
         SELECT *
         FROM activity_register
         WHERE register_id = #register_id#
@@ -137,22 +150,9 @@
       <!--修改活動報名單筆-->
       <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
         UPDATE activity_register
-        SET activity_id = #activity_id#,
-          user_id = #user_id#,
-          quantity = #quantity#,
-          name_a = #name_a#,
-          title_a = #title_a#,
-          name_b = #name_b#,
-          title_b = #title_b#,
-          telephone = #telephone#,
-          phone = #phone#,
-          email = #email#,
-          catalog_file = #catalog_file#,
+        SET 
           manager_check = #manager_check#,
-          user_info = #user_info#,
-          user_info_en = #user_info_en#,
-          create_time = #create_time#,
-          update_time = #update_time#
+          update_time = now()
         WHERE register_id = #register_id#     
       </update>
     
@@ -211,7 +211,8 @@
         news_type = #news_type#,
         activity_id = #activity_id#,
         website = #website#,
-        content = #content#
+        content = #content#,
+        update_time = now()
         WHERE news_no = #news_no#
       </update>
     <!--
@@ -239,9 +240,9 @@
       <!--新增買主資訊單筆-->
       <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
         INSERT INTO buyer_list (
-        activity_no, buyer_id, buyer_need
+        activity_id, buyer_id, buyer_need
         ) VALUES (
-        #activity_no#, #buyer_id#, #buyer_need#
+        #activity_id#, #buyer_id#, #buyer_need#
         )
       </insert>
 
@@ -254,7 +255,7 @@
       <!--修改買主資訊單筆-->
       <update id="UpdateBuyerInfoOne" parameterClass="BuyerInfoModel">
         UPDATE buyer_list SET
-        activity_no = #activity_no#,
+        activity_id = #activity_id#,
         buyer_id = #buyer_id#,
         buyer_need = #buyer_need#
         WHERE serial_no = #serial_no#
@@ -302,7 +303,16 @@
         #user_id#, #activity_id#, #product_id#
         )
       </insert>
-    
+      
+      <!--選取哪家廠商的哪個活動所選的公司產品-->
+      <select id="SelectActivityProductByCondition" resultMap="ActivityProductSelectByCondition" parameterClass="ActivityProductSelectModel">
+        SELECT *
+        FROM activity_product_select aps
+        INNER JOIN product_list pl
+        ON aps.product_id = pl.product_id
+        WHERE aps.user_id = #user_id#
+        AND aps.activity_id = #activity_id#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -320,6 +330,16 @@
       #user_id#, #activity_id#, #catalog_no#
       )
     </insert>
+
+    <!--選取哪家廠商的哪個活動所選的公司型錄-->
+    <select id="SelectActivityCatalogByCondition" resultMap="ActivityCatalogSelectByCondition" parameterClass="ActivityCatalogSelectModel">
+      SELECT *
+      FROM activity_catalog_select aps
+      INNER JOIN catalog_list cl
+      ON aps.catalog_no = cl.catalog_no
+      WHERE aps.user_id = #user_id#
+      AND aps.activity_id = #activity_id#
+    </select>
 
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -371,13 +391,40 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
     </resultMap>
+    
+    <resultMap id="ActivityRegisterCheck" class="ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="quantity" column="quantity"/>
+      <result property="name_a" column="name_a"/>
+      <result property="title_a" column="title_a"/>
+      <result property="name_b" column="name_b"/>
+      <result property="title_b" column="title_b"/>
+      <result property="telephone" column="telephone"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="catalog_file" column="catalog_file"/>
+      <result property="manager_check" column="manager_check"/>
+      <result property="user_info" column="user_info"/>
+      <result property="user_info_en" column="user_info_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>  
+      <!--activityInfo 的 activity_name-->
+      <!--userInfo 的 company-->
+      <result property="activity_name" column="activity_name"/>
+      <result property="company" column="company"/>
+    </resultMap>
 
     <resultMap id="UserInfo" class="UserInfoToIdAndCpModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="user_id" column="user_id"/>
       <result property="company" column="company"/>
     </resultMap>
     
     <resultMap id="News" class="NewsModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="news_no" column="news_no"/>
       <result property="manager_id" column="manager_id"/>
       <result property="news_title" column="news_title"/>
@@ -386,16 +433,20 @@
       <result property="activity_id" column="activity_id"/>
       <result property="website" column="website"/>
       <result property="content" column="content"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
     </resultMap>
 
     <resultMap id="BuyerInfo" class="BuyerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱--> 
       <result property="serial_no" column="serial_no"/>
-      <result property="activity_no" column="activity_no"/>
+      <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
     </resultMap>
 
     <resultMap id="EnterpriseSort" class="EnterpriseSortAndListModel">
+      <!--property是Model屬性,column是資料庫欄位名稱--> 
       <result property="user_id" column="user_id"/>
       <result property="sort_id" column="sort_id"/>
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
@@ -403,17 +454,41 @@
     </resultMap>
 
     <resultMap id="ActivityProductSelect" class="ActivityProductSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱--> 
       <result property="serial_no" column="serial_no"/>
       <result property="user_id" column="user_id"/>
       <result property="activity_id" column="activity_id"/>
       <result property="product_id" column="product_id"/>
     </resultMap>
 
+    <resultMap id="ActivityProductSelectByCondition" class="ActivityProductSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="user_id" column="user_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="product_id" column="product_id"/>
+      <!--productlist 的 product_name, product_info-->
+      <result property="product_name" column="product_name"/>
+      <result property="product_info" column="product_info"/>
+    </resultMap>
+
     <resultMap id="ActivityCatalogSelect" class="ActivityCatalogSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="serial_no" column="serial_no"/>
       <result property="user_id" column="user_id"/>
       <result property="activity_id" column="activity_id"/>
       <result property="catalog_no" column="catalog_no"/>
+    </resultMap>
+
+    <resultMap id="ActivityCatalogSelectByCondition" class="ActivityCatalogSelectModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="user_id" column="user_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="catalog_no" column="catalog_no"/>
+      <!--cataloglist 的 cover_file, catalog_file-->
+      <result property="cover_file" column="cover_file"/>
+      <result property="catalog_file" column="catalog_file"/>
     </resultMap>
     
   </resultMaps>

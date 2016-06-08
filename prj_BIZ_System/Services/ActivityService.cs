@@ -16,7 +16,7 @@ namespace prj_BIZ_System.Services
 
         public IList<ActivityInfoModel> GetActivityInfoList()
         {
-            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", null); 
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", null);
         }
 
         public ActivityInfoModel GetActivityInfoOne(int activity_id)
@@ -39,7 +39,7 @@ namespace prj_BIZ_System.Services
 
         public int ActivityInfoUpdateOne(ActivityInfoModel activityInfoModel)
         {
-           Object obj =  mapper.Update("ActivityInfo.UpdateActivityOne", activityInfoModel);
+            Object obj = mapper.Update("ActivityInfo.UpdateActivityOne", activityInfoModel);
             return (int)obj;
         }
 
@@ -80,7 +80,7 @@ namespace prj_BIZ_System.Services
         }
 
         //BuyerInfoModel******************************************************************************//
-        
+
         public IList<BuyerInfoModel> GetBuyerInfoAll()
         {
             return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", null);
@@ -88,7 +88,7 @@ namespace prj_BIZ_System.Services
 
         public BuyerInfoModel GetBuyerInfoOne(int serial_no)
         {
-            BuyerInfoModel param = new BuyerInfoModel() {serial_no = serial_no };
+            BuyerInfoModel param = new BuyerInfoModel() { serial_no = serial_no };
             return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerInfoOne", param);
         }
 
@@ -117,14 +117,32 @@ namespace prj_BIZ_System.Services
 
         public IList<EnterpriseSortAndListModel> GetEnterpriseSortAndListOne(string user_id)
         {
-            EnterpriseSortAndListModel param = new EnterpriseSortAndListModel() {user_id = user_id };
+            EnterpriseSortAndListModel param = new EnterpriseSortAndListModel() { user_id = user_id };
             return mapper.QueryForList<EnterpriseSortAndListModel>("ActivityInfo.SelectEnterpriseByUserId", param);
         }
 
         //ActivityRegisterModel******************************************************************************//
+
+        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
+        }
+
+        public ActivityRegisterModel GetActivityRegisterOne(int register_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { register_id = register_id };
+            return (ActivityRegisterModel)mapper.QueryForObject("ActivityInfo.SelectActivityRegisterOne", param);
+        }
+
         public void ActivityRegisterInserOne(ActivityRegisterModel activityRegisterModel)
         {
             mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
+        }
+
+        public void ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
+        {
+            mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);
         }
 
         //ActivityProductSelectModel******************************************************************************//
@@ -133,10 +151,22 @@ namespace prj_BIZ_System.Services
             mapper.Insert("ActivityInfo.InsertActivityProductOne", activityProductSelectModel);
         }
 
+        public IList<ActivityProductSelectModel> GetActivityProductSelectList(string user_id, int activity_id)
+        {
+            ActivityProductSelectModel param = new ActivityProductSelectModel() { user_id = user_id, activity_id = activity_id };
+            return mapper.QueryForList<ActivityProductSelectModel>("ActivityInfo.SelectActivityProductByCondition", param);
+        }
+
         //ActivityCatalogSelectModel******************************************************************************//
         public void ActivityCatalogInsertOne(ActivityCatalogSelectModel activityCatalogSelectModel)
         {
             mapper.Insert("ActivityInfo.InsertActivityCatalogOne", activityCatalogSelectModel);
+        }
+
+        public IList<ActivityCatalogSelectModel> GetActivityCatalogSelectList(string user_id, int activity_id)
+        {
+            ActivityCatalogSelectModel param = new ActivityCatalogSelectModel() { user_id = user_id, activity_id = activity_id };
+            return mapper.QueryForList<ActivityCatalogSelectModel>("ActivityInfo.SelectActivityCatalogByCondition", param);
         }
     }
 

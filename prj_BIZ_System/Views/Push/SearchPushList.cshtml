@@ -67,7 +67,7 @@
                         </td>
                         <td>
                             <div class="centerbox">
-                                <a href="@Url.Action("DeletePushList","Push",new { push_id = md.push_id })" class="deleteSbu" onclick="if(doDelete()){return false;}">刪除</a>
+                                <a href="@Url.Action("DeletePushList","Push",new { push_id = md.push_id })" class="deleteSbu">刪除</a>
                             </div>
                         </td>
                     </tr>
@@ -94,10 +94,23 @@
 </div>
 
 <script>
+    $(function () {
+        init();
+    });
+
+    function init(){
+        $(".deleteSbu").click(function(){
+            if(doDelete()){
+                return false;
+            }
+        });
+    }
+
     function doDelete(push_id) {
         var result = confirm("確定要刪除嗎?");
         return !result;
     }
+
 </script>
 
 @functions{

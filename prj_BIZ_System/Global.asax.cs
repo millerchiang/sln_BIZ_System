@@ -12,6 +12,7 @@ namespace prj_BIZ_System
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private string mailBaseDir = "App_Start";
         private string uploadFileBaseDir = "Content";
         protected void Application_Start()
         {
@@ -21,6 +22,9 @@ namespace prj_BIZ_System
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            MailConfig.RegisterCustomSetting(Server.MapPath("~/"+ mailBaseDir));
+            SecurityHelper.RegisterCustomSetting(Server.MapPath("~/"+ mailBaseDir));
 
             UploadConfig.RegisterCustomSetting(uploadFileBaseDir,Server.MapPath("~/"+ uploadFileBaseDir));
         }
