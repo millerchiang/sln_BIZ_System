@@ -1,0 +1,55 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
+    ViewBag.Title = "News";
+}
+@section pagestyle{
+    <link href="/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+@{
+    Html.RenderAction("_NavSearchPartial", "User");
+}
+    <article class="article_col2">
+        <h2 class="borderTitle">@ViewBag.tname</h2>
+
+        <ul class="news_list listlink">
+            @foreach (var newsList in Model.newsList)
+            {
+                string aa = "news_newspage";
+                string bb = "新聞";
+
+                if (newsList.news_type == "0")
+                {
+                    aa = "news_activity";
+                    bb = "活動";
+
+                }
+                <li>
+                    <a href="NewsView?Id=@newsList.news_no"  class=@aa>
+                        <span>@bb</span>
+                    @newsList.news_title</a>
+                </li>
+            }
+        </ul>
+
+        <ul class="pagelist">
+            <li><a href="">&lt;</a></li>
+
+            <li><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li><a href="">5</a></li>
+            <li><a href="">6</a></li>
+            <li><a href="">7</a></li>
+            <li><a href="">8</a></li>
+            <li><a href="">9</a></li>
+            <li><a href="">10</a></li>
+
+            <li><a href="">&gt;</a></li>
+        </ul>
+    </article>
+</div>

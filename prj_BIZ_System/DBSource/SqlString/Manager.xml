@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Manager"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="Group" type="prj_BIZ_System.Models.GroupModel"/>
+    <typeAlias alias="ManagerInfo"   type="prj_BIZ_System.Models.ManagerInfoModel"/>
+  </alias>
+
+  <statements>
+
+    <!-- ==========================================================================  -->
+    <!--table=manager.group-->
+    <!--查詢全部群組-->
+    <select id="SelectAllGroup" resultMap="Group-result">
+      <![CDATA[
+      SELECT *
+      FROM manager.group
+      WHERE grp_id <> 0
+      ]]>
+    </select>
+
+    <select id="SelectGroupOne" resultMap="Group-result">
+      SELECT *
+      FROM manager.group
+      WHERE grp_id = $grp_id$
+    </select>
+    
+    <!--新增群組-->
+    <insert id="InsertGroup" parameterClass="Group">
+      <selectKey   resultClass="int" property="grp_id" type="post"> SELECT currval('manager.group_grp_id_seq') </selectKey>
+      INSERT INTO manager."group"(
+      grp_name, "limit")
+      VALUES (#grp_name#,#limit#)
+    </insert>
+
+    <!--修改群組-->
+    <update id="UpdateGroup" parameterClass="Group">
+      UPDATE manager."group"
+      SET grp_name=#grp_name#, "limit"=#limit#, update_time=now()
+      WHERE grp_id=#grp_id#
+    </update>
+
+    <!--刪除群組-->
+    <delete id="DeleteGroup" parameterClass="Group">
+      DELETE FROM manager.group
+      WHERE grp_id=#grp_id#
+    </delete>
+
+    <!-- ==========================================================================  -->
+    <!--table=manager.manager_info-->
+    <!--新增管理帳號-->
+    <insert id="InsertManagerInfo" parameterClass="ManagerInfo">
+      INSERT INTO manager.manager_info(
+      manager_id, manager_pw, enable, name, phone, email , grp_id, create_manager)
+      VALUES (#manager_id# , #manager_pw#,$enable$,#name#,#phone#,#email#,$grp_id$,#create_manager#)
+    </insert>
+
+    <!--查詢全部管理帳號-->
+    <select id="SelectManagerInfo" resultMap="ManagerInfo-result">
+      SELECT manager_id, manager_pw, enable, name, phone, email, create_manager,
+      create_time, update_time
+      FROM manager.manager_info
+    </select>
+
+    <!--查詢特定群組的所有管理帳號-->
+    <select id="GetManagerInfoByGrpId" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
+      <![CDATA[
+      SELECT *
+      FROM manager.manager_info 
+      where enable <> '0' 
+      and grp_id = $grp_id$
+      ]]>
+    </select>
+    
+    <!--查詢特定條件的管理帳號-->
+    <select id="SelectManagerInfoByCondition" resultMap="ManagerInfoByCondition-result" parameterClass="ManagerInfo">
+      <![CDATA[
+      SELECT *
+      FROM manager.manager_info m
+      left join manager.group g
+      on m.grp_id = g.grp_id
+      where m.enable <> '0' 
+      ]]>
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="manager_id">
+          m.manager_id like '%'||#manager_id#||'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <!--查詢單一筆管理帳號-->
+    <select id ="SelectManagerInfoOne" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
+      SELECT *
+      FROM manager.manager_info
+      where manager_id = #manager_id#
+    </select>
+
+    <!--查詢特定群組下的帳號數-->
+    <select id ="SelectManagerInfoCountByGroupId" resultClass="int" parameterClass="ManagerInfo">
+      SELECT count(*)
+      FROM manager.group_member
+      where grp_id = $grp_id$
+    </select>
+
+    <!--刪除管理帳號-->
+    <delete id="DeleteManagerInfo" parameterClass="ManagerInfo">
+      DELETE FROM manager.manager_info
+      WHERE manager_id=#manager_id#
+    </delete>
+
+    
+    <!--停/啟用管理帳號-->
+    <update id="ManagerInfoDisableOne" parameterClass="ManagerInfo">
+      UPDATE manager.manager_info
+      SET enable=#enable# , grp_id = $grp_id$ ,update_time=now()
+      WHERE manager_id=#manager_id#
+    </update>
+    
+    <!--修改管理帳號-->
+    <update id="UpdateManagerInfo" parameterClass="ManagerInfo">
+      UPDATE manager.manager_info
+      SET name=#name#, phone=#phone#, email=#email#, update_time=now()
+      WHERE manager_id=#manager_id#
+    </update>
+
+    <!-- ==========================================================================  -->
+
+  </statements>
+
+  <resultMaps>
+
+    <resultMap id="Group-result" class="prj_BIZ_System.Models.GroupModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="grp_id" column="grp_id"></result>
+      <result property="grp_name" column="grp_name"></result>
+      <result property="limit" column="limit"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+    </resultMap>
+
+    <resultMap id="ManagerInfo-result" class="prj_BIZ_System.Models.ManagerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="manager_id" column="manager_id"></result>
+      <!--
+      <result property="manager_pw" column="manager_pw"></result>
+      -->
+      <result property="enable" column="enable"></result>
+      <result property="name" column="name"></result>
+      <result property="phone" column="phone"></result>
+      <result property="email" column="email"></result>
+      <result property="grp_id" column="grp_id"></result>
+      <result property="create_manager" column="create_manager"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <!--Group -->
+      <!--<result property="sample_title" column="sample_title"></result>-->
+    </resultMap>
+
+    <resultMap id="ManagerInfoByCondition-result" class="prj_BIZ_System.Models.ManagerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="manager_id" column="manager_id"></result>
+      <!--
+      <result property="manager_pw" column="manager_pw"></result>
+      -->
+      <result property="enable" column="enable"></result>
+      <result property="name" column="name"></result>
+      <result property="phone" column="phone"></result>
+      <result property="email" column="email"></result>
+      <result property="grp_id" column="grp_id"></result>
+      <result property="create_manager" column="create_manager"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <!--Group -->
+      <result property="grp_name" column="grp_name"></result>
+    </resultMap>
+  </resultMaps>
+
+</sqlMap>
+

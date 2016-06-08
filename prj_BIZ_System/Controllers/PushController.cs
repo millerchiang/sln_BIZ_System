@@ -111,7 +111,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult PushSampleInsertUpdate(string pagetype , PushSampleModel model )
         {
-            model.create_id = "12345678";  // Request.Cookies["UserInfo"]["user_id"]
+            model.create_id = "12345678";  // Request.Cookies["user_id"]
             if ("Insert".Equals(pagetype))
             {
                 pushService.PushSampleInsertOne(model);

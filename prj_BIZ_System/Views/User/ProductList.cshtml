@@ -10,10 +10,14 @@
 
 <div class="article_col1">
 @{
-    Html.RenderAction("_NavSearchPartial");
+    Html.RenderAction("_NavSearchPartial","User");
 }
     <article class="article_col2 form_box">
-        <h2>產品說明</h2>
+        <h2>@Request.Cookies["UserInfo"]["company"] - 產品說明</h2>
+
+        <a href="/User/Register" class="buinfor">我的會員資料</a>
+        <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
+
         <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
             <table class="regis_table">
                 <tr>

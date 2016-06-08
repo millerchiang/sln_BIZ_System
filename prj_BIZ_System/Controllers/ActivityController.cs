@@ -56,6 +56,16 @@ namespace prj_BIZ_System.Controllers
             return View(activityModel.activityinfo);
         }
 
+        public ActionResult ActivityInfo()
+        {
+            activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["Id"]));
+            activityModel.activityregister = activityService.GetActivityRegisterSelectOne
+                (int.Parse(Request["Id"]), Request.Cookies["UserInfo"]["user_id"]);
+
+            return View(activityModel);
+        }
+
+
         public ActionResult DeleteActivity()
         {
             activityService.ActivityInfoDelectOne(int.Parse(Request["Id"]));
@@ -87,7 +97,10 @@ namespace prj_BIZ_System.Controllers
             activityModel.newsList = activityService.GetNewsAll();
             foreach (NewsModel newsModel in activityModel.newsList)
             {
+//                if (newsModel.news_type == "1")
+//                {
               newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
+//                }
             }
             return View(activityModel);
         }
@@ -108,7 +121,6 @@ namespace prj_BIZ_System.Controllers
             else {
 
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
-                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
             }
@@ -213,6 +225,18 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 某活動買主資訊列表
+        [HttpGet]
+        public ActionResult BuyerInfoActivity()
+        {
+
+            activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"]));
+            return View(activityModel);
+
+        }
+        #endregion
+
+
         #region 新增修改刪除買主資訊*/
         [HttpGet]
         public ActionResult EditBuyerInfo()
@@ -278,11 +302,10 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名
         [HttpGet]
         public ActionResult EditActivityRegister()
-        {   
+        {
             activityModel.activityinfoList = activityService.GetActivityInfoList();
-            ViewBag.Action = "EditActivityRegisterInsert";
 
- 
+
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
@@ -293,53 +316,153 @@ namespace prj_BIZ_System.Controllers
             activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
             activityModel.cataloglistList = userService.getAllCatalog(Request.Cookies["UserInfo"]["user_id"]);
 
+            activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+
             if (Request["register_id"] == null)
             {
+                ViewBag.Action = "EditActivityRegisterInsert";
+
                 activityModel.activityregister = new ActivityRegisterModel();
-                activityModel.activityinfo = new ActivityInfoModel();
+//                activityModel.activityinfo = new ActivityInfoModel();
                 activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
-                ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
                 UploadConfig.subDirForCover;
                 ViewBag.PageType = "CreateRegister";
                 ViewBag.SubmitName = "送出報名";
 
             }else {
+                ViewBag.Action = "EditActivityRegisterUpdate";
                 activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
                 activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
-                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+//                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
 
                 activityModel.activityproductselectList = activityService.GetActivityProductSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
                 activityModel.activitycatalogselectList = activityService.GetActivityCatalogSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+                ViewBag.productselectList = new JavaScriptSerializer().Serialize(activityModel.activityproductselectList);
+                if (ViewBag.productselectList == null) {
+                    ViewBag.productselectList = "[]";
+                }
+                ViewBag.catalogselectList = new JavaScriptSerializer().Serialize(activityModel.activitycatalogselectList);
+                if (ViewBag.catalogselectList == null)
+                {
+                    ViewBag.catalogselectList = "[]";
+                }
 
                 ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
                 UploadConfig.subDirForCover;
-                ViewBag.PageType = "AlreadyRegister";
-                ViewBag.SubmitName = "已送出報名";
+                ViewBag.PageType = "UpdateRegister";
+                ViewBag.SubmitName = "確認修改";
             }
             return View(activityModel);
         }
+
+        public ActionResult ActivityRegister()
+        {
+            activityModel.activityinfoList = activityService.GetActivityInfoList();
+
+
+            activityModel.userinfo = new UserInfoModel();
+            activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
+            activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
+            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
+            activityModel.userinfo.info = Request.Cookies["UserInfo"]["info"];
+
+            activityModel.enterprisesortandlistList = activityService.GetEnterpriseSortAndListOne(Request.Cookies["UserInfo"]["user_id"]);
+            activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
+            activityModel.cataloglistList = userService.getAllCatalog(Request.Cookies["UserInfo"]["user_id"]);
+
+            activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+
+            activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
+            activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            //                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
+
+            activityModel.activityproductselectList = activityService.GetActivityProductSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+            activityModel.activitycatalogselectList = activityService.GetActivityCatalogSelectList(Request.Cookies["UserInfo"]["user_id"], int.Parse(Request["activity_id"]));
+            ViewBag.productselectList = new JavaScriptSerializer().Serialize(activityModel.activityproductselectList);
+            if (ViewBag.productselectList == null)
+            {
+                ViewBag.productselectList = "[]";
+            }
+            ViewBag.catalogselectList = new JavaScriptSerializer().Serialize(activityModel.activitycatalogselectList);
+            if (ViewBag.catalogselectList == null)
+            {
+                ViewBag.catalogselectList = "[]";
+            }
+
+            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+            UploadConfig.subDirForCover;
+            ViewBag.PageType = "DispalyRegister";
+            return View(activityModel);
+        }
+
+
 
         [HttpPost]
         public ActionResult EditActivityRegisterInsert(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
         {
             activityRegisterModel.user_id = Request.Cookies["UserInfo"]["user_id"];
-            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
+//            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
             activityRegisterModel.manager_check = "0";
             activityRegisterModel.create_time = DateTime.Now;
             activityService.ActivityRegisterInserOne(activityRegisterModel);
 
+            if (product_id != null)
+            {
             ActivityProductSelectModel activityProductSelectModel = new ActivityProductSelectModel();
             activityProductSelectModel.user_id = activityRegisterModel.user_id;
             activityProductSelectModel.activity_id = activityRegisterModel.activity_id;
             
+                foreach (int id in product_id)
+                {
+                    activityProductSelectModel.product_id = id;
+                    activityService.ActivityProductInsertOne(activityProductSelectModel);
+                }
+            }
+
+            if (catalog_no != null)
+            {
+                ActivityCatalogSelectModel activityCatalogSelectModel = new ActivityCatalogSelectModel();
+                activityCatalogSelectModel.user_id = activityRegisterModel.user_id;
+                activityCatalogSelectModel.activity_id = activityRegisterModel.activity_id;
+
+                foreach (int no in catalog_no)
+                {
+                    activityCatalogSelectModel.catalog_no = no;
+                    activityService.ActivityCatalogInsertOne(activityCatalogSelectModel);
+                }
+            }
+            //            return Content("新增成功");
+            return Redirect("ActivityInfo?Id=" + activityRegisterModel.activity_id);
+        }
+
+        public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
+        {
+            activityRegisterModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+//            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
+//            activityRegisterModel.manager_check = "0";
+//            activityRegisterModel.update_time = DateTime.Now;
+            activityService.ActivityRegisterUpdateOne(activityRegisterModel);
+
+            activityService.ActivityProductDeleteOne(activityRegisterModel.activity_id, activityRegisterModel.user_id);
+            activityService.ActivityCatalogDeleteOne(activityRegisterModel.activity_id, activityRegisterModel.user_id);
+            if (product_id != null)
+            {
+                ActivityProductSelectModel activityProductSelectModel = new ActivityProductSelectModel();
+                activityProductSelectModel.user_id = activityRegisterModel.user_id;
+                activityProductSelectModel.activity_id = activityRegisterModel.activity_id;
             foreach (int id in product_id)
             {
                 activityProductSelectModel.product_id = id;
                 activityService.ActivityProductInsertOne(activityProductSelectModel);
             }
+            }
 
+            if (catalog_no != null)
+            {
             ActivityCatalogSelectModel activityCatalogSelectModel = new ActivityCatalogSelectModel();
             activityCatalogSelectModel.user_id = activityRegisterModel.user_id;
             activityCatalogSelectModel.activity_id = activityRegisterModel.activity_id;
@@ -349,9 +472,23 @@ namespace prj_BIZ_System.Controllers
                 activityCatalogSelectModel.catalog_no = no;
                 activityService.ActivityCatalogInsertOne(activityCatalogSelectModel);
             }
-
-            return Content("新增成功");
+            }
+            //            return Content("修改成功");
+            return Redirect("ActivityInfo?Id=" + activityRegisterModel.activity_id);
         }
+
+        public ActionResult EditActivityRegisterDelete()
+        {
+            int activity_id = int.Parse(Request["activity_id"]);
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            activityService.ActivityRegisterDeleteOne(activity_id, user_id);
+
+            activityService.ActivityProductDeleteOne(activity_id, user_id);
+            activityService.ActivityCatalogDeleteOne(activity_id, user_id);
+            //            return Content("刪除成功");
+            return Redirect("ActivityInfo?Id="+ activity_id);
+        }
+
 
         public ActionResult selectedActivityId(int activity_id)
         {
@@ -370,13 +507,13 @@ namespace prj_BIZ_System.Controllers
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
         }
-        
+
         [HttpPost]
-        public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel model, int register_id, string manager_check)
-        { 
+        public ActionResult EditActivityRegisterUpdateChk(ActivityRegisterModel model, int register_id, string manager_check)
+        {
             model.register_id = register_id;
             model.manager_check = manager_check;
-            activityService.ActivityRegisterUpdateOne(model);
+            activityService.ActivityRegisterUpdateOneChk(model);
             return Redirect("ActivityRegisterCheck");
         }
         #endregion

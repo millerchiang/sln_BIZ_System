@@ -17,6 +17,7 @@ namespace prj_BIZ_System.Controllers
 
         public UserService userService;
         public Index_ViewModel indexModel;
+        public User_ViewModel userModel;
         public ActivityService activityService;
 
         public HomeController()
@@ -24,7 +25,10 @@ namespace prj_BIZ_System.Controllers
             userService = new UserService();
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
+            userModel = new User_ViewModel();
+
         }
+
 
         public ActionResult Index()
         {
@@ -46,6 +50,62 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
         }
 
+        public ActionResult News()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+
+                if (Request["Type"] == null)
+                {
+                    ViewBag.tname = "最新消息";
+                    indexModel.newsList = activityService.GetNewsAll();
+                }
+                else
+                {
+                    if (Request["Type"]=="0")
+                        ViewBag.tname = "活動消息";
+                    else
+                        ViewBag.tname = "最新新聞";
+
+                    indexModel.newsList = activityService.GetNewsType(Request["Type"]);
+                }
+
+
+                return View(indexModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+        public ActionResult Company()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.enterprisesortList = userService.GetSortList();
+                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+
+                return View(userModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+
+        public ActionResult NewsView()
+        {
+            if (Request.Cookies["UserInfo"] != null && Request["Id"] !=null)
+            {
+                indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
+                indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+
+                return View(indexModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+
         public ActionResult Login()
         {
             return View();
@@ -55,19 +115,34 @@ namespace prj_BIZ_System.Controllers
         {
             UserInfoModel model = userService.ChkUserInfoOne(Request["user_id"], Request["user_pw"]);
 
+            HttpCookie cookie = null;
+
             if (model == null)
             {
                 return Redirect("Login");
             }
             else
             {
-                if (model.id_enable=="0")
-                    return Redirect("../User/register?user_id="+ model.user_id);
+                cookie = new HttpCookie("UserInfo");
+                cookie.Values.Add("id_enable", model.id_enable);
+                cookie.Values.Add("user_id", model.user_id);
 
-                Response.Cookies["UserInfo"]["user_id"] = model.user_id;
-                Response.Cookies["UserInfo"]["company"] = model.company;
-                Response.Cookies["UserInfo"]["website"] = model.website;
-                Response.Cookies["UserInfo"]["info"] = model.info;
+                //                Response.Cookies["UserInfo"]["id_enable"] = model.id_enable;
+                //                Response.Cookies["UserInfo"]["user_id"] = model.user_id;
+                if (model.id_enable == "0")
+                {
+                    Response.AppendCookie(cookie);
+                    return Redirect("../User/register?user_id=" + model.user_id);
+                }
+
+                cookie.Values.Add("company", model.company);
+                cookie.Values.Add("website", model.website);
+                cookie.Values.Add("info", model.info);
+                Response.AppendCookie(cookie);
+
+                //                Response.Cookies["UserInfo"]["company"] = model.company;
+                //                Response.Cookies["UserInfo"]["website"] = model.website;
+                //                Response.Cookies["UserInfo"]["info"] = model.info;
             }
             return Redirect("Index");
         }

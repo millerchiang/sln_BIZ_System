@@ -1,0 +1,88 @@
+﻿@model prj_BIZ_System.Models.Activity_ViewModel
+
+@{
+    ViewBag.Title = "ActivityInfo";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
+    <article class="article_col2">
+
+        <h2 class="borderTitle">活動相關資訊</h2>
+
+        @{
+            string activity_type_chk = "";
+            string seller_select_chk = "";
+            string matchmaking_select_chk = "";
+
+            if (Model.activityinfo.activity_type == "0")
+            {
+                activity_type_chk = "商洽會";
+            }
+            else
+            {
+                activity_type_chk = "拓銷會";
+            }
+            if (Model.activityinfo.seller_select == "0")
+            {
+                seller_select_chk = "否";
+            }
+            else
+            {
+                seller_select_chk = "是";
+            }
+            if (Model.activityinfo.matchmaking_select == "0")
+            {
+                matchmaking_select_chk = "否";
+            }
+            else
+            {
+                matchmaking_select_chk = "是";
+            }
+
+        }
+
+        <p class="news_content">
+            <li>活動類型: @activity_type_chk</li><br />
+            <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
+            <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
+            <li>活動時間: @Model.activityinfo.starttime ~ @Model.activityinfo.endtime</li><br />
+            <li>活動地點(中文): @Model.activityinfo.addr</li><br />
+            <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
+            <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
+            <li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />
+            <li>主要聯絡人: @Model.activityinfo.name</li><br />
+            <li>手機號碼: @Model.activityinfo.phone</li><br />
+            <li>電子郵件: @Model.activityinfo.email</li><br />
+<!--
+            <li>商務對接: @seller_select_chk                    媒合時程: @matchmaking_select_chk</li><br />
+-->
+
+                <div class="centerbox">
+@if (Model.activityregister == null)
+{
+                    <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+}
+else if (Model.activityregister.manager_check == "0")
+{
+    <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
+    <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+}
+else
+{
+    <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
+}
+<a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
+
+
+</div>
+</p>
+
+    </article>
+</div>

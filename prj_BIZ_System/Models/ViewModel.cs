@@ -52,6 +52,7 @@ namespace prj_BIZ_System.Models
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<NewsModel> newsList { get; set; }
+        public NewsModel news { get; set; }
 
     }
 
@@ -66,8 +67,19 @@ namespace prj_BIZ_System.Models
 
     public class Match_ViewModel
     {
+        public SchedulePeriodSetModel SchedulePeriodSet { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
+        public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
+    }
+
+    public class Manager_ViewModel
+    {
+        public ManagerInfoModel managerInfo { get; set; }
+        public GroupModel group { get; set; }
+        public IList<ManagerInfoModel> managerInfoList { get; set; }
+        public IList<GroupModel> groupList { get; set; }
     }
 }

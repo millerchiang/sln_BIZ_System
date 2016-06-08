@@ -1,0 +1,50 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Match_ViewModel
+
+
+@{
+    ViewBag.Title = "媒合時程安排(買主)";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/schedule.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <aside>
+        <form action="" class="searchbox">
+            <input type="text" name="companyName" placeholder="公司名">
+            <select name="" id="">
+                <option value="text00">產業別</option>
+                <option value="c08">食品製造業</option>
+            </select>
+            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        </form>
+    </aside>
+    <article class="article_col2">
+        <h2 class="borderTitle">
+            媒合時程安排
+        </h2>
+
+        <section class="form_box w55">
+            <h2>您表達有意願洽談的賣主</h2>
+            <ul class="comicon listlink">
+                @foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
+                {
+                    <li>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingNeedModel.buyer_id})">@matchmakingNeedModel.company</a>
+                    </li>
+                }
+            </ul>
+        </section>
+        <section class="form_box w45">
+            <h2>主辦方排定洽談的賣家</h2>
+            <ul class="dmicon listlink">
+                <li>
+                    <a href="company_info_else.html">XX公司</a>
+                </li>
+            </ul>
+        </section>
+    </article>
+</div>
+

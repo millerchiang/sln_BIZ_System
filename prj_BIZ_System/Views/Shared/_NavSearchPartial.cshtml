@@ -1,9 +1,13 @@
-﻿@{
+﻿@using prj_BIZ_System.Models
+@model IList<EnterpriseSortListModel>
+
+@{
 
 }
 
 <aside>
-    <div class="datalist">
+<!--
+     <div class="datalist">
         <h3>我的企業資料庫</h3>
         <ul class="listlink comicon inforlist">
             <li><a href="company_info_edit.html">基本資料編輯</a></li>
@@ -11,11 +15,18 @@
             <li><a href="@Url.Action("CatalogList","User")">型錄上傳</a></li>
         </ul>
     </div>
+-->
     <form action="" class="searchbox">
         <input type="text" name="companyName" placeholder="公司名">
         <select name="" id="">
-            <option value="text00">產業別</option>
-            <option value="c08">食品製造業</option>
+            <option value="">產業別</option>
+            @if (Model != null)
+            {
+                foreach (EnterpriseSortListModel md in Model)
+                {
+                    <option value="@md.enterprise_sort_id">@md.enterprise_sort_name</option>
+                }
+            }
         </select>
         <button class="searchbox_submit" type="submit"> 搜尋 </button>
     </form>

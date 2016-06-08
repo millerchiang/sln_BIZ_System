@@ -38,8 +38,10 @@
         Model.userinfo.website = "";
         Model.userinfo.info = "";
         Model.userinfo.info_en = "";
+        Model.userinfo.id_enable = "0";
+
     }
-    else{
+    else {
 
         if (Model.userinfo.enterprise_type == "0")
         {
@@ -77,6 +79,8 @@
         {
             revenue06 = "checked";
         }
+        Model.userinfo.id_enable = "0";
+
     }
 
 }
@@ -84,7 +88,12 @@
 
 
             <article class="form_box article_col1">
-                <h2>會員註冊</h2>
+
+                <h2>@ViewBag.tname</h2>
+
+                <a href="/User/ProductList" class="buinfor">產品說明</a>
+                <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
+
                 <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
@@ -109,6 +118,8 @@
                             </div>
                         </div>
                         -->
+                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+
                         <label class="regis_col01R_label">
                             企業類型
                         </label>

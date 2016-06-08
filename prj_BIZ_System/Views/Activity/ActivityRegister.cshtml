@@ -1,0 +1,124 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Activity_ViewModel
+
+@{
+    ViewBag.Title = "活動註冊資訊";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
+
+    <article class="form_box article_col2">
+        <h2>活動報名</h2>
+            <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
+            <label for="activity_id" class="regis_col02L">活動名稱</label>
+            <p class="regis_col03R">@Model.activityinfo.activity_name</p>
+
+
+            <label for="leader" class="regis_col02L ">統一編號/帳號</label>
+            <p class="regis_col03R">@Model.activityregister.user_id</p>
+
+            <label for="leader" class="regis_col03L">公司名稱</label>
+            <p class="regis_col03R">@Model.userinfo.company</p>
+
+
+            <label for="starttime" class="regis_col02L ">活動日期(起)</label>
+            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
+
+            <label for="endtime" class="regis_col03L ">(迄)</label>
+            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
+
+            <label for="activityAddr" class="regis_col02L ">活動地點</label>
+            <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
+
+            <label for="leader" class="regis_col02L ">與會人數</label>
+            <p class="regis_col03R">@Model.activityregister.quantity</p>
+
+            <label for="leader" class="regis_col03L">與會人姓名</label>
+            <p class="regis_col03R">@Model.activityregister.name_a  @Model.activityregister.title_a</p>
+
+
+            <label for="leader" class="regis_col02L ">主聯絡人</label>
+            <p class="regis_col03R">@Model.activityregister.name_b  @Model.activityregister.title_b</p>
+
+            <label for="leader" class="regis_col03L">手機號碼</label>
+            <p class="regis_col03R">@Model.activityregister.phone</p>
+
+            <label for="leader" class="regis_col02L ">電話/分機</label>
+            <p class="regis_col03R">@Model.activityregister.telephone</p>
+
+            <label for="leader" class="regis_col03L">電子郵件</label>
+            <p class="regis_col03R">@Model.activityregister.email</p>
+
+            <label for="website" class="regis_col02L">公司網址</label>
+            <div class="regis_col02R">
+                <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
+            </div>
+
+            <label class="regis_col02L">企業簡介(中)</label>
+            <span class="regis_col02R">@@Model.activityregister.user_info</span>
+            <label class="regis_col02L">企業簡介(英)</label>
+            <span class="regis_col02R">@Model.activityregister.user_info_en</span>
+
+            <label for="verticals" class="regis_col02L">產業別</label>
+            <p class="regis_col02R verticalslist">
+                @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
+                {
+                    @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
+                }
+            </p>
+
+            <div class="regis_col02L">
+                <label for="" class="label01">公司產品</label>
+            </div>
+            <div class="regis_col02R">
+                <table class="regis_table">
+                    <tr>
+                        <th></th>
+                        <th>產品名稱</th>
+                        <th>產品說明</th>
+                    </tr>
+                            @foreach (ActivityProductSelectModel activityProductSelectModel in Model.activityproductselectList)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>@activityProductSelectModel.product_name</td>
+                                    <td>@activityProductSelectModel.product_info</td>
+                                </tr>
+                            }
+                </table>
+            </div>
+            <div class="regis_col02L">
+                <label for="" class="label01">公司型錄</label>
+            </div>
+            <div class="regis_col02R uplodboxR">
+                <ul class="regis_dmlist">
+                            @foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
+                            {
+                                <li>
+                                    <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
+                                        <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                    </a>
+                                </li>
+                            }
+                </ul>
+            </div>
+
+
+        <div class="centerbox">
+            <a href="/Activity/ActivityInfo?Id=@Model.activityinfo.activity_id" class="submitbuRed">回活動報名</a>
+        </div>
+
+    </article>
+</div>
+
+
+
+

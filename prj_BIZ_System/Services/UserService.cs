@@ -148,6 +148,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByUserId", param);
         }
 
+        public IList<CatalogListModel> getAllCatalogTop5()
+        {
+            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListTop5", null);
+        }
+
         /*新增型錄*/
         public bool CatalogListInsert(string user_id , string conver_fileName , string catalog_fileName)
         {

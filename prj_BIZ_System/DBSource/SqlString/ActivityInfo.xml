@@ -131,35 +131,60 @@
         FROM activity_register
         WHERE register_id = #register_id#
       </select>
-    
-      <!--新增活動報名單筆-->
+
+    <!--查詢活動報名單筆 by activity and user-->
+    <select id="SelectActivityRegisterSelectOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
+      SELECT *
+      FROM activity_register
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </select>
+
+    <!--新增活動報名單筆-->
       <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
         INSERT INTO activity_register (
         activity_id, user_id, quantity,
         name_a, title_a, name_b, title_b, telephone,
-        phone, email, catalog_file, manager_check,
+        phone, email, manager_check,
         user_info, user_info_en, create_time, update_time
         ) VALUES (
         #activity_id#, #user_id#, #quantity#,
         #name_a#, #title_a#, #name_b#, #title_b#, #telephone#,
-        #phone#, #email#, #catalog_file#, #manager_check#,
+        #phone#, #email#, #manager_check#,
         #user_info#, #user_info_en#, #create_time#, #update_time#
         )
       </insert>
 
-      <!--修改活動報名單筆-->
-      <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+    <!--修改活動報名單筆-->
+    <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+      UPDATE activity_register
+      SET
+      quantity = #quantity#,
+      name_a = #name_a#,
+      title_a = #title_a#,
+      name_b = #name_b#,
+      title_b = #title_b#,
+      telephone = #telephone#,
+      phone = #phone#,
+      email = #email#,
+      user_info = #user_info#,
+      user_info_en = #user_info_en#,
+      update_time = now()
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </update>
+
+    <!--檢核活動報名單筆-->
+      <update id="UpdateActivityRegisterOneChk" parameterClass="ActivityRegisterModel">
         UPDATE activity_register
-        SET 
-          manager_check = #manager_check#,
-          update_time = now()
-        WHERE register_id = #register_id#     
+        SET
+        manager_check = #manager_check#,
+        update_time = now()
+        WHERE register_id = #register_id#
       </update>
     
       <!--刪除活動報名單筆-->
       <delete id="DeleteActivityRegisterOne" parameterClass="ActivityRegisterModel">
         DELETE FROM activity_register
-        WHERE register_id = #register_id#
+        WHERE activity_id = #activity_id# and user_id = #user_id#
       </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -176,7 +201,15 @@
         FROM news
       </select>
 
-      <!--查詢單筆-->
+    <!--查詢某新聞型態清單-->
+    <select id="SelectNewsType" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = #news_type#
+    </select>
+
+
+    <!--查詢單筆-->
       <select id="SelectNewsOne" resultMap="News">
         SELECT *
         FROM news
@@ -229,8 +262,17 @@
         SELECT *
         FROM buyer_list
       </select>
-      
-      <!--查詢買主資訊單筆-->
+
+    <!--查詢某活動買主資訊-->
+    <select id="SelectBuyerInfoActivity" resultMap="BuyerInfo1">
+      SELECT *
+      FROM buyer_list bl
+      INNER JOIN user_info ui
+      ON bl.buyer_id = ui.user_id
+      Where activity_id =#activity_id#
+    </select>
+
+    <!--查詢買主資訊單筆-->
       <select id="SelectBuyerInfoOne" resultMap="BuyerInfo">
         SELECT *
         FROM buyer_list
@@ -303,8 +345,15 @@
         #user_id#, #activity_id#, #product_id#
         )
       </insert>
-      
-      <!--選取哪家廠商的哪個活動所選的公司產品-->
+    
+    <!--刪除單一活動企業產品-->
+    <delete id="DeleteActivityProductOne" parameterClass="ActivityProductSelectModel">
+      DELETE FROM activity_product_select
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </delete>
+
+
+    <!--選取哪家廠商的哪個活動所選的公司產品-->
       <select id="SelectActivityProductByCondition" resultMap="ActivityProductSelectByCondition" parameterClass="ActivityProductSelectModel">
         SELECT *
         FROM activity_product_select aps
@@ -330,6 +379,12 @@
       #user_id#, #activity_id#, #catalog_no#
       )
     </insert>
+
+    <!--刪除單一活動企業型錄-->
+    <delete id="DeleteActivityCatalogOne" parameterClass="ActivityCatalogSelectModel">
+      DELETE FROM activity_catalog_select
+      WHERE activity_id = #activity_id# and user_id = #user_id#
+    </delete>
 
     <!--選取哪家廠商的哪個活動所選的公司型錄-->
     <select id="SelectActivityCatalogByCondition" resultMap="ActivityCatalogSelectByCondition" parameterClass="ActivityCatalogSelectModel">
@@ -384,7 +439,6 @@
       <result property="telephone" column="telephone"/>
       <result property="phone" column="phone"/>
       <result property="email" column="email"/>
-      <result property="catalog_file" column="catalog_file"/>
       <result property="manager_check" column="manager_check"/>
       <result property="user_info" column="user_info"/>
       <result property="user_info_en" column="user_info_en"/>
@@ -405,7 +459,6 @@
       <result property="telephone" column="telephone"/>
       <result property="phone" column="phone"/>
       <result property="email" column="email"/>
-      <result property="catalog_file" column="catalog_file"/>
       <result property="manager_check" column="manager_check"/>
       <result property="user_info" column="user_info"/>
       <result property="user_info_en" column="user_info_en"/>
@@ -444,6 +497,16 @@
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
     </resultMap>
+
+    <resultMap id="BuyerInfo1" class="BuyerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_need" column="buyer_need"/>
+      <result property="company" column="company"/>
+    </resultMap>
+
 
     <resultMap id="EnterpriseSort" class="EnterpriseSortAndListModel">
       <!--property是Model屬性,column是資料庫欄位名稱--> 

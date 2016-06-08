@@ -119,7 +119,7 @@
                     photoId = "#photo" + id;
                     $.ajax({
                         type: "post",
-                        url: "@Url.Action("EditActivityRegisterUpdate", "Activity")",
+                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Activity")",
                         cache: false,
                         data: { "register_id": id, "manager_check": 1 },
                         dataType: "json",
@@ -136,7 +136,7 @@
                     //alert(photoId);
                     $.ajax({
                         type: "post",
-                        url: "@Url.Action("EditActivityRegisterUpdate", "Activity")",
+                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Activity")",
                         cache: false,
                         data: { "register_id": id, "manager_check": 0 },
                         dataType: "json",

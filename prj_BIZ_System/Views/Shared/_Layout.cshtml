@@ -1,4 +1,14 @@
 ﻿<!DOCTYPE html>
+
+@if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+{
+
+    if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+}
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -23,36 +33,37 @@
             </h1>
             <nav class="head_nav">
                 <ul>
-                    @if (Request.Cookies["UserInfo"] != null)
+                    @if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
                     {
-                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                        <li>@Html.ActionLink("活動資訊(Select)", "About", "Home")</li>
-                        <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
-                        <li>@Html.ActionLink("活動資訊(Insert)", "Act_Info", "Home")</li>
                         <li>@Html.ActionLink("登入", "Login", "Home")</li>
-
+                    }
+                    else if (ViewBag.Title == "Login")
+                    {
                     }
                     else
                     {
 
-                        if (ViewBag.Title == "Verification")
-                        {
-                            <li>@Html.ActionLink("登入", "Login", "Home")</li>
-                        }
-                        else if (ViewBag.Title == "Register")
-                        {
-                            <li>@Html.ActionLink("產品說明編輯", "ProductList", "User")</li>
-                            <li>@Html.ActionLink("型錄文件上傳", "CatalogList", "User")</li>
-                        }
-                        else
-                        {
-                            <li>@Html.ActionLink("新聞列表", "B_NewsList", "Activity")</li>
-                            <li>@Html.ActionLink("活動列表", "ActivityList", "Activity")</li>
-                            <li>@Html.ActionLink("買主資訊列表", "BuyerInfoList", "Activity")</li>
+                        <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
+                        <li>
+                            <a href="javascript:void(0)">帳號管理</a>
+                            <ul>
+                                <li><a href="/User/Register">我的資料庫</a></li>
+                                <li><a href="/Match/AccountManage">商務對接</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="/Home/News">最新消息</a>
+                            <ul>
+                                <li><a href="/Home/News?type=1">新聞消息</a></li>
+                                <li><a href="/Home/News?type=0">活動消息</a></li>
+                            </ul>
+                        </li>
 
-                        }
+                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
 
                     }
+                    
+
                 </ul>
             </nav>
         </div>

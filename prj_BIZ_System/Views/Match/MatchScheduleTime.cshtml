@@ -1,0 +1,121 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Match_ViewModel
+
+
+@{
+    ViewBag.Title = "媒合時程表時間設定";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+@{ 
+    int timeIntervalCount = 0;
+}
+
+@Styles.Render("~/Content/css/jqueryUI")
+
+<div class="article_col1">
+    <article>
+        <h2 class="borderTitle2">媒合時程大表設定</h2>
+        <form action="@ViewBag.Action" method="post">
+            @*<a id="saveLink" href="javascript:void(0)" class="addbublue rightbox">儲存</a>*@
+            <button type="submit" class="addbublue rightbox">儲存</button> 
+            <a id="addItemLink" href="javascript:void(0)" class="addbublue rightbox">新增時段</a>
+            <table class="edittable">
+                <tr>
+                    <th>時段</th>
+                    <th>開始時間</th>
+                    <th>結束時間</th>
+                    <th></th>
+                </tr>
+
+                @if (Model.schedulePeriodSetList != null)
+                {
+                    foreach (SchedulePeriodSetModel schedulePeriodSetModel in Model.schedulePeriodSetList)
+                    {
+                        <tr>
+                            <td>時段 + timeIntervalCount</td>
+                            <td>
+                                <input type="text" name="time_start" value="@schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm")" />
+                            </td>
+                            <td>
+                                <input type="text" name="time_end" value="@schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")" />
+                            </td>
+                            <td>
+                                <input type="hidden" name="activity_id" value="@schedulePeriodSetModel.activity_id" />
+                                <a href="@Url.Action("MatchTimeIntervalDelect", "Match",new { period_sn  = schedulePeriodSetModel.period_sn, activity_id = schedulePeriodSetModel.activity_id})" class="deleteSbu">刪除</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                <tr class="_new_prods">
+                    <td>時段</td>
+                    <td>
+                        <input type="text" name="time_start"  value="@Model.SchedulePeriodSet.time_start.ToString("yyyy/MM/dd HH:mm")" />
+                    </td>
+                    <td>
+                        <input type="text" name="time_end" value="@Model.SchedulePeriodSet.time_end.ToString("yyyy/MM/dd HH:mm")" />
+                    </td>
+                    <td>
+                        <input type="hidden" name="activity_id" value="@Model.SchedulePeriodSet.activity_id" />
+                        <a href="" class="deleteSbu">刪除</a>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+    </article>
+</div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/datetimepicker")
+
+<script>
+    $(function () {
+
+        /*時間選擇器*/
+        var time_start_val = $("input[name='time_start']").val();
+        var time_end_val = $("input[name='time_end']").val();
+
+        /*開始*/
+        $('input[name="time_start"]').datetimepicker({
+            beforeShow: function () {
+                if ($(this).attr('maxDate')) {
+                    var dateItem = $('#' + $(this).attr('maxDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                    }
+                }
+
+                if ($(this).attr('minDate')) {
+                    var dateItem = $('#' + $(this).attr('minDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'minDate', dateItem.val());
+                    }
+                }
+            }
+        });
+
+        /*結束*/
+        $('input[name="time_end"]').datetimepicker({
+            beforeShow: function () {
+                if ($(this).attr('maxDate')) {
+                    var dateItem = $('#' + $(this).attr('maxDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                    }
+                }
+
+                if ($(this).attr('minDate')) {
+                    var dateItem = $('#' + $(this).attr('minDate'));
+                    if (dateItem.val() !== "") {
+                        $(this).datetimepicker('option', 'minDate', dateItem.val());
+                    }
+                }
+            }
+        });
+
+    });
+</script>

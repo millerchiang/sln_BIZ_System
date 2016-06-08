@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Index_ViewModel
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
 }
 @section pagestyle{
     <link href="/stylesheets/index.css" rel="stylesheet" />
@@ -46,7 +46,7 @@
                 @foreach (var activityList in Model.activityinfoList)
                 {
                     <li>
-                        <a href="/Activity/EditActivity?Id=@activityList.activity_id">
+                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
                             <span>活動日期:@activityList.starttime</span>
                             @activityList.activity_name
                         </a>
@@ -65,7 +65,6 @@
                 {
                     <li>
                         <a href="/Activity/EditNewsActivity?Id=@newsList.news_no">@newsList.news_title</a>
-                        <p>@Html.Raw(@newsList.content)</p>
                     </li>
                 }
                 </ul>
