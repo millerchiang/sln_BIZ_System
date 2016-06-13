@@ -91,7 +91,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult GroupInsertUpdate(
               int? grp_id   , string grp_name   , string user    , string activity 
-            , string push   , string news       , string manager      , string statistic
+            , string push   , string news       , string manager , string statistic
         )
         {
             Dictionary<string, string> limits = new Dictionary<string, string>();
@@ -109,11 +109,16 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                bool isUpdateSuccess = managerService.GroupUpdateOne(grp_name, limits);
-                return Json(isUpdateSuccess , JsonRequestBehavior.AllowGet);
+                bool isUpdateSuccess = managerService.GroupUpdateOne( grp_id , grp_name , limits);
+                return Json(isUpdateSuccess);
             }
         }
 
+        public ActionResult DeleteGroupJson(int grp_id)
+        {
+            bool isDelSuccess = managerService.GroupDeleteOne(grp_id);
+            return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

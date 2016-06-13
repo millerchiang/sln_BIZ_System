@@ -23,7 +23,7 @@ namespace prj_BIZ_System.Models
 
     public class GroupModel
     {
-        public int grp_id { get; set; }             //群組id
+        public int? grp_id { get; set; }             //群組id
         public string grp_name { get; set; }        //群組名稱
         public string limit { get; set; }            //權限
         public DateTime create_time { get; set; }   //建立時間
