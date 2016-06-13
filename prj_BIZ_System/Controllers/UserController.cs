@@ -118,7 +118,7 @@ namespace prj_BIZ_System.Controllers
                 if( id != null)
                 {
                     MailHelper.sendAccountMailValidate( id , model.user_id,model.email , Request.Url.Host , Request.Url.Port);
-            }
+                }
                 
             }
             else //修改
