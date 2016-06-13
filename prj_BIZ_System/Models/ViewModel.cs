@@ -36,12 +36,14 @@ namespace prj_BIZ_System.Models
     {
         public UserInfoModel userinfo { get; set; }
         public EnterpriseSortListModel enterprisesort { get; set; }
+        public CompanySortModel companysort { get; set; }
         public EnterpriseSortModel usersort { get; set; }
         public ProductListModel product { get; set; }
         public CatalogListModel catalog { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+        public IList<CompanySortModel> companysortList { get; set; }
         public IList<ProductListModel> productsortList { get; set; }
         public IList<CatalogListModel> cataloglistList { get; set; }
     }

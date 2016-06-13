@@ -1,0 +1,58 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.User_ViewModel
+
+@{
+    ViewBag.Title = "News";
+}
+@section pagestyle{
+    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle">
+            企業資料庫
+        </h2>
+        <section class="form_box">
+            <h2>搜尋結果</h2>
+            <ul class="listlink col2 comicon article_col1">
+
+                @if (ViewBag.model == "companysortList")
+                {
+
+                    foreach (var sortList in Model.companysortList)
+                    {
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                    }
+                }
+                else
+                {
+                    foreach (var sortList in Model.userinfoList)
+                    {
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                    }
+
+                }
+
+            </ul>
+        </section>
+        <section class="form_box">
+            <h2>最新型錄</h2>
+            <ul class="regis_dmlist2 listlink dmicon">
+
+                @foreach (var catalogList in Model.cataloglistList)
+                {
+                    <li>
+                        <a href="/User/UserInfo?user_id=@catalogList.user_id">
+                            <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+
+                        </a>
+                    </li>
+                }
+            </ul>
+        </section>
+    </article>
+</div>

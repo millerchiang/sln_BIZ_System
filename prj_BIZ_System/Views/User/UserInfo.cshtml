@@ -8,6 +8,8 @@
 
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
 }
 
 @{
@@ -54,84 +56,156 @@
 }
 
 <main>
-
     <div class="article_col1">
-        <aside>
-            <form action="" class="searchbox">
-                <input type="text" name="companyName" placeholder="公司名">
-                <select name="" id="">
-                    <option value="text00">產業別</option>
-                    <option value="c08">食品製造業</option>
-                </select>
-                <button class="searchbox_submit" type="submit"> 搜尋 </button>
-            </form>
-        </aside>
+        @{
+            Html.RenderAction("_NavSearchPartial", "User");
+        }
         <article class="form_box article_col2">
-            <h2>公司資料</h2>
-            <div class="regis_col01L">
+            <section class="form_box comicon article_col1">
 
-                <div id="result">
-                    <img src="images/logopic.jpg" alt="">
+                <h2>公司資料</h2>
+                <div class="regis_col01L">
+                    <div id="result">
+                        @if (Model.userinfo.logo_img != null)
+                        {
+                            <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                        }
+                        else
+                        {
+                            <img src="/images/logopic.jpg" alt="">
+                        }
+                    </div>
+
                 </div>
+                <div class="regis_col01R">
+                    <label class="regis_col01R_label">
+                        企業類型
+                    </label>
+                    <span class="regis_col01R_input">@enterprise_type</span>
 
-            </div>
-            <div class="regis_col01R">
-                <label class="regis_col01R_label">
-                    企業類型
-                </label>
-                <span class="regis_col01R_input">@enterprise_type</span>
+                    <label for="" class="regis_col01R_label">
+                        統一編號/帳號
+                    </label>
+                    <span class="regis_col01R_input">@Model.userinfo.user_id</span>
 
-                <label for="" class="regis_col01R_label">
-                    統一編號/帳號
-                </label>
-                <span class="regis_col01R_input">@Model.userinfo.user_id</span>
+                    <label for="" class="regis_col01R_label">
+                        公司名稱(中)
+                    </label>
+                    <span class="regis_col01R_input">@Model.userinfo.company</span>
+                    <label for="" class="regis_col01R_label">
+                        公司名稱(英)
+                    </label>
+                    <span class="regis_col01R_input">@Model.userinfo.company_en</span>
 
-                <label for="" class="regis_col01R_label">
-                    公司名稱(中)
-                </label>
-                <span class="regis_col01R_input">@Model.userinfo.company</span>
-                <label for="" class="regis_col01R_label spanRed">
-                    公司名稱(英)
-                </label>
-                <span class="regis_col01R_input">@Model.userinfo.company_en</span>
+                </div>
+                <label for="leader" class="regis_col02L">代表人(中)</label>
+                <span class="regis_col02R">@Model.userinfo.leader</span>
+                <label for="addr" class="regis_col02L">地址(中)</label>
+                <span class="regis_col02R">@Model.userinfo.addr</span>
+                <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
+                <span class="regis_col02R">@Model.userinfo.contact</span>
+                <label for="leader" class="regis_col02L">代表人(英)</label>
+                <span class="regis_col02R">@Model.userinfo.leader_en</span>
+                <label for="addr" class="regis_col02L">地址(英)</label>
+                <span class="regis_col02R">@Model.userinfo.addr_en</span>
+                <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
+                <span class="regis_col02R">@Model.userinfo.contact_en</span>
+                <label for="name" class="regis_col02L">電話/分機</label>
+                <span class="regis_col02R">@Model.userinfo.phone</span>
+                <label for="email" class="regis_col02L">電子郵件</label>
+                <span class="regis_col02R">@Model.userinfo.email</span>
+                <label for="capital" class="regis_col02L">資本額</label>
+                <span class="regis_col02R">@Model.userinfo.capital</span>
+                <label for="revenue" class="regis_col02L">營業額</label>
+                <span class="regis_col02R">@revenue</span>
+                <label for="verticals" class="regis_col02L">產業別</label>
+                <div class="regis_col02R verticalslist">
 
-            </div>
-            <label for="leader" class="regis_col02L">代表人(中)</label>
-            <span class="regis_col02R">@Model.userinfo.leader</span>
-            <label for="addr" class="regis_col02L">地址(中)</label>
-            <span class="regis_col02R">@Model.userinfo.addr</span>
-            <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
-            <span class="regis_col02R">@Model.userinfo.contact</span>
-            <label for="leader" class="regis_col02L">代表人(英)</label>
-            <span class="regis_col02R">@Model.userinfo.leader_en</span>
-            <label for="addr" class="regis_col02L">地址(英)</label>
-            <span class="regis_col02R">@Model.userinfo.addr_en</span>
-            <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
-            <span class="regis_col02R">@Model.userinfo.contact_en</span>
-            <label for="name" class="regis_col02L">電話/分機</label>
-            <span class="regis_col02R">@Model.userinfo.phone</span>
-            <label for="email" class="regis_col02L spanRed">電子郵件</label>
-            <span class="regis_col02R">@Model.userinfo.email</span>
-            <label for="capital" class="regis_col02L spanRed">資本額</label>
-            <span class="regis_col02R">@Model.userinfo.capital</span>
-            <label for="revenue" class="regis_col02L spanRed">營業額</label>
-            <span class="regis_col02R">@revenue</span>
-            <label for="verticals" class="regis_col02L">產業別</label>
-            <div class="regis_col02R verticalslist">
-
-                @foreach (var usersortList in Model.usersortList)
-            {
-                    <span class="regis_col02R">@usersortList.sort_id</span>
+                    @foreach (var usersortList in Model.usersortList)
+                    {
+                        <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                    }
+                </div>
+                <label for="website" class="regis_col02L">企業網址</label>
+                <span class="regis_col02R">@Model.userinfo.website</span>
+                <label class="regis_col02L">企業簡介(中)</label>
+                <span class="regis_col02R">@Model.userinfo.info</span>
+                @if (Model.userinfo.info_en != null)
+                {
+                    <label class="regis_col02L">企業簡介(英)</label>
+                    <span class="regis_col02R">@Model.userinfo.info_en</span>
                 }
-            </div>
-            <label for="website" class="regis_col02L">企業網址</label>
-            <span class="regis_col02R">@Model.userinfo.website</span>
-            <label class="regis_col02L">企業簡介(中)</label>
-            <span class="regis_col02R">@Model.userinfo.info</span>
-            <label class="regis_col02L">企業簡介(英)</label>
-            <span class="regis_col02R">@Model.userinfo.info_en</span>
+                </section>
 
-    </article>
-</div>
-    </main>
+                <section class="form_box comicon article_col1">
+                <h2>產品說明</h2>
+                <table class="regis_table">
+                    <tr>
+                        <th></th>
+                        <th width="40%">產品名稱</th>
+                        <th width="40%">產品說明</th>
+                        <th></th>
+                    </tr>
 
+                    @if (Model != null)
+                    {
+                        foreach (ProductListModel model in Model.productsortList)
+                        {
+                            <tr class="_old_prods">
+                                <td>
+                                </td>
+                                <td>
+                                    @(model.product_name)<p>
+                                    @(model.product_name_en)
+                                </td>
+                                <td>
+                                    @(model.product_info)<p>
+                                    @(model.product_info_en)
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+
+
+                </table>
+
+
+            </section>
+
+            <section class="form_box comicon article_col1">
+                <h2>型錄資料</h2>
+                    <ul class="regis_dmlist">
+                        @if (Model.cataloglistList != null)
+                        {
+                            foreach (var mo in Model.cataloglistList)
+                            {
+                                <li>
+                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
+                                </li>
+                            }
+                        }
+                    </ul>
+            </section>
+
+</article>
+
+
+    </div>
+
+</main>
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+    }
+</script>

@@ -6,6 +6,7 @@
     <typeAlias alias="UserInfoModel" type="prj_BIZ_System.Models.UserInfoModel"/>
     <typeAlias alias="EnterpriseSortListModel" type="prj_BIZ_System.Models.EnterpriseSortListModel"/>
     <typeAlias alias="EnterpriseSortModel" type="prj_BIZ_System.Models.EnterpriseSortModel"/>
+    <typeAlias alias="CompanySortModel" type="prj_BIZ_System.Models.CompanySortModel"/>
     <typeAlias alias="ProductListModel" type="prj_BIZ_System.Models.ProductListModel"/>
     <typeAlias alias="CatalogListModel" type="prj_BIZ_System.Models.CatalogListModel"/>
   </alias>
@@ -20,15 +21,43 @@
 
 
 
+    <select id="SelectUserSortBySortId" parameterClass="CompanySortModel" resultMap="CompanySort-result">
+      SELECT sort.user_id, sort.sort_id, user_info.company, user_info.company_en
+      FROM enterprise_sort sort
+      INNER JOIN user_info
+      ON sort.user_id = user_info.user_id
+      WHERE sort.sort_id = #sort_id# and (user_info.company like '%'||#company#||'%' or user_info.company_en like '%'||#company#||'%'  )
+      ORDER BY user_info.company;
+    </select>
+
+    <select id="SelectUserKw" resultMap="UserInfo-result">
+      SELECT *
+      FROM user_info
+      WHERE company like '%'||#company#||'%' or company_en like '%'||#company#||'%'
+    </select>
+
+    <!-- 
+    <select id="SelectUserKw" parameterClass="UserinfoModel" resultMap="UserInfo-result">
+      SELECT *
+      FROM user_info
+      WHERE company like '%'||#company#||'%' or company_en like '%'||#company#||'%'
+      ORDER BY company;
+    </select>
+-->
     <!--
     [[  table=enterprise_sort
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
     <!--查詢使用者產業別對應結果全部-->
     <select id="SelectUserSortByUserId" parameterClass="EnterpriseSortModel" resultMap="UserSort-result">
-      SELECT *
-      FROM enterprise_sort
-      where user_id = #user_id#
+      SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name
+      FROM enterprise_sort sort
+      INNER JOIN enterprise_sort_list list
+      ON sort.sort_id = list.sort_id
+      WHERE sort.user_id = #user_id#
+      ORDER BY sort.user_id;
+
+
     </select>
     
     <delete id="DeleteUserSortByUserId" parameterClass="EnterpriseSortModel">
@@ -57,6 +86,15 @@
       FROM catalog_list
       WHERE user_id = #user_id#
     </select>
+
+    <!--查詢型錄全部-->
+    <select id="SelectCatalogListTop5" resultMap="CatalogList-result">
+      SELECT *
+      FROM catalog_list
+      Order By catalog_no Desc Limit 5
+      
+    </select>
+
 
     <!--查詢型錄部份-->
     <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
@@ -239,6 +277,15 @@
     <resultMap id="UserSort-result" class="prj_BIZ_System.Models.EnterpriseSortModel">
       <result property="user_id" column="user_id"/>
       <result property="sort_id" column="sort_id"/>
+      <result property="enterprise_sort_id" column="enterprise_sort_id"/>
+      <result property="enterprise_sort_name" column="enterprise_sort_name"/>
+    </resultMap>
+
+    <resultMap id="CompanySort-result" class="prj_BIZ_System.Models.CompanySortModel">
+      <result property="user_id" column="user_id"/>
+      <result property="sort_id" column="sort_id"/>
+      <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="CatalogList-result" class="prj_BIZ_System.Models.CatalogListModel">

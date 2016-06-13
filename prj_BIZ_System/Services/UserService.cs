@@ -56,11 +56,28 @@ namespace prj_BIZ_System.Services
             var param = new UserInfoModel() { id = id, id_enable = id_enable };
             return mapper.Update("UserInfo.UpdateIdEnable", param) > 0 ;
         }
+
+
         //EnterpriseSortListModel******************************************************************************//
 
         public IList<EnterpriseSortListModel> GetSortList()
         {
             return mapper.QueryForList<EnterpriseSortListModel>("UserInfo.SelectAll_sort", null);
+        }
+
+        //CompanySortModel******************************************************************************//
+
+        public IList<CompanySortModel> SelectUserSortBySortId(int sort_id,string kw)
+        {
+            CompanySortModel param = new CompanySortModel() { sort_id = sort_id , company =kw};
+            return mapper.QueryForList<CompanySortModel>("UserInfo.SelectUserSortBySortId", param);
+        }
+
+
+        public IList<UserInfoModel> SelectUserKw(string kw)
+        {
+            UserInfoModel param = new UserInfoModel() {company = kw };
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectUserKw", param);
         }
 
 
@@ -146,6 +163,11 @@ namespace prj_BIZ_System.Services
         {
             CatalogListModel param = new CatalogListModel() { user_id = user_id };
             return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByUserId", param);
+        }
+
+        public IList<CatalogListModel> getAllCatalogTop5()
+        {
+            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListTop5", null);
         }
 
         /*新增型錄*/

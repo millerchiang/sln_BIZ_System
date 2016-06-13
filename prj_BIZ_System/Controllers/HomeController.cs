@@ -17,6 +17,7 @@ namespace prj_BIZ_System.Controllers
 
         public UserService userService;
         public Index_ViewModel indexModel;
+        public User_ViewModel userModel;
         public ActivityService activityService;
 
         public HomeController()
@@ -24,6 +25,8 @@ namespace prj_BIZ_System.Controllers
             userService = new UserService();
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
+            userModel = new User_ViewModel();
+
         }
 
 
@@ -74,6 +77,53 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
         }
 
+        public ActionResult Company()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.enterprisesortList = userService.GetSortList();
+                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+
+                return View(userModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+        public ActionResult CompanyList()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                userModel.cataloglistList = userService.getAllCatalogTop5();
+                string sort_id = "";
+                string kw = "";
+                if (Request["companyName"]!= null)
+                    kw = Request["companyName"];
+                if (Request["sort_id"] != null)
+                    sort_id = Request["sort_id"];
+
+                if (sort_id != "")
+                {
+                    userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
+                    ViewBag.model = "companysortList";
+                }
+                else
+                {
+                    userModel.userinfoList = userService.SelectUserKw(kw);
+                    ViewBag.model = "userinfoList";
+                }
+
+
+                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+
+                return View(userModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+        
         public ActionResult NewsView()
         {
             if (Request.Cookies["UserInfo"] != null && Request["Id"] !=null)

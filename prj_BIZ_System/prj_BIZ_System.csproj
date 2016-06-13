@@ -304,11 +304,10 @@
     <Content Include="DBSource\SqlString\ActivityInfo.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\Match.xml" />
-    <Content Include="DBSource\SqlString\Manager.xml">
+    <Content Include="DBSource\SqlString\Match.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="DBSource\SqlString\Match.xml">
+    <Content Include="DBSource\SqlString\Manager.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">
@@ -362,8 +361,10 @@
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
+    <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <None Include="App_Start\Properties\cache.prop" />
     <None Include="Properties\PublishProfiles\.pubxml" />
+    <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
     <Content Include="Scripts\ckeditor\config.js" />
@@ -731,6 +732,7 @@
     <Content Include="Scripts\_references.js" />
     <Content Include="stylesheets\account.css" />
     <Content Include="stylesheets\business.css" />
+    <Content Include="stylesheets\company_info.css" />
     <Content Include="stylesheets\fromstyle.css" />
     <Content Include="stylesheets\ie.css" />
     <Content Include="stylesheets\index.css" />
@@ -751,7 +753,9 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <None Include="Views\Activity\EditActivityRegister.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -796,6 +800,8 @@
     <Content Include="Views\Match\BusinessMatch.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
+    <Content Include="Views\Home\Company.cshtml" />
+    <Content Include="Views\Home\CompanyList.cshtml" />
     <Content Include="Views\Password\EditPasswd.cshtml" />
     <Content Include="Views\Password\ForgetPassword.cshtml" />
   </ItemGroup>
