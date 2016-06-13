@@ -84,4 +84,9 @@ namespace prj_BIZ_System.Models
         public IList<ManagerInfoModel> managerInfoList { get; set; }
         public IList<GroupModel> groupList { get; set; }
     }
+
+    public class Password_ViewModel
+    {
+
+    }
 }
