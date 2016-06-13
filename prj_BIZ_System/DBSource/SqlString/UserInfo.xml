@@ -193,7 +193,7 @@
       update_time = #update_time#
       WHERE user_id = #user_id#
     </update>
-
+    
     <update id="UpdateIdEnable" parameterClass="UserInfoModel">
       UPDATE user_info
       SET id_enable = #id_enable#

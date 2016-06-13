@@ -224,6 +224,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\ManagerService.cs" />
+    <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
@@ -307,6 +308,9 @@
     <Content Include="DBSource\SqlString\Manager.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DBSource\SqlString\Password.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -345,7 +349,9 @@
     <Content Include="sass\reset.sass" />
     <Content Include="sass\screen.sass" />
     <Content Include="DBSource\Config\providers.config" />
-    <Content Include="DBSource\Config\SqlMap.config" />
+    <Content Include="DBSource\Config\SqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
