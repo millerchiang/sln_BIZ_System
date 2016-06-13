@@ -11,14 +11,14 @@
 
 <main>
     <div class="article_col1">
-        <form action="" class="searchbox indexsearch">
+        <form action="CompanyList" class="searchbox indexsearch">
             <input type="text" name="companyName" placeholder="公司名">
-            <select name="" id="">
+            <select name="sort_id" id="">
                 <option value="">產業別</option>
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
-                    <option value="@sortList.enterprise_sort_id">@sortList.enterprise_sort_name</option>
+                    <option value="@sortList.sort_id">@sortList.enterprise_sort_name</option>
                 }
             </select>
             <button class="searchbox_submit" type="submit"> 搜尋 </button>
@@ -64,7 +64,7 @@
                 @foreach (var newsList in Model.newsList)
                 {
                     <li>
-                        <a href="/Activity/EditNewsActivity?Id=@newsList.news_no">@newsList.news_title</a>
+                        <a href="NewsView?Id=@newsList.news_no">@newsList.news_title</a>
                     </li>
                 }
                 </ul>

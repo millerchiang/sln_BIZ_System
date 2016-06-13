@@ -24,6 +24,8 @@ namespace prj_BIZ_System.Controllers
         {
             pushService = new PushService();
             pushViewModel = new Push_ViewModel();
+            ViewBag.Form = "Manager";
+
         }
 
         // GET: Push

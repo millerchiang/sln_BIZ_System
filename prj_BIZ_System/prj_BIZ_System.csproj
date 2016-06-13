@@ -800,6 +800,7 @@
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
     <Content Include="Views\Home\CompanyList.cshtml" />
+    <Content Include="Views\Manager\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

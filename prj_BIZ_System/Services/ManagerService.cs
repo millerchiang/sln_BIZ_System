@@ -51,6 +51,13 @@ namespace prj_BIZ_System.Services
             return mapper.Update("Manager.ManagerInfoDisableOne", param) > 0;
         }
 
+        public ManagerInfoModel ManagerInfoCheckOne(string manager_id,string manager_pw)
+        {
+            var param = new ManagerInfoModel() { manager_id = manager_id, manager_pw = manager_pw };
+            return mapper.QueryForObject<ManagerInfoModel>("Manager.ManagerInfoCheckOne", param);
+        }
+
+
         #endregion
 
         #region 群組管理

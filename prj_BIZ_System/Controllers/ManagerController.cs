@@ -18,12 +18,42 @@ namespace prj_BIZ_System.Controllers
         {
             managerService = new ManagerService();
             managerViewModel = new Manager_ViewModel();
+            ViewBag.Form = "Manager";
         }
+
+        public ActionResult Login()
+        {
+            ViewBag.Title = "Login";
+            return View();
+        }
+
+        public ActionResult IdentifyManager()
+        {
+            ManagerInfoModel model = managerService.ManagerInfoCheckOne(Request["manager_id"], Request["manager_pw"]);
+
+            HttpCookie cookie = null;
+
+            if (model == null)
+            {
+                return Redirect("Login");
+            }
+            else
+            {
+                cookie = new HttpCookie("ManagerInfo");
+                cookie.Values.Add("manager_id", model.manager_id);
+                Response.AppendCookie(cookie);
+            }
+            return Redirect("ManagerInfo");
+        }
+
+
+
 
         #region ManagerInfo 帳號管理
         // GET: ManagerInfo
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
+            ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
             managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
             ViewBag.Where_GroupId = where_grp_id;
