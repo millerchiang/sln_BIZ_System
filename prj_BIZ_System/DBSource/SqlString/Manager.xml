@@ -17,6 +17,7 @@
       SELECT *
       FROM manager.group
       WHERE grp_id <> 0
+      order by create_time desc
       ]]>
     </select>
 

@@ -209,6 +209,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -738,6 +739,7 @@
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
+    <Content Include="stylesheets\password_edit.css" />
     <Content Include="stylesheets\news.css" />
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\registerd.css" />
@@ -800,6 +802,8 @@
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
     <Content Include="Views\Home\CompanyList.cshtml" />
+    <Content Include="Views\Password\EditPasswd.cshtml" />
+    <Content Include="Views\Password\ForgetPassword.cshtml" />
     <Content Include="Views\Manager\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>

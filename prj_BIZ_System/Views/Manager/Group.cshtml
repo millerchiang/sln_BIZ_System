@@ -27,11 +27,10 @@
                     foreach(GroupModel md in Model.groupList)
                     {
                         <tr>
-                            <td>@md.grp_name</td>
+                            <td id="grp_name_@(md.grp_id)">@md.grp_name</td>
                             <td>
                                 <div class="centerbox">
                                     <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDetail(@md.grp_id)">編輯</a>
-                                    <span style="display:none" id="rowdata_@(md.grp_id)">{"grp_id":"@(md.grp_id)","grp_name":"@(md.grp_name)","limit":"@(md.limit)"}</span>
                                 </div>
                             </td>
                         </tr>
@@ -88,23 +87,26 @@
     </div>
     <div class="sys_searchboxco2">
         <form action="@Url.Action("GroupInsertUpdate","Manager")" class="form_box" id="editform" method="post">
+            <input type="hidden" name="grp_id" value="">
             <h2>群組詳細資料</h2>
             <label for="leader" class="regis_col02L ">群組名稱</label>
-            <input type="text" value="" class="regis_col02R">
+            <input type="text" name="grp_name" value="" class="regis_col02R">
 
             <label for="addr" class="regis_col02L">群組設定</label>
             <div class="regis_col04R">
+                <!--
                 <p>
                     <span class="fontRed">#</span>無權限:無法觀看 管理該功能內容<br />
                     <span class="fontRed">#</span>有權限:可管理該功能全部內容<br />
                     <span class="fontRed">#</span>部分權限:僅可管理自己群組新增的項目
                 </p>
+                -->
                 <p>
                     <span class="regis_col05R">1 會員管理</span>
-                    <input type="radio" class="radioinput" id="group_member10" name="manager" value="0" checked>
+                    <input type="radio" class="radioinput" id="group_member10" name="user" value="0" checked>
                     <label for="group_member10">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member11" name="manager" value="1">
+                    <input type="radio" class="radioinput" id="group_member11" name="user" value="1">
                     <label for="group_member11">有權限</label>
                 </p>
 
@@ -147,10 +149,10 @@
 
                 <p>
                     <span class="regis_col05R">	5 管理者權限</span>
-                    <input type="radio" class="radioinput" id="group_member50" name="admin" value="0" checked>
+                    <input type="radio" class="radioinput" id="group_member50" name="manager" value="0" checked>
                     <label for="group_member50">無權限</label>
 
-                    <input type="radio" class="radioinput" id="group_member51" name="admin" value="1">
+                    <input type="radio" class="radioinput" id="group_member51" name="manager" value="1">
                     <label for="group_member51">有權限</label>
                 </p>
 
@@ -164,52 +166,16 @@
                 </p>
             </div>
 
-            <label id="managers_label" for="leader" class="regis_col02L ">成員</label>
+            <label id="managers_label" for="leader" class="regis_col02L " style="display:none" >成員</label>
 
-            <table id="managers_tb" class="regis_col02R membertable">
-                <!--
-                <tr>
-                    <td>Fion</td>
-                </tr>
-                <tr>
-                    <td>Darren</td>
-                </tr>
-                <tr>
-                    <td>Herman</td>
-                </tr>
-                <tr>
-                    <td>Fion</td>
-                </tr>
-                <tr>
-                    <td>Darren</td>
-                </tr>
-                <tr>
-                    <td>Herman</td>
-                </tr>
-                <tr>
-                    <td>Fion</td>
-                </tr>
-                <tr>
-                    <td>Darren</td>
-                </tr>
-                <tr>
-                    <td>Herman</td>
-                </tr>
-                <tr>
-                    <td>Fion</td>
-                </tr>
-                <tr>
-                    <td>Darren</td>
-                </tr>
-                <tr>
-                    <td>Herman</td>
-                </tr>
-                -->
+            <table id="managers_tb" class="regis_col02R membertable" style="display:none">
+                
             </table>
 
             <div class="centerbox">
-                <a href="" class="buinfor" id="temp_edit" style="display:none">修改</a>
-                <a href="" class="submitbuOr" id="temp_add">新增</a>
+                <a href="javascript:void(0)" class="buinfor" id="temp_edit" style="display:none">修改</a>
+                <a href="javascript:void(0)" class="submitbu" id="temp_del" style="display:none;">刪除</a>
+                <a href="javascript:void(0)" class="submitbuOr" id="temp_add">新增</a>
             </div>
         </form>
     </div>
@@ -217,34 +183,76 @@
 
 <script>
 			$(function(){
-					$(".tempeditbu").on('click',function(){
-						$("#temp_edit,#editform").show();
-						$("#temp_add").hide();
-						$("#editform h2").text("詳細資料");
-						$("#managers_tb,#managers_label").css("display", "block");
-					})
-					$("#tempaddbu").on('click',function(){
-						$("#temp_edit").hide();
-						$("#temp_add,#editform").show();
-						$("input,textarea").val("");
-						$("#managers_tb,#managers_label").css("display", "none");
-						$("#editform h2").text("新增群組");
-					})
+				$(".tempeditbu").on('click',function(){
+					$("#temp_edit,#temp_del,#editform").show();
+					$("#temp_add").hide();
+					$("#editform h2").text("詳細資料");
+					$("#managers_tb,#managers_label").css("display", "block");
+				})
+				$("#tempaddbu").on('click',function(){
+					$("#temp_edit,#temp_del").hide();
+					$("#temp_add,#editform").show();
+					$("input[name='grp_id'],input[name='grp_name']").val("");
+				    var inputs = $("input[type='radio']").get();
+					for (var i = 0; i < inputs.length; i++) {
+					    if (inputs[i].value == '0') {
+					        inputs[i].checked = true;
+					    }
+					}
+					$("#managers_tb,#managers_label").css("display", "none");
+					$("#editform h2").text("新增群組");
+				})
+
+				$("#temp_del").on("click", function () {
+				    var count = $("#managers_tb tr").size();
+				    if (count > 0) {
+				        alert("此群組中仍有成員,無法刪除!!");
+				    }
+				    else {
+					    if (confirm("是否確定要刪除")) {
+					        doDelete($("input[name='grp_id']").val());
+					    }
+				    }
+				});
+
+				$("#temp_add").click(function () {
+				    var grp_name = $("input[name='grp_name']").val();
+					var errMsg = checkValidationOk(grp_name)
+					if (errMsg != '') {
+					    alert(errMsg);
+					    return false;
+					}
+					$("#editform").submit();
+				});
+
+				$("#temp_edit").click(function () {
+				    var grp_name = $("input[name='grp_name']").val();
+					var errMsg = checkValidationOk(grp_name)
+					if (errMsg != '') {
+					    alert(errMsg);
+					    return false;
+					}
+					doEdit();
+				});
 			});
-			
+
 			function showDetail(grp_id){
 			    $.ajax({
 			        type:"GET",
 			        url:"@Url.Action("GetGroupDetail", "Manager")",
-			        data:{"grp_id" : grp_id},
+			        data: { "grp_id": grp_id },
 			        cache:false,
 			        datatype:"json"
 			    }).done(function (result) {
+			        var grp_name_text = $("#grp_name_" + grp_id).text();
+			        $("input[name='grp_name']").val(grp_name_text);
+			        $("input[name='grp_id']").val(grp_id);
+
 			        if (result != null) {
 			            var memangers = result.memangers;
 			            var limits = result.limits;
 			            for (var i in limits) {
-			                $("input[name='"+i+"']").val(limits[i]);
+			                $("input[name='" + i + "'][value='" + limits[i] + "']").prop("checked",true);
 			            }
 
 			            $("#managers_tb").html("");
@@ -253,6 +261,51 @@
 			            }
 			        }
 			    });
-
 			}
+
+            function doEdit() {
+			    $.ajax({
+			        type:"POST",
+			        url:"@Url.Action("GroupInsertUpdate", "Manager")",
+			        data: $("#editform").serialize(),
+			        cache:false,
+			        datatype:"json"
+			    }).done(function (result) {
+			        var grp_id = $("input[name='grp_id']").val();
+			        if (result != null) {
+			            $("#grp_name_" + grp_id).text($("input[name='grp_name']").val());
+			            alert('修改成功');
+			        }
+			    });
+            }
+
+            function checkValidationOk(grp_name) {
+                var errMsg = '';
+                if (grp_name == null || grp_name == '') {
+                    errMsg += '群組名稱不可為空白\n';
+                }
+                return errMsg;
+            }
+
+            function doDelete(id) {
+                $.ajax({
+                    type: "get",
+                    url: "@Url.Action("DeleteGroupJson", "Manager")",
+                    cache: false,
+                    data: { "grp_id": id },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var isDelSuccess = result;
+                    if (isDelSuccess == true) {
+                        //alert("刪除成功");
+                        location.reload();
+                    } else {
+                        //alert("刪除失敗");
+                    }
+                }
+                else {
+                }
+            });
+            }
 </script>
