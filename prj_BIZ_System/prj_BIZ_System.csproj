@@ -805,6 +805,7 @@
     <Content Include="Views\Password\EditPasswd.cshtml" />
     <Content Include="Views\Password\ForgetPassword.cshtml" />
     <Content Include="Views\Manager\Login.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

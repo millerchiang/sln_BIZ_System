@@ -16,7 +16,7 @@
     if(ViewBag.PageType == "Create")
     {
         Model.news.news_no = 0;
-        Model.news.manager_id = Request.Cookies["UserInfo"]["user_id"];
+        Model.news.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
         Model.news.news_title = "";
         Model.news.news_date = DateTime.Now;
         Model.news.news_type = "";

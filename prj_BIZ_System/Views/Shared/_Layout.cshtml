@@ -1,28 +1,40 @@
 ﻿<!DOCTYPE html>
 
-@if  (ViewBag.Form == "Manager")
-{
-    if (ViewBag.Title != "Login")
-    {
-        if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
-        {
-            Response.Redirect("~/Manager/Login");
-        }
-    }
-}
 
+@if ((Request.Cookies["ManagerInfo"] != null && Request.Cookies["ManagerInfo"]["manager_id"] != null) ||
+    (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null))
+{
+    if (Request.Cookies["ManagerInfo"] != null && Request.Cookies["ManagerInfo"]["manager_id"] != null)
+    {
+        ViewBag.Form = "Manager";
+    }
+
+}
 else
 {
-    if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+    if (ViewBag.Form == "Manager")
     {
-
-        if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+        if (ViewBag.Title != "Login")
         {
-            Response.Redirect("~/Home/Login");
+            if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
+            {
+                Response.Redirect("~/Manager/Login");
+            }
+        }
+    }
+
+    else
+    {
+        if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+        {
+
+            if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+            {
+                Response.Redirect("~/Home/Login");
+            }
         }
     }
 }
-
 
 <html>
 <head>
@@ -44,7 +56,14 @@ else
                 <li><a href="" class="active">中文</a></li>
             </ul>
             <h1 class="head_logo">
-                <a href="~/Home/Index">Matchmaking System</a>
+@if (ViewBag.Form != "Manager")
+{
+    <a href="~/Home/Index">Matchmaking System</a>
+}
+else
+{
+    <a href="~/Manager/Index">Matchmaking System</a>
+}
             </h1>
             <nav class="head_nav">
                 <ul>
@@ -90,7 +109,7 @@ else
                                 <ul>
                                     <li><a href="/Manager/ManagerInfo">管理者帳號</a></li>
                                     <li><a href="/Manager/Group">群組權限設定</a></li>
-                                    <li><a href="/Manager/ManagerInfo">管理者密碼修改</a></li>
+                                    <li><a href="/Password/EditPasswd">管理者密碼修改</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -100,9 +119,29 @@ else
                                     <li><a href="/Push/EditPushSample">範本管理</a></li>
                                 </ul>
                             </li>
-                        <li>@Html.ActionLink("新聞管理", "ManagerInfo", "Manager")</li>
-                        <li>@Html.ActionLink("活動管理", "ManagerInfo", "Manager")</li>
-                        <li>@Html.ActionLink("產業會員管理", "ManagerInfo", "Manager")</li>
+                            <li>
+                                <a href="javascript:void(0)">新聞管理</a>
+                                <ul>
+                                    <li><a href="/Activity/B_NewsList">新聞列表</a></li>
+                                    <li><a href="/Activity/EditNewsActivity">建立訊息</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">活動管理</a>
+                                <ul>
+                                    <li><a href="/Activity/EditActivity">新建活動</a></li>
+                                    <li><a href="/Activity/ActivityList">活動列表</a></li>
+                                    <li><a href="/Activity/ActivityRegisterCheck">活動報名審核</a></li>
+                                    <li><a href="/Match/MatchScheduleList">媒合時程大表</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">產業會員管理</a>
+                                <ul>
+                                    <li><a href="/User/UserList">會員帳號管理</a></li>
+                                    <li><a href="">匯入產業會員</a></li>
+                                </ul>
+                            </li>
                         }
                     }
 

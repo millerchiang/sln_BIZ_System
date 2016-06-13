@@ -143,6 +143,10 @@ namespace prj_BIZ_System.Controllers
             if (name == "")
                 name = Request["company_en"];
 
+
+            if (Request.Cookies["Manager"]!=null && Request.Cookies["Manager"]["manager_id"] != null)//後台
+                return Redirect("UserList");
+
             if (model.id_enable=="1")
                 return Redirect("../Home/Index");
             else

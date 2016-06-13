@@ -140,6 +140,11 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Login()
         {
+            if (Response.Cookies["ManagerInfo"] != null && Response.Cookies["ManagerInfo"]["manager_id"] != null)
+            {
+                Response.Cookies["ManagerInfo"]["manager_id"] = null;
+            }
+
             return View();
         }
 
