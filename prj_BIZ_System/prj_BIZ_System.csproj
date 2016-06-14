@@ -368,7 +368,7 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
-    <Content Include="App_Start\Properties\cache.prop" />
+    <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
     <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

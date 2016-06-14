@@ -17,7 +17,7 @@ namespace prj_BIZ_System.App_Start
         public static bool _NavSearchPartial_load_cache_isOn;
         public static void RegisterCustomSetting(string baseDir)
         {
-            Properties cache_props = new Properties(baseDir + propDir + "cache.prop");
+            Properties cache_props = new Properties(baseDir + propDir + "cache.txt");
             _NavSearchPartial_load_cache_isOn = "on".Equals(cache_props.getProperty("_NavSearchPartial_load_cache_switch") , StringComparison.OrdinalIgnoreCase);
         }
     }
