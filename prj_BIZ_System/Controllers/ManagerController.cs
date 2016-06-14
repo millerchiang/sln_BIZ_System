@@ -23,6 +23,11 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Login()
         {
+            if (Response.Cookies["UserInfo"] != null && Response.Cookies["UserInfo"]["user_id"] != null)
+            {
+                Response.Cookies["UserInfo"]["user_id"] = null;
+            }
+
             ViewBag.Title = "Login";
             return View();
         }
@@ -41,12 +46,20 @@ namespace prj_BIZ_System.Controllers
             {
                 cookie = new HttpCookie("ManagerInfo");
                 cookie.Values.Add("manager_id", model.manager_id);
+                cookie.Values.Add("name", model.name);
+                cookie.Values.Add("phone", model.phone);
+                cookie.Values.Add("email", model.email);
                 Response.AppendCookie(cookie);
             }
-            return Redirect("ManagerInfo");
+//            return Redirect("ManagerInfo");
+           return Redirect("Index");
         }
 
 
+        public ActionResult Index()
+        {
+            return View();
+        }
 
 
         #region ManagerInfo 帳號管理
