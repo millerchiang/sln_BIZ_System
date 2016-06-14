@@ -73,6 +73,9 @@ namespace prj_BIZ_System.Models
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
+
+        public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
+        public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
     }
 
     public class Manager_ViewModel

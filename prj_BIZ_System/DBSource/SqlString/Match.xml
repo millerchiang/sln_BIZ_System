@@ -26,14 +26,15 @@
         AND r.user_id = #user_id#
       </select>
     
-      <!--查詢買家要媒合的賣家名稱-->
-      <select id="SelectBuyerMatchToSellerName" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
+      <!--查詢某活動有審核的賣家公司名稱-->
+      <select id="SelectCertainActivityHaveCheckSellerName" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
         SELECT *
         FROM activity_register r
         INNER JOIN user_info ui
         ON r.user_id = ui.user_id
-        WHERE r.activity_id = #activity_id#
-      </select> 
+        WHERE r.manager_check = '1'
+        AND r.activity_id = #activity_id#
+      </select>
     
       <!--查詢賣家報名了哪些活動-->
       <select id="SelectSellerJoinThoseActivity" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
@@ -77,7 +78,7 @@
     [[  table = buyer_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-      <!--查詢賣家要媒合的買家名稱與買家需求-->
+      <!--查詢賣家要媒合的買家名稱與買家需求, 後台_顯示某活動的買主公司名稱-->
       <select id="SelectSellerMatchToBuyerNameAndNeed" resultMap="SellerMatchToBuyerNameAndNeed" parameterClass="BuyerInfoModel">
         SELECT *
         FROM buyer_list bl
@@ -93,6 +94,12 @@
         INNER JOIN activity_info a
         ON bl.activity_id = a.activity_id
         WHERE bl.buyer_id = #buyer_id#
+      </select>
+      <!--查詢某活動的買主清單資訊-->
+      <select id="SelectBuyerListAll" resultMap="BuyerInfo" parameterClass="BuyerInfoModel">
+        select *
+        from buyer_list
+        WHERE activity_id = #activity_id#
       </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -130,17 +137,32 @@
         WHERE activity_id = #activity_id#
         AND seller_id = #seller_id#
       </select>
-    
-      <!--查詢買家對哪個活動有意願洽談的賣主-->
+
+      <!--查詢買家對哪個活動有意願洽談的賣主, 查詢買家要媒合的賣家名稱且是賣家有勾選過的-->
       <select id="SelectBuyerForActivityMatchSeller" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
         SELECT *
         FROM matchmaking_need mn
         INNER JOIN user_info ui
         ON mn.seller_id = ui.user_id
         WHERE mn.activity_id = #activity_id#
-        AND buyer_id = #buyer_id#
-        <!-- buyer_reply = '1'-->
+        AND mn.buyer_id = #buyer_id#
+        <dynamic prepend="">
+          <isNotEmpty prepend="AND" property="buyer_reply">
+            mn.buyer_reply = #buyer_reply#
+          </isNotEmpty>
+        </dynamic>
       </select>
+    
+      <!--查詢某活動和買主回覆狀態的買主與賣家帳號資料-->
+      <select id="SelectCertainActivityWithBuyerReplyAll" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
+        SELECT *
+        FROM matchmaking_need mn
+        INNER JOIN user_info ui
+        ON mn.seller_id = ui.user_id
+        WHERE mn.activity_id = #activity_id#
+        AND mn.buyer_reply = #buyer_reply#
+      </select>
+    
     
       <!--查詢某活動的賣家有無勾選買主-->
       <select id="SelectCertainActivitySellerCheckBuyer" resultMap="MatchmakingNeed" parameterClass="MatchmakingNeedModel">
@@ -197,7 +219,6 @@
       time_end   = #time_end#
       WHERE period_sn = #period_sn#
     </update>
-    
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -313,6 +334,14 @@
       <result property="organizer_en" column="organizer_en"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="BuyerInfo" class="BuyerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_need" column="buyer_need"/>
     </resultMap>
 
     <resultMap id="SellerMatchToBuyerNameAndNeed" class="BuyerInfoModel">
