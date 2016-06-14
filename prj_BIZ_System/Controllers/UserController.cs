@@ -149,7 +149,16 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
 
-        
+        public ActionResult UserInfoImport()
+        {
+            return View();
+        }
+
+        public ActionResult UserInfoMultiInsert()
+        {
+            
+            return Redirect("UserInfoImport");
+        }
 
         public ActionResult AccountMailValidate(string validate_linkX)
         {
