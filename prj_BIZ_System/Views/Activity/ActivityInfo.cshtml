@@ -9,7 +9,8 @@
 }
 
 <div class="article_col1">
-    @{
+    @if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
+    {
         Html.RenderAction("_NavSearchPartial", "User");
     }
     <article class="article_col2">
@@ -65,22 +66,27 @@
 -->
 
                 <div class="centerbox">
-@if (Model.activityregister == null)
+@if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
 {
-                    <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
-}
-else if (Model.activityregister.manager_check == "0")
-{
-    <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
-    <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+    if (Model.activityregister == null)
+    {
+                        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+    }
+    else if (Model.activityregister.manager_check == "0")
+    {
+        <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
+        <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+    }
+    else
+    {
+        <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
+    }
+    <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
 }
 else
 {
-    <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
+    <a href="javascript:history.back()" class="buinfor">回到上一頁</a>
 }
-<a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
-
-
 </div>
 </p>
 

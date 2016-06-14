@@ -94,7 +94,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult B_NewsList()
         {
-            activityModel.newsList = activityService.GetNewsAll();
+//            activityModel.newsList = activityService.GetNewsAll();
+            activityModel.newsList = activityService.GetNewsType(Request["news_type"]);
 /*
             foreach (NewsModel newsModel in activityModel.newsList)
             {
@@ -139,14 +140,14 @@ namespace prj_BIZ_System.Controllers
             else
                 activityService.NewsUpdateOne(model);
 
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=0");
         }
 
         [HttpGet]
         public ActionResult EditNewsActivityDelete()
         {
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=0");
         }
         #endregion
 
@@ -189,14 +190,14 @@ namespace prj_BIZ_System.Controllers
             else
                 activityService.NewsUpdateOne(news);
 
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=1");
         }
 
         [HttpGet]
         public ActionResult EditNewsInfoDelete()
         {
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=1");
         }
         #endregion
 
