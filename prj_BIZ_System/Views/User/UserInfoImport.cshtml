@@ -1,14 +1,25 @@
-﻿<div class="article_col1">			
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_ViewModel
+
+@{
+    ViewBag.Title = "Group";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">			
 	<form class="form_box sys_searchbox">	
 		<h2>帳號匯入</h2>					
 				
-			<a href="" class="deleteSbu">下載範本</a>
+			<a href="@Url.Content("~/Content/Template/Import/user_import_sample.xls")" class="deleteSbu">下載範本</a>
 
 			<label class="addbublue" id="upload" for="upexl">上傳excel</label>
 			<input type="file" id="upexl" name="iupexl">
 			<input type="text" id="upexl_name" name="upexl_name">
 
-			<a href="" class="addbu">確定匯入</a>
+			<a href="javascript:void(0)" class="addbu">確定匯入</a>
 						
 	</form>
 	<article>
