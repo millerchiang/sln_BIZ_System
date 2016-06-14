@@ -121,9 +121,33 @@ namespace prj_BIZ_System.Services
                 sheet = (HSSFSheet)wb.GetSheetAt(0);
                 IRow headerRow = sheet.GetRow(0);
                 colCount = headerRow.LastCellNum;
-
+                UserInfoModel md = null;
                 for(int r=0; r<= sheet.LastRowNum; j++)
                 {
+                    md = new UserInfoModel();
+                    int d = 0 ;
+                    headerRow = sheet.GetRow(r);
+
+                                        headerRow.GetCell(d++); //編號
+                    md.user_id          = headerRow.GetCell(d++).ToString(); //帳號*(國內:請用統編；國外: 自訂)
+                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //密碼*(8 - 12字，英數混合，不含特殊字元)
+                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //企業類型*(0:國內企業；1:國外企業)
+                    md.company          = headerRow.GetCell(d++).ToString(); //公司名稱*(中文)
+                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //公司名稱(英文)
+                    md.leader           = headerRow.GetCell(d++).ToString(); //代表人(中文)
+                    md.leader_en        = headerRow.GetCell(d++).ToString(); //代表人(英文)
+                    md.addr             = headerRow.GetCell(d++).ToString(); //地址
+                    md.contact          = headerRow.GetCell(d++).ToString(); //主聯絡人
+                    md.phone            = headerRow.GetCell(d++).ToString(); //電話號碼*
+                    md.email            = headerRow.GetCell(d++).ToString(); //電子郵件*
+                    md.capital          = headerRow.GetCell(d++)!=null? Convert.ToInt32(headerRow.GetCell(d++).ToString()) : 0; //資本額*(單位:萬)
+                    md.revenue          = headerRow.GetCell(d++).ToString(); //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
+                    md.website          = headerRow.GetCell(d++).ToString(); //企業網址
+                    md.info             = headerRow.GetCell(d++).ToString(); //企業簡介(中文)
+                    md.info_en          = headerRow.GetCell(d++).ToString(); //企業簡介(英文)
+
+                    var result = UserInfoInsertOne(md);
+
 
                 }
             }
