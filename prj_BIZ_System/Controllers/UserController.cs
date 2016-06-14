@@ -158,9 +158,14 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
 
-        public ActionResult UserInfoMultiInsert()
+        public ActionResult UserInfoMultiInsert(HttpPostedFileBase iupexl , string upexl_name)
         {
-            
+            if (iupexl!=null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength >0 )
+            {
+                string targetLocation = "_temp";
+                UploadHelper.doUploadFile(iupexl, UploadConfig.subDirForLogo, targetLocation);
+                userService.UserInfoMultiInsert(targetLocation);
+            }
             return Redirect("UserInfoImport");
         }
 

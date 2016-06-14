@@ -7,6 +7,9 @@ using Npgsql;
 using IBatisNet.DataMapper;
 using IBatisNet.DataMapper.Configuration;
 using System.Collections;
+using NPOI.HSSF.UserModel;
+using System.IO;
+using NPOI.SS.UserModel;
 
 namespace prj_BIZ_System.Services
 {
@@ -103,6 +106,36 @@ namespace prj_BIZ_System.Services
                 }
             }
             return true;
+        }
+
+        public void UserInfoMultiInsert(string targetLocation)
+        {
+            FileStream fs = null;
+            HSSFWorkbook wb = null;
+            HSSFSheet sheet = null;
+            int colCount = 0;
+            try
+            {
+                fs = new FileStream(targetLocation, FileMode.Open, FileAccess.Read);
+                wb = new HSSFWorkbook(fs);
+                sheet = (HSSFSheet)wb.GetSheetAt(0);
+                IRow headerRow = sheet.GetRow(0);
+                colCount = headerRow.LastCellNum;
+
+                for(int r=0; r<= sheet.LastRowNum; j++)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string errMsg = ex.ToString();
+                Console.WriteLine(errMsg);
+            }
+            finally
+            {
+                fs.Close();
+            }
         }
 
         #region 產品說明
