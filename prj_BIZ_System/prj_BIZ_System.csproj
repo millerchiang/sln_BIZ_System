@@ -787,7 +787,7 @@
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
-    <Content Include="Views\Shared\_NavSearchPartial.cshtml" />
+    <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
