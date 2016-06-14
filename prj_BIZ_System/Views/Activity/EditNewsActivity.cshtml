@@ -57,12 +57,12 @@
          }
 
         </select>
-
+<!--
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
         <input type="text" readonly name="manager_id" value="@Model.news.manager_id" class="regis_col02R" />
-
+-->
         <div class="centerbox">
-            <textarea  id="content" name="content">@Model.news.content</textarea>
+            <textarea  id="content" name="content">@Html.Raw(@Model.news.content)</textarea>
         </div>
 
 
@@ -77,6 +77,7 @@
         {
             skin: "kama",
             width: "900px",
+            height: "500px",
             filebrowserImageUploadUrl: "/Activity/NewsInfoUpload"
         });
 </script>

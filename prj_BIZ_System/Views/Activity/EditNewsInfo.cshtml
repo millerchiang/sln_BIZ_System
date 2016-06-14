@@ -40,12 +40,12 @@
 
         <label for="website" class="regis_col02L spanRed">報名網址</label>
         <input type="text" name="website" value="@Model.website" class="regis_col02R" />
-
+<!--
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
         <input type="text" readonly name="manager_id" value="@Model.manager_id" class="regis_col02R" />
-
+-->
         <div class="centerbox">
-            <textarea  id="content" name="content">@Model.content</textarea>
+            <textarea  id="content" name="content">@Html.Raw(@Model.content)</textarea>
         </div>
 
         <div class="centerbox">
@@ -59,6 +59,7 @@
         {
             skin: 'kama',
             width: '900px',
+            height: "500px",
             filebrowserImageUploadUrl: '/Activity/NewsInfoUpload'
             //filebrowserImageBrowseUrl: 'xxxxxx' 
         });

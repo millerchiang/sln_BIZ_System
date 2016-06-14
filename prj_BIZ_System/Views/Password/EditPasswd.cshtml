@@ -9,9 +9,6 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial","User");
-    }
     <article class="article_col2">
         <form id="form" action="@Url.Action("PasswordInsertUpdate","Password")" class="form_box" method="post">
             <h2>修改密碼</h2>

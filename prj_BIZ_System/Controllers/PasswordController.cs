@@ -30,7 +30,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult PasswordInsertUpdate(string old_pw , string new_pw)
         {
             string current_id = "";
-            string current_manager_id = "admin"; // 取 manager_id 的 cookie
+            string current_manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; // 取 manager_id 的 cookie
             string current_user_id = ""; // "12345678"; // 取 user_id 的 cookie
             string errMsg = "修改成功";
             if (!string.IsNullOrEmpty(current_manager_id))
