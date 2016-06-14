@@ -209,6 +209,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -224,6 +225,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\ManagerService.cs" />
+    <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
@@ -309,6 +311,9 @@
     <Content Include="DBSource\SqlString\Manager.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DBSource\SqlString\Password.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -347,7 +352,9 @@
     <Content Include="sass\reset.sass" />
     <Content Include="sass\screen.sass" />
     <Content Include="DBSource\Config\providers.config" />
-    <Content Include="DBSource\Config\SqlMap.config" />
+    <Content Include="DBSource\Config\SqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -360,8 +367,10 @@
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
-    <None Include="App_Start\Properties\cache.prop" />
+    <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
+    <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
+    <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
     <Content Include="Scripts\ckeditor\config.js" />
@@ -736,6 +745,7 @@
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
+    <Content Include="stylesheets\password_edit.css" />
     <Content Include="stylesheets\news.css" />
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\registerd.css" />
@@ -748,8 +758,10 @@
     <Content Include="Views\Activity\ActivityInfo.cshtml" />
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
-    <None Include="Views\Activity\EditActivityRegister.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Activity\EditActivityRegister.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -775,7 +787,7 @@
     <Content Include="Views\Activity\EditNewsActivity.cshtml" />
     <Content Include="Views\Activity\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
-    <Content Include="Views\Shared\_NavSearchPartial.cshtml" />
+    <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
@@ -791,10 +803,14 @@
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
     <Content Include="Views\Match\MatchScheduleList.cshtml" />
     <Content Include="Views\Match\MatchScheduleTime.cshtml" />
-    <Content Include="Views\Match\BusinessMatch.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
+    <Content Include="Views\Home\CompanyList.cshtml" />
+    <Content Include="Views\Password\EditPasswd.cshtml" />
+    <Content Include="Views\Password\ForgetPassword.cshtml" />
+    <Content Include="Views\Manager\Login.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

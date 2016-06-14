@@ -1,0 +1,33 @@
+﻿
+
+@{
+    ViewBag.Title = "Manager Infomation";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+}
+
+<main>
+    <div class="article_col1">
+
+        <article class="form_box article_col2">
+            <section class="form_box comicon article_col1">
+                <label for="leader" class="regis_col02L">管理者帳號</label>
+                <span class="regis_col02R">@Request.Cookies["ManagerInfo"]["manager_id"]</span>
+                <label for="addr" class="regis_col02L">姓名</label>
+                <span class="regis_col02R">@Request.Cookies["ManagerInfo"]["name"]</span>
+                <label for="name" class="regis_col02L">電話</label>
+                <span class="regis_col02R">@Request.Cookies["ManagerInfo"]["phone"]</span>
+                <label for="leader" class="regis_col02L">電子郵件</label>
+                <span class="regis_col02R">@Request.Cookies["ManagerInfo"]["email"]</span>
+            </section>
+
+
+        </article>
+
+
+    </div>
+
+</main>

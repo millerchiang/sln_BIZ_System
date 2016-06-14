@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/login.css" rel="stylesheet" />
+}
+
+<div class="loginbox">
+    <h2 class="borderTitle">管理者登入</h2>
+    <form action="IdentifyManager">
+        <ul class="loginboxR">
+            <li>
+                <label for="">帳號:</label>
+                <input type="text" name="manager_id" text=""><br>
+            </li>
+            <li>
+                <label for="">密碼:</label>
+                <input type="text" name="manager_pw" text=""><br>
+            </li>
+        </ul>
+        <button class="loginbox_submit" type="submit"> 登入 </button>
+    </form>
+
+</div>
+

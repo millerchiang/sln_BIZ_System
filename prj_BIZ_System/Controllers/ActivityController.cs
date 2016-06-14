@@ -75,7 +75,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ActivityInsertUpdate(ActivityInfoModel model)
         {
-            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (model.activity_id == 0)
                 activityService.ActivityInfoInsertOne(model);
@@ -94,14 +94,17 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult B_NewsList()
         {
-            activityModel.newsList = activityService.GetNewsAll();
+//            activityModel.newsList = activityService.GetNewsAll();
+            activityModel.newsList = activityService.GetNewsType(Request["news_type"]);
+/*
             foreach (NewsModel newsModel in activityModel.newsList)
             {
 //                if (newsModel.news_type == "1")
 //                {
-              newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
+//              newsModel.content = HttpUtility.HtmlDecode(newsModel.content); 
 //                }
             }
+*/
             return View(activityModel);
         }
         #endregion
@@ -130,21 +133,21 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditNewsActivityInsertUpdate(NewsModel model)
         {
-            model.manager_id = Request.Cookies["UserInfo"]["user_id"];
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (model.news_no == 0)
                 activityService.NewsInsertOne(model);
             else
                 activityService.NewsUpdateOne(model);
 
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=0");
         }
 
         [HttpGet]
         public ActionResult EditNewsActivityDelete()
         {
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=0");
         }
         #endregion
 
@@ -162,7 +165,7 @@ namespace prj_BIZ_System.Controllers
             else {
                 //                activityModel.news.news_no = int.Parse(Request["Id"]);
                 activityModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
-                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
+//                activityModel.news.content = HttpUtility.HtmlDecode(activityModel.news.content);
                 ViewBag.PageType = "Edit";
                 ViewBag.SubmitName = "修改";
             }
@@ -180,21 +183,21 @@ namespace prj_BIZ_System.Controllers
                         news.news_type = Request["news_type"];
                         news.content = Request["content"];
             */
-            news.manager_id = Request.Cookies["UserInfo"]["user_id"];
+            news.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (news.news_no == 0)
                 activityService.NewsInsertOne(news);
             else
                 activityService.NewsUpdateOne(news);
 
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=1");
         }
 
         [HttpGet]
         public ActionResult EditNewsInfoDelete()
         {
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
-            return Redirect("B_NewsList");
+            return Redirect("B_NewsList?news_type=1");
         }
         #endregion
 
@@ -202,10 +205,10 @@ namespace prj_BIZ_System.Controllers
         public ActionResult NewsInfoUpload(HttpPostedFileBase upload, string CKEditorFuncNum)
         {
             string result = "";
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
-            UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, user_id);
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, manager_id);
 
-            var imageUrl = Url.Content(UploadConfig.CatalogRootPath + user_id + "/" + UploadConfig.subDirForNews + upload.FileName);
+            var imageUrl = Url.Content(UploadConfig.CatalogRootPath + manager_id + "/" + UploadConfig.subDirForNews + upload.FileName);
 
             var vMessage = string.Empty;
 

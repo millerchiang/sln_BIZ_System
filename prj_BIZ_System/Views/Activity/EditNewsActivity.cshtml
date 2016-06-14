@@ -6,7 +6,9 @@
     ViewBag.Title = "新增新聞活動訊息";
 }
 
-@Scripts.Render("~/bundles/ckeditor")
+@*@Scripts.Render("~/bundles/ckeditor")*@
+<script src="~/Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>
+
 
 @section pagestyle{
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
@@ -16,7 +18,7 @@
     if(ViewBag.PageType == "Create")
     {
         Model.news.news_no = 0;
-        Model.news.manager_id = Request.Cookies["UserInfo"]["user_id"];
+        Model.news.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
         Model.news.news_title = "";
         Model.news.news_date = DateTime.Now;
         Model.news.news_type = "";
@@ -57,12 +59,12 @@
          }
 
         </select>
-
+<!--
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
         <input type="text" readonly name="manager_id" value="@Model.news.manager_id" class="regis_col02R" />
-
+-->
         <div class="centerbox">
-            <textarea  id="content" name="content">@Model.news.content</textarea>
+            <textarea  id="content" name="content">@Html.Raw(@Model.news.content)</textarea>
         </div>
 
 
@@ -77,6 +79,7 @@
         {
             skin: "kama",
             width: "900px",
+            height: "500px",
             filebrowserImageUploadUrl: "/Activity/NewsInfoUpload"
         });
 </script>

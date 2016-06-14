@@ -51,6 +51,13 @@ namespace prj_BIZ_System.Services
             return mapper.Update("Manager.ManagerInfoDisableOne", param) > 0;
         }
 
+        public ManagerInfoModel ManagerInfoCheckOne(string manager_id,string manager_pw)
+        {
+            var param = new ManagerInfoModel() { manager_id = manager_id, manager_pw = manager_pw };
+            return mapper.QueryForObject<ManagerInfoModel>("Manager.ManagerInfoCheckOne", param);
+        }
+
+
         #endregion
 
         #region 群組管理
@@ -61,10 +68,6 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<GroupModel>("Manager.SelectGroupOne", param);
         }
 
-        public bool GroupUpdateOne(GroupModel model)
-        {
-            return mapper.Update("Manager.UpdateGroup", model) > 0;
-        }
 
         public IList<ManagerInfoModel> getManagerInfoByGrpId(int grp_id)
         {
@@ -80,11 +83,17 @@ namespace prj_BIZ_System.Services
             mapper.Insert("Manager.InsertGroup", param);
         }
 
-        public bool GroupUpdateOne(string grp_name, Dictionary<string, string> limits)
+        public bool GroupUpdateOne(int? grp_id , string grp_name, Dictionary<string, string> limits)
         {
             string limits_str = new JavaScriptSerializer().Serialize(limits);
-            var param = new GroupModel() { grp_name = grp_name, limit = limits_str };
+            var param = new GroupModel() { grp_id = grp_id , grp_name = grp_name, limit = limits_str };
             return mapper.Update("Manager.UpdateGroup", param) > 0 ;
+        }
+
+        internal bool GroupDeleteOne(int grp_id)
+        {
+            var param = new GroupModel { grp_id = grp_id };
+            return mapper.Delete("Manager.DeleteGroup", param) > 0;
         }
 
         #endregion

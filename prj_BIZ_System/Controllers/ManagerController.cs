@@ -18,12 +18,55 @@ namespace prj_BIZ_System.Controllers
         {
             managerService = new ManagerService();
             managerViewModel = new Manager_ViewModel();
+            ViewBag.Form = "Manager";
         }
+
+        public ActionResult Login()
+        {
+            if (Response.Cookies["UserInfo"] != null && Response.Cookies["UserInfo"]["user_id"] != null)
+            {
+                Response.Cookies["UserInfo"]["user_id"] = null;
+            }
+
+            ViewBag.Title = "Login";
+            return View();
+        }
+
+        public ActionResult IdentifyManager()
+        {
+            ManagerInfoModel model = managerService.ManagerInfoCheckOne(Request["manager_id"], Request["manager_pw"]);
+
+            HttpCookie cookie = null;
+
+            if (model == null)
+            {
+                return Redirect("Login");
+            }
+            else
+            {
+                cookie = new HttpCookie("ManagerInfo");
+                cookie.Values.Add("manager_id", model.manager_id);
+                cookie.Values.Add("name", model.name);
+                cookie.Values.Add("phone", model.phone);
+                cookie.Values.Add("email", model.email);
+                Response.AppendCookie(cookie);
+            }
+//            return Redirect("ManagerInfo");
+           return Redirect("Index");
+        }
+
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
 
         #region ManagerInfo 帳號管理
         // GET: ManagerInfo
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
+            ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
             managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
             ViewBag.Where_GroupId = where_grp_id;
@@ -91,7 +134,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult GroupInsertUpdate(
               int? grp_id   , string grp_name   , string user    , string activity 
-            , string push   , string news       , string manager      , string statistic
+            , string push   , string news       , string manager , string statistic
         )
         {
             Dictionary<string, string> limits = new Dictionary<string, string>();
@@ -109,11 +152,16 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                bool isUpdateSuccess = managerService.GroupUpdateOne(grp_name, limits);
-                return Json(isUpdateSuccess , JsonRequestBehavior.AllowGet);
+                bool isUpdateSuccess = managerService.GroupUpdateOne( grp_id , grp_name , limits);
+                return Json(isUpdateSuccess);
             }
         }
 
+        public ActionResult DeleteGroupJson(int grp_id)
+        {
+            bool isDelSuccess = managerService.GroupDeleteOne(grp_id);
+            return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

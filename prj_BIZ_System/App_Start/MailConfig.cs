@@ -71,12 +71,13 @@ namespace prj_BIZ_System.App_Start
         }
 
         /// <summary>
-        /// 忘記密碼 (會員送出忘記密碼申請的時間 , 符合密碼規則之亂數密碼)
+        /// 忘記密碼 (會員送出忘記密碼申請的時間 , 網站首頁 ,符合密碼規則之亂數密碼)
         /// </summary>
-        public static Dictionary<string, string> fillForgetPassword(string apply_time, string random_pw)
+        public static Dictionary<string, string> fillForgetPassword(string apply_time , string page_index , string random_pw)
         {
             Dictionary<string, string> paramDict = new Dictionary<string, string>();
             paramDict.Add("(@會員送出忘記密碼申請的時間)", apply_time);
+            paramDict.Add("(@網站首頁網址)", page_index);
             paramDict.Add("(@符合密碼規則之亂數密碼)", random_pw);
             return paramDict;
         }
@@ -153,6 +154,59 @@ namespace prj_BIZ_System.App_Start
                 MailHelper.doSendMail(email, param, MailType.AccountMailValidate);
             }
         }
+
+        /// <summary>
+        /// 發送忘記密碼Email (使用者email )
+        /// </summary>
+        public static string sendForgetPassword(string email, string host, int port)
+        {
+            string apply_time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string page_index = "http://" + host + ":" + port.ToString();
+            string random_pw = "";
+            while (!IsPasswordOK(random_pw))
+            {
+                random_pw = generateRandomPW();
+            }
+
+            var param = MailHelper.fillForgetPassword(apply_time , page_index ,  random_pw);
+            if (!string.IsNullOrEmpty(email))
+            {
+                MailHelper.doSendMail(email, param, MailType.ForgetPassword);
+            }
+            return random_pw;
+        }
+
+        private static string generateRandomPW()
+        {
+            StringBuilder rand_pw = new StringBuilder();
+
+            Random rd = new Random();
+            int rand_pw_length = rd.Next(8,12+1);
+            for ( int i =0; i < rand_pw_length; i++)
+            {
+                switch (rd.Next(2+1))
+                {
+                    case 0:
+                        rand_pw.Append(Convert.ToChar(rd.Next(65, 90 + 1)));
+                        break;
+                    case 1:
+                        rand_pw.Append(Convert.ToChar(rd.Next(48, 57 + 1)));
+                        break;
+                    case 2:
+                        rand_pw.Append(Convert.ToChar(rd.Next(97, 122 + 1)));
+                        break;
+                }
+            }
+            
+            return rand_pw.ToString();
+        }
+
+        private static bool IsPasswordOK(String InputString)
+        {
+            return (InputString != string.Empty && !Regex.IsMatch(InputString, "^(?=.*[a-zA-Z])(?=.*\\d).{8,12}$"))
+                ? true : false;
+        }
+
     }
 
     /// <summary>
