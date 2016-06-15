@@ -181,7 +181,6 @@ namespace prj_BIZ_System.Controllers
         #region 媒合時程大表
         public ActionResult MatchScheduleList()
         {
-            matchModel.matchmakingNeedList = new List<MatchmakingNeedModel>();
             IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
                 (int.Parse(Request["activity_id"]), "1");
             IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
@@ -193,6 +192,10 @@ namespace prj_BIZ_System.Controllers
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
             /*列出某活動媒合時段*/
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+            /*取得設定時間的活動編號*/
+            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+
             /*列出某活動有審核的賣家*/
             matchModel.activityregisterList =  matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
 
