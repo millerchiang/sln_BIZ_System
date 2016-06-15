@@ -29,7 +29,7 @@
                     <th width="30%">公司名稱</th>
                     <th>想與賣家洽談</th>
                 </tr>
-                @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+                @*@foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                 {
                     <tr>
                         <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb">@activityRegisterModel.company</a></td>
@@ -39,6 +39,19 @@
                                    value="@activityRegisterModel.user_id">
                             <label for="Seller@(activityRegisterModel.register_id)"></label>
                             <input type="hidden" name="activity_id" value="@activityRegisterModel.activity_id">
+                        </td>
+                    </tr>
+                }*@
+                @foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("UserINfo", "User", new { user_id = matchmakingNeedModel.seller_id})" class="linkb">@matchmakingNeedModel.company</a></td>
+                        <td>
+                            <input type="checkbox" class="inputCheckbox" name="seller_id"
+                                   id="Seller@(matchmakingNeedModel.serial_no)"
+                                   value="@matchmakingNeedModel.seller_id">
+                            <label for="Seller@(matchmakingNeedModel.serial_no)"></label>
+                            <input type="hidden" name="activity_id" value="@matchmakingNeedModel.activity_id">
                         </td>
                     </tr>
                 }
