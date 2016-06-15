@@ -111,8 +111,12 @@ namespace prj_BIZ_System.Services
         public Dictionary<string, object> UserInfoMultiInsert(string targetLocation)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
-            Dictionary<string, object> successUserInfos = new Dictionary<string, object>();
-            Dictionary<string, object> failUserInfos = new Dictionary<string, object>();
+            Dictionary<int, object> successUserInfos = new Dictionary<int, object>();
+            Dictionary<int, object> failUserInfos = new Dictionary<int, object>();
+            Dictionary<int, object> repeatUserInfos = new Dictionary<int, object>();
+            Dictionary<string, string> tempRecord = new Dictionary<string, string>();
+            Dictionary<string, object> statusUserInfos = new Dictionary<string, object>();
+            List<List<object>>   allStatusUserInfos = new List<List<object>>();
             FileStream fs = null;
             HSSFWorkbook wb = null;
             HSSFSheet sheet = null;
@@ -125,63 +129,102 @@ namespace prj_BIZ_System.Services
                 IRow headerRow = sheet.GetRow(0);
                 colCount = headerRow.LastCellNum;
                 UserInfoModel md = null;
-                for(int r=0; r<= sheet.LastRowNum; r++)
+                for(int r=1; r<= sheet.LastRowNum; r++)
                 {
                     md = new UserInfoModel();
                     int d = 0 ;
                     headerRow = sheet.GetRow(r);
-
-                                          headerRow.GetCell(d++); //編號
-                    md.user_id          = headerRow.GetCell(d++).ToString(); //帳號*(國內:請用統編；國外: 自訂)
-                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //密碼*(8 - 12字，英數混合，不含特殊字元)
-                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //企業類型*(0:國內企業；1:國外企業)
-                    md.company          = headerRow.GetCell(d++).ToString(); //公司名稱*(中文)
-                    md.enterprise_type  = headerRow.GetCell(d++).ToString(); //公司名稱(英文)
-                    md.leader           = headerRow.GetCell(d++).ToString(); //代表人(中文)
-                    md.leader_en        = headerRow.GetCell(d++).ToString(); //代表人(英文)
-                    md.addr             = headerRow.GetCell(d++).ToString(); //地址
-                    md.contact          = headerRow.GetCell(d++).ToString(); //主聯絡人
-                    md.phone            = headerRow.GetCell(d++).ToString(); //電話號碼*
-                    md.email            = headerRow.GetCell(d++).ToString(); //電子郵件*
-                    md.capital          = headerRow.GetCell(d++)!=null? Convert.ToInt32(headerRow.GetCell(d++).ToString()) : -1; //資本額*(單位:萬)
-                    md.revenue          = headerRow.GetCell(d++).ToString(); //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
-                    md.website          = headerRow.GetCell(d++).ToString(); //企業網址
-                    md.info             = headerRow.GetCell(d++).ToString(); //企業簡介(中文)
-                    md.info_en          = headerRow.GetCell(d++).ToString(); //企業簡介(英文)
-
-                    if(md.capital == -1)
+                    try
                     {
-                        failUserInfos.Add(md.user_id, md);
+                        tempRecord = new Dictionary<string, string>();
+                                                  headerRow.GetCell(d++); //編號
+                        tempRecord["user_id"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //帳號*(國內:請用統編；國外: 自訂)
+                        tempRecord["user_pw"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //密碼*(8 - 12字，英數混合，不含特殊字元)
+                        tempRecord["enterprise_type"] = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業類型*(0:國內企業；1:國外企業)
+                        tempRecord["company"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //公司名稱*(中文)
+                        tempRecord["company_en"]= headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //公司名稱(英文)
+                        tempRecord["leader"]    = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //代表人(中文)
+                        tempRecord["leader_en"] = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //代表人(英文)
+                        tempRecord["addr"]      = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //地址
+                        tempRecord["contact"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //主聯絡人
+                        tempRecord["phone"]     = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //電話號碼*
+                        tempRecord["email"]     = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //電子郵件*
+                        tempRecord["capital"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString() : ""; //資本額*(單位:萬)
+                        tempRecord["revenue"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
+                        tempRecord["website"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業網址
+                        tempRecord["info"]      = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業簡介(中文)
+                        tempRecord["info_en"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業簡介(英文)
+
+                        
+
+                        if (checkIsImportDataValidate(tempRecord))
+                        {
+                            failUserInfos.Add(r-1, tempRecord);
+                            allStatusUserInfos.Add(new List<object>() {"fail", tempRecord });
+                        }
+                        else
+                        {
+                            object insertResult = null ;
+                            try
+                            {
+                                md.user_id          = tempRecord["user_id"];
+                                md.user_pw          = tempRecord["user_pw"];
+                                md.enterprise_type  = tempRecord["enterprise_type"];
+                                md.company          = tempRecord["company"];
+                                md.company_en       = tempRecord["company_en"];
+                                md.leader           = tempRecord["leader"];
+                                md.leader_en        = tempRecord["leader_en"];
+                                md.addr             = tempRecord["addr"];
+                                md.contact          = tempRecord["contact"];
+                                md.phone            = tempRecord["phone"];
+                                md.email            = tempRecord["email"];
+                                md.capital          = Convert.ToInt32(tempRecord["capital"]);
+                                md.revenue          = tempRecord["revenue"];
+                                md.website          = tempRecord["website"];
+                                md.info             = tempRecord["info"];
+                                md.info_en          = tempRecord["info_en"];
+
+                                insertResult = UserInfoInsertOne(md);
+                                if (insertResult != null)
+                                {
+                                    successUserInfos.Add(r-1, tempRecord);
+                                    allStatusUserInfos.Add(new List<object>() { "success", tempRecord });
+                                }
+                                else
+                                {
+                                    failUserInfos.Add(r-1, tempRecord);
+                                    allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
+                                }
+                            }
+                            catch (Exception ex1) //insert fail
+                            {
+                                string errMsg = ex1.ToString();
+                                if(errMsg.IndexOf("23505", StringComparison.OrdinalIgnoreCase) > -1 ){
+                                    repeatUserInfos.Add(r-1, tempRecord);
+                                    allStatusUserInfos.Add(new List<object>() { "repeat", tempRecord });
+                                }
+                                else
+                                {
+                                    failUserInfos.Add(r-1, tempRecord);
+                                    allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
+                                }
+                                Console.WriteLine(errMsg);
+                            }
+                        }
                     }
-                    else
+                    catch (Exception ex2) // null exception
                     {
-                        object insertResult = null ;
-                        try
-                        {
-                            insertResult = UserInfoInsertOne(md);
-                            if (insertResult != null)
-                            {
-                                successUserInfos.Add(md.user_id, md);
-                            }
-                            else
-                            {
-                                failUserInfos.Add(md.user_id, md);
-                            }
-                        }
-                        catch (Exception ex1)
-                        {
-                            failUserInfos.Add(md.user_id, md);
-                        }
-                        finally
-                        {
-
-                        }
-
+                        string errMsg = ex2.ToString();
+                        Console.WriteLine(errMsg);
+                        failUserInfos.Add(r-1, tempRecord);
+                        allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
                     }
 
                 }
                 result.Add("success", successUserInfos);
                 result.Add("fail"   , failUserInfos);
+                result.Add("repeat" , repeatUserInfos);
+                result.Add("allStatusUserInfos", allStatusUserInfos);
             }
             catch (Exception ex)
             {
@@ -190,9 +233,26 @@ namespace prj_BIZ_System.Services
             }
             finally
             {
-                fs.Close();
+                if (fs != null)
+                {
+                    fs.Close();
+                }
             }
             return result; 
+        }
+
+        private bool checkIsImportDataValidate(Dictionary<string,string> tempRecord)
+        {
+            int capital = -1;
+            return string.IsNullOrEmpty(tempRecord["user_id"])         //帳號*(國內:請用統編；國外: 自訂)
+                    || string.IsNullOrEmpty(tempRecord["user_pw"])         //密碼*(8 - 12字，英數混合，不含特殊字元)
+                    || string.IsNullOrEmpty(tempRecord["enterprise_type"]) //企業類型*(0:國內企業；1:國外企業)
+                    || string.IsNullOrEmpty(tempRecord["company"])         //公司名稱*(中文)
+                    || string.IsNullOrEmpty(tempRecord["phone"])           //電話號碼*
+                    || string.IsNullOrEmpty(tempRecord["email"])           //電子郵件*
+                    || string.IsNullOrEmpty(tempRecord["revenue"])         //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
+                    || string.IsNullOrEmpty(tempRecord["capital"])         // md.capital == -1 ; 
+                    || !Int32.TryParse(tempRecord["capital"], out capital);         // md.capital == -1 ; 
         }
 
         #region 產品說明

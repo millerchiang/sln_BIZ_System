@@ -23,7 +23,9 @@
 						
 	</form>
 	<article>
-		<h2 class="borderTitle2">上傳excel預覽</h2>
+		<h2 class="borderTitle2">上傳excel結果</h2>
+        @if ("匯入完成".Equals(TempData["import_msg"]))
+        {
 		<table class="edittable">
 			<tr>
 				<th>狀態</th>
@@ -33,20 +35,26 @@
 				<th>電話</th>
 				<th>電子郵件</th>
 			</tr>
-			<tr>
-				<td>
-					<span class="import_ok">匯入成功</span>
-				</td>
-				<td>808680205</td>
-				<td>AA公司</td>
-				<td>代表人</td>
-				<td>
-					02-2598-3887					
-				</td>
-				<td>
-					test@gmial.com	
-				</td>
-			</tr>
+            @if (TempData["allStatusUserInfos"] != null)
+            {
+                foreach(List<object> list in (List<List<object>>)TempData["allStatusUserInfos"])
+                {
+			        <tr>
+				        <td>
+					        <span class="@showImportResultCSS((string)list[0])">@showImportResultText((string)list[0])</span>
+				        </td>
+				        <td>@(((Dictionary<string, string>)list[1])["user_id"])</td>
+				        <td>@(((Dictionary<string, string>)list[1])["company"])</td>
+				        <td>@(((Dictionary<string, string>)list[1])["leader"])</td>
+				        <td>
+					        @(((Dictionary<string, string>)list[1])["phone"])				
+				        </td>
+				        <td>
+					        @(((Dictionary<string, string>)list[1])["email"])	
+				        </td>
+			        </tr>
+                }
+            <!--
 			<tr>
 				<td>
 					<span class="import_no">帳號重覆</span>
@@ -89,9 +97,10 @@
 					test@gmial.com	
 				</td>
 			</tr>
-					
-					
-		</table>			
+            -->
+            }			
+		</table>
+        }			
 		<ul class="pagelist">
 			<li><a href="">&lt;</a></li>
 			
@@ -133,3 +142,33 @@
         });
     }
 </script>
+
+@functions {
+    public string showImportResultCSS(string status)
+    {
+        switch (status)
+        {
+            case "success":
+                return "import_ok";
+            case "fail":
+                return "import_no";
+            case "repeat":
+                return "import_no";
+        }
+        return "";
+    }
+
+    public string showImportResultText(string status)
+    {
+        switch (status)
+        {
+            case "success":
+                return "匯入成功";
+            case "fail":
+                return "資料錯誤";
+            case "repeat":
+                return "帳號重覆";
+        }
+        return "";
+    }
+}

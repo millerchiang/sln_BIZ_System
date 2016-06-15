@@ -163,9 +163,20 @@ namespace prj_BIZ_System.Controllers
         {
             if (iupexl!=null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength >0 )
             {
-                string targetLocation = "_temp";
-                UploadHelper.doUploadFile(iupexl, targetLocation, "admin");
-                userService.UserInfoMultiInsert(targetLocation);
+                string targetDir = "_temp";
+                Dictionary<string, string> uploadResultDic = null;
+                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+                
+                if ("success".Equals(uploadResultDic["result"]))
+                {
+                    Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
+                    TempData["import_msg"] = "匯入完成";
+                    TempData["allStatusUserInfos"] = result["allStatusUserInfos"];
+                }
+                else
+                {
+                    TempData["import_msg"] = "匯入失敗";
+                }
             }
             return Redirect("UserInfoImport");
         }

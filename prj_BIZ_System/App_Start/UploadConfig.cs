@@ -105,8 +105,10 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 上傳檔案 (檔案 , 資料夾位置 , 使用者id)
         /// </summary>
-        public static void doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
+        public static Dictionary<string, string> doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
         {
+            Dictionary<string, string> resultDict = new Dictionary<string, string>();
+            
             string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
             string targetFilePath = "";
             targetFilePath = Path.Combine(targetRootDir, subFileDir);
@@ -123,7 +125,21 @@ namespace prj_BIZ_System.App_Start
                 Directory.CreateDirectory(targetFilePath);
             }
             string targetCoverFilePath = Path.Combine(targetFilePath, uploadFile.FileName);
-            uploadFile.SaveAs(targetCoverFilePath);
+            try
+            {
+                uploadFile.SaveAs(targetCoverFilePath);
+                resultDict.Add("result","success");
+                resultDict.Add("msg","");
+            }
+            catch (Exception ex)
+            {
+                resultDict.Add("result", "fail");
+                resultDict.Add("msg", ex.ToString());
+            }
+            finally{
+                resultDict.Add("filepath", targetCoverFilePath);
+            }
+            return resultDict;
         }
 
 
