@@ -70,6 +70,7 @@ namespace prj_BIZ_System.Models
     public class Match_ViewModel
     {
         public SchedulePeriodSetModel SchedulePeriodSet { get; set; }
+        public MatchmakingScheduleModel matchmakingSchedule { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }

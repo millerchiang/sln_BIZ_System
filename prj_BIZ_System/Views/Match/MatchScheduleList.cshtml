@@ -11,97 +11,115 @@
 
 <div class="article_col1">
     <article>
-        <h2 class="borderTitle2">媒合時程大表</h2>
-        <a href="" class="addbublue rightbox">匯出Excel</a>
-        <a href="" class="addbublue rightbox">儲存</a>
-        <table class="edittable">
-            <thead>
+        <form id="form" action="@ViewBag.Action" method="post">
+            <h2 class="borderTitle2">媒合時程大表</h2>
+            <a href="" class="addbublue rightbox">匯出Excel</a>
+            <a href="javascript:return false;" class="addbublue rightbox" id="saveMatchData">儲存</a>
+            <table class="edittable">
+                <thead>
 
-                <tr>
-                    <th>
-                        <div class="centerbox">
-                            <a href="@Url.Action("MatchScheduleTime","Match",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
-                        </div>
-                    </th>
-                    @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                    {
-                        <th class="centerbox2">@buyerInfoModel.company</th>
-                    }
-                </tr>
-
-            </thead>
-            <tbody>
-                @foreach (SchedulePeriodSetModel schedulePeriodSetModel in Model.schedulePeriodSetList)
-                {
                     <tr>
-                        <td>
-                            @schedulePeriodSetModel.time_start.ToString("HH:mm")
-                            ~@schedulePeriodSetModel.time_end.ToString("HH:mm")
-                        </td>
+                        <th>
+                            <div class="centerbox">
+                                <a href="@Url.Action("MatchScheduleTime","Match",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
+                            </div>
+                        </th>
+                        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                        {
+                            <th class="centerbox2">@buyerInfoModel.company
+                            <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
+                            </th>
+                        }
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (SchedulePeriodSetModel schedulePeriodSetModel in Model.schedulePeriodSetList)
+                    {
+                        <tr>
+                            <td>
+                                @schedulePeriodSetModel.time_start.ToString("HH:mm")
+                                ~@schedulePeriodSetModel.time_end.ToString("HH:mm")
+                                <input type="hidden" name="period_sn" value="@schedulePeriodSetModel.period_sn" />
+                                <input type="hidden" name="activity_id" value="@schedulePeriodSetModel.activity_id" />
+                            </td>
+
+                            @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                            {
+                                <td>
+                                    <select name="seller_id" id="">
+                                        <option value="">--請選擇--</option>
+                                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+                                        {
+                                            <option value="@activityRegisterModel.user_id">@activityRegisterModel.company</option>
+                                        }
+                                    </select>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+
+                    <tr class="tfootbg">
+                        <td class="centerbox2">雙方有媒合意願</td>
+                        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                        {
+                            if (Model.sellerCompanyNamereply1Dic.ContainsKey(buyerInfoModel.buyer_id))
+                            {
+                                <td class="centerbox2">
+                                    @foreach (string sellerName in Model.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id])
+                                    {
+                                        <p>@String.Format(sellerName)</p>
+                                    }
+                                </td>
+                            }
+                            else {
+                                <td class="centerbox2"></td>
+                            }
+                        }
+                    </tr>
+
+                    <tr>
+                        <td class="centerbox2">賣方有媒合意願</td>
+                        @*@foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
+                            {
+                                if (matchmakingNeedModel.buyer_reply == "0")
+                                {
+                                    <p>@matchmakingNeedModel.company</p>
+                                }
+                            }*@
 
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            <td>
-                                <select name="seller_id" id="">
-                                    <option value="">--請選擇--</option>
-                                    @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+                            if (Model.sellerCompanyNamereply0Dic.ContainsKey(buyerInfoModel.buyer_id))
+                            {
+                                <td class="centerbox2">
+                                    @foreach (string sellerName in Model.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id])
                                     {
-                                        <option value="@activityRegisterModel.user_id">@activityRegisterModel.company</option>
+                                        <p>@String.Format(sellerName)</p>
                                     }
-                                </select>
-                            </td>
+                                </td>
+                            }
+                            else {
+                                <td class="centerbox2"></td>
+                            }
                         }
                     </tr>
-                }
-            </tbody>
-            <tfoot>
-
-                <tr class="tfootbg">
-                    <td class="centerbox2">雙方有媒合意願</td>
-                    @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                    {
-                        if (Model.sellerCompanyNamereply1Dic.ContainsKey(buyerInfoModel.buyer_id))
-                        {
-                            <td class="centerbox2">
-                                @foreach (string sellerName in Model.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id])
-                                {
-                                    <p>@String.Format(sellerName)</p>
-                                }
-                            </td>
-                        }
-                        else {
-                            <td class="centerbox2"></td>
-                        }
-                    }
-                </tr>
-
-                <tr>
-                    <td class="centerbox2">賣方有媒合意願</td>
-                    @*@foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
-                        {
-                            if (matchmakingNeedModel.buyer_reply == "0")
-                            {
-                                <p>@matchmakingNeedModel.company</p>
-                            }
-                        }*@
-
-                    @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                    {
-                        if (Model.sellerCompanyNamereply0Dic.ContainsKey(buyerInfoModel.buyer_id))
-                        {
-                            <td class="centerbox2">
-                                @foreach (string sellerName in Model.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id])
-                                {
-                                    <p>@String.Format(sellerName)</p>
-                                }
-                            </td>
-                        }
-                        else {
-                            <td class="centerbox2"></td>
-                        }
-                    }
-                </tr>
-            </tfoot>
-        </table>
+                </tfoot>
+            </table>
+        </form>
     </article>
 </div>
+
+<script>
+    $(function () {
+
+        /*儲存媒合資料*/
+        $("#saveMatchData").click(function () {
+            $("#form").submit();
+        });
+
+    });
+
+</script>

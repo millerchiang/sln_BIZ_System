@@ -118,7 +118,12 @@ namespace prj_BIZ_System.Services
             mapper.Update("Match.UpdateMatchTimeInterval", schedulePeriodSetModel);
         }
 
+        //MatchmakingScheduleModel
+        public void CertainTimeMatchSellerInsert(MatchmakingScheduleModel matchmakingScheduleModel)
+        {
+            mapper.Insert("Match.InsertCertainTimeMatchSeller", matchmakingScheduleModel);
+        }
 
-        
+
     }
 }
