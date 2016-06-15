@@ -754,7 +754,7 @@
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
-    <Content Include="Views\Activity\ActivityRegisterCheck.cshtml" />
+    <Content Include="Views\Manager\ActivityRegisterCheck.cshtml" />
     <Content Include="Views\Activity\ActivityInfo.cshtml" />
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
@@ -774,18 +774,18 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Activity\ActivityList.cshtml" />
+    <Content Include="Views\Manager\ActivityList.cshtml" />
     <Content Include="Views\Home\Verification.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Activity\EditActivity.cshtml" />
+    <Content Include="Views\Manager\EditActivity.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
-    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\Manager\UserList.cshtml" />
     <Content Include="Views\Activity\EditBuyerInfo.cshtml" />
     <Content Include="Views\Activity\BuyerInfoList.cshtml" />
-    <Content Include="Views\Activity\B_NewsList.cshtml" />
-    <Content Include="Views\Activity\EditNewsActivity.cshtml" />
-    <Content Include="Views\Activity\EditNewsInfo.cshtml" />
+    <Content Include="Views\Manager\B_NewsList.cshtml" />
+    <Content Include="Views\Manager\EditNewsActivity.cshtml" />
+    <Content Include="Views\Manager\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
@@ -811,6 +811,7 @@
     <Content Include="Views\Password\ForgetPassword.cshtml" />
     <Content Include="Views\Manager\Login.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Manager\UserEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

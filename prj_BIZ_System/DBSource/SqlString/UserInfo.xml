@@ -167,6 +167,21 @@
       FROM user_info
     </select>
 
+    <!--關鍵字查詢-->
+    <select id="SelectAllkw" resultMap="UserInfo-result">
+      SELECT *
+      FROM user_info
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="user_id">
+          user_id  like '%'||#user_id#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="company">
+          company like '%'||#company#||'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+
     <!--查詢單筆-->
     <select id="SelectOne" resultMap="UserInfo-result">
       SELECT *

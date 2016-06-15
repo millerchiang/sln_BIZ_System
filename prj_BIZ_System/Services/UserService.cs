@@ -20,6 +20,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAll", null);
         }
 
+        public IList<UserInfoModel> GetUserInfoListkw(string user_id, string company)
+        {
+            UserInfoModel tempModel = new UserInfoModel { user_id = user_id, company = company };
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAllkw", tempModel);
+        }
+
         public UserInfoModel GeUserInfoOne(string user_id)
         {
             return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOne", user_id);

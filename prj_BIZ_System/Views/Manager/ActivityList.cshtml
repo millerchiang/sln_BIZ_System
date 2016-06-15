@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Activity_ViewModel
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
 
 @{
     ViewBag.Title = "Activity List";
@@ -58,8 +58,8 @@
                     <td>@newInfo.organizer_en</td>
 -->
                     <td>
-                        <a href="/Activity/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
-                        <a href="/Activity/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
+                        <a href="/Manager/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
+                        <a href="/Manager/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
                     </td>
                     <td>
                         <a href="@Url.Action("MatchScheduleTime","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>

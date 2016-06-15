@@ -6,6 +6,20 @@ using System.Web;
 namespace prj_BIZ_System.Models
 {
 
+    public class Manager_Activity_ViewModel
+    {
+        public UserInfoModel userinfo { get; set; }
+        public ActivityInfoModel activityinfo { get; set; }
+        public NewsModel news { get; set; }
+        public ActivityRegisterModel activityregister { get; set; }
+        public IList<UserInfoModel> userinfoList { get; set; }
+        public IList<ActivityInfoModel> activityinfoList { get; set; }
+        public IList<NewsModel> newsList { get; set; }
+        public IList<ActivityRegisterModel> activityregisterList { get; set; }
+        public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
+        public IList<EnterpriseSortModel> usersortList { get; set; }
+    }
+
     public class Activity_ViewModel
     {
         public ActivityInfoModel activityinfo { get; set; }
