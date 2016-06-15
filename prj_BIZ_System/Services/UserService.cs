@@ -108,8 +108,11 @@ namespace prj_BIZ_System.Services
             return true;
         }
 
-        public void UserInfoMultiInsert(string targetLocation)
+        public Dictionary<string, object> UserInfoMultiInsert(string targetLocation)
         {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            Dictionary<string, object> successUserInfos = new Dictionary<string, object>();
+            Dictionary<string, object> failUserInfos = new Dictionary<string, object>();
             FileStream fs = null;
             HSSFWorkbook wb = null;
             HSSFSheet sheet = null;
@@ -122,13 +125,13 @@ namespace prj_BIZ_System.Services
                 IRow headerRow = sheet.GetRow(0);
                 colCount = headerRow.LastCellNum;
                 UserInfoModel md = null;
-                for(int r=0; r<= sheet.LastRowNum; j++)
+                for(int r=0; r<= sheet.LastRowNum; r++)
                 {
                     md = new UserInfoModel();
                     int d = 0 ;
                     headerRow = sheet.GetRow(r);
 
-                                        headerRow.GetCell(d++); //編號
+                                          headerRow.GetCell(d++); //編號
                     md.user_id          = headerRow.GetCell(d++).ToString(); //帳號*(國內:請用統編；國外: 自訂)
                     md.enterprise_type  = headerRow.GetCell(d++).ToString(); //密碼*(8 - 12字，英數混合，不含特殊字元)
                     md.enterprise_type  = headerRow.GetCell(d++).ToString(); //企業類型*(0:國內企業；1:國外企業)
@@ -140,16 +143,45 @@ namespace prj_BIZ_System.Services
                     md.contact          = headerRow.GetCell(d++).ToString(); //主聯絡人
                     md.phone            = headerRow.GetCell(d++).ToString(); //電話號碼*
                     md.email            = headerRow.GetCell(d++).ToString(); //電子郵件*
-                    md.capital          = headerRow.GetCell(d++)!=null? Convert.ToInt32(headerRow.GetCell(d++).ToString()) : 0; //資本額*(單位:萬)
+                    md.capital          = headerRow.GetCell(d++)!=null? Convert.ToInt32(headerRow.GetCell(d++).ToString()) : -1; //資本額*(單位:萬)
                     md.revenue          = headerRow.GetCell(d++).ToString(); //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
                     md.website          = headerRow.GetCell(d++).ToString(); //企業網址
                     md.info             = headerRow.GetCell(d++).ToString(); //企業簡介(中文)
                     md.info_en          = headerRow.GetCell(d++).ToString(); //企業簡介(英文)
 
-                    var result = UserInfoInsertOne(md);
+                    if(md.capital == -1)
+                    {
+                        failUserInfos.Add(md.user_id, md);
+                    }
+                    else
+                    {
+                        object insertResult = null ;
+                        try
+                        {
+                            insertResult = UserInfoInsertOne(md);
+                            if (insertResult != null)
+                            {
+                                successUserInfos.Add(md.user_id, md);
+                            }
+                            else
+                            {
+                                failUserInfos.Add(md.user_id, md);
+                            }
+                        }
+                        catch (Exception ex1)
+                        {
+                            failUserInfos.Add(md.user_id, md);
+                        }
+                        finally
+                        {
 
+                        }
+
+                    }
 
                 }
+                result.Add("success", successUserInfos);
+                result.Add("fail"   , failUserInfos);
             }
             catch (Exception ex)
             {
@@ -160,6 +192,7 @@ namespace prj_BIZ_System.Services
             {
                 fs.Close();
             }
+            return result; 
         }
 
         #region 產品說明

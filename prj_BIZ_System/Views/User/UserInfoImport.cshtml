@@ -10,7 +10,7 @@
 }
 
 <div class="article_col1">			
-	<form action="@Url.Action("UserInfoMultiInsert","User")" id="form" class="form_box sys_searchbox" method="post">	
+	<form action="@Url.Action("UserInfoMultiInsert","User")" id="form" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">	
 		<h2>帳號匯入</h2>					
 				
 			<a href="@Url.Content("~/Content/Template/Import/user_import_sample.xls")" class="deleteSbu">下載範本</a>
@@ -19,7 +19,7 @@
 			<input type="file" id="upexl" name="iupexl">
 			<input type="text" id="upexl_name" name="upexl_name">
 
-			<a href="javascript:void(0)" class="addbu">確定匯入</a>
+			<a href="javascript:void(0)" class="addbu" id="submit">確定匯入</a>
 						
 	</form>
 	<article>
@@ -117,6 +117,10 @@
     });
 
     function init() {
+        $("#submit").click(function () {
+            $("#form").submit();
+        });
+
         var re_for_xls = /\.(xls)$/i;
         $("#form").submit(function () {
 
