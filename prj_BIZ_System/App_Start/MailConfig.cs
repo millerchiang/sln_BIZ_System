@@ -201,9 +201,9 @@ namespace prj_BIZ_System.App_Start
             return rand_pw.ToString();
         }
 
-        private static bool IsPasswordOK(String InputString)
+        public static bool IsPasswordOK(String InputString)
         {
-            return (InputString != string.Empty && !Regex.IsMatch(InputString, "^(?=.*[a-zA-Z])(?=.*\\d).{8,12}$"))
+            return (InputString != string.Empty && Regex.IsMatch(InputString, "^(?=.*[a-zA-Z])(?=.*\\d).{8,12}$"))
                 ? true : false;
         }
 
