@@ -10,6 +10,7 @@ using System.Collections;
 using NPOI.HSSF.UserModel;
 using System.IO;
 using NPOI.SS.UserModel;
+using prj_BIZ_System.App_Start;
 
 namespace prj_BIZ_System.Services
 {
@@ -208,14 +209,12 @@ namespace prj_BIZ_System.Services
                                     failUserInfos.Add(r-1, tempRecord);
                                     allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
                                 }
-                                Console.WriteLine(errMsg);
                             }
                         }
                     }
                     catch (Exception ex2) // null exception
                     {
                         string errMsg = ex2.ToString();
-                        Console.WriteLine(errMsg);
                         failUserInfos.Add(r-1, tempRecord);
                         allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
                     }
@@ -229,7 +228,6 @@ namespace prj_BIZ_System.Services
             catch (Exception ex)
             {
                 string errMsg = ex.ToString();
-                Console.WriteLine(errMsg);
             }
             finally
             {
@@ -246,6 +244,7 @@ namespace prj_BIZ_System.Services
             int capital = -1;
             return string.IsNullOrEmpty(tempRecord["user_id"])         //帳號*(國內:請用統編；國外: 自訂)
                     || string.IsNullOrEmpty(tempRecord["user_pw"])         //密碼*(8 - 12字，英數混合，不含特殊字元)
+                    || !MailHelper.IsPasswordOK(tempRecord["user_pw"])      
                     || string.IsNullOrEmpty(tempRecord["enterprise_type"]) //企業類型*(0:國內企業；1:國外企業)
                     || string.IsNullOrEmpty(tempRecord["company"])         //公司名稱*(中文)
                     || string.IsNullOrEmpty(tempRecord["phone"])           //電話號碼*
