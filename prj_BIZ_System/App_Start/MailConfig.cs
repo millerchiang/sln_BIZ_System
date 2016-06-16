@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -105,9 +107,10 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 發送Email (收信者Email地址 , Email內容 , Email種類)
         /// </summary>
-        public static void doSendMail(string to, Dictionary<string, string> param, MailType type)
+        public static string doSendMail(string to, Dictionary<string, string> param, MailType type)
         {
-            if (!string.IsNullOrEmpty(to))
+            string errorInfo = "";
+            if (!string.IsNullOrEmpty(to) && checkEmail(to, out errorInfo)==200)
             {
                 MailSetting[] mailSetings = MailConfig.mailSetings;
 
@@ -134,6 +137,7 @@ namespace prj_BIZ_System.App_Start
                 client.Credentials = new NetworkCredential(mailSetings[(int)type].account, mailSetings[(int)type].password);
                 client.Send(msg);
             }
+            return errorInfo;
         }
 
         /// <summary>
@@ -201,12 +205,90 @@ namespace prj_BIZ_System.App_Start
             return rand_pw.ToString();
         }
 
-        private static bool IsPasswordOK(String InputString)
+        public static bool IsPasswordOK(String InputString)
         {
             return (InputString != string.Empty && Regex.IsMatch(InputString, "^(?=.*[a-zA-Z])(?=.*\\d).{8,12}$"))
                 ? true : false;
         }
 
+        /// <summary>
+        /// 檢查Mail伺服器 (收信者Email地址 , out string 錯誤訊息)
+        /// </summary>
+        public static int checkEmail(string mailAddress, out string errorInfo)
+        {
+            Regex reg = new Regex("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
+            if (!reg.IsMatch(mailAddress))
+            {
+                errorInfo = "Email Format error!";
+                return 405;
+            }
+
+            string mailServer = getMailServer(mailAddress);
+            if (mailServer == null)
+
+            {
+                errorInfo = "Email Server error!";
+                return 404;
+            }
+            TcpClient tcpc = new TcpClient();
+            tcpc.NoDelay = true;
+            tcpc.ReceiveTimeout = 3000;
+            tcpc.SendTimeout = 3000;
+
+            try
+            {
+                tcpc.Connect(mailServer, 25);
+                NetworkStream s = tcpc.GetStream();
+                StreamReader sr = new StreamReader(s, Encoding.Default);
+                StreamWriter sw = new StreamWriter(s, Encoding.Default);
+                string strResponse = "";
+                string strTestFrom = mailAddress;
+                sw.WriteLine("helo " + mailServer);
+                sw.WriteLine("mail from:<" + mailAddress + ">");
+                sw.WriteLine("rcpt to:<" + strTestFrom + ">");
+                strResponse = sr.ReadLine();
+
+                if (!strResponse.StartsWith("2"))
+                {
+                    errorInfo = "UserName error!";
+                    return 403;
+                }
+
+                sw.WriteLine("quit");
+                errorInfo = String.Empty;
+                return 200;
+            }
+            catch (Exception ee)
+            {
+                errorInfo = ee.Message.ToString();
+                return 403;
+            }
+
+        }
+
+
+        private static string getMailServer(string strEmail)
+        {
+            string strDomain = strEmail.Split('@')[1];
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.UseShellExecute = false;
+            info.RedirectStandardInput = true;
+            info.RedirectStandardOutput = true;
+            info.FileName = "nslookup";
+            info.CreateNoWindow = true;
+            info.Arguments = "-type=mx " + strDomain;
+            Process ns = Process.Start(info);
+            StreamReader sout = ns.StandardOutput;
+
+            Regex reg = new Regex("mail exchanger = (?<mailServer>[^\\s].*)");
+            string strResponse = "";
+            while ((strResponse = sout.ReadLine()) != null)
+            {
+                Match amatch = reg.Match(strResponse);
+                if (reg.Match(strResponse).Success) return amatch.Groups["mailServer"].Value;
+            }
+            return null;
+        }
     }
 
     /// <summary>
