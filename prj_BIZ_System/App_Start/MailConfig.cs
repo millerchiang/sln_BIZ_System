@@ -110,7 +110,7 @@ namespace prj_BIZ_System.App_Start
         public static string doSendMail(string to, Dictionary<string, string> param, MailType type)
         {
             string errorInfo = "";
-            if (!string.IsNullOrEmpty(to) && checkEmail(to, out errorInfo)==200)
+            if (checkEmail(to, out errorInfo)==200 && !string.IsNullOrEmpty(to))
             {
                 MailSetting[] mailSetings = MailConfig.mailSetings;
 
