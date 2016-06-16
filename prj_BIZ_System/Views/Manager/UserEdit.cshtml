@@ -1,0 +1,275 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+}
+
+@{
+    string enterprise_type01 = "checked";
+    string enterprise_type02 = "";
+    string revenue00 = "";
+    string revenue01 = "";
+    string revenue02 = "";
+    string revenue03 = "";
+    string revenue04 = "";
+    string revenue05 = "";
+    string revenue06 = "";
+    if (ViewBag.PageType == "Create")
+    {
+
+        Model.userinfo.user_id = "";
+        Model.userinfo.user_pw = "";
+        Model.userinfo.company = "";
+        Model.userinfo.company_en = "";
+        Model.userinfo.leader = "";
+        Model.userinfo.addr = "";
+        Model.userinfo.contact = "";
+        Model.userinfo.leader_en = "";
+        Model.userinfo.addr_en = "";
+        Model.userinfo.contact_en = "";
+        Model.userinfo.phone = "";
+        Model.userinfo.email = "";
+        Model.userinfo.capital = 0;
+        Model.userinfo.website = "";
+        Model.userinfo.info = "";
+        Model.userinfo.info_en = "";
+        Model.userinfo.id_enable = "0";
+
+    }
+    else {
+
+        if (Model.userinfo.enterprise_type == "0")
+        {
+            enterprise_type01 = "checked";
+        }
+        else
+        {
+            enterprise_type02 = "checked";
+        }
+        if (Model.userinfo.revenue == "0")
+        {
+            revenue00 = "checked";
+        }
+        else if (Model.userinfo.revenue == "1")
+        {
+            revenue01 = "checked";
+        }
+        else if (Model.userinfo.revenue == "2")
+        {
+            revenue02 = "checked";
+        }
+        else if (Model.userinfo.revenue == "3")
+        {
+            revenue03 = "checked";
+        }
+        else if (Model.userinfo.revenue == "4")
+        {
+            revenue04 = "checked";
+        }
+        else if (Model.userinfo.revenue == "5")
+        {
+            revenue05 = "checked";
+        }
+        else if (Model.userinfo.revenue == "6")
+        {
+            revenue06 = "checked";
+        }
+
+    }
+
+}
+
+
+
+            <article class="form_box article_col1">
+
+                <h2>@ViewBag.tname</h2>
+
+                <a href="/User/ProductList" class="buinfor">產品說明</a>
+                <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
+
+                <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
+                    <div class="regis_col01L">
+
+                        <div id="result">
+                            @if (Model.userinfo.logo_img != null)
+                            {
+                                <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                            }
+                            else
+                            {
+                                <img src="/images/logopic.jpg" alt="">
+                            }
+                        </div>
+                        <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>
+                        <input type="file" id="id_image_large" name="logo_img">
+                    </div>
+                    <div class="regis_col01R">
+                        <!--
+                        <div class="regis_completebox">
+                            <div class="regis_complete" style="width:70%">
+                                70%
+                            </div>
+                        </div>
+                        -->
+                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+<!--
+                        <label class="regis_col01R_label">
+                            是否啟用
+                        </label>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="eid_enable01" name="enterprise_type" value="0" @enterprise_type01>
+                            <label for="enterprise_type01">尚未啟用</label>
+                            <input type="radio" class="radioinput" id="id_enable02" name="enterprise_type" value="1" @enterprise_type02>
+                            <label for="enterprise_type02">啟用</label>
+                        </div>
+-->
+
+                        <label class="regis_col01R_label">
+                            企業類型
+                        </label>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01>
+                            <label for="enterprise_type01">國內企業</label>
+                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02>
+                            <label for="enterprise_type02">外國企業</label>
+                        </div>
+                        <label for="" class="regis_col01R_label spanRed">
+                            統一編號/帳號
+                        </label>
+                        @if (ViewBag.PageType == "Create")
+                        {
+                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" required>
+                        }
+                        else
+                        {
+                            <input type="hidden" name="user_id" value="@Model.userinfo.user_id">
+                            <label for="" class="regis_col01R_label">
+                                @Model.userinfo.user_id
+                            </label>
+
+                        }
+
+                        <label for="" class="regis_col01R_label spanRed">
+                            密碼
+                        </label>
+                        <input type="password" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                        <label for="" class="regis_col01R_label">
+                            公司名稱(中)
+                        </label>
+                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col01R_input">
+                        <label for="" class="regis_col01R_label spanRed">
+                            公司名稱(英)(中英擇一必填)
+                        </label>
+                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col01R_input">
+
+                    </div>
+                    <label for="leader" class="regis_col02L">代表人(中)</label>
+                    <input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">地址(中)</label>
+                    <input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
+                    <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
+                    <input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
+                    <label for="leader" class="regis_col02L">代表人(英)</label>
+                    <input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">地址(英)</label>
+                    <input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
+                    <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
+                    <input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
+                    <label for="name" class="regis_col02L spanRed">電話/分機</label>
+                    <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col02R" required>
+                    <label for="email" class="regis_col02L spanRed">電子郵件</label>
+                    <input type="email" name="email" value="@Model.userinfo.email" class="regis_col02R">
+                    <label for="capital" class="regis_col02L spanRed">資本額</label>
+                    <input type="text" name="capital" value="@Model.userinfo.capital" class="regis_col02R">
+                    <label for="revenue" class="regis_col02L spanRed">營業額</label>
+                    <div class="regis_col02R">
+                        <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
+                        <label for="revenue00">500萬以下</label>
+                        <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
+                        <label for="revenue01">501-1000萬</label>
+                        <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02>
+                        <label for="revenue02">1001-1500萬</label>
+                        <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
+                        <label for="revenue03">1501-3000萬</label>
+                        <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
+                        <label for="revenue04">3001-5000萬</label>
+                        <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
+                        <label for="revenue05">5000萬-1億</label>
+                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06 required>
+                        <label for="revenue06">一億以上</label>
+                    </div>
+                    <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+                    <div class="regis_col02R verticalslist">
+
+                    @foreach (var sortList in Model.enterprisesortList)
+                    {
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id@sortList.enterprise_sort_name</label>
+
+                    }
+                    </div>
+                    <label for="website" class="regis_col02L">企業網址</label>
+                    <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
+                    <label class="regis_col02L">企業簡介(中)</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info">@Model.userinfo.info</textarea>
+                    </div>
+                    <label class="regis_col02L">企業簡介(英)</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
+                    </div>
+
+                    <div class="centerbox">
+                        <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
+                    </div>
+
+                </form>
+            </article>
+
+<script>
+    $(function () {
+        init();
+        render();
+    });
+
+    function init() {
+        $(function()
+        {
+            $("#id_image_large").change(function(){
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+			
+                    reader.onload = function (e) {
+                        $('#result img').attr('src', e.target.result);
+                    }
+			
+                    reader.readAsDataURL(this.files[0]);
+                }
+                alert("Logo圖片選擇成功");
+            });
+
+        }) ;
+
+    }
+
+    function render(){
+
+        @if(ViewBag.Action.Equals("UserInsertUpdate")){
+            <text>
+                var UpdateRender = function(){
+                    $.each(userSortList,function(index,el){
+                        $("input[name='sort_id'][value='"+el.sort_id+"']").prop("checked",true);
+                    });
+                };
+                var userSortList = @Html.Raw(ViewBag.userSortList);
+                UpdateRender();
+            </text>
+        }
+    }
+
+</script>

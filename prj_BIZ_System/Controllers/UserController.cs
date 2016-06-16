@@ -23,13 +23,6 @@ namespace prj_BIZ_System.Controllers
             userModel = new User_ViewModel();
         }
 
-        public ActionResult UserList()
-        {
-            userModel.userinfoList = userService.GetUserInfoList();
-            return View(userModel);
-        }
-
-
         [HttpGet]
         public ActionResult UserInfo()
         {
@@ -96,13 +89,6 @@ namespace prj_BIZ_System.Controllers
             return View(userModel);
         }
 
-
-
-        public ActionResult DeleteUser()
-        {
-            userService.UserInfoDelectOne(Request["user_id"]);
-            return Redirect("UserList");
-        }
 
         [HttpPost]
         public ActionResult UserInsertUpdate(UserInfoModel model , int[] sort_id , HttpPostedFileBase logo_img)

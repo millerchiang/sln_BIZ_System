@@ -18,6 +18,7 @@ namespace prj_BIZ_System.Controllers
         {
             passwordService = new PasswordService();
             passwordViewModel = new Password_ViewModel();
+            ViewBag.Form = "Manager";
         }
 
         // GET: Password

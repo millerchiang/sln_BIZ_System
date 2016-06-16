@@ -15,10 +15,10 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityRegisterModel>("Match.SelectSellerAccountPassActivity", param);
         }
 
-        public IList<ActivityRegisterModel> GetBuyerMatchToSellerName(int activity_id)
+        public IList<ActivityRegisterModel> GetCertainActivityHaveCheckSellerNameList(int activity_id)
         {
             ActivityRegisterModel param = new ActivityRegisterModel() { activity_id = activity_id };
-            return mapper.QueryForList<ActivityRegisterModel>("Match.SelectBuyerMatchToSellerName", param);
+            return mapper.QueryForList<ActivityRegisterModel>("Match.SelectCertainActivityHaveCheckSellerName", param);
         }
 
         public IList<ActivityRegisterModel> GetSellerJoinThoseActivityList(string user_id)
@@ -36,7 +36,7 @@ namespace prj_BIZ_System.Services
         }
 
         //BuyerInfoModel
-        public IList<BuyerInfoModel> GetSellerMatchToBuyerNameAndNeed(int activity_id)
+        public IList<BuyerInfoModel> GetSellerMatchToBuyerNameAndNeedList(int activity_id)
         {
             BuyerInfoModel param = new BuyerInfoModel() { activity_id = activity_id};
             return mapper.QueryForList<BuyerInfoModel>("Match.SelectSellerMatchToBuyerNameAndNeed", param);
@@ -48,7 +48,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<BuyerInfoModel>("Match.SelectBuyerAccountPassActivity", param);
         }
 
-
+        public IList<BuyerInfoModel> GetBuyerListAllList(int activity_id)
+        {
+            BuyerInfoModel param = new BuyerInfoModel() { activity_id = activity_id };
+            return mapper.QueryForList<BuyerInfoModel>("Match.SelectBuyerListAll", param);
+        }
 
         //MatchmakingNeedModel
         public void MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
@@ -67,9 +71,9 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectSellerForActivityMatchBuyer", param);
         }
 
-        public IList<MatchmakingNeedModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id)
+        public IList<MatchmakingNeedModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id, string buyer_reply)
         {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id };
+            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id, buyer_reply = buyer_reply };
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectBuyerForActivityMatchSeller", param);
         }
 
@@ -83,6 +87,12 @@ namespace prj_BIZ_System.Services
         {
             MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id };
             return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
+        }
+
+        public IList<MatchmakingNeedModel> GetCertainActivityWithBuyerReplyAllList(int activity_id, string buyer_reply)
+        {
+            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_reply = buyer_reply };
+            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityWithBuyerReplyAll", param);
         }
 
         //SchedulePeriodSetModel
@@ -107,6 +117,13 @@ namespace prj_BIZ_System.Services
         {
             mapper.Update("Match.UpdateMatchTimeInterval", schedulePeriodSetModel);
         }
+
+        //MatchmakingScheduleModel
+        public void CertainTimeMatchSellerInsert(MatchmakingScheduleModel matchmakingScheduleModel)
+        {
+            mapper.Insert("Match.InsertCertainTimeMatchSeller", matchmakingScheduleModel);
+        }
+
 
     }
 }
