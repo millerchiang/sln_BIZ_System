@@ -28,18 +28,16 @@ namespace prj_BIZ_System.WebService
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
             string errorInfo;
-            //int emailCode = checkEmail(userInfoModel.email, out errorInfo);
-            //if (checkEmail(userInfoModel.email, out errorInfo) == 200)
-            //{
-            //    return true;
-            //}
+            int emailCode = MailHelper.checkEmail(userInfoModel.email, out errorInfo);
 
+            if (!errorInfo.Equals("")) return "Email fail";
 
             bool isInsertSuccess = insertEnterpriseId(userInfoModel, sort_id);
             object userInfoId = null;
             if (isInsertSuccess)
             {
                 userInfoId = userService.UserInfoInsertOne(userInfoModel);
+                SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
             }
             if (isInsertSuccess == true && userInfoId != null)
             {
@@ -47,7 +45,7 @@ namespace prj_BIZ_System.WebService
             }
             else
             {
-                return null;
+                return "UserInfoInsert fail";
             }
         }
 
