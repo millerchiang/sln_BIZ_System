@@ -1,7 +1,13 @@
-﻿@helper PagesList(int current_page , int total_page) {
+﻿@using prj_BIZ_System.App_Start
+@helper PagesList(PageList<object> page) {
 
     <ul class="pagelist">
-        <li><a href="">&lt;</a></li>
+
+        @if (page.currentPage > 1)
+        {
+            <li><a href="">&lt;</a></li>
+        }
+        <!--
         <li><a href="">1</a></li>
         <li><a href="">2</a></li>
         <li><a href="">3</a></li>
@@ -12,7 +18,16 @@
         <li><a href="">8</a></li>
         <li><a href="">9</a></li>
         <li><a href="">10</a></li>
-        <li><a href="">&gt;</a></li>
+        -->
+        @for (var i = 0; i < page.maxPage; i++)
+        {
+            <li><a href="">@(i + 1)</a></li>
+        }
+
+        @if (page.maxPage > 1 && page.currentPage != page.maxPage)
+        {
+            <li><a href="">&gt;</a></li>
+        }
     </ul>
 
 
