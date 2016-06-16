@@ -7,9 +7,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using WebApiContrib.ModelBinders;
 
 namespace prj_BIZ_System.WebService
 {
+    [MvcStyleBinding]
     public class ActivityController : ApiController
     {
         ActivityService activityService = new ActivityService();
@@ -32,11 +34,39 @@ namespace prj_BIZ_System.WebService
             return activityService.GetEnterpriseSortAndListOne(user_id);
         }
 
-        //[HttpPost]
-        //public IList<NewsModel> ActivityRegister(UserInfoModel userInfoModel)
-        //{
+        [HttpGet]
+        public ActivityRegisterModel GetUserActivityRegister(int activity_id, string user_id)
+        {
+            return activityService.GetActivityRegisterSelectOne(activity_id, user_id);
+        }
 
-        //    return activityService.GetNewsAll();
-        //}
+        [HttpPost]
+        public object ActivityRegister(ActivityRegisterModel activityRegisterModel)
+        {
+            object activityRegisterId = null;
+            activityRegisterModel.manager_check = "0";
+            activityRegisterModel.create_time = DateTime.Now;
+            try
+            {
+                activityRegisterId = activityService.ActivityRegisterInserOne(activityRegisterModel);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return activityRegisterId;
+        }
+
+        [HttpPost]
+        public int modifyActivityRegister(ActivityRegisterModel activityRegisterModel)
+        {
+            return activityService.ActivityRegisterUpdateOne(activityRegisterModel);
+        }
+
+        [HttpPost]
+        public int cancelActivityRegister(int activity_id, string user_id)
+        {
+            return activityService.ActivityRegisterDeleteOne(activity_id, user_id);
+        }
     }
 }

@@ -163,9 +163,9 @@ namespace prj_BIZ_System.Services
             return (ActivityRegisterModel)mapper.QueryForObject("ActivityInfo.SelectActivityRegisterSelectOne", param);
         }
 
-        public void ActivityRegisterInserOne(ActivityRegisterModel activityRegisterModel)
+        public object ActivityRegisterInserOne(ActivityRegisterModel activityRegisterModel)
         {
-            mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
+            return mapper.Insert("ActivityInfo.InsertActivityRegisterOne", activityRegisterModel);
         }
 
         public void ActivityRegisterUpdateOneChk(ActivityRegisterModel activityRegisterModel)
@@ -173,15 +173,15 @@ namespace prj_BIZ_System.Services
             mapper.Update("ActivityInfo.UpdateActivityRegisterOneChk", activityRegisterModel);
         }
 
-        public void ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
+        public int ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
         {
-            mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);
+            return mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);
         }
 
-        public void ActivityRegisterDeleteOne(int activity_id, string user_id)
+        public int ActivityRegisterDeleteOne(int activity_id, string user_id)
         {
             ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id, user_id = user_id };
-            mapper.Update("ActivityInfo.DeleteActivityRegisterOne", param);
+            return mapper.Update("ActivityInfo.DeleteActivityRegisterOne", param);
         }
 
         //ActivityProductSelectModel******************************************************************************//
