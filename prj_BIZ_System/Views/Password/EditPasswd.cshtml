@@ -1,0 +1,86 @@
+﻿@using prj_BIZ_System.Models
+
+@{
+    ViewBag.Title = "EditPassword";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/password_edit.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <article class="article_col2">
+        <form id="form" action="@Url.Action("PasswordInsertUpdate","Password")" class="form_box" method="post">
+            <h2>修改密碼</h2>
+            <ul class="loginbox">
+                <li>
+                    <label for="">舊密碼:</label>
+                    <input name="old_pw" type="password" text=""><br>
+                </li>
+                <li>
+                    <label for="">新密碼:</label>
+                    <input name="new_pw" type="password" text=""><br>
+                </li>
+                <li>
+                    <label for="">確認新密碼:</label>
+                    <input name="re_new_pw" type="password" text=""><br>
+                </li>
+            </ul>
+            <div class="centerbox">
+                <button class="buinfor" type="submit">修改密碼</button>
+            </div>
+        </form>
+    </article>
+</div>
+
+<script>
+    $(function () {
+
+        @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+        {
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["pw_errMsg"]';
+                if (pw_errMsg != '')
+                {
+                    alert(pw_errMsg);
+                }
+            }
+            check();
+            </text>
+        }
+
+        $("#form").submit(function () {
+            var old_pw = $("input[name='old_pw']").val();
+            var new_pw = $("input[name='new_pw']").val();
+            var re_new_pw = $("input[name='re_new_pw']").val();
+            var errMsg = checkValidationOk(old_pw, new_pw, re_new_pw);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+    });
+
+    
+
+    function checkValidationOk(old_pw , new_pw, re_new_pw) {
+        var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
+        var errMsg = '';
+        if (old_pw == null || old_pw == '') {
+            errMsg += '舊密碼不可為空白\n';
+        }
+        if (new_pw == null || new_pw == '') {
+            errMsg += '新密碼不可為空白\n';
+        } else {
+            if(!reg.test(new_pw)){
+                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+            }
+        }
+        if (re_new_pw == null || re_new_pw == '') {
+            errMsg += '確認新密碼不可為空白\n';
+        }
+
+        return errMsg;
+    }
+</script>

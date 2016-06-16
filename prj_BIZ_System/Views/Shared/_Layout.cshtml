@@ -1,13 +1,29 @@
 ﻿<!DOCTYPE html>
 
-@if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
-{
 
-    if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+@if (ViewBag.Form == "Manager")
+{
+    if (ViewBag.Title != "Login")
     {
-        Response.Redirect("~/Home/Login");
+        if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
+        {
+            Response.Redirect("~/Manager/Login");
+        }
     }
 }
+
+else
+{
+    if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+    {
+
+        if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+        {
+            Response.Redirect("~/Home/Login");
+        }
+    }
+}
+
 
 <html>
 <head>
@@ -29,40 +45,93 @@
                 <li><a href="" class="active">中文</a></li>
             </ul>
             <h1 class="head_logo">
-                <a href="~/Home/Index">Matchmaking System</a>
+@if (ViewBag.Form != "Manager")
+{
+    <a href="~/Home/Index">Matchmaking System</a>
+}
+else
+{
+    <a href="~/Manager/Index">Matchmaking System</a>
+}
             </h1>
             <nav class="head_nav">
                 <ul>
-                    @if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
+                    @if (ViewBag.Form != "Manager")
                     {
-                        <li>@Html.ActionLink("登入", "Login", "Home")</li>
-                    }
-                    else if (ViewBag.Title == "Login")
-                    {
+
+                        if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
+                        {
+                            <li>@Html.ActionLink("登入", "Login", "Home")</li>
+                        }
+                        else if (ViewBag.Title == "Login")
+                        {
+                        }
+                        else
+                        {
+
+                            <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
+                            <li>
+                                <a href="javascript:void(0)">帳號管理</a>
+                                <ul>
+                                    <li><a href="/User/Register">我的資料庫</a></li>
+                                    <li><a href="/Match/AccountManage">商務對接</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="/Home/News">最新消息</a>
+                                <ul>
+                                    <li><a href="/Home/News?type=1">新聞消息</a></li>
+                                    <li><a href="/Home/News?type=0">活動消息</a></li>
+                                </ul>
+                            </li>
+
+                            <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+
+                        }
                     }
                     else
                     {
-
-                        <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
-                        <li>
-                            <a href="javascript:void(0)">帳號管理</a>
-                            <ul>
-                                <li><a href="/User/Register">我的資料庫</a></li>
-                                <li><a href="/Match/AccountManage">商務對接</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="/Home/News">最新消息</a>
-                            <ul>
-                                <li><a href="/Home/News?type=1">新聞消息</a></li>
-                                <li><a href="/Home/News?type=0">活動消息</a></li>
-                            </ul>
-                        </li>
-
-                        <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-
+                        if (ViewBag.Title != "Login")
+                        {
+                            <li>
+                                <a href="javascript:void(0)">管理者權限</a>
+                                <ul>
+                                    <li><a href="/Manager/ManagerInfo">管理者帳號</a></li>
+                                    <li><a href="/Manager/Group">群組權限設定</a></li>
+                                    <li><a href="/Password/EditPasswd">管理者密碼修改</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">推播管理</a>
+                                <ul>
+                                    <li><a href="/Push/SearchPushList">自訂推播列表</a></li>
+                                    <li><a href="/Push/EditPushSample">範本管理</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">新聞管理</a>
+                                <ul>
+                                    <li><a href="/Manager/B_NewsList?news_type=1">一般新聞</a></li>
+                                    <li><a href="/Manager/B_NewsList?news_type=0">活動新聞</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">活動管理</a>
+                                <ul>
+                                    <li><a href="/Manager/EditActivity">新建活動</a></li>
+                                    <li><a href="/Manager/ActivityList">活動列表</a></li>
+                                    <li><a href="/Manager/ActivityRegisterCheck">活動報名審核</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)">產業會員管理</a>
+                                <ul>
+                                    <li><a href="/Manager/UserList">會員帳號管理</a></li>
+                                    <li><a href="">匯入產業會員</a></li>
+                                </ul>
+                            </li>
+                        }
                     }
-                    
 
                 </ul>
             </nav>

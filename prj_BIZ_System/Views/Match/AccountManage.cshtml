@@ -52,7 +52,7 @@
                 @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
                 {
                     <li>
-                        <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id">@activityInfoModel.activity_name</a>
+                        <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink">@activityInfoModel.activity_name</a>
                     </li>
                 }
             </ul>

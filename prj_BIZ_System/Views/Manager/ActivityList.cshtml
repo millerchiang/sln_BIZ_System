@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Activity_ViewModel
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
 
 @{
     ViewBag.Title = "Activity List";
@@ -11,27 +11,38 @@
             <tr>
                 @*<th>建立者帳號</th>*@
                 <th>活動類型</th>
-                <th>活動名稱(中文)</th>
-                <th>活動時間(起)</th>
-                <th>活動時間(迄)</th>
-                <th>活動地點(中文)</th>
-                <th>主辦單位(中文)</th>
-                <th>主要聯絡人</th>
+                <th>活動名稱</th>
+                <th>時間(起)</th>
+                <th>時間(迄)</th>
+                <th>活動地點</th>
+                <th>主辦單位</th>
+                <th>聯絡人</th>
                 <th>手機號碼</th>
                 <th>電子郵件</th>
-                <th>是否顯示商務對接</th>
-                <th>是否顯示媒合時程</th>
+                <th>商務對接</th>
+                <th>媒合時程</th>
+<!--
                 <th>活動名稱(英文)</th>
                 <th>活動地點(英文)</th>
                 <th>主辦單位(英文)</th>
+-->
                 <th></th>
+                <th>媒合大表時間</th>
                 <th>媒合大表</th>
             </tr>
             @foreach (ActivityInfoModel newInfo in Model.activityinfoList)
             {
                 <tr>
                     @*<td>@newInfo.manager_id</td>*@
-                    <td>@newInfo.activity_type</td>
+                    @if (newInfo.activity_type == "0")
+                    {
+                        <td>商洽會</td>
+                    }
+                    else
+                    {
+                        <td>拓銷會</td>
+                    }
+
                     <td>@newInfo.activity_name</td>
                     <td>@newInfo.starttime</td>
                     <td>@newInfo.endtime</td>
@@ -42,15 +53,20 @@
                     <td>@newInfo.email</td>
                     <td>@newInfo.seller_select</td>
                     <td>@newInfo.matchmaking_select</td>
+<!--
                     <td>@newInfo.activity_name_en</td>
                     <td>@newInfo.addr_en</td>
                     <td>@newInfo.organizer_en</td>
+-->
                     <td>
-                        <a href="/Activity/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
-                        <a href="/Activity/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
+                        <a href="/Manager/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
+                        <a href="/Manager/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
                     </td>
                     <td>
-                        <a href="@Url.Action("MatchScheduleTime","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
+                        <a href="@Url.Action("MatchScheduleTime","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表時間</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("MatchScheduleList","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
                     </td>
                 </tr>
             }

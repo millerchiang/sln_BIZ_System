@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Activity_ViewModel
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
 
 @{
     ViewBag.Title = "活動報名審核";
@@ -21,8 +21,8 @@
 
             <label for="" class="regis_col02L">報名期間</label>
             <div class="regis_col02R">
-                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="" />
-                <input type="text" id="endDate" name="endDate" minDate="startDate" value="" />
+                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="@Request["startDate"]" />
+                <input type="text" id="endDate" name="endDate" minDate="startDate" value="@Request["endDate"]" />
             </div>
 
             <label for="selectCompany" class="regis_col02L">廠商名稱</label>
@@ -119,7 +119,7 @@
                     photoId = "#photo" + id;
                     $.ajax({
                         type: "post",
-                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Activity")",
+                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Manager")",
                         cache: false,
                         data: { "register_id": id, "manager_check": 1 },
                         dataType: "json",
@@ -136,7 +136,7 @@
                     //alert(photoId);
                     $.ajax({
                         type: "post",
-                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Activity")",
+                        url: "@Url.Action("EditActivityRegisterUpdateChk", "Manager")",
                         cache: false,
                         data: { "register_id": id, "manager_check": 0 },
                         dataType: "json",
@@ -172,7 +172,7 @@
 
         /* 活動名稱搜尋*/
         $("#selectActivityName").autocomplete({
-            source: "@Url.Action("GetRegisterSearchByActivityName", "Activity")",
+            source: "@Url.Action("GetRegisterSearchByActivityName", "Manager")",
             select: function (event, ui) {
                 var data = ui.item.label;
             }
@@ -180,7 +180,7 @@
 
         /*廠商名稱搜尋*/
         $("#selectCompany").autocomplete({
-            source: "@Url.Action("GetRegisterSearchByCompany", "Activity")",
+            source: "@Url.Action("GetRegisterSearchByCompany", "Manager")",
             select: function (event, ui) {
                 var data = ui.item.label;
             }

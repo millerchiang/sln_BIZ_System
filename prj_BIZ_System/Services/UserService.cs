@@ -20,6 +20,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAll", null);
         }
 
+        public IList<UserInfoModel> GetUserInfoListkw(string user_id, string company)
+        {
+            UserInfoModel tempModel = new UserInfoModel { user_id = user_id, company = company };
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAllkw", tempModel);
+        }
+
         public UserInfoModel GeUserInfoOne(string user_id)
         {
             return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOne", user_id);
@@ -56,11 +62,28 @@ namespace prj_BIZ_System.Services
             var param = new UserInfoModel() { id = id, id_enable = id_enable };
             return mapper.Update("UserInfo.UpdateIdEnable", param) > 0 ;
         }
+
+
         //EnterpriseSortListModel******************************************************************************//
 
         public IList<EnterpriseSortListModel> GetSortList()
         {
             return mapper.QueryForList<EnterpriseSortListModel>("UserInfo.SelectAll_sort", null);
+        }
+
+        //CompanySortModel******************************************************************************//
+
+        public IList<CompanySortModel> SelectUserSortBySortId(int sort_id,string kw)
+        {
+            CompanySortModel param = new CompanySortModel() { sort_id = sort_id , company =kw};
+            return mapper.QueryForList<CompanySortModel>("UserInfo.SelectUserSortBySortId", param);
+        }
+
+
+        public IList<UserInfoModel> SelectUserKw(string kw)
+        {
+            UserInfoModel param = new UserInfoModel() {company = kw };
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectUserKw", param);
         }
 
 

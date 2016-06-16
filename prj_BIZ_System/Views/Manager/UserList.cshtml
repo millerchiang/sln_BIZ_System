@@ -1,0 +1,100 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+@{
+    ViewBag.Title = "User List";
+}
+
+
+<!--<a href="Register?user_id=new" class="addbu">新增帳號</a>
+<br>
+
+</br>
+-->
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+@Styles.Render("~/Content/css/jqueryUI")
+
+<div class="article_col1">
+    <form class="form_box sys_searchbox">
+        <h2>廠商查詢</h2>
+        <div class="sys_searchboxcol01L">
+            <label for="user_id" class="regis_col02L">帳號</label>
+            <input id="user_id" type="text" name="user_id" class="regis_col02R"
+                   value="@Request["user_id"]">
+            <label for="company" class="regis_col02L">公司名稱</label>
+            <input id="company" type="text" name="company" class="regis_col02R"
+                   value="@Request["company"]">
+        </div>
+        <div class="sys_searchboxcol01R">
+            <button type="submit" class="buinfor">搜尋</button>
+        </div>
+    </form>
+    <article>
+        <h2 class="borderTitle2">查詢結果</h2>
+
+        <table class="edittable">
+
+            <tr>
+                <th>使用者帳號</th>
+                <th>帳號有效</th>
+                <th>企業類型</th>
+                <th>公司名稱</th>
+                <th>聯絡電話</th>
+                <th></th>
+            </tr>
+            @foreach (var newInfo in Model.userinfoList)
+            {
+                <tr>
+                    <td>@newInfo.user_id</td>
+                    @if (newInfo.id_enable == "0")
+                    {
+                        <td>尚未啟用</td>
+                    }
+                    else
+                    {
+                        <td>啟用</td>
+                    }
+                    @if (newInfo.enterprise_type == "0")
+                    {
+                        <td>國內企業</td>
+                    }
+                    else
+                    {
+                        <td>國外企業</td>
+                    }
+                    <td>@newInfo.company</td>
+                    <td>@newInfo.phone</td>
+                    <td>
+                        <a href="/Manager/UserEdit?user_id=@newInfo.user_id" class="editbu">詳細資料</a>
+                        <a href="/Password/EditPasswd?user_id=@newInfo.user_id" class="deletebu">重設密碼</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <ul class="pagelist">
+            <li><a href="">&lt;</a></li>
+
+            <li><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li><a href="">5</a></li>
+            <li><a href="">6</a></li>
+            <li><a href="">7</a></li>
+            <li><a href="">8</a></li>
+            <li><a href="">9</a></li>
+            <li><a href="">10</a></li>
+
+            <li><a href="">&gt;</a></li>
+        </ul>
+    </article>
+</div>
+
+
+
+
+
+

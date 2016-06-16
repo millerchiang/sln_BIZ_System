@@ -121,6 +121,12 @@
           <isNotEmpty prepend="and" property="company">
             company like '%'||#company#||'%'
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="starttime">
+            <![CDATA[starttime >= #starttime# ]]>            
+          </isNotEmpty>
+          <isNotEmpty prepend="and" property="endtime">
+            <![CDATA[endtime <= #endtime# ]]>            
+          </isNotEmpty>
         </dynamic>
         ORDER BY r.create_time
       </select>
@@ -470,6 +476,8 @@
       <!--activityInfo 的 activity_name-->
       <!--userInfo 的 company-->
       <result property="activity_name" column="activity_name"/>
+      <result property="starttime" column="starttime"/>
+      <result property="endtime" column="endtime"/>
       <result property="company" column="company"/>
     </resultMap>
 

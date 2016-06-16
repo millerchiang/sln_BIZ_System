@@ -209,6 +209,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -224,6 +225,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\ManagerService.cs" />
+    <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
@@ -309,6 +311,9 @@
     <Content Include="DBSource\SqlString\Manager.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DBSource\SqlString\Password.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -347,7 +352,9 @@
     <Content Include="sass\reset.sass" />
     <Content Include="sass\screen.sass" />
     <Content Include="DBSource\Config\providers.config" />
-    <Content Include="DBSource\Config\SqlMap.config" />
+    <Content Include="DBSource\Config\SqlMap.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -361,7 +368,7 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
-    <None Include="App_Start\Properties\cache.prop" />
+    <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
     <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -738,6 +745,7 @@
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
+    <Content Include="stylesheets\password_edit.css" />
     <Content Include="stylesheets\news.css" />
     <Content Include="stylesheets\print.css" />
     <Content Include="stylesheets\registerd.css" />
@@ -746,11 +754,11 @@
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
-    <Content Include="Views\Activity\ActivityRegisterCheck.cshtml" />
+    <Content Include="Views\Manager\ActivityRegisterCheck.cshtml" />
     <Content Include="Views\Activity\ActivityInfo.cshtml" />
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
-    <None Include="Views\Activity\EditActivityRegister.cshtml" />
+    <Content Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -766,20 +774,20 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Activity\ActivityList.cshtml" />
+    <Content Include="Views\Manager\ActivityList.cshtml" />
     <Content Include="Views\Home\Verification.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Activity\EditActivity.cshtml" />
+    <Content Include="Views\Manager\EditActivity.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
-    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\Manager\UserList.cshtml" />
     <Content Include="Views\Activity\EditBuyerInfo.cshtml" />
     <Content Include="Views\Activity\BuyerInfoList.cshtml" />
-    <Content Include="Views\Activity\B_NewsList.cshtml" />
-    <Content Include="Views\Activity\EditNewsActivity.cshtml" />
-    <Content Include="Views\Activity\EditNewsInfo.cshtml" />
+    <Content Include="Views\Manager\B_NewsList.cshtml" />
+    <Content Include="Views\Manager\EditNewsActivity.cshtml" />
+    <Content Include="Views\Manager\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
-    <Content Include="Views\Shared\_NavSearchPartial.cshtml" />
+    <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
@@ -795,10 +803,15 @@
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
     <Content Include="Views\Match\MatchScheduleList.cshtml" />
     <Content Include="Views\Match\MatchScheduleTime.cshtml" />
-    <Content Include="Views\Match\BusinessMatch.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
+    <Content Include="Views\Home\CompanyList.cshtml" />
+    <Content Include="Views\Password\EditPasswd.cshtml" />
+    <Content Include="Views\Password\ForgetPassword.cshtml" />
+    <Content Include="Views\Manager\Login.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Manager\UserEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

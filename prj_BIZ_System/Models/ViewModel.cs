@@ -6,6 +6,20 @@ using System.Web;
 namespace prj_BIZ_System.Models
 {
 
+    public class Manager_Activity_ViewModel
+    {
+        public UserInfoModel userinfo { get; set; }
+        public ActivityInfoModel activityinfo { get; set; }
+        public NewsModel news { get; set; }
+        public ActivityRegisterModel activityregister { get; set; }
+        public IList<UserInfoModel> userinfoList { get; set; }
+        public IList<ActivityInfoModel> activityinfoList { get; set; }
+        public IList<NewsModel> newsList { get; set; }
+        public IList<ActivityRegisterModel> activityregisterList { get; set; }
+        public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
+        public IList<EnterpriseSortModel> usersortList { get; set; }
+    }
+
     public class Activity_ViewModel
     {
         public ActivityInfoModel activityinfo { get; set; }
@@ -36,12 +50,14 @@ namespace prj_BIZ_System.Models
     {
         public UserInfoModel userinfo { get; set; }
         public EnterpriseSortListModel enterprisesort { get; set; }
+        public CompanySortModel companysort { get; set; }
         public EnterpriseSortModel usersort { get; set; }
         public ProductListModel product { get; set; }
         public CatalogListModel catalog { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+        public IList<CompanySortModel> companysortList { get; set; }
         public IList<ProductListModel> productsortList { get; set; }
         public IList<CatalogListModel> cataloglistList { get; set; }
     }
@@ -68,11 +84,15 @@ namespace prj_BIZ_System.Models
     public class Match_ViewModel
     {
         public SchedulePeriodSetModel SchedulePeriodSet { get; set; }
+        public MatchmakingScheduleModel matchmakingSchedule { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
+
+        public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
+        public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
     }
 
     public class Manager_ViewModel
@@ -81,5 +101,10 @@ namespace prj_BIZ_System.Models
         public GroupModel group { get; set; }
         public IList<ManagerInfoModel> managerInfoList { get; set; }
         public IList<GroupModel> groupList { get; set; }
+    }
+
+    public class Password_ViewModel
+    {
+
     }
 }

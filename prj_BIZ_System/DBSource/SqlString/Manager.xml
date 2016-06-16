@@ -17,6 +17,7 @@
       SELECT *
       FROM manager.group
       WHERE grp_id <> 0
+      order by create_time desc
       ]]>
     </select>
 
@@ -92,6 +93,13 @@
       </dynamic>
     </select>
 
+    <!--檢查帳號-->
+    <select id ="ManagerInfoCheckOne" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
+      SELECT *
+      FROM manager.manager_info
+      where manager_id = #manager_id# and manager_pw = #manager_pw# and enable = '1'
+    </select>
+    
     <!--查詢單一筆管理帳號-->
     <select id ="SelectManagerInfoOne" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
       SELECT *
@@ -126,7 +134,7 @@
       SET name=#name#, phone=#phone#, email=#email#, update_time=now()
       WHERE manager_id=#manager_id#
     </update>
-
+    
     <!-- ==========================================================================  -->
 
   </statements>

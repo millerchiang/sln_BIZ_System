@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.User_ViewModel
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -118,6 +118,17 @@
                         </div>
                         -->
                         <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+<!--
+                        <label class="regis_col01R_label">
+                            是否啟用
+                        </label>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="eid_enable01" name="enterprise_type" value="0" @enterprise_type01>
+                            <label for="enterprise_type01">尚未啟用</label>
+                            <input type="radio" class="radioinput" id="id_enable02" name="enterprise_type" value="1" @enterprise_type02>
+                            <label for="enterprise_type02">啟用</label>
+                        </div>
+-->
 
                         <label class="regis_col01R_label">
                             企業類型
