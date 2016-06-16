@@ -9,7 +9,7 @@ namespace prj_BIZ_System.App_Start
     public class UtilConfig<T>
     {
         public static int pageNum = 10;
-        public PageList<T> dataPages(List<T> modelList , int current_page , string querystring)
+        public static PageList<T> dataPages(IList<T> modelList , int current_page , string querystring)
         {
             PageList<T> page = new PageList<T>();
             page.datalist = modelList.Skip<T>((current_page - 1) * pageNum).Take<T>(pageNum).ToList<T>();
