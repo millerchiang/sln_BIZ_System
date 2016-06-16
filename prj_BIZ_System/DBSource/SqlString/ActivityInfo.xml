@@ -141,6 +141,9 @@
 
     <!--新增活動報名單筆-->
       <insert id="InsertActivityRegisterOne" parameterClass="ActivityRegisterModel">
+        <selectKey resultClass="int" property="register_id" type="post">
+          SELECT currval('registerincrement')
+        </selectKey>
         INSERT INTO activity_register (
         activity_id, user_id, quantity,
         name_a, title_a, name_b, title_b, telephone,
