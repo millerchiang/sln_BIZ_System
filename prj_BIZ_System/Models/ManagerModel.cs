@@ -19,6 +19,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }   //資料更新時間
 
         public string grp_name { get; set; }             //群組名稱
+        public string limit { get; set; }            //權限
     }
 
     public class GroupModel

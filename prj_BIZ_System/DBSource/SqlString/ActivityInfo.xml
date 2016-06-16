@@ -208,10 +208,13 @@
       </select>
 
     <!--查詢某新聞型態清單-->
-    <select id="SelectNewsType" resultMap="News">
+    <select id="SelectNewsType" resultMap="News1">
       SELECT *
-      FROM news
+      FROM news bl
+      LEFT JOIN activity_info ai
+      ON bl.activity_id = ai.activity_id
       Where news_type = #news_type#
+      Order by ai.update_time Desc
     </select>
 
 
@@ -264,9 +267,13 @@
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
       <!--查詢買主資訊全部-->
-      <select id="SelectBuyerInfoAll" resultMap="BuyerInfo">
+      <select id="SelectBuyerInfoAll" resultMap="BuyerInfo2">
         SELECT *
-        FROM buyer_list
+        FROM buyer_list bl
+        INNER JOIN user_info ui
+        ON bl.buyer_id = ui.user_id
+        LEFT JOIN activity_info ai
+        ON bl.activity_id = ai.activity_id
       </select>
 
     <!--查詢某活動買主資訊-->
@@ -498,6 +505,22 @@
       <result property="update_time" column="update_time"/>
     </resultMap>
 
+    <resultMap id="News1" class="NewsModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="news_no" column="news_no"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="news_title" column="news_title"/>
+      <result property="news_date" column="news_date"/>
+      <result property="news_type" column="news_type"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="website" column="website"/>
+      <result property="content" column="content"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <result property="activity_name" column="activity_name"/>
+    </resultMap>
+
+
     <resultMap id="BuyerInfo" class="BuyerInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱--> 
       <result property="serial_no" column="serial_no"/>
@@ -512,6 +535,16 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+      <result property="company" column="company"/>
+    </resultMap>
+
+    <resultMap id="BuyerInfo2" class="BuyerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_need" column="buyer_need"/>
+      <result property="activity_name" column="activity_name"/>
       <result property="company" column="company"/>
     </resultMap>
 

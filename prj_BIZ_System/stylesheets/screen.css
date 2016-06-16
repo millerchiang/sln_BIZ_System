@@ -139,6 +139,11 @@ header {
   top: 0;
 }
 
+.rightbox {
+  float: right;
+  margin-bottom: 5px;
+}
+
 .head_nav {
   float: left;
   padding: 5px 0 20px 40px;
