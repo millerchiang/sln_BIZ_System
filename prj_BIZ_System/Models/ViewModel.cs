@@ -8,6 +8,8 @@ namespace prj_BIZ_System.Models
 
     public class Manager_Activity_ViewModel
     {
+        public BuyerInfoModel buyerinfo { get; set; }
+        public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
         public UserInfoModel userinfo { get; set; }
         public ActivityInfoModel activityinfo { get; set; }
         public NewsModel news { get; set; }
@@ -18,6 +20,8 @@ namespace prj_BIZ_System.Models
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
     }
 
     public class Activity_ViewModel
@@ -90,9 +94,11 @@ namespace prj_BIZ_System.Models
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
+        public IList<MatchmakingScheduleModel> matchmakingScheduleList { get; set; }
 
         public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
         public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
+        public Dictionary<int, IList<MatchmakingScheduleModel>> sellerCompanyNamebyMatchTimeInterval = new Dictionary<int, IList<MatchmakingScheduleModel>>();
     }
 
     public class Manager_ViewModel

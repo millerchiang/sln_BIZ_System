@@ -12,6 +12,9 @@
 @{
     string enterprise_type01 = "checked";
     string enterprise_type02 = "";
+    string id_enable01 = "checked";
+    string id_enable02 = "";
+
     string revenue00 = "";
     string revenue01 = "";
     string revenue02 = "";
@@ -51,6 +54,15 @@
         {
             enterprise_type02 = "checked";
         }
+        if (Model.userinfo.id_enable == "0")
+        {
+            id_enable01 = "checked";
+        }
+        else
+        {
+            id_enable02 = "checked";
+        }
+
         if (Model.userinfo.revenue == "0")
         {
             revenue00 = "checked";
@@ -90,9 +102,6 @@
 
                 <h2>@ViewBag.tname</h2>
 
-                <a href="/User/ProductList" class="buinfor">產品說明</a>
-                <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
-
                 <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
@@ -117,18 +126,18 @@
                             </div>
                         </div>
                         -->
-                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
-<!--
+<!--                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+    -->
+
                         <label class="regis_col01R_label">
                             是否啟用
                         </label>
                         <div class="regis_col01R_input">
-                            <input type="radio" class="radioinput" id="eid_enable01" name="enterprise_type" value="0" @enterprise_type01>
-                            <label for="enterprise_type01">尚未啟用</label>
-                            <input type="radio" class="radioinput" id="id_enable02" name="enterprise_type" value="1" @enterprise_type02>
-                            <label for="enterprise_type02">啟用</label>
+                            <input type="radio" class="radioinput" id="id_enable01" name="id_enable" value="0" @id_enable01>
+                            <label for="id_enable01">尚未啟用</label>
+                            <input type="radio" class="radioinput" id="id_enable02" name="id_enable" value="1" @id_enable02>
+                            <label for="id_enable02">啟用</label>
                         </div>
--->
 
                         <label class="regis_col01R_label">
                             企業類型
@@ -139,6 +148,7 @@
                             <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02>
                             <label for="enterprise_type02">外國企業</label>
                         </div>
+
                         <label for="" class="regis_col01R_label spanRed">
                             統一編號/帳號
                         </label>
@@ -158,7 +168,7 @@
                         <label for="" class="regis_col01R_label spanRed">
                             密碼
                         </label>
-                        <input type="password" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                        <input type="text" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
                         <label for="" class="regis_col01R_label">
                             公司名稱(中)
                         </label>

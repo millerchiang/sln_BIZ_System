@@ -1,0 +1,48 @@
+﻿@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+@{
+    ViewBag.Title = "ActivityInfo";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <article class="article_col2">
+
+        <h2 class="borderTitle">活動相關資訊</h2>
+
+        @{
+            string activity_type_chk = "";
+
+            if (Model.activityinfo.activity_type == "0")
+            {
+                activity_type_chk = "商洽會";
+            }
+            else
+            {
+                activity_type_chk = "拓銷會";
+            }
+        }
+
+        <p class="news_content">
+            <li>活動類型: @activity_type_chk</li><br />
+            <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
+            <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
+            <li>活動時間: @Model.activityinfo.starttime ~ @Model.activityinfo.endtime</li><br />
+            <li>活動地點(中文): @Model.activityinfo.addr</li><br />
+            <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
+            <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
+            <li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />
+            <li>主要聯絡人: @Model.activityinfo.name</li><br />
+            <li>手機號碼: @Model.activityinfo.phone</li><br />
+            <li>電子郵件: @Model.activityinfo.email</li><br />
+
+    <div class="centerbox">
+    <a href="javascript:history.back()" class="buinfor">回到上一頁</a>
+</div>
+</p>
+
+    </article>
+</div>

@@ -179,6 +179,7 @@
           company like '%'||#company#||'%'
         </isNotEmpty>
       </dynamic>
+      ORDER BY update_time DESC
     </select>
 
 
@@ -203,12 +204,12 @@
         SELECT currval('user_info_seq') 
       </selectKey>
       INSERT INTO user_info (
-      user_id, user_pw,
+      user_id, user_pw,id_enable,
       enterprise_type, company, leader,
       addr, contact, phone, email, capital, revenue, website, info,
       logo_img, company_en, leader_en, addr_en, contact_en, info_en
       ) VALUES (
-      #user_id#, #user_pw#,
+      #user_id#, #user_pw#,#id_enable#,
       #enterprise_type#, #company#, #leader#,
       #addr#, #contact#, #phone#, #email#, #capital#, #revenue#, #website#, #info#,
       #logo_img#, #company_en#, #leader_en#, #addr_en#, #contact_en#, #info_en#
@@ -228,6 +229,7 @@
       SET user_pw = #user_pw#,
       enterprise_type = #enterprise_type#,
       company = #company#,
+      id_enable = #id_enable#,
       leader = #leader#,
       addr = #addr#,
       contact = #contact#,

@@ -1,0 +1,37 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+
+@{
+    ViewBag.Title = "買主資訊列表";
+}
+
+<article class="form_box article_col1">
+    <h2 class="borderTitle2">買主資訊列表</h2>
+
+    <a href="/Manager/EditBuyerInfo" class="submitbu rightbox">新增買主</a>
+
+    <table class="edittable">
+        <tr>
+            <th>活動名稱</th>
+            <th>買主帳號</th>
+            <th>買主名稱</th>
+            <th>買主媒合需求</th>
+            <th></th>
+        </tr>
+        @foreach(BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+        {
+            <tr>
+                <td><a href="ActivityInfo?Id=@buyerInfoModel.activity_id">@buyerInfoModel.activity_name</a></td>
+                <td>@buyerInfoModel.buyer_id</td>
+                <td>@buyerInfoModel.company</td>
+                <td>@buyerInfoModel.buyer_need</td>
+                <td>
+                    <a href="/Manager/EditBuyerInfo?Id=@buyerInfoModel.serial_no&buyer_id=@buyerInfoModel.buyer_id&company=@buyerInfoModel.company" class="editbu">修改</a>
+                    <a href="/Manager/EditBuyerInfoDelete?Id=@buyerInfoModel.serial_no" class="deletebu">刪除</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+</article>
