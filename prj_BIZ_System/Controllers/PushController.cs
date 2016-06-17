@@ -12,14 +12,6 @@ namespace prj_BIZ_System.Controllers
     {
         public PushService pushService;
         public Push_ViewModel pushViewModel;
-        /*
-        private enum PushTypeEnum : int
-        {
-            APP    = 0,
-            Email  = 1,
-            簡訊   = 2
-        }
-        */
         public PushController()
         {
             pushService = new PushService();
