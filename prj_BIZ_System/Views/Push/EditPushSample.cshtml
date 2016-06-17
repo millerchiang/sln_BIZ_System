@@ -113,15 +113,14 @@
                         var sample_id = $("input[name='sample_id']").val();
                         var new_title = $("input[name='sample_title']").val();
                         var new_content = $("textarea[name='content']").val();
-                        var $selectedTr = $(".edittable tr").find("._id:contains('" + sample_id + "')");
+                        var $_id_span = $(".edittable tr").find("._id:contains('" + sample_id + "')");
 
-                        var $trs = $selectedTr.parents('tr');
-                        var $selectedTitle = $selectedTr.next().next();
-                        var $selectedContent = $selectedTr.next().next().next();
-                        $selectedTitle.text(new_title);
+                        var $trs = $_id_span.parents('tr');
+                        var $_title_span = $_id_span.next();
+                        var $_content_span = $_id_span.next().next();
+                        $_title_span.text(new_title);
                         $trs.find('td').eq(0).text(new_title);
-                        $selectedContent.text(new_content);
-                        alert("修改成功");
+                        $_content_span.text(new_content);
                     } else {
                         alert("修改失敗");
                     }
