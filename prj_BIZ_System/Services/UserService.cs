@@ -138,7 +138,7 @@ namespace prj_BIZ_System.Services
                     try
                     {
                         tempRecord = new Dictionary<string, string>();
-                                                  headerRow.GetCell(d++); //編號
+                                                  //headerRow.GetCell(d++); //編號
                         tempRecord["user_id"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //帳號*(國內:請用統編；國外: 自訂)
                         tempRecord["user_pw"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //密碼*(8 - 12字，英數混合，不含特殊字元)
                         tempRecord["enterprise_type"] = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業類型*(0:國內企業；1:國外企業)
