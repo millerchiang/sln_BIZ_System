@@ -25,6 +25,8 @@ namespace prj_BIZ_System.Models
         public string seller_id { get; set; }     /*媒合賣家id*/
         public DateTime create_time { get; set; } /*建立日期*/
         public DateTime update_time { get; set; } /*更新日期*/
+
+        public string company { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
     }
 
     public class SchedulePeriodSetModel

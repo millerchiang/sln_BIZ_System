@@ -187,15 +187,19 @@ namespace prj_BIZ_System.Controllers
                 (int.Parse(Request["activity_id"]), "1");
             IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
                 (int.Parse(Request["activity_id"]), "0");
+            IList<SchedulePeriodSetModel> schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+
             ISet<string> buyerReply1Set = new HashSet<string>();
             ISet<string> buyerReply0Set = new HashSet<string>();
+            ISet<int> periodSnList = new HashSet<int>();
+            
 
             matchModel.matchmakingSchedule = new MatchmakingScheduleModel();
 
             /*列出某活動所有買主*/
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
             /*列出某活動媒合時段*/
-            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+            matchModel.schedulePeriodSetList = schedulePeriodSetList;
             /*取得設定時間的活動編號*/
             matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
             matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
@@ -204,15 +208,6 @@ namespace prj_BIZ_System.Controllers
             matchModel.activityregisterList =  matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
 
             /*列出雙方有媒合意願的賣家*/
-            //foreach (BuyerInfoModel model in matchService.GetBuyerListAllList(int.Parse(Request["activity_id"])))
-            //{
-            //     CheckIs1List =  matchService.GetBuyerForActivityMatchSellerList(model.activity_id, model.buyer_id, "1");
-            //}
-            //foreach(MatchmakingNeedModel model  in CheckIs1List)
-            //{
-            //    matchModel.matchmakingNeedList.Add(model);
-            //}
-
             foreach (MatchmakingNeedModel model in CheckIs1List)
             {
                 buyerReply1Set.Add(model.buyer_id);
@@ -242,6 +237,17 @@ namespace prj_BIZ_System.Controllers
             foreach (MatchmakingNeedModel model in CheckIs0List)
             {
                 matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
+            }
+
+            /*列出已媒合的賣家名稱*/
+            foreach (SchedulePeriodSetModel model in schedulePeriodSetList)
+            {
+                periodSnList.Add(model.period_sn);
+            }
+
+            foreach (int periodSn in periodSnList) {
+                matchModel.sellerCompanyNamebyMatchTimeInterval[periodSn] = matchService.GetMatchActivityWithTimeIntervalDataList
+                    (int.Parse(Request["activity_id"]), periodSn); 
             }
 
             return View(matchModel);
