@@ -96,6 +96,10 @@ namespace prj_BIZ_System.App_Start
                 case "news":
                     folder_name = UploadConfig.subDirForNews;
                     break;
+
+                default : 
+                    folder_name = dir_type;
+                    break;
             }
 
             return folder_name;
@@ -148,11 +152,14 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static void deleteUploadFile(string file_name, string dir_type, string user_id)
         {
-            string targetDirPath = getPictureDirLocation(user_id, dir_type);
-            string file_path = Path.Combine(targetDirPath, file_name);
-            if (File.Exists(file_name))
+            if (!string.IsNullOrEmpty(file_name))
             {
-                File.Delete(file_name);
+                string targetDirPath = getPictureDirLocation(user_id, dir_type);
+                string file_path = Path.Combine(targetDirPath, file_name);
+                if (File.Exists(file_name))
+                {
+                    File.Delete(file_name);
+                }
             }
         }
     }

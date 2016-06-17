@@ -172,6 +172,7 @@ namespace prj_BIZ_System.Controllers
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
                     TempData["allStatusUserInfos"] = result["allStatusUserInfos"];
+                    UploadHelper.deleteUploadFile( iupexl.FileName , "_temp", "admin");
                 }
                 else
                 {
