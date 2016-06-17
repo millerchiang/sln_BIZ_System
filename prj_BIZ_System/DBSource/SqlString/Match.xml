@@ -229,7 +229,7 @@
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
       <!--新增某時段選擇要媒合的賣家-->
-      <insert id="InsertCertainTimeMatchSeller" parameterClass="">
+      <insert id="InsertCertainTimeMatchSeller" parameterClass="MatchmakingScheduleModel">
         INSERT INTO manager.matchmaking_schedule (
         activity_id, period_sn, buyer_id,
         seller_id, create_time, update_time
@@ -238,6 +238,16 @@
         #seller_id#, #create_time#, #update_time#
         )
       </insert>
+      
+      <!--查詢媒合的某活動與某個時段地賣家名稱-->
+      <select id="SelectMatchActivityWithTimeIntervalData" resultMap="MatchmakingSchedule" parameterClass="MatchmakingScheduleModel">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.seller_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+        AND ms.period_sn = #period_sn#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -257,6 +267,8 @@
       <result property="seller_id" column="seller_id"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+      <!-- UserInfo 的 company-->
+      <result property="company" column="company"/>
     </resultMap>
     
     <resultMap id="SchedulePeriodSet" class="SchedulePeriodSetModel">
