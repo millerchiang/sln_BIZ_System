@@ -37,13 +37,4 @@ namespace prj_BIZ_System.Models
         public DateTime time_end { get; set; }    /*時間迄*/
     }
 
-    public class SchedulePeriodSetModel
-    {
-        public int period_sn { get; set; }        /*時段流水號*/
-        public int activity_id { get; set; }      /*活動編號*/
-        public DateTime time_start { get; set; }  /*時間起*/
-        public DateTime time_end { get; set; }    /*時間迄*/
-    }
-
-
 }
