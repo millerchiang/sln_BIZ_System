@@ -86,6 +86,10 @@
             $("#form").submit();
         });
 
+        $("#upexl").on('change', function () {
+            $("#upexl_name").val($(this).val());
+        });
+
         var re_for_xls = /\.(xls)$/i;
         $("#form").submit(function () {
 
