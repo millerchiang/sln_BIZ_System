@@ -244,11 +244,12 @@ namespace prj_BIZ_System.Services
             int capital = -1;
             return string.IsNullOrEmpty(tempRecord["user_id"])         //帳號*(國內:請用統編；國外: 自訂)
                     || string.IsNullOrEmpty(tempRecord["user_pw"])         //密碼*(8 - 12字，英數混合，不含特殊字元)
-                    || !MailHelper.IsPasswordOK(tempRecord["user_pw"])      
+                    || !MailHelper.IsPasswordOK(tempRecord["user_pw"])     //格式合法性
                     || string.IsNullOrEmpty(tempRecord["enterprise_type"]) //企業類型*(0:國內企業；1:國外企業)
                     || string.IsNullOrEmpty(tempRecord["company"])         //公司名稱*(中文)
                     || string.IsNullOrEmpty(tempRecord["phone"])           //電話號碼*
                     || string.IsNullOrEmpty(tempRecord["email"])           //電子郵件*
+                    || !MailHelper.checkMailValidate(tempRecord["email"])  //格式合法性
                     || string.IsNullOrEmpty(tempRecord["revenue"])         //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
                     || string.IsNullOrEmpty(tempRecord["capital"])         // md.capital == -1 ; 
                     || !Int32.TryParse(tempRecord["capital"], out capital);         // md.capital == -1 ; 

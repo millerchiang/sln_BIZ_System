@@ -266,6 +266,13 @@ namespace prj_BIZ_System.App_Start
 
         }
 
+        /// <summary>
+        /// 檢查Mail格式 (收信者Email地址)
+        /// </summary>
+        public static bool checkMailValidate(string mailAddress)
+        {
+            return (!string.IsNullOrEmpty(mailAddress)) && new Regex("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$").IsMatch(mailAddress);
+        }
 
         private static string getMailServer(string strEmail)
         {

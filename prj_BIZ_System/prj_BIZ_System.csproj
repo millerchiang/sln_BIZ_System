@@ -400,7 +400,6 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <Content Include="Content\Template\Import\user_import_sample.xls" />
-    <Content Include="Content\Template\Import\user_import_sample.xlsx" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <Content Include="App_Start\Properties\cache.prop" />
     <None Include="Properties\PublishProfiles\.pubxml" />
