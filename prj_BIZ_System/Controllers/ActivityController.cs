@@ -40,15 +40,6 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         ////BuyerInfo
-        #region 買主資訊列表
-        [HttpGet]
-        public ActionResult BuyerInfoList()
-        {
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll();
-            return View(activityModel);
-
-        }
-        #endregion
 
         #region 某活動買主資訊列表
         [HttpGet]
@@ -62,66 +53,6 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
 
-        #region 新增修改刪除買主資訊*/
-        [HttpGet]
-        public ActionResult EditBuyerInfo()
-        {
-            activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
-            activityModel.activityinfoList = activityService.GetActivityInfoList();
-            ViewBag.Action = "EditBuyerInfoInsertUpdate";
-            if (Request["Id"] == null)
-            {
-                activityModel.buyerinfo = new BuyerInfoModel();
-                ViewBag.PageType = "Create";
-                ViewBag.SubmitName = "新增";
-            }
-            else {
-                activityModel.buyerinfo = activityService.GetBuyerInfoOne(int.Parse(Request["Id"]));
-                ViewBag.PageType = "Edit";
-                ViewBag.SubmitName = "修改";
-            }
-            return View(activityModel);
-        }
-
-        [HttpPost]
-        public ActionResult EditBuyerInfoInsertUpdate(BuyerInfoModel model)
-        {
-            if (model.serial_no == 0)
-            {
-                activityService.BuyerInfoInsertOne(model);
-            }
-            else {
-                activityService.BuyerInfoUpdateOne(model);
-            }
-            return Redirect("BuyerInfoList");
-        }
-
-        public ActionResult GetUserInfoToIdCp(string term)
-        {
-            activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
-            ArrayList arrayList = new ArrayList();
-
-            foreach (UserInfoToIdAndCpModel model in activityModel.userinfotoidandcpList)
-            {
-                arrayList.Add(model.user_id + "," + model.company);
-            }
-
-            string[] items = (string[])arrayList.ToArray(typeof(string));
-
-            var filteredItems = items.Where(
-                item => item.IndexOf(term,
-                StringComparison.InvariantCultureIgnoreCase) >= 0
-            );
-            return Json(filteredItems, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult EditBuyerInfoDelete()
-        {
-            activityService.BuyerInfoDeleteOne(int.Parse(Request["Id"]));
-            return Redirect("BuyerInfoList");
-        }
-        #endregion
 
         ////ActivityRegister
         #region 活動報名

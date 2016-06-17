@@ -19,19 +19,27 @@ namespace prj_BIZ_System.WebService
         private UserService userService = new UserService();
 
         [HttpPost]
-        public UserInfoModel CheckUserInfo(UserInfoModel userInfoModel)
+        public UserInfoModel CheckUserInfo(string user_id, string user_pw)
         {
-            return userService.ChkUserInfoOne(userInfoModel.user_id, userInfoModel.user_pw);
+            return userService.ChkUserInfoOne(user_id, user_pw);
         }
 
         [HttpPost]
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
+            string errorInfo;
+            //int emailCode = checkEmail(userInfoModel.email, out errorInfo);
+            //if (checkEmail(userInfoModel.email, out errorInfo) == 200)
+            //{
+            //    return true;
+            //}
+
+
             bool isInsertSuccess = insertEnterpriseId(userInfoModel, sort_id);
             object userInfoId = null;
             if (isInsertSuccess)
             {
-                userInfoId = insertUserInfoAndSendEmail(userInfoModel);
+                userInfoId = userService.UserInfoInsertOne(userInfoModel);
             }
             if (isInsertSuccess == true && userInfoId != null)
             {
@@ -45,7 +53,7 @@ namespace prj_BIZ_System.WebService
 
         private bool insertEnterpriseId(UserInfoModel userInfoModel, string sort_id)
         {
-            bool isInsertUserSort = true;
+            bool isInsertSuccess = true;
             if (sort_id != null)
             {
                 string[] strings = sort_id.Split(',');
@@ -61,29 +69,15 @@ namespace prj_BIZ_System.WebService
                 }
                 catch (Exception ex)
                 {
-                    isInsertUserSort = false;
+                    isInsertSuccess = false;
                 }
             }
             else
             {
-                isInsertUserSort = false;
+                isInsertSuccess = false;
             }
 
-            return isInsertUserSort;
-        }
-
-        private object insertUserInfoAndSendEmail(UserInfoModel userInfoModel)
-        {
-            object userInfoId = userService.UserInfoInsertOne(userInfoModel);
-            if (userInfoId != null)
-            {
-                SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
-                return userInfoId;
-            }
-            else
-            {
-                return null;
-            }
+            return isInsertSuccess;
         }
 
         [HttpPost]

@@ -94,9 +94,11 @@
     </select>
 
     <!--檢查帳號-->
-    <select id ="ManagerInfoCheckOne" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
+    <select id ="ManagerInfoCheckOne" resultMap="ManagerInfo-result1" parameterClass="ManagerInfo">
       SELECT *
-      FROM manager.manager_info
+      FROM manager.manager_info m
+      left join manager.group g
+      on m.grp_id = g.grp_id
       where manager_id = #manager_id# and manager_pw = #manager_pw# and enable = '1'
     </select>
     
@@ -167,6 +169,27 @@
       <!--Group -->
       <!--<result property="sample_title" column="sample_title"></result>-->
     </resultMap>
+
+    <resultMap id="ManagerInfo-result1" class="prj_BIZ_System.Models.ManagerInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="manager_id" column="manager_id"></result>
+      <!--
+      <result property="manager_pw" column="manager_pw"></result>
+      -->
+      <result property="enable" column="enable"></result>
+      <result property="name" column="name"></result>
+      <result property="phone" column="phone"></result>
+      <result property="email" column="email"></result>
+      <result property="grp_id" column="grp_id"></result>
+      <result property="create_manager" column="create_manager"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <!--Group -->
+      <!--<result property="sample_title" column="sample_title"></result>-->
+      <result property="limit" column="limit"></result>
+
+    </resultMap>
+
 
     <resultMap id="ManagerInfoByCondition-result" class="prj_BIZ_System.Models.ManagerInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->

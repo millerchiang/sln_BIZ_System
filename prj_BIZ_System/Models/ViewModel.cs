@@ -8,6 +8,8 @@ namespace prj_BIZ_System.Models
 
     public class Manager_Activity_ViewModel
     {
+        public BuyerInfoModel buyerinfo { get; set; }
+        public UserInfoToIdAndCpModel userinfotoidandcp { get; set; }
         public UserInfoModel userinfo { get; set; }
         public ActivityInfoModel activityinfo { get; set; }
         public NewsModel news { get; set; }
@@ -18,6 +20,8 @@ namespace prj_BIZ_System.Models
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
     }
 
     public class Activity_ViewModel

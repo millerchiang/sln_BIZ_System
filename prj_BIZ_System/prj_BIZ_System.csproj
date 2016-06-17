@@ -781,8 +781,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
     <Content Include="Views\Manager\UserList.cshtml" />
-    <Content Include="Views\Activity\EditBuyerInfo.cshtml" />
-    <Content Include="Views\Activity\BuyerInfoList.cshtml" />
+    <Content Include="Views\Manager\EditBuyerInfo.cshtml" />
     <Content Include="Views\Manager\B_NewsList.cshtml" />
     <Content Include="Views\Manager\EditNewsActivity.cshtml" />
     <Content Include="Views\Manager\EditNewsInfo.cshtml" />
@@ -812,6 +811,8 @@
     <Content Include="Views\Manager\Login.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\UserEdit.cshtml" />
+    <Content Include="Views\Manager\BuyerInfoList.cshtml" />
+    <Content Include="Views\Manager\ActivityInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

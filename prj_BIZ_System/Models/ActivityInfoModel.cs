@@ -87,6 +87,9 @@ namespace prj_BIZ_System.Models
         public string content { get; set; }//內容
         public DateTime create_time { get; set; }//建立時間
         public DateTime update_time { get; set; }//修改時間
+
+        public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+
     }
 
     public class EnterpriseSortAndListModel

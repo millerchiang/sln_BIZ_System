@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Activity_ViewModel
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
 
 @{
     ViewBag.Title = "買主資訊";
@@ -30,6 +30,11 @@
             <label for="insert_id_cp" class="regis_col02L spanRed">輸入會員帳號或公司名稱:</label>
             <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" />
         }
+        <label for="buyer_id" class="regis_col02L">帳號 : </label>
+        <input id="buyer_id" type="text" readonly name="buyer_id" value="@Request["buyer_id"]" class="regis_col02R" />
+
+        <label for="buyer_cp" class="regis_col02L">公司名稱</label>
+        <input id="buyer_cp" type="text" readonly name="buyer_cp" value="@Request["company"]" class="regis_col02R" />
 
         <label for="activity_id" class="regis_col02L spanRed">活動名稱</label>
         <select name="activity_id" class="regis_col02R">
@@ -47,21 +52,6 @@
             }
         </select>
 
-        <label for="buyer_id_cp" class="regis_col02L spanRed">帳號或公司名稱</label>
-        <select name="buyer_id_cp" class="regis_col02R">
-            <option value="">--請選擇--</option>
-            @foreach (UserInfoToIdAndCpModel userInfoToIdAndCpModel in Model.userinfotoidandcpList)
-            {   
-                <option value="">[@userInfoToIdAndCpModel.user_id] [@userInfoToIdAndCpModel.company]</option>
-            }
-        </select>
-
-        <label for="buyer_id" class="regis_col02L spanRed">帳號</label>
-        <input id="buyer_id" type="text" readonly name="buyer_id" value="@Model.buyerinfo.buyer_id" class="regis_col02R" />
-
-        <label for="buyer_cp" class="regis_col02L spanRed">公司名稱</label>
-        <input id="buyer_cp" type="text" readonly name="buyer_cp" value="" class="regis_col02R" />
-      
         <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
         <input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" />
 
