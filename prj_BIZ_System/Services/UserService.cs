@@ -185,6 +185,7 @@ namespace prj_BIZ_System.Services
                                 md.info             = tempRecord["info"];
                                 md.info_en          = tempRecord["info_en"];
 
+                                md.id_enable        = "1";
                                 insertResult = UserInfoInsertOne(md);
                                 if (insertResult != null)
                                 {
