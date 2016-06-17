@@ -36,8 +36,21 @@ namespace prj_BIZ_System.WebService
             object userInfoId = null;
             if (isInsertSuccess)
             {
-                userInfoId = userService.UserInfoInsertOne(userInfoModel);
-                SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
+                try
+                {
+                    userInfoId = userService.UserInfoInsertOne(userInfoModel);
+                    if (userInfoId != null)
+                    {
+                        SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("user_info_pkey"))
+                    {
+                        return "Account already exists";
+                    }
+                }
             }
             if (isInsertSuccess == true && userInfoId != null)
             {
@@ -45,7 +58,7 @@ namespace prj_BIZ_System.WebService
             }
             else
             {
-                return "UserInfoInsert fail";
+                return "Userinfo insert fail";
             }
         }
 
