@@ -25,7 +25,7 @@ namespace prj_BIZ_System.Controllers
             IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
-            ViewBag.Pages = UtilConfig<PushListModel>.dataPages(result , 1 , "");
+            ViewBag.Pages = PageConfig<PushListModel>.dataPages(result , Request);
             //return View(result);
             return View(ViewBag.Pages.datalist);
         }

@@ -74,10 +74,6 @@
                 }
             }
         </table>
-        @{ 
-            //PageList<object> pl = new PageList<object>() { currentPage = 1, maxCount = 20, maxPage = 2, pageNum = 10 };
-            //PageList<PushListModel>  pl = ViewBag.Pages;
-        }
         @Html.PagesList((PageList<PushListModel>)ViewBag.Pages)
     </article>
 </div>
