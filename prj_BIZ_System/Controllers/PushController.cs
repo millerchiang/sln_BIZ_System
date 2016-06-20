@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.Models;
+﻿using prj_BIZ_System.App_Start;
+using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,6 @@ namespace prj_BIZ_System.Controllers
     {
         public PushService pushService;
         public Push_ViewModel pushViewModel;
-        /*
-        private enum PushTypeEnum : int
-        {
-            APP    = 0,
-            Email  = 1,
-            簡訊   = 2
-        }
-        */
         public PushController()
         {
             pushService = new PushService();
@@ -32,7 +25,9 @@ namespace prj_BIZ_System.Controllers
             IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
-            return View(result);
+            ViewBag.Pages = PageConfig<PushListModel>.dataPages(result , Request);
+            //return View(result);
+            return View(ViewBag.Pages.datalist);
         }
 
         // GET: Push
