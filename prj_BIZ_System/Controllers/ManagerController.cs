@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using prj_BIZ_System.App_Start;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -25,7 +26,10 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            //managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            IList<ManagerInfoModel> result = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            ViewBag.Pages = PageConfig<ManagerInfoModel>.dataPages(result, Request);
+            managerViewModel.managerInfoList = ViewBag.Pages.datalist;
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);

@@ -108,6 +108,13 @@ namespace System.Web.Mvc.Html
                 sb.Append("<li><a href = '" + (url + paramS3) + "' > &gt;</a></li>");
             }
             sb.Append("</ul>");
+            /*
+            sb.Append("<span>");
+            sb.Append("總筆數 "+pages.maxCount);
+            sb.Append(" / ");
+            sb.Append("總頁數 "+pages.maxPage);
+            sb.Append("</span>");
+            */        
             return MvcHtmlString.Create(sb.ToString());
         }
     }
