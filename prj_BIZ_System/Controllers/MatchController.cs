@@ -281,12 +281,15 @@ namespace prj_BIZ_System.Controllers
                 matchmakingPeriodSn.Add(matchmakingScheduleModel.period_sn);
             }
 
-            var bb = from n1 in matchmakingPeriodSn
+            var periodSns = from n1 in matchmakingPeriodSn
                      where schedulePeriodSn.Contains(n1) == false
                      select n1;
-            if(bb.Count() != 0)
+            if(periodSns.Count() != 0)
             {
-               
+                foreach (int periodSn in periodSns)
+                {
+                    matchService.MatchkingDataByActivityWithPeriodDelete(int.Parse(Request["activity_id"]), periodSn);
+                }
             }
 
             return View(matchModel);
@@ -340,22 +343,22 @@ namespace prj_BIZ_System.Controllers
             {
 
                 if (matchModel.matchMakingScheduleSellerCompany[x] == "" && seller_id[x].Length != 0)
-                {
-                    matchmakingScheduleModel.period_sn = period_sn[x / period_sn.Length];
+                {   
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
                     matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
                     matchmakingScheduleModel.seller_id = seller_id[x];
                     matchService.CertainTimeMatchSellerInsert(matchmakingScheduleModel);
                 }
                 else if (matchModel.matchMakingScheduleSellerCompany[x] != "" && seller_id[x] != "")
                 {
-                    matchmakingScheduleModel.period_sn = period_sn[x / period_sn.Length];
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
                     matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
                     matchmakingScheduleModel.seller_id = seller_id[x];
                     matchService.CertainActivityMatchkingDataUpdate(matchmakingScheduleModel);
                 }
                 else if (matchModel.matchMakingScheduleSellerCompany[x].Length != 0 && seller_id[x] == "")
                 {
-                    matchmakingScheduleModel.period_sn = period_sn[x / period_sn.Length];
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
                     matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
                     matchmakingScheduleModel.seller_id = seller_id[x];
                     matchService.CertainActivityMatchkingDataDelete(matchmakingScheduleModel);

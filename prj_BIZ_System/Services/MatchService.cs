@@ -140,5 +140,11 @@ namespace prj_BIZ_System.Services
             mapper.Delete("Match.DeleteCertainActivityMatchkingData", matchmakingScheduleModel);
         }
 
+        public void MatchkingDataByActivityWithPeriodDelete(int activity_id, int period_sn)
+        {
+            MatchmakingScheduleModel param = new MatchmakingScheduleModel() { activity_id = activity_id, period_sn = period_sn };
+            mapper.Delete("Match.DeleteMatchkingDataByActivityWithPeriod", param);
+        }
+
     }
 }

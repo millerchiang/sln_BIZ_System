@@ -269,6 +269,13 @@
         AND buyer_id = #buyer_id#
         AND period_sn = #period_sn#
       </delete>
+
+      <!--刪除某活動與某時段的媒合大表資料-->
+      <delete id="DeleteMatchkingDataByActivityWithPeriod" parameterClass="MatchmakingScheduleModel">
+        DELETE FROM manager.matchmaking_schedule
+        WHERE activity_id = #activity_id#
+        AND period_sn = #period_sn#
+      </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
