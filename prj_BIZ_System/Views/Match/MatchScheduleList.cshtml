@@ -6,10 +6,6 @@
 }
 
 @{
-    int buyerCount = 0;
-}
-
-@{
     <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
 
@@ -30,10 +26,8 @@
                         </th>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            <th class="centerbox2">
-                                @buyerInfoModel.company
+                            <th class="centerbox2">@buyerInfoModel.company
                                 <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
-                                <input type="hidden" value="@(buyerCount++)" />
                             </th>
 
                         }
@@ -41,62 +35,35 @@
 
                 </thead>
                 <tbody>
-                    @foreach (SchedulePeriodSetModel schedulePeriodSetModel in Model.schedulePeriodSetList)
+                    @for (int i = 0; i < Model.schedulePeriodSetList.Count; i++)
                     {
                         <tr>
                             <td>
-                                @schedulePeriodSetModel.time_start.ToString("HH:mm")
-                                ~@schedulePeriodSetModel.time_end.ToString("HH:mm")
-                                <input type="hidden" name="period_sn" value="@schedulePeriodSetModel.period_sn" />
-                                <input type="hidden" name="activity_id" value="@schedulePeriodSetModel.activity_id" />
+                                @Model.schedulePeriodSetList[i].time_start.ToString("HH:mm")
+                                ~@Model.schedulePeriodSetList[i].time_end.ToString("HH:mm")
+                                <input type="hidden" name="period_sn" value="@Model.schedulePeriodSetList[i].period_sn" />
+                                <input type="hidden" name="activity_id" value="@Model.schedulePeriodSetList[i].activity_id" />
                             </td>
                             <!-------------------我是分隔線-------------------->
 
-                            @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                            @for (int j = 0; j< Model.buyerinfoList.Count; j++)
                             {
-
-                                foreach (KeyValuePair<int, IList<MatchmakingScheduleModel>> Dic in Model.sellerCompanyNamebyMatchTimeInterval)
-                                {
-                                    if (Dic.Key == schedulePeriodSetModel.period_sn)
-                                    {
-                                        foreach (MatchmakingScheduleModel matchmakingScheduleModel in Dic.Value)
+                                <td>
+                                    <select name="seller_id" id="">
+                                        <option value="">--請選擇--</option>
+                                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                                         {
-                                            if (matchmakingScheduleModel.buyer_id == buyerInfoModel.buyer_id)
+                                            if (activityRegisterModel.company == Model.matchMakingScheduleSellerCompany[i * Model.buyerinfoList.Count + j])
                                             {
-                                            <!--有資料的情況下-->
-                                                <td>
-                                                    <select name="seller_id" id="">
-                                                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
-                                                        {
-                                                            if (matchmakingScheduleModel.seller_id == activityRegisterModel.user_id)
-                                                            {
-                                                                <option value="@matchmakingScheduleModel.seller_id" selected="selected">@matchmakingScheduleModel.company</option>
-                                                            }
-                                                            else
-                                                            {
-                                                                <option value="@activityRegisterModel.activity_id">@activityRegisterModel.company</option>
-                                                            }
-                                                        }
-                                                    </select>
-                                                </td>
+                                                <option value="@activityRegisterModel.user_id" selected="selected">@activityRegisterModel.company</option>
                                             }
-                                            @*else
+                                            else
                                             {
-                                            <!--沒有資料的情況下-->
-                                                <td>
-                                                    <select name="seller_id" id="">
-                                                        <option value=""> --請選擇-- </option>
-                                                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
-                                                        {
-                                                            <option value="@activityRegisterModel.activity_id"> @activityRegisterModel.company </option>
-                                                        }
-                                                    </select>
-                                                </td>
-                                            }*@
+                                                <option value="@activityRegisterModel.user_id">@activityRegisterModel.company</option>
+                                            }
                                         }
-                                    }
-                                }
-                            
+                                    </select>
+                                </td>
                             }
                         </tr>
                     }

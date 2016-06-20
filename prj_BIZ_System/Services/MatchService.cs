@@ -124,12 +124,21 @@ namespace prj_BIZ_System.Services
             mapper.Insert("Match.InsertCertainTimeMatchSeller", matchmakingScheduleModel);
         }
 
-        public IList<MatchmakingScheduleModel> GetMatchActivityWithTimeIntervalDataList(int activity_id, int period_sn)
+        public IList<MatchmakingScheduleModel> GetCertainActivityMatchMakingDataList(int activity_id)
         {
-            MatchmakingScheduleModel param = new MatchmakingScheduleModel() { activity_id = activity_id, period_sn = period_sn };
-            return mapper.QueryForList<MatchmakingScheduleModel>("Match.SelectMatchActivityWithTimeIntervalData", param);
+            MatchmakingScheduleModel param = new MatchmakingScheduleModel() { activity_id = activity_id};
+            return mapper.QueryForList<MatchmakingScheduleModel>("Match.SelectCertainActivityMatchMakingData", param);
         }
 
+        public void CertainActivityMatchkingDataUpdate(MatchmakingScheduleModel matchmakingScheduleModel)
+        {
+            mapper.Update("Match.UpdateCertainActivityMatchkingData", matchmakingScheduleModel);
+        }
+
+        public void CertainActivityMatchkingDataDelete(MatchmakingScheduleModel matchmakingScheduleModel)
+        {
+            mapper.Delete("Match.DeleteCertainActivityMatchkingData", matchmakingScheduleModel);
+        }
 
     }
 }

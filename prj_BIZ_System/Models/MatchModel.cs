@@ -37,5 +37,4 @@ namespace prj_BIZ_System.Models
         public DateTime time_end { get; set; }    /*時間迄*/
     }
 
-
 }
