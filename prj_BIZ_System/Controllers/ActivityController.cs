@@ -59,7 +59,7 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditActivityRegister()
         {
-            activityModel.activityinfoList = activityService.GetActivityInfoList();
+            activityModel.activityinfoList = activityService.GetActivityInfoList(null);
 
 
             activityModel.userinfo = new UserInfoModel();
@@ -116,7 +116,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ActivityRegister()
         {
-            activityModel.activityinfoList = activityService.GetActivityInfoList();
+            activityModel.activityinfoList = activityService.GetActivityInfoList(null);
 
 
             activityModel.userinfo = new UserInfoModel();

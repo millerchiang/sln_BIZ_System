@@ -23,6 +23,11 @@
     <select id="SelectActivityAll" resultMap="ActivityInfo">
       SELECT *
       FROM activity_info
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="manager_id">
+          manager_id = #manager_id#
+        </isNotEmpty>
+      </dynamic>
     </select>
     
     <!--查詢單筆-->
@@ -121,6 +126,9 @@
           <isNotEmpty prepend="and" property="company">
             company like '%'||#company#||'%'
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="manager_id">
+            a.manager_id = #manager_id#
+          </isNotEmpty>
           <isNotEmpty prepend="and" property="starttime">
             <![CDATA[starttime >= #starttime# ]]>            
           </isNotEmpty>
@@ -208,6 +216,11 @@
       <select id="SelectNewsAll" resultMap="News">
         SELECT *
         FROM news
+        <dynamic prepend="where">
+          <isNotEmpty prepend="and" property="manager_id">
+            manager_id = #manager_id#
+          </isNotEmpty>
+        </dynamic>
       </select>
 
     <!--查詢某新聞型態清單-->
@@ -216,8 +229,15 @@
       FROM news bl
       LEFT JOIN activity_info ai
       ON bl.activity_id = ai.activity_id
-      Where news_type = #news_type#
-      Order by ai.update_time Desc
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="news_type">
+          news_type = #news_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="manager_id">
+          bl.manager_id = #manager_id#
+        </isNotEmpty>
+      </dynamic>
+      Order by bl.update_time Desc
     </select>
 
 
@@ -277,6 +297,12 @@
         ON bl.buyer_id = ui.user_id
         LEFT JOIN activity_info ai
         ON bl.activity_id = ai.activity_id
+        <dynamic prepend="where">
+          <isNotEmpty prepend="and" property="manager_id">
+            ai.manager_id = #manager_id#
+          </isNotEmpty>
+        </dynamic>
+
       </select>
 
     <!--查詢某活動買主資訊-->

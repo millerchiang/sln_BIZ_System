@@ -31,7 +31,12 @@ namespace prj_BIZ_System.Controllers
         // GET: Push
         public ActionResult SearchPushList(string push_type,string push_name)
         {
-            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name);
+            string manager_id = null;
+            if (Request.Cookies["ManagerInfo"]["push"] == "2")
+            {
+                manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            }
+            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name, manager_id);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
             return View(result);
@@ -46,11 +51,17 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditPushList(int? push_id)
         {
+            string create_id = null;
+            if (Request.Cookies["ManagerInfo"]["push"] == "2")
+            {
+                create_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            }
+
             //var manager_id = "admin"; //管理者編號 
             //PushTypeEnum push_type = new PushTypeEnum();
             //ViewBag.push_type = push_type;
             pushViewModel.activityinfoList = pushService.getActivityInfoListAfterNow();
-            pushViewModel.pushSampleList = pushService.getPushSampleAll();
+            pushViewModel.pushSampleList = pushService.getPushSampleAll(create_id);
             ViewBag.Action = "EditPushListInsertUpdate";
 
             if (push_id == null)
@@ -106,7 +117,12 @@ namespace prj_BIZ_System.Controllers
         /* Json */
         public ActionResult EditPushSampleJson(string action)
         {
-            pushViewModel.pushSampleList = pushService.getPushSampleAll();
+            string create_id = null;
+            if (Request.Cookies["ManagerInfo"]["push"] == "2")
+            {
+                create_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            }
+            pushViewModel.pushSampleList = pushService.getPushSampleAll(create_id);
             return Json(pushViewModel, JsonRequestBehavior.AllowGet);
         }
 

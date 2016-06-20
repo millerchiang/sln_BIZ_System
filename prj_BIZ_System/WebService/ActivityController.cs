@@ -19,7 +19,7 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public IList<NewsModel> GetNewsInfo()
         {
-            return activityService.GetNewsAll();
+            return activityService.GetNewsAll(null);
         }
 
         [HttpGet]
