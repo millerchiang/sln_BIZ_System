@@ -26,9 +26,8 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
             managerViewModel.groupList = managerService.getAllGroup();
-            //managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
-            IList<ManagerInfoModel> result = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
-            ViewBag.Pages = PageConfig<ManagerInfoModel>.dataPages(result, Request);
+            IList<ManagerInfoModel> allData = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            ViewBag.Pages = PageConfig<ManagerInfoModel>.dataPages(allData, Request);
             managerViewModel.managerInfoList = ViewBag.Pages.datalist;
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
@@ -68,7 +67,9 @@ namespace prj_BIZ_System.Controllers
         // GET: Group
         public ActionResult Group()
         {
-            managerViewModel.groupList = managerService.getAllGroup();
+            IList<GroupModel> allData = managerService.getAllGroup();
+            ViewBag.Pages = PageConfig<GroupModel>.dataPages(allData, Request);
+            managerViewModel.groupList = ViewBag.Pages.datalist;
 
             return View(managerViewModel);
         }
