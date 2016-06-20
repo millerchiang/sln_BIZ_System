@@ -25,6 +25,13 @@ namespace System.Web.Mvc.Html
 
         public static MvcHtmlString PagesList<T>(this HtmlHelper htmlHelper, PageList<T> pages) where T:class
         {
+
+            StringBuilder paramStr = new StringBuilder("?"); 
+            foreach(KeyValuePair<string,object> key in pages.paramDict)
+            {
+                paramStr.Append();
+            }
+
             StringBuilder sb = new StringBuilder();
             sb.Append("<ul class='pagelist'>");
             if(pages.currentPage > 1)
@@ -37,6 +44,7 @@ namespace System.Web.Mvc.Html
             }
             if(pages.maxPage > 1 && pages.currentPage != pages.maxPage)
             {
+                string nextPage = Math.Min(pages.maxPage, pages.currentPage + 1).ToString();
                 sb.Append("<li><a href = '' > &gt;</a></li>");
             }
             sb.Append("</ul>");

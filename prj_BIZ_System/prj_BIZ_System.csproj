@@ -205,7 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Ex\Helper.cs" />
+    <Compile Include="App_Start\Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -751,6 +751,7 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
+    <Folder Include="Ex\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>

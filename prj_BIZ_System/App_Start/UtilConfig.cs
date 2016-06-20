@@ -28,6 +28,7 @@ namespace prj_BIZ_System.App_Start
         public int pageNum { get; set; }
         public int maxCount { get; set; }
         public int maxPage { get; set; }
+        public Dictionary<string,object> paramDict { get; set; }
         public List<T> datalist { get; set; }
     }
 
