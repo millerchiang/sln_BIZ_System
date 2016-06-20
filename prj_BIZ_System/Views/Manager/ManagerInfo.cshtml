@@ -71,7 +71,7 @@
             <label for="leader" class="regis_col02L spanRed">管理帳號</label>
             <input type="text" class="regis_col02R" name="manager_id" >
 
-            <label for="addr" class="regis_col02L">姓名</label>
+            <label for="addr" class="regis_col02L spanRed">姓名</label>
             <input type="text" class="regis_col02R" name="name">
 
             <label for="addr" class="regis_col02L">電話</label>
@@ -162,9 +162,10 @@
 
         $("#acc_from").submit(function () {
             var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+            var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, email, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -174,9 +175,10 @@
         $("#acc_edit").click(function () {
             $("input[name='pagetype']").val("Update");
             var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+            var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, email, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -202,10 +204,13 @@
         });
     }
 
-    function checkValidationOk(manager_id, email , grp_id) {
+    function checkValidationOk(manager_id, name , email , grp_id) {
         var errMsg = '';
         if (manager_id == null || manager_id == '') {
             errMsg += '管理帳號不可為空白\n';
+        }
+        if (name == null || name == '') {
+            errMsg += '姓名不可為空白\n';
         }
         if (email == null || email == '') {
             errMsg += '電子郵件不可為空白\n';
