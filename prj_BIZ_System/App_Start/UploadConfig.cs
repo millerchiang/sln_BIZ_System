@@ -96,6 +96,10 @@ namespace prj_BIZ_System.App_Start
                 case "news":
                     folder_name = UploadConfig.subDirForNews;
                     break;
+
+                default : 
+                    folder_name = dir_type;
+                    break;
             }
 
             return folder_name;
@@ -105,8 +109,10 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 上傳檔案 (檔案 , 資料夾位置 , 使用者id)
         /// </summary>
-        public static void doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
+        public static Dictionary<string, string> doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
         {
+            Dictionary<string, string> resultDict = new Dictionary<string, string>();
+            
             string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
             string targetFilePath = "";
             targetFilePath = Path.Combine(targetRootDir, subFileDir);
@@ -123,7 +129,21 @@ namespace prj_BIZ_System.App_Start
                 Directory.CreateDirectory(targetFilePath);
             }
             string targetCoverFilePath = Path.Combine(targetFilePath, uploadFile.FileName);
-            uploadFile.SaveAs(targetCoverFilePath);
+            try
+            {
+                uploadFile.SaveAs(targetCoverFilePath);
+                resultDict.Add("result","success");
+                resultDict.Add("msg","");
+            }
+            catch (Exception ex)
+            {
+                resultDict.Add("result", "fail");
+                resultDict.Add("msg", ex.ToString());
+            }
+            finally{
+                resultDict.Add("filepath", targetCoverFilePath);
+            }
+            return resultDict;
         }
 
 
@@ -132,11 +152,14 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static void deleteUploadFile(string file_name, string dir_type, string user_id)
         {
-            string targetDirPath = getPictureDirLocation(user_id, dir_type);
-            string file_path = Path.Combine(targetDirPath, file_name);
-            if (File.Exists(file_name))
+            if (!string.IsNullOrEmpty(file_name))
             {
-                File.Delete(file_name);
+                string targetDirPath = getPictureDirLocation(user_id, dir_type);
+                string file_path = Path.Combine(targetDirPath, file_name);
+                if (File.Exists(file_name))
+                {
+                    File.Delete(file_name);
+                }
             }
         }
     }

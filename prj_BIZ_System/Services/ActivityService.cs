@@ -14,9 +14,10 @@ namespace prj_BIZ_System.Services
 
         //ActivityInfoModel******************************************************************************//
 
-        public IList<ActivityInfoModel> GetActivityInfoList()
+        public IList<ActivityInfoModel> GetActivityInfoList(string manager_id)
         {
-            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", null);
+            ActivityInfoModel param = new ActivityInfoModel() { manager_id = manager_id };
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
         public ActivityInfoModel GetActivityInfoOne(int activity_id)
@@ -44,15 +45,17 @@ namespace prj_BIZ_System.Services
         }
 
         //NewsModel******************************************************************************//
-        public IList<NewsModel> GetNewsAll()
+        public IList<NewsModel> GetNewsAll(string manager_id)
         {
-            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", null);
+
+            NewsModel param = new NewsModel() { manager_id = manager_id };
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", param);
         }
 
 
-        public IList<NewsModel> GetNewsType(string news_type)
+        public IList<NewsModel> GetNewsType(string news_type,string manager_id)
         {
-            NewsModel param = new NewsModel() { news_type = news_type };
+            NewsModel param = new NewsModel() { news_type = news_type, manager_id= manager_id };
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsType", param);
         }
 
@@ -87,9 +90,10 @@ namespace prj_BIZ_System.Services
 
         //BuyerInfoModel******************************************************************************//
 
-        public IList<BuyerInfoModel> GetBuyerInfoAll()
+        public IList<BuyerInfoModel> GetBuyerInfoAll(string manager_id)
         {
-            return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", null);
+            BuyerInfoModel param = new BuyerInfoModel() { manager_id = manager_id };
+            return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", param);
         }
 
         public IList<BuyerInfoModel> GetBuyerInfoActivity(int activity_id)
@@ -135,7 +139,7 @@ namespace prj_BIZ_System.Services
 
         //ActivityRegisterModel******************************************************************************//
 
-        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company,string starttime, string endtime)
+        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company,string starttime, string endtime,string manager_id)
         {
             DateTime startDate;
             DateTime endDate;
@@ -147,7 +151,7 @@ namespace prj_BIZ_System.Services
                 endtime = "9999/12/30";
             endDate = Convert.ToDateTime(endtime);
 
-            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company, starttime = startDate, endtime = endDate};
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company, starttime = startDate, endtime = endDate, manager_id = manager_id };
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
         }
 

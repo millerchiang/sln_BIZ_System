@@ -37,8 +37,8 @@ namespace prj_BIZ_System.Controllers
             {
                 indexModel.enterprisesortList = userService.GetSortList();
                 indexModel.userinfoList = userService.GetUserInfoList();
-                indexModel.activityinfoList = activityService.GetActivityInfoList();
-                indexModel.newsList = activityService.GetNewsAll();
+                indexModel.activityinfoList = activityService.GetActivityInfoList(null);
+                indexModel.newsList = activityService.GetNewsAll(null);
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
@@ -58,7 +58,7 @@ namespace prj_BIZ_System.Controllers
                 if (Request["Type"] == null)
                 {
                     ViewBag.tname = "最新消息";
-                    indexModel.newsList = activityService.GetNewsAll();
+                    indexModel.newsList = activityService.GetNewsAll(null);
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace prj_BIZ_System.Controllers
                     else
                         ViewBag.tname = "最新新聞";
 
-                    indexModel.newsList = activityService.GetNewsType(Request["Type"]);
+                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null);
                 }
 
 
@@ -137,14 +137,27 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
         }
 
+        public ActionResult Logout()
+        {
+
+            Session.Clear();
+            HttpCookie aCookie;
+            string cookieName;
+//            int limit = Request.Cookies.Count;
+//            for (int i = 0; i < limit; i++)
+            {
+                cookieName = "UserInfo";// Request.Cookies[i].Name;
+                aCookie = new HttpCookie(cookieName);
+                aCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(aCookie);
+            }
+            return Redirect("Login");
+        }
+
+
 
         public ActionResult Login()
         {
-            if (Response.Cookies["ManagerInfo"] != null && Response.Cookies["ManagerInfo"]["manager_id"] != null)
-            {
-                Response.Cookies["ManagerInfo"]["manager_id"] = null;
-            }
-
             return View();
         }
 

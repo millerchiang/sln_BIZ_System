@@ -13,6 +13,11 @@
     <select id="SelectPushSample" resultMap="PushSample-result">
       SELECT *
       FROM manager.push_sample
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="create_id">
+          create_id = #create_id#
+        </isNotEmpty>
+      </dynamic>
     </select>
 
     <insert id="InsertPushSample" parameterClass="PushSample">
@@ -45,6 +50,11 @@
     <select id="SelectPushList" resultMap="PushList-result">
       SELECT *
       FROM manager.push_list
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="manager_id">
+          manager_id = #manager_id#
+        </isNotEmpty>
+      </dynamic>
     </select>
 
     <select id="getPushListByCondition" resultMap="PushList-result" parameterClass="PushList">
@@ -58,6 +68,9 @@
         </isNotEmpty>
         <isNotEmpty prepend="and" property="push_name">
           push_name like '%'||#push_name#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="manager_id">
+          manager_id = #manager_id#
         </isNotEmpty>
       </dynamic>
     </select>
@@ -90,6 +103,11 @@
     <select id="SelectActivityAll" resultMap="ActivityInfo-result">
       SELECT *
       FROM activity_info
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="manager_id">
+          manager_id = #manager_id#
+        </isNotEmpty>
+      </dynamic>
     </select>
 
     <select id="SelectActivityAfterNow" parameterClass="prj_BIZ_System.Models.ActivityInfoModel" resultMap="ActivityInfo-result">

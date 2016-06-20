@@ -9,6 +9,34 @@
         {
             Response.Redirect("~/Manager/Login");
         }
+
+        if (Request.Cookies["ManagerInfo"]["manager"] == "0" && (ViewBag.Title == "ManagerInfo"
+            || ViewBag.Title == "Group" || ViewBag.Title == "EditPassword"))
+        {
+            Response.Redirect("~/Manager/Login");
+        }
+
+        if (Request.Cookies["ManagerInfo"]["push"] == "0" && (ViewBag.Title == "EditPushList"
+            || ViewBag.Title == "SearchPushList" || ViewBag.Title == "EditPushSample"))
+        {
+            Response.Redirect("~/Manager/Login");
+        }
+        if (Request.Cookies["ManagerInfo"]["news"] == "0" && (ViewBag.Title == "B_NewsList"
+            || ViewBag.Title == "EditNewsActivity" || ViewBag.Title == "EditNewsInfo"))
+        {
+            Response.Redirect("~/Manager/Login");
+        }
+        if (Request.Cookies["ManagerInfo"]["activity"] == "0" && (ViewBag.Title == "EditActivity"
+            || ViewBag.Title == "ActivityList" || ViewBag.Title == "BuyerInfoList" || ViewBag.Title == "EditBuyerInfo"
+            || ViewBag.Title == "ActivityRegisterCheck"))
+        {
+            Response.Redirect("~/Manager/Login");
+        }
+        if (Request.Cookies["ManagerInfo"]["user"] == "0" && (ViewBag.Title == "UserList"
+            || ViewBag.Title == "UserEdit"))
+        {
+            Response.Redirect("~/Manager/Login");
+        }
     }
 }
 
@@ -86,6 +114,7 @@ else
                             </li>
 
                             <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>
 
                         }
                     }
@@ -93,7 +122,7 @@ else
                     {
                         if (ViewBag.Title != "Login")
                         {
-                            if (Request.Cookies["ManagerInfo"]["manager"] == "1")
+                            if (Request.Cookies["ManagerInfo"]["manager"] != "0")
                             {
                             <li>
                                 <a href="javascript:void(0)">管理者權限</a>
@@ -104,7 +133,7 @@ else
                                 </ul>
                             </li>
                             }
-                            if (Request.Cookies["ManagerInfo"]["push"] == "1")
+                            if (Request.Cookies["ManagerInfo"]["push"] != "0")
                             {
                             <li>
                                 <a href="javascript:void(0)">推播管理</a>
@@ -114,7 +143,7 @@ else
                                 </ul>
                             </li>
                             }
-                            if (Request.Cookies["ManagerInfo"]["news"] == "1")
+                            if (Request.Cookies["ManagerInfo"]["news"] != "0")
                             {
                             <li>
                                 <a href="javascript:void(0)">新聞管理</a>
@@ -124,7 +153,7 @@ else
                                 </ul>
                             </li>
                             }
-                            if (Request.Cookies["ManagerInfo"]["activity"] == "1")
+                            if (Request.Cookies["ManagerInfo"]["activity"] != "0")
                             {
                             <li>
                                 <a href="javascript:void(0)">活動管理</a>
@@ -136,7 +165,7 @@ else
                                 </ul>
                             </li>
                             }
-                            if (Request.Cookies["ManagerInfo"]["user"] == "1")
+                            if (Request.Cookies["ManagerInfo"]["user"] != "0")
                             {
                             <li>
                                 <a href="javascript:void(0)">產業會員管理</a>
@@ -146,6 +175,8 @@ else
                                 </ul>
                             </li>
                             }
+                            <li>@Html.ActionLink("登出", "Logout", "Manager")</li>
+
                         }
                     }
 

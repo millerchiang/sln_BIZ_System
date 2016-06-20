@@ -1,0 +1,134 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_ViewModel
+
+@{
+    ViewBag.Title = "UserInfoImport";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">			
+	<form action="@Url.Action("UserInfoMultiInsert","User")" id="form" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">	
+		<h2>帳號匯入</h2>					
+				
+			<a href="@Url.Content("~/Content/Template/Import/user_import_sample.xls")" class="deleteSbu">下載範本</a>
+
+			<label class="addbublue" id="upload" for="upexl">上傳excel</label>
+			<input type="file" id="upexl" name="iupexl">
+			<input type="text" id="upexl_name" name="upexl_name">
+
+			<a href="javascript:void(0)" class="addbu" id="submit">確定匯入</a>
+						
+	</form>
+	<article>
+		<h2 class="borderTitle2">上傳excel結果</h2>
+        @if ("匯入完成".Equals(TempData["import_msg"]))
+        {
+		<table class="edittable">
+			<tr>
+				<th>狀態</th>
+				<th>帳號</th>
+				<th>公司名稱</th>
+				<th>代表人</th>
+				<th>電話</th>
+				<th>電子郵件</th>
+			</tr>
+            @if (TempData["allStatusUserInfos"] != null)
+            {
+                foreach(List<object> list in (List<List<object>>)TempData["allStatusUserInfos"])
+                {
+			        <tr>
+				        <td>
+					        <span class="@showImportResultCSS((string)list[0])">@showImportResultText((string)list[0])</span>
+				        </td>
+				        <td>@(((Dictionary<string, string>)list[1])["user_id"])</td>
+				        <td>@(((Dictionary<string, string>)list[1])["company"])</td>
+				        <td>@(((Dictionary<string, string>)list[1])["leader"])</td>
+				        <td>
+					        @(((Dictionary<string, string>)list[1])["phone"])				
+				        </td>
+				        <td>
+					        @(((Dictionary<string, string>)list[1])["email"])	
+				        </td>
+			        </tr>
+                }
+            }			
+		</table>
+        }			
+		<ul class="pagelist">
+			<li><a href="">&lt;</a></li>
+			
+			<li><a href="">1</a></li>
+			<li><a href="">2</a></li>
+			<li><a href="">3</a></li>
+			<li><a href="">4</a></li>
+			<li><a href="">5</a></li>
+			<li><a href="">6</a></li>
+			<li><a href="">7</a></li>
+			<li><a href="">8</a></li>
+			<li><a href="">9</a></li>
+			<li><a href="">10</a></li>
+					
+			<li><a href="">&gt;</a></li>
+		</ul>			
+	</article>	
+</div>
+
+<script>
+    $(function() {
+        init();
+    });
+
+    function init() {
+        $("#submit").click(function () {
+            $("#form").submit();
+        });
+
+        $("#upexl").on('change', function () {
+            $("#upexl_name").val($(this).val());
+        });
+
+        var re_for_xls = /\.(xls)$/i;
+        $("#form").submit(function () {
+
+            var iupexl = $("input[name='iupexl']").val();
+            if (!re_for_xls.test(iupexl)) {
+                alert("上傳檔案副檔名 必須為 xls");
+                return false;
+            }
+
+        });
+    }
+</script>
+
+@functions {
+    public string showImportResultCSS(string status)
+    {
+        switch (status)
+        {
+            case "success":
+                return "import_ok";
+            case "fail":
+                return "import_no";
+            case "repeat":
+                return "import_no";
+        }
+        return "";
+    }
+
+    public string showImportResultText(string status)
+    {
+        switch (status)
+        {
+            case "success":
+                return "匯入成功";
+            case "fail":
+                return "資料錯誤";
+            case "repeat":
+                return "帳號重覆";
+        }
+        return "";
+    }
+}

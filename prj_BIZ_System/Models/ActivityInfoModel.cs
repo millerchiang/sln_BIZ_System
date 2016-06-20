@@ -37,6 +37,7 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
 
     }
@@ -68,6 +69,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }//修改時間
 
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public DateTime starttime { get; set; }//ActivityInfoModel 的 活動開始時間
         public DateTime endtime { get; set; }//ActivityInfoModel 的 活動結束時間
         public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱

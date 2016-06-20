@@ -12,9 +12,10 @@ namespace prj_BIZ_System.Services
 {
     public class PushService : _BaseService
     {
-        public IList<PushSampleModel> getPushSampleAll()
+        public IList<PushSampleModel> getPushSampleAll(string create_id)
         {
-            return mapper.QueryForList<PushSampleModel>("Push.SelectPushSample", null);
+            var param = new PushSampleModel { create_id = create_id };
+            return mapper.QueryForList<PushSampleModel>("Push.SelectPushSample", param);
         }
 
         public void PushSampleInsertOne(PushSampleModel model)
@@ -50,9 +51,9 @@ namespace prj_BIZ_System.Services
             return userCount ;
         }
 
-        public IList<PushListModel> getPushListByCondition(string push_type , string push_name)
+        public IList<PushListModel> getPushListByCondition(string push_type , string push_name,string manager_id)
         {
-            var param = new PushListModel { push_type = push_type, push_name = push_name };
+            var param = new PushListModel { push_type = push_type, push_name = push_name, manager_id = manager_id };
             return mapper.QueryForList<PushListModel>("Push.getPushListByCondition", param);
         }
 
