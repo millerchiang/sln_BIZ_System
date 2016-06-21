@@ -22,11 +22,9 @@ namespace prj_BIZ_System.Controllers
         // GET: Push
         public ActionResult SearchPushList(string push_type,string push_name)
         {
-            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name);
+            pushService.getPushListByCondition(push_type, push_name).Pages(Request, this);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
-            ViewBag.Pages = PageConfig<PushListModel>.dataPages(result , Request);
-            //return View(result);
             return View(ViewBag.Pages.datalist);
         }
 

@@ -200,9 +200,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\PagesConfig.cs" />
     <Compile Include="App_Start\MailConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\PageConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\UploadConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
