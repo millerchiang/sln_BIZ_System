@@ -230,6 +230,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActivityInfoModel.cs" />
+    <Compile Include="Models\ManagerModel.cs" />
+    <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
