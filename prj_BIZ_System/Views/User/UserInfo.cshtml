@@ -95,7 +95,7 @@
 					<span class="regis_col01R_input">@Model.userinfo.email</span>
                 </div>
 				<div class="form_box w100">
-						<h2>中文</h2>
+						<h2>中文資訊</h2>
 				  <label for="" class="regis_col02L">
                         公司名稱
                     </label>
@@ -110,7 +110,7 @@
 				</div>
 				
 				<div class="form_box w100">
-					<h2>英文</h2>
+					<h2>英文資訊</h2>
 				   <label for="" class="regis_col02L">
                         公司名稱
                     </label>
@@ -122,15 +122,19 @@
 					<span class="regis_col02R">@Model.userinfo.addr_en</span>
 					<label for="name" class="regis_col02L">聯絡人姓名</label>
 					<span class="regis_col02R">@Model.userinfo.contact_en</span>
+				    <label class="regis_col02L">企業簡介</label>
+					<span class="regis_col02R">
 					 @if (Model.userinfo.info_en != null)
 					{
-						<label class="regis_col02L">企業簡介</label>
-						<span class="regis_col02R">@Model.userinfo.info_en</span>
+                        @Model.userinfo.info_en
 					}
+                    </span>
 				</div>
               <br/><br/>
                 <label for="capital" class="regis_col02L">資本額</label>
-                <span class="regis_col02R">@Model.userinfo.capital</span>
+                <div class="regis_col02R">
+                    <span>@Model.userinfo.capital</span> 萬元
+                </div>
                 <label for="revenue" class="regis_col02L">營業額</label>
                 <span class="regis_col02R">@revenue</span>
                 <label for="verticals" class="regis_col02L">產業別</label>
