@@ -1,17 +1,19 @@
 ﻿using prj_BIZ_System.App_Start;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Mvc;
 
 namespace prj_BIZ_System.App_Start
 {
-
-    public class PageConfig<T>
+    public static class PagesConfig
     {
         public static int pageNum = 10;
-        public static PageList<T> dataPages(IList<T> modelList ,  HttpRequestBase req)
+
+        public static IList<T> Pages<T>(this IList<T> modelList , HttpRequestBase req , ControllerBase ctrl) where T : class
         {
             int current_page = req["currentPage"] == null ? 1 : Int32.Parse(req["currentPage"]);
             PageList<T> page = new PageList<T>();
@@ -38,35 +40,14 @@ namespace prj_BIZ_System.App_Start
             page.querystring = sb.ToString();
             page.maxCount = modelList.Count();
             page.maxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(modelList.Count()) / pageNum));
-            return page;
+            ctrl.ViewBag.Pages = page;
+            return page.datalist;
         }
-
-    }
-
-    public class PageList<T>
-    {
-        public int currentPage { get; set; }
-        public int pageNum { get; set; }
-        public int maxCount { get; set; }
-        public int maxPage { get; set; }
-        public Dictionary<string,object> paramDict { get; set; }
-        public string querystring { get; set; }
-        public List<T> datalist { get; set; }
-    }
-
-}
-
-namespace System.Web.Mvc.Html
-{
-    public static class MyHtmlHelperExtensions
-    {
 
         public static MvcHtmlString PagesList<T>(this HtmlHelper htmlHelper, PageList<T> pages) where T : class
         {
-
             HttpRequest req = HttpContext.Current.Request;
-            string url = HttpContext.Current.Request.RawUrl.Split('?')[0];
-
+            string url = req.RawUrl.Split('?')[0];
 
             StringBuilder paramStr = new StringBuilder("?");
             int i_temp = 0;
@@ -92,8 +73,8 @@ namespace System.Web.Mvc.Html
                 sb.Append("<li><a href = '" + (url + paramS1) + "' > &lt;</a></li>");
             }
 
-            int start   = Math.Max(0, pages.currentPage - 5);
-            int end     = Math.Min(pages.maxPage, pages.currentPage + 5);
+            int start = Math.Max(0, pages.currentPage - 5);
+            int end = Math.Min(pages.maxPage, pages.currentPage + 5);
 
             for (var i = start; i < end; i++)
             {
@@ -110,5 +91,17 @@ namespace System.Web.Mvc.Html
             sb.Append("</ul>");
             return MvcHtmlString.Create(sb.ToString());
         }
+
+    }
+
+    public class PageList<T>
+    {
+        public int currentPage { get; set; }
+        public int pageNum { get; set; }
+        public int maxCount { get; set; }
+        public int maxPage { get; set; }
+        public Dictionary<string, object> paramDict { get; set; }
+        public string querystring { get; set; }
+        public List<T> datalist { get; set; }
     }
 }
