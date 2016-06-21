@@ -12,10 +12,12 @@
     <!--table=manager.push_sample-->
     <select id="SelectPushSample" resultMap="PushSample-result">
       SELECT *
-      FROM manager.push_sample
+      FROM manager.push_sample a
+      LEFT JOIN manager.manager_info m
+      ON a.create_id = m.manager_id
       <dynamic prepend="where">
-        <isNotEmpty prepend="and" property="create_id">
-          create_id = #create_id#
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
         </isNotEmpty>
       </dynamic>
     </select>
@@ -61,7 +63,9 @@
       SELECT *
       FROM manager.push_list l
       left join manager.push_sample s
-      on l.sample_id = s.sample_id 
+      on l.sample_id = s.sample_id
+      LEFT JOIN manager.manager_info m
+      ON l.manager_id = m.manager_id
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="push_type">
           push_type = #push_type#
@@ -69,8 +73,8 @@
         <isNotEmpty prepend="and" property="push_name">
           push_name like '%'||#push_name#||'%'
         </isNotEmpty>
-        <isNotEmpty prepend="and" property="manager_id">
-          manager_id = #manager_id#
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
         </isNotEmpty>
       </dynamic>
     </select>

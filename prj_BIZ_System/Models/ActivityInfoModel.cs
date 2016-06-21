@@ -26,6 +26,7 @@ namespace prj_BIZ_System.Models
         public DateTime create_time { get; set; }//建立時間
         public DateTime update_time { get; set; }//修改時間
 
+        public int? grp_id { get; set; }//群組
     }
 
     public class BuyerInfoModel
@@ -40,6 +41,7 @@ namespace prj_BIZ_System.Models
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
 
+        public int? grp_id { get; set; }//群組
     }
 
     public class UserInfoToIdAndCpModel
@@ -75,6 +77,7 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
         public string buyer_need { get; set; }//BuyerInfoModel 的 買主媒合需求
 
+        public int? grp_id { get; set; }//群組
     }
 
     public class NewsModel
@@ -91,6 +94,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }//修改時間
 
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public int? grp_id { get; set; }//群組
 
     }
 

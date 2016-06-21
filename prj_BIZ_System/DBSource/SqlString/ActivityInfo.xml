@@ -22,10 +22,12 @@
     <!--查詢全部-->
     <select id="SelectActivityAll" resultMap="ActivityInfo">
       SELECT *
-      FROM activity_info
+      FROM activity_info a
+      LEFT JOIN manager.manager_info m
+      ON a.manager_id = m.manager_id
       <dynamic prepend="where">
-        <isNotEmpty prepend="and" property="manager_id">
-          manager_id = #manager_id#
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
         </isNotEmpty>
       </dynamic>
     </select>
@@ -119,6 +121,8 @@
         ON r.user_id = u.user_id
         INNER JOIN activity_info a
         ON r.activity_id = a.activity_id
+        LEFT JOIN manager.manager_info m
+        ON a.manager_id = m.manager_id
         <dynamic prepend="where">
           <isNotEmpty prepend="and" property="activity_name">
             activity_name  like '%'||#activity_name#||'%'
@@ -134,6 +138,9 @@
           </isNotEmpty>
           <isNotEmpty prepend="and" property="endtime">
             <![CDATA[endtime <= #endtime# ]]>            
+          </isNotEmpty>
+          <isNotEmpty prepend="and" property="grp_id">
+            m.grp_id = $grp_id$
           </isNotEmpty>
         </dynamic>
         ORDER BY r.create_time
@@ -229,12 +236,14 @@
       FROM news bl
       LEFT JOIN activity_info ai
       ON bl.activity_id = ai.activity_id
+      LEFT JOIN manager.manager_info m
+      ON bl.manager_id = m.manager_id
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="news_type">
           news_type = #news_type#
         </isNotEmpty>
-        <isNotEmpty prepend="and" property="manager_id">
-          bl.manager_id = #manager_id#
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
         </isNotEmpty>
       </dynamic>
       Order by bl.update_time Desc
@@ -297,9 +306,11 @@
         ON bl.buyer_id = ui.user_id
         LEFT JOIN activity_info ai
         ON bl.activity_id = ai.activity_id
+        LEFT JOIN manager.manager_info m
+        ON ai.manager_id = m.manager_id
         <dynamic prepend="where">
-          <isNotEmpty prepend="and" property="manager_id">
-            ai.manager_id = #manager_id#
+          <isNotEmpty prepend="and" property="grp_id">
+            m.grp_id = $grp_id$
           </isNotEmpty>
         </dynamic>
 
@@ -547,6 +558,7 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
       <result property="activity_name" column="activity_name"/>
+      <result property="grp_id" column="grp_id"/>
     </resultMap>
 
 
