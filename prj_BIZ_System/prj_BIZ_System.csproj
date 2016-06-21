@@ -755,12 +755,17 @@
     <Content Include="Scripts\util_cls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="stylesheets\account.css" />
+    <Content Include="stylesheets\application.css" />
     <Content Include="stylesheets\business.css" />
     <Content Include="stylesheets\company_info.css" />
     <Content Include="stylesheets\fromstyle.css" />
     <Content Include="stylesheets\ie.css" />
     <Content Include="stylesheets\index.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
+    <Content Include="stylesheets\layout_bu.css" />
+    <Content Include="stylesheets\layout_public.css" />
+    <Content Include="stylesheets\layout_rwd.css" />
+    <Content Include="stylesheets\layout_type.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
     <Content Include="stylesheets\password_edit.css" />

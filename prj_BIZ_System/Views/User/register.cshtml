@@ -138,7 +138,7 @@
                         else
                         {
                             <input type="hidden" name="user_id" value="@Model.userinfo.user_id">
-                            <label for="" class="regis_col01R_label">
+                            <label for="" class="regis_col01R_input">
                                 @Model.userinfo.user_id
                             </label>
 
@@ -148,34 +148,55 @@
                             密碼
                         </label>
                         <input type="password" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
-                        <label for="" class="regis_col01R_label">
-                            公司名稱(中)
-                        </label>
-                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col01R_input">
-                        <label for="" class="regis_col01R_label spanRed">
-                            公司名稱(英)(中英擇一必填)
-                        </label>
-                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col01R_input">
+						
+						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>
+						<input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
+						<label for="email" class="regis_col01R_label spanRed">電子郵件</label>
+						<input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input">
 
                     </div>
-                    <label for="leader" class="regis_col02L">代表人(中)</label>
-                    <input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
-                    <label for="addr" class="regis_col02L">地址(中)</label>
-                    <input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
-                    <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
-                    <input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
-                    <label for="leader" class="regis_col02L">代表人(英)</label>
-                    <input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
-                    <label for="addr" class="regis_col02L">地址(英)</label>
-                    <input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
-                    <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
-                    <input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
-                    <label for="name" class="regis_col02L spanRed">電話/分機</label>
-                    <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col02R" required>
-                    <label for="email" class="regis_col02L spanRed">電子郵件</label>
-                    <input type="email" name="email" value="@Model.userinfo.email" class="regis_col02R">
+					
+					<div class="form_box w100">
+						<h2>中文資訊</h2>
+						<label for="" class="regis_col02L">
+                            公司名稱
+                        </label>
+                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R">
+						 <label for="leader" class="regis_col02L">代表人</label>
+						<input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
+						<label for="addr" class="regis_col02L">地址</label>
+						<input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
+						<label for="name" class="regis_col02L">聯絡人姓名</label>
+						<input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
+                        <label class="regis_col02L">企業簡介</label>
+                        <div class="regis_col02R">
+                            <textarea rows="4" name="info">@Model.userinfo.info</textarea>
+                        </div>
+					</div>
+					
+					<div class="form_box w100">
+						<h2>英文資訊</h2>
+						 <label for="" class="regis_col02L spanRed">
+                            公司名稱
+                        </label>
+                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R">
+						<label for="leader" class="regis_col02L">代表人</label>
+						<input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
+						<label for="addr" class="regis_col02L">地址</label>
+						<input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
+						<label for="name" class="regis_col02L">聯絡人姓名</label>
+						<input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
+                        <label class="regis_col02L">企業簡介</label>
+                        <div class="regis_col02R">
+                            <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
+                        </div>
+					</div>
+					
+					<br/><br/>
                     <label for="capital" class="regis_col02L spanRed">資本額</label>
-                    <input type="text" name="capital" value="@Model.userinfo.capital" class="regis_col02R">
+                    <div class="regis_col02R">
+                        <input type="text" name="capital" value="@Model.userinfo.capital"> 萬元
+                    </div>
                     <label for="revenue" class="regis_col02L spanRed">營業額</label>
                     <div class="regis_col02R">
                         <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
@@ -204,15 +225,6 @@
                     </div>
                     <label for="website" class="regis_col02L">企業網址</label>
                     <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
-                    <label class="regis_col02L">企業簡介(中)</label>
-                    <div class="regis_col02R">
-                        <textarea rows="4" name="info">@Model.userinfo.info</textarea>
-                    </div>
-                    <label class="regis_col02L">企業簡介(英)</label>
-                    <div class="regis_col02R">
-                        <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
-                    </div>
-
                     <div class="centerbox">
                         <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
                     </div>

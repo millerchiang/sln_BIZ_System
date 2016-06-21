@@ -139,11 +139,6 @@ header {
   top: 0;
 }
 
-.rightbox {
-  float: right;
-  margin-bottom: 5px;
-}
-
 .head_nav {
   float: left;
   padding: 5px 0 20px 40px;
@@ -151,7 +146,7 @@ header {
 }
 .head_nav li {
   display: inline-block;
-  margin-left: 30px;
+  margin: 15px 0 0 30px;
   position: relative;
   padding-bottom: 15px;
 }
@@ -237,9 +232,6 @@ header {
 }
 .head_nav li:hover ul {
   display: block;
-}
-.head_nav li {
-  margin-top: 15px;
 }
 
 @-webkit-keyframes menuA {
@@ -332,6 +324,28 @@ aside {
   display: inline-block;
   margin-left: 4%;
   vertical-align: top;
+}
+
+.ui-tabs .ui-tabs-nav li {
+  border: none;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+  background: #2e7ed1;
+  color: #99C1EB;
+  border-color: #2e7ed1;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-hover .ui-tabs-anchor {
+  color: #ffffff;
+  background: #1b60a9;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active .ui-tabs-anchor {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #000000;
+  margin-bottom: -1px;
 }
 
 .fontRed {
@@ -711,6 +725,11 @@ aside {
 .col2 li {
   float: left;
   width: 50%;
+}
+
+.w100 {
+  display: inline-block;
+  width: 100%;
 }
 
 .edittable input {

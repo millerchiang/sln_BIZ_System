@@ -87,33 +87,48 @@
                         統一編號/帳號
                     </label>
                     <span class="regis_col01R_input">@Model.userinfo.user_id</span>
-
-                    <label for="" class="regis_col01R_label">
-                        公司名稱(中)
-                    </label>
-                    <span class="regis_col01R_input">@Model.userinfo.company</span>
-                    <label for="" class="regis_col01R_label">
-                        公司名稱(英)
-                    </label>
-                    <span class="regis_col01R_input">@Model.userinfo.company_en</span>
-
+					
+					<label for="name" class="regis_col01R_label">電話/分機</label>
+					<span class="regis_col01R_input">@Model.userinfo.phone</span>
+					
+					<label for="email" class="regis_col01R_label">電子郵件</label>
+					<span class="regis_col01R_input">@Model.userinfo.email</span>
                 </div>
-                <label for="leader" class="regis_col02L">代表人(中)</label>
-                <span class="regis_col02R">@Model.userinfo.leader</span>
-                <label for="addr" class="regis_col02L">地址(中)</label>
-                <span class="regis_col02R">@Model.userinfo.addr</span>
-                <label for="name" class="regis_col02L">聯絡人姓名(中)</label>
-                <span class="regis_col02R">@Model.userinfo.contact</span>
-                <label for="leader" class="regis_col02L">代表人(英)</label>
-                <span class="regis_col02R">@Model.userinfo.leader_en</span>
-                <label for="addr" class="regis_col02L">地址(英)</label>
-                <span class="regis_col02R">@Model.userinfo.addr_en</span>
-                <label for="name" class="regis_col02L">聯絡人姓名(英)</label>
-                <span class="regis_col02R">@Model.userinfo.contact_en</span>
-                <label for="name" class="regis_col02L">電話/分機</label>
-                <span class="regis_col02R">@Model.userinfo.phone</span>
-                <label for="email" class="regis_col02L">電子郵件</label>
-                <span class="regis_col02R">@Model.userinfo.email</span>
+				<div class="form_box w100">
+						<h2>中文</h2>
+				  <label for="" class="regis_col02L">
+                        公司名稱
+                    </label>
+                    <span class="regis_col02R">@Model.userinfo.company</span>
+					<label for="leader" class="regis_col02L">代表人</label>
+					<span class="regis_col02R">@Model.userinfo.leader</span>
+					<label for="addr" class="regis_col02L">地址</label>
+					<span class="regis_col02R">@Model.userinfo.addr</span>
+					<label for="name" class="regis_col02L">聯絡人姓名</label>
+				    <label class="regis_col02L">企業簡介</label>
+					<span class="regis_col02R">@Model.userinfo.info</span>
+				</div>
+				
+				<div class="form_box w100">
+					<h2>英文</h2>
+				   <label for="" class="regis_col02L">
+                        公司名稱
+                    </label>
+                    <span class="regis_col02R">@Model.userinfo.company_en</span>
+					<span class="regis_col02R">@Model.userinfo.contact</span>
+					<label for="leader" class="regis_col02L">代表人</label>
+					<span class="regis_col02R">@Model.userinfo.leader_en</span>
+					<label for="addr" class="regis_col02L">地址</label>
+					<span class="regis_col02R">@Model.userinfo.addr_en</span>
+					<label for="name" class="regis_col02L">聯絡人姓名</label>
+					<span class="regis_col02R">@Model.userinfo.contact_en</span>
+					 @if (Model.userinfo.info_en != null)
+					{
+						<label class="regis_col02L">企業簡介</label>
+						<span class="regis_col02R">@Model.userinfo.info_en</span>
+					}
+				</div>
+              <br/><br/>
                 <label for="capital" class="regis_col02L">資本額</label>
                 <span class="regis_col02R">@Model.userinfo.capital</span>
                 <label for="revenue" class="regis_col02L">營業額</label>
@@ -128,13 +143,8 @@
                 </div>
                 <label for="website" class="regis_col02L">企業網址</label>
                 <span class="regis_col02R">@Model.userinfo.website</span>
-                <label class="regis_col02L">企業簡介(中)</label>
-                <span class="regis_col02R">@Model.userinfo.info</span>
-                @if (Model.userinfo.info_en != null)
-                {
-                    <label class="regis_col02L">企業簡介(英)</label>
-                    <span class="regis_col02R">@Model.userinfo.info_en</span>
-                }
+             
+               
                 </section>
 
                 <section class="form_box comicon article_col1">
