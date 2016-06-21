@@ -160,7 +160,11 @@
         INNER JOIN user_info ui
         ON mn.seller_id = ui.user_id
         WHERE mn.activity_id = #activity_id#
-        AND mn.buyer_reply = #buyer_reply#
+        <dynamic prepend="">
+          <isNotEmpty prepend="AND" property="buyer_reply">
+            mn.buyer_reply = #buyer_reply#
+          </isNotEmpty>
+        </dynamic>
       </select>
     
     
@@ -239,15 +243,39 @@
         )
       </insert>
       
-      <!--查詢媒合的某活動與某個時段地賣家名稱-->
-      <select id="SelectMatchActivityWithTimeIntervalData" resultMap="MatchmakingSchedule" parameterClass="MatchmakingScheduleModel">
+      <!--查詢某活動的媒合大表資料-->
+      <select id="SelectCertainActivityMatchMakingData" resultMap="MatchmakingSchedule" parameterClass="MatchmakingScheduleModel">
         SELECT *
         FROM manager.matchmaking_schedule ms
         INNER JOIN user_info ui
         ON ms.seller_id = ui.user_id
         WHERE ms.activity_id = #activity_id#
-        AND ms.period_sn = #period_sn#
       </select>
+      
+      <!--更新某活動與某時段與某買主的媒合大表資料-->
+      <update id="UpdateCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
+        UPDATE manager.matchmaking_schedule
+        SET
+        seller_id = #seller_id#
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND period_sn = #period_sn#
+      </update>
+      
+      <!--刪除某活動與某時段與某買主的媒合大表資料-->
+      <delete id="DeleteCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
+        DELETE FROM manager.matchmaking_schedule
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND period_sn = #period_sn#
+      </delete>
+
+      <!--刪除某活動與某時段的媒合大表資料-->
+      <delete id="DeleteMatchkingDataByActivityWithPeriod" parameterClass="MatchmakingScheduleModel">
+        DELETE FROM manager.matchmaking_schedule
+        WHERE activity_id = #activity_id#
+        AND period_sn = #period_sn#
+      </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]

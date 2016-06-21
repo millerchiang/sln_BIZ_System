@@ -102,7 +102,7 @@ namespace prj_BIZ_System.Controllers
         {
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this);
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);

@@ -13,6 +13,7 @@ namespace prj_BIZ_System.Controllers
     {
         public MatchService matchService;
         public Match_ViewModel matchModel;
+        private const int notFoundIndex = 999;
 
         public MatchController()
         {
@@ -28,7 +29,7 @@ namespace prj_BIZ_System.Controllers
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.buyerinfoList = matchService.GetBuyerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
-          
+
             return View(matchModel);
         }
         #endregion
@@ -42,7 +43,7 @@ namespace prj_BIZ_System.Controllers
             matchModel.matchmakingNeedList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
 
             if (matchModel.matchmakingNeedList.Any())
-            {    
+            {
                 return Redirect("MatchTimeArrangeSeller?activity_id=" + activity_id);
             }
             else {
@@ -89,7 +90,7 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("MatchTimeArrangeBuyer?activity_id=" + activity_id);
             }
             else {
-                return Redirect("BuyerBusinessMatch?activity_id=" + activity_id);   
+                return Redirect("BuyerBusinessMatch?activity_id=" + activity_id);
             }
 
         }
@@ -101,7 +102,7 @@ namespace prj_BIZ_System.Controllers
         {
             ViewBag.Action = "EditBuyerMatchSellerToInsert";
             //matchModel.activityregisterList = matchService.GetBuyerMatchToSellerName(int.Parse(Request["activity_id"]));
-            matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"],"");
+            matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], "");
             return View(matchModel);
         }
 
@@ -122,15 +123,15 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeSeller()
         {
             matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
-            return View(matchModel);     
+            return View(matchModel);
         }
         #endregion
 
         #region 媒合時程安排(買家)
         public ActionResult MatchTimeArrangeBuyer()
         {
-            matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"],"");
-            return View(matchModel);     
+            matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], "");
+            return View(matchModel);
         }
         #endregion
 
@@ -151,17 +152,17 @@ namespace prj_BIZ_System.Controllers
             SchedulePeriodSetModel model = new SchedulePeriodSetModel();
             if (old_period_sn != null)
             {
-                for (int i = 0; i< old_period_sn.Length; i++)
+                for (int i = 0; i < old_period_sn.Length; i++)
                 {
                     model.period_sn = old_period_sn[i];
                     model.time_start = old_time_start[i];
                     model.time_end = old_time_end[i];
-                    matchService.MatchTimeIntervalUpdateOne(model);  
+                    matchService.MatchTimeIntervalUpdateOne(model);
                 }
             }
 
             if ((schedulePeriodSetModel.time_start.ToString() != "0001/1/1 上午 12:00:00")
-                ||(schedulePeriodSetModel.time_end.ToString() != "0001/1/1 上午 12:00:00"))
+                || (schedulePeriodSetModel.time_end.ToString() != "0001/1/1 上午 12:00:00"))
             {
                 matchService.MatchTimeIntervalInsert(schedulePeriodSetModel);
             }
@@ -178,34 +179,62 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合時程大表
+        #region 媒合時程大表列表
         [HttpGet]
         public ActionResult MatchScheduleList()
         {
+            //const int notFoundIndex = 999;
             ViewBag.Action = "StoreMatchData";
+
             IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
                 (int.Parse(Request["activity_id"]), "1");
             IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
-                (int.Parse(Request["activity_id"]), "0");
-            IList<SchedulePeriodSetModel> schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
-
+                (int.Parse(Request["activity_id"]), "");
             ISet<string> buyerReply1Set = new HashSet<string>();
             ISet<string> buyerReply0Set = new HashSet<string>();
-            ISet<int> periodSnList = new HashSet<int>();
-            
-
-            matchModel.matchmakingSchedule = new MatchmakingScheduleModel();
 
             /*列出某活動所有買主*/
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
             /*列出某活動媒合時段*/
-            matchModel.schedulePeriodSetList = schedulePeriodSetList;
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
             /*取得設定時間的活動編號*/
             matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
             matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
 
             /*列出某活動有審核的賣家*/
-            matchModel.activityregisterList =  matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
+            matchModel.activityregisterList = matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
+
+            /*列出某活動的媒合大表資料*/
+            matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
+
+            /*列出某活動的時間區段輸入媒合的賣家*/
+            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+
+            matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+
+            foreach (MatchmakingScheduleModel matchmakingScheduleModel in matchModel.matchmakingScheduleList)
+            {
+                foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+                {
+                    if (schedulePeriodSetModel.period_sn == matchmakingScheduleModel.period_sn)
+                    {
+                        i = matchModel.schedulePeriodSetList.IndexOf(schedulePeriodSetModel);
+                    }
+                }
+
+                foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+                {
+                    if (buyerInfoModel.buyer_id == matchmakingScheduleModel.buyer_id)
+                    {
+                        j = matchModel.buyerinfoList.IndexOf(buyerInfoModel);
+                    }
+                }
+
+                if ((i != notFoundIndex) && (j != notFoundIndex))
+                {
+                    matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = matchmakingScheduleModel.company;
+                }
+            }
 
             /*列出雙方有媒合意願的賣家*/
             foreach (MatchmakingNeedModel model in CheckIs1List)
@@ -239,40 +268,108 @@ namespace prj_BIZ_System.Controllers
                 matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
             }
 
-            /*列出已媒合的賣家名稱*/
-            foreach (SchedulePeriodSetModel model in schedulePeriodSetList)
+            /*刪除某時段,媒合大表中的相同時段資料刪除*/
+            ISet<int> schedulePeriodSn = new HashSet<int>();
+            ISet<int> matchmakingPeriodSn = new HashSet<int>();
+            foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
             {
-                periodSnList.Add(model.period_sn);
+                schedulePeriodSn.Add(schedulePeriodSetModel.period_sn);
             }
 
-            foreach (int periodSn in periodSnList) {
-                matchModel.sellerCompanyNamebyMatchTimeInterval[periodSn] = matchService.GetMatchActivityWithTimeIntervalDataList
-                    (int.Parse(Request["activity_id"]), periodSn); 
+            foreach(MatchmakingScheduleModel matchmakingScheduleModel in matchModel.matchmakingScheduleList)
+            {
+                matchmakingPeriodSn.Add(matchmakingScheduleModel.period_sn);
+            }
+
+            var periodSns = from n1 in matchmakingPeriodSn
+                     where schedulePeriodSn.Contains(n1) == false
+                     select n1;
+            if(periodSns.Count() != 0)
+            {
+                foreach (int periodSn in periodSns)
+                {
+                    matchService.MatchkingDataByActivityWithPeriodDelete(int.Parse(Request["activity_id"]), periodSn);
+                }
             }
 
             return View(matchModel);
         }
+        #endregion
 
+        #region 媒合時程大表新增修改刪除
         [HttpPost]
-        public ActionResult StoreMatchData(int period_sn, int activity_id, string[] buyer_id, string[] seller_id)
+        public ActionResult StoreMatchData(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
         {
+            /*列出某活動的媒合大表資料*/
+            matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(activity_id);
+            /*列出某活動所有買主*/
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id);
+            /*列出某活動媒合時段*/
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(activity_id);
+            /*列出某活動的時間區段輸入媒合的賣家*/
+            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+
+            matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, buyer_id.Length * period_sn.Length).ToArray();
+
+            foreach (MatchmakingScheduleModel model in matchModel.matchmakingScheduleList)
+            {
+                foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+                {
+                    if (schedulePeriodSetModel.period_sn == model.period_sn)
+                    {
+                        i = matchModel.schedulePeriodSetList.IndexOf(schedulePeriodSetModel);
+                    }
+                }
+
+                foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+                {
+                    if (buyerInfoModel.buyer_id == model.buyer_id)
+                    {
+                        j = matchModel.buyerinfoList.IndexOf(buyerInfoModel);
+                    }
+                }
+
+                if ((i != notFoundIndex) && (j != notFoundIndex))
+                {
+                    matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = model.company;
+                }
+
+            }
             MatchmakingScheduleModel matchmakingScheduleModel = new MatchmakingScheduleModel();
-            matchmakingScheduleModel.period_sn = period_sn;
             matchmakingScheduleModel.activity_id = activity_id;
             matchmakingScheduleModel.create_time = DateTime.Now;
 
-            for (int i = 0; i < seller_id.Length; i++)
+            for (int x = 0; x < period_sn.Length * buyer_id.Length; x++)
             {
-                matchmakingScheduleModel.buyer_id = buyer_id[i];
-                matchmakingScheduleModel.seller_id = seller_id[i];
-                matchService.CertainTimeMatchSellerInsert(matchmakingScheduleModel);
-            }
 
-            
+                if (matchModel.matchMakingScheduleSellerCompany[x] == "" && seller_id[x].Length != 0)
+                {   
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchService.CertainTimeMatchSellerInsert(matchmakingScheduleModel);
+                }
+                else if (matchModel.matchMakingScheduleSellerCompany[x] != "" && seller_id[x] != "")
+                {
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchService.CertainActivityMatchkingDataUpdate(matchmakingScheduleModel);
+                }
+                else if (matchModel.matchMakingScheduleSellerCompany[x].Length != 0 && seller_id[x] == "")
+                {
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchService.CertainActivityMatchkingDataDelete(matchmakingScheduleModel);
+
+                }
+            }
 
             return Redirect("MatchScheduleList?activity_id=" + activity_id);
         }
         #endregion
+
 
     }
 }
