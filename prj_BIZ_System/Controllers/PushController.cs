@@ -13,10 +13,12 @@ namespace prj_BIZ_System.Controllers
     {
         public PushService pushService;
         public Push_ViewModel pushViewModel;
+        public ManagerService managerService;
         public PushController()
         {
             pushService = new PushService();
             pushViewModel = new Push_ViewModel();
+            managerService = new ManagerService();
             ViewBag.Form = "Manager";
 
         }
@@ -25,11 +27,15 @@ namespace prj_BIZ_System.Controllers
         public ActionResult SearchPushList(string push_type,string push_name)
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name, manager_id).Pages(Request, this);
+
+
+            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name, grp_id);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
             return View(ViewBag.Pages.datalist);
@@ -44,17 +50,20 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditPushList(int? push_id)
         {
-            string create_id = null;
+
+            string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
             {
-                create_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
 
             //var manager_id = "admin"; //管理者編號 
             //PushTypeEnum push_type = new PushTypeEnum();
             //ViewBag.push_type = push_type;
             pushViewModel.activityinfoList = pushService.getActivityInfoListAfterNow();
-            pushViewModel.pushSampleList = pushService.getPushSampleAll(create_id);
+            pushViewModel.pushSampleList = pushService.getPushSampleAll(grp_id);
             ViewBag.Action = "EditPushListInsertUpdate";
 
             if (push_id == null)
@@ -110,12 +119,14 @@ namespace prj_BIZ_System.Controllers
         /* Json */
         public ActionResult EditPushSampleJson(string action)
         {
-            string create_id = null;
+            string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
             {
-                create_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            pushViewModel.pushSampleList = pushService.getPushSampleAll(create_id);
+            pushViewModel.pushSampleList = pushService.getPushSampleAll(grp_id);
             return Json(pushViewModel, JsonRequestBehavior.AllowGet);
         }
 

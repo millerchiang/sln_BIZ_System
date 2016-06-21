@@ -14,9 +14,9 @@ namespace prj_BIZ_System.Services
 
         //ActivityInfoModel******************************************************************************//
 
-        public IList<ActivityInfoModel> GetActivityInfoList(string manager_id)
+        public IList<ActivityInfoModel> GetActivityInfoList(int? grp_id)
         {
-            ActivityInfoModel param = new ActivityInfoModel() { manager_id = manager_id };
+            ActivityInfoModel param = new ActivityInfoModel() { grp_id = grp_id };
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
@@ -53,9 +53,9 @@ namespace prj_BIZ_System.Services
         }
 
 
-        public IList<NewsModel> GetNewsType(string news_type,string manager_id)
+        public IList<NewsModel> GetNewsType(string news_type,int? grp_id)
         {
-            NewsModel param = new NewsModel() { news_type = news_type, manager_id= manager_id };
+            NewsModel param = new NewsModel() { news_type = news_type, grp_id = grp_id };
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsType", param);
         }
 
@@ -90,9 +90,9 @@ namespace prj_BIZ_System.Services
 
         //BuyerInfoModel******************************************************************************//
 
-        public IList<BuyerInfoModel> GetBuyerInfoAll(string manager_id)
+        public IList<BuyerInfoModel> GetBuyerInfoAll(int? grp_id)
         {
-            BuyerInfoModel param = new BuyerInfoModel() { manager_id = manager_id };
+            BuyerInfoModel param = new BuyerInfoModel() { grp_id = grp_id };
             return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", param);
         }
 
@@ -139,7 +139,7 @@ namespace prj_BIZ_System.Services
 
         //ActivityRegisterModel******************************************************************************//
 
-        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company,string starttime, string endtime,string manager_id)
+        public IList<ActivityRegisterModel> GetActivityCheckAllByCondition(string activity_name, string company,string starttime, string endtime,int? grp_id)
         {
             DateTime startDate;
             DateTime endDate;
@@ -151,7 +151,7 @@ namespace prj_BIZ_System.Services
                 endtime = "9999/12/30";
             endDate = Convert.ToDateTime(endtime);
 
-            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company, starttime = startDate, endtime = endDate, manager_id = manager_id };
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company, starttime = startDate, endtime = endDate, grp_id = grp_id };
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
         }
 
