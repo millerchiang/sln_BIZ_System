@@ -44,9 +44,9 @@
   content: "";
   width: 27px;
   height: 27px;
-  background-image: url(../images/icon-s4a3ab92539.png);
+  background-image: url(../images/icon-s3235817286.png);
   background-repeat: no-repeat;
-  background-position: 0 -142px;
+  background-position: 0 bottom;
   position: absolute;
   left: -27px;
   top: -6px;
@@ -92,3 +92,5 @@
 .loginbox_newid:hover, .loginbox_newid:focus, .loginbox_newid:active, .loginbox_newid.active {
   background: #f46813;
 }
+
+/*# sourceMappingURL=login.css.map */

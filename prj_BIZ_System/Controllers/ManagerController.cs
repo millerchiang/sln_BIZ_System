@@ -102,7 +102,7 @@ namespace prj_BIZ_System.Controllers
         {
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id);
+            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this);
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);
@@ -141,7 +141,7 @@ namespace prj_BIZ_System.Controllers
         // GET: Group
         public ActionResult Group()
         {
-            managerViewModel.groupList = managerService.getAllGroup();
+            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this);
 
             return View(managerViewModel);
         }
@@ -205,11 +205,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult B_NewsList()
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.newsList = activityService.GetNewsType(Request["news_type"],manager_id);
+            activityModel.newsList = activityService.GetNewsType(Request["news_type"], grp_id);
             return View(activityModel);
         }
         #endregion
@@ -219,11 +221,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditNewsActivity()
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityinfoList = activityService.GetActivityInfoList(manager_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
             ViewBag.Action = "EditNewsActivityInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -369,11 +373,15 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ActivityList()
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityinfoList = activityService.GetActivityInfoList(manager_id);
+
+
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
             return View(activityModel);
         }
         #endregion
@@ -384,11 +392,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany,string startDate,string endDate)
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,manager_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id);
             ViewBag.Where_ActivityName = selectActivityName;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
@@ -408,11 +418,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult GetRegisterSearchByActivityName(string term, string selectActivityName, string selectCompany, string startDate, string endDate)
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,manager_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,grp_id);
             ArrayList activityNameList = new ArrayList();
 
 
@@ -434,11 +446,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult GetRegisterSearchByCompany(string term, string selectActivityName, string selectCompany, string startDate, string endDate)
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,manager_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,grp_id);
             ArrayList companyList = new ArrayList();
             foreach (ActivityRegisterModel model in activityModel.activityregisterList)
             {
@@ -554,11 +568,13 @@ namespace prj_BIZ_System.Controllers
         public ActionResult BuyerInfoList()
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(manager_id);
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id);
             return View(activityModel);
 
         }
@@ -569,12 +585,14 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditBuyerInfo()
         {
             string manager_id = null;
+            int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
-            activityModel.activityinfoList = activityService.GetActivityInfoList(manager_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
             ViewBag.Action = "EditBuyerInfoInsertUpdate";
             if (Request["Id"] == null)
             {

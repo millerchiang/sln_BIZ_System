@@ -217,9 +217,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\CacheConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\PagesConfig.cs" />
     <Compile Include="App_Start\MailConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\UtilConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\UploadConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
@@ -233,8 +233,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ActivityInfoModel.cs" />
-    <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\ManagerModel.cs" />
+    <Compile Include="Models\MatchModel.cs" />
     <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -384,6 +384,7 @@
     <Content Include="Scripts\ckeditor\ckeditor.pack" />
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
+    <Content Include="Content\Template\Import\user_import_sample.xls" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
@@ -754,12 +755,17 @@
     <Content Include="Scripts\util_cls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="stylesheets\account.css" />
+    <Content Include="stylesheets\application.css" />
     <Content Include="stylesheets\business.css" />
     <Content Include="stylesheets\company_info.css" />
     <Content Include="stylesheets\fromstyle.css" />
     <Content Include="stylesheets\ie.css" />
     <Content Include="stylesheets\index.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
+    <Content Include="stylesheets\layout_bu.css" />
+    <Content Include="stylesheets\layout_public.css" />
+    <Content Include="stylesheets\layout_rwd.css" />
+    <Content Include="stylesheets\layout_type.css" />
     <Content Include="stylesheets\login.css" />
     <Content Include="stylesheets\mixin.css" />
     <Content Include="stylesheets\password_edit.css" />
@@ -803,7 +809,6 @@
     <Content Include="Views\Manager\EditNewsActivity.cshtml" />
     <Content Include="Views\Manager\EditNewsInfo.cshtml" />
     <Content Include="Views\User\ProductList.cshtml" />
-    <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
@@ -831,6 +836,7 @@
     <Content Include="Views\Manager\BuyerInfoList.cshtml" />
     <Content Include="Views\Manager\ActivityInfo.cshtml" />
     <Content Include="Views\User\UserInfoImport.cshtml" />
+    <Content Include="Views\User\_NavSearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -19,6 +19,9 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }     /* 修改時間   */
 
         public string sample_title { get; set; }    /*PushSampleModel 的 範本標題*/
+
+        public int? grp_id { get; set; }//群組
+
     }
 
     public class PushSampleModel
@@ -29,5 +32,8 @@ namespace prj_BIZ_System.Models
         public string content { get; set; }          /* 內容     */
         public DateTime create_time { get; set; }   /* 建立時間 */
         public DateTime update_time { get; set; }   /* 更新時間 */
+
+        public int? grp_id { get; set; }//群組
+
     }
 }

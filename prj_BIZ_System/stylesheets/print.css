@@ -1,31 +1,7 @@
 /* Welcome to Compass. Use this file to define print styles.
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
-.icon-sprite, .icon-biz_logo, .icon-bu_menu01, .icon-bu_menu02, .icon-bu_menu03, .icon-bu_serch, .icon-icon_fpw {
-  background-image: url('/images/icon-s4a3ab92539.png');
-  background-repeat: no-repeat;
-}
+/*@import "icon/*.png"
+ *@include all-icon-sprites */
 
-.icon-biz_logo {
-  background-position: 0 0;
-}
-
-.icon-bu_menu01 {
-  background-position: 0 -34px;
-}
-
-.icon-bu_menu02 {
-  background-position: 0 -61px;
-}
-
-.icon-bu_menu03 {
-  background-position: 0 -88px;
-}
-
-.icon-bu_serch {
-  background-position: 0 -115px;
-}
-
-.icon-icon_fpw {
-  background-position: 0 -142px;
-}
+/*# sourceMappingURL=print.css.map */

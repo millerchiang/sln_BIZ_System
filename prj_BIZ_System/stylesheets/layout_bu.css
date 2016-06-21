@@ -1,0 +1,169 @@
+.edittable input {
+  border: 1px solid #cccccc;
+  height: 25px;
+}
+
+.deleteSbu {
+  background: #cccccc;
+  color: #5e5d5d;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 80px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+.deleteSbu:hover {
+  background: #5e5d5d;
+  color: #ffffff;
+}
+
+.submitbu {
+  background: #cccccc;
+  color: #5e5d5d;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 13px 0;
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+}
+.submitbu:hover {
+  background: #03a9f5;
+  color: #ffffff;
+}
+
+.submitbuRed {
+  background: #f2451d;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 13px 0;
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+}
+.submitbuRed:hover {
+  background: #c13717;
+}
+
+.buinfor {
+  background: #03a9f5;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 13px 0;
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+}
+.buinfor:hover {
+  background: #1184b9;
+}
+
+.addbu {
+  background: #ff9000;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 80px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+.addbu:hover {
+  background: #f46813;
+}
+
+.submitbuOr {
+  background: #ff9000;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 13px 0;
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+}
+.submitbuOr:hover {
+  background: #f46813;
+}
+
+.addbublue {
+  background: #03a9f5;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 80px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+.addbublue:hover {
+  background: #1184b9;
+}
+
+.disabled {
+  background: #cccccc;
+  color: #5e5d5d;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 13px 0;
+  max-width: 120px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1em;
+}
+.disabled:hover {
+  background: #03a9f5;
+  color: #ffffff;
+}
+
+.addbured {
+  background: #f2451d;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 80px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+.addbured:hover {
+  background: #c13717;
+}
+
+.linkb:link, .linkb:visited {
+  color: #000000;
+}
+.linkb:hover, .linkb:focus, .linkb:active, .linkb.active {
+  color: #03a9f5;
+}
+
+/*# sourceMappingURL=layout_bu.css.map */
