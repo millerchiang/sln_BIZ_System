@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.Models;
+﻿using prj_BIZ_System.App_Start;
+using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,10 @@ namespace prj_BIZ_System.Controllers
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             }
-            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name, manager_id);
+            IList<PushListModel> result = pushService.getPushListByCondition(push_type, push_name, manager_id).Pages(Request, this);
             ViewBag.Where_PushType = push_type;
             ViewBag.Where_PushName = push_name;
-            return View(result);
+            return View(ViewBag.Pages.datalist);
         }
 
         // GET: Push
