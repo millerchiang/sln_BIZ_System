@@ -87,8 +87,8 @@
         WHERE bl.activity_id = #activity_id#
       </select>
 
-      <!--查詢買家帳戶已審核通過的活動-->
-      <select id="SelectBuyerAccountPassActivity" resultMap="BuyerAccountPassActivity" parameterClass="BuyerInfoModel">
+      <!--查詢用戶(買主)所屬活動-->
+      <select id="SelectUserWhenActivityBuyer" resultMap="BuyerAccountPassActivity" parameterClass="BuyerInfoModel">
         select *
         FROM buyer_list bl
         INNER JOIN activity_info a

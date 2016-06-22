@@ -316,16 +316,16 @@
 
       </select>
 
-    <!--查詢某活動買主資訊-->
-    <select id="SelectBuyerInfoActivity" resultMap="BuyerInfo1">
-      SELECT *
-      FROM buyer_list bl
-      INNER JOIN user_info ui
-      ON bl.buyer_id = ui.user_id
-      Where activity_id =#activity_id#
-    </select>
+      <!--查詢某活動買主資訊-->
+      <select id="SelectBuyerInfoActivity" resultMap="BuyerInfo1">
+        SELECT *
+        FROM buyer_list bl
+        INNER JOIN user_info ui
+        ON bl.buyer_id = ui.user_id
+        Where activity_id =#activity_id#
+      </select>
 
-    <!--查詢買主資訊單筆-->
+      <!--查詢買主資訊單筆-->
       <select id="SelectBuyerInfoOne" resultMap="BuyerInfo">
         SELECT *
         FROM buyer_list
