@@ -183,9 +183,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult MatchScheduleList()
         {
-            //const int notFoundIndex = 999;
             ViewBag.Action = "StoreMatchData";
-
+            int sellercount = 0;
             IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
                 (int.Parse(Request["activity_id"]), "1");
             IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
@@ -290,6 +289,14 @@ namespace prj_BIZ_System.Controllers
                 {
                     matchService.MatchkingDataByActivityWithPeriodDelete(int.Parse(Request["activity_id"]), periodSn);
                 }
+            }
+
+            /*activityregisterList取出user_id(賣家)存到陣列中*/
+            matchModel.activityRegisterSellerCompany = Enumerable.Repeat(String.Empty, matchModel.activityregisterList.Count).ToArray();
+            foreach (ActivityRegisterModel model in matchModel.activityregisterList)
+            {
+                matchModel.activityRegisterSellerCompany[sellercount] = model.user_id;
+                sellercount++;
             }
 
             return View(matchModel);
