@@ -822,8 +822,8 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
-    <Content Include="Views\Match\MatchScheduleList.cshtml" />
-    <Content Include="Views\Match\MatchScheduleTime.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleTime.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />

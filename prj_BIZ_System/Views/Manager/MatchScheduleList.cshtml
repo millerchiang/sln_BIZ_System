@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Match_ViewModel
 
 @{
-    ViewBag.Title = "媒合時程大表";
+    ViewBag.Title = "MatchScheduleList";
 }
 
 @{
@@ -25,7 +25,7 @@
                     <tr>
                         <th>
                             <div class="centerbox">
-                                <a href="@Url.Action("MatchScheduleTime","Match",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
+                                <a href="@Url.Action("MatchScheduleTime","Manager",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
                             </div>
                         </th>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
@@ -159,14 +159,14 @@
         var selectedSellerIndex = $("#seller_id"+sellerIdCount).index();
         /* 0 1 2 3 4 5 */
        
-        for(var i = 0; i< sellerCounts; i++)
-        {
-            if(sellerIdCount != i)
-            {         
-                //if()
-                $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
-            }
-        }
+        //for(var i = 0; i< sellerCounts; i++)
+        //{
+        //    if(sellerIdCount != i)
+        //    {         
+        //        //if()
+        //        $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
+        //    }
+        //}
     }
 
 </script>
