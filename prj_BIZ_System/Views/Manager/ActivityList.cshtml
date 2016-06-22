@@ -27,7 +27,7 @@
                 <th>主辦單位(英文)</th>
 -->
                 <th></th>
-                <th>媒合大表時間</th>
+                @*<th>媒合大表時間</th>*@
                 <th>媒合大表</th>
             </tr>
             @foreach (ActivityInfoModel newInfo in Model.activityinfoList)
@@ -62,11 +62,11 @@
                         <a href="/Manager/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
                         <a href="/Manager/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
                     </td>
+                    @*<td>
+                        <a href="@Url.Action("MatchScheduleTime","Manager",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表時間</a>
+                    </td>*@
                     <td>
-                        <a href="@Url.Action("MatchScheduleTime","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表時間</a>
-                    </td>
-                    <td>
-                        <a href="@Url.Action("MatchScheduleList","Match",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
+                        <a href="@Url.Action("MatchScheduleList","Manager",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
                     </td>
                 </tr>
             }

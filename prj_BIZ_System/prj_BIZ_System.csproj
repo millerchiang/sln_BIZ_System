@@ -823,8 +823,8 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
-    <Content Include="Views\Match\MatchScheduleList.cshtml" />
-    <Content Include="Views\Match\MatchScheduleTime.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleTime.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
@@ -836,7 +836,7 @@
     <Content Include="Views\Manager\UserEdit.cshtml" />
     <Content Include="Views\Manager\BuyerInfoList.cshtml" />
     <Content Include="Views\Manager\ActivityInfo.cshtml" />
-    <Content Include="Views\User\UserInfoImport.cshtml" />
+    <Content Include="Views\Manager\UserInfoImport.cshtml" />
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -2,10 +2,10 @@
 @model prj_BIZ_System.Models.Match_ViewModel
 
 @{
-    ViewBag.Title = "媒合時程大表";
+    ViewBag.Title = "MatchScheduleList";
 }
 
-@{ 
+@{
     int sellerIdCount = 0;
 }
 
@@ -25,14 +25,15 @@
                     <tr>
                         <th>
                             <div class="centerbox">
-                                <a href="@Url.Action("MatchScheduleTime","Match",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
+                                <a href="@Url.Action("MatchScheduleTime","Manager",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
                             </div>
                         </th>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            <th class="centerbox2">@buyerInfoModel.company
-                                <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
-                            </th>
+                            <th class="centerbox2">
+                                @buyerInfoModel.company
+                            <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
+                        </th>
 
                         }
                     </tr>
@@ -50,7 +51,7 @@
                             </td>
                             <!-------------------我是分隔線-------------------->
 
-                            @for (int j = 0; j< Model.buyerinfoList.Count; j++)
+                            @for (int j = 0; j < Model.buyerinfoList.Count; j++)
                             {
                                 <td>
                                     <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))">
@@ -139,25 +140,33 @@
     function PullDownMenus(sellerIdCount) {
         //console.log(sellerIdCount);
         var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
-        var allSellers = @Html.Raw(Json.Encode(Model.activityregisterList));
-        var selectedSeller = $("#seller_id"+sellerIdCount + " option:selected").val();
+        var allSellers = @Html.Raw(Json.Encode(Model.activityRegisterSellerCompany));
+        var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
+
         var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
         var periodCounts = @Model.schedulePeriodSetList.Count();
-        var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
-        console.log();
-        //console.log(selectedSeller);
+        var buyerCounts  = @Model.buyerinfoList.Count();
+
         //console.log(sellerCompanys);
+        //console.log(allSellers);
+        //console.log(selectedSeller);
+        console.log(sellerCounts);
+        //console.log(periodCounts);
+        //console.log(buyerCounts);
+        //console.log(sellerCompanys[sellerIdCount])
 
-
-        //for(var i = 0; i< sellerCounts; i++)
-        //{
-        //    if(selectedSeller != null)
-        //    {
-        //        $("#seller_id"+i+" option[value="+selectedSeller+"]").remove();
-        //    }else{
-
-        //    }
-        //}
+        //var selectedSellerIndex = $("#seller_id"+sellerIdCount + " option:selected").index();
+        var selectedSellerIndex = $("#seller_id"+sellerIdCount).index();
+        /* 0 1 2 3 4 5 */
+       
+        for(var i = 0; i< sellerCounts; i++)
+        {
+            if(sellerIdCount != i)
+            {         
+                //if()
+                $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
+            }
+        }
     }
 
 </script>
