@@ -830,7 +830,7 @@
     <Content Include="Views\Manager\UserEdit.cshtml" />
     <Content Include="Views\Manager\BuyerInfoList.cshtml" />
     <Content Include="Views\Manager\ActivityInfo.cshtml" />
-    <Content Include="Views\User\UserInfoImport.cshtml" />
+    <Content Include="Views\Manager\UserInfoImport.cshtml" />
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -666,6 +666,36 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 會員資料匯入
+        public ActionResult UserInfoImport()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UserInfoMultiInsert(HttpPostedFileBase iupexl, string upexl_name)
+        {
+            if (iupexl != null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength > 0)
+            {
+                string targetDir = "_temp";
+                Dictionary<string, string> uploadResultDic = null;
+                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+
+                if ("success".Equals(uploadResultDic["result"]))
+                {
+                    Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
+                    TempData["import_msg"] = "匯入完成";
+                    TempData["allStatusUserInfos"] = result["allStatusUserInfos"];
+                    UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", "admin");
+                }
+                else
+                {
+                    TempData["import_msg"] = "匯入失敗";
+                }
+            }
+            return Redirect("UserInfoImport");
+        }
+        #endregion
 
     }
 }
