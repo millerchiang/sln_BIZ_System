@@ -55,3 +55,9 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
 }
+
+select, option, input {
+  font-family: "arial", "Microsoft JhengHei";
+}
+
+/*# sourceMappingURL=reset.css.map */

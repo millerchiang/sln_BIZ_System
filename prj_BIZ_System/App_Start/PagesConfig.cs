@@ -65,6 +65,13 @@ namespace prj_BIZ_System.App_Start
             }
 
             StringBuilder sb = new StringBuilder();
+
+
+            sb.Append("<p style='padding: 10px 0'>");
+            sb.Append("總共 " + pages.maxCount);
+            sb.Append("筆");
+            sb.Append("</p>");
+
             sb.Append("<ul class='pagelist'>");
             if (pages.currentPage > 1)
             {
@@ -80,7 +87,7 @@ namespace prj_BIZ_System.App_Start
             {
                 string somePage = (i + 1).ToString();
                 string paramS2 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + somePage;
-                sb.Append("<li><a href = '" + (url + paramS2) + "' >" + (i + 1) + "</a></li>");
+                sb.Append("<li><a "+(i==(pages.currentPage-1)?"class='active'":"") +" href = '" + (url + paramS2) + "' >" + (i + 1) + "</a></li>");
             }
             if (pages.maxPage > 1 && pages.currentPage != pages.maxPage)
             {
@@ -89,13 +96,8 @@ namespace prj_BIZ_System.App_Start
                 sb.Append("<li><a href = '" + (url + paramS3) + "' > &gt;</a></li>");
             }
             sb.Append("</ul>");
-            /*
-            sb.Append("<span>");
-            sb.Append("總筆數 "+pages.maxCount);
-            sb.Append(" / ");
-            sb.Append("總頁數 "+pages.maxPage);
-            sb.Append("</span>");
-            */        
+
+                    
             return MvcHtmlString.Create(sb.ToString());
         }
 

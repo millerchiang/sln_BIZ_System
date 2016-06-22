@@ -108,6 +108,12 @@ namespace prj_BIZ_System.Services
             return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerInfoOne", param);
         }
 
+        public BuyerInfoModel GetBuyerDataByActivityWithIdOne(int activity_id, string buyer_id)
+        {
+            BuyerInfoModel param = new BuyerInfoModel() { activity_id = activity_id, buyer_id = buyer_id };
+            return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerDataByActivityWithId", param);
+        }
+
         public void BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
         {
             mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);

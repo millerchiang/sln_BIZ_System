@@ -28,7 +28,7 @@ namespace prj_BIZ_System.Controllers
 
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"]);
-            matchModel.buyerinfoList = matchService.GetBuyerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
+            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"]);
 
             return View(matchModel);
         }

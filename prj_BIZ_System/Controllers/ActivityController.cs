@@ -17,12 +17,14 @@ namespace prj_BIZ_System.Controllers
     {
         public ActivityService activityService;
         public UserService userService;
+        public MatchService matchService;
         public Activity_ViewModel activityModel;
 
         public ActivityController()
         {
             activityService = new ActivityService();
             userService = new UserService();
+            matchService = new MatchService();
             activityModel = new Activity_ViewModel();
         }
 
@@ -30,6 +32,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ActivityInfo()
         {
             activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["Id"]));
+            activityModel.buyerinfo = activityService.GetBuyerDataByActivityWithIdOne(int.Parse(Request["Id"]), Request.Cookies["UserInfo"]["user_id"]);
             if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
             {
                 activityModel.activityregister = activityService.GetActivityRegisterSelectOne

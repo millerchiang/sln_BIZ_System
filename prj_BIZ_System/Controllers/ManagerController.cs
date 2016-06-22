@@ -141,7 +141,7 @@ namespace prj_BIZ_System.Controllers
         // GET: Group
         public ActionResult Group()
         {
-            managerViewModel.groupList = managerService.getAllGroup();
+            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this);
 
             return View(managerViewModel);
         }

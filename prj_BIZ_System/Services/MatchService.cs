@@ -42,10 +42,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<BuyerInfoModel>("Match.SelectSellerMatchToBuyerNameAndNeed", param);
         }
 
-        public IList<BuyerInfoModel> GetBuyerAccountPassActivity(string buyer_id)
+        public IList<BuyerInfoModel> GetUserWhenActivityBuyer(string buyer_id)
         {
+            
             BuyerInfoModel param = new BuyerInfoModel() {buyer_id = buyer_id };
-            return mapper.QueryForList<BuyerInfoModel>("Match.SelectBuyerAccountPassActivity", param);
+            return mapper.QueryForList<BuyerInfoModel>("Match.SelectUserWhenActivityBuyer", param);
         }
 
         public IList<BuyerInfoModel> GetBuyerListAllList(int activity_id)

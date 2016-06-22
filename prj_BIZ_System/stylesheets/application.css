@@ -14,7 +14,6 @@
   vertical-align: top;
   margin: 0 0 15px 0;
   float: left;
-  clear: left;
 }
 
 .regis_col01R_input {
@@ -180,111 +179,9 @@ textarea {
     margin: 0 auto;
   }
 }
-.regis_completebox {
-  border: 1px solid #cccccc;
-  background: #ffffff;
-  width: 100%;
-  display: block;
-  margin: 0 0 20px 0;
-  line-height: 25px;
-  box-sizing: border-box;
+.regis_table tr td {
+  padding: 10px 0;
+  text-align: left;
 }
 
-.regis_complete {
-  background: #00bcd5;
-  font-size: 0.75em;
-  text-align: center;
-}
-
-.choose_file {
-  cursor: pointer;
-  z-index: 1;
-  background: #ff9000;
-  color: #ffffff;
-  border-radius: 5px;
-  display: inline-block;
-  padding: 8px 0;
-  max-width: 100px;
-  width: 100%;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  font-size: 0.813em;
-}
-
-#result {
-  width: 180px;
-  height: 157px;
-  border: 1px solid #cccccc;
-  overflow: hidden;
-  background: #ffffff;
-  text-align: center;
-  position: relative;
-  margin-bottom: 10px;
-}
-
-#result img {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#result + .choose_file + input {
-  display: none;
-}
-
-.uploadbox {
-  border: 1px solid #cccccc;
-  width: 100%;
-  max-width: 400px;
-  padding: 10px 30px;
-}
-
-.uploadlist {
-  padding-bottom: 20px;
-  position: relative;
-}
-
-.inforlist {
-  padding-bottom: 15px;
-}
-.inforlist li {
-  line-height: 2em;
-  border-bottom: 1px dotted #cccccc;
-}
-
-.inforlistactive {
-  background: #FFFCF0;
-}
-
-.regis_dmlist + .centerbox, .regis_table + .centerbox, .uploadlist + .centerbox {
-  padding-top: 30px;
-}
-
-.datalist + .searchbox {
-  margin-top: 30px;
-}
-
-.uploaddm {
-  text-align: center;
-}
-.uploaddm input[type="file"] {
-  width: 240px;
-}
-
-.uploadlist .choose_file {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -150px;
-  margin-top: -25px;
-}
-
-/*# sourceMappingURL=registerd.css.map */
+/*# sourceMappingURL=application.css.map */

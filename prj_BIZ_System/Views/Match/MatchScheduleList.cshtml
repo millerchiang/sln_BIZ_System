@@ -5,6 +5,10 @@
     ViewBag.Title = "媒合時程大表";
 }
 
+@{ 
+    int sellerIdCount = 0;
+}
+
 @{
     <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
@@ -49,7 +53,7 @@
                             @for (int j = 0; j< Model.buyerinfoList.Count; j++)
                             {
                                 <td>
-                                    <select name="seller_id" id="">
+                                    <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))">
                                         <option value="">--請選擇--</option>
                                         @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                                         {
@@ -121,7 +125,7 @@
     </article>
 </div>
 
-<script>
+<script type="text/javascript">
     $(function () {
 
         /*儲存媒合資料*/
@@ -129,6 +133,31 @@
             $("#form").submit();
         });
 
+        /*某下拉式選單選擇後橫排及豎排不能複選的功能*/
     });
+
+    function PullDownMenus(sellerIdCount) {
+        //console.log(sellerIdCount);
+        var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
+        var allSellers = @Html.Raw(Json.Encode(Model.activityregisterList));
+        var selectedSeller = $("#seller_id"+sellerIdCount + " option:selected").val();
+        var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
+        var periodCounts = @Model.schedulePeriodSetList.Count();
+        var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
+        console.log();
+        //console.log(selectedSeller);
+        //console.log(sellerCompanys);
+
+
+        //for(var i = 0; i< sellerCounts; i++)
+        //{
+        //    if(selectedSeller != null)
+        //    {
+        //        $("#seller_id"+i+" option[value="+selectedSeller+"]").remove();
+        //    }else{
+
+        //    }
+        //}
+    }
 
 </script>

@@ -70,7 +70,10 @@
 {
     if (Model.activityregister == null)
     {
-                        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+        if (Model.buyerinfo == null)
+        {
+        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+        }
     }
     else if (Model.activityregister.manager_check == "0")
     {
