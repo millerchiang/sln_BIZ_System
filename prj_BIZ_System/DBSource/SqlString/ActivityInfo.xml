@@ -332,6 +332,14 @@
         WHERE serial_no = #serial_no#
       </select>
     
+      <!--查詢單筆資訊by活動與買主-->
+      <select id="SelectBuyerDataByActivityWithId" resultMap="BuyerInfo">
+        SELECT *
+        FROM buyer_list
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+      </select>
+    
       <!--新增買主資訊單筆-->
       <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
         INSERT INTO buyer_list (
