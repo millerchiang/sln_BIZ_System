@@ -159,14 +159,14 @@
         var selectedSellerIndex = $("#seller_id"+sellerIdCount).index();
         /* 0 1 2 3 4 5 */
        
-        //for(var i = 0; i< sellerCounts; i++)
-        //{
-        //    if(sellerIdCount != i)
-        //    {         
-        //        //if()
-        //        $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
-        //    }
-        //}
+        for(var i = 0; i< sellerCounts; i++)
+        {
+            if(sellerIdCount != i)
+            {         
+                //if()
+                $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
+            }
+        }
     }
 
 </script>
