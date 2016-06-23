@@ -32,8 +32,8 @@
                         {
                             <th class="centerbox2">
                                 @buyerInfoModel.company
-                            <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
-                        </th>
+                                <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
+                            </th>
 
                         }
                     </tr>
@@ -133,40 +133,51 @@
         $("#saveMatchData").click(function () {
             $("#form").submit();
         });
-
-        /*某下拉式選單選擇後橫排及豎排不能複選的功能*/
     });
 
+    /*某下拉式選單選擇後橫排及豎排不能複選的功能*/
     function PullDownMenus(sellerIdCount) {
-        //console.log(sellerIdCount);
+        
+        //console.log(sellerIdCount); //選到的index
         var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
         var allSellers = @Html.Raw(Json.Encode(Model.activityRegisterSellerCompany));
+        var selectedSellerText = $("#seller_id"+sellerIdCount + " option:selected").text();
         var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
-
+        
         var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
         var periodCounts = @Model.schedulePeriodSetList.Count();
         var buyerCounts  = @Model.buyerinfoList.Count();
 
         //console.log(sellerCompanys);
         //console.log(allSellers);
-        //console.log(selectedSeller);
-        console.log(sellerCounts);
+        //console.log(selectedSellerValue);
+        //console.log(selectedSellerText);
+
+        //console.log(sellerCounts);
         //console.log(periodCounts);
         //console.log(buyerCounts);
-        //console.log(sellerCompanys[sellerIdCount])
 
         //var selectedSellerIndex = $("#seller_id"+sellerIdCount + " option:selected").index();
-        var selectedSellerIndex = $("#seller_id"+sellerIdCount).index();
         /* 0 1 2 3 4 5 */
+        //console.log(selectedSellerIndex);
        
-        for(var i = 0; i< sellerCounts; i++)
-        {
-            if(sellerIdCount != i)
-            {         
-                //if()
-                $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
-            }
-        }
+
+
+        //for(var i = 0; i < periodCounts * buyerCounts; i++)
+        //{
+        //    if(i != sellerIdCount)
+        //    {  
+        //        $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
+        //        $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
+        //        var removeTemp = selectedSellerValue;
+
+        //        if(removeTemp != selectedSellerValue)
+        //        {
+        //            $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
+        //        }
+        //    }
+            
+        //}     
     }
 
 </script>

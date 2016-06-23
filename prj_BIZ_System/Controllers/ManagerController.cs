@@ -865,7 +865,7 @@ namespace prj_BIZ_System.Controllers
             matchModel.activityRegisterSellerCompany = Enumerable.Repeat(String.Empty, matchModel.activityregisterList.Count).ToArray();
             foreach (ActivityRegisterModel model in matchModel.activityregisterList)
             {
-                matchModel.activityRegisterSellerCompany[sellercount] = model.user_id;
+                matchModel.activityRegisterSellerCompany[sellercount] = model.company;
                 sellercount++;
             }
 
