@@ -96,6 +96,7 @@ namespace prj_BIZ_System.Models
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
         public IList<MatchmakingScheduleModel> matchmakingScheduleList { get; set; }
 
+        public string[] activityRegisterSellerCompany { get; set; }
         public string[] matchMakingScheduleSellerCompany { get; set; }
         public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
         public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
