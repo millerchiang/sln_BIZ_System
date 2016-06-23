@@ -35,6 +35,7 @@
         <article>
             <h2 class="borderTitle2">查詢結果</h2>
             <a href="/Manager/UserEdit" class="buinfor rightbox">新增廠商</a>
+            <br></br>
             <table class="edittable">
 
                 <tr>
@@ -74,23 +75,7 @@
                     </tr>
                 }
             </table>
-
-            <ul class="pagelist">
-                <li><a href="">&lt;</a></li>
-
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
-                <li><a href="">6</a></li>
-                <li><a href="">7</a></li>
-                <li><a href="">8</a></li>
-                <li><a href="">9</a></li>
-                <li><a href="">10</a></li>
-
-                <li><a href="">&gt;</a></li>
-            </ul>
+            @Html.PagesList((PageList<UserInfoModel>)ViewBag.Pages)
         </article>
 </div>
 

@@ -30,8 +30,16 @@
           m.grp_id = $grp_id$
         </isNotEmpty>
       </dynamic>
+      ORDER BY starttime DESC
     </select>
-    
+
+    <select id="SelectActivityLimit" parameterType= "int" resultMap="ActivityInfo">
+      SELECT *
+      FROM activity_info
+      ORDER BY starttime DESC Limit $limit$
+    </select>
+
+
     <!--查詢單筆-->
     <select id="SelectActivityOne" resultMap="ActivityInfo">
       SELECT *
@@ -228,7 +236,29 @@
             manager_id = #manager_id#
           </isNotEmpty>
         </dynamic>
+        ORDER BY news_date DESC
       </select>
+
+    <select id="SelectNewsLimit" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews0Limit" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '0'
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews1Limit" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '1'
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
 
     <!--查詢某新聞型態清單-->
     <select id="SelectNewsType" resultMap="News1">

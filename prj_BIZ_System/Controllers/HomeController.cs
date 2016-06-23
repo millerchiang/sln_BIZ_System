@@ -37,13 +37,12 @@ namespace prj_BIZ_System.Controllers
             {
                 indexModel.enterprisesortList = userService.GetSortList();
                 indexModel.userinfoList = userService.GetUserInfoList();
-                indexModel.activityinfoList = activityService.GetActivityInfoList(null);
-                indexModel.newsList = activityService.GetNewsAll(null);
+                indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6); 
+                indexModel.newsList = activityService.GetNewsLimit(6);
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
                 }
-
                 return View(indexModel);
             }
             else
@@ -58,7 +57,7 @@ namespace prj_BIZ_System.Controllers
                 if (Request["Type"] == null)
                 {
                     ViewBag.tname = "最新消息";
-                    indexModel.newsList = activityService.GetNewsAll(null);
+                    indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
                 }
                 else
                 {
@@ -67,7 +66,7 @@ namespace prj_BIZ_System.Controllers
                     else
                         ViewBag.tname = "最新新聞";
 
-                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null);
+                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null).Pages(Request, this, 10);
                 }
 
 
@@ -76,6 +75,18 @@ namespace prj_BIZ_System.Controllers
             else
                 return Redirect("Login");
         }
+
+        public ActionResult Activity()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                indexModel.activityinfoList = activityService.GetActivityInfoList(null).Pages(Request, this, 10);
+                return View(indexModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
 
         public ActionResult Company()
         {

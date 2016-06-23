@@ -109,7 +109,7 @@ namespace prj_BIZ_System.Controllers
         {
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this);
+            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this,10);
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);
@@ -148,7 +148,7 @@ namespace prj_BIZ_System.Controllers
         // GET: Group
         public ActionResult Group()
         {
-            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this);
+            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this,10);
 
             return View(managerViewModel);
         }
@@ -218,7 +218,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.newsList = activityService.GetNewsType(Request["news_type"], grp_id);
+            activityModel.newsList = activityService.GetNewsType(Request["news_type"], grp_id).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
@@ -388,7 +388,7 @@ namespace prj_BIZ_System.Controllers
             }
 
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id).Pages(Request, this, 10); 
             return View(activityModel);
         }
         #endregion
@@ -405,7 +405,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
             ViewBag.Where_ActivityName = selectActivityName;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
@@ -482,7 +482,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult UserList(string user_id, string company)
         {
-            activityModel.userinfoList = userService.GetUserInfoListkw(user_id,company);
+            activityModel.userinfoList = userService.GetUserInfoListkw(user_id,company).Pages(Request, this, 10);
             return View(activityModel);
         }
         public ActionResult DeleteUser()
@@ -581,7 +581,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id);
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id).Pages(Request, this, 10);
             return View(activityModel);
 
         }

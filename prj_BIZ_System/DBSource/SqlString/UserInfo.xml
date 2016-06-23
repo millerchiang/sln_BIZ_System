@@ -165,6 +165,7 @@
     <select id="SelectAll" resultMap="UserInfo-result">
       SELECT *
       FROM user_info
+      ORDER BY create_time DESC Limit 10
     </select>
 
     <!--關鍵字查詢-->

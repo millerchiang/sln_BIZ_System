@@ -1,58 +1,70 @@
 ﻿<!DOCTYPE html>
 
 
-@if (ViewBag.Form == "Manager")
-{
-    if (ViewBag.Title != "Login")
+@{
+    int exitok = 0;
+
+
+    if (ViewBag.Form == "Manager")
     {
-        if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
+        if (ViewBag.Title != "Login")
         {
-            Response.Redirect("~/Manager/Login");
-        }
+            if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
 
-        if (Request.Cookies["ManagerInfo"]["manager"] == "0" && (ViewBag.Title == "ManagerInfo"
-            || ViewBag.Title == "Group" || ViewBag.Title == "EditPassword"))
-        {
-            Response.Redirect("~/Manager/Login");
-        }
+            else if (Request.Cookies["ManagerInfo"]["manager"] == "0" && (ViewBag.Title == "ManagerInfo"
+    || ViewBag.Title == "Group" || ViewBag.Title == "EditPassword"))
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
 
-        if (Request.Cookies["ManagerInfo"]["push"] == "0" && (ViewBag.Title == "EditPushList"
-            || ViewBag.Title == "SearchPushList" || ViewBag.Title == "EditPushSample"))
-        {
-            Response.Redirect("~/Manager/Login");
-        }
-        if (Request.Cookies["ManagerInfo"]["news"] == "0" && (ViewBag.Title == "B_NewsList"
-            || ViewBag.Title == "EditNewsActivity" || ViewBag.Title == "EditNewsInfo"))
-        {
-            Response.Redirect("~/Manager/Login");
-        }
-        if (Request.Cookies["ManagerInfo"]["activity"] == "0" && (ViewBag.Title == "EditActivity"
-            || ViewBag.Title == "ActivityList" || ViewBag.Title == "BuyerInfoList" || ViewBag.Title == "EditBuyerInfo"
-            || ViewBag.Title == "ActivityRegisterCheck"))
-        {
-            Response.Redirect("~/Manager/Login");
-        }
-        if (Request.Cookies["ManagerInfo"]["user"] == "0" && (ViewBag.Title == "UserList"
-            || ViewBag.Title == "UserEdit"))
-        {
-            Response.Redirect("~/Manager/Login");
+            else if (Request.Cookies["ManagerInfo"]["push"] == "0" && (ViewBag.Title == "EditPushList"
+    || ViewBag.Title == "SearchPushList" || ViewBag.Title == "EditPushSample"))
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
+            else if (Request.Cookies["ManagerInfo"]["news"] == "0" && (ViewBag.Title == "B_NewsList"
+    || ViewBag.Title == "EditNewsActivity" || ViewBag.Title == "EditNewsInfo"))
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
+            else if (Request.Cookies["ManagerInfo"]["activity"] == "0" && (ViewBag.Title == "EditActivity"
+    || ViewBag.Title == "ActivityList" || ViewBag.Title == "BuyerInfoList" || ViewBag.Title == "EditBuyerInfo"
+    || ViewBag.Title == "ActivityRegisterCheck"))
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
+            else if (Request.Cookies["ManagerInfo"]["user"] == "0" && (ViewBag.Title == "UserList"
+    || ViewBag.Title == "UserEdit"))
+            {
+                exitok = 1;
+                Response.Redirect("~/Manager/Login");
+            }
         }
     }
-}
 
-else
-{
-    if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
+    else
     {
-
-        if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+        if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
         {
-            Response.Redirect("~/Home/Login");
+
+            if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
+            {
+                exitok = 1;
+                Response.Redirect("~/Home/Login");
+            }
         }
     }
-}
 
-
+    if (exitok != 1)
+    {
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -61,7 +73,7 @@ else
     <title>@ViewBag.Title -生產力2.0</title>
     @Styles.Render("~/stylesheets/css")
     @Scripts.Render("~/bundles/jquery")
-    @RenderSection("pagestyle",false)
+    @RenderSection("pagestyle", false)
     @*<script src="../Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>*@
 </head>
 <body>
@@ -199,3 +211,5 @@ else
 -->
 </body>
 </html>
+        }
+    }

@@ -11,9 +11,8 @@ namespace prj_BIZ_System.App_Start
 {
     public static class PagesConfig
     {
-        public static int pageNum = 10;
 
-        public static IList<T> Pages<T>(this IList<T> modelList , HttpRequestBase req , ControllerBase ctrl) where T : class
+        public static IList<T> Pages<T>(this IList<T> modelList , HttpRequestBase req , ControllerBase ctrl,int pageNum) where T : class
         {
             int current_page = req["currentPage"] == null ? 1 : Int32.Parse(req["currentPage"]);
             PageList<T> page = new PageList<T>();
