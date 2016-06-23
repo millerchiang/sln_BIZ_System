@@ -251,7 +251,27 @@
         ON ms.seller_id = ui.user_id
         WHERE ms.activity_id = #activity_id#
       </select>
-      
+    
+      <!--查詢用戶(買主)時,媒合大表資料by活動-->
+      <select id="SelectWhenUserIsBuyerMatchMakingData" resultMap="MatchmakingSchedule">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.seller_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+        AND ms.buyer_id = #buyer_id#
+      </select>
+    
+      <!--查詢用戶(賣家)時,媒合大表資料by活動-->
+      <select id="SelectWhenUserIsSellerMatchMakingData" resultMap="MatchmakingSchedule">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.buyer_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+        AND ms.seller_id = #seller_id#
+      </select>
+    
       <!--更新某活動與某時段與某買主的媒合大表資料-->
       <update id="UpdateCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
         UPDATE manager.matchmaking_schedule

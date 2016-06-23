@@ -32,7 +32,7 @@
                 @foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
                 {
                     <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingNeedModel.buyer_id})">@matchmakingNeedModel.company</a>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingNeedModel.seller_id})">@matchmakingNeedModel.company</a>
                     </li>
                 }
             </ul>
@@ -40,9 +40,12 @@
         <section class="form_box w45">
             <h2>主辦方排定洽談的賣家</h2>
             <ul class="dmicon listlink">
-                <li>
-                    <a href="company_info_else.html">XX公司</a>
-                </li>
+                @foreach (MatchmakingScheduleModel matchmakingScheduleModel in Model.matchmakingScheduleList)
+                {
+                    <li>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingScheduleModel.seller_id})">@matchmakingScheduleModel.company</a>
+                    </li>
+                }
             </ul>
         </section>
     </article>

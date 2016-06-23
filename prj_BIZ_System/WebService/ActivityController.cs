@@ -58,13 +58,13 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpPost]
-        public int modifyActivityRegister(ActivityRegisterModel activityRegisterModel)
+        public int ModifyActivityRegister(ActivityRegisterModel activityRegisterModel)
         {
             return activityService.ActivityRegisterUpdateOne(activityRegisterModel);
         }
 
         [HttpPost]
-        public int cancelActivityRegister(int activity_id, string user_id)
+        public int CancelActivityRegister(int activity_id, string user_id)
         {
             return activityService.ActivityRegisterDeleteOne(activity_id, user_id);
         }

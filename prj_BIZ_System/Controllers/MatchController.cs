@@ -122,6 +122,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeSeller()
         {
             matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
+            matchModel.matchmakingScheduleList = matchService.GetWhenUserIsSellerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);
         }
         #endregion
@@ -130,6 +131,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeBuyer()
         {
             matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], "");
+            matchModel.matchmakingScheduleList = matchService.GetWhenUserIsBuyerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);
         }
         #endregion

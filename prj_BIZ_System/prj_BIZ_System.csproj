@@ -247,12 +247,13 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
     <Compile Include="WebService\ActivityController.cs" />
+    <Compile Include="WebService\MatchController.cs" />
     <Compile Include="WebService\UserInfoController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Start\MailTemplate\AccountMailValidate.html" />
-    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
     <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Fail.html" />
+    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
     <Content Include="App_Start\MailTemplate\ForgetPassword.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />

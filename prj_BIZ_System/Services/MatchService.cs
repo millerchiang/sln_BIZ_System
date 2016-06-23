@@ -131,6 +131,18 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingScheduleModel>("Match.SelectCertainActivityMatchMakingData", param);
         }
 
+        public IList<MatchmakingScheduleModel> GetWhenUserIsBuyerMatchMakingDataList(int activity_id, string user_id)
+        {
+            MatchmakingScheduleModel param = new MatchmakingScheduleModel() { activity_id = activity_id, buyer_id = user_id};
+            return mapper.QueryForList<MatchmakingScheduleModel>("Match.SelectWhenUserIsBuyerMatchMakingData", param);
+        }
+
+        public IList<MatchmakingScheduleModel> GetWhenUserIsSellerMatchMakingDataList(int activity_id, string user_id)
+        {
+            MatchmakingScheduleModel param = new MatchmakingScheduleModel() { activity_id = activity_id, seller_id = user_id };
+            return mapper.QueryForList<MatchmakingScheduleModel>("Match.SelectWhenUserIsSellerMatchMakingData", param);
+        }
+
         public void CertainActivityMatchkingDataUpdate(MatchmakingScheduleModel matchmakingScheduleModel)
         {
             mapper.Update("Match.UpdateCertainActivityMatchkingData", matchmakingScheduleModel);
