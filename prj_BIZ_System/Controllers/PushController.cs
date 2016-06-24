@@ -113,7 +113,15 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditPushSample()
         {
-            return View();
+            string manager_id = null;
+            int? grp_id = null;
+            if (Request.Cookies["ManagerInfo"]["push"] == "2")
+            {
+                manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
+            }
+            pushViewModel.pushSampleList = pushService.getPushSampleAll(grp_id).Pages(Request,this,10);
+            return View(pushViewModel);
         }
 
         /* Json */

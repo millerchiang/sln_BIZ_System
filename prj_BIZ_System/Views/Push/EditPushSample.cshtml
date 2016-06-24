@@ -1,4 +1,5 @@
-﻿@model prj_BIZ_System.Models.Push_ViewModel
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Push_ViewModel
 
 @{
     ViewBag.Title = "EditPushSample";
@@ -19,26 +20,27 @@
                 <tr>
                     <th>範本名稱</th>
                     <th>編輯</th>
-
                 </tr>
+                @if (Model.pushSampleList != null)
+                {
+                    foreach (PushSampleModel md in Model.pushSampleList)
+                    {
+                        <tr>
+                            <td class="_title">@md.sample_title</td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="javascript:void(0)" class="editbu tempeditbu">編輯</a>
+                                    <a href="javascript:void(0)" class="deletebu">刪除</a>
+                                    <span style="display:none" class="_id">@md.sample_id</span>
+                                    <span style="display:none" class="_title">@md.sample_title</span>
+                                    <span style="display:none" class="_content">@md.content</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
             </table>
-            <ul class="pagelist">
-                <li><a href="">&lt;</a></li>
-
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
-                <li><a href="">6</a></li>
-                <li><a href="">7</a></li>
-                <li><a href="">8</a></li>
-                <li><a href="">9</a></li>
-                <li><a href="">10</a></li>
-
-                <li><a href="">&gt;</a></li>
-            </ul>
-
+            @Html.PagesList((PageList<PushSampleModel>)ViewBag.Pages)
         </article>
     </div>
     <div class="sys_searchboxco2">
@@ -64,7 +66,6 @@
 <script>
     $(function () {
         init();
-        loadData();
     });
     function init() {
 
@@ -88,6 +89,18 @@
                 alert(errMsg);
                 return false;
             }
+        });
+
+        $(".edittable tr").find("a.editbu").click(function () {
+            var id = $(this).next().next().text();
+            var title = $(this).next().next().next().text();
+            var content = $(this).next().next().next().next().text();
+            displayDetail(id, title, content);
+        });
+
+        $(".edittable tr").find("a.deletebu").click(function () {
+            var sample_id = $(this).next().text();
+            checkPushListExists(sample_id);
         });
 
         $("#temp_edit").click(function () {
@@ -114,7 +127,6 @@
                         var new_title = $("input[name='sample_title']").val();
                         var new_content = $("textarea[name='content']").val();
                         var $_id_span = $(".edittable tr").find("._id:contains('" + sample_id + "')");
-
                         var $trs = $_id_span.parents('tr');
                         var $_title_span = $_id_span.next();
                         var $_content_span = $_id_span.next().next();
@@ -130,40 +142,6 @@
                     alert("修改失敗");
                 }
             });
-        });
-    }
-
-    function loadData() {
-        $.ajax({
-            type: "get",
-            url: "@Url.Action("EditPushSampleJson", "Push")",
-            cache: false,
-            dataType: "json"
-        }).done(function (result) {
-            if (result != null && result.pushSampleList != null) {
-                var pushSampleList = result.pushSampleList;
-                if (pushSampleList != null && pushSampleList.length > 0) {
-                    $.each(pushSampleList, function (index, el) {
-                        $(".edittable").append(genTemplate(el));
-                    });
-
-                    $(".edittable tr").find("a.editbu").click(function () {
-                        var id = $(this).next().next().text();
-                        var title = $(this).next().next().next().text();
-                        var content = $(this).next().next().next().next().text();
-                        displayDetail(id, title, content);
-                    });
-
-                    $(".edittable tr").find("a.deletebu").click(function () {
-                        var sample_id = $(this).next().text();
-                        checkPushListExists(sample_id);
-                    });
-                } else {
-                    alert("尚無資料");
-                }
-            }
-            else {
-            }
         });
     }
 
