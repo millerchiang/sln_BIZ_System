@@ -26,6 +26,8 @@ namespace prj_BIZ_System.Controllers
         // GET: Push
         public ActionResult SearchPushList(string push_type,string push_name)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -44,6 +46,8 @@ namespace prj_BIZ_System.Controllers
         // GET: Push
         public ActionResult SearchPushListCount(int sample_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             int count = pushService.getPushListCountBySampleId(sample_id);
             return Json(count,JsonRequestBehavior.AllowGet);
         }
@@ -51,6 +55,8 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditPushList(int? push_id)
         {
 
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -87,6 +93,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditPushListInsertUpdate(PushListModel model)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             if (model.push_id == null)
             {
                 model.manager_id = "admin"; //之後要從 Cookie抓
@@ -101,6 +109,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeletePushList(int? push_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             bool isDelSuccess = pushService.DeletePushListOne(push_id);
             return Redirect("SearchPushList");
         }
@@ -108,11 +118,15 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult PushListInsertUpdateJson()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             return View();
         }
 
         public ActionResult EditPushSample()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -127,6 +141,8 @@ namespace prj_BIZ_System.Controllers
         /* Json */
         public ActionResult EditPushSampleJson(string action)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -141,6 +157,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult PushSampleInsertUpdate(string pagetype , PushSampleModel model )
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             model.create_id = Request.Cookies["ManagerInfo"]["manager_id"];  // Request.Cookies["user_id"]
             if ("Insert".Equals(pagetype))
             {
@@ -157,6 +175,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeletePushSampleJson(int sample_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
             bool isDelSuccess = pushService.PushSampleDeleteOne(sample_id);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }

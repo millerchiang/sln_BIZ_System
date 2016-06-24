@@ -19,6 +19,8 @@ namespace prj_BIZ_System.Controllers
         public Index_ViewModel indexModel;
         public User_ViewModel userModel;
         public ActivityService activityService;
+        public PasswordService passwordService;
+        public Password_ViewModel passwordViewModel;
 
         public HomeController()
         {
@@ -26,6 +28,9 @@ namespace prj_BIZ_System.Controllers
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
             userModel = new User_ViewModel();
+
+            passwordService = new PasswordService();
+            passwordViewModel = new Password_ViewModel();
 
         }
 
@@ -223,6 +228,41 @@ namespace prj_BIZ_System.Controllers
                 result = "";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ForgetPassword()
+        {
+
+            return View();
+        }
+
+        //忘記密碼 只有前端有
+        public ActionResult ReSetPassword(string user_id, string email)
+        {
+
+            string errMsg = "新的註冊密碼通知信已寄出，請至你註冊填寫的信箱收取!!";
+            UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
+            if (md != null)
+            {
+                string new_pw = MailHelper.sendForgetPassword(md.email, Request.Url.Host, Request.Url.Port);
+                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
+                if (!isUpdateSuccess)
+                {
+                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    TempData["fp_errMsg"] = errMsg;
+                    return Redirect("ForgetPassword");
+                }
+            }
+            else
+            {
+                errMsg = "輸入的資料不正確，請重新操作!!";
+                TempData["fp_errMsg"] = errMsg;
+                return Redirect("ForgetPassword");
+            }
+
+            TempData["fp_errMsg"] = errMsg;
+
+            return Redirect("Login");
         }
     }
 }

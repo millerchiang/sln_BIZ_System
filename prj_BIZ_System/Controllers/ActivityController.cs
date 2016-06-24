@@ -31,9 +31,12 @@ namespace prj_BIZ_System.Controllers
         #region 活動資訊
         public ActionResult ActivityInfo()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["Id"]));
             activityModel.buyerinfo = activityService.GetBuyerDataByActivityWithIdOne(int.Parse(Request["Id"]), Request.Cookies["UserInfo"]["user_id"]);
-            if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+            if (Request.Cookies["UserInfo"]["user_id"] != null)
             {
                 activityModel.activityregister = activityService.GetActivityRegisterSelectOne
                     (int.Parse(Request["Id"]), Request.Cookies["UserInfo"]["user_id"]);
@@ -48,6 +51,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult BuyerInfoActivity()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
 
             activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"]));
             return View(activityModel);
@@ -62,9 +67,10 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditActivityRegister()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
-
-
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
@@ -119,9 +125,10 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ActivityRegister()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
-
-
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = Request.Cookies["UserInfo"]["company"];
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
@@ -163,6 +170,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditActivityRegisterInsert(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             activityRegisterModel.user_id = Request.Cookies["UserInfo"]["user_id"];
 //            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
             activityRegisterModel.manager_check = "0";
@@ -200,6 +210,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditActivityRegisterUpdate(ActivityRegisterModel activityRegisterModel, int[] product_id, int[] catalog_no)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             activityRegisterModel.user_id = Request.Cookies["UserInfo"]["user_id"];
 //            activityRegisterModel.user_info = Request.Cookies["UserInfo"]["info"];
 //            activityRegisterModel.manager_check = "0";
@@ -238,6 +251,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditActivityRegisterDelete()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
             int activity_id = int.Parse(Request["activity_id"]);
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             activityService.ActivityRegisterDeleteOne(activity_id, user_id);
@@ -251,6 +266,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult selectedActivityId(int activity_id)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
             activityModel.activityinfo = activityService.GetActivityInfoOne(activity_id);
             return Json(activityModel.activityinfo, JsonRequestBehavior.AllowGet);
         }

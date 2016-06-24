@@ -18,7 +18,7 @@
                 <input type="text" name="user_pw" text=""><br>
             </li>
             <li>
-                <a href="" class="loginbox_fpw">忘記密碼</a>
+                <a href="/Home/ForgetPassword" class="loginbox_fpw">忘記密碼</a>
             </li>
         </ul>
         <button class="loginbox_submit" type="submit"> 登入 </button>
@@ -50,4 +50,46 @@
             }
         });
     }
+
+
+    $(function() {
+         @if (!string.IsNullOrEmpty((string)TempData["fp_errMsg"]))
+         {
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["fp_errMsg"]';
+                if (pw_errMsg != '')
+                 {
+                      alert(pw_errMsg);
+                 }
+            }
+            check();
+            </text>
+        }
+
+        $("#form").submit(function () {
+            var user_id = $("input[name='user_id']").val();
+            var email = $("input[name='email']").val();
+            var errMsg = checkValidationOk(user_id, email);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+
+    });
+
+    function checkValidationOk(user_id, email) {
+        var errMsg = '';
+        if (user_id == null || user_id == '') {
+            errMsg += '帳號不可為空白\n';
+        }
+        if (email == null || email == '') {
+            errMsg += 'E-mail不可為空白\n';
+        }
+
+        return errMsg;
+    }
+
+
 </script>
