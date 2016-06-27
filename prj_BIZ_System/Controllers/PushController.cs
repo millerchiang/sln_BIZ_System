@@ -97,7 +97,7 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Manager/Login");
             if (model.push_id == null)
             {
-                model.manager_id = "admin"; //之後要從 Cookie抓
+                model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; //之後要從 Cookie抓
                 pushService.PushListInsertOne(model);
             }
             else
@@ -136,22 +136,6 @@ namespace prj_BIZ_System.Controllers
             }
             pushViewModel.pushSampleList = pushService.getPushSampleAll(grp_id).Pages(Request,this,10);
             return View(pushViewModel);
-        }
-
-        /* Json */
-        public ActionResult EditPushSampleJson(string action)
-        {
-            if (Request.Cookies["ManagerInfo"] == null)
-                return Redirect("~/Manager/Login");
-            string manager_id = null;
-            int? grp_id = null;
-            if (Request.Cookies["ManagerInfo"]["push"] == "2")
-            {
-                manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
-                grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
-            }
-            pushViewModel.pushSampleList = pushService.getPushSampleAll(grp_id);
-            return Json(pushViewModel, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
