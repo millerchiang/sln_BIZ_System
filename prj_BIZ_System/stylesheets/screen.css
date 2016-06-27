@@ -445,6 +445,10 @@ aside {
   clear: both;
 }
 
+.centerbox2 {
+  text-align: center;
+}
+
 .radioinput {
   display: none;
 }
@@ -630,6 +634,14 @@ aside {
   color: #03a9f5;
 }
 
+.listlinks a:link, .listlinks a:visited, .listlinks a:hover, .listlinks a:focus, .listlinks a:active {
+  color: #000000;
+  font-size: 0.813em;
+}
+.listlinks a:hover, .listlinks a:focus, .listlinks a:active, .listlinks a.active {
+  color: #03a9f5;
+}
+
 .regis_dmlist {
   display: inline-block;
   width: 100%;
@@ -730,6 +742,21 @@ aside {
 .w100 {
   display: inline-block;
   width: 100%;
+}
+
+.contentspan {
+  color: #737373;
+  font-size: 0.938em;
+}
+
+input:-moz-read-only {
+  background-color: #dddddd;
+  color: #9e9e9e;
+}
+
+input:read-only {
+  background-color: #dddddd;
+  color: #9e9e9e;
 }
 
 .edittable input {
