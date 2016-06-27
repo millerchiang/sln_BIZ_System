@@ -16,9 +16,10 @@ namespace prj_BIZ_System.App_Start
         {
             int current_page = req["currentPage"] == null ? 1 : Int32.Parse(req["currentPage"]);
             PageList<T> page = new PageList<T>();
+            page.maxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(modelList.Count()) / pageNum));
+            page.currentPage = Math.Min(page.maxPage,current_page);
             page.datalist = modelList.Skip<T>((current_page - 1) * pageNum).Take<T>(pageNum).ToList<T>();
             page.pageNum = pageNum;
-            page.currentPage = current_page;
             StringBuilder sb = new StringBuilder("?");
             int i_temp = 0;
             page.paramDict = new Dictionary<string, object>();
@@ -38,7 +39,6 @@ namespace prj_BIZ_System.App_Start
             }
             page.querystring = sb.ToString();
             page.maxCount = modelList.Count();
-            page.maxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(modelList.Count()) / pageNum));
             ctrl.ViewBag.Pages = page;
             return page.datalist;
         }

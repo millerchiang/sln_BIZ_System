@@ -24,6 +24,9 @@ namespace prj_BIZ_System.Controllers
         public MatchService matchService;
         private const int notFoundIndex = 999;
 
+        public PasswordService passwordService;
+        public Password_ViewModel passwordViewModel;
+
         public ManagerController()
         {
             userService = new UserService();
@@ -34,6 +37,9 @@ namespace prj_BIZ_System.Controllers
 
             matchService = new MatchService();
             matchModel = new Match_ViewModel();
+
+            passwordService = new PasswordService();
+            passwordViewModel = new Password_ViewModel();
 
             ViewBag.Form = "Manager";
 
@@ -99,6 +105,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             return View();
         }
 
@@ -107,6 +115,8 @@ namespace prj_BIZ_System.Controllers
         // GET: ManagerInfo
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
             managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this,10);
@@ -118,6 +128,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ManagerInfoInsertUpdate(string pagetype, ManagerInfoModel model)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             model.create_manager = "admin";  // Request.Cookies["UserInfo"]["manager_id"]
             if ("Insert".Equals(pagetype))
             {
@@ -134,6 +146,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeleteManagerInfoJson(string manager_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             //非真的刪 , 只是停用
             bool isDelSuccess = managerService.ManagerInfoDisableOne(manager_id);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
@@ -148,6 +162,9 @@ namespace prj_BIZ_System.Controllers
         // GET: Group
         public ActionResult Group()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this,10);
 
             return View(managerViewModel);
@@ -155,6 +172,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult GetGroupDetail(int grp_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             managerViewModel.groupList = managerService.getAllGroup();
             GroupModel gp_model = managerService.GroupSelectOne(grp_id);
             Dictionary<string, object> result = new Dictionary<string, object>();
@@ -178,6 +197,8 @@ namespace prj_BIZ_System.Controllers
             , string push   , string news       , string manager , string statistic
         )
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             Dictionary<string, string> limits = new Dictionary<string, string>();
             limits.Add("user", user);
             limits.Add("activity", activity);
@@ -200,6 +221,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeleteGroupJson(int grp_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             bool isDelSuccess = managerService.GroupDeleteOne(grp_id);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }
@@ -211,6 +234,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult B_NewsList()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
@@ -227,6 +252,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditNewsActivity()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
@@ -254,6 +281,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditNewsActivityInsertUpdate(NewsModel model)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (model.news_no == 0)
@@ -267,6 +296,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditNewsActivityDelete()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList?news_type=0");
         }
@@ -276,6 +308,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditNewsInfo()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
             ViewBag.Action = "EditNewsInfoInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -304,6 +338,9 @@ namespace prj_BIZ_System.Controllers
                         news.news_type = Request["news_type"];
                         news.content = Request["content"];
             */
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             news.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (news.news_no == 0)
@@ -317,6 +354,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditNewsInfoDelete()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList?news_type=1");
         }
@@ -326,6 +366,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditActivity()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
 
             ViewBag.Action = "ActivityInsertUpdate";
             if (Request["Id"] == null)
@@ -345,6 +387,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeleteActivity()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityService.ActivityInfoDelectOne(int.Parse(Request["Id"]));
             return Redirect("ActivityList");
         }
@@ -352,6 +397,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ActivityInsertUpdate(ActivityInfoModel model)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (model.activity_id == 0)
@@ -371,6 +419,9 @@ namespace prj_BIZ_System.Controllers
         #region 活動資訊
         public ActionResult ActivityInfo()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["Id"]));
             return View(activityModel);
         }
@@ -379,6 +430,9 @@ namespace prj_BIZ_System.Controllers
         #region 活動列表
         public ActionResult ActivityList()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -398,6 +452,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany,string startDate,string endDate)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -414,6 +471,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditActivityRegisterUpdateChk(ActivityRegisterModel model, int register_id, string manager_check)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             model.register_id = register_id;
             model.manager_check = manager_check;
             activityService.ActivityRegisterUpdateOneChk(model);
@@ -424,6 +484,9 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名查詢
         public ActionResult GetRegisterSearchByActivityName(string term, string selectActivityName, string selectCompany, string startDate, string endDate)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -452,6 +515,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult GetRegisterSearchByCompany(string term, string selectActivityName, string selectCompany, string startDate, string endDate)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -482,11 +548,17 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult UserList(string user_id, string company)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityModel.userinfoList = userService.GetUserInfoListkw(user_id,company).Pages(Request, this, 10);
             return View(activityModel);
         }
         public ActionResult DeleteUser()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             userService.UserInfoDelectOne(Request["user_id"]);
             return Redirect("UserList");
         }
@@ -494,6 +566,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult UserEdit()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityModel.enterprisesortList = userService.GetSortList();
             ViewBag.Action = "UserInsertUpdate";
             string userid = Request["user_id"];
@@ -536,6 +611,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult UserInsertUpdate(UserInfoModel model, int[] sort_id, HttpPostedFileBase logo_img)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             if (Request.Cookies["Action"]["edit"] == "Add")//新增
             {
                 if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.user_id))
@@ -574,6 +652,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult BuyerInfoList()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -591,6 +672,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditBuyerInfo()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
@@ -618,6 +702,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditBuyerInfoInsertUpdate(BuyerInfoModel model)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             if (model.serial_no == 0)
             {
                 activityService.BuyerInfoInsertOne(model);
@@ -630,6 +717,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult GetUserInfoToIdCp(string term)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
             ArrayList arrayList = new ArrayList();
 
@@ -650,6 +740,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult EditBuyerInfoDelete()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             activityService.BuyerInfoDeleteOne(int.Parse(Request["Id"]));
             return Redirect("BuyerInfoList");
         }
@@ -660,6 +753,9 @@ namespace prj_BIZ_System.Controllers
         #region 新聞文字編輯器圖片上傳
         public ActionResult NewsInfoUpload(HttpPostedFileBase upload, string CKEditorFuncNum)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             string result = "";
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, manager_id);
@@ -676,12 +772,18 @@ namespace prj_BIZ_System.Controllers
         #region 會員資料匯入
         public ActionResult UserInfoImport()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             return View();
         }
 
         [HttpPost]
         public ActionResult UserInfoMultiInsert(HttpPostedFileBase iupexl, string upexl_name)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             if (iupexl != null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength > 0)
             {
                 string targetDir = "_temp";
@@ -709,6 +811,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult MatchScheduleTime()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             ViewBag.Action = "StoreMatchTimeInterval";
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
             matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
@@ -719,6 +824,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult StoreMatchTimeInterval(SchedulePeriodSetModel schedulePeriodSetModel, int[] old_period_sn, DateTime[] old_time_start, DateTime[] old_time_end)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             SchedulePeriodSetModel model = new SchedulePeriodSetModel();
             if (old_period_sn != null)
             {
@@ -743,6 +851,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult MatchTimeIntervalDelect()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             int activity_id = int.Parse(Request["activity_id"]);
             matchService.MatchTimeIntervalDeleteOne(int.Parse(Request["period_sn"]));
             return Redirect("MatchScheduleTime?activity_id=" + activity_id);
@@ -753,6 +864,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult MatchScheduleList()
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             ViewBag.Action = "StoreMatchData";
             int sellercount = 0;
             IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
@@ -879,6 +993,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult StoreMatchData(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
             /*列出某活動的媒合大表資料*/
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(activity_id);
             /*列出某活動所有買主*/
@@ -946,6 +1063,66 @@ namespace prj_BIZ_System.Controllers
             }
 
             return Redirect("MatchScheduleList?activity_id=" + activity_id);
+        }
+        #endregion
+
+
+        #region 密碼編輯
+        // GET: Password
+        public ActionResult EditPasswd()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            return View();
+        }
+
+        //修改密碼
+        public ActionResult PasswordInsertUpdate(string old_pw, string new_pw)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string current_id = "";
+            string current_manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; // 取 manager_id 的 cookie
+//            string current_user_id = ""; // "12345678"; // 取 user_id 的 cookie
+            string errMsg = "修改成功";
+            if (!string.IsNullOrEmpty(current_manager_id))
+            {
+                current_id = current_manager_id;
+                if (passwordService.getManagerPassword(current_id).Equals(old_pw))
+                {
+                    if (!passwordService.UpdateManagerPassword(current_id, new_pw))
+                    {
+                        errMsg = "修改失敗";
+                    }
+                }
+                else
+                {
+                    errMsg = "輸入的舊密碼不正確";
+                }
+            }
+
+/*
+            if (!string.IsNullOrEmpty(current_user_id))
+            {
+                current_id = current_user_id;
+                if (passwordService.getUserPassword(current_id).Equals(old_pw))
+                {
+                    if (!passwordService.UpdateUserPassword(current_id, new_pw))
+                    {
+                        errMsg = "修改失敗";
+                    }
+                }
+                else
+                {
+                    errMsg = "輸入的舊密碼不正確";
+                }
+            }
+*/
+            TempData["pw_errMsg"] = errMsg;
+
+            return Redirect("EditPasswd");
         }
         #endregion
 
