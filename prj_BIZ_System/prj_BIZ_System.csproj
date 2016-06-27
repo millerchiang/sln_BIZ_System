@@ -385,6 +385,7 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <Content Include="Content\Template\Import\user_import_sample.xls" />
+    <Content Include="Content\Template\Import\manager_matchmaking_sample.xls" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />

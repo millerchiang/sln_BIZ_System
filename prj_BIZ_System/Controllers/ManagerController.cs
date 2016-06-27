@@ -9,7 +9,9 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using prj_BIZ_System.App_Start;
 using System.Collections;
-
+using System.IO;
+using NPOI.SS.UserModel;
+using NPOI.HSSF.UserModel;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -988,6 +990,51 @@ namespace prj_BIZ_System.Controllers
             return View(matchModel);
         }
         #endregion
+
+        //#region 媒合大表匯出Excel
+        ////[HttpGet]
+        ////public ActionResult ExportExcelByNPOI()
+        ////{
+        ////    /*列出某活動所有買主*/
+        ////    matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
+            
+        ////    /*讀取樣板*/
+        ////    string ExcelPath = Server.MapPath("~/Content/Template/Import/manager_matchmaking_sample.xls");
+        ////    FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.Read);
+        ////    IWorkbook workbook = new HSSFWorkbook(Template);
+        ////    Template.Close();
+
+        ////    ISheet _sheet = workbook.GetSheetAt(0);
+        ////    // 取得剛剛在Excel設定的字型 (第二列首欄)
+        ////    ICellStyle CellStyle = _sheet.GetRow(1).Cells[0].CellStyle;
+        ////    int CurrRow = 1; //起始列(跳過標題列)
+        ////    foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+        ////    {
+        ////        IRow MyRow = _sheet.CreateRow(CurrRow);
+        ////        CreateCell(buyerInfoModel.company, MyRow, 0, CellStyle); //訂單編號
+        ////        CurrRow++;
+        ////    }
+
+        ////    string SavePath = @"D:/matchmaking.xls";
+        ////    FileStream file = new FileStream(SavePath, FileMode.Create);
+        ////    workbook.Write(file);
+        ////    file.Close();
+
+        ////    return File(SavePath, "application/ms-excel", "matchmaking1.xls");
+        ////}
+
+        ///// <summary>NPOI新增儲存格資料</summary>
+        ///// <param name="Word">顯示文字</param>
+        ///// <param name="ContentRow">NPOI IROW</param>
+        ///// <param name="CellIndex">儲存格列數</param>
+        ///// <param name="cellStyleBoder">ICellStyle樣式</param>
+        //private static void CreateCell(string Word, IRow ContentRow, int CellIndex, ICellStyle cellStyleBoder)
+        //{
+        //    ICell _cell = ContentRow.CreateCell(CellIndex);
+        //    _cell.SetCellValue(Word);
+        //    _cell.CellStyle = cellStyleBoder;
+        //}
+        //#endregion
 
         #region 媒合時程大表新增修改刪除
         [HttpPost]
