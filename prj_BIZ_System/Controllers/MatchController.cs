@@ -25,6 +25,9 @@ namespace prj_BIZ_System.Controllers
         public ActionResult AccountManage()
         {
 
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"]);
@@ -37,6 +40,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult WhetherMetchBuyer()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             int activity_id = int.Parse(Request["activity_id"]);
 
             matchModel.matchmakingNeedList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
@@ -56,6 +62,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult SellerBusinessMatch()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             ViewBag.Action = "EditSellerMatchBuyerToInsert";
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
             return View(matchModel);
@@ -64,6 +73,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditSellerMatchBuyerToInsert(MatchmakingNeedModel matchmakingNeedModel, string[] buyer_id)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             matchmakingNeedModel.seller_id = Request.Cookies["UserInfo"]["user_id"];
             matchmakingNeedModel.buyer_reply = "0";
 
@@ -80,6 +92,9 @@ namespace prj_BIZ_System.Controllers
         #region 是否媒合賣家
         public ActionResult WhetherMetchSeller()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             int activity_id = int.Parse(Request["activity_id"]);
 
             matchModel.matchmakingNeedList = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
@@ -99,6 +114,9 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult BuyerBusinessMatch()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             ViewBag.Action = "EditBuyerMatchSellerToInsert";
             //matchModel.activityregisterList = matchService.GetBuyerMatchToSellerName(int.Parse(Request["activity_id"]));
             matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], "");
@@ -108,6 +126,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult EditBuyerMatchSellerToInsert(MatchmakingNeedModel matchmakingNeedModel, string[] seller_id)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             matchmakingNeedModel.buyer_id = Request.Cookies["UserInfo"]["user_id"];
             foreach (string id in seller_id)
             {
@@ -121,6 +142,9 @@ namespace prj_BIZ_System.Controllers
         #region 媒合時程安排(賣家)
         public ActionResult MatchTimeArrangeSeller()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             matchModel.matchmakingNeedList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             matchModel.matchmakingScheduleList = matchService.GetWhenUserIsSellerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);
@@ -130,6 +154,9 @@ namespace prj_BIZ_System.Controllers
         #region 媒合時程安排(買家)
         public ActionResult MatchTimeArrangeBuyer()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
             matchModel.matchmakingNeedList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"], "");
             matchModel.matchmakingScheduleList = matchService.GetWhenUserIsBuyerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             return View(matchModel);

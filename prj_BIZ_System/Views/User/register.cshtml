@@ -93,7 +93,7 @@
                 <a href="/User/ProductList" class="buinfor">產品說明</a>
                 <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
 
-                <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
+                <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
                         <div id="result">
@@ -144,11 +144,21 @@
 
                         }
 
-                        <label for="" class="regis_col01R_label spanRed">
-                            密碼
-                        </label>
-                        <input type="password" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
-						
+                        @if (ViewBag.PageType == "Create")
+                        {
+                            <label for="" class="regis_col01R_label spanRed">
+                                密碼
+                            </label>
+                            <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                        }
+                        else
+                        {
+                            <label for="" class="regis_col01R_label">
+                                <a href="EditPasswd" class="buinfor">修改密碼</a>
+                            </label>
+                            <input type="password" name="user_pw" readonly value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                        }
+
 						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>
 						<input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
 						<label for="email" class="regis_col01R_label spanRed">電子郵件</label>
@@ -211,7 +221,7 @@
                         <label for="revenue04">3001-5000萬</label>
                         <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
                         <label for="revenue05">5000萬-1億</label>
-                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06 required>
+                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
                         <label for="revenue06">一億以上</label>
                     </div>
                     <label for="verticals" class="regis_col02L">產業別(可複選)</label>
@@ -272,5 +282,47 @@
             </text>
         }
     }
+
+    $(function () {
+
+        @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+        {
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["pw_errMsg"]';
+                if (pw_errMsg != '')
+        {
+                    alert(pw_errMsg);
+        }
+        }
+            check();
+        </text>
+    }
+
+        $("#form").submit(function () {
+            var user_pw = $("input[name='user_pw']").val();
+            var errMsg = checkValidationOk(user_pw);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+    });
+
+
+
+    function checkValidationOk(user_pw) {
+        var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
+        var errMsg = '';
+        if (user_pw == null || user_pw == '') {
+            errMsg += '新密碼不可為空白\n';
+        } else {
+            if(!reg.test(user_pw)){
+                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+            }
+        }
+        return errMsg;
+    }
+
 
 </script>
