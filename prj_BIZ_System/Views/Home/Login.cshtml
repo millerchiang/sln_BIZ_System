@@ -7,7 +7,7 @@
 }
 
 <div class="loginbox">
-    <form action="~/Home/IdentifyUser">
+    <form id="form" action="~/Home/IdentifyUser">
         <ul class="loginboxR">
             <li>
                 <label for="">帳號:</label>
@@ -18,16 +18,15 @@
                 <input type="text" name="user_pw" text=""><br>
             </li>
             <li>
+            <span class="fontRed" id="msg"></span>
+            </li>
+            <li>
                 <a href="/Home/ForgetPassword" class="loginbox_fpw">忘記密碼</a>
             </li>
         </ul>
         <button class="loginbox_submit" type="submit"> 登入 </button>
     </form>
-    <p>
-        <span class="fontRed">*</span>帳號為貴公司統一編號 <br>
-        <span class="fontRed">*</span>密碼請設8個字元的英文及數字組合 <br>
-        <span class="fontRed">*</span>第一次登入密碼預設為統編，登入後須立即更改密碼，且符合密碼規則
-    </p>
+    
     <a href="/User/Register?user_id=new" class="loginbox_newid">創造新帳號 </a>
 
 </div>
@@ -51,45 +50,39 @@
         });
     }
 
-
     $(function() {
-         @if (!string.IsNullOrEmpty((string)TempData["fp_errMsg"]))
-         {
+         @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+        {
             <text>
             function check() {
-                var pw_errMsg = '@TempData["fp_errMsg"]';
+                var pw_errMsg = '@TempData["pw_errMsg"]';
                 if (pw_errMsg != '')
-                 {
-                      alert(pw_errMsg);
-                 }
-            }
-            check();
-            </text>
-        }
+         {
+                      $("#msg").html(pw_errMsg);
+         }
+         }
+             check();
+        </text>
+    }
 
         $("#form").submit(function () {
             var user_id = $("input[name='user_id']").val();
-            var email = $("input[name='email']").val();
-            var errMsg = checkValidationOk(user_id, email);
-            if (errMsg != '') {
-                alert(errMsg);
-                return false;
-            }
-        });
-
+            var user_pw = $("input[name='user_pw']").val();
+            if (user_id == '' && user_pw == '') {
+                $("#msg").html("帳號與密碼不能為空白!!");
+            return false;
+        }
+            else if (user_id == '') {
+                $("#msg").html("帳號不能為空白!!");
+            return false;
+        }
+            else if (user_pw == '') {
+                $("#msg").html("密碼不能為空白!!");
+            return false;
+        }
     });
 
-    function checkValidationOk(user_id, email) {
-        var errMsg = '';
-        if (user_id == null || user_id == '') {
-            errMsg += '帳號不可為空白\n';
-        }
-        if (email == null || email == '') {
-            errMsg += 'E-mail不可為空白\n';
-        }
-
-        return errMsg;
-    }
+    });
 
 
 </script>

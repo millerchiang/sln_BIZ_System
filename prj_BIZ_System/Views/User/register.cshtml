@@ -90,9 +90,11 @@
 
                 <h2>@ViewBag.tname</h2>
 
+@if (ViewBag.PageType != "Create")
+{
                 <a href="/User/ProductList" class="buinfor">產品說明</a>
                 <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
-
+}
                 <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
@@ -119,13 +121,13 @@
                         -->
                         <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
 
-                        <label class="regis_col01R_label">
+                        <label class="regis_col01R_label spanRed">
                             企業類型
                         </label>
                         <div class="regis_col01R_input">
-                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01>
+                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01 onclick="tipstring('0')">
                             <label for="enterprise_type01">國內企業</label>
-                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02>
+                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
                             <label for="enterprise_type02">外國企業</label>
                         </div>
                         <label for="" class="regis_col01R_label spanRed">
@@ -133,14 +135,15 @@
                         </label>
                         @if (ViewBag.PageType == "Create")
                         {
-                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" required>
+                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" placeholder="請用統一編號註冊" onblur="chkuser()" required>
                         }
                         else
                         {
-                            <input type="hidden" name="user_id" value="@Model.userinfo.user_id">
+                            <input type="text" name="user_id" value="@Model.userinfo.user_id" readonly class="regis_col01R_input spanRed" required>
+                            @*<input type="hidden" name="user_id" value="@Model.userinfo.user_id">
                             <label for="" class="regis_col01R_input">
                                 @Model.userinfo.user_id
-                            </label>
+                            </label>*@
 
                         }
 
@@ -149,7 +152,7 @@
                             <label for="" class="regis_col01R_label spanRed">
                                 密碼
                             </label>
-                            <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                            <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
                         }
                         else
                         {
@@ -168,7 +171,7 @@
 					
 					<div class="form_box w100">
 						<h2>中文資訊</h2>
-						<label for="" class="regis_col02L">
+						<label for="" class="regis_col02L spanRed">
                             公司名稱
                         </label>
                         <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R">
@@ -224,7 +227,7 @@
                         <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
                         <label for="revenue06">一億以上</label>
                     </div>
-                    <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+                    <label for="verticals" class="regis_col02L spanRed">產業別(可複選)</label>
                     <div class="regis_col02R verticalslist">
 
                     @foreach (var sortList in Model.enterprisesortList)
@@ -324,5 +327,39 @@
         return errMsg;
     }
 
+    function tipstring(id) {
+        if (id=="0")
+            $("input[name='user_id']").attr("placeholder","請用統一編號註冊");
+        else
+            $("input[name='user_id']").attr("placeholder","請自訂帳號");
+    }
+
+
+    function chkuser() {
+
+        var user_id = $("input[name='user_id']").val();
+        if (user_id != null && user_id != '') 
+        {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckUser", "Manager")",
+                cache: false,
+            data: { "user_id": user_id },
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var Huser = result;
+                if (Huser == true) {
+                    alert("該使用帳號已存在,請確認是否帳號有誤!!");
+                    $("input[name='user_id']").focus();                
+                } else {
+                    //                        alert("不存在");
+                }
+            }
+            else {
+            }
+        });
+    }
+    }
 
 </script>

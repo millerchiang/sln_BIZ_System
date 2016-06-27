@@ -76,6 +76,9 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
+
+                TempData["pw_errMsg"] = "密碼或名稱輸入錯誤!!";
+
                 return Redirect("Login");
             }
             else
@@ -564,6 +567,16 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpGet]
+        public ActionResult CheckUser(string user_id)
+        {
+            bool Huser = true;
+            activityModel.userinfo = userService.GeUserInfoOne(user_id);
+            if (activityModel.userinfo==null || activityModel.userinfo.user_id == null)
+                Huser = false;
+            return Json(Huser, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult UserEdit()
         {
             if (Request.Cookies["ManagerInfo"] == null)
