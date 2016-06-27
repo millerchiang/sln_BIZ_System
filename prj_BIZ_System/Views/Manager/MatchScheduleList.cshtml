@@ -128,56 +128,117 @@
 
 <script type="text/javascript">
     $(function () {
-
         /*儲存媒合資料*/
         $("#saveMatchData").click(function () {
             $("#form").submit();
         });
+
+        /*下拉式選單媒合資料初始化*/
+        initMatchData();
     });
 
-    /*某下拉式選單選擇後橫排及豎排不能複選的功能*/
+    var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
+    var sellerIds = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerId));
+    var allSellers = @Html.Raw(Json.Encode(Model.activityRegisterSellerCompany));
+    var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
+    var periodCounts = @Model.schedulePeriodSetList.Count();
+    var buyerCounts = @Model.buyerinfoList.Count();
+
+    console.log(sellerCompanys);
+    console.log(sellerIds);
+    console.log(allSellers);
+    console.log(sellerCounts);
+    console.log(periodCounts);
+    console.log(buyerCounts);
+
+    function initMatchData ()
+    {
+        for(var index = 0; index < sellerCounts; index++)
+        {
+            if(sellerIds[index] != "")
+            {
+                var i = Math.floor(index/buyerCounts);//無條件捨去
+                var j = index % buyerCounts;
+                //console.log("i:"+i);
+                //console.log("j:"+j);
+
+                /*刪除列的資料*/
+                for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
+                {
+                    $("#seller_id"+(i*buyerCounts+indexRow)+" option[value="+sellerIds[index]+"]").remove();
+                }
+
+                /*刪除行的資料*/
+                for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
+                {
+                    $("#seller_id"+indexColumn+" option[value="+sellerIds[index]+"]").remove();
+                }
+
+                /*回填自己index的初值*/
+                $("#seller_id"+index).append($("<option></option>").val(sellerIds[index]).text(sellerCompanys[index]));
+                $("#seller_id"+index+" option[value="+ sellerIds[index] +"]").attr("selected", true);
+
+            }
+        }
+    }
+
+    /*下拉式選單選擇後橫排及豎排不能複選的功能*/
     function PullDownMenus(sellerIdCount) {
-        
-        //console.log(sellerIdCount); //選到的index
-        var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
-        var allSellers = @Html.Raw(Json.Encode(Model.activityRegisterSellerCompany));
         var selectedSellerText = $("#seller_id"+sellerIdCount + " option:selected").text();
         var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
-        
-        var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
-        var periodCounts = @Model.schedulePeriodSetList.Count();
-        var buyerCounts  = @Model.buyerinfoList.Count();
-
-        //console.log(sellerCompanys);
-        //console.log(allSellers);
-        //console.log(selectedSellerValue);
-        //console.log(selectedSellerText);
-
-        //console.log(sellerCounts);
-        //console.log(periodCounts);
-        //console.log(buyerCounts);
-
-        //var selectedSellerIndex = $("#seller_id"+sellerIdCount + " option:selected").index();
-        /* 0 1 2 3 4 5 */
-        //console.log(selectedSellerIndex);
-       
 
 
-        //for(var i = 0; i < periodCounts * buyerCounts; i++)
-        //{
-        //    if(i != sellerIdCount)
-        //    {  
-        //        $("#seller_id"+i+" option[value="+selectedSellerValue+"]").remove();
-        //        $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
-        //        var removeTemp = selectedSellerValue;
+        var i = Math.floor(sellerIdCount/buyerCounts);//無條件捨去
+        var j = sellerIdCount % buyerCounts;
+        console.log("i:"+i);
+        console.log("j:"+j);
+        console.log(selectedSellerValue);
 
-        //        if(removeTemp != selectedSellerValue)
-        //        {
-        //            $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
-        //        }
-        //    }
-            
-        //}     
+        if(selectedSellerValue != "")
+        {
+            /*刪除列的資料*/
+            for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
+            {
+                $("#seller_id"+(i*buyerCounts+indexRow)+" option[value="+selectedSellerValue+"]").remove();
+            }
+
+            /*刪除行的資料*/
+            for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
+            {
+                $("#seller_id"+indexColumn+" option[value="+selectedSellerValue+"]").remove();
+            }
+        }else{
+            $("#seller_id"+sellerIdCount+" option[value="+selectedSellerValue+"]").remove();
+        }
+
+        console.log(sellerIds[sellerIdCount]);
+        /*有選有*/
+        if(sellerIds[sellerIdCount] != "") {
+
+            /*回填列的資料*/
+            for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
+            {
+                if((i*buyerCounts+indexRow) != sellerIdCount){
+                    $("#seller_id"+(i*buyerCounts+indexRow)).append($("<option></option>").val(sellerIds[sellerIdCount]).text(sellerCompanys[sellerIdCount]));
+                }
+            }
+            /*回填行的資料*/
+            for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
+            {
+                if(indexColumn  != sellerIdCount){
+                    $("#seller_id"+indexColumn).append($("<option></option>").val(sellerIds[sellerIdCount]).text(sellerCompanys[sellerIdCount]));
+                }
+            }
+
+            /*回填自己index的初值*/
+            $("#seller_id"+sellerIdCount).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
+            $("#seller_id"+sellerIdCount+" option[value="+ selectedSellerValue +"]").attr("selected", true);
+
+        }else{
+            /*空選有 回填自己index的初值*/
+            $("#seller_id"+sellerIdCount).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
+            $("#seller_id"+sellerIdCount+" option[value="+ selectedSellerValue +"]").attr("selected", true);
+        }
     }
 
 </script>

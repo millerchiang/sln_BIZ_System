@@ -780,6 +780,7 @@ namespace prj_BIZ_System.Controllers
             int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
 
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+            matchModel.matchMakingScheduleSellerId = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
 
             foreach (MatchmakingScheduleModel matchmakingScheduleModel in matchModel.matchmakingScheduleList)
             {
@@ -802,6 +803,7 @@ namespace prj_BIZ_System.Controllers
                 if ((i != notFoundIndex) && (j != notFoundIndex))
                 {
                     matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = matchmakingScheduleModel.company;
+                    matchModel.matchMakingScheduleSellerId[i * matchModel.buyerinfoList.Count + j] = matchmakingScheduleModel.seller_id;
                 }
             }
 
