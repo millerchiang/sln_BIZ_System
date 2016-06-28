@@ -97,7 +97,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.cataloglistList = userService.getAllCatalogTop(4);
                 userModel.enterprisesortList = userService.GetSortList();
                 ViewBag.coverDir = UploadConfig.CatalogRootPath;
 
@@ -111,7 +111,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.cataloglistList = userService.getAllCatalogTop(4);
                 string sort_id = "";
                 string kw = "";
                 if (Request["companyName"]!= null)

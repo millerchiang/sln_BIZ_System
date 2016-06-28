@@ -29,11 +29,11 @@
             <p class="regis_col03R">@Model.userinfo.company</p>
 
 
-            <label for="starttime" class="regis_col02L ">活動日期(起)</label>
-            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
+            <label for="starttime" class="regis_col02L ">活動時間</label>
+            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-            <label for="endtime" class="regis_col03L ">(迄)</label>
-            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
+            <label for="endtime" class="regis_col03L "> ~ </label>
+            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
             <label for="activityAddr" class="regis_col02L ">活動地點</label>
             <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
@@ -41,7 +41,7 @@
             <label for="leader" class="regis_col02L ">與會人數</label>
             <p class="regis_col03R">@Model.activityregister.quantity</p>
 
-            <label for="leader" class="regis_col03L">與會人姓名</label>
+            <label for="leader" class="regis_col03L">與會人</label>
             <p class="regis_col03R">@Model.activityregister.name_a  @Model.activityregister.title_a</p>
 
 
@@ -79,6 +79,14 @@
                 <label for="" class="label01">公司產品</label>
             </div>
             <div class="regis_col02R">
+
+                @{
+                    if (Model.activityproductselectList.Count == 0)
+                    {
+                        <label for="" class="label01">無</label>
+                    }
+                    else
+                    {
                 <table class="regis_table">
                     <tr>
                         <th></th>
@@ -94,11 +102,22 @@
                                 </tr>
                             }
                 </table>
+                    }
+                    }
             </div>
             <div class="regis_col02L">
                 <label for="" class="label01">公司型錄</label>
             </div>
             <div class="regis_col02R uplodboxR">
+@{
+    if (Model.activitycatalogselectList.Count == 0)
+    {
+        <label for="" class="label01">無</label>
+    }
+    else
+    {
+
+
                 <ul class="regis_dmlist">
                             @foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
                             {
@@ -109,6 +128,8 @@
                                 </li>
                             }
                 </ul>
+        }
+    }
             </div>
 
 

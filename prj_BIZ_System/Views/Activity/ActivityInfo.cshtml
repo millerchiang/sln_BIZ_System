@@ -52,7 +52,7 @@
             <li>活動類型: @activity_type_chk</li><br />
             <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
             <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
-            <li>活動時間: @Model.activityinfo.starttime ~ @Model.activityinfo.endtime</li><br />
+            <li>活動時間: @Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</li><br />
             <li>活動地點(中文): @Model.activityinfo.addr</li><br />
             <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
             <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />

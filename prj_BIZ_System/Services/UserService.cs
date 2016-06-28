@@ -322,9 +322,9 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByUserId", param);
         }
 
-        public IList<CatalogListModel> getAllCatalogTop5()
+        public IList<CatalogListModel> getAllCatalogTop(int limit)
         {
-            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListTop5", null);
+            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListTop", limit);
         }
 
         /*新增型錄*/

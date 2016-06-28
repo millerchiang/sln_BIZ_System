@@ -143,7 +143,8 @@ namespace prj_BIZ_System.Controllers
 
 
             if (model.id_enable=="1")
-                return Redirect("../Home/Index");
+//                return Redirect("../Home/Index");
+              return Redirect("Register");
             else
                 return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }

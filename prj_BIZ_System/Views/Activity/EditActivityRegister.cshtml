@@ -39,11 +39,11 @@
                 <p class="regis_col03R">@Model.userinfo.company</p>
 
 
-                <label for="starttime" class="regis_col02L ">活動日期(起)</label>
-                <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time</p>
+                <label for="starttime" class="regis_col02L ">活動時間</label>
+                <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-                <label for="endtime" class="regis_col03L ">(迄)</label>
-                <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime</p>
+                <label for="endtime" class="regis_col03L "> ~ </label>
+                <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
                 <label for="activityAddr" class="regis_col02L ">活動地點</label>
                 <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
@@ -52,7 +52,7 @@
                 <label for="quantity" class="regis_col02L spanRed">與會人數</label>
                 <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
 
-                <label for="name_a" class="regis_col02L ">與會人姓名(含職稱)</label>
+                <label for="name_a" class="regis_col02L ">與會人</label>
                 <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
                 <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
 
@@ -98,6 +98,13 @@
                     <label for="" class="label01">公司產品</label>
                 </div>
                 <div class="regis_col02R">
+@{
+    if (Model.productsortList.Count == 0)
+    {
+        <label for="" class="label01">無</label>
+    }
+    else
+    {
                     <table class="regis_table">
                         <tr>
                             <th></th>
@@ -138,11 +145,20 @@
                                  *@
 
                         </table>
+    }
+    }
                     </div>
                     <div class="regis_col02L">
                         <label for="" class="label01">公司型錄</label>
                     </div>
                     <div class="regis_col02R uplodboxR">
+@{
+    if (Model.cataloglistList.Count == 0)
+    {
+        <label for="" class="label01">無</label>
+    }
+    else
+    {
                         <ul class="regis_dmlist">
                             @*
                             @if (ViewBag.PageType.Equals("CreateRegister"))
@@ -172,6 +188,8 @@
                             }
 *@
                         </ul>
+        }
+    }
                     </div>
 
                     <div class="centerbox">
@@ -204,8 +222,8 @@
                     data: { "activity_id": id },
                     dataType: "json",
                     success: function (result) {
-                        $("#starttime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
-                        $("#endtime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy-MM-dd HH:mm:ss"));
+                        $("#starttime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy/MM/dd tt hh:mm:ss"));
+                        $("#endtime").text(new Date(parseInt(result.starttime.substr(6))).f("yyyy/MM/dd tt hh:mm:ss"));
                         $("#activityAddr").text(result.addr);
                     }
                 })

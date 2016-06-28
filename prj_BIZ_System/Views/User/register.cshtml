@@ -153,6 +153,11 @@
                                 密碼
                             </label>
                             <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
+                            <label for="" class="regis_col01R_label spanRed">
+                                確認密碼
+                            </label>
+                            <input name="user_pw1" type="password" value="" class="regis_col01R_input" placeholder="同上密碼請再次輸入確認" onblur="chkpw()" required>
+
                         }
                         else
                         {
@@ -334,6 +339,23 @@
             $("input[name='user_id']").attr("placeholder","請自訂帳號");
     }
 
+    function chkpw() {
+        var user_pw = $("input[name='user_pw']").val();
+        var user_pw1 = $("input[name='user_pw1']").val();
+        if (user_pw != null && user_pw != '') 
+        {
+            if (user_pw1 =='')
+            {
+                alert("請輸入確認密碼欄位!!");
+                $("input[name='user_pw1']").focus(); 
+            }
+            else if (user_pw != user_pw1)
+            {
+                alert("確認密碼錯誤,請重新確認密碼是否有誤!!");
+                $("input[name='user_pw1']").focus(); 
+            }
+        }
+    }
 
     function chkuser() {
 
