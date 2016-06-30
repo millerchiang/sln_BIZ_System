@@ -146,7 +146,7 @@ namespace prj_BIZ_System.Controllers
 //                return Redirect("../Home/Index");
               return Redirect("Register");
             else
-                return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+                return Redirect("../Home/Verification?user_id=" + model.user_id + "&name=" + name + "&email=" + model.email);
         }
 
         public ActionResult AccountMailValidate(string validate_linkX)

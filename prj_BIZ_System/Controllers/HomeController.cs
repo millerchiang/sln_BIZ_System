@@ -177,6 +177,22 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
 
+        public ActionResult ReAccountMailValidate()
+        {
+            string user_id = Request["user_id"];
+            string name = Request["name"];
+            string email = Request["email"];
+            var id = userService.GeUserInfoOne(user_id).id;
+            MailHelper.sendAccountMailValidate(id, user_id, email, Request.Url.Host, Request.Url.Port);
+
+            string remail_Msg = "重發驗證信完成!!";
+            TempData["remail_Msg"] = remail_Msg;
+
+            return Redirect("Verification?user_id=" + user_id + "&name=" + name + "&email=" + email);
+
+        }
+
+
         public ActionResult IdentifyUser()
         {
             UserInfoModel model = userService.ChkUserInfoOne(Request["user_id"], Request["user_pw"]);
@@ -185,23 +201,27 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
-                TempData["pw_errMsg"] = "密碼或名稱輸入錯誤!!";
+                TempData["pw_errMsg"] = "帳號或密碼錯誤!!";
                 return Redirect("Login");
             }
             else
             {
-                cookie = new HttpCookie("UserInfo");
-                cookie.Values.Add("id_enable", model.id_enable);
-                cookie.Values.Add("user_id", model.user_id);
+//                cookie = new HttpCookie("UserInfo");
+//                cookie.Values.Add("id_enable", model.id_enable);
 
                 //                Response.Cookies["UserInfo"]["id_enable"] = model.id_enable;
                 //                Response.Cookies["UserInfo"]["user_id"] = model.user_id;
                 if (model.id_enable == "0")
                 {
-                    Response.AppendCookie(cookie);
-                    return Redirect("../User/register?user_id=" + model.user_id);
+                    //                    Response.AppendCookie(cookie);
+                    //                    return Redirect("../User/register?user_id=" + model.user_id);
+                    return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
+
                 }
 
+                cookie = new HttpCookie("UserInfo");
+                cookie.Values.Add("id_enable", model.id_enable);
+                cookie.Values.Add("user_id", model.user_id);
                 cookie.Values.Add("company", model.company);
                 cookie.Values.Add("website", model.website);
                 cookie.Values.Add("info", model.info);
@@ -217,9 +237,16 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Verification()
         {
-            return View();
+            string user_id = Request["user_id"];
+            string name = Request["name"];
+            string email = Request["email"];
+
+            if (user_id==null || email==null)
+                return Redirect("Index");
+            else
+                return View();
         }
-        
+
 
         public ActionResult MailValidateResult()
         {

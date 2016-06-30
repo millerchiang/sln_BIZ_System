@@ -3,6 +3,7 @@
 
     string name= Request["name"];
     string email= Request["email"];
+    string user_id = Request["user_id"];
 }
 
 
@@ -19,8 +20,34 @@
             以完成會員註冊作業，謝謝!
         </p>
         <div class="centerbox">
-            <a href="" class="submitbuOr">重發驗證信</a>
+            <a href="ReAccountMailValidate?user_id=@user_id&name=@name&email=@email" class="submitbuOr" onclick="tipstring()">重發驗證信</a>
+            <p>
+                <span class="fontRed" id="msg"></span>
+            </p>
         </div>
-
-    </div>
+</div>
 </main>
+
+<script>
+    $(function() {
+        @if (!string.IsNullOrEmpty((string)TempData["remail_Msg"]))
+        {
+            <text>
+        function check() {
+            var remail_Msg = '@TempData["remail_Msg"]';
+            if (remail_Msg != '')
+        {
+                $("#msg").html(remail_Msg);
+        }
+        }
+            check();
+        </text>
+    }
+    }
+    )
+
+    function tipstring() {
+        $("#msg").html('');
+    }
+
+</script>

@@ -79,7 +79,7 @@ namespace prj_BIZ_System.Controllers
             if (model == null)
             {
 
-                TempData["pw_errMsg"] = "密碼或名稱輸入錯誤!!";
+                TempData["pw_errMsg"] = "帳號或密碼錯誤!!";
 
                 return Redirect("Login");
             }
