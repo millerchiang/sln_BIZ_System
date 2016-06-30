@@ -1,5 +1,6 @@
 ﻿using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
+using prj_BIZ_System.WebService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,9 +36,29 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public ActivityRegisterModel GetUserActivityRegister(int activity_id, string user_id)
+        public ActivityRegister GetUserActivityRegister(int activity_id, string user_id)
         {
-            return activityService.GetActivityRegisterSelectOne(activity_id, user_id);
+            ActivityRegisterModel activityRegisterModel = activityService.GetActivityRegisterSelectOne(activity_id, user_id);
+            if (activityRegisterModel == null) return null;
+
+            ActivityInfoModel activityInfoModel = activityService.GetActivityInfoOne(activity_id);
+            return new ActivityRegister
+            {
+                activity_name = activityInfoModel.activity_name,
+                starttime = activityInfoModel.starttime,
+                endtime = activityInfoModel.endtime,
+                addr = activityInfoModel.addr,
+                user_id = activityRegisterModel.user_id,
+                quantity = activityRegisterModel.quantity,
+                name_a = activityRegisterModel.name_a,
+                title_a = activityRegisterModel.title_a,
+                name_b = activityRegisterModel.name_b,
+                title_b = activityRegisterModel.title_b,
+                telephone = activityRegisterModel.telephone,
+                phone = activityRegisterModel.phone,
+                email = activityRegisterModel.email,
+                manager_check = activityRegisterModel.manager_check,
+            };
         }
 
         [HttpPost]

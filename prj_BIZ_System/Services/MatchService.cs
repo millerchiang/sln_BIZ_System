@@ -56,14 +56,14 @@ namespace prj_BIZ_System.Services
         }
 
         //MatchmakingNeedModel
-        public void MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
+        public object MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
         {
-            mapper.Insert("Match.InsertMatchmakingNeedOne", matchmakingNeedModel);
+            return mapper.Insert("Match.InsertMatchmakingNeedOne", matchmakingNeedModel);
         }
 
-        public void MatchmakingNeedUpdateOne(MatchmakingNeedModel matchmakingNeedModel)
+        public int MatchmakingNeedUpdateOne(MatchmakingNeedModel matchmakingNeedModel)
         {
-            mapper.Update("Match.UpdateMatchmakingNeedOne", matchmakingNeedModel);
+            return mapper.Update("Match.UpdateMatchmakingNeedOne", matchmakingNeedModel);
         }
 
         public IList<MatchmakingNeedModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
