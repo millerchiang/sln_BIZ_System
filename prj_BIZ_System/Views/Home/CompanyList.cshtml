@@ -6,6 +6,7 @@
 }
 @section pagestyle{
     <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
 }
 
 <div class="article_col1">
@@ -46,7 +47,7 @@
                 @foreach (var catalogList in Model.cataloglistList)
                 {
                     <li>
-                        <a href="/User/UserInfo?user_id=@catalogList.user_id">
+                        <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
                             <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
 
                         </a>
@@ -56,3 +57,23 @@
         </section>
     </article>
 </div>
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+        $("#deleteLink").click(function () {
+            if(confirm("確認是否要刪除")){
+                $("#deleteForm").submit();
+            }
+        });
+    }
+</script>

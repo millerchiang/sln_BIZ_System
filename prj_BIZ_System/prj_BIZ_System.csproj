@@ -226,7 +226,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
-    <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -253,8 +252,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Start\MailTemplate\AccountMailValidate.html" />
-    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
     <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Fail.html" />
+    <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
     <Content Include="App_Start\MailTemplate\ForgetPassword.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -387,6 +386,7 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <Content Include="Content\Template\Import\user_import_sample.xls" />
+    <Content Include="Content\Template\Import\manager_matchmaking_sample.xls" />
     <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
@@ -830,8 +830,8 @@
     <Content Include="Views\Manager\Group.cshtml" />
     <Content Include="Views\Home\Company.cshtml" />
     <Content Include="Views\Home\CompanyList.cshtml" />
-    <Content Include="Views\Password\EditPasswd.cshtml" />
-    <Content Include="Views\Password\ForgetPassword.cshtml" />
+    <Content Include="Views\Manager\EditPasswd.cshtml" />
+    <Content Include="Views\Home\ForgetPassword.cshtml" />
     <Content Include="Views\Manager\Login.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Manager\UserEdit.cshtml" />
@@ -839,6 +839,8 @@
     <Content Include="Views\Manager\ActivityInfo.cshtml" />
     <Content Include="Views\Manager\UserInfoImport.cshtml" />
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
+    <Content Include="Views\Home\Activity.cshtml" />
+    <Content Include="Views\User\EditPasswd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

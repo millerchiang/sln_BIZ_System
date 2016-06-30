@@ -19,6 +19,8 @@ namespace prj_BIZ_System.Controllers
         public Index_ViewModel indexModel;
         public User_ViewModel userModel;
         public ActivityService activityService;
+        public PasswordService passwordService;
+        public Password_ViewModel passwordViewModel;
 
         public HomeController()
         {
@@ -26,6 +28,9 @@ namespace prj_BIZ_System.Controllers
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
             userModel = new User_ViewModel();
+
+            passwordService = new PasswordService();
+            passwordViewModel = new Password_ViewModel();
 
         }
 
@@ -37,13 +42,12 @@ namespace prj_BIZ_System.Controllers
             {
                 indexModel.enterprisesortList = userService.GetSortList();
                 indexModel.userinfoList = userService.GetUserInfoList();
-                indexModel.activityinfoList = activityService.GetActivityInfoList(null);
-                indexModel.newsList = activityService.GetNewsAll(null);
+                indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6); 
+                indexModel.newsList = activityService.GetNewsLimit(6);
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
                 }
-
                 return View(indexModel);
             }
             else
@@ -58,7 +62,7 @@ namespace prj_BIZ_System.Controllers
                 if (Request["Type"] == null)
                 {
                     ViewBag.tname = "最新消息";
-                    indexModel.newsList = activityService.GetNewsAll(null);
+                    indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
                 }
                 else
                 {
@@ -67,7 +71,7 @@ namespace prj_BIZ_System.Controllers
                     else
                         ViewBag.tname = "最新新聞";
 
-                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null);
+                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null).Pages(Request, this, 10);
                 }
 
 
@@ -77,11 +81,23 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
         }
 
+        public ActionResult Activity()
+        {
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                indexModel.activityinfoList = activityService.GetActivityInfoList(null).Pages(Request, this, 10);
+                return View(indexModel);
+            }
+            else
+                return Redirect("Login");
+        }
+
+
         public ActionResult Company()
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.cataloglistList = userService.getAllCatalogTop(4);
                 userModel.enterprisesortList = userService.GetSortList();
                 ViewBag.coverDir = UploadConfig.CatalogRootPath;
 
@@ -95,7 +111,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-                userModel.cataloglistList = userService.getAllCatalogTop5();
+                userModel.cataloglistList = userService.getAllCatalogTop(4);
                 string sort_id = "";
                 string kw = "";
                 if (Request["companyName"]!= null)
@@ -169,6 +185,7 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
+                TempData["pw_errMsg"] = "密碼或名稱輸入錯誤!!";
                 return Redirect("Login");
             }
             else
@@ -212,6 +229,41 @@ namespace prj_BIZ_System.Controllers
                 result = "";
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ForgetPassword()
+        {
+
+            return View();
+        }
+
+        //忘記密碼 只有前端有
+        public ActionResult ReSetPassword(string user_id, string email)
+        {
+
+            string errMsg = "新的註冊密碼通知信已寄出，請至你註冊填寫的信箱收取!!";
+            UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
+            if (md != null)
+            {
+                string new_pw = MailHelper.sendForgetPassword(md.email, Request.Url.Host, Request.Url.Port);
+                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
+                if (!isUpdateSuccess)
+                {
+                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    TempData["fp_errMsg"] = errMsg;
+                    return Redirect("ForgetPassword");
+                }
+            }
+            else
+            {
+                errMsg = "輸入的資料不正確，請重新操作!!";
+                TempData["fp_errMsg"] = errMsg;
+                return Redirect("ForgetPassword");
+            }
+
+            TempData["fp_errMsg"] = errMsg;
+
+            return Redirect("Login");
         }
     }
 }

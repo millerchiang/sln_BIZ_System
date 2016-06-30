@@ -87,11 +87,12 @@
       WHERE user_id = #user_id#
     </select>
 
+    
     <!--查詢型錄全部-->
-    <select id="SelectCatalogListTop5" resultMap="CatalogList-result">
+    <select id="SelectCatalogListTop" parameterType= "int" resultMap="CatalogList-result">
       SELECT *
       FROM catalog_list
-      Order By catalog_no Desc Limit 5
+      Order By catalog_no Desc Limit $limit$
 
     </select>
 
@@ -165,6 +166,7 @@
     <select id="SelectAll" resultMap="UserInfo-result">
       SELECT *
       FROM user_info
+      ORDER BY create_time DESC Limit 10
     </select>
 
     <!--關鍵字查詢-->

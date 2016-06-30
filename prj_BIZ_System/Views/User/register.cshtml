@@ -90,10 +90,12 @@
 
                 <h2>@ViewBag.tname</h2>
 
+@if (ViewBag.PageType != "Create")
+{
                 <a href="/User/ProductList" class="buinfor">產品說明</a>
                 <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
-
-                <form action="@ViewBag.Action" method="post" enctype="multipart/form-data">
+}
+                <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
 
                         <div id="result">
@@ -119,13 +121,13 @@
                         -->
                         <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
 
-                        <label class="regis_col01R_label">
+                        <label class="regis_col01R_label spanRed">
                             企業類型
                         </label>
                         <div class="regis_col01R_input">
-                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01>
+                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01 onclick="tipstring('0')">
                             <label for="enterprise_type01">國內企業</label>
-                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02>
+                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
                             <label for="enterprise_type02">外國企業</label>
                         </div>
                         <label for="" class="regis_col01R_label spanRed">
@@ -133,22 +135,38 @@
                         </label>
                         @if (ViewBag.PageType == "Create")
                         {
-                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" required>
+                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" placeholder="請用統一編號註冊" onblur="chkuser()" required>
                         }
                         else
                         {
-                            <input type="hidden" name="user_id" value="@Model.userinfo.user_id">
+                            <input type="text" name="user_id" value="@Model.userinfo.user_id" readonly class="regis_col01R_input spanRed" required>
+                            @*<input type="hidden" name="user_id" value="@Model.userinfo.user_id">
                             <label for="" class="regis_col01R_input">
                                 @Model.userinfo.user_id
-                            </label>
+                            </label>*@
 
                         }
 
-                        <label for="" class="regis_col01R_label spanRed">
-                            密碼
-                        </label>
-                        <input type="password" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
-						
+                        @if (ViewBag.PageType == "Create")
+                        {
+                            <label for="" class="regis_col01R_label spanRed">
+                                密碼
+                            </label>
+                            <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
+                            <label for="" class="regis_col01R_label spanRed">
+                                確認密碼
+                            </label>
+                            <input name="user_pw1" type="password" value="" class="regis_col01R_input" placeholder="同上密碼請再次輸入確認" onblur="chkpw()" required>
+
+                        }
+                        else
+                        {
+                            <label for="" class="regis_col01R_label">
+                                <a href="EditPasswd" class="buinfor">修改密碼</a>
+                            </label>
+                            <input type="password" name="user_pw" readonly value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                        }
+
 						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>
 						<input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
 						<label for="email" class="regis_col01R_label spanRed">電子郵件</label>
@@ -158,7 +176,7 @@
 					
 					<div class="form_box w100">
 						<h2>中文資訊</h2>
-						<label for="" class="regis_col02L">
+						<label for="" class="regis_col02L spanRed">
                             公司名稱
                         </label>
                         <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R">
@@ -211,10 +229,10 @@
                         <label for="revenue04">3001-5000萬</label>
                         <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
                         <label for="revenue05">5000萬-1億</label>
-                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06 required>
+                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
                         <label for="revenue06">一億以上</label>
                     </div>
-                    <label for="verticals" class="regis_col02L">產業別(可複選)</label>
+                    <label for="verticals" class="regis_col02L spanRed">產業別(可複選)</label>
                     <div class="regis_col02R verticalslist">
 
                     @foreach (var sortList in Model.enterprisesortList)
@@ -271,6 +289,99 @@
                 UpdateRender();
             </text>
         }
+    }
+
+    $(function () {
+
+        @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+        {
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["pw_errMsg"]';
+                if (pw_errMsg != '')
+        {
+                    alert(pw_errMsg);
+        }
+        }
+            check();
+        </text>
+    }
+
+        $("#form").submit(function () {
+            var user_pw = $("input[name='user_pw']").val();
+            var errMsg = checkValidationOk(user_pw);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+    });
+
+
+
+    function checkValidationOk(user_pw) {
+        var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
+        var errMsg = '';
+        if (user_pw == null || user_pw == '') {
+            errMsg += '新密碼不可為空白\n';
+        } else {
+            if(!reg.test(user_pw)){
+                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+            }
+        }
+        return errMsg;
+    }
+
+    function tipstring(id) {
+        if (id=="0")
+            $("input[name='user_id']").attr("placeholder","請用統一編號註冊");
+        else
+            $("input[name='user_id']").attr("placeholder","請自訂帳號");
+    }
+
+    function chkpw() {
+        var user_pw = $("input[name='user_pw']").val();
+        var user_pw1 = $("input[name='user_pw1']").val();
+        if (user_pw != null && user_pw != '') 
+        {
+            if (user_pw1 =='')
+            {
+                alert("請輸入確認密碼欄位!!");
+                $("input[name='user_pw1']").focus(); 
+            }
+            else if (user_pw != user_pw1)
+            {
+                alert("確認密碼錯誤,請重新確認密碼是否有誤!!");
+                $("input[name='user_pw1']").focus(); 
+            }
+        }
+    }
+
+    function chkuser() {
+
+        var user_id = $("input[name='user_id']").val();
+        if (user_id != null && user_id != '') 
+        {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckUser", "Manager")",
+                cache: false,
+            data: { "user_id": user_id },
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var Huser = result;
+                if (Huser == true) {
+                    alert("該使用帳號已存在,請確認是否帳號有誤!!");
+                    $("input[name='user_id']").focus();                
+                } else {
+                    //                        alert("不存在");
+                }
+            }
+            else {
+            }
+        });
+    }
     }
 
 </script>

@@ -52,7 +52,7 @@
             <li>活動類型: @activity_type_chk</li><br />
             <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
             <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
-            <li>活動時間: @Model.activityinfo.starttime ~ @Model.activityinfo.endtime</li><br />
+            <li>活動時間: @Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</li><br />
             <li>活動地點(中文): @Model.activityinfo.addr</li><br />
             <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
             <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
@@ -65,7 +65,6 @@
 -->
 
                 <div class="centerbox">
-
     @if (Model.activityregister == null)
     {
         if (Model.buyerinfo == null)
@@ -83,8 +82,6 @@
         <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
     }
     <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
-
-
 </div>
 </p>
 

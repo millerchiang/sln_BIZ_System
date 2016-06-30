@@ -39,25 +39,35 @@
             <div class="newsbox">
                 <div class="newsboxTitle">
                     <h3>最新活動</h3>
-                    <a href="">More</a>
+                    <a href="Activity">More</a>
                 </div>
                 <img src="/images/index_pic.jpg" alt="" class="newsboximg01">
                 <ul class="newsboxList01 listlink dmicon">
-                @foreach (var activityList in Model.activityinfoList)
-                {
+                @{
+                    int i = 0;
+                    int j = 0;
+                    foreach (var activityList in Model.activityinfoList)
+                    {
+                        i = i + 1;
                     <li>
                         <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
-                            <span>活動日期:@activityList.starttime</span>
+                            <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
                             @activityList.activity_name
                         </a>
                     </li>
+                    }
+                    for (j = i; j < 6; j++)
+                    {
+                        <br></br>
+                    }
                 }
                 </ul>
+
             </div>
             <div class="newsbox">
                 <div class="newsboxTitle">
                     <h3>最新新聞</h3>
-                    <a href="">More</a>
+                    <a href="News">More</a>
                 </div>
 
                 <ul class="newsboxList02 listlink dmicon">

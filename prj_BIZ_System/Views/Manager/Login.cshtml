@@ -8,7 +8,7 @@
 
 <div class="loginbox">
     <h2 class="borderTitle">管理者登入</h2>
-    <form action="IdentifyManager">
+    <form id="form" action="IdentifyManager">
         <ul class="loginboxR">
             <li>
                 <label for="">帳號:</label>
@@ -21,6 +21,43 @@
         </ul>
         <button class="loginbox_submit" type="submit"> 登入 </button>
     </form>
-
+    <span class="fontRed" id="msg"></span>
 </div>
 
+<script>
+
+    $(function() {
+         @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+         {
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["pw_errMsg"]';
+                if (pw_errMsg != '')
+                 {
+                      $("#msg").html(pw_errMsg);
+                 }
+            }
+            check();
+            </text>
+        }
+
+        $("#form").submit(function () {
+            var manager_id = $("input[name='manager_id']").val();
+            var manager_pw = $("input[name='manager_pw']").val();
+            if (manager_id == '' && manager_pw == '') {
+                $("#msg").html("帳號與密碼不能為空白!!");
+                return false;
+            }
+            else if (manager_id == '') {
+                $("#msg").html("帳號不能為空白!!");
+                return false;
+            }
+            else if (manager_pw == '') {
+                $("#msg").html("密碼不能為空白!!");
+                return false;
+            }
+        });
+
+    });
+
+</script>

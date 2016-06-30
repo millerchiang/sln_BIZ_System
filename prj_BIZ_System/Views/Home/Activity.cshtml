@@ -1,0 +1,34 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
+    ViewBag.Title = "Activity";
+}
+@section pagestyle{
+    <link href="/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle">最新活動</h2>
+
+        <ul class="news_list listlink">
+            @foreach (var activityList in Model.activityinfoList)
+            {
+            <li>
+                <a href="/Activity/ActivityInfo?Id=@activityList.activity_id" class=news_activity>
+                    <span>@activityList.starttime.ToString("yyyy-mm-dd")</span>
+                    @activityList.activity_name
+                </a>
+            </li>
+            }
+
+        </ul>
+        @Html.PagesList((PageList<ActivityInfoModel>)ViewBag.Pages)
+
+
+    </article>
+</div>

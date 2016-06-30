@@ -98,6 +98,7 @@ namespace prj_BIZ_System.Models
 
         public string[] activityRegisterSellerCompany { get; set; }
         public string[] matchMakingScheduleSellerCompany { get; set; }
+        public string[] matchMakingScheduleSellerId { get; set; }
         public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
         public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
     }

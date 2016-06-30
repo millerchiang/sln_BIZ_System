@@ -17,15 +17,24 @@ namespace prj_BIZ_System.Controllers
         public UserService userService;
         public User_ViewModel userModel;
 
+        public PasswordService passwordService;
+        public Password_ViewModel passwordViewModel;
+
         public UserController()
         {
             userService = new UserService();
             userModel = new User_ViewModel();
+
+            passwordService = new PasswordService();
+            passwordViewModel = new Password_ViewModel();
+
         }
 
         [HttpGet]
         public ActionResult UserInfo()
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
             string user_id = Request["user_id"];
 //            userModel.enterprisesortList = userService.GetSortList();
             userModel.userinfo = userService.GeUserInfoOne(user_id);
@@ -109,6 +118,9 @@ namespace prj_BIZ_System.Controllers
             }
             else //修改
             {
+                if (Request.Cookies["UserInfo"] == null)
+                    return Redirect("~/Home/Login");
+
                 string current_user_id = Request.Cookies["UserInfo"]["user_id"];
                 var old_model = userService.GeUserInfoOne(current_user_id);
                 model.update_time = DateTime.Now;
@@ -130,11 +142,9 @@ namespace prj_BIZ_System.Controllers
                 name = Request["company_en"];
 
 
-            if (Request.Cookies["Manager"]!=null && Request.Cookies["Manager"]["manager_id"] != null)//後台
-                return Redirect("UserList");
-
             if (model.id_enable=="1")
-                return Redirect("../Home/Index");
+//                return Redirect("../Home/Index");
+              return Redirect("Register");
             else
                 return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
         }
@@ -203,6 +213,8 @@ namespace prj_BIZ_System.Controllers
         #region 產品說明
         public ActionResult ProductList()
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             string user_id = Request.Cookies["Action"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
             return View(productLists);
@@ -211,6 +223,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ProductDelete(int[] del_prods)
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             try
             {
                 string user_id =  Request.Cookies["Action"]["user_id"];
@@ -226,6 +240,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ProductInsert(List<ProductListModel> old_prods, List<ProductListModel> new_prods)
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             try
             {
                 string user_id =  Request.Cookies["Action"]["user_id"];
@@ -242,6 +258,8 @@ namespace prj_BIZ_System.Controllers
         #region 型錄管理
         public ActionResult CatalogList()
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
@@ -251,12 +269,16 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CatalogCreate(int[] catalog_no)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
             return View();
         }
 
         [HttpPost]
         public ActionResult CatalogDelete(int[] catalog_no)
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
@@ -284,6 +306,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult CatalogUpload(HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
         {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
             if (cover_file != null && catalog_file !=null)
             {
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
@@ -316,5 +340,50 @@ namespace prj_BIZ_System.Controllers
             }
             return PartialView(result);
         }
+
+        #region 密碼編輯
+        // GET: Password
+        public ActionResult EditPasswd()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            return View();
+        }
+
+        //修改密碼
+        public ActionResult PasswordInsertUpdate(string old_pw, string new_pw)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            string current_id = "";
+            string current_user_id = Request.Cookies["UserInfo"]["user_id"]; // 取 user_id 的 cookie
+
+            string errMsg = "修改成功";
+
+            if (!string.IsNullOrEmpty(current_user_id))
+            {
+                current_id = current_user_id;
+                if (passwordService.getUserPassword(current_id).Equals(old_pw))
+                {
+                    if (!passwordService.UpdateUserPassword(current_id, new_pw))
+                    {
+                        errMsg = "修改失敗";
+                    }
+                }
+                else
+                {
+                    errMsg = "輸入的舊密碼不正確";
+                }
+            }
+
+            TempData["pw_errMsg"] = errMsg;
+
+            return Redirect("Register");
+        }
+        #endregion
+
+
     }
 }

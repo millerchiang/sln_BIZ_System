@@ -20,6 +20,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
+        public IList<ActivityInfoModel> GetActivityInfoListLimit(int limit)
+        {
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityLimit", limit);
+        }
+
         public ActivityInfoModel GetActivityInfoOne(int activity_id)
         {
             ActivityInfoModel param = new ActivityInfoModel() { activity_id = activity_id };
@@ -50,6 +55,20 @@ namespace prj_BIZ_System.Services
 
             NewsModel param = new NewsModel() { manager_id = manager_id };
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", param);
+        }
+
+        public IList<NewsModel> GetNewsLimit(int limit)
+        {
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsLimit", limit);
+        }
+
+        public IList<NewsModel> GetNews0Limit(int limit)
+        {
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNews0Limit", limit);
+        }
+        public IList<NewsModel> GetNews1Limit(int limit)
+        {
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNews1Limit", limit);
         }
 
 
