@@ -342,8 +342,11 @@
           <isNotEmpty prepend="and" property="grp_id">
             m.grp_id = $grp_id$
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="endtime">
+            ai.endtime >= #endtime#
+          </isNotEmpty>
         </dynamic>
-
+       Order by ai.starttime  
       </select>
 
       <!--查詢某活動買主資訊-->

@@ -65,37 +65,45 @@ namespace prj_BIZ_System.App_Start
 
             StringBuilder sb = new StringBuilder();
 
-
             sb.Append("<p style='padding: 10px 0'>");
-            sb.Append("總共 " + pages.maxCount);
-            sb.Append("筆");
+            if (pages.maxCount > 0)
+            {
+                sb.Append("總共 " + pages.maxCount);
+                sb.Append("筆");
+            }
+            else
+            {
+                sb.Append("查無資料!!");
+            }
             sb.Append("</p>");
 
-            sb.Append("<ul class='pagelist'>");
-            if (pages.currentPage > 1)
+            if (pages.maxPage > 1)
             {
-                string prevPage = Math.Max(0, pages.currentPage - 1).ToString();
-                string paramS1 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + prevPage;
-                sb.Append("<li><a href = '" + (url + paramS1) + "' > &lt;</a></li>");
-            }
+                sb.Append("<ul class='pagelist'>");
+                if (pages.currentPage > 1)
+                {
+                    string prevPage = Math.Max(0, pages.currentPage - 1).ToString();
+                    string paramS1 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + prevPage;
+                    sb.Append("<li><a href = '" + (url + paramS1) + "' > &lt;</a></li>");
+                }
 
-            int start = Math.Max(0, pages.currentPage - 5);
-            int end = Math.Min(pages.maxPage, pages.currentPage + 5);
+                int start = Math.Max(0, pages.currentPage - 5);
+                int end = Math.Min(pages.maxPage, pages.currentPage + 5);
 
-            for (var i = start; i < end; i++)
-            {
-                string somePage = (i + 1).ToString();
-                string paramS2 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + somePage;
-                sb.Append("<li><a "+(i==(pages.currentPage-1)?"class='active'":"") +" href = '" + (url + paramS2) + "' >" + (i + 1) + "</a></li>");
+                for (var i = start; i < end; i++)
+                {
+                    string somePage = (i + 1).ToString();
+                    string paramS2 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + somePage;
+                    sb.Append("<li><a " + (i == (pages.currentPage - 1) ? "class='active'" : "") + " href = '" + (url + paramS2) + "' >" + (i + 1) + "</a></li>");
+                }
+                if (pages.maxPage > 1 && pages.currentPage != pages.maxPage)
+                {
+                    string nextPage = Math.Min(pages.maxPage, pages.currentPage + 1).ToString();
+                    string paramS3 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + nextPage;
+                    sb.Append("<li><a href = '" + (url + paramS3) + "' > &gt;</a></li>");
+                }
+                sb.Append("</ul>");
             }
-            if (pages.maxPage > 1 && pages.currentPage != pages.maxPage)
-            {
-                string nextPage = Math.Min(pages.maxPage, pages.currentPage + 1).ToString();
-                string paramS3 = paramStr + ((i_temp > 0) ? "&" : "") + "currentPage=" + nextPage;
-                sb.Append("<li><a href = '" + (url + paramS3) + "' > &gt;</a></li>");
-            }
-            sb.Append("</ul>");
-
                     
             return MvcHtmlString.Create(sb.ToString());
         }
