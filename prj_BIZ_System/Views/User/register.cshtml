@@ -170,7 +170,7 @@
 						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>
 						<input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
 						<label for="email" class="regis_col01R_label spanRed">電子郵件</label>
-						<input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input">
+						<input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
 
                     </div>
 					
@@ -179,7 +179,7 @@
 						<label for="" class="regis_col02L spanRed">
                             公司名稱
                         </label>
-                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R">
+                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R" required>
 						 <label for="leader" class="regis_col02L">代表人</label>
 						<input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
 						<label for="addr" class="regis_col02L">地址</label>
@@ -197,7 +197,7 @@
 						 <label for="" class="regis_col02L spanRed">
                             公司名稱
                         </label>
-                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R">
+                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R" required>
 						<label for="leader" class="regis_col02L">代表人</label>
 						<input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
 						<label for="addr" class="regis_col02L">地址</label>
@@ -213,7 +213,7 @@
 					<br/><br/>
                     <label for="capital" class="regis_col02L spanRed">資本額</label>
                     <div class="regis_col02R">
-                        <input type="text" name="capital" value="@Model.userinfo.capital"> 萬元
+                        <input type="text" name="capital" value="@Model.userinfo.capital" required> 萬元
                     </div>
                     <label for="revenue" class="regis_col02L spanRed">營業額</label>
                     <div class="regis_col02R">
@@ -314,6 +314,19 @@
                 alert(errMsg);
                 return false;
             }
+
+            var revenue = $("input[name='revenue']:checked").val();
+            if (revenue==null || revenue==''){
+                alert("請選取公司營業額!!");
+                return false;
+            }
+            var sort_id = $("input[name='sort_id']:checked").val();
+            if (sort_id==null || sort_id==''){
+                alert("請選取產業別!!");
+                return false;
+            }
+
+
         });
     });
 

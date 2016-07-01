@@ -112,6 +112,9 @@
     -->
       <!--輸入賣家想要媒合的買家清單-->
       <insert id="InsertMatchmakingNeedOne" parameterClass="MatchmakingNeedModel">
+        <selectKey resultClass="int" property="serial_no" type="post">
+          SELECT currval('matchmaking_need_seq')
+        </selectKey>
         INSERT INTO matchmaking_need (
         activity_id, seller_id, buyer_id, buyer_reply
         ) VALUES (
