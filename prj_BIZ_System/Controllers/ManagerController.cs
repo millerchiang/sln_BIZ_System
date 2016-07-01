@@ -15,7 +15,7 @@ using NPOI.HSSF.UserModel;
 
 namespace prj_BIZ_System.Controllers
 {
-    public class ManagerController : Controller
+    public class ManagerController : _BaseController
     {
         public ActivityService activityService;
         public ManagerService managerService;
@@ -799,12 +799,15 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            logger.Info("已登入");
 
+            logger.Info("上傳檔案名稱:"+ iupexl.FileName);
             if (iupexl != null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength > 0)
             {
                 string targetDir = "_temp";
                 Dictionary<string, string> uploadResultDic = null;
                 uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+                logger.Info("上傳結果:"+uploadResultDic["result"]);
 
                 if ("success".Equals(uploadResultDic["result"]))
                 {
@@ -817,6 +820,10 @@ namespace prj_BIZ_System.Controllers
                 {
                     TempData["import_msg"] = "匯入失敗";
                 }
+            }
+            else
+            {
+                TempData["import_msg"] = "檔案格式不正確";
             }
             return Redirect("UserInfoImport");
         }

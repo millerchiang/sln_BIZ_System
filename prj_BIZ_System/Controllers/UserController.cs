@@ -12,7 +12,7 @@ using System.Web.Script.Serialization;
 namespace prj_BIZ_System.Controllers
 {
 
-    public class UserController : Controller
+    public class UserController : _BaseController
     {
         public UserService userService;
         public User_ViewModel userModel;
