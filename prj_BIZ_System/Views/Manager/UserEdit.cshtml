@@ -107,7 +107,7 @@
             <div id="result">
                 @if (Model.userinfo.logo_img != null)
                 {
-                    <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                    <img src="@(ViewBag.logoDir + Model.userinfo.logo_img)" alt="">
                 }
                 else
                 {
@@ -159,8 +159,14 @@
             <label for="" class="regis_col01R_label spanRed">
                 密碼
             </label>
-            <input type="text" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
-
+            @if (ViewBag.PageType == "Create")
+            {
+                <input type="text" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
+            }
+            else
+            {
+                <input type="password" name="user_pw" value="@Model.userinfo.user_pw" readonly class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
+            }
             <label for="name" class="regis_col01R_label spanRed">電話/分機</label>
             <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
             <label for="email" class="regis_col01R_label spanRed">電子郵件</label>

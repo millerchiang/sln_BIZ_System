@@ -21,7 +21,7 @@
 
             <label for="" class="regis_col02L">報名期間</label>
             <div class="regis_col02R">
-                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="@Request["startDate"]" />
+                <input type="text" id="startDate" name="startDate" maxDate="endDate" value="@Request["startDate"]" /> 至 
                 <input type="text" id="endDate" name="endDate" minDate="startDate" value="@Request["endDate"]" />
             </div>
 
@@ -36,6 +36,8 @@
     <article>
         <h2 class="borderTitle2">活動報名列表</h2>
         <table class="edittable">
+            @if (Model.activityregisterList.Count > 0)
+            {
             <tr>
                 <th>報名時間</th>
                 <th>報名廠商</th>
@@ -44,6 +46,7 @@
                 <th>審核</th>
                 <th>審核修改</th>
             </tr>
+            }
             @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
             {
                 <tr>

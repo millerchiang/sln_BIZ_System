@@ -677,7 +677,8 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id).Pages(Request, this, 10);
+
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id,DateTime.Now).Pages(Request, this, 10);
             return View(activityModel);
 
         }
