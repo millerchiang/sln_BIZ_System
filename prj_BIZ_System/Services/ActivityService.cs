@@ -109,9 +109,9 @@ namespace prj_BIZ_System.Services
 
         //BuyerInfoModel******************************************************************************//
 
-        public IList<BuyerInfoModel> GetBuyerInfoAll(int? grp_id)
+        public IList<BuyerInfoModel> GetBuyerInfoAll(int? grp_id, DateTime? endtime)
         {
-            BuyerInfoModel param = new BuyerInfoModel() { grp_id = grp_id };
+            BuyerInfoModel param = new BuyerInfoModel() { grp_id = grp_id, endtime= endtime };
             return mapper.QueryForList<BuyerInfoModel>("ActivityInfo.SelectBuyerInfoAll", param);
         }
 

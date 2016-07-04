@@ -37,7 +37,8 @@
             <a href="/Manager/UserEdit" class="buinfor rightbox">新增廠商</a>
             <br></br>
             <table class="edittable">
-
+                @if (Model.userinfoList.Count > 0)
+                {
                 <tr>
                     <th>使用者帳號</th>
                     <th>帳號有效</th>
@@ -46,6 +47,7 @@
                     <th>聯絡電話</th>
                     <th></th>
                 </tr>
+                }
                 @foreach (var newInfo in Model.userinfoList)
             {
                     <tr>

@@ -15,7 +15,7 @@ using NPOI.HSSF.UserModel;
 
 namespace prj_BIZ_System.Controllers
 {
-    public class ManagerController : Controller
+    public class ManagerController : _BaseController
     {
         public ActivityService activityService;
         public ManagerService managerService;
@@ -79,7 +79,7 @@ namespace prj_BIZ_System.Controllers
             if (model == null)
             {
 
-                TempData["pw_errMsg"] = "密碼或名稱輸入錯誤!!";
+                TempData["pw_errMsg"] = "帳號或密碼錯誤!!";
 
                 return Redirect("Login");
             }
@@ -677,7 +677,8 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id).Pages(Request, this, 10);
+
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id,DateTime.Now).Pages(Request, this, 10);
             return View(activityModel);
 
         }
@@ -798,24 +799,31 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            logger.Info("已登入");
 
+            logger.Info("上傳檔案名稱:"+ iupexl.FileName);
             if (iupexl != null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength > 0)
             {
                 string targetDir = "_temp";
                 Dictionary<string, string> uploadResultDic = null;
                 uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+                logger.Info("上傳結果:"+uploadResultDic["result"]);
 
                 if ("success".Equals(uploadResultDic["result"]))
                 {
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
-                    TempData["allStatusUserInfos"] = result["allStatusUserInfos"];
+                    TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]).Pages(Request,this,10);
                     UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", "admin");
                 }
                 else
                 {
                     TempData["import_msg"] = "匯入失敗";
                 }
+            }
+            else
+            {
+                TempData["import_msg"] = "檔案格式不正確";
             }
             return Redirect("UserInfoImport");
         }

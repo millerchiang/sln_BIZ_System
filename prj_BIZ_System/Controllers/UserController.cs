@@ -12,7 +12,7 @@ using System.Web.Script.Serialization;
 namespace prj_BIZ_System.Controllers
 {
 
-    public class UserController : Controller
+    public class UserController : _BaseController
     {
         public UserService userService;
         public User_ViewModel userModel;
@@ -112,7 +112,7 @@ namespace prj_BIZ_System.Controllers
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {
-                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email , Request.Url.Host , Request.Url.Port);
+                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email );
                 }
                 
             }
@@ -146,7 +146,7 @@ namespace prj_BIZ_System.Controllers
 //                return Redirect("../Home/Index");
               return Redirect("Register");
             else
-                return Redirect("../Home/Verification?name=" + name + "&email=" + Request["email"]);
+                return Redirect("../Home/Verification?user_id=" + model.user_id + "&name=" + name + "&email=" + model.email);
         }
 
         public ActionResult AccountMailValidate(string validate_linkX)

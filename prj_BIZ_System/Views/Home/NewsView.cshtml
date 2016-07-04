@@ -15,7 +15,7 @@
     <article class="article_col2">
         <h2 class="borderTitle">@Model.news.news_title</h2>
         <p class="news_content">
-            發布日期: @Model.news.news_date<br />
+            發布日期: @Model.news.news_date.ToString("yyyy/MM/dd tt hh:mm")<br />
             @Html.Raw(@Model.news.content)
             <br />
             @if (Model.news.news_type == "1")

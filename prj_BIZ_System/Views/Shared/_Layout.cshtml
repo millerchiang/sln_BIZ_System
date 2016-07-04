@@ -1,67 +1,5 @@
 ﻿<!DOCTYPE html>
 
-@*@{
-        int exitok = 0;
-
-
-        if (ViewBag.Form == "Manager")
-        {
-            if (ViewBag.Title != "Login")
-            {
-                if (Request.Cookies["ManagerInfo"] == null || Request.Cookies["ManagerInfo"]["manager_id"] == null)
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-
-                else if (Request.Cookies["ManagerInfo"]["manager"] == "0" && (ViewBag.Title == "ManagerInfo"
-        || ViewBag.Title == "Group" || ViewBag.Title == "EditPassword"))
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-
-                else if (Request.Cookies["ManagerInfo"]["push"] == "0" && (ViewBag.Title == "EditPushList"
-        || ViewBag.Title == "SearchPushList" || ViewBag.Title == "EditPushSample"))
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-                else if (Request.Cookies["ManagerInfo"]["news"] == "0" && (ViewBag.Title == "B_NewsList"
-        || ViewBag.Title == "EditNewsActivity" || ViewBag.Title == "EditNewsInfo"))
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-                else if (Request.Cookies["ManagerInfo"]["activity"] == "0" && (ViewBag.Title == "EditActivity"
-        || ViewBag.Title == "ActivityList" || ViewBag.Title == "BuyerInfoList" || ViewBag.Title == "EditBuyerInfo"
-        || ViewBag.Title == "ActivityRegisterCheck"))
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-                else if (Request.Cookies["ManagerInfo"]["user"] == "0" && (ViewBag.Title == "UserList"
-        || ViewBag.Title == "UserEdit"))
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Manager/Login");
-                }
-            }
-        }
-
-        else
-        {
-            if (ViewBag.Title != "Login" && ViewBag.Title != "Register")
-            {
-
-                if (Request.Cookies["UserInfo"] == null || Request.Cookies["UserInfo"]["user_id"] == null)
-                {
-                    exitok = 1;
-                    Response.Redirect("~/Home/Login");
-                }
-            }
-        }
-    }*@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -74,7 +12,9 @@
     @*<script src="../Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>*@
 </head>
 <body>
-
+    <div id="loaderdiv" class="loaderbox" style="display:none">
+        <div class="loader">Loading...</div>
+    </div>
     <header>
         <div class="headerbox">
             <ul class="head_langBu">
@@ -100,7 +40,7 @@ else
                         {
                             <li>@Html.ActionLink("登入", "Login", "Home")</li>
                         }
-                        else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword")
+                        else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
                         {
                         }
                         else
@@ -201,11 +141,6 @@ else
         <p>&copy; @DateTime.Now.Year -版權所有 Copyright © 2016 BIZ Matchmaking System. All rights reserved</p>
     </footer>
 
-<!--    
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/screen")
-    @RenderSection("scripts", required: false)
--->
 </body>
 </html>
-    }
+    

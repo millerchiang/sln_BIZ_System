@@ -211,3 +211,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /prj_BIZ_System/Properties/PublishProfiles/BIZSystem - Web Deploy.pubxml
+/prj_BIZ_System/Properties/PublishProfiles/local_biz_web.pubxml
