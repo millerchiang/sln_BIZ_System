@@ -17,6 +17,7 @@ namespace prj_BIZ_System.WebService
     public class UserInfoController : ApiController
     {
         private UserService userService = new UserService();
+        private PasswordService passwordService = new PasswordService();
 
         [HttpPost]
         public UserInfoModel CheckUserInfo(string user_id, string user_pw)
@@ -102,9 +103,33 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public void SendAccountMailValidate(object id, string user_id, string email)
         {
-            var ip = HttpContext.Current.Request.Url.Host;
-            var port = HttpContext.Current.Request.Url.Port;
-            MailHelper.sendAccountMailValidate(id, user_id, email, ip, port);
+
+            MailHelper.sendAccountMailValidate(id, user_id, email);
+        }
+
+        [HttpPost]
+        public string ReSetPassword(string user_id, string email)
+        {
+
+            string errMsg = "新的註冊密碼通知信已寄出，請至你註冊填寫的信箱收取!!";
+            UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
+            if (md != null)
+            {
+                string new_pw = MailHelper.sendForgetPassword(md.email);
+                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
+                if (!isUpdateSuccess)
+                {
+                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    return errMsg;
+                }
+            }
+            else
+            {
+                errMsg = "輸入的資料不正確，請重新操作!!";
+                return errMsg;
+            }
+
+            return errMsg;
         }
 
         [HttpGet]
