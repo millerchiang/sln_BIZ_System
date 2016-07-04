@@ -25,6 +25,14 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpPost]
+        public int ModifyUserInfo(UserInfoModel userInfoModel, string sort_id)
+        {
+            userInfoModel.id_enable = "1";
+            bool isInsertSuccess = insertEnterpriseId(userInfoModel.user_id, sort_id);
+            return isInsertSuccess == true ? userService.UserInfoUpdateOne(userInfoModel) : 0;
+        }
+
+        [HttpPost]
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
             string errorInfo;
@@ -32,7 +40,7 @@ namespace prj_BIZ_System.WebService
 
             if (!errorInfo.Equals("")) return "Email fail";
 
-            bool isInsertSuccess = insertEnterpriseId(userInfoModel, sort_id);
+            bool isInsertSuccess = insertEnterpriseId(userInfoModel.user_id, sort_id);
             object userInfoId = null;
             if (isInsertSuccess)
             {
@@ -62,7 +70,7 @@ namespace prj_BIZ_System.WebService
             }
         }
 
-        private bool insertEnterpriseId(UserInfoModel userInfoModel, string sort_id)
+        private bool insertEnterpriseId(string user_id, string sort_id)
         {
             bool isInsertSuccess = true;
             if (sort_id != null)
@@ -76,7 +84,7 @@ namespace prj_BIZ_System.WebService
                 }
                 try
                 {
-                    userService.RefreshUserSort(userInfoModel.user_id, enterprise_sort_id);
+                    userService.RefreshUserSort(user_id, enterprise_sort_id);
                 }
                 catch (Exception ex)
                 {
