@@ -812,7 +812,7 @@ namespace prj_BIZ_System.Controllers
                 {
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
-                    TempData["allStatusUserInfos"] = result["allStatusUserInfos"];
+                    TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]).Pages(Request,this,10);
                     UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", "admin");
                 }
                 else

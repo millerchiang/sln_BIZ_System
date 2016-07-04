@@ -112,7 +112,7 @@ namespace prj_BIZ_System.Controllers
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {
-                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email , Request.Url.Host , Request.Url.Port);
+                    MailHelper.sendAccountMailValidate( id , model.user_id,model.email );
                 }
                 
             }

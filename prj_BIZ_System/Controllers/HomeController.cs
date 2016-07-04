@@ -183,7 +183,7 @@ namespace prj_BIZ_System.Controllers
             string name = Request["name"];
             string email = Request["email"];
             var id = userService.GeUserInfoOne(user_id).id;
-            MailHelper.sendAccountMailValidate(id, user_id, email, Request.Url.Host, Request.Url.Port);
+            MailHelper.sendAccountMailValidate(id, user_id, email);
 
             string remail_Msg = "重發驗證信完成!!";
             TempData["remail_Msg"] = remail_Msg;
@@ -272,7 +272,7 @@ namespace prj_BIZ_System.Controllers
             UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
             if (md != null)
             {
-                string new_pw = MailHelper.sendForgetPassword(md.email, Request.Url.Host, Request.Url.Port);
+                string new_pw = MailHelper.sendForgetPassword(md.email);
                 bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
                 if (!isUpdateSuccess)
                 {
