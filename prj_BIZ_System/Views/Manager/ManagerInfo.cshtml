@@ -61,7 +61,7 @@
                     }
                 }
             </table>
-            @Html.PagesList((PageList<ManagerInfoModel>)ViewBag.Pages)
+            @Html.PagesList((PageList<ManagerInfoModel>)TempData["PageList"])
         </article>
     </div>
     <div class="sys_searchboxco2">

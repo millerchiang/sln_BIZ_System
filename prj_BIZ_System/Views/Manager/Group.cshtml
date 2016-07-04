@@ -66,7 +66,7 @@
                 </tr>
                 -->
             </table>
-            @Html.PagesList((PageList<GroupModel>)ViewBag.Pages)
+            @Html.PagesList((PageList<GroupModel>)TempData["PageList"])
 
         </article>
     </div>

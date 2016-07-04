@@ -39,7 +39,7 @@ namespace prj_BIZ_System.App_Start
             }
             page.querystring = sb.ToString();
             page.maxCount = modelList.Count();
-            ctrl.ViewBag.Pages = page;
+            ctrl.TempData["PageList"] = page;
             return page.datalist;
         }
 

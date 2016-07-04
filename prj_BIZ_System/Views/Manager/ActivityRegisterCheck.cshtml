@@ -74,7 +74,7 @@
                 </tr>
             }
         </table>
-        @Html.PagesList((PageList<ActivityRegisterModel>)ViewBag.Pages)
+        @Html.PagesList((PageList<ActivityRegisterModel>)TempData["PageList"])
     </article>
 </div>
 

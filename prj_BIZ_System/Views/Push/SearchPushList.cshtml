@@ -74,7 +74,7 @@
                 }
             }
         </table>
-        @Html.PagesList((PageList<PushListModel>)ViewBag.Pages)
+        @Html.PagesList((PageList<PushListModel>)TempData["PageList"])
     </article>
 </div>
 
