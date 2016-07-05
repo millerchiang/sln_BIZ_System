@@ -41,6 +41,14 @@ namespace prj_BIZ_System.Services
             return obj.grp_id;
         }
 
+        public ManagerInfoModel getManagerInfo(string current_id)
+        {
+            var param = new ManagerInfoModel() { manager_id = current_id };
+            var obj = mapper.QueryForObject<ManagerInfoModel>("Manager.SelectManagerInfoOne", param);
+            return obj;
+        }
+
+
         public bool ManagerInfoUpdateOne(ManagerInfoModel model)
         {
             return mapper.Update("Manager.UpdateManagerInfo", model) > 0;

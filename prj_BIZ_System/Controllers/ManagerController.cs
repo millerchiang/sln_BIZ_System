@@ -117,6 +117,17 @@ namespace prj_BIZ_System.Controllers
 
 
         #region ManagerInfo 帳號管理
+
+        public ActionResult CheckManager(string manager_id)
+        {
+            bool Huser = true;
+            int? kk = managerService.getManagerGroup(manager_id);
+            if (kk == null)
+                Huser = false;
+            return Json(Huser, JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: ManagerInfo
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {

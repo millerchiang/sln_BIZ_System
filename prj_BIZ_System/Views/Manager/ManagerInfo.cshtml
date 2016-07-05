@@ -41,6 +41,7 @@
             <table class="edittable">
                 <tr>
                     <th>管理帳號</th>
+                    <th>啟用</th>
                     <th>群組</th>
                     <th>詳細資料</th>
                 </tr>
@@ -50,6 +51,16 @@
                     {
                         <tr>
                             <td>@md.manager_id</td>
+
+                            @{
+                                string kk = "否";
+                                if (md.enable == "1")
+                                {
+                                    kk = "是";
+                                }
+                            }
+
+                            <td>@kk</td>
                             <td>@md.grp_name</td>
                             <td>
                                 <div class="centerbox">
@@ -69,7 +80,7 @@
             <input type="hidden" name="pagetype" value="">
             <h2>新增帳號</h2>
             <label for="leader" class="regis_col02L spanRed">管理帳號</label>
-            <input type="text" class="regis_col02R" name="manager_id" >
+            <input type="text" class="regis_col02R" name="manager_id" onblur="chkmanager()">
 
             <label for="addr" class="regis_col02L spanRed">姓名</label>
             <input type="text" class="regis_col02R" name="name">
@@ -93,7 +104,7 @@
             </select>
             <div class="centerbox">
                 <a href="javascript:void(0)" class="buinfor" id="acc_edit" style="display: none;">修改</a>
-                <a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">刪除</a>
+                <a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">停用</a>
                 <a href="javascript:void(0)" class="submitbuOr" id="acc_add">確定新增</a>
             </div>
         </form>
@@ -165,7 +176,7 @@
             var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email,enable, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -178,7 +189,7 @@
             var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email, enable, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -204,7 +215,7 @@
         });
     }
 
-    function checkValidationOk(manager_id, name , email , grp_id) {
+    function checkValidationOk(manager_id, name, email, enable, grp_id) {
         var errMsg = '';
         if (manager_id == null || manager_id == '') {
             errMsg += '管理帳號不可為空白\n';
@@ -219,6 +230,38 @@
             errMsg += '請選擇群組';
         }
         return errMsg;
+    }
+
+    function chkmanager() {
+
+        var manager_id = $("input[name='manager_id']").val();
+        if (manager_id != null && manager_id != '')
+        {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckManager", "Manager")",
+                cache: false,
+                data: { "manager_id": manager_id },
+            dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var Hmanager = result;
+                if (Hmanager == true) {
+                    $('#acc_edit,#acc_del').show();
+                    $('#acc_add').hide();
+                    $("input[name='manager_id']").prop("readonly", true);
+                    $("#acc_from h2").text("詳細資料");
+
+                    util_cls.form.row2form(manager_id, 'acc_from');
+
+                } else {
+                    //                        alert("不存在");
+                }
+            }
+            else {
+            }
+        });
+    }
     }
 
 </script>
