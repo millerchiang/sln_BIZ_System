@@ -49,12 +49,17 @@
                     foreach (ManagerInfoModel md in Model.managerInfoList)
                     {
                         <tr>
-                            <td>@md.manager_id</td>
+                            <td>@md.manager_id
+                            @if ("0".Equals(md.enable))
+                            {
+                                <span>(停用)</span>
+                            }
+                            </td>
                             <td>@md.grp_name</td>
                             <td>
                                 <div class="centerbox">
                                     <a href="javascript:void(0)" class="deletebu detailedbu" onclick="util_cls.form.row2form('@(md.manager_id)','acc_from')">詳細資料</a>
-                                    <span style="display:none" id="rowdata_@(md.manager_id)">{"manager_id":"@(md.manager_id)","name":"@(md.name)","phone":"@(md.phone)","email":"@(md.email)","grp_id":"@(md.grp_id)"}</span>
+                                    <span style="display:none" id="rowdata_@(md.manager_id)">{"manager_id":"@(md.manager_id)","name":"@(md.name)","enable":"@(md.enable)","phone":"@(md.phone)","email":"@(md.email)","grp_id":"@(md.grp_id)"}</span>
                                 </div>
                             </td>
                         </tr>
@@ -67,6 +72,7 @@
     <div class="sys_searchboxco2">
         <form action="@Url.Action("ManagerInfoInsertUpdate","Manager")" class="form_box" id="acc_from" method="post">
             <input type="hidden" name="pagetype" value="">
+            <input type="hidden" name="enable" value="">
             <h2>新增帳號</h2>
             <label for="leader" class="regis_col02L spanRed">管理帳號</label>
             <input type="text" class="regis_col02R" name="manager_id" >
@@ -115,27 +121,46 @@
             $("#acc_from h2").text("詳細資料");
         });
 
+        
         $("#acc_del").on("click", function () {
-            if (confirm("是否確定要刪除")) {
-                doDelete($("input[name='manager_id']").val());
-            }
+            //if (confirm("是否確定要停用")) {
+            doDelete($("input[name='manager_id']").val(), $("input[name='enable']").val());
+            //}
         });
 
-        function doDelete(id) {
+        function doDelete(id, enable) {
             $.ajax({
                 type: "get",
                 url: "@Url.Action("DeleteManagerInfoJson", "Manager")",
                 cache: false,
-                data: { "manager_id": id },
+                data: { "manager_id": id, "enable": enable },
                 dataType: "json"
             }).done(function (result) {
                 if (result != null) {
                     var isDelSuccess = result;
                     if (isDelSuccess == true) {
-                        //alert("刪除成功");
-                        location.reload();
+                        alert("設定成功");
+                        //location.reload();
+                        var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+                        //此時取到的是舊值(修改前的下次狀態值)
+                        var enable = $('#acc_from').find("input[name='enable']").val();
+
+
+                        //"0" == enable  表示原本是停用
+                        var next_eanble_text = ("0" == enable) ? "啟用" : "停用";
+                        var next_eanble_value = ("0" == enable) ? "1"   : "0";
+                        //新值
+                        $('#acc_from').find("input[name='enable']").val(next_eanble_value);
+                        $("#acc_del").text(next_eanble_text);
+
+                        //"0" == enable 表示原本是停用
+                        //此時取到的是舊值(修改前的下次狀態值也就是修改後的當前狀態值)
+                        var eanble_style = ("0" == enable) ? "inline" : "none";
+                        $("#rowdata_" + manager_id).parents("tr").find("td").eq(0).find("span").css("display", eanble_style);
+
+
                     } else {
-                        //alert("刪除失敗");
+                        alert("設定失敗");
                     }
                 }
                 else {
@@ -197,6 +222,12 @@
                     var new_grp_id = util_cls.json.getValueFromJsonStr($("#rowdata_" + manager_id).text(),"grp_id");
                     var new_grp_name = $("#group_select_0").find("option[value='" + grp_id + "']").text();
                     $("#rowdata_" + manager_id).parents("tr").find("td").eq(1).text(new_grp_name);
+
+                    var manager_id = $('#acc_from').find("input[name='manager_id']").val();
+                    var enable = $('#acc_from').find("input[name='enable']").val();
+                    //下次狀態的值 , 所以 "0" == enable 表示下次是停用
+                    var eanble_style = ("0" == enable) ? "none" : "inline";
+                    $("#rowdata_" + manager_id).parents("tr").find("td").eq(0).find("span").css("display", eanble_style);
                 } else {
                     alert("更新失敗");
                 }
@@ -215,7 +246,7 @@
         if (email == null || email == '') {
             errMsg += '電子郵件不可為空白\n';
         }
-        if (grp_id == "") {
+        if (grp_id == null || grp_id == "") {
             errMsg += '請選擇群組';
         }
         return errMsg;

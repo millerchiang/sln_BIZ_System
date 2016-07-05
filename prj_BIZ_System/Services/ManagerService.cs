@@ -52,9 +52,9 @@ namespace prj_BIZ_System.Services
             return mapper.Delete("Manager.DeleteManagerInfo", param) > 0;
         }
 
-        public bool ManagerInfoDisableOne(string manager_id)
+        public bool ManagerInfoDisableOne(string manager_id , string enable)
         {
-            var param = new ManagerInfoModel() { manager_id = manager_id , enable = "0" , grp_id = 0 };
+            var param = new ManagerInfoModel() { manager_id = manager_id , enable = enable };
             return mapper.Update("Manager.ManagerInfoDisableOne", param) > 0;
         }
 
