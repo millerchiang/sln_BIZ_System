@@ -120,11 +120,12 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CheckManager(string manager_id)
         {
-            bool Huser = true;
-            int? kk = managerService.getManagerGroup(manager_id);
+            ManagerInfoModel kk = managerService.getManagerInfo(manager_id);
             if (kk == null)
-                Huser = false;
-            return Json(Huser, JsonRequestBehavior.AllowGet);
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(kk, JsonRequestBehavior.AllowGet);
+
         }
 
 
@@ -146,16 +147,17 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
-            model.create_manager = "admin";  // Request.Cookies["UserInfo"]["manager_id"]
+            model.create_manager = Request.Cookies["ManagerInfo"]["manager_id"];
             if ("Insert".Equals(pagetype))
             {
                 managerService.ManagerInfoInsertOne(model);
-                return Redirect("ManagerInfo");
+//                return Redirect("ManagerInfo");
             }
             else if ("Update".Equals(pagetype))
             {
-                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
-                return Json(isUpdateSuccess);
+                managerService.ManagerInfoUpdateOne(model);
+//                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
+//                return Json(isUpdateSuccess);
             }
             return Redirect("ManagerInfo");
         }

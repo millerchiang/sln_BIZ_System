@@ -41,7 +41,6 @@
             <table class="edittable">
                 <tr>
                     <th>管理帳號</th>
-                    <th>啟用</th>
                     <th>群組</th>
                     <th>詳細資料</th>
                 </tr>
@@ -73,7 +72,6 @@
     <div class="sys_searchboxco2">
         <form action="@Url.Action("ManagerInfoInsertUpdate","Manager")" class="form_box" id="acc_from" method="post">
             <input type="hidden" name="pagetype" value="">
-            <input type="hidden" name="enable" value="">
             <h2>新增帳號</h2>
             <label for="leader" class="regis_col02L spanRed">管理帳號</label>
             <input type="text" class="regis_col02R" name="manager_id" onblur="chkmanager()">
@@ -87,7 +85,13 @@
             <label for="email" class="regis_col02L spanRed">電子郵件</label>
             <input type="text" class="regis_col02R" name="email">
 
-            <label for="email" class="regis_col02L">群組</label>
+            <label class="regis_col02L spanRed">是否啟用</label>
+            <input type="radio" class="radioinput" id="enable01" name="enable" value="0">
+            <label for="enable01">停用</label>
+            <input type="radio" class="radioinput" id="enable02" name="enable" value="1" checked>
+            <label for="enable02">啟用</label>
+
+            <label for="email" class="regis_col02L spanRed">群組</label>
             <select name="grp_id" id="group_select" class="regis_col02R">
                 <option value="">請選擇</option>
                  @if (Model.groupList != null)
@@ -100,7 +104,7 @@
             </select>
             <div class="centerbox">
                 <a href="javascript:void(0)" class="buinfor" id="acc_edit" style="display: none;">修改</a>
-                <a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">停用</a>
+                @*<a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">停用</a>*@
                 <a href="javascript:void(0)" class="submitbuOr" id="acc_add">確定新增</a>
             </div>
         </form>
@@ -116,18 +120,19 @@
     function init() {
 
         $(".detailedbu").on('click', function () {
-            $('#acc_edit,#acc_del').show();
+//            $('#acc_edit,#acc_del').show();
+            $('#acc_edit').show();
             $('#acc_add').hide();
-            $("input[name='manager_id']").prop("readonly", true);
+//            $("input[name='manager_id']").prop("readonly", true);
             $("#acc_from h2").text("詳細資料");
         });
 
-        
-        $("#acc_del").on("click", function () {
-            //if (confirm("是否確定要停用")) {
-            doDelete($("input[name='manager_id']").val(), $("input[name='enable']").val());
-            //}
-        });
+
+        @*//$("#acc_del").on("click", function () {
+        //    //if (confirm("是否確定要停用")) {
+        //    doDelete($("input[name='manager_id']").val(), $("input[name='enable']").val());
+        //    //}
+        //});
 
         function doDelete(id, enable) {
             $.ajax({
@@ -167,14 +172,16 @@
                 else {
                 }
             });
-        }
+        }*@
 
 
         $("#accaddbu").on('click', function () {
             $("#acc_add").show();
-            $("#acc_edit,#acc_del").hide();
-            $("input[name='manager_id']").prop("readonly", false);
+//            $("#acc_edit,#acc_del").hide();
+            $("#acc_edit").hide();
+//            $("input[name='manager_id']").prop("readonly", false);
             $("input").val("");
+            $("input[id='enable02']").prop("checked", true);
             $("#acc_from h2").text("新增帳號");
             $('#group_select').each(function () {
                 this.selectedIndex = 0;
@@ -186,25 +193,30 @@
             $("#acc_from").submit();
         });
 
+        $("#acc_edit").click(function () {
+            $("input[name='pagetype']").val("Update");
+            $("#acc_from").submit();
+        });
+
         $("#acc_from").submit(function () {
             var manager_id = $('#acc_from').find("input[name='manager_id']").val();
             var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, name, email,enable, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
             }
         });
 
-        $("#acc_edit").click(function () {
+        @*$("#acc_edit").click(function () {
             $("input[name='pagetype']").val("Update");
             var manager_id = $('#acc_from').find("input[name='manager_id']").val();
             var name = $('#acc_from').find("input[name='name']").val();
             var email = $('#acc_from').find("input[name='email']").val();
             var grp_id = $('#acc_from').find("select[name='grp_id']").val();
-            var errMsg = checkValidationOk(manager_id, name, email, enable, grp_id);
+            var errMsg = checkValidationOk(manager_id, name, email, grp_id);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -233,10 +245,10 @@
                     alert("更新失敗");
                 }
             });
-        });
+        });*@
     }
 
-    function checkValidationOk(manager_id, name, email, enable, grp_id) {
+    function checkValidationOk(manager_id, name, email, grp_id) {
         var errMsg = '';
         if (manager_id == null || manager_id == '') {
             errMsg += '管理帳號不可為空白\n';
@@ -265,21 +277,37 @@
                 data: { "manager_id": manager_id },
             dataType: "json"
         }).done(function (result) {
-            if (result != null) {
-                var Hmanager = result;
-                if (Hmanager == true) {
-                    $('#acc_edit,#acc_del').show();
-                    $('#acc_add').hide();
-                    $("input[name='manager_id']").prop("readonly", true);
-                    $("#acc_from h2").text("詳細資料");
-
-                    util_cls.form.row2form(manager_id, 'acc_from');
-
-                } else {
-                    //                        alert("不存在");
+            if (result != false) {
+                $('#acc_edit').show();
+                $('#acc_add').hide();
+                $("#acc_from h2").text("詳細資料");
+                $("input[name='name']").val(result.name);
+                $("input[name='phone']").val(result.phone);
+                $("input[name='email']").val(result.email);
+                $("select[name='grp_id']").val(result.grp_id);
+                if (result.enable == "0")
+                {
+                    $("input[id='enable01']").prop("checked", true);
+                }
+                esle
+                {
+                    $("input[id='enable02']").prop("checked", true);
                 }
             }
             else {
+                $("#acc_add").show();
+                //            $("#acc_edit,#acc_del").hide();
+                $("#acc_edit").hide();
+                //            $("input[name='manager_id']").prop("readonly", false);
+                $("input[name='name']").val(result.name);
+                $("input[name='phone']").val(result.phone);
+                $("input[name='email']").val(result.email);
+                $("#acc_from h2").text("新增帳號");
+                $("input[id='enable02']").prop("checked", true);
+                $('#group_select').each(function () {
+                    this.selectedIndex = 0;
+                });
+
             }
         });
     }
