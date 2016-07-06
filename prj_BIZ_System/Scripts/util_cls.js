@@ -13,6 +13,16 @@ util_cls.form.row2form = function (id , form_id) {
         } else if ($form.find('select[name="' + i + '"]').size() > 0) {
             $form.find('select[name="' + i + '"]').val(jsonObj[i]);
         }
+
+        if (i == "enable") {
+            if (jsonObj[i] == "0") {
+                $("#acc_del").text("啟用");
+                $form.find('input[name="' + i + '"]').val("1");
+            } else {
+                $("#acc_del").text("停用");
+                $form.find('input[name="' + i + '"]').val("0");
+            }
+        }
     }
 }
 

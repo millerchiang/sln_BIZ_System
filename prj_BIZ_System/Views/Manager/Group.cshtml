@@ -242,7 +242,8 @@
 
 			            $("#managers_tb").html("");
 			            for (var i in memangers) {
-			                $("#managers_tb").append("<tr><td>" + memangers[i].name + "</td></tr>");
+			                var disableText = ("0" == memangers[i].enable) ? "(停用)" : "";
+			                $("#managers_tb").append("<tr><td>" + memangers[i].manager_id + "<span>"+disableText+"</span>" +"</td></tr>");
 			            }
 			        }
 			    });

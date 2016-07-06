@@ -160,12 +160,12 @@ namespace prj_BIZ_System.Controllers
             return Redirect("ManagerInfo");
         }
 
-        public ActionResult DeleteManagerInfoJson(string manager_id)
+        public ActionResult DeleteManagerInfoJson(string manager_id , string enable)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
             //非真的刪 , 只是停用
-            bool isDelSuccess = managerService.ManagerInfoDisableOne(manager_id);
+            bool isDelSuccess = managerService.ManagerInfoDisableOne(manager_id, enable);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }
 
