@@ -37,9 +37,9 @@ namespace prj_BIZ_System.Services
 
         public IList<ActivityInfoModel> getActivityInfoListAfterNow()
         {
-            //DateTime dt = new DateTime(2016, 5, 12);
-            DateTime dt = new DateTime(2016, 5, 1);
-            var param = new ActivityInfoModel { starttime = dt };
+            DateTime today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+
+            var param = new ActivityInfoModel { endtime = today };
             IList<ActivityInfoModel> result = mapper.QueryForList<ActivityInfoModel>("Push.SelectActivityAfterNow", param);
             return result;
         }

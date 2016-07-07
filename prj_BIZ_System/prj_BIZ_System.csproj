@@ -855,6 +855,7 @@
     <Content Include="Views\User\_NavSearchPartial.cshtml" />
     <Content Include="Views\Home\Activity.cshtml" />
     <Content Include="Views\User\EditPasswd.cshtml" />
+    <Content Include="Views\Home\NewsViewForApp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

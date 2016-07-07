@@ -202,6 +202,12 @@ namespace prj_BIZ_System.Services
             mapper.Update("ActivityInfo.UpdateActivityRegisterOneChk", activityRegisterModel);
         }
 
+        public ActivityRegisterModel ActivityRegisterChkMailInfo(int register_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { register_id = register_id};
+            return mapper.QueryForObject<ActivityRegisterModel>("ActivityInfo.ActivityRegisterChkMailInfo", param);
+        }
+
         public int ActivityRegisterUpdateOne(ActivityRegisterModel activityRegisterModel)
         {
             return mapper.Update("ActivityInfo.UpdateActivityRegisterOne", activityRegisterModel);

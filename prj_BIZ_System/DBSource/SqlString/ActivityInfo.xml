@@ -204,7 +204,7 @@
       WHERE activity_id = #activity_id# and user_id = #user_id#
     </update>
 
-    <!--檢核活動報名單筆-->
+    <!--檢核活動報名單筆審核結果更新-->
       <update id="UpdateActivityRegisterOneChk" parameterClass="ActivityRegisterModel">
         UPDATE activity_register
         SET
@@ -212,6 +212,13 @@
         update_time = now()
         WHERE register_id = #register_id#
       </update>
+
+      <!--審核結果發送信相關內容-->
+      <select id="ActivityRegisterChkMailInfo" parameterClass="ActivityRegisterModel" resultMap="ActivityRegisterChkMailInfo-resultMap">
+        select * from activity_register r
+        join activity_info i on r.activity_id = i.activity_id
+        where r.register_id = #register_id#
+      </select>
     
       <!--刪除活動報名單筆-->
       <delete id="DeleteActivityRegisterOne" parameterClass="ActivityRegisterModel">
@@ -566,6 +573,32 @@
       <result property="company" column="company"/>
     </resultMap>
 
+    <resultMap id="ActivityRegisterChkMailInfo-resultMap" class="ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <!--<result property="user_id" column="user_id"/>-->
+      <result property="quantity" column="quantity"/>
+      <!--<result property="name_a" column="name_a"/>-->
+      <!--<result property="title_a" column="title_a"/>-->
+      <result property="name_b" column="name_b"/>
+      <!--<result property="title_b" column="title_b"/>-->
+      <!--<result property="telephone" column="telephone"/>-->
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="manager_check" column="manager_check"/>
+      <!--<result property="user_info" column="user_info"/>-->
+      <!--<result property="user_info_en" column="user_info_en"/>-->
+      <!--<result property="create_time" column="create_time"/>-->
+      <!--<result property="update_time" column="update_time"/>  -->
+      <!--activityInfo 的 activity_name-->
+      <!--userInfo 的 company-->
+      <result property="activity_name" column="activity_name"/>
+      <result property="starttime" column="starttime"/>
+      <result property="endtime" column="endtime"/>
+      <result property="addr" column="addr"/>
+    </resultMap>
+    
     <resultMap id="UserInfo" class="UserInfoToIdAndCpModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="user_id" column="user_id"/>

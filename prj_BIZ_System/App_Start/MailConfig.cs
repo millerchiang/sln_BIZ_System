@@ -64,7 +64,7 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 填入會員Email認證內容 (會員帳號 , 驗證連結)
         /// </summary>
-        public static Dictionary<string, string> fillAccountMailValidte(string user_id, string validate_link)
+        private static Dictionary<string, string> fillAccountMailValidte(string user_id, string validate_link)
         {
             Dictionary<string, string> paramDict = new Dictionary<string, string>();
             paramDict.Add("(@會員帳號)", user_id);
@@ -75,7 +75,7 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 忘記密碼 (會員送出忘記密碼申請的時間 , 網站首頁 ,符合密碼規則之亂數密碼)
         /// </summary>
-        public static Dictionary<string, string> fillForgetPassword(string apply_time , string page_index , string random_pw)
+        private static Dictionary<string, string> fillForgetPassword(string apply_time , string page_index , string random_pw)
         {
             Dictionary<string, string> paramDict = new Dictionary<string, string>();
             paramDict.Add("(@會員送出忘記密碼申請的時間)", apply_time);
@@ -87,21 +87,20 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 活動報名審核結果通知( manager_check -> 後台審核 ("0"：不通過；"1"：通過)) ; 其他 -> model屬性值
         /// </summary>
-        public static Dictionary<string, string> fillActivityCheckNotify(string manager_check,
-            int activity_id, string activity_name, string starttime , string addr ,
-            int quantity, string name, string phone, string email
-            )
+        private static Dictionary<string, string> fillActivityCheckNotify(
+              string manager_check  ,int activity_id, string activity_name  , string starttime  , string endtime
+            , string addr           ,int quantity   , string name           , string phone      , string email   )
         {
             Dictionary<string, string> paramDict = new Dictionary<string, string>();
-            paramDict.Add("check"     , manager_check);
-            paramDict.Add("(@活動編號)", activity_id.ToString());
-            paramDict.Add("(@活動名稱)", activity_name);
-            paramDict.Add("(@活動時間)", starttime);
-            paramDict.Add("(@活動地點)", addr);
-            paramDict.Add("(@與會人數)", quantity.ToString());
-            paramDict.Add("(@主聯絡人)", name);
-            paramDict.Add("(@手機號碼)", phone);
-            paramDict.Add("(@聯絡信箱)", email);
+            paramDict.Add("check"     , manager_check);          //activity_register.manager_check (0或1)
+            paramDict.Add("(@活動編號)", activity_id.ToString()); //activity_register.activity_id
+            paramDict.Add("(@活動名稱)", activity_name);          //activity_info.activity_name
+            paramDict.Add("(@活動時間)", starttime+" ~ "+endtime);//activity_info.starttime ~ activity_info.endtime
+            paramDict.Add("(@活動地點)", addr);                   //activity_info.addr
+            paramDict.Add("(@與會人數)", quantity.ToString());    //activity_register.quantity
+            paramDict.Add("(@主聯絡人)", name);                   //activity_register.name_b
+            paramDict.Add("(@手機號碼)", phone);                  //activity_register.telephone
+            paramDict.Add("(@聯絡信箱)", email);                  //activity_register.email
             return paramDict;
         }
         /// <summary>
@@ -181,6 +180,25 @@ namespace prj_BIZ_System.App_Start
                 MailHelper.doSendMail(email, param, MailType.ForgetPassword);
             }
             return random_pw;
+        }
+
+        /// <summary>
+        /// 發送活動報名審核結果通知( manager_check -> 後台審核 ("0"：不通過；"1"：通過)) ; 其他 -> model屬性值
+        /// </summary>
+        public static void sendActivityCheckNotify( 
+              string manager_check  , int activity_id , string activity_name  , string starttime    , string endtime
+            , string addr           , int quantity    , string name           , string phone        , string email  )
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                Dictionary<string,string> param = MailHelper.fillActivityCheckNotify( 
+                      manager_check ,activity_id, activity_name , starttime , endtime
+                    , addr          ,quantity   , name          , phone     , email );
+                if (!string.IsNullOrEmpty(email))
+                {
+                    MailHelper.doSendMail(email, param, MailType.ActivityCheckNotify);
+                }
+            }
         }
 
         private static string generateRandomPW()

@@ -482,6 +482,15 @@ namespace prj_BIZ_System.Controllers
             model.register_id = register_id;
             model.manager_check = manager_check;
             activityService.ActivityRegisterUpdateOneChk(model);
+
+            // send mail 
+            ActivityRegisterModel registInfo = activityService.ActivityRegisterChkMailInfo(register_id);
+            if (registInfo != null)
+            {
+                MailHelper.sendActivityCheckNotify(
+                      registInfo.manager_check  , registInfo.activity_id    , registInfo.activity_name  , registInfo.starttime.ToString("yyyy-MM-dd HH:mm") , registInfo.endtime.ToString("yyyy-MM-dd HH:mm")
+                    , registInfo.addr           , registInfo.quantity       , registInfo.name_b         , registInfo.phone , registInfo.email );
+            }
             return Redirect("ActivityRegisterCheck");
         }
         #endregion
