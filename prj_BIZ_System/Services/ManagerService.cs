@@ -29,7 +29,7 @@ namespace prj_BIZ_System.Services
 
         public void ManagerInfoInsertOne(ManagerInfoModel model)
         {
-            model.enable = "1";
+//            model.enable = "1";
             model.manager_pw = "11111"; //預設密碼
             mapper.Insert("Manager.InsertManagerInfo", model);
         }
@@ -40,6 +40,14 @@ namespace prj_BIZ_System.Services
             var obj = mapper.QueryForObject<ManagerInfoModel>("Manager.SelectManagerInfoOne", param);
             return obj.grp_id;
         }
+
+        public ManagerInfoModel getManagerInfo(string current_id)
+        {
+            var param = new ManagerInfoModel() { manager_id = current_id };
+            var obj = mapper.QueryForObject<ManagerInfoModel>("Manager.SelectManagerInfoOne", param);
+            return obj;
+        }
+
 
         public bool ManagerInfoUpdateOne(ManagerInfoModel model)
         {
@@ -52,9 +60,9 @@ namespace prj_BIZ_System.Services
             return mapper.Delete("Manager.DeleteManagerInfo", param) > 0;
         }
 
-        public bool ManagerInfoDisableOne(string manager_id)
+        public bool ManagerInfoDisableOne(string manager_id , string enable)
         {
-            var param = new ManagerInfoModel() { manager_id = manager_id , enable = "0" , grp_id = 0 };
+            var param = new ManagerInfoModel() { manager_id = manager_id , enable = enable };
             return mapper.Update("Manager.ManagerInfoDisableOne", param) > 0;
         }
 

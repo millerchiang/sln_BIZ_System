@@ -66,24 +66,18 @@
 
     <!--查詢特定群組的所有管理帳號-->
     <select id="GetManagerInfoByGrpId" resultMap="ManagerInfo-result" parameterClass="ManagerInfo">
-      <![CDATA[
       SELECT *
       FROM manager.manager_info 
-      where enable <> '0' 
-      and grp_id = $grp_id$
-      ]]>
+      where grp_id = $grp_id$
     </select>
     
     <!--查詢特定條件的管理帳號-->
     <select id="SelectManagerInfoByCondition" resultMap="ManagerInfoByCondition-result" parameterClass="ManagerInfo">
-      <![CDATA[
       SELECT *
       FROM manager.manager_info m
       left join manager.group g
       on m.grp_id = g.grp_id
-      where m.enable <> '0' 
-      ]]>
-      <dynamic prepend="">
+      <dynamic prepend="where">
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
         </isNotEmpty>
@@ -91,6 +85,7 @@
           m.manager_id like '%'||#manager_id#||'%'
         </isNotEmpty>
       </dynamic>
+      ORDER BY m.enable DESC,m.update_time DESC
     </select>
 
     <!--檢查帳號-->
@@ -126,14 +121,14 @@
     <!--停/啟用管理帳號-->
     <update id="ManagerInfoDisableOne" parameterClass="ManagerInfo">
       UPDATE manager.manager_info
-      SET enable=#enable# , grp_id = $grp_id$ ,update_time=now()
+      SET enable=#enable# , update_time=now()
       WHERE manager_id=#manager_id#
     </update>
     
     <!--修改管理帳號-->
     <update id="UpdateManagerInfo" parameterClass="ManagerInfo">
       UPDATE manager.manager_info
-      SET name=#name#, phone=#phone#, email=#email#, update_time=now()
+      SET name=#name#, enable=#enable# , phone=#phone#, email=#email#, grp_id=#grp_id# , update_time=now()
       WHERE manager_id=#manager_id#
     </update>
     

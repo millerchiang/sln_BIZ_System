@@ -35,6 +35,6 @@
             }
         </ul>
 
-        @Html.PagesList((PageList<NewsModel>)ViewBag.Pages)
+        @Html.PagesList((PageList<NewsModel>)TempData["PageList"])
     </article>
 </div>

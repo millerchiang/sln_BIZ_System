@@ -40,7 +40,7 @@
                     }
                 }
             </table>
-            @Html.PagesList((PageList<PushSampleModel>)ViewBag.Pages)
+            @Html.PagesList((PageList<PushSampleModel>)TempData["PageList"])
         </article>
     </div>
     <div class="sys_searchboxco2">

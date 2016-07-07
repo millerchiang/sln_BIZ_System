@@ -33,5 +33,5 @@
             </tr>
         }
     </table>
-@Html.PagesList((PageList<BuyerInfoModel>)ViewBag.Pages)
+@Html.PagesList((PageList<BuyerInfoModel>)TempData["PageList"])
 </article>
