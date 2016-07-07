@@ -144,13 +144,25 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null && Request["Id"] !=null)
             {
-                indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
-                indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+                doNewsView();
 
                 return View(indexModel);
             }
             else
                 return Redirect("Login");
+        }
+
+        //與App共用內容
+        private void doNewsView()
+        {
+            indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
+            indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+        }
+
+        public ActionResult NewsViewForApp()
+        {
+            doNewsView();
+            return View(indexModel);
         }
 
         public ActionResult Logout()

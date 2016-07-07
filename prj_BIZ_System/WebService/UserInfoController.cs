@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.App_Start;
 using System.Web;
+using prj_BIZ_System.WebService.Model;
 
 namespace prj_BIZ_System.WebService
 {
@@ -33,9 +34,21 @@ namespace prj_BIZ_System.WebService
             return isInsertSuccess == true ? userService.UserInfoUpdateOne(userInfoModel) : 0;
         }
 
+        [HttpGet]
+        public UserEnterpriseInfo UserInfo(string user_id)
+        {
+            if (user_id == null) return null;
+            UserEnterpriseInfo userEnterpriseInfo = new UserEnterpriseInfo();
+            userEnterpriseInfo.userinfo = userService.GeUserInfoOne(user_id);
+            userEnterpriseInfo.userinfo.user_pw = null;
+            userEnterpriseInfo.usersortList = userService.SelectUserSortByUserId(user_id);
+            return userEnterpriseInfo;
+        }
+
         [HttpPost]
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
+            userInfoModel.id_enable = "0";
             string errorInfo;
             int emailCode = MailHelper.checkEmail(userInfoModel.email, out errorInfo);
 
@@ -110,8 +123,7 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public string ReSetPassword(string user_id, string email)
         {
-
-            string errMsg = "新的註冊密碼通知信已寄出，請至你註冊填寫的信箱收取!!";
+            string errMsg = "200";
             UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
             if (md != null)
             {
@@ -119,13 +131,13 @@ namespace prj_BIZ_System.WebService
                 bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
                 if (!isUpdateSuccess)
                 {
-                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    errMsg = "304";
                     return errMsg;
                 }
             }
             else
             {
-                errMsg = "輸入的資料不正確，請重新操作!!";
+                errMsg = "400";
                 return errMsg;
             }
 
@@ -138,5 +150,24 @@ namespace prj_BIZ_System.WebService
             return userService.GetSortList();
         }
 
+        [HttpGet]
+        public IList<CompanySortModel> GetCompanySortById(string sort_id)
+        {
+            return userService.SelectUserSortBySortId(int.Parse(sort_id), "");
+        }
+
+        [HttpGet]
+        public IList<CompanySortModel> GetCompanySortByName(string company_name)
+        {
+            return userService.SelectUserKw(company_name).Select(
+                userInfoModel =>
+                new CompanySortModel
+                {
+                    user_id = userInfoModel.user_id,
+                    company = userInfoModel.company,
+                    company_en = userInfoModel.company_en,
+                }
+            ).ToList();
+        }
     }
 }
