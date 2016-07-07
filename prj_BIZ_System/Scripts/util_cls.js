@@ -8,19 +8,17 @@ util_cls.form.row2form = function (id , form_id) {
     var jsonObj = JSON.parse(jsonStr);
     var $form = $('#' + form_id);
     for (var i in jsonObj) {
-        if ($form.find('input[name="' + i + '"]').size() > 0) {
-            $form.find('input[name="' + i + '"]').val(jsonObj[i]);
-        } else if ($form.find('select[name="' + i + '"]').size() > 0) {
-            $form.find('select[name="' + i + '"]').val(jsonObj[i]);
-        }
-
         if (i == "enable") {
             if (jsonObj[i] == "0") {
-                $("#acc_del").text("啟用");
-                $form.find('input[name="' + i + '"]').val("1");
+                $("#enable01").prop("checked", true);
             } else {
-                $("#acc_del").text("停用");
-                $form.find('input[name="' + i + '"]').val("0");
+                $("#enable02").prop("checked", true);
+            }
+        } else {
+            if ($form.find('input[name="' + i + '"]').size() > 0) {
+                $form.find('input[name="' + i + '"]').val(jsonObj[i]);
+            } else if ($form.find('select[name="' + i + '"]').size() > 0) {
+                $form.find('select[name="' + i + '"]').val(jsonObj[i]);
             }
         }
     }

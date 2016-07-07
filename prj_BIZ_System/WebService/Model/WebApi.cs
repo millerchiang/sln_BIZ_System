@@ -6,6 +6,12 @@ using System.Web;
 
 namespace prj_BIZ_System.WebService.Model
 {
+    public class UserEnterpriseInfo
+    {
+        public UserInfoModel userinfo { get; set; }
+        public IList<EnterpriseSortModel> usersortList { get; set; }
+    }
+
     public class ActivityRegister
     {
         public string activity_name { get; set; }//活動名稱(中文)

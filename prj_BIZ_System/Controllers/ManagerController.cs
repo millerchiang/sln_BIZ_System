@@ -117,6 +117,18 @@ namespace prj_BIZ_System.Controllers
 
 
         #region ManagerInfo 帳號管理
+
+        public ActionResult CheckManager(string manager_id)
+        {
+            ManagerInfoModel kk = managerService.getManagerInfo(manager_id);
+            if (kk == null)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(kk, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         // GET: ManagerInfo
         public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
         {
@@ -135,16 +147,17 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
-            model.create_manager = "admin";  // Request.Cookies["UserInfo"]["manager_id"]
+            model.create_manager = Request.Cookies["ManagerInfo"]["manager_id"];
             if ("Insert".Equals(pagetype))
             {
                 managerService.ManagerInfoInsertOne(model);
-                return Redirect("ManagerInfo");
+//                return Redirect("ManagerInfo");
             }
             else if ("Update".Equals(pagetype))
             {
-                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
-                return Json(isUpdateSuccess);
+                managerService.ManagerInfoUpdateOne(model);
+//                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
+//                return Json(isUpdateSuccess);
             }
             return Redirect("ManagerInfo");
         }

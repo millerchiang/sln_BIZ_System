@@ -85,6 +85,7 @@
           m.manager_id like '%'||#manager_id#||'%'
         </isNotEmpty>
       </dynamic>
+      ORDER BY m.enable DESC,m.update_time DESC
     </select>
 
     <!--檢查帳號-->
