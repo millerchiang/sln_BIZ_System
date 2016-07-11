@@ -230,6 +230,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\_BaseController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Models\ActivityInfoModel.cs" />
     <Compile Include="Models\ManagerModel.cs" />
     <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -246,6 +248,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\ManagerService.cs" />
+    <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -335,6 +338,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Password.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DBSource\SqlString\Message.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">
@@ -863,6 +869,7 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
     <Folder Include="Scripts\fancybox\helpers\" />
+    <Folder Include="Views\Message\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>
