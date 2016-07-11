@@ -393,10 +393,10 @@
     <Content Include="App_Start\Key\AccountEmailValidate.pub" />
     <Content Include="App_Start\Key\AccountEmailValidate.pvt" />
     <Content Include="Content\Template\Import\user_import_sample.xls" />
-    <Content Include="Content\Template\Import\manager_matchmaking_sample.xls" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Template\Import\tmpmatchmaking.xls" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
