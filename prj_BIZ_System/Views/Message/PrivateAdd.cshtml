@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Match_ViewModel
+@model prj_BIZ_System.Models.Message_ViewModel
 
 
 @{
@@ -11,14 +11,14 @@
 }
 
 <div class="article_col1s">
-    <form class="form_box sys_searchbox">
+    <form action="@Url.Action("DoPrivateAdd")" class="form_box sys_searchbox" method="post" enctype="application/x-www-form-urlencoded">
         <h2>新增私人訊息</h2>
         <label for="" class="regis_col02L">對象</label>
-        <input id="tags" size="50" class="regis_col02R">
+        <input name="msg_member" id="tags" size="50" class="regis_col02R">
         <label for="" class="regis_col02L">主題</label>
-        <input type="text" class="regis_col02R">
+        <input name="msg_title" type="text" class="regis_col02R">
         <label for="" class="regis_col02L">內容</label>
-        <textarea class="regis_col02R" name="" id="" placeholder="三百字以內" maxlength="300"></textarea>
+        <textarea class="regis_col02R" name="msg_content" id="" placeholder="三百字以內" maxlength="300"></textarea>
         <label for="" class="regis_col02L">上傳附件</label>
         <div class="regis_col02R">
             <label class="addbu" id="upload" for="upexl">選取檔案</label>
@@ -42,7 +42,8 @@
 				$("#upexl_name").val($(this).val());
 			});
 			//帳號列表
-	     	 var availableTags = [
+		  	var availableTags = ["12345678", "0088"
+                /*
 			      "ActionScript",
 			      "AppleScript",
 			      "Asp",
@@ -65,6 +66,7 @@
 			      "Ruby",
 			      "Scala",
 			      "Scheme"
+                  */
 		    ];
 		    function split( val ) {
 		      return val.split( /,\s*/ );

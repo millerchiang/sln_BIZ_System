@@ -3,20 +3,21 @@
         xmlns="http://ibatis.apache.org/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <alias>
-    <typeAlias alias="MsgPrivate" type="prj_BIZ_System.Models.MsgPrivateModel"/>
+    <typeAlias alias="MsgPrivate"       type="prj_BIZ_System.Models.MsgPrivateModel"/>
     <typeAlias alias="MsgPrivateFile"   type="prj_BIZ_System.Models.MsgPrivateFileModel"/>
-    <typeAlias alias="MsgPrivateReply"   type="prj_BIZ_System.Models.MsgPrivateReplyModel"/>
+    <typeAlias alias="MsgPrivateReply"  type="prj_BIZ_System.Models.MsgPrivateReplyModel"/>
   </alias>
 
   <statements>
     
     <!--私訊列表-->
-    <select id="SelectMsgPrivate" resultMap="MsgPrivate-result" parameterClass="string">
+    <select id="SelectMsgPrivate" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
       SELECT *
-      FROM message.msg_private
+      FROM message.msg_private as mp
+      LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       <dynamic prepend="where">
-        <isNotEmpty prepend="and" property="value">
-          msg_title like '%'||#value#||'%' or msg_content '%'||#value#||'%'
+        <isNotEmpty prepend="and" property="msg_title">
+          mp.msg_title like '%'||#msg_title#||'%' or mp.msg_content like '%'||#msg_title#||'%'
         </isNotEmpty>
       </dynamic>
     </select>
@@ -29,10 +30,11 @@
     </insert>
 
     <!--查詢單一私訊-->
-    <select id="SelectMsgPrivateOne" resultMap="MsgPrivate-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgPrivateOne" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
       SELECT *
-      FROM message.msg_private
-      WHERE msg_no = #msg_no#
+      FROM message.msg_private as mp 
+      LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      WHERE mp.msg_no = #msg_no#
     </select>
 
     <!--查詢私訊附件-->
@@ -45,16 +47,29 @@
     <!--查詢私訊回應-->
     <select id="SelectMsgPrivateReplyMsg_no" resultMap="MsgPrivateReply-result" parameterClass="MsgPrivate">
       SELECT *
-      FROM message.msg_private_reply
-      where msg_no=#msg_no#
-      order by msg_reply_no
+      FROM message.msg_private_reply as mpr
+      LEFT JOIN public.user_info as ui on mpr.msg_reply = ui.user_id
+      where mpr.msg_no=#msg_no#
+      order by mpr.msg_reply_no
     </select>
 
   </statements>
 
   <resultMaps>
 
-    <resultMap id="MsgPrivate-result" class="prj_BIZ_System.Models.MsgPrivateModel">
+    <resultMap id="SelectMsgPrivate-result" class="MsgPrivate">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="msg_no" column="msg_no"></result>
+      <result property="creater_id" column="creater_id"></result>
+      <result property="msg_title" column="msg_title"></result>
+      <result property="msg_content" column="msg_content"></result>
+      <result property="msg_member" column="msg_member"></result>
+      <result property="create_time" column="create_time"></result>
+      <!--UerInfo 公司名稱(中文)-->
+      <result property="company" column="company"></result>
+    </resultMap>
+
+    <resultMap id="MsgPrivate-result" class="MsgPrivate">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
       <result property="creater_id" column="creater_id"></result>
@@ -64,7 +79,7 @@
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
-    <resultMap id="MsgPrivateFile-result" class="prj_BIZ_System.Models.MsgPrivateFileModel">
+    <resultMap id="MsgPrivateFile-result" class="MsgPrivateFile">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_file_no" column="msg_file_no"></result>
       <result property="msg_no" column="msg_no"></result>
@@ -72,13 +87,15 @@
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
-    <resultMap id="MsgPrivateReply-result" class="prj_BIZ_System.Models.MsgPrivateReplyModel">
+    <resultMap id="MsgPrivateReply-result" class="MsgPrivateReply">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_reply_no" column="msg_reply_no"></result>
       <result property="msg_no" column="msg_no"></result>
       <result property="msg_reply" column="msg_reply"></result>
       <result property="reply_content" column="reply_content"></result>
       <result property="create_time" column="create_time"></result>
+    <!--UerInfo 公司名稱(中文)-->
+      <result property="company" column="company"></result>
     </resultMap>
    
   </resultMaps>

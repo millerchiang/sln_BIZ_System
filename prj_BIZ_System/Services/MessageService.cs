@@ -1,8 +1,5 @@
-﻿using System;
+﻿using prj_BIZ_System.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using static prj_BIZ_System.Models.MessageModel;
 
 namespace prj_BIZ_System.Services
 {
@@ -10,7 +7,8 @@ namespace prj_BIZ_System.Services
     {
         public IList<MsgPrivateModel> SelectMsgPrivate(string keyword)
         {
-            return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivate", keyword);
+            var param = new MsgPrivateModel { msg_title = keyword };
+            return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivate", param);
         }
 
         public void  InsertMsgPrivate(MsgPrivateModel param)

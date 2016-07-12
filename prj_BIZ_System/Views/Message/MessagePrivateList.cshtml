@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Match_ViewModel
+@model prj_BIZ_System.Models.Message_ViewModel
 
 
 @{
@@ -11,42 +11,81 @@
 }
 
 <div class="article_col1">
-    <aside>
-        <form action="" class="searchbox">
-            <input type="text" name="companyName" placeholder="公司名">
-            <select name="" id="">
-                <option value="text00">產業別</option>
-                <option value="c08">食品製造業</option>
-            </select>
-            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+    <div class="form_box">
+        <h2>私人訊息</h2>
+        <form id="form" action="@Url.Action("MessagePrivateList")" method="GET">
+            <input type="text" name="keyword" placeholder="請輸入查詢條件">
+            <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
+            <a href="@Url.Action("PrivateAdd")" class="addbu rightbox">新增</a>
         </form>
-    </aside>
-    <article class="article_col2">
-        <h2 class="borderTitle">
-            媒合時程安排
-        </h2>
+        <table class="edittable">
+            <tr>
+                <th>編號</th>
+                <th style="width: 50%">主題</th>
+                <th>發佈人</th>
+                <th>發佈日</th>
+                <th>內容</th>
+            </tr>
+            @if (Model.msgPrivateList != null)
+            {
+                var i = 0;
+                foreach(MsgPrivateModel md in Model.msgPrivateList)
+                {
+                    <tr class="active">
+                        <td>@(++i)</td>
+                        <td class="alignleft">
+                            @md.msg_title
+                        </td>
+                        <td>
+                            @md.company
+                        </td>
+                        <td>
+                            @md.create_time.ToString("yyyy/MM/dd")
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="/Message/PrivateDetailed?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+        <p style="margin-top:10px">
+            總共4筆
+        </p>
+        <ul class="pagelist">
+            <li><a href="">&lt;</a></li>
 
-        <section class="form_box w55">
-            <h2>您表達有意願洽談的買主</h2>
-            <ul class="comicon listlink">
-                @foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
-                {
-                    <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingNeedModel.buyer_id})">@matchmakingNeedModel.company</a>
-                    </li>
-                }
-            </ul>
-        </section>
-        <section class="form_box w45">
-            <h2>主辦方排定洽談的買主</h2>
-            <ul class="dmicon listlink">
-                @foreach (MatchmakingScheduleModel matchmakingScheduleModel in Model.matchmakingScheduleList)
-                {
-                    <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingScheduleModel.buyer_id})">@matchmakingScheduleModel.company</a>
-                    </li>
-                }
-            </ul>
-        </section>
-    </article>
+            <li><a href="">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li><a href="">5</a></li>
+            <li><a href="">6</a></li>
+            <li><a href="">7</a></li>
+            <li><a href="">8</a></li>
+            <li><a href="">9</a></li>
+            <li><a href="">10</a></li>
+
+            <li><a href="">&gt;</a></li>
+        </ul>
+    </div>
 </div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+
+<script>
+    $(function () {
+
+        $("#searchBtn").click(function () {
+            $("#form").submit();
+        });
+
+	    $( "#tabs" ).tabs();
+	   	$(".groupmenu").on('click',function(){
+				$(".datalist3").toggle();
+				$(this).toggleClass("active");
+			})
+	  });
+</script>

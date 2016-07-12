@@ -1,84 +1,88 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Match_ViewModel
+@model prj_BIZ_System.Models.Message_ViewModel
 
 @{
-    ViewBag.Title = "商務對接(賣家)";
+    ViewBag.Title = "私人訊息內容";
 }
 
 @section pagestyle{
-    <link href="~/stylesheets/business.css" rel="stylesheet" />
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
 
-<div class="article_col1">
-    <aside>
-        <form action="" class="searchbox">
-            <input type="text" name="companyName" placeholder="公司名">
-            <select name="" id="">
-                <option value="text00">產業別</option>
-                <option value="c08">食品製造業</option>
-            </select>
-            <button class="searchbox_submit" type="submit"> 搜尋 </button>
-        </form>
-    </aside>
+<div class="article_col1s">
 
-    <article class="form_box article_col2">
-        <h2>商務對接</h2>
-        <form id="insertForm" action="@ViewBag.Action" method="post">
-            <table class="edittable">
-                <tr>
-                    <th width="30%">公司名稱</th>
-                    <th>商務媒合需求</th>
-                    <th>想與買主洽談</th>
-                </tr>
-                @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                {    
-                    <tr>
-                        <td><a href="@Url.Action("UserInfo","User", new { user_id = buyerInfoModel.buyer_id})" class="linkb">@buyerInfoModel.company</a></td>
-                        <td>@buyerInfoModel.buyer_need</td>
-                        <td>
-                            <input type="checkbox" class="inputCheckbox" name="buyer_id" 
-                                   id="buyer@(buyerInfoModel.serial_no)"
-                                   value="@buyerInfoModel.buyer_id">
-                            <label for="buyer@(buyerInfoModel.serial_no)"></label>
-                            <input type="hidden" name="activity_id" value="@buyerInfoModel.activity_id">
-                        </td>
-                    </tr>
-                }
-            </table>
+    <form class="form_box sys_searchbox">
+        <h2>私人訊息</h2>
 
-            <ul class="pagelist">
-                <li><a href="">&lt;</a></li>
+        <div class="regis_col02L">發佈人</div>
+        <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
 
-                <li><a href="">1</a></li>
-                <li><a href="">2</a></li>
-                <li><a href="">3</a></li>
-                <li><a href="">4</a></li>
-                <li><a href="">5</a></li>
-                <li><a href="">6</a></li>
-                <li><a href="">7</a></li>
-                <li><a href="">8</a></li>
-                <li><a href="">9</a></li>
-                <li><a href="">10</a></li>
+        <div class="regis_col02L">發佈日期</div>
+        <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
 
-                <li><a href="">&gt;</a></li>
+        <div class="regis_col02L">主題</div>
+        <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
+
+        <div class="regis_col02L">內容</div>
+        <p class="regis_col02R contentspan">
+            @Model.msgPrivate.msg_content
+        </p>
+
+        <div class="regis_col02L">附件</div>
+        <div class="regis_col02R">
+            <ul class="col2 listlinks">
+                <li><a href="">報價單01下載</a></li>
+                <li><a href="">報價單02下載</a></li>
+                <li><a href="">報價單03下載</a></li>
+                <li><a href="">報價單04下載</a></li>
             </ul>
-            <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">確定送出</button>
-            </div>
-        </form>
-    </article>
+        </div>
+        <div class="regis_col02L">回覆</div>
+                <div class="regis_col02R">
+                    @if (Model.msgPrivateReplyList != null)
+                    {
+                        foreach (MsgPrivateReplyModel r_md in Model.msgPrivateReplyList)
+                        {
+                            <dl class="dllist">
+                                <dt>@r_md.company <span class="rightbox">@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span></dt>
+                                <dd class="contentspan">
+                                    @r_md.reply_content
+                                </dd>
+                                <!--
+                                    
+                                <dt>傳傳紡織 <span class="rightbox">2016/02/22 14:30</span></dt>
+                                <dd class="contentspan">
+                                    太好了
+                                </dd>
+                                <dt>傳傳紡織 <span class="rightbox">2016/02/22 14:30</span></dt>
+                                <dd class="contentspan">
+                                    太好了
+                                </dd>
+                                -->
+                            </dl>
+                        }
+                    }
+                    <textarea name="" id="" placeholder="三百字以內" maxlength="300"></textarea>
+                    <div class="centerbox">
+                        <button type="submit" class="addbu">回覆</button>
+                    </div>
+                </div>
+        
+        <div class="centerbox">
+            <a href="message_privatelist.html" class="submitbu rightbox">返回私人訊息</a>
+        </div>
+
+    </form>
+
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function () {
+@Scripts.Render("~/bundles/jqueryUI")
 
-        $("#submitInfo").click(function () {
-            if (confirm('提示訊息:送出後無法更改，請警慎填寫')) {
-                return true
-            } else {
-                return false
-            }
-        });
+<script>
+		  $(function() {
+		  	$("#upexl").on('change',function(){
+				$("#upexl_name").val($(this).val());
+			});
 
-    });
+		  });
 </script>
