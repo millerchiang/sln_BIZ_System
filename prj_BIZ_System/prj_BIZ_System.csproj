@@ -862,6 +862,9 @@
     <Content Include="Views\Home\Activity.cshtml" />
     <Content Include="Views\User\EditPasswd.cshtml" />
     <Content Include="Views\Home\NewsViewForApp.cshtml" />
+    <Content Include="Views\Message\PrivateAdd.cshtml" />
+    <Content Include="Views\Message\MessagePrivateList.cshtml" />
+    <Content Include="Views\Message\PrivateDetailed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -869,7 +872,6 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
     <Folder Include="Scripts\fancybox\helpers\" />
-    <Folder Include="Views\Message\" />
     <Folder Include="Views\_Base\" />
   </ItemGroup>
   <ItemGroup>

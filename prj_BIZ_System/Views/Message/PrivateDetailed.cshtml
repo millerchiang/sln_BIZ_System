@@ -1,0 +1,84 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Match_ViewModel
+
+@{
+    ViewBag.Title = "商務對接(賣家)";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/business.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <aside>
+        <form action="" class="searchbox">
+            <input type="text" name="companyName" placeholder="公司名">
+            <select name="" id="">
+                <option value="text00">產業別</option>
+                <option value="c08">食品製造業</option>
+            </select>
+            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        </form>
+    </aside>
+
+    <article class="form_box article_col2">
+        <h2>商務對接</h2>
+        <form id="insertForm" action="@ViewBag.Action" method="post">
+            <table class="edittable">
+                <tr>
+                    <th width="30%">公司名稱</th>
+                    <th>商務媒合需求</th>
+                    <th>想與買主洽談</th>
+                </tr>
+                @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                {    
+                    <tr>
+                        <td><a href="@Url.Action("UserInfo","User", new { user_id = buyerInfoModel.buyer_id})" class="linkb">@buyerInfoModel.company</a></td>
+                        <td>@buyerInfoModel.buyer_need</td>
+                        <td>
+                            <input type="checkbox" class="inputCheckbox" name="buyer_id" 
+                                   id="buyer@(buyerInfoModel.serial_no)"
+                                   value="@buyerInfoModel.buyer_id">
+                            <label for="buyer@(buyerInfoModel.serial_no)"></label>
+                            <input type="hidden" name="activity_id" value="@buyerInfoModel.activity_id">
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <ul class="pagelist">
+                <li><a href="">&lt;</a></li>
+
+                <li><a href="">1</a></li>
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">5</a></li>
+                <li><a href="">6</a></li>
+                <li><a href="">7</a></li>
+                <li><a href="">8</a></li>
+                <li><a href="">9</a></li>
+                <li><a href="">10</a></li>
+
+                <li><a href="">&gt;</a></li>
+            </ul>
+            <div class="centerbox">
+                <button id="submitInfo" type="submit" class="submitbuRed">確定送出</button>
+            </div>
+        </form>
+    </article>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#submitInfo").click(function () {
+            if (confirm('提示訊息:送出後無法更改，請警慎填寫')) {
+                return true
+            } else {
+                return false
+            }
+        });
+
+    });
+</script>
