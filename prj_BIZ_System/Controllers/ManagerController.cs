@@ -828,7 +828,7 @@ namespace prj_BIZ_System.Controllers
             {
                 string targetDir = "_temp";
                 Dictionary<string, string> uploadResultDic = null;
-                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, UploadConfig.AdminManagerDirName);
                 logger.Info("上傳結果:"+uploadResultDic["result"]);
 
                 if ("success".Equals(uploadResultDic["result"]))
@@ -836,7 +836,7 @@ namespace prj_BIZ_System.Controllers
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
                     TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]).Pages(Request,this,10);
-                    UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", "admin");
+                    UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", UploadConfig.AdminManagerDirName);
                 }
                 else
                 {
@@ -1034,50 +1034,213 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        //#region 媒合大表匯出Excel
-        ////[HttpGet]
-        ////public ActionResult ExportExcelByNPOI()
-        ////{
-        ////    /*列出某活動所有買主*/
-        ////    matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
+        #region 媒合大表匯出Excel
+        [HttpGet]
+        public ActionResult ExportExcelByNPOI()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            ViewBag.Action = "StoreMatchData";
+            IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
+                (int.Parse(Request["activity_id"]), "1");
+            IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
+                (int.Parse(Request["activity_id"]), "");
+            ISet<string> buyerReply1Set = new HashSet<string>();
+            ISet<string> buyerReply0Set = new HashSet<string>();
+
+            /*列出某活動所有買主*/
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
+            /*列出某活動媒合時段*/
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+            /*取得設定時間的活動編號*/
+            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+
+            /*列出某活動有審核的賣家*/
+            matchModel.activityregisterList = matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
+
+            /*列出某活動的媒合大表資料*/
+            matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
+
+            /*列出某活動的時間區段輸入媒合的賣家*/
+            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+
+            matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+            matchModel.matchMakingScheduleSellerId = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+
+            foreach (MatchmakingScheduleModel matchmakingScheduleModel in matchModel.matchmakingScheduleList)
+            {
+                foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+                {
+                    if (schedulePeriodSetModel.period_sn == matchmakingScheduleModel.period_sn)
+                    {
+                        i = matchModel.schedulePeriodSetList.IndexOf(schedulePeriodSetModel);
+                    }
+                }
+
+                foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+                {
+                    if (buyerInfoModel.buyer_id == matchmakingScheduleModel.buyer_id)
+                    {
+                        j = matchModel.buyerinfoList.IndexOf(buyerInfoModel);
+                    }
+                }
+
+                if ((i != notFoundIndex) && (j != notFoundIndex))
+                {
+                    matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = matchmakingScheduleModel.company;
+                    matchModel.matchMakingScheduleSellerId[i * matchModel.buyerinfoList.Count + j] = matchmakingScheduleModel.seller_id;
+                }
+            }
+
+            /*列出雙方有媒合意願的賣家*/
+            foreach (MatchmakingNeedModel model in CheckIs1List)
+            {
+                buyerReply1Set.Add(model.buyer_id);
+            }
+
+            foreach (string buyer in buyerReply1Set)
+            {
+                matchModel.sellerCompanyNamereply1Dic[buyer] = new List<string>();
+            }
+
+            foreach (MatchmakingNeedModel model in CheckIs1List)
+            {
+                matchModel.sellerCompanyNamereply1Dic[model.buyer_id].Add(model.company);
+            }
+
+            /*列出有媒合意願的賣家*/
+            foreach (MatchmakingNeedModel model in CheckIs0List)
+            {
+                buyerReply0Set.Add(model.buyer_id);
+            }
+
+            foreach (string buyer in buyerReply0Set)
+            {
+                matchModel.sellerCompanyNamereply0Dic[buyer] = new List<string>();
+            }
+
+            foreach (MatchmakingNeedModel model in CheckIs0List)
+            {
+                matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
+            }
+
+
+            /*讀取樣板*/
+            string ExcelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
+            FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.Read);
+            IWorkbook workbook = new HSSFWorkbook(Template);
+            Template.Close();
+
+            ISheet _sheet = workbook.GetSheetAt(0);
+            // 取得剛剛在Excel設定的字型 (第二列首欄)
+            ICellStyle CellStyle = _sheet.GetRow(0).Cells[0].CellStyle;
+            ICellStyle CellStyle1 = _sheet.GetRow(1).Cells[0].CellStyle;
+            int CurrRow = 0; //起始列(跳過標題列)
+            int CurrCol = 1; //起始列(跳過標題列)
+            IRow MyRow = _sheet.CreateRow(CurrRow);
+            int CurrRowMax = 4; //起始列(跳過標題列)
+            int tok = 0;
+
+            CreateCell("時段\\買方名稱", MyRow, 0, CellStyle);
+
+            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            {
+                CreateCell(buyerInfoModel.company, MyRow, CurrCol, CellStyle); //買家公司名稱
+                try
+                {
+                    for (i = 0; i < matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id].Count; i++)
+                    {
+                        if (CurrRowMax < 4 + i)
+                            CurrRowMax = 4 + i;
+                        IRow MyRow1 = _sheet.GetRow(4 + i);
+                        if (MyRow1 == null)
+                            MyRow1 = _sheet.CreateRow(4 + i);
+                        if (i == 0 && tok==0)
+                        {
+                            tok = 1;
+                            CreateCell("雙方有媒合意願", MyRow1, 0, CellStyle); //
+                        }
+                        CreateCell(matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
+
+                    }
+                }
+                catch {
+                }
+
+                CurrCol++;
+            }
+
+            CurrCol = 1;
+            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            {
+                tok = 0;
+                try
+                {
+                    for (i = 0; i < matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id].Count; i++)
+                    {
+                        IRow MyRow1 = _sheet.GetRow(CurrRowMax + 2 + i);
+                        if (MyRow1 == null)
+                            MyRow1 = _sheet.CreateRow(CurrRowMax + 2 + i);
+                        if (i == 0 && tok == 0)
+                        {
+                            tok = 1;
+                            CreateCell("賣方有媒合意願", MyRow1, 0, CellStyle); //
+                        }
+                        CreateCell(matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
+
+                    }
+                }
+                catch
+                {
+                }
+
+                CurrCol++;
+            }
+
+            CurrRow = 1;
+            foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+            {
+                IRow MyRow1 = _sheet.GetRow(CurrRow);
+                if (MyRow1 == null)
+                    MyRow1 = _sheet.CreateRow(CurrRow);
+                CreateCell(schedulePeriodSetModel.time_start.ToShortTimeString()+"~"+ schedulePeriodSetModel.time_end.ToShortTimeString()
+                    , MyRow1, 0, CellStyle); //
+                CurrRow++;
+            }
+
             
-        ////    /*讀取樣板*/
-        ////    string ExcelPath = Server.MapPath("~/Content/Template/Import/manager_matchmaking_sample.xls");
-        ////    FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.Read);
-        ////    IWorkbook workbook = new HSSFWorkbook(Template);
-        ////    Template.Close();
+            for (i = 1; i < CurrRow; i++)
+            {
+                for (j = 1; j < CurrCol; j++)
+                {
+                    IRow MyRow1 = _sheet.GetRow(i);
+                    CreateCell(matchModel.matchMakingScheduleSellerCompany[(i-1)* (CurrCol-1) + (j-1)], 
+                        MyRow1, j, CellStyle1); //
+                }
+            }
 
-        ////    ISheet _sheet = workbook.GetSheetAt(0);
-        ////    // 取得剛剛在Excel設定的字型 (第二列首欄)
-        ////    ICellStyle CellStyle = _sheet.GetRow(1).Cells[0].CellStyle;
-        ////    int CurrRow = 1; //起始列(跳過標題列)
-        ////    foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
-        ////    {
-        ////        IRow MyRow = _sheet.CreateRow(CurrRow);
-        ////        CreateCell(buyerInfoModel.company, MyRow, 0, CellStyle); //訂單編號
-        ////        CurrRow++;
-        ////    }
+            string SavePath = @"D:/Download/matchmaking.xls";
+            FileStream file = new FileStream(SavePath, FileMode.Create);
+            workbook.Write(file);
+            file.Close();
 
-        ////    string SavePath = @"D:/matchmaking.xls";
-        ////    FileStream file = new FileStream(SavePath, FileMode.Create);
-        ////    workbook.Write(file);
-        ////    file.Close();
+            return File(SavePath, "application/ms-excel", "matchmaking.xls");
+        }
 
-        ////    return File(SavePath, "application/ms-excel", "matchmaking1.xls");
-        ////}
-
-        ///// <summary>NPOI新增儲存格資料</summary>
-        ///// <param name="Word">顯示文字</param>
-        ///// <param name="ContentRow">NPOI IROW</param>
-        ///// <param name="CellIndex">儲存格列數</param>
-        ///// <param name="cellStyleBoder">ICellStyle樣式</param>
-        //private static void CreateCell(string Word, IRow ContentRow, int CellIndex, ICellStyle cellStyleBoder)
-        //{
-        //    ICell _cell = ContentRow.CreateCell(CellIndex);
-        //    _cell.SetCellValue(Word);
-        //    _cell.CellStyle = cellStyleBoder;
-        //}
-        //#endregion
+        /// <summary>NPOI新增儲存格資料</summary>
+        /// <param name="Word">顯示文字</param>
+        /// <param name="ContentRow">NPOI IROW</param>
+        /// <param name="CellIndex">儲存格列數</param>
+        /// <param name="cellStyleBoder">ICellStyle樣式</param>
+        private static void CreateCell(string Word, IRow ContentRow, int CellIndex, ICellStyle cellStyleBoder)
+        {
+            ICell _cell = ContentRow.CreateCell(CellIndex);
+            _cell.SetCellValue(Word);
+            _cell.CellStyle = cellStyleBoder;
+        }
+        #endregion
 
         #region 媒合時程大表新增修改刪除
         [HttpPost]

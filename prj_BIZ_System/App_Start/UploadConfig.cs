@@ -9,6 +9,11 @@ namespace prj_BIZ_System.App_Start
     public class UploadConfig
     {
         /// <summary>
+        /// 管理者建立的檔案目錄
+        /// </summary>
+        public static string AdminManagerDirName = "_biz_admin";
+
+        /// <summary>
         /// 上傳檔案根目錄實體檔位置
         /// </summary>
         public static string CatalogRootDir { get; set; }
@@ -34,6 +39,11 @@ namespace prj_BIZ_System.App_Start
         public static string subDirForLogo { get; set; }
 
         /// <summary>
+        /// Message附件路徑
+        /// </summary>
+        public static string subDirForMessageFile { get; set; }
+
+        /// <summary>
         /// 新聞訊息圖片儲存路徑
         /// </summary>
         public static string subDirForNews { get; set; }
@@ -48,6 +58,7 @@ namespace prj_BIZ_System.App_Start
             subDirForCatalog = "Catalog/catalog_file/";
             subDirForLogo = "Logo/";
             subDirForNews = "News/";
+            subDirForMessageFile = "Pri_Message/";
             #endregion
         }
     }
@@ -55,6 +66,16 @@ namespace prj_BIZ_System.App_Start
 
     public class UploadHelper
     {
+
+        /// <summary>
+        /// 取得私訊附件資料夾路徑(使用者id)
+        /// </summary>
+        public static string getMessageFileDirPath(long msg_no)
+        {
+            string folder_name = "";
+            folder_name = getFolderName("primessage");
+            return UploadConfig.CatalogRootPath + UploadConfig.AdminManagerDirName + "/" + folder_name + msg_no + "/";
+        }
 
         /// <summary>
         /// 取得圖片資料夾路徑(使用者id , 資料夾型態)
@@ -95,6 +116,10 @@ namespace prj_BIZ_System.App_Start
 
                 case "news":
                     folder_name = UploadConfig.subDirForNews;
+                    break;
+
+                case "primessage":
+                    folder_name = UploadConfig.subDirForMessageFile;
                     break;
 
                 default : 
@@ -142,6 +167,7 @@ namespace prj_BIZ_System.App_Start
             }
             finally{
                 resultDict.Add("filepath", targetCoverFilePath);
+                resultDict.Add("relativFilepath", user_id +"/"+ subFileDir + "/"+ uploadFile.FileName);
             }
             return resultDict;
         }
