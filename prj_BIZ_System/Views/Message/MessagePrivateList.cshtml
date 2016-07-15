@@ -23,21 +23,28 @@
                 <th>編號</th>
                 <th style="width: 50%">主題</th>
                 <th>發佈人</th>
+                <th>回覆數</th>
                 <th>發佈日</th>
                 <th>內容</th>
             </tr>
+            @{ 
+                var prevCounts = ((PageList<MsgPrivateModel>)TempData["PageList"]).prevCounts;
+            }
             @if (Model.msgPrivateList != null)
             {
                 var i = 0;
                 foreach(MsgPrivateModel md in Model.msgPrivateList)
                 {
                     <tr class="active">
-                        <td>@(++i)</td>
+                        <td>@((++i)+prevCounts)</td>
                         <td class="alignleft">
                             @md.msg_title
                         </td>
                         <td>
                             @md.company
+                        </td>
+                        <td>
+                            @md.rpy_cnt
                         </td>
                         <td>
                             @md.create_time.ToString("yyyy/MM/dd")
@@ -105,6 +112,7 @@
 	    	</text>
         }
 
+        
     });
 
 </script>
