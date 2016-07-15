@@ -64,4 +64,15 @@ namespace prj_BIZ_System.WebService.Model
         public IList<Seller> buyer_check { get; set; }//買家有意願洽談賣家
         public IList<Seller> manager_schedule { get; set; }//主辦方排定賣家
     }
+
+    public class MsgPrivate
+    {
+        public long msg_no { get; set; }             //私人訊息編號
+        public string msg_title { get; set; }        //訊息標題
+        public string create_time { get; set; }    //建立時間
+        //UerInfo 公司名稱(中文)
+        public string company { get; set; }
+    }
+
+
 }
