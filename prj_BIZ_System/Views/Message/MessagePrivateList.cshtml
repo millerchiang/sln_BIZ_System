@@ -14,7 +14,7 @@
     <div class="form_box">
         <h2>私人訊息</h2>
         <form id="form" action="@Url.Action("MessagePrivateList")" method="GET">
-            <input type="text" name="keyword" placeholder="請輸入查詢條件">
+            <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
             <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
             <a href="@Url.Action("PrivateAdd")" class="addbu rightbox">新增</a>
         </form>
@@ -51,6 +51,8 @@
                 }
             }
         </table>
+        @Html.PagesList((PageList<MsgPrivateModel>)TempData["PageList"])
+        <!--
         <p style="margin-top:10px">
             總共4筆
         </p>
@@ -70,6 +72,7 @@
 
             <li><a href="">&gt;</a></li>
         </ul>
+        -->
     </div>
 </div>
 
@@ -86,6 +89,22 @@
 	   	$(".groupmenu").on('click',function(){
 				$(".datalist3").toggle();
 				$(this).toggleClass("active");
-			})
-	  });
+	   	})
+
+        @if (!string.IsNullOrEmpty((string)TempData["priDetailView_errmsg"]))
+	   	{
+            <text>
+            function check() {
+                var pw_errMsg = '@TempData["priDetailView_errmsg"]';
+                if (pw_errMsg != '')
+	   	        {
+                    alert(pw_errMsg);
+	   	        }
+	   	    }
+	   	    check();
+	    	</text>
+        }
+
+    });
+
 </script>

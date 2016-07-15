@@ -22,7 +22,7 @@ namespace prj_BIZ_System.Models
     public partial class MsgPrivateFileModel
     {
         public long msg_file_no { get; set; }        //私人訊息附件編號
-        public int msg_no { get; set; }              //私人訊息編號
+        public long msg_no { get; set; }             //私人訊息編號
         public string msg_file_site { get; set; }    //附件檔案位置
         public DateTime create_time { get; set; }    //建立時間
     }
@@ -30,7 +30,7 @@ namespace prj_BIZ_System.Models
     public class MsgPrivateReplyModel
     {
         public long msg_reply_no { get; set; }       //私人訊息回覆編號
-        public int msg_no { get; set; }              //私人訊息編號
+        public long msg_no { get; set; }             //私人訊息編號
         public string msg_reply { get; set; }        //回覆者
         public string reply_content { get; set; }    //回覆內容
         public DateTime create_time { get; set; }    //建立時間

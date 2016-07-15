@@ -9,21 +9,38 @@
   </alias>
 
   <statements>
+
+    <!--查看權限-->
+    <select id="isOwnViewPower"  resultClass="int" parameterClass="MsgPrivate">
+      SELECT count(msg_no) from message.msg_private
+      where msg_no = $msg_no$ 
+        and ( creater_id = #creater_id# 
+        or msg_member like ' '||#creater_id#||',' )
+    </select>
     
     <!--私訊列表-->
     <select id="SelectMsgPrivate" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
-      SELECT *
+      SELECT mp2.* from (
+      SELECT mp.*, ui.company
       FROM message.msg_private as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      where mp.creater_id = #creater_id# or mp.msg_member like ' '||#creater_id#||','
+      ) as mp2
+      LEFT JOIN message.msg_private_reply as mpr2 on mp2.msg_no = mpr2.msg_no
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="msg_title">
-          mp.msg_title like '%'||#msg_title#||'%' or mp.msg_content like '%'||#msg_title#||'%'
+          mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%'
         </isNotEmpty>
       </dynamic>
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.msg_member , mp2.create_time , mp2.company
+      order by mp2.create_time desc
     </select>
 
     <!--建立新私訊-->
     <insert id="InsertMsgPrivate" parameterClass="MsgPrivate">
+      <selectKey resultClass="long" property="msg_no" type="post">
+        SELECT currval('message.msg_private_msg_no_seq')
+      </selectKey>
       INSERT INTO message.msg_private(
       creater_id, msg_title, msg_content, msg_member )
       VALUES (#creater_id#, #msg_title#, #msg_content# , #msg_member# );
@@ -44,6 +61,13 @@
       WHERE msg_no=#msg_no#
     </select>
 
+    <!--新增私訊附件-->
+    <insert id="InsertMsgPrivateFile" parameterClass="MsgPrivateFile">
+      INSERT INTO message.msg_private_file(
+      msg_no, msg_file_site)
+      VALUES ($msg_no$ , #msg_file_site#);
+    </insert>
+    
     <!--查詢私訊回應-->
     <select id="SelectMsgPrivateReplyMsg_no" resultMap="MsgPrivateReply-result" parameterClass="MsgPrivate">
       SELECT *
@@ -52,6 +76,14 @@
       where mpr.msg_no=#msg_no#
       order by mpr.msg_reply_no
     </select>
+
+    <!--建立新私訊回應-->
+    <insert id="InsertMsgPrivateReply" parameterClass="MsgPrivateReply">
+      INSERT INTO message.msg_private_reply(
+      msg_no, msg_reply, reply_content)
+      VALUES (#msg_no#, #msg_reply#, #reply_content#);
+
+    </insert>
 
   </statements>
 

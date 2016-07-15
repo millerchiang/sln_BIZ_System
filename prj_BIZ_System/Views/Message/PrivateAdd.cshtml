@@ -11,7 +11,7 @@
 }
 
 <div class="article_col1s">
-    <form action="@Url.Action("DoPrivateAdd")" class="form_box sys_searchbox" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="@Url.Action("DoPrivateAdd")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
         <h2>新增私人訊息</h2>
         <label for="" class="regis_col02L">對象</label>
         <input name="msg_member" id="tags" size="50" class="regis_col02R">
@@ -21,13 +21,13 @@
         <textarea class="regis_col02R" name="msg_content" id="" placeholder="三百字以內" maxlength="300"></textarea>
         <label for="" class="regis_col02L">上傳附件</label>
         <div class="regis_col02R">
-            <label class="addbu" id="upload" for="upexl">選取檔案</label>
-            <input type="file" id="upexl" name="iupexl">
+            <label class="addbu" id="upload" for="iupexls">選取檔案</label>
+            <input type="file" id="iupexls" name="iupexls">
             <input type="text" id="upexl_name" name="upexl_name">
         </div>
         <div class="centerbox">
             <button type="submit" class="buinfor">確定新增</button>
-            <a href="message_privatelist.html" class="submitbu">返回私人訊息</a>
+            <a href="@Url.Action("MessagePrivateList")" class="submitbu">返回私人訊息</a>
         </div>
 
     </form>
@@ -38,11 +38,11 @@
 
 <script>
 		  $(function() {
-		  	$("#upexl").on('change',function(){
+		      $("#iupexls").on('change', function () {
 				$("#upexl_name").val($(this).val());
 			});
 			//帳號列表
-		  	var availableTags = ["12345678", "0088"
+		  	var availableTags = ["12345678", "0088","OOOOXXXX1764","Carlos" , "carlos"
                 /*
 			      "ActionScript",
 			      "AppleScript",

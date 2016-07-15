@@ -828,7 +828,7 @@ namespace prj_BIZ_System.Controllers
             {
                 string targetDir = "_temp";
                 Dictionary<string, string> uploadResultDic = null;
-                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, "admin");
+                uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, UploadConfig.AdminManagerDirName);
                 logger.Info("上傳結果:"+uploadResultDic["result"]);
 
                 if ("success".Equals(uploadResultDic["result"]))
@@ -836,7 +836,7 @@ namespace prj_BIZ_System.Controllers
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
                     TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]).Pages(Request,this,10);
-                    UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", "admin");
+                    UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", UploadConfig.AdminManagerDirName);
                 }
                 else
                 {
