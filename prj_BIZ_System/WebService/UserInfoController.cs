@@ -38,9 +38,14 @@ namespace prj_BIZ_System.WebService
         public UserEnterpriseInfo UserInfo(string user_id)
         {
             if (user_id == null) return null;
+            string[] revenue = new string[] 
+            {"500萬以下", "501-1000萬", "1001-1500萬",
+            "1501-3000萬", "3001-5000萬", "5000萬-1億", "一億以上" };
             UserEnterpriseInfo userEnterpriseInfo = new UserEnterpriseInfo();
             userEnterpriseInfo.userinfo = userService.GeUserInfoOne(user_id);
             userEnterpriseInfo.userinfo.user_pw = null;
+            int revenueNum = int.Parse(userEnterpriseInfo.userinfo.revenue);
+            userEnterpriseInfo.userinfo.revenue = revenue[revenueNum];
             userEnterpriseInfo.usersortList = userService.SelectUserSortByUserId(user_id);
             return userEnterpriseInfo;
         }

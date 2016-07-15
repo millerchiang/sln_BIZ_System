@@ -78,5 +78,11 @@ namespace prj_BIZ_System.Services
             var param = new PushListModel { push_id = push_id };
             return mapper.Delete("Push.DeletePushList", param) > 0 ;
         }
+
+        public object MobileDeviceInfoInsertOne(MobileDeviceInfoModel model)
+        {
+            object result = mapper.Insert("Push.InsertSelectMobileDeviceInfo", model);
+            return result;
+        }
     }
 }

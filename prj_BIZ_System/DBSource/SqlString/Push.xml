@@ -5,6 +5,7 @@
   <alias>
     <typeAlias alias="PushSample" type="prj_BIZ_System.Models.PushSampleModel"/>
     <typeAlias alias="PushList"   type="prj_BIZ_System.Models.PushListModel"/>
+    <typeAlias alias="MobileDeviceInfo"   type="prj_BIZ_System.Models.MobileDeviceInfoModel"/>
   </alias>
 
   <statements>
@@ -120,6 +121,15 @@
       FROM activity_info
       where endtime >= #endtime#
     </select>
+
+    <insert id="InsertSelectMobileDeviceInfo" parameterClass="MobileDeviceInfo">
+      <selectKey  resultClass="int" property="serial_no" type="post">
+        SELECT currval('manager.mobile_device_info_seq')
+      </selectKey>
+      INSERT INTO manager.mobile_device_info
+      ( device_id, device_os, user_id )
+      VALUES (#device_id#, #device_os#, #user_id#);
+    </insert>
   </statements>
 
   <resultMaps>
@@ -169,7 +179,16 @@
       <result property="activity_id" column="activity_id"/>
       <result property="activity_name" column="activity_name"/>
     </resultMap>
-   
+
+    <resultMap id="MobileDeviceInfo-result" class="prj_BIZ_System.Models.MobileDeviceInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="serial_no" column="serial_no"/>
+      <result property="device_id" column="device_id"/>
+      <result property="device_os" column="device_os"/>
+      <result property="user_id"   column="user_id"/>
+      <result property="create_time" column="create_time"/>
+    </resultMap>
+
   </resultMaps>
 
 </sqlMap>

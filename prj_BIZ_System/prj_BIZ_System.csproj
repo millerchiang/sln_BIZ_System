@@ -253,6 +253,7 @@
     <Compile Include="WebService\ActivityController.cs" />
     <Compile Include="WebService\MatchController.cs" />
     <Compile Include="WebService\Model\WebApi.cs" />
+    <Compile Include="WebService\PushController.cs" />
     <Compile Include="WebService\UserInfoController.cs" />
   </ItemGroup>
   <ItemGroup>

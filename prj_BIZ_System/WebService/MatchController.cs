@@ -120,12 +120,12 @@ namespace prj_BIZ_System.WebService
             if (user_id == null) return null;
             BuyerNeed buyerNeed = new BuyerNeed();
             buyerNeed.buyer_check =
-            matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "").Select(
+            matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "1").Select(
                 matchmakingNeed =>
                 new Seller
                 {
                     seller_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
+                    company = matchmakingNeed.company,
                 }
             ).ToList();
 
