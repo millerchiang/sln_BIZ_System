@@ -39,6 +39,7 @@ namespace prj_BIZ_System.App_Start
             }
             page.querystring = sb.ToString();
             page.maxCount = modelList.Count();
+            page.prevCounts = (page.currentPage - 1) * page.pageNum;
             ctrl.TempData["PageList"] = page;
             return page.datalist;
         }
@@ -113,6 +114,7 @@ namespace prj_BIZ_System.App_Start
     public class PageList<T>
     {
         public int currentPage { get; set; }
+        public int prevCounts { get; set; }
         public int pageNum { get; set; }
         public int maxCount { get; set; }
         public int maxPage { get; set; }

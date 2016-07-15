@@ -35,7 +35,7 @@
                 {
                     foreach(MsgPrivateFileModel mpf in Model.msgPrivateFileList)
                     {
-                         <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">附件</a></li>
+                         <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">@mpf.msg_file_site</a></li>
                     }
                 }
                 <!--
@@ -71,7 +71,7 @@
                         }
                     }
                     <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no"/>
-                    <textarea name="reply_content" id="" placeholder="三百字以內" maxlength="300"></textarea>
+                    <textarea name="reply_content" id="reply_content" placeholder="三百字以內" maxlength="300"></textarea>
                     <div class="centerbox">
                         <button type="submit" class="addbu">回覆</button>
                     </div>
@@ -93,6 +93,33 @@
 				$("#upexl_name").val($(this).val());
 			});
 
+		  	$("#form").submit(function () {
+		  	    var reply_content = $("#reply_content").val();
+		  	    var errMsg = checkValidationOk(reply_content)
+		  	    if (errMsg != '') {
+		  	        alert(errMsg);
+		  	        return false;
+		  	    }
+		  	});
+
+		  	$("#reply_content").keydown(function (e) {
+		  	    if ($(this).val().length > 300) {
+		  	        if (e.keyCode != 8) {
+		  	            return false;
+		  	        }
+		  	    }
+		  	})
+
 		  });
+
+		  function checkValidationOk(reply_content) {
+		      var errMsg = '';
+		      if (reply_content == null || reply_content == '') {
+		          errMsg += "回覆內容不能為空白!!\n";
+		      } else if (reply_content.length > 300) {
+		          errMsg += "回覆內容不能超過三百字!!";
+		      }
+		      return errMsg;
+		  }
 
 </script>

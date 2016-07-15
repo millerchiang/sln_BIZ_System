@@ -21,10 +21,11 @@
     <!--私訊列表-->
     <select id="SelectMsgPrivate" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
       SELECT mp2.* from (
-      SELECT mp.*, ui.company
+      SELECT mp.*, ui.company , mpr.rpy_cnt
       FROM message.msg_private as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
-      where mp.creater_id = #creater_id# or mp.msg_member like ' '||#creater_id#||','
+      LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_private_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
+      where mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
       ) as mp2
       LEFT JOIN message.msg_private_reply as mpr2 on mp2.msg_no = mpr2.msg_no
       <dynamic prepend="where">
@@ -32,7 +33,7 @@
           mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%'
         </isNotEmpty>
       </dynamic>
-      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.msg_member , mp2.create_time , mp2.company
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.msg_member , mp2.create_time , mp2.company , mp2.rpy_cnt
       order by mp2.create_time desc
     </select>
 
@@ -62,7 +63,7 @@
     </insert>
 
     <!--查詢單一私訊-->
-    <select id="SelectMsgPrivateOne" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgPrivateOne" resultMap="SelectMsgPrivateOne-result" parameterClass="MsgPrivate">
       SELECT *
       FROM message.msg_private as mp 
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
@@ -114,8 +115,21 @@
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
+      <result property="rpy_cnt" column="rpy_cnt"></result>
     </resultMap>
 
+    <resultMap id="SelectMsgPrivateOne-result" class="MsgPrivate">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="msg_no" column="msg_no"></result>
+      <result property="creater_id" column="creater_id"></result>
+      <result property="msg_title" column="msg_title"></result>
+      <result property="msg_content" column="msg_content"></result>
+      <result property="msg_member" column="msg_member"></result>
+      <result property="create_time" column="create_time"></result>
+      <!--UerInfo 公司名稱(中文)-->
+      <result property="company" column="company"></result>
+    </resultMap>
+    
     <resultMap id="MsgPrivate-result" class="MsgPrivate">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
