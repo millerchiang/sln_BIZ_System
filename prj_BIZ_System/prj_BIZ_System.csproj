@@ -51,6 +51,10 @@
     <Reference Include="Castle.DynamicProxy">
       <HintPath>C:\Users\admin\Desktop\ibatis.Net\Ibatis.DataMapper.1.6.2.bin\Castle.DynamicProxy.dll</HintPath>
     </Reference>
+    <Reference Include="Fluentx, Version=2.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluentx.2.0.4\lib\Fluentx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="IBatisNet.Common, Version=1.6.2.0, Culture=neutral, PublicKeyToken=ed781d9fc396c6ca, processorArchitecture=MSIL">
       <HintPath>..\packages\IBatisNet45.1.6.2\lib\net45\IBatisNet.Common.dll</HintPath>
       <Private>True</Private>
@@ -230,6 +234,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PushController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\_BaseController.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="Models\ActivityInfoModel.cs" />
     <Compile Include="Models\ManagerModel.cs" />
     <Compile Include="Models\MatchModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
     <Compile Include="Models\PushModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
@@ -246,6 +252,7 @@
     <Compile Include="Services\ActivityService.cs" />
     <Compile Include="Services\MatchService.cs" />
     <Compile Include="Services\ManagerService.cs" />
+    <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -335,6 +342,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Password.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DBSource\SqlString\Message.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">
@@ -856,6 +866,9 @@
     <Content Include="Views\Home\Activity.cshtml" />
     <Content Include="Views\User\EditPasswd.cshtml" />
     <Content Include="Views\Home\NewsViewForApp.cshtml" />
+    <Content Include="Views\Message\PrivateAdd.cshtml" />
+    <Content Include="Views\Message\MessagePrivateList.cshtml" />
+    <Content Include="Views\Message\PrivateDetailed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
