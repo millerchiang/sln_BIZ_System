@@ -15,7 +15,7 @@
       SELECT count(msg_no) from message.msg_private
       where msg_no = $msg_no$ 
         and ( creater_id = #creater_id# 
-        or msg_member like ' '||#creater_id#||',' )
+        or msg_member like '% '||#creater_id#||',%' )
     </select>
     
     <!--私訊列表-->
