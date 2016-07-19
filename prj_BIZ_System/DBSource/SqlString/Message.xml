@@ -38,16 +38,16 @@
     </select>
 
     <!--私訊列表(手機)-->
-    <select id="SelectMsgPrivateForMobile" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgPrivateForMobile" resultMap="SelectMsgPrivateOne-result" parameterClass="MsgPrivate">
       SELECT mp2.* from (
       SELECT mp.*, ui.company
       FROM message.msg_private as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       where
-      <![CDATA[ mp.create_time <= #create_time# ]]>
-      and
-      mp.creater_id = #creater_id# or mp.msg_member like ' '||#creater_id#||','
+      mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
       ) as mp2
+      where
+      <![CDATA[ mp2.create_time <= #create_time# ]]>
       order by mp2.msg_no desc
       limit 10
     </select>
