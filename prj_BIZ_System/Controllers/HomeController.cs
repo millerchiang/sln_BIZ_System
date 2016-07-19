@@ -159,10 +159,19 @@ namespace prj_BIZ_System.Controllers
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
         }
 
-        public ActionResult NewsViewForApp()
+        public ActionResult NewsViewForApp(string nvkey)
         {
-            doNewsView();
-            return View(indexModel);
+            string code = "BizNewsContent"+ DateTime.Now.ToString("yyyyMMdd");
+            if (!SecurityHelper.Encrypt256(code).Equals(nvkey))
+            {
+                return Content("很抱歉!您沒有觀看這則新聞的權限");
+            }
+            else
+            {
+                doNewsView();
+                return View(indexModel);
+            }
+
         }
 
         public ActionResult Logout()

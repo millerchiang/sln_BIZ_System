@@ -781,6 +781,7 @@
     <Content Include="Scripts\util_cls.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="stylesheets\account.css" />
+    <Content Include="stylesheets\app.css" />
     <Content Include="stylesheets\application.css" />
     <Content Include="stylesheets\business.css" />
     <Content Include="stylesheets\company_info.css" />

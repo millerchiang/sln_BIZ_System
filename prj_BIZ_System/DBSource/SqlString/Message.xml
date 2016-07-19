@@ -10,6 +10,17 @@
 
   <statements>
 
+    <!--查尋使用者-->
+    <select id="SelectUserKw" resultMap="UserInfo-result">
+      <![CDATA[
+      SELECT *
+      FROM public.user_info
+      WHERE id_enable='1'
+        and user_id <> #user_id#
+        and ( company like '%'||#company#||'%' or company_en like '%'||#company#||'%')
+      ]]>
+      </select>
+    
     <!--查看權限-->
     <select id="isOwnViewPower"  resultClass="int" parameterClass="MsgPrivate">
       SELECT count(msg_no) from message.msg_private
@@ -89,6 +100,14 @@
   </statements>
 
   <resultMaps>
+
+    <resultMap id="UserInfo-result" class="prj_BIZ_System.Models.UserInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="id" column="id"/>
+      <result property="user_id" column="user_id"/>
+      <!--<result property="id_enable" column="id_enable"/>-->
+      <result property="company" column="company"/>
+    </resultMap>
 
     <resultMap id="SelectMsgPrivate-result" class="MsgPrivate">
       <!--property是Model屬性,column是資料庫欄位名稱-->

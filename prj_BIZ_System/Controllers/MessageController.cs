@@ -115,5 +115,17 @@ namespace prj_BIZ_System.Controllers
             messageService.InsertMsgPrivateReply(model);
             return Redirect("PrivateDetailed?msg_no="+model.msg_no);
         }
+
+        //查詢對象 msg_private 的 msg_member 來源
+        public ActionResult jsonMsgMemberFromUserInfo(string term)
+        {
+            var user_id = Request.Cookies["UserInfo"]["user_id"];
+            IList<UserInfoModel> result = messageService.SelectUserKw(user_id , term);
+            return Json(
+                result.Select( 
+                    userInfo => new { value = userInfo.user_id, label = userInfo.company }
+                ).ToList()
+                , JsonRequestBehavior.AllowGet);
+        }
     }
 }

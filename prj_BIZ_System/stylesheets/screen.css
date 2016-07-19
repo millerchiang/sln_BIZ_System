@@ -348,6 +348,63 @@ aside {
   margin-bottom: -1px;
 }
 
+/*loading */
+.loaderbox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  overflow: hidden;
+}
+
+.loader {
+  left: 50vw;
+  top: 50vh;
+  margin-left: -3em;
+  position: fixed;
+  margin-top: -3em;
+  font-size: 10px;
+  position: fixed;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 6em;
+  height: 6em;
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 .fontRed {
   color: #ff0000;
 }
@@ -429,14 +486,19 @@ aside {
 
 .borderTitle {
   margin-bottom: 15px;
-  border-bottom: 4px solid #f4f4f4;
+  border-bottom: 2px solid #d4cdcd;
+  padding-bottom: 5px;
+  position: relative;
+  font-size: 1.125em;
 }
 .borderTitle:after {
   content: "";
-  width: 100%;
-  height: 1px;
-  background: #000000;
+  width: 5.625em;
+  height: 4px;
+  background: #f46813;
   display: block;
+  position: absolute;
+  bottom: -3px;
 }
 
 .centerbox {
@@ -691,7 +753,7 @@ aside {
   display: block;
   width: 97px;
   height: 120px;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 5px auto;
 }
 .regis_dmlist2 a img:hover, .regis_dmlist2 a img:focus, .regis_dmlist2 a img:active, .regis_dmlist2 a img.active {
   border-color: #00bcd5;
@@ -733,6 +795,13 @@ aside {
 .dmicon a:hover:before {
   background: #c13717;
 }
+.dmicon a .conpany_name {
+  text-align: center;
+  color: #9e9e9e;
+}
+.dmicon a:hover .conpany_name {
+  color: #00bcd5;
+}
 
 .col2 li {
   float: left;
@@ -759,6 +828,54 @@ input:read-only {
   color: #9e9e9e;
 }
 
+.tagsbox {
+  border-bottom: 1px solid #cccccc;
+}
+
+.taglist li {
+  float: left;
+  background: #f4f4f4;
+  padding: 5px 10px;
+  border: 1px solid #e9e8e8;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.taglist + input {
+  margin-left: 20px;
+}
+
+.removetag {
+  cursor: pointer;
+}
+.removetag:after {
+  content: "x";
+  font-weight: bold;
+  color: #9e9e9e;
+  margin-left: 5px;
+}
+
+input.tagtext {
+  border: none;
+}
+input.tagtext:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+#output li {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: #f4f4f4;
+  border: 1px solid #e9e8e8;
+  cursor: pointer;
+}
+#output li:after {
+  content: "x";
+  font-weight: bold;
+  color: #9e9e9e;
+  float: right;
+}
 .edittable input {
   border: 1px solid #cccccc;
   height: 25px;
@@ -971,58 +1088,8 @@ input:read-only {
   }
 }
 
-/*loading */
-.loaderbox{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 999;
-  overflow: hidden;
-}
-.loader {
-  left: 50vw;
-  top: 50vh;
-  margin-left: -3em;
-  position: fixed;
-  margin-top: -3em;
-  font-size: 10px;
-  position: fixed;
-  text-indent: -9999em;
-  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
-  border-left: 1.1em solid #ffffff;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation: load8 1.1s infinite linear;
-  animation: load8 1.1s infinite linear;
-}
-.loader,
-.loader:after {
-  border-radius: 50%;
-  width: 6em;
-  height: 6em;
-}
-@-webkit-keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
 /*# sourceMappingURL=screen.css.map */
+
+#upexls{
+	display: none;
+}

@@ -5,6 +5,13 @@ namespace prj_BIZ_System.Services
 {
     public class MessageService : _BaseService
     {
+
+        public IList<UserInfoModel> SelectUserKw(string user_id , string kw)
+        {
+            UserInfoModel param = new UserInfoModel() { user_id = user_id , company = kw };
+            return mapper.QueryForList<UserInfoModel>("Message.SelectUserKw", param);
+        }
+
         public IList<MsgPrivateModel> SelectMsgPrivate(string keyword , string user_id)
         {
             var param = new MsgPrivateModel { msg_title = keyword , creater_id  = user_id };
@@ -52,5 +59,7 @@ namespace prj_BIZ_System.Services
         {
             mapper.Insert("Message.InsertMsgPrivateReply", param);
         }
+
+
     }
 }
