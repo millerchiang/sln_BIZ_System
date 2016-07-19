@@ -1,4 +1,5 @@
 ﻿using prj_BIZ_System.Models;
+using System;
 using System.Collections.Generic;
 
 namespace prj_BIZ_System.Services
@@ -16,6 +17,12 @@ namespace prj_BIZ_System.Services
         {
             var param = new MsgPrivateModel { msg_title = keyword , creater_id  = user_id };
             return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivate", param);
+        }
+
+        public IList<MsgPrivateModel> SelectMsgPrivateForMobile(string user_id, DateTime create_time)
+        {
+            var param = new MsgPrivateModel { creater_id = user_id, create_time = create_time };
+            return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivateForMobile", param);
         }
 
         public bool isOwnViewPower(int msg_no , string user_id)

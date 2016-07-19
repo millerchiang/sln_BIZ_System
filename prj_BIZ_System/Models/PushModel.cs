@@ -36,4 +36,13 @@ namespace prj_BIZ_System.Models
         public int? grp_id { get; set; }//群組
 
     }
+
+    public class MobileDeviceInfoModel
+    {
+        public int serial_no { get; set; }          /* 流水號 */
+        public string device_id { get; set; }       /* 裝置識別碼 */
+        public string device_os { get; set; }       /* 裝置作業系統 (IOS/Android) */
+        public string user_id { get; set; }         /* 使用者帳號     */
+        public DateTime create_time { get; set; }   /* 建立時間 */
+    }
 }
