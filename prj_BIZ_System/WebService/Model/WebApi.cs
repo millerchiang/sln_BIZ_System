@@ -93,10 +93,25 @@ namespace prj_BIZ_System.WebService.Model
     {
         public long msg_no { get; set; }             //私人訊息編號
         public string msg_title { get; set; }        //訊息標題
+        public string msg_content { get; set; }      //訊息內容
         public string create_time { get; set; }    //建立時間
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
     }
 
+    public class MsgPrivateReply
+    {
+        public string reply_content { get; set; }    //回覆內容
+        public string create_time { get; set; }    //建立時間
 
+        //UerInfo 公司名稱(中文)
+        public string company { get; set; }
+    }
+
+    public class MessageContent
+    {
+        public MsgPrivate msgPrivate { get; set; }
+        public IList<MsgPrivateFileModel> msgPrivateFileList { get; set; }
+        public IList<MsgPrivateReply> msgPrivateReplyList { get; set; }
+    }
 }

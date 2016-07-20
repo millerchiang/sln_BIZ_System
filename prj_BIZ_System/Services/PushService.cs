@@ -84,5 +84,11 @@ namespace prj_BIZ_System.Services
             object result = mapper.Insert("Push.InsertSelectMobileDeviceInfo", model);
             return result;
         }
+
+        public MobileDeviceInfoModel getMobileDeviceInfo(MobileDeviceInfoModel model)
+        {
+            var param = new MobileDeviceInfoModel { device_id = model.device_id };
+            return mapper.QueryForObject<MobileDeviceInfoModel>("Push.SelectMobileDeviceInfo", param);
+        }
     }
 }

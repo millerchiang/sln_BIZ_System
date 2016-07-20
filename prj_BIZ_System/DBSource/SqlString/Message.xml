@@ -95,6 +95,9 @@
 
     <!--建立新私訊回應-->
     <insert id="InsertMsgPrivateReply" parameterClass="MsgPrivateReply">
+      <selectKey resultClass="long" property="msg_reply_no" type="post">
+        SELECT currval('message.msg_private_reply_msg_reply_no_seq')
+      </selectKey>
       INSERT INTO message.msg_private_reply(
       msg_no, msg_reply, reply_content)
       VALUES (#msg_no#, #msg_reply#, #reply_content#);
