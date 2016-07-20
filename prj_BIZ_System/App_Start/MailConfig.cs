@@ -354,6 +354,7 @@ namespace prj_BIZ_System.App_Start
     {
         public static string KeyDir = "Key/";
         private static RSACryptoServiceProvider rsap;
+        private static SHA256 sha256;
         private static string pub;
         private static string pvt;
 
@@ -362,6 +363,7 @@ namespace prj_BIZ_System.App_Start
             pub = File.ReadAllText(Path.Combine(baseDir + KeyDir, "AccountEmailValidate.pub"));
             pvt = File.ReadAllText(Path.Combine(baseDir + KeyDir, "AccountEmailValidate.pvt"));
             rsap = new RSACryptoServiceProvider(3072);
+            sha256 = new SHA256CryptoServiceProvider();
         }
 
         public static string Encrypt(string str)
@@ -382,6 +384,18 @@ namespace prj_BIZ_System.App_Start
             cipher = rsap.Decrypt(Convert.FromBase64String(strX.Replace(" ", "+")), false);
             str = Encoding.UTF8.GetString(cipher);
             return str;
+        }
+
+        public static string Encrypt256(string str) {
+            byte[] bytes = sha256.ComputeHash(Encoding.Default.GetBytes(str));
+            string hexString;
+            StringBuilder strB = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                strB.Append(bytes[i].ToString("X2"));
+            }
+            hexString = strB.ToString();
+            return hexString;
         }
     }
 }
