@@ -1,11 +1,17 @@
 ﻿using prj_BIZ_System.Models;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace prj_BIZ_System.Services
 {
     public class MessageService : _BaseService
     {
+        private UserService userService;
+        public MessageService()
+        {
+            userService = new UserService();
+        }
 
         public IList<UserInfoModel> SelectUserKw(string user_id , string kw)
         {
@@ -42,6 +48,31 @@ namespace prj_BIZ_System.Services
         {
             MsgPrivateModel param = new MsgPrivateModel() { msg_no = msg_no };
             return mapper.QueryForObject<MsgPrivateModel>("Message.SelectMsgPrivateOne", param);
+        }
+
+        public string transferMsg_member2Msg_company(string msg_member)
+        {
+            string result = "";
+            StringBuilder sb = new StringBuilder();
+            if(!string.IsNullOrEmpty(msg_member)){
+                string[] msg_member_arr = msg_member.Split(',');
+                const string separate = " , ";
+                for (int i=0; i< msg_member_arr.Length;i++)
+                {
+                    // msg_member_arr[i] 為 user_id
+                    UserInfoModel userInfoModel = userService.GeUserInfoOne(msg_member_arr[i].Trim());
+                    if (userInfoModel != null)
+                    {
+                        sb.Append(separate);
+                        sb.Append(userInfoModel.company);
+                    }
+                }
+                if (msg_member_arr.Length>0)
+                {
+                    result = sb.ToString().Substring(separate.Length);
+                }
+            }
+            return result;
         }
 
         public void InsertMsgPrivateFile(long msg_no , string filepath)

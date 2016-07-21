@@ -83,6 +83,8 @@ namespace prj_BIZ_System.Controllers
                 if (isOwnViewPower(msg_no)) //檢查權限
                 {
                     messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
                     return View(messageViewModel);
