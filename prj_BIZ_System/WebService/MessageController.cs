@@ -41,7 +41,7 @@ namespace prj_BIZ_System.WebService
             if (msg_no == 0) return null;
             MessageContent messageContent = new MessageContent();
             MsgPrivateModel msgPrivateModel = messageService.SelectMsgPrivateOne(msg_no);
-            messageContent.msgPrivate = new MsgPrivate{
+            messageContent.msgPrivate = new MsgPrivate {
                 msg_no = msgPrivateModel.msg_no,
                 msg_title = msgPrivateModel.msg_title,
                 msg_content = msgPrivateModel.msg_content,
