@@ -162,7 +162,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult NewsViewForApp(string nvkey)
         {
             string code = "BizNewsContent"+ DateTime.Now.ToString("yyyyMMdd");
-            if (!SecurityHelper.Encrypt256(code).Equals(nvkey))
+            if (!SecurityHelper.Encrypt256(code).Equals(nvkey,StringComparison.CurrentCultureIgnoreCase))
             {
                 return Content("很抱歉!您沒有觀看這則新聞的權限");
             }

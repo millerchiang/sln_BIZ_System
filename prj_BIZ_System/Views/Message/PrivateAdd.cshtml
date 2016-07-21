@@ -113,7 +113,16 @@
 		        autoFocus: true,
 		        minLength: 1,
 		        source: "@Url.Action("jsonMsgMemberFromUserInfo")",
-		          select: function (event, ui) {
+		          response: function (event, ui) {
+		              $("#taglist li").each(function (index,el) {
+		                  for (var i = ui.content.length - 1 ; i >= 0; i--) {
+		                      if ($(el).text() == ui.content[i].value) {
+		                            ui.content.splice(i, 1);
+		                      }
+		                  }
+		              });
+		          },
+		        select: function (event, ui) {
 		          $("#taglist").append("<li  class='removetag'>" + ui.item.value + "</li>");
 		          this.value = "";
 		          return false;
