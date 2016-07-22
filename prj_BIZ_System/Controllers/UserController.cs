@@ -304,7 +304,7 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult CatalogUpload(HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
+        public ActionResult CatalogUpload(string catalog_name , HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Login");
@@ -315,7 +315,7 @@ namespace prj_BIZ_System.Controllers
                     string user_id = Request.Cookies["Action"]["user_id"];
                     UploadHelper.doUploadFile(cover_file, UploadConfig.subDirForCover , user_id);
                     UploadHelper.doUploadFile(catalog_file, UploadConfig.subDirForCatalog, user_id);
-                    bool isUploadSuccess = userService.CatalogListInsert(user_id, cover_file.FileName, catalog_file.FileName);
+                    bool isUploadSuccess = userService.CatalogListInsert(user_id, catalog_name , cover_file.FileName, catalog_file.FileName);
                 }
             }
             return Redirect("CatalogList");

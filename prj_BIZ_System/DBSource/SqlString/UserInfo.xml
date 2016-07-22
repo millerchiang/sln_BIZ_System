@@ -82,16 +82,18 @@
     -->
     <!--查詢型錄全部-->
     <select id="SelectCatalogListByUserId" parameterClass="CatalogListModel" resultMap="CatalogList-result">
-      SELECT *
-      FROM catalog_list
-      WHERE user_id = #user_id#
+      SELECT c.*, u.company
+      FROM catalog_list c
+      JOIN user_info u on c.user_id = u.user_id
+      WHERE c.user_id = #user_id#
     </select>
 
     
     <!--查詢型錄全部-->
     <select id="SelectCatalogListTop" parameterType= "int" resultMap="CatalogList-result">
-      SELECT *
-      FROM catalog_list
+      SELECT c.* , u.company
+      FROM catalog_list c
+      JOIN user_info u on c.user_id = u.user_id
       Order By catalog_no Desc Limit $limit$
 
     </select>
@@ -99,9 +101,10 @@
 
     <!--查詢型錄部份-->
     <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
-      SELECT *
-      FROM catalog_list
-      WHERE user_id = #user_id# and catalog_no = #catalog_no#
+      SELECT c.* , u.company
+      FROM catalog_list c
+      JOIN user_info u on c.user_id = u.user_id
+      WHERE c.user_id = #user_id# and c.catalog_no = #catalog_no#
     </select>
 
     <!--刪除型錄-->
@@ -113,8 +116,8 @@
     <!--新增型錄-->
     <insert id="InsertCatalogList" parameterClass="CatalogListModel">
       INSERT INTO catalog_list(
-      user_id, cover_file, catalog_file, deleted)
-      VALUES (#user_id#,#cover_file#,#catalog_file#,#deleted#)
+      user_id,catalog_name, cover_file, catalog_file, deleted)
+      VALUES (#user_id#,#catalog_name#,#cover_file#,#catalog_file#,#deleted#)
     </insert>
 
     <!--
@@ -306,13 +309,15 @@
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
     </resultMap>
-
+    
     <resultMap id="CatalogList-result" class="prj_BIZ_System.Models.CatalogListModel">
       <result property="catalog_no" column="catalog_no" />
       <result property="user_id" column="user_id" />
+      <result property="catalog_name" column="catalog_name" />
       <result property="cover_file" column="cover_file" />
       <result property="catalog_file" column="catalog_file" />
       <result property="deleted" column="deleted" />
+      <result property="company" column="company" />
     </resultMap>
 
     <resultMap id="ProductList-result" class="prj_BIZ_System.Models.ProductListModel">

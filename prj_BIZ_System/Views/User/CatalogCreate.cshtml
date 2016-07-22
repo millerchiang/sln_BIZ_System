@@ -16,8 +16,12 @@
     <article class="article_col2 form_box">
         <h2>上傳型錄</h2>
         <form id="form" action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
+			<div class="uploadlist dmname">
+				<label for="catalog_name">型錄名稱:</label>
+				<input type="text" id="catalog_name" name="catalog_name">
+			</div>		
             <div class="uploadlist">
-                <label class="choose_file" id="upload" for="cover_file">上傳小圖</label>
+                <label class="choose_file" id="upload" for="cover_file">上傳封面</label>
                 <input type="file" id="cover_file" name="cover_file">
             </div>
             <div class="uploadlist">
@@ -40,6 +44,12 @@
         var re_for_pic = /\.(jpg|gif|png|JPG|GIF|PNG)$/i;
         var re_for_pdf = /\.(pdf|PDF)$/i;
         $("#form").submit(function () {
+            var catalog_name = $("#catalog_name").val();
+            var errMsg = checkValidationOk(catalog_name);
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
 
             var pic = $("input[name='cover_file']").val();
             if (!re_for_pic.test(pic)) {
@@ -55,5 +65,13 @@
             }
             $("#loaderdiv").css("display", "block");
         });
+    }
+
+    function checkValidationOk(catalog_name) {
+        var errMsg = '';
+        if (catalog_name == null || catalog_name == '') {
+            errMsg += '型錄名稱不可為空白\n';
+        } 
+        return errMsg;
     }
 </script>

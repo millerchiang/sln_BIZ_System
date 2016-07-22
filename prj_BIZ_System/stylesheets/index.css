@@ -58,17 +58,19 @@
 .newsboxTitle:before {
   content: "";
   position: absolute;
-  border-bottom: 1px solid #cccccc;
-  top: 5px;
+  border-bottom: 1px dashed #cccccc;
+  top: 7px;
   right: 0;
   width: 89%;
 }
 .newsboxTitle h3 {
-  color: #000000;
+  color: #ffffff;
   font-size: 1em;
   position: relative;
   padding-left: 8px;
   display: inline;
+  background: #ff9000;
+  padding: 5px 7px;
 }
 .newsboxTitle h3:before {
   content: "";
@@ -79,35 +81,21 @@
   top: 0;
   border-style: solid;
   border-width: 6px 6px 0 0;
-  border-color: #ff9000 transparent transparent transparent;
+  border-color: #ffffff transparent transparent transparent;
 }
 .newsboxTitle a:link, .newsboxTitle a:visited, .newsboxTitle a:hover, .newsboxTitle a:focus, .newsboxTitle a:active {
   text-decoration: none;
-  font-size: 0.75em;
+  font-size: 0.938em;
   float: right;
   padding: 2px 3px;
   position: relative;
 }
 .newsboxTitle a:link, .newsboxTitle a:visited {
-  color: #ffffff;
-  background: #ff9000;
+  color: #ff9000;
+  background: #ffffff;
 }
 .newsboxTitle a:hover, .newsboxTitle a:focus, .newsboxTitle a:active, .newsboxTitle a.active {
-  background: #f46813;
-}
-.newsboxTitle a:before {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  left: -8px;
-  top: 0;
-  border-style: solid;
-  border-width: 0 0 16px 8px;
-  border-color: transparent transparent #ff9000 transparent;
-}
-.newsboxTitle a:hover:before {
-  border-color: transparent transparent #f46813 transparent;
+  color: #f46813;
 }
 
 .newsboximg01 {
@@ -129,7 +117,7 @@
   padding-left: 10px;
 }
 .newsboxList01 li a:link, .newsboxList01 li a:visited, .newsboxList01 li a:hover, .newsboxList01 li a:focus, .newsboxList01 li a:active {
-  font-size: 0.813em;
+  font-size: 0.938em;
   position: relative;
 }
 .newsboxList01 li a span {
@@ -149,7 +137,7 @@
   padding-left: 40px;
 }
 .newsboxList02 li a:link, .newsboxList02 li a:visited, .newsboxList02 li a:hover, .newsboxList02 li a:focus, .newsboxList02 li a:active {
-  font-size: 0.813em;
+  font-size: 0.938em;
   position: relative;
 }
 .newsboxList02 li p {
