@@ -24,7 +24,7 @@
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
-                    <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id@sortList.enterprise_sort_name</a></li>
+                    <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</a></li>
                 }
 
             </ul>

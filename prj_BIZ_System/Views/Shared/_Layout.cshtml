@@ -24,6 +24,10 @@
     if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification")
     {
         <li class="sign_out">@Html.ActionLink("登出", "Logout", "Home")</li>
+        if (ViewBag.Title != "Index")
+        {
+        <li class="backindex">@Html.ActionLink("回首頁", "Index", "Home")</li>
+        }
     }
 }
 else
@@ -40,7 +44,7 @@ else
             </ul>
             <h1 class="head_logo">
 @if (ViewBag.Form != "Manager")
-    {
+{
     <a href="~/Home/Index">Matchmaking System</a>
 }
 else
