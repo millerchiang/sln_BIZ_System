@@ -329,8 +329,8 @@
             if($("input[name='enterprise_type']:checked").val()==0){
                 var reg = /\D/;
                 var user_id = $("input[name='user_id']").val();
-                if(reg.test(user_id)){
-                    alert("國內企業帳號限制為統一統號!!");
+                if(reg.test(user_id)||user_id==null||user_id.length!=8){
+                    alert("國內企業帳號限制為8位數字!!");
                     return false;
                 }
             }

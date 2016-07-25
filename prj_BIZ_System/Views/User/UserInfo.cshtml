@@ -201,7 +201,13 @@
                                 foreach (var mo in Model.cataloglistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
+                                        <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                            <span>@(mo.catalog_name)</span>
+                                            <div class="regisimg">
+                                                <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                            </div>
+
+                                        </a>
                                     </li>
                                 }
                         
