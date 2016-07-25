@@ -69,12 +69,12 @@
                 <label for="email" class="regis_col02L spanRed">電子郵件</label>
                 <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
 
-
+                @*
                 <label for="website" class="regis_col02L">公司網址</label>
                 <div class="regis_col02R">
                     <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
                 </div>
-
+                *@
 
                 <label class="regis_col02L">企業簡介(中)</label>
                 <div class="regis_col02R">
@@ -85,7 +85,7 @@
                     <textarea rows="4" name="user_info_en">@Model.activityregister.user_info_en</textarea>
                 </div>
 
-
+                @*
                 <label for="verticals" class="regis_col02L">產業別</label>
                 <p class="regis_col02R verticalslist">
                     @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
@@ -93,7 +93,7 @@
                         @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
                     }
                 </p>
-
+                *@
                 <div class="regis_col02L">
                     <label for="" class="label01">公司產品</label>
                 </div>
