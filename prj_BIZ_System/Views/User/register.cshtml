@@ -162,9 +162,12 @@
                         else
                         {
                             <label for="" class="regis_col01R_label">
-                                <a href="EditPasswd" class="buinfor">修改密碼</a>
+                               修改密碼
                             </label>
-                            <input type="password" name="user_pw" readonly value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                            <div class="regis_col01R_input">
+                                <input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw"  required>
+                                <a class="addbu" href="EditPasswd">修改密碼</a>
+                            </div>
                         }
 
 						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>

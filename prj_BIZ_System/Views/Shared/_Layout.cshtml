@@ -18,12 +18,29 @@
     <header>
         <div class="headerbox">
             <ul class="head_langBu">
+
+@if (ViewBag.Form != "Manager")
+{
+    if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification")
+    {
+        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Home")</li>
+    }
+}
+else
+{
+    if (ViewBag.Title != "Login")
+    {
+
+        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Manager")</li>
+    }
+}
+
                 <li><a href="">English</a></li>
                 <li><a href="" class="active">中文</a></li>
             </ul>
             <h1 class="head_logo">
 @if (ViewBag.Form != "Manager")
-{
+    {
     <a href="~/Home/Index">Matchmaking System</a>
 }
 else
@@ -34,17 +51,17 @@ else
             <nav class="head_nav">
                 <ul>
                     @if (ViewBag.Form != "Manager")
-                    {
+{
 
-                        if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
-                        {
+    if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
+    {
                             <li>@Html.ActionLink("登入", "Login", "Home")</li>
                         }
-                        else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
-                        {
-                        }
-                        else
-                        {
+    else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
+    {
+    }
+    else
+    {
 
                             <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
                             <li>
@@ -68,11 +85,11 @@ else
                                 </ul>
                             </li>
 
-                            <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>
+                            @*<li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>*@
 
                         }
-                    }
+}
                     else
                     {
                         if (ViewBag.Title != "Login")
@@ -130,7 +147,7 @@ else
                                 </ul>
                             </li>
                             }
-                            <li>@Html.ActionLink("登出", "Logout", "Manager")</li>
+                            @*<li>@Html.ActionLink("登出", "Logout", "Manager")</li>*@
 
                         }
                     }

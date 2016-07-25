@@ -595,8 +595,10 @@ namespace prj_BIZ_System.Controllers
         {
             bool Huser = true;
             activityModel.userinfo = userService.GeUserInfoOne(user_id);
-            if (activityModel.userinfo==null || activityModel.userinfo.user_id == null)
+            if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
+            {
                 Huser = false;
+            }
             return Json(Huser, JsonRequestBehavior.AllowGet);
         }
 
