@@ -745,7 +745,15 @@ namespace prj_BIZ_System.Controllers
 
             if (model.serial_no == 0)
             {
-                activityService.BuyerInfoInsertOne(model);
+                var serial_no = activityService.BuyerInfoInsertOne(model);
+                if (serial_no !=null )
+                {
+                    UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
+                    ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
+                    MailHelper.sendActivityAddBuyerNotify(
+                        buyer.email , model.activity_id , activity.activity_name , activity.starttime
+                        , activity.endtime, activity.addr, activity.organizer);
+                }
             }
             else {
                 activityService.BuyerInfoUpdateOne(model);

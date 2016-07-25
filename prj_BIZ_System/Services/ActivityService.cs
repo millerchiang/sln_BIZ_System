@@ -133,9 +133,9 @@ namespace prj_BIZ_System.Services
             return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerDataByActivityWithId", param);
         }
 
-        public void BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
+        public object BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
         {
-            mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
+            return mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
         }
 
         public void BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)

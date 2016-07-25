@@ -326,7 +326,15 @@
                 return false;
             }
 
-
+            if($("input[name='enterprise_type']:checked").val()==0){
+                var reg = /\D/;
+                var user_id = $("input[name='user_id']").val();
+                if(reg.test(user_id)){
+                    alert("國內企業帳號限制為統一統號!!");
+                    return false;
+                }
+            }
+            
         });
     });
 
