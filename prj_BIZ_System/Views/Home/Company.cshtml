@@ -31,14 +31,19 @@
         </section>
         <section class="form_box">
             <h2>最新型錄</h2>
-            <ul class="regis_dmlist2 listlink dmicon">
+            <ul class="regis_dmlist">
 
                 @foreach (var catalogList in Model.cataloglistList)
                 {
                     <li>
                         <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
-                            <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+                            <span>@(catalogList.catalog_name)</span>
+                            <div class="regisimg">
+                                <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
+                            </div>
+                            <p class="conpany_name">@(catalogList.company)</p>
                         </a>
+
                     </li>
                 }
             </ul>

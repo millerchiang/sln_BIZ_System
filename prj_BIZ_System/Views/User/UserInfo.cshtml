@@ -154,15 +154,16 @@
                 <section class="form_box comicon article_col1">
                 <h2>產品說明</h2>
                 <table class="regis_table">
-                    <tr>
-                        <th></th>
-                        <th width="40%">產品名稱</th>
-                        <th width="40%">產品說明</th>
-                        <th></th>
-                    </tr>
-
-                    @if (Model != null)
+                    @if (Model != null && Model.productsortList!=null && Model.productsortList.Count()>0)
                     {
+                        <tr>
+                            <th></th>
+                            <th width="40%">產品名稱</th>
+                            <th width="40%">產品說明</th>
+                            <th></th>
+                        </tr>
+
+                    
                         foreach (ProductListModel model in Model.productsortList)
                         {
                             <tr class="_old_prods">
@@ -180,6 +181,10 @@
                             </tr>
                         }
                     }
+                    else
+                    {
+                        <span>無</span>
+                    }
 
 
                 </table>
@@ -189,17 +194,29 @@
 
             <section class="form_box comicon article_col1">
                 <h2>型錄資料</h2>
-                    <ul class="regis_dmlist">
-                        @if (Model.cataloglistList != null)
-                        {
-                            foreach (var mo in Model.cataloglistList)
-                            {
-                                <li>
-                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox"><img src="@(ViewBag.coverDir+mo.cover_file)" /></a>
-                                </li>
-                            }
-                        }
-                    </ul>
+                    @if (Model.cataloglistList != null && Model.cataloglistList.Count() > 0)
+                    {
+                        @:<ul class="regis_dmlist">
+
+                                foreach (var mo in Model.cataloglistList)
+                                {
+                                    <li>
+                                        <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                            <span>@(mo.catalog_name)</span>
+                                            <div class="regisimg">
+                                                <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                            </div>
+
+                                        </a>
+                                    </li>
+                                }
+                        
+                        @:</ul>
+                    }
+                    else
+                    {
+                        <span>無</span>
+                    }
             </section>
 
 </article>

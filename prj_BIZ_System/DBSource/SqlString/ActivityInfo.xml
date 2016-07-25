@@ -382,6 +382,9 @@
     
       <!--新增買主資訊單筆-->
       <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
+        <selectKey resultClass="int" property="serial_no" type="post">
+          SELECT currval('buyerincrement')
+        </selectKey>
         INSERT INTO buyer_list (
         activity_id, buyer_id, buyer_need
         ) VALUES (

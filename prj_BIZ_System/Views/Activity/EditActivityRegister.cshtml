@@ -52,7 +52,7 @@
                 <label for="quantity" class="regis_col02L spanRed">與會人數</label>
                 <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
 
-                <label for="name_a" class="regis_col02L ">與會人</label>
+                <label for="name_a" class="regis_col02L spanRed">與會人</label>
                 <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
                 <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
 
@@ -63,18 +63,18 @@
                 <label for="phone" class="regis_col02L spanRed">手機號碼</label>
                 <input type="text" name="phone" value="@Model.activityregister.phone" class="regis_col03R" required>
 
-                <label for="telephone" class="regis_col03L">電話/分機</label>
+                <label for="telephone" class="regis_col03L spanRed">電話/分機</label>
                 <input type="text" name="telephone" value="@Model.activityregister.telephone" class="regis_col03R">
 
                 <label for="email" class="regis_col02L spanRed">電子郵件</label>
                 <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
 
-
+                @*
                 <label for="website" class="regis_col02L">公司網址</label>
                 <div class="regis_col02R">
                     <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
                 </div>
-
+                *@
 
                 <label class="regis_col02L">企業簡介(中)</label>
                 <div class="regis_col02R">
@@ -85,7 +85,7 @@
                     <textarea rows="4" name="user_info_en">@Model.activityregister.user_info_en</textarea>
                 </div>
 
-
+                @*
                 <label for="verticals" class="regis_col02L">產業別</label>
                 <p class="regis_col02R verticalslist">
                     @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
@@ -93,7 +93,7 @@
                         @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
                     }
                 </p>
-
+                *@
                 <div class="regis_col02L">
                     <label for="" class="label01">公司產品</label>
                 </div>
@@ -146,7 +146,7 @@
 
                         </table>
     }
-    }
+}
                     </div>
                     <div class="regis_col02L">
                         <label for="" class="label01">公司型錄</label>
@@ -230,6 +230,18 @@
             });
 
             $("#submitInfo").click(function () {
+                var quantity = $("input[name='quantity']").val();
+                var name_a = $("input[name='name_a']").val();
+                var name_b = $("input[name='name_b']").val();
+                var phone = $("input[name='phone']").val();
+                var telephone = $("input[name='telephone']").val(); 
+                var email = $("input[name='email']").val();
+                var errMsg = checkValidationOk(quantity , name_a , name_b , phone , telephone , email);
+                if (errMsg != '') {
+                    alert(errMsg);
+                    return false;
+                }
+
                 if (confirm('確認是否報名此活動?')) {
                     return true
                 } else {
@@ -239,6 +251,29 @@
 
         });
 
+
+        function checkValidationOk(quantity , name_a , name_b , phone , telephone , email) {
+            var errMsg = '';
+            if (quantity == null || quantity == '') {
+                errMsg += '與會人數不可為空白\n';
+            }
+            if (name_a == null || name_a == '') {
+                errMsg += '與會人不可為空白\n';
+            }
+            if (name_b == null || name_b == '') {
+                errMsg += '主聯絡人不可為空白\n';
+            }
+            if (phone == null || phone == '') {
+                errMsg += '手機號碼不可為空白\n';
+            }
+            if (telephone == null || telephone == '') {
+                errMsg += '電話/分機不可為空白\n';
+            }
+            if (email == null || email == '') {
+                errMsg += '電子郵件不可為空白\n';
+            }
+            return errMsg;
+        }
     </script>
 
     <script>

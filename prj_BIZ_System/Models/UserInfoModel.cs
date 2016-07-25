@@ -67,14 +67,17 @@ namespace prj_BIZ_System.Models
         public string product_info_en { get; set; } //產品簡介(英文)
         public string deleted { get; set; } //是否刪除  (0：刪除；1：未刪除)
     }
-
+    
     public class CatalogListModel
     {
         public int catalog_no { get; set; } //型錄編號
         public string user_id { get; set; } //使用者帳號
+        public string catalog_name { get; set; } //型錄名稱
         public string cover_file { get; set; } //公司型錄封面位置
         public string catalog_file { get; set; } //公司型錄檔案位置
         public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
+
+        public string company { get; set; } // userInfo表內 的 公司名稱(中文)
     }
 
 }

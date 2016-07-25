@@ -747,7 +747,15 @@ namespace prj_BIZ_System.Controllers
 
             if (model.serial_no == 0)
             {
-                activityService.BuyerInfoInsertOne(model);
+                var serial_no = activityService.BuyerInfoInsertOne(model);
+                if (serial_no !=null )
+                {
+                    UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
+                    ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
+                    MailHelper.sendActivityAddBuyerNotify(
+                        buyer.email , model.activity_id , activity.activity_name , activity.starttime
+                        , activity.endtime, activity.addr, activity.organizer);
+                }
             }
             else {
                 activityService.BuyerInfoUpdateOne(model);
@@ -837,7 +845,7 @@ namespace prj_BIZ_System.Controllers
                 {
                     Dictionary<string, object> result = userService.UserInfoMultiInsert(uploadResultDic["filepath"]);
                     TempData["import_msg"] = "匯入完成";
-                    TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]).Pages(Request,this,10);
+                    TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]);
                     UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", UploadConfig.AdminManagerDirName);
                 }
                 else

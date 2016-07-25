@@ -11,16 +11,9 @@
 }
 
 <div class="article_col1">
-    <aside>
-        <form action="" class="searchbox">
-            <input type="text" name="companyName" placeholder="公司名">
-            <select name="" id="">
-                <option value="text00">產業別</option>
-                <option value="c08">食品製造業</option>
-            </select>
-            <button class="searchbox_submit" type="submit"> 搜尋 </button>
-        </form>
-    </aside>
+    @{
+        Html.RenderAction("_NavSearchPartial", "User");
+    }
     <article class="article_col2">
         <h2 class="borderTitle">
             媒合時程安排
