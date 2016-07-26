@@ -240,7 +240,7 @@
 
                     @foreach (var sortList in Model.enterprisesortList)
                     {
-                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id@sortList.enterprise_sort_name</label>
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
 
                     }
                     </div>
