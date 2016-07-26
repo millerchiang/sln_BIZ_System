@@ -28,45 +28,10 @@ namespace prj_BIZ_System.App_Start
         {
             MailConfig.baseDir = baseDir;
             mailSetings = new MailSetting[100];
-
-            /*
-            //Email驗證
-            MailSetting AccountMailValidate = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", account = sendAccount, password = password, isEnableHtml = true };
-            AccountMailValidate.template_file_name = new List<string>(new string[] { "AccountMailValidate.html" });
-            AccountMailValidate.template_file_content = new List<string>();
-            foreach (string file_name in AccountMailValidate.template_file_name)
-            {
-                AccountMailValidate.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
-            }
-            mailSetings[(int)MailType.AccountMailValidate] = AccountMailValidate;
-
-            //忘記密碼
-            MailSetting ForgetPassword = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]忘記密碼通知信", account = sendAccount, password = password, isEnableHtml = true };
-            ForgetPassword.template_file_name = new List<string>(new string[] { "ForgetPassword.html" });
-            ForgetPassword.template_file_content = new List<string>();
-            foreach (string file_name in ForgetPassword.template_file_name)
-            {
-                ForgetPassword.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
-            }
-            mailSetings[(int)MailType.ForgetPassword] = ForgetPassword;
-
-            
-            MailSetting ActivityCheckNotify = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]活動報名審核結果通知", account = sendAccount, password = password, isEnableHtml = true };
-            ActivityCheckNotify.template_file_name = new List<string>(new string[] { "ActivityCheckNotify_Fail.html", "ActivityCheckNotify_Success.html" });
-            ActivityCheckNotify.template_file_content = new List<string>();
-            foreach (string file_name in ActivityCheckNotify.template_file_name)
-            {
-                ActivityCheckNotify.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
-            }
-            mailSetings[(int)MailType.ActivityCheckNotify] = ActivityCheckNotify;
-            */
-            //報名審核
             AddMailSetting(MailType.AccountMailValidate, "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", new string[] { "AccountMailValidate.html" });
             AddMailSetting(MailType.ForgetPassword, "[BIZ MATCHMAKING SYSTEM]忘記密碼通知信", new string[] { "ForgetPassword.html" });
             AddMailSetting(MailType.ActivityCheckNotify, "[BIZ MATCHMAKING SYSTEM]活動報名審核結果通知", new string[] { "ActivityCheckNotify_Fail.html", "ActivityCheckNotify_Success.html" });
             AddMailSetting(MailType.ActivityAddBuyerNotify, "[BIZ MATCHMAKING SYSTEM]加入活動買主通知", new string[] { "ActivityAddBuyerNotify.html" });
-
-            //新增買主
         }
 
         private static void AddMailSetting(MailType mailType, string subject , string[] templates)

@@ -117,7 +117,8 @@
 		              $("#taglist li").each(function (index,el) {
 		                  for (var i = ui.content.length - 1 ; i >= 0; i--) {
 		                      if ($(el).text() == ui.content[i].value) {
-		                            ui.content.splice(i, 1);
+		                          ui.content.splice(i, 1);
+		                          break;
 		                      }
 		                  }
 		              });

@@ -56,17 +56,18 @@
 
             <label for="leader" class="regis_col03L">電子郵件</label>
             <p class="regis_col03R">@Model.activityregister.email</p>
-
+            
+            @*
             <label for="website" class="regis_col02L">公司網址</label>
             <div class="regis_col02R">
                 <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
             </div>
-
+            *@
             <label class="regis_col02L">企業簡介(中)</label>
             <span class="regis_col02R">@@Model.activityregister.user_info</span>
             <label class="regis_col02L">企業簡介(英)</label>
             <span class="regis_col02R">@Model.activityregister.user_info_en</span>
-
+            @*
             <label for="verticals" class="regis_col02L">產業別</label>
             <p class="regis_col02R verticalslist">
                 @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
@@ -74,7 +75,7 @@
                     @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
                 }
             </p>
-
+            *@
             <div class="regis_col02L">
                 <label for="" class="label01">公司產品</label>
             </div>

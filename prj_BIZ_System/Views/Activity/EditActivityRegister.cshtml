@@ -167,7 +167,11 @@
                                 @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.coverDir + catalogListModel.cover_file)"><img src="@(ViewBag.coverDir + catalogListModel.cover_file)" /></a>
+                                        <a href="@(ViewBag.coverDir + catalogListModel.cover_file)">
+                                            <div class="regisimg">
+                                                <img src="@(ViewBag.coverDir + catalogListModel.cover_file)" />
+                                            </div>
+                                        </a>
                                         <input type="checkbox" name="catalog_no" class="inputCheckbox"
                                                id="catalog@(catalogListModel.catalog_no)"
                                                value="@catalogListModel.catalog_no">
