@@ -16,12 +16,12 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 上傳檔案根目錄實體檔位置
         /// </summary>
-        public static string CatalogRootDir { get; set; }
+        public static string UploadRootDir { get; set; }
 
         /// <summary>
         /// 上傳檔案根目錄路徑
         /// </summary>
-        public static string CatalogRootPath { get; set; }
+        public static string UploadRootPath { get; set; }
 
         /// <summary>
         /// 型錄封面圖目錄路徑
@@ -50,8 +50,8 @@ namespace prj_BIZ_System.App_Start
 
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
-            CatalogRootPath = "/" + rootPath + "/" + "UploadRootDir/";
-            CatalogRootDir = Path.Combine(realRootDir, "UploadRootDir/");
+            UploadRootPath = "/" + rootPath;
+            UploadRootDir = realRootDir;
 
             #region 型錄顯示 和 存檔位置
             subDirForCover = "Catalog/cover_file/";
@@ -74,7 +74,7 @@ namespace prj_BIZ_System.App_Start
         {
             string folder_name = "";
             folder_name = getFolderName("primessage");
-            return UploadConfig.CatalogRootPath + UploadConfig.AdminManagerDirName + "/" + folder_name + msg_no + "/";
+            return UploadConfig.UploadRootPath + UploadConfig.AdminManagerDirName + "/" + folder_name + msg_no + "/";
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace prj_BIZ_System.App_Start
         {
             string folder_name = "";
             folder_name = getFolderName(dir_type);
-            return UploadConfig.CatalogRootPath + user_id + "/" + folder_name;
+            return UploadConfig.UploadRootPath + user_id + "/" + folder_name;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace prj_BIZ_System.App_Start
         {
             string folder_name = "";
             folder_name = getFolderName(dir_type);
-            return UploadConfig.CatalogRootDir + user_id + "/" + folder_name;
+            return UploadConfig.UploadRootDir + user_id + "/" + folder_name;
         }
 
         private static string getFolderName(string dir_type)
@@ -138,12 +138,12 @@ namespace prj_BIZ_System.App_Start
         {
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
             
-            string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
+            string targetRootDir = Path.Combine(UploadConfig.UploadRootDir, user_id);
             string targetFilePath = "";
             targetFilePath = Path.Combine(targetRootDir, subFileDir);
-            if (!Directory.Exists(UploadConfig.CatalogRootDir))
+            if (!Directory.Exists(UploadConfig.UploadRootDir))
             {
-                Directory.CreateDirectory(UploadConfig.CatalogRootDir);
+                Directory.CreateDirectory(UploadConfig.UploadRootDir);
             }
             if (!Directory.Exists(targetRootDir))
             {
@@ -174,7 +174,7 @@ namespace prj_BIZ_System.App_Start
 
 
         /// <summary>
-        /// 刪除檔案 (檔案名稱 , 資料夾位置 , 使用者id)
+        /// 刪除檔案 (檔案名稱 , 資料夾位置 , 使用者id) ps.資料夾位置字串請參考 getFolderName方內的switch字串
         /// </summary>
         public static void deleteUploadFile(string file_name, string dir_type, string user_id)
         {

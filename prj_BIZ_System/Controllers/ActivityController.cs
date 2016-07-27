@@ -91,7 +91,7 @@ namespace prj_BIZ_System.Controllers
 //                activityModel.activityinfo = new ActivityInfoModel();
                 activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
-            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+            ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
                 UploadConfig.subDirForCover;
                 ViewBag.PageType = "CreateRegister";
                 ViewBag.SubmitName = "送出報名";
@@ -115,7 +115,7 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.catalogselectList = "[]";
                 }
 
-                ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+                ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
                 UploadConfig.subDirForCover;
                 ViewBag.PageType = "UpdateRegister";
                 ViewBag.SubmitName = "確認修改";
@@ -159,7 +159,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.catalogselectList = "[]";
             }
 
-            ViewBag.coverDir = UploadConfig.CatalogRootPath + activityModel.activityregister.user_id + "/" +
+            ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
             UploadConfig.subDirForCover;
             ViewBag.PageType = "DispalyRegister";
             return View(activityModel);

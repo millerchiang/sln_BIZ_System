@@ -15,7 +15,7 @@ namespace prj_BIZ_System
         private string mailBaseDir = "App_Start/";
         private string keyBaseDir  = "App_Start/";
         private string cachePropertyBaseDir = "App_Start/";
-        private string uploadFileBaseDir = "Content";
+        private string uploadFileBaseDir = "Content/UploadRootDir/";
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);

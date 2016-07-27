@@ -808,7 +808,7 @@ namespace prj_BIZ_System.Controllers
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, manager_id);
 
-            var imageUrl = Url.Content(UploadConfig.CatalogRootPath + manager_id + "/" + UploadConfig.subDirForNews + upload.FileName);
+            var imageUrl = Url.Content(UploadConfig.UploadRootPath + manager_id + "/" + UploadConfig.subDirForNews + upload.FileName);
 
             var vMessage = string.Empty;
 
