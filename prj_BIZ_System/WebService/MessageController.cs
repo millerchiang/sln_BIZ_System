@@ -48,7 +48,12 @@ namespace prj_BIZ_System.WebService
                 company = msgPrivateModel.company,
                 create_time = msgPrivateModel.create_time.ToString("yyyy-MM-dd HH:mm")
             };
-            messageContent.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
+            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgPrivateModel.msg_member);
+            string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
+                msgPrivateFileModel =>
+                msgPrivateFileModel.msg_file_site   
+            ).ToArray();
+            messageContent.msgPrivate.msg_file = string.Join(",", fileNames);
             messageContent.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no).Select(
                 msgPrivateReplyModel => 
                 new MsgPrivateReply
@@ -66,5 +71,12 @@ namespace prj_BIZ_System.WebService
         {
            return messageService.InsertMsgPrivateReply(model);
         }
+
+        [HttpPost]
+        public object AddMessage(MsgPrivateModel model)
+        {
+            return (long)messageService.InsertMsgPrivate(model);
+        }
+
     }
 }
