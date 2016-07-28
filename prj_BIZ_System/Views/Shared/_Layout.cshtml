@@ -18,6 +18,27 @@
     <header>
         <div class="headerbox">
             <ul class="head_langBu">
+
+@if (ViewBag.Form != "Manager")
+{
+    if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification")
+    {
+        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Home")</li>
+        if (ViewBag.Title != "Index")
+        {
+        <li class="backindex">@Html.ActionLink("回首頁", "Index", "Home")</li>
+        }
+    }
+}
+else
+{
+    if (ViewBag.Title != "Login")
+    {
+
+        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Manager")</li>
+    }
+}
+
                 <li><a href="">English</a></li>
                 <li><a href="" class="active">中文</a></li>
             </ul>
@@ -34,17 +55,17 @@ else
             <nav class="head_nav">
                 <ul>
                     @if (ViewBag.Form != "Manager")
-                    {
+{
 
-                        if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
-                        {
+    if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
+    {
                             <li>@Html.ActionLink("登入", "Login", "Home")</li>
                         }
-                        else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
-                        {
-                        }
-                        else
-                        {
+    else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
+    {
+    }
+    else
+    {
 
                             <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
                             <li>
@@ -68,11 +89,11 @@ else
                                 </ul>
                             </li>
 
-                            <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>
+                            @*<li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>*@
 
                         }
-                    }
+}
                     else
                     {
                         if (ViewBag.Title != "Login")
@@ -130,7 +151,7 @@ else
                                 </ul>
                             </li>
                             }
-                            <li>@Html.ActionLink("登出", "Logout", "Manager")</li>
+                            @*<li>@Html.ActionLink("登出", "Logout", "Manager")</li>*@
 
                         }
                     }
@@ -146,7 +167,16 @@ else
     <footer>
         <p>&copy; @DateTime.Now.Year -版權所有 Copyright © 2016 BIZ Matchmaking System. All rights reserved</p>
     </footer>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-81493318-1', 'auto');
+  ga('send', 'pageview');
+
+    </script>
 </body>
 </html>
     

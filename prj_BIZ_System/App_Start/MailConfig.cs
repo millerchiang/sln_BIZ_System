@@ -21,41 +21,29 @@ namespace prj_BIZ_System.App_Start
         public static int smtpPort = 587;
         public static string sendAccount = "mail@wavegis.com.tw";
         public static string password = "wavegis25983";
-        public static MailSetting[] mailSetings; 
+        public static MailSetting[] mailSetings;
+        public static string baseDir;
 
         public static void RegisterCustomSetting(string baseDir)
         {
-            mailSetings = new MailSetting[10];
+            MailConfig.baseDir = baseDir;
+            mailSetings = new MailSetting[100];
+            AddMailSetting(MailType.AccountMailValidate, "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", new string[] { "AccountMailValidate.html" });
+            AddMailSetting(MailType.ForgetPassword, "[BIZ MATCHMAKING SYSTEM]忘記密碼通知信", new string[] { "ForgetPassword.html" });
+            AddMailSetting(MailType.ActivityCheckNotify, "[BIZ MATCHMAKING SYSTEM]活動報名審核結果通知", new string[] { "ActivityCheckNotify_Fail.html", "ActivityCheckNotify_Success.html" });
+            AddMailSetting(MailType.ActivityAddBuyerNotify, "[BIZ MATCHMAKING SYSTEM]加入活動買主通知", new string[] { "ActivityAddBuyerNotify.html" });
+        }
 
-            //Email驗證
-            MailSetting AccountMailValidate = new MailSetting { subject= "[BIZ MATCHMAKING SYSTEM]會員註冊驗證信", account = sendAccount, password= password, isEnableHtml=true};
-            AccountMailValidate.template_file_name=new List<string>(new string[] { "AccountMailValidate.html" });
-            AccountMailValidate.template_file_content = new List<string>();
-            foreach (string file_name in AccountMailValidate.template_file_name)
+        private static void AddMailSetting(MailType mailType, string subject , string[] templates)
+        {
+            MailSetting mailSetting = new MailSetting { subject = subject , account = sendAccount, password = password, isEnableHtml = true };
+            mailSetting.template_file_name = new List<string>(templates);
+            mailSetting.template_file_content = new List<string>();
+            foreach (string file_name in mailSetting.template_file_name)
             {
-                AccountMailValidate.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
+                mailSetting.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
             }
-            mailSetings[(int)MailType.AccountMailValidate] = AccountMailValidate;
-
-            //忘記密碼
-            MailSetting ForgetPassword = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]忘記密碼通知信", account = sendAccount, password = password, isEnableHtml = true };
-            ForgetPassword.template_file_name = new List<string>(new string[] { "ForgetPassword.html" });
-            ForgetPassword.template_file_content = new List<string>();
-            foreach (string file_name in ForgetPassword.template_file_name)
-            {
-                ForgetPassword.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
-            }
-            mailSetings[(int)MailType.ForgetPassword] = ForgetPassword;
-
-            //報名審核
-            MailSetting ActivityCheckNotify = new MailSetting { subject = "[BIZ MATCHMAKING SYSTEM]活動報名審核結果通知", account = sendAccount, password = password, isEnableHtml = true };
-            ActivityCheckNotify.template_file_name = new List<string>(new string[] { "ActivityCheckNotify_Fail.html" , "ActivityCheckNotify_Success.html" });
-            ActivityCheckNotify.template_file_content = new List<string>();
-            foreach (string file_name in ActivityCheckNotify.template_file_name)
-            {
-                ActivityCheckNotify.template_file_content.Add(File.ReadAllText(Path.Combine(baseDir + TemplateDir, file_name)));
-            }
-            mailSetings[(int)MailType.ActivityCheckNotify] = ActivityCheckNotify;
+            mailSetings[(int)mailType] = mailSetting;
         }
     }
 
@@ -103,6 +91,24 @@ namespace prj_BIZ_System.App_Start
             paramDict.Add("(@聯絡信箱)", email);                  //activity_register.email
             return paramDict;
         }
+
+        /// <summary>
+        /// 新增買主通知 (活動編號 ,活動名稱 ,活動開始時間 ,活動結束時間 , 活動地點 ,主辦單位)
+        /// </summary>
+        private static Dictionary<string, string> fillActivityAddBuyerNotify(
+              int activity_id , string activity_name, DateTime starttime, DateTime endtime
+            , string addr, string organizer)
+        {
+            Dictionary<string, string> paramDict = new Dictionary<string, string>();
+            paramDict.Add("(@活動日期)", starttime.ToString("yyyy-MM-dd"));                //userInfo.email
+            paramDict.Add("(@活動編號)", activity_id.ToString());   //activity_info.activity_id
+            paramDict.Add("(@活動名稱)", activity_name);            //activity_info.activity_name
+            paramDict.Add("(@活動時間)", starttime.ToString("yyyy-MM-dd HH:mm") + " ~ " + endtime.ToString("yyyy-MM-dd HH:mm"));//activity_info.starttime ~ activity_info.endtime
+            paramDict.Add("(@活動地點)", addr);                   //activity_info.addr
+            paramDict.Add("(@主辦單位)", organizer);                //activity_info.organizer
+            return paramDict;
+        }
+
         /// <summary>
         /// 發送Email (收信者Email地址 , Email內容 , Email種類)
         /// </summary>
@@ -198,6 +204,21 @@ namespace prj_BIZ_System.App_Start
                 {
                     MailHelper.doSendMail(email, param, MailType.ActivityCheckNotify);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 發送新增買主通知 (使用者email , 活動編號 ,活動名稱 ,活動開始時間 ,活動結束時間 , 活動地點 ,主辦單位)
+        /// </summary>
+        public static void sendActivityAddBuyerNotify(
+            string email , int activity_id, string activity_name, DateTime starttime
+            , DateTime endtime , string addr, string organizer)
+        {
+            Dictionary<string, string> param = MailHelper.fillActivityAddBuyerNotify(
+              activity_id, activity_name, starttime, endtime, addr, organizer);
+            if (!string.IsNullOrEmpty(email))
+            {
+                MailHelper.doSendMail(email, param, MailType.ActivityAddBuyerNotify);
             }
         }
 
@@ -335,7 +356,11 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 活動報名審核結果通知
         /// </summary>
-        ActivityCheckNotify = 2
+        ActivityCheckNotify = 2,
+        /// <summary>
+        /// 新增買主通知
+        /// </summary>
+        ActivityAddBuyerNotify = 3
     }
 
     public struct MailSetting

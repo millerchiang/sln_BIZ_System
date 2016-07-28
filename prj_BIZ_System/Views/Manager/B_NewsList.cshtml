@@ -64,10 +64,10 @@ else
                         <td>
                             @if (newsModel.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0)
                             {
-                            <a href="@newsModel.website" target="_blank">@newsModel.website</a>
+                            <a href="@(newsModel.website)" target="_blank">@(newsModel.website)</a>
                             }
                             else {
-                            <a href="http://@newsModel.website" target="_blank">@newsModel.website</a>
+                            <a href="http://@(newsModel.website)" target="_blank">@(newsModel.website)</a>
                             }
                         </td>
                     }

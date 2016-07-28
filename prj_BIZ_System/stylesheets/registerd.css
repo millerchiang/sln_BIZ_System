@@ -6,7 +6,7 @@
   width: 100%;
   box-sizing: border-box;
   padding-left: 220px;
-  min-height: 220px;
+  min-height: 270px;
 }
 
 .regis_col01R_label {
@@ -214,7 +214,7 @@ textarea {
 
 #result {
   width: 180px;
-  height: 157px;
+  height: 180px;
   border: 1px solid #cccccc;
   overflow: hidden;
   background: #ffffff;
@@ -285,6 +285,14 @@ textarea {
   left: 50%;
   margin-left: -150px;
   margin-top: -25px;
+}
+
+.dmname label {
+  font-size: 0.938em;
+}
+.dmname input {
+  width: 290px;
+  height: 20px;
 }
 
 /*# sourceMappingURL=registerd.css.map */

@@ -132,9 +132,9 @@
         LEFT JOIN manager.manager_info m
         ON a.manager_id = m.manager_id
         <dynamic prepend="where">
-          <isNotEmpty prepend="and" property="activity_name">
-            activity_name  like '%'||#activity_name#||'%'
-          </isNotEmpty>
+          <isNotEqual prepend="and" property="activity_id" compareValue="0">
+            r.activity_id  = $activity_id$
+          </isNotEqual>
           <isNotEmpty prepend="and" property="company">
             company like '%'||#company#||'%'
           </isNotEmpty>
@@ -150,7 +150,8 @@
           <isNotEmpty prepend="and" property="grp_id">
             m.grp_id = $grp_id$
           </isNotEmpty>
-        </dynamic>
+        
+      </dynamic>
         ORDER BY r.create_time
       </select>
        
@@ -382,6 +383,9 @@
     
       <!--新增買主資訊單筆-->
       <insert id="InsertBuyerInfoOne" parameterClass="BuyerInfoModel">
+        <selectKey resultClass="int" property="serial_no" type="post">
+          SELECT currval('buyerincrement')
+        </selectKey>
         INSERT INTO buyer_list (
         activity_id, buyer_id, buyer_need
         ) VALUES (

@@ -283,7 +283,7 @@ namespace prj_BIZ_System.Controllers
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
             #region 刪除檔案
-            string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
+            string targetRootDir = Path.Combine(UploadConfig.UploadRootDir, user_id);
             string targetCoverPath = "";
             string targetCatalogPath = "";
             targetCoverPath = Path.Combine(targetRootDir, UploadConfig.subDirForCover);
@@ -291,8 +291,8 @@ namespace prj_BIZ_System.Controllers
 
             foreach (CatalogListModel catalog in  catalogLists)
             {
-                System.IO.File.Delete(Path.Combine(targetCoverPath, catalog.cover_file));
-                System.IO.File.Delete(Path.Combine(targetCatalogPath, catalog.catalog_file));
+                UploadHelper.deleteUploadFile(catalog.cover_file, "catalog_cover", user_id);
+                UploadHelper.deleteUploadFile(catalog.catalog_file, "catalog_file", user_id);
             }
             #endregion
 
@@ -304,7 +304,7 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult CatalogUpload(HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
+        public ActionResult CatalogUpload(string catalog_name , HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Login");
@@ -315,7 +315,7 @@ namespace prj_BIZ_System.Controllers
                     string user_id = Request.Cookies["Action"]["user_id"];
                     UploadHelper.doUploadFile(cover_file, UploadConfig.subDirForCover , user_id);
                     UploadHelper.doUploadFile(catalog_file, UploadConfig.subDirForCatalog, user_id);
-                    bool isUploadSuccess = userService.CatalogListInsert(user_id, cover_file.FileName, catalog_file.FileName);
+                    bool isUploadSuccess = userService.CatalogListInsert(user_id, catalog_name , cover_file.FileName, catalog_file.FileName);
                 }
             }
             return Redirect("CatalogList");

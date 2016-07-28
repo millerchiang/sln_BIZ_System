@@ -133,9 +133,9 @@ namespace prj_BIZ_System.Services
             return (BuyerInfoModel)mapper.QueryForObject("ActivityInfo.SelectBuyerDataByActivityWithId", param);
         }
 
-        public void BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
+        public object BuyerInfoInsertOne(BuyerInfoModel buyerInfoModel)
         {
-            mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
+            return mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
         }
 
         public void BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)
@@ -177,6 +177,22 @@ namespace prj_BIZ_System.Services
             endDate = Convert.ToDateTime(endtime);
 
             ActivityRegisterModel param = new ActivityRegisterModel { activity_name = activity_name, company = company, starttime = startDate, endtime = endDate, grp_id = grp_id };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
+        }
+
+        public IList<ActivityRegisterModel> GetActivityCheckAllByConditionWithId(int? activity_id, string company, string starttime, string endtime, int? grp_id)
+        {
+            DateTime startDate;
+            DateTime endDate;
+
+            if (starttime == null || starttime == "")
+                starttime = "0001/01/01";
+            startDate = Convert.ToDateTime(starttime);
+            if (endtime == null || endtime == "")
+                endtime = "9999/12/30";
+            endDate = Convert.ToDateTime(endtime);
+            int activity_id_for_reg = (activity_id == null) ? 0 : (int)activity_id;
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id_for_reg, company = company, starttime = startDate, endtime = endDate, grp_id = grp_id };
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
         }
 

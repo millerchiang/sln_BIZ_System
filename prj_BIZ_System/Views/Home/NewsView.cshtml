@@ -20,7 +20,9 @@
             <br />
             @if (Model.news.news_type == "1")
             {
-                <h>相關資訊連結:</h><a href="@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
+                @:<h>相關資訊連結:</h>
+                string prefix = Model.news.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0 ? "" : "http://";
+                <a href="@prefix@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
             }
             else
             {

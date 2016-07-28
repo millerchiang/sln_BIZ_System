@@ -328,11 +328,12 @@ namespace prj_BIZ_System.Services
         }
 
         /*新增型錄*/
-        public bool CatalogListInsert(string user_id , string conver_fileName , string catalog_fileName)
+        public bool CatalogListInsert(string user_id , string catalog_name , string conver_fileName , string catalog_fileName)
         {
             CatalogListModel param = new CatalogListModel()
             {
                 user_id = user_id,
+                catalog_name = catalog_name,
                 cover_file = conver_fileName,
                 catalog_file = catalog_fileName,
                 deleted = "1"

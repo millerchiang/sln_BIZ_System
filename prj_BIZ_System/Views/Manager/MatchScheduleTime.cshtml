@@ -78,6 +78,11 @@
         
         /*儲存按鈕用from做submit送出*/
         $("#saveMatchTime").click(function () {
+            var errMsg=chktime();
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
             $("#form").submit();
         });
 
@@ -158,4 +163,29 @@
         });
 
     });
+
+    function chktime() {
+        var errMsg = '';
+        $input_times = $("input[type='text']");
+        var len = $input_times.size();
+        var total_row_count = len / 2;
+        $input_times.each(function (index, el) {
+            var row_index = index / 2;
+            var time_type = (row_index % 1) == 0 ? '開始' : '結束';
+            var before_time_type = (time_type == '結束') ? '開始時間' : '上一個時段的結束時間'
+            if (index >= 1) {
+                var prev_val = $input_times.eq(index - 1).val();
+                var diff = Date.parse($(el).val()) - Date.parse(prev_val);
+                if (diff < 0) {
+                    if (row_index < total_row_count - 1) {
+                        errMsg = '時段' + (Math.floor(row_index) + 1) + '的' + time_type + '時間不可以早於' + before_time_type;
+                    } else {
+                        errMsg = '新增時段的' + time_type + '時間不可以早於' + before_time_type;
+                    }
+                    return false;
+                }
+            }
+        });
+        return errMsg;
+    }
 </script>

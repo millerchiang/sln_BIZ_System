@@ -16,8 +16,20 @@
         <h2>報名查詢</h2>
         <div class="sys_searchboxcol01L">
             <label for="selectActivityName" class="regis_col02L">活動名稱</label>
+            @*
             <input id="selectActivityName" type="text" name="selectActivityName" class="regis_col02R"
-                   value="@ViewBag.Where_ActivityName">
+            value="@ViewBag.Where_ActivityName">
+            *@
+            <select name="selectActivityId" id="" class="regis_col02R">
+                <option value="0">請選擇</option>
+                @if (Model.activityinfoList!=null)
+                {
+                    foreach(ActivityInfoModel md in Model.activityinfoList)
+                    {
+                        <option value="@(md.activity_id)" @(md.activity_id.Equals(ViewBag.Where_ActivityId) ? "selected" : "")>@md.activity_name</option>
+                    }
+                }
+            </select>
 
             <label for="" class="regis_col02L">報名期間</label>
             <div class="regis_col02R">
@@ -158,13 +170,14 @@
             }
         });
 
-        /* 活動名稱搜尋*/
+        @* 活動名稱搜尋
         $("#selectActivityName").autocomplete({
             source: "@Url.Action("GetRegisterSearchByActivityName", "Manager")",
             select: function (event, ui) {
                 var data = ui.item.label;
             }
         });
+        *@
 
         /*廠商名稱搜尋*/
         $("#selectCompany").autocomplete({

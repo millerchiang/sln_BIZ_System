@@ -93,7 +93,7 @@
 @if (ViewBag.PageType != "Create")
 {
                 <a href="/User/ProductList" class="buinfor">產品說明</a>
-                <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
+                <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br />
 }
                 <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
                     <div class="regis_col01L">
@@ -162,9 +162,12 @@
                         else
                         {
                             <label for="" class="regis_col01R_label">
-                                <a href="EditPasswd" class="buinfor">修改密碼</a>
+                               修改密碼
                             </label>
-                            <input type="password" name="user_pw" readonly value="@Model.userinfo.user_pw" class="regis_col01R_input" required>
+                            <div class="regis_col01R_input">
+                                <input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw"  required>
+                                <a class="addbu" href="EditPasswd">修改密碼</a>
+                            </div>
                         }
 
 						<label for="name" class="regis_col01R_label spanRed">電話/分機</label>
@@ -213,7 +216,7 @@
 					<br/><br/>
                     <label for="capital" class="regis_col02L spanRed">資本額</label>
                     <div class="regis_col02R">
-                        <input type="text" name="capital" value="@Model.userinfo.capital" required> 萬元
+                        <input type="text" name="capital" value="@Model.userinfo.capital" required> 千元
                     </div>
                     <label for="revenue" class="regis_col02L spanRed">營業額</label>
                     <div class="regis_col02R">
@@ -237,7 +240,7 @@
 
                     @foreach (var sortList in Model.enterprisesortList)
                     {
-                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id@sortList.enterprise_sort_name</label>
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
 
                     }
                     </div>
@@ -326,7 +329,15 @@
                 return false;
             }
 
-
+            if($("input[name='enterprise_type']:checked").val()==0){
+                var reg = /\D/;
+                var user_id = $("input[name='user_id']").val();
+                if(reg.test(user_id)||user_id==null||user_id.length!=8){
+                    alert("國內企業帳號限制為8位數字!!");
+                    return false;
+                }
+            }
+            
         });
     });
 

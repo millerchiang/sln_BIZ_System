@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Start\MailTemplate\AccountMailValidate.html" />
+    <Content Include="App_Start\MailTemplate\ActivityAddBuyerNotify.html" />
     <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Fail.html" />
     <Content Include="App_Start\MailTemplate\ActivityCheckNotify_Success.html" />
     <Content Include="App_Start\MailTemplate\ForgetPassword.html" />
