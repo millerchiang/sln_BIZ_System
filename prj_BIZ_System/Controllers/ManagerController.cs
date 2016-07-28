@@ -468,7 +468,7 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名審核
 
         [HttpGet]
-        public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany,string startDate,string endDate)
+        public ActionResult ActivityRegisterCheck(int? selectActivityId , string selectCompany,string startDate,string endDate)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -480,8 +480,9 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
-            ViewBag.Where_ActivityName = selectActivityName;
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            ViewBag.Where_ActivityId = selectActivityId;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
         }
