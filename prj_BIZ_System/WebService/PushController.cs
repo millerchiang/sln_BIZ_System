@@ -16,7 +16,10 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object MobileDeviceInfoInsert(MobileDeviceInfoModel model)
         {
-            return pushService.MobileDeviceInfoInsertOne(model);
+            var mobileDevice = pushService.getMobileDeviceInfo(model);
+            return mobileDevice == null ? 
+                pushService.MobileDeviceInfoInsertOne(model) :
+                Request.CreateResponse(HttpStatusCode.NotModified, model);
         }
     }
 }

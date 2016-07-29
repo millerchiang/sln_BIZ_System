@@ -99,7 +99,7 @@ namespace prj_BIZ_System.Controllers
             {
                 userModel.cataloglistList = userService.getAllCatalogTop(4);
                 userModel.enterprisesortList = userService.GetSortList();
-                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+                ViewBag.coverDir = UploadConfig.UploadRootPath;
 
                 return View(userModel);
             }
@@ -131,7 +131,7 @@ namespace prj_BIZ_System.Controllers
                 }
 
 
-                ViewBag.coverDir = UploadConfig.CatalogRootPath;
+                ViewBag.coverDir = UploadConfig.UploadRootPath;
 
                 return View(userModel);
             }

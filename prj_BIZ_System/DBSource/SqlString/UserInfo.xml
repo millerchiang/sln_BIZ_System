@@ -17,7 +17,7 @@
     <select id="SelectAll_sort" resultMap="Enterprise_sort-result">
       SELECT *
       FROM enterprise_sort_list
-      ORDER BY enterprise_sort_id
+      ORDER BY enterprise_sort_list.sort_id;
     </select>
 
 

@@ -470,7 +470,7 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名審核
 
         [HttpGet]
-        public ActionResult ActivityRegisterCheck(string selectActivityName, string selectCompany,string startDate,string endDate)
+        public ActionResult ActivityRegisterCheck(int? selectActivityId , string selectCompany,string startDate,string endDate)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -482,8 +482,9 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
-            ViewBag.Where_ActivityName = selectActivityName;
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            ViewBag.Where_ActivityId = selectActivityId;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
         }
@@ -942,7 +943,7 @@ namespace prj_BIZ_System.Controllers
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             UploadHelper.doUploadFile(upload, UploadConfig.subDirForNews, manager_id);
 
-            var imageUrl = Url.Content(UploadConfig.CatalogRootPath + manager_id + "/" + UploadConfig.subDirForNews + upload.FileName);
+            var imageUrl = Url.Content(UploadConfig.UploadRootPath + manager_id + "/" + UploadConfig.subDirForNews + upload.FileName);
 
             var vMessage = string.Empty;
 

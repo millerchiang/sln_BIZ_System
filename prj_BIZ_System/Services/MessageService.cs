@@ -93,9 +93,10 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MsgPrivateReplyModel>("Message.SelectMsgPrivateReplyMsg_no", param);
         }
 
-        public void InsertMsgPrivateReply(MsgPrivateReplyModel param)
+        public object InsertMsgPrivateReply(MsgPrivateReplyModel param)
         {
-            mapper.Insert("Message.InsertMsgPrivateReply", param);
+            var result = mapper.Insert("Message.InsertMsgPrivateReply", param);
+            return result;
         }
 
 

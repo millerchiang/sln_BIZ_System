@@ -284,7 +284,7 @@ namespace prj_BIZ_System.Controllers
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
             #region 刪除檔案
-            string targetRootDir = Path.Combine(UploadConfig.CatalogRootDir, user_id);
+            string targetRootDir = Path.Combine(UploadConfig.UploadRootDir, user_id);
             string targetCoverPath = "";
             string targetCatalogPath = "";
             targetCoverPath = Path.Combine(targetRootDir, UploadConfig.subDirForCover);
@@ -292,8 +292,8 @@ namespace prj_BIZ_System.Controllers
 
             foreach (CatalogListModel catalog in  catalogLists)
             {
-                System.IO.File.Delete(Path.Combine(targetCoverPath, catalog.cover_file));
-                System.IO.File.Delete(Path.Combine(targetCatalogPath, catalog.catalog_file));
+                UploadHelper.deleteUploadFile(catalog.cover_file, "catalog_cover", user_id);
+                UploadHelper.deleteUploadFile(catalog.catalog_file, "catalog_file", user_id);
             }
             #endregion
 

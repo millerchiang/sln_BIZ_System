@@ -130,6 +130,13 @@
       ( device_id, device_os, user_id )
       VALUES (#device_id#, #device_os#, #user_id#);
     </insert>
+
+    <select id="SelectMobileDeviceInfo" parameterClass="MobileDeviceInfo" resultMap="MobileDeviceInfo-result">
+      SELECT *
+      FROM manager.mobile_device_info
+      where device_id = #device_id#
+    </select>
+
   </statements>
 
   <resultMaps>
