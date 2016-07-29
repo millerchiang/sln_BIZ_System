@@ -237,7 +237,7 @@
 
             @foreach (var sortList in Model.enterprisesortList)
             {
-                <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
+                <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
 
             }
         </div>
@@ -340,15 +340,6 @@
     }
 
 
-    function clearchk() {
-        var i=0;
-        for (i=1;i<53;i++)
-        {
-            $("input[name='sort_id'][id='"+i+"']").prop("checked",false);
-        }
-
-    }
-
     function chkuser() {
 
         var user_id = $("input[name='user_id']").val();
@@ -367,16 +358,7 @@
                         alert("該使用帳號已存在,請確認是否帳號有誤!!");
                         $("input[name='user_id']").focus();                
                     } else {
-                        clearchk();
-                        $("input[name='company']").val(result.Company_Name);
-                        $("input[name='addr']").val(result.Company_Location);
-                        $("input[name='capital']").val(result.Capital_Stock_Amount/10000);
-                        var i=0;
-                        for (i=0;i<result.Business_Item_Count;i++)
-                        {
-                            $("input[name='sort_id'][id2='"+result.Business_Item[i]+"']").prop("checked",true);
-                        }
-
+//                        alert("不存在");
                     }
                 }
                 else {

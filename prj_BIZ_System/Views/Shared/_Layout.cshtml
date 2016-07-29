@@ -21,7 +21,7 @@
 
 @if (ViewBag.Form != "Manager")
 {
-    if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification" && !(ViewBag.Title == "Register" && ViewBag.PageType == "Create"))
+    if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification")
     {
         <li class="sign_out">@Html.ActionLink("登出", "Logout", "Home")</li>
         if (ViewBag.Title != "Index")
