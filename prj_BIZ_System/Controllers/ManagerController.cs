@@ -12,6 +12,8 @@ using System.Collections;
 using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -591,16 +593,148 @@ namespace prj_BIZ_System.Controllers
             return Redirect("UserList");
         }
 
+
+        public class CompanyData
+        {
+            public string Business_Accounting_NO;
+            public string Company_Name;
+            public string Capital_Stock_Amount;
+            public string Company_Location;
+            public int Business_Item_Count;
+            public List<string> Business_Item = new List<string>();
+        }
+
+        public class Subcata
+        {
+            [JsonProperty(PropertyName = "Business_Seq_NO")]
+            public string Business_Seq_NO { get; set; }
+            [JsonProperty(PropertyName = "Business_Item")]
+            public string Business_Item { get; set; }
+            [JsonProperty(PropertyName = "Business_Item_Desc")]
+            public string Business_Item_Desc { get; set; }
+        }
+
+
+        public class Cata
+        {
+            [JsonProperty(PropertyName = "Business_Accounting_NO")]
+            public string Business_Accounting_NO { get; set; }
+            [JsonProperty(PropertyName = "Company_Name")]
+            public string Company_Name { get; set; }
+            [JsonProperty(PropertyName = "Company_Status")]
+            public string Company_Status { get; set; }
+            [JsonProperty(PropertyName = "Company_Status_Desc")]
+            public string Company_Status_Desc { get; set; }
+            [JsonProperty(PropertyName = "Company_Setup_Date")]
+            public string Company_Setup_Date { get; set; }
+            public Subcata[] Cmp_Business { get; set; }
+        }
+
+        public class Basedata
+        {
+            [JsonProperty(PropertyName = "Business_Accounting_NO")]
+            public string Business_Accounting_NO { get; set; }
+            [JsonProperty(PropertyName = "Company_Status_Desc")]
+            public string Company_Status_Desc { get; set; }
+            [JsonProperty(PropertyName = "Company_Name")]
+            public string Company_Name { get; set; }
+            [JsonProperty(PropertyName = "Capital_Stock_Amount")]
+            public string Capital_Stock_Amount { get; set; }
+            [JsonProperty(PropertyName = "Paid_In_Capital_Amount")]
+            public string Paid_In_Capital_Amount { get; set; }
+            [JsonProperty(PropertyName = "Responsible_Name")]
+            public string Responsible_Name { get; set; }
+            [JsonProperty(PropertyName = "Company_Location")]
+            public string Company_Location { get; set; }
+            [JsonProperty(PropertyName = "Register_Organization_Desc")]
+            public string Register_Organization_Desc { get; set; }
+            [JsonProperty(PropertyName = "Company_Setup_Date")]
+            public string Company_Setup_Date { get; set; }
+            [JsonProperty(PropertyName = "Change_Of_Approval_Data")]
+            public string Change_Of_Approval_Data { get; set; }
+            [JsonProperty(PropertyName = "Revoke_App_Date")]
+            public string Revoke_App_Date { get; set; }
+            [JsonProperty(PropertyName = "Sus_App_Date")]
+            public string Sus_App_Date { get; set; }
+            [JsonProperty(PropertyName = "Sus_Beg_Date")]
+            public string Sus_Beg_Date { get; set; }
+            [JsonProperty(PropertyName = "Sus_End_Date")]
+            public string Sus_End_Date { get; set; }
+        }
+
+
+        public static CompanyData GetDataFromWeb(string user_id)
+        {
+            try
+            {
+                CompanyData companydata = new CompanyData();
+                string url1 = "http://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?$format=json&$filter=Business_Accounting_NO eq " + user_id;
+                string url2 = "http://data.gcis.nat.gov.tw/od/data/api/236EE382-4942-41A9-BD03-CA0709025E7C?$format=json&$filter=Business_Accounting_NO eq " + user_id;
+
+///////////////////URL2///////////////
+                HttpWebRequest request1 = WebRequest.Create(url1) as HttpWebRequest;
+                using (HttpWebResponse response1 = request1.GetResponse() as HttpWebResponse)
+                {
+                    if (response1.StatusCode != HttpStatusCode.OK)
+                        throw new Exception(String.Format(
+                        "Server error (HTTP {0}: {1}).",
+                        response1.StatusCode,
+                        response1.StatusDescription));
+                    var rawJson = new StreamReader(response1.GetResponseStream()).ReadToEnd();
+                    if (rawJson == null || rawJson == "")
+                        return null;
+                    var jarray = JsonConvert.DeserializeObject<List<Basedata>>(rawJson);
+                    companydata.Business_Accounting_NO = jarray[0].Business_Accounting_NO;
+                    companydata.Company_Name = jarray[0].Company_Name;
+                    companydata.Company_Location = jarray[0].Company_Location;
+                    companydata.Capital_Stock_Amount = jarray[0].Capital_Stock_Amount;
+                }
+                ///////////////////URL2///////////////
+                HttpWebRequest request = WebRequest.Create(url2) as HttpWebRequest;
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        throw new Exception(String.Format(
+                        "Server error (HTTP {0}: {1}).",
+                        response.StatusCode,
+                        response.StatusDescription));
+                    var rawJson = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                    var jarray = JsonConvert.DeserializeObject<List<Cata>>(rawJson);
+                    //                    string[] kk = new string[53];
+                    companydata.Business_Item_Count = jarray[0].Cmp_Business.Count();
+                    for (int i = 0; i < companydata.Business_Item_Count; i++)
+                    {
+                        companydata.Business_Item.Add(jarray[0].Cmp_Business[i].Business_Item.Substring(0,2));
+                    }
+                }
+                ////////////////////////////////////
+                return companydata;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+
+
+        }
+
+
         [HttpGet]
         public ActionResult CheckUser(string user_id)
         {
-            bool Huser = true;
+//            bool Huser = true;
             activityModel.userinfo = userService.GeUserInfoOne(user_id);
             if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
             {
-                Huser = false;
+                CompanyData compdata = GetDataFromWeb(user_id);
+                return Json(compdata, JsonRequestBehavior.AllowGet);
             }
-            return Json(Huser, JsonRequestBehavior.AllowGet);
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
