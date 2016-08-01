@@ -1,0 +1,2 @@
+﻿        public string user_id { get; set; }//使用者帳號 
+        public string user_pw { get; set; }//使用者密碼

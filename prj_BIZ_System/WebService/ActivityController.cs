@@ -24,9 +24,27 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public ActivityInfoModel GetActivityInfoById(int id)
+        public ActivityInfo GetActivityInfoById(int id)
         {
-            return activityService.GetActivityInfoOne(id);
+            ActivityInfoModel activityInfoModel = activityService.GetActivityInfoOne(id);
+            ActivityInfo activityInfo = new ActivityInfo {
+                activity_id = activityInfoModel.activity_id,
+                manager_id = activityInfoModel.manager_id,
+                activity_type = activityInfoModel.activity_type,
+                activity_name = activityInfoModel.activity_name,
+                starttime = activityInfoModel.starttime.ToString("yyyy-MM-dd HH:mm"),
+                endtime = activityInfoModel.endtime.ToString("yyyy-MM-dd HH:mm"),
+                addr = activityInfoModel.addr,
+                organizer = activityInfoModel.organizer,
+                name = activityInfoModel.name,
+                phone = activityInfoModel.phone,
+                email = activityInfoModel.email,
+                activity_name_en = activityInfoModel.activity_name_en,
+                addr_en = activityInfoModel.addr_en,
+                organizer_en = activityInfoModel.organizer_en
+            };
+
+            return activityInfo;
         }
 
         [HttpGet]
@@ -45,8 +63,8 @@ namespace prj_BIZ_System.WebService
             return new ActivityRegister
             {
                 activity_name = activityInfoModel.activity_name,
-                starttime = activityInfoModel.starttime,
-                endtime = activityInfoModel.endtime,
+                starttime = activityInfoModel.starttime.ToString("yyyy-MM-dd HH:mm"),
+                endtime = activityInfoModel.endtime.ToString("yyyy-MM-dd HH:mm"),
                 addr = activityInfoModel.addr,
                 user_id = activityRegisterModel.user_id,
                 quantity = activityRegisterModel.quantity,
