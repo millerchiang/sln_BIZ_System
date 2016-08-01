@@ -93,4 +93,30 @@
   background: #f46813;
 }
 
+@media only screen and (max-width: 670px) {
+  .loginbox_submit {
+    margin-top: 20px;
+  }
+}
+@media only screen and (max-width: 510px) {
+  .loginbox {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .loginboxR {
+    float: none;
+    width: 100%;
+  }
+  .loginboxR li {
+    text-align: left;
+  }
+  .loginboxR li input {
+    width: 100%;
+  }
+
+  .loginbox_submit, .loginbox_newid {
+    float: none;
+  }
+}
 /*# sourceMappingURL=login.css.map */

@@ -9,7 +9,7 @@
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
 
-@Styles.Render("~/Content/css/jqueryUI")
+@Styles.Render("~/Content/jqueryUI")
 
 <div class="article_col1s">
 
@@ -36,18 +36,13 @@
         <div class="regis_col02L">附件</div>
         <div class="regis_col02R">
             <ul class="col2 listlinks">
-                @if(Model.msgPrivateFileList != null)
+                @if (Model.msgPrivateFileList != null)
                 {
-                    foreach(MsgPrivateFileModel mpf in Model.msgPrivateFileList)
+                    foreach (MsgPrivateFileModel mpf in Model.msgPrivateFileList)
                     {
-                         <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">@mpf.msg_file_site</a></li>
+                         <li><a href='@Url.Action("download", "File", new { path = UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no) + mpf.msg_file_site })'>@(mpf.msg_file_site)</a></li>
                     }
                 }
-                <!--
-                <li><a href="">報價單02下載</a></li>
-                <li><a href="">報價單03下載</a></li>
-                <li><a href="">報價單04下載</a></li>
-                -->
             </ul>
         </div>
         <div class="regis_col02L">回覆</div>

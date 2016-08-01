@@ -9,7 +9,7 @@
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
 
-@Styles.Render("~/Content/css/jqueryUI")
+@Styles.Render("~/Content/jqueryUI")
 
 <div class="article_col1s">
     <form id="form"class="form_box sys_searchbox" action="@ViewBag.Action" method="post">
@@ -89,58 +89,58 @@
 </div>
 @Scripts.Render("~/bundles/jqueryUI")
 @Scripts.Render("~/bundles/datetimepicker")
-<script>
-    $(function () {
+    <script>
+        $(function () {
 
-        $("#form").submit(function () {
-            var push_name = $("input[name='push_name']").val();
-            var errMsg = checkValidationOk(push_name);
-            if (errMsg != '') {
-                alert(errMsg);
-                return false;
-            }
-        })
+            $("#form").submit(function () {
+                var push_name = $("input[name='push_name']").val();
+                var errMsg = checkValidationOk(push_name);
+                if (errMsg != '') {
+                    alert(errMsg);
+                    return false;
+                }
+            })
 
-        $("input[name='push_objects']").change(function () {
-            setDisableForPushObjects()
+            $("input[name='push_objects']").change(function () {
+                setDisableForPushObjects()
+            });
+            setDisableForPushObjects();
+
+            var push_date_val = $("input[name='push_date']").val();
+            $('input[name="push_date"]').datetimepicker({
+                beforeShow: function () {
+                    if ($(this).attr('maxDate')) {
+                        var dateItem = $('#' + $(this).attr('maxDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                        }
+                    }
+
+                    if ($(this).attr('minDate')) {
+                        var dateItem = $('#' + $(this).attr('minDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'minDate', dateItem.val());
+                        }
+                    }
+                }
+            }).datetimepicker('setDate', push_date_val);
         });
-        setDisableForPushObjects();
 
-        var push_date_val = $("input[name='push_date']").val();
-        $('input[name="push_date"]').datetimepicker({
-            beforeShow: function () {
-                if ($(this).attr('maxDate')) {
-                    var dateItem = $('#' + $(this).attr('maxDate'));
-                    if (dateItem.val() !== "") {
-                        $(this).datetimepicker('option', 'maxDate', dateItem.val());
-                    }
-                }
-
-                if ($(this).attr('minDate')) {
-                    var dateItem = $('#' + $(this).attr('minDate'));
-                    if (dateItem.val() !== "") {
-                        $(this).datetimepicker('option', 'minDate', dateItem.val());
-                    }
-                }
+        function setDisableForPushObjects() {
+            var checkedVal = $("input[name='push_objects']:checked").val();
+            if (checkedVal == '1') {
+                $("select[name='activity_id']").prop("disabled", false);
+            } else {
+                $("select[name='activity_id']").prop("disabled", true);
             }
-        }).datetimepicker('setDate', push_date_val);
-    });
-
-    function setDisableForPushObjects() {
-        var checkedVal = $("input[name='push_objects']:checked").val();
-        if (checkedVal == '1') {
-            $("select[name='activity_id']").prop("disabled", false);
-        } else {
-            $("select[name='activity_id']").prop("disabled", true);
         }
-    }
 
-    function checkValidationOk(name) {
-        var errMsg = '';
-        if (name == null || name == '') {
-            errMsg += '推播名稱不可為空白\n';
+        function checkValidationOk(name) {
+            var errMsg = '';
+            if (name == null || name == '') {
+                errMsg += '推播名稱不可為空白\n';
+            }
+            return errMsg;
         }
-        return errMsg;
-    }
 
-</script>
+    </script>

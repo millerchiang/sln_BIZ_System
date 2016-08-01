@@ -7,6 +7,7 @@
 
 @section pagestyle{
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
 }
 
 
@@ -64,7 +65,7 @@
             </div>
             *@
             <label class="regis_col02L">企業簡介(中)</label>
-            <span class="regis_col02R">@@Model.activityregister.user_info</span>
+            <span class="regis_col02R">@Model.activityregister.user_info</span>
             <label class="regis_col02L">企業簡介(英)</label>
             <span class="regis_col02R">@Model.activityregister.user_info_en</span>
             @*
@@ -123,8 +124,10 @@
                             @foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
                             {
                                 <li>
-                                    <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
-                                        <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                    <a href="@(ViewBag.catalogDir + activityCatalogSelectModel.catalog_file)" target="_blank" class="fancybox">
+                                        <div class="regisimg">
+                                            <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)"  alt=""/>
+                                        </div>
                                     </a>
                                 </li>
                             }
@@ -141,6 +144,20 @@
     </article>
 </div>
 
+@Scripts.Render("~/bundles/fancybox")
 
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+    }
+</script>
 
 

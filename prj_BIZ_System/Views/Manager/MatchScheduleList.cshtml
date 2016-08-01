@@ -44,8 +44,8 @@
                     {
                         <tr>
                             <td>
-                                @Model.schedulePeriodSetList[i].time_start.ToString("HH:mm")
-                                ~@Model.schedulePeriodSetList[i].time_end.ToString("HH:mm")
+                                @Model.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm")<br/>
+                                ~@Model.schedulePeriodSetList[i].time_end.ToString("yyyy/MM/dd HH:mm")
                                 <input type="hidden" name="period_sn" value="@Model.schedulePeriodSetList[i].period_sn" />
                                 <input type="hidden" name="activity_id" value="@Model.schedulePeriodSetList[i].activity_id" />
                             </td>

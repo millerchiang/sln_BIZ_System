@@ -18,7 +18,7 @@ namespace prj_BIZ_System.App_Start
             PageList<T> page = new PageList<T>();
             page.maxPage = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(modelList.Count()) / pageNum));
             page.currentPage = Math.Min(page.maxPage,current_page);
-            page.datalist = modelList.Skip<T>((current_page - 1) * pageNum).Take<T>(pageNum).ToList<T>();
+            page.datalist = modelList.Skip<T>((current_page-1)*pageNum).Take<T>(pageNum).ToList<T>();
             page.pageNum = pageNum;
             StringBuilder sb = new StringBuilder("?");
             int i_temp = 0;
@@ -39,7 +39,7 @@ namespace prj_BIZ_System.App_Start
             }
             page.querystring = sb.ToString();
             page.maxCount = modelList.Count();
-            page.prevCounts = (page.currentPage - 1) * page.pageNum;
+            page.prevCounts = (page.currentPage-1)*page.pageNum;
             ctrl.TempData["PageList"] = page;
             return page.datalist;
         }

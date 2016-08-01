@@ -91,8 +91,8 @@ namespace prj_BIZ_System.Controllers
 //                activityModel.activityinfo = new ActivityInfoModel();
                 activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
-            ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
-                UploadConfig.subDirForCover;
+                ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCover;
+                ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
                 ViewBag.PageType = "CreateRegister";
                 ViewBag.SubmitName = "送出報名";
 
@@ -115,8 +115,9 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.catalogselectList = "[]";
                 }
 
-                ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
-                UploadConfig.subDirForCover;
+                ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCover;
+                ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
+
                 ViewBag.PageType = "UpdateRegister";
                 ViewBag.SubmitName = "確認修改";
             }
@@ -159,8 +160,9 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.catalogselectList = "[]";
             }
 
-            ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" +
-            UploadConfig.subDirForCover;
+            ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCover;
+            ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
+
             ViewBag.PageType = "DispalyRegister";
             return View(activityModel);
         }

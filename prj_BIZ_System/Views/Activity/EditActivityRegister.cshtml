@@ -7,6 +7,7 @@
 
 @section pagestyle{
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
 }
 
 @if (ViewBag.PageType == "CreateRegister")
@@ -167,9 +168,9 @@
                                 @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.coverDir + catalogListModel.cover_file)">
+                                        <a href="@(ViewBag.catalogDir + catalogListModel.catalog_file)" target="_blank" class="fancybox">
                                             <div class="regisimg">
-                                                <img src="@(ViewBag.coverDir + catalogListModel.cover_file)" />
+                                                <img src="@(ViewBag.coverDir + catalogListModel.cover_file)"   alt=""/>
                                             </div>
                                         </a>
                                         <input type="checkbox" name="catalog_no" class="inputCheckbox"
@@ -206,10 +207,10 @@
 
 
 
-
     <script type="text/javascript"
             src="/Scripts/jquery-ui-1.10.2.min.js">
     </script>
+@Scripts.Render("~/bundles/fancybox")
 
 
     <script type="text/javascript" src="~/Scripts/date.f-0.5.0.js"></script>
@@ -287,7 +288,16 @@
         });
 
         function init() {
-
+            $(".fancybox").fancybox({
+                width: 600,
+                height: 300,
+                type: 'iframe'
+            });
+            $("#deleteLink").click(function () {
+                if(confirm("確認是否要刪除")){
+                    $("#deleteForm").submit();
+                }
+            });
         }
 
         function render(){
