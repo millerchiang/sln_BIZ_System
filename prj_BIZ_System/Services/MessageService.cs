@@ -19,6 +19,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("Message.SelectUserKw", param);
         }
 
+        public IList<UserInfoModel> SelectUserKwForMobile(string user_id)
+        {
+            UserInfoModel param = new UserInfoModel() { user_id = user_id };
+            return mapper.QueryForList<UserInfoModel>("Message.SelectUserKwForMobile", param);
+        }
+
         public IList<MsgPrivateModel> SelectMsgPrivate(string keyword , string user_id)
         {
             var param = new MsgPrivateModel { msg_title = keyword , creater_id  = user_id };

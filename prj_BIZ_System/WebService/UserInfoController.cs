@@ -184,19 +184,5 @@ namespace prj_BIZ_System.WebService
                 }
             ).ToList();
         }
-
-        [HttpGet]
-        public IList<CompanySortModel> GetCompanySort()
-        {
-            return userService.GetUserInfoListkw(null, null).Select(
-                userInfoModel =>
-                new CompanySortModel
-                {
-                    user_id = userInfoModel.user_id,
-                    company = userInfoModel.company,
-                    company_en = userInfoModel.company_en,
-                }
-            ).ToList();
-        }
     }
 }

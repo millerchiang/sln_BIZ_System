@@ -20,6 +20,16 @@
         and ( company like '%'||#company#||'%' or company_en like '%'||#company#||'%')
       ]]>
       </select>
+
+    <!--查尋使用者(手機)-->
+    <select id="SelectUserKwForMobile" resultMap="UserInfo-result">
+      <![CDATA[
+      SELECT *
+      FROM public.user_info
+      WHERE id_enable='1'
+        and user_id <> #user_id#
+      ]]>
+    </select>
     
     <!--查看權限-->
     <select id="isOwnViewPower"  resultClass="int" parameterClass="MsgPrivate">
