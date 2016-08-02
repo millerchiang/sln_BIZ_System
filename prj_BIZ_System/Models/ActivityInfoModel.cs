@@ -42,7 +42,7 @@ namespace prj_BIZ_System.Models
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
 
         public int? grp_id { get; set; }//群組
-        public DateTime? starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
+        public DateTime starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
         public DateTime? endtime { get; set; }//活動時間(迄) yyyy/mm/dd hh:mm
     }
 

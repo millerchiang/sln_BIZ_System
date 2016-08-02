@@ -40,7 +40,7 @@
                 {
                     foreach (MsgPrivateFileModel mpf in Model.msgPrivateFileList)
                     {
-                         <li><a href='@Url.Action("download", "File", new { path = UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no) + mpf.msg_file_site })'>@(mpf.msg_file_site)</a></li>
+                        <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">@mpf.msg_file_site</a></li>
                     }
                 }
             </ul>
