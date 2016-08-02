@@ -1350,7 +1350,7 @@ namespace prj_BIZ_System.Controllers
                 IRow MyRow1 = _sheet.GetRow(CurrRow);
                 if (MyRow1 == null)
                     MyRow1 = _sheet.CreateRow(CurrRow);
-                CreateCell(schedulePeriodSetModel.time_start.ToShortTimeString()+"~"+ schedulePeriodSetModel.time_end.ToShortTimeString()
+                CreateCell(schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm") + "~"+ schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")
                     , MyRow1, 0, CellStyle); //
                 CurrRow++;
             }

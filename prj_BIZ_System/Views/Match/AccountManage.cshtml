@@ -21,17 +21,17 @@
                 @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                 {
                     <li>
-                        <a href="news_activity.html" class="iconlink">@activityRegisterModel.activity_name</a>
+                        <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
                         <div class="centerbox">
                             <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
-                            <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="deleteSbu">活動媒合</a>
+                            <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">活動媒合</a>
                         </div>
                     </li>
                 }
                 @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                 {
                     <li>
-                        <a href="news_activity.html" class="iconlink">@buyerInfoModel.activity_name</a>
+                        <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
                         <div class="centerbox">
                             <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">活動媒合</a>
                         </div>

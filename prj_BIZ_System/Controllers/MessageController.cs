@@ -118,7 +118,7 @@ namespace prj_BIZ_System.Controllers
             return Redirect("PrivateDetailed?msg_no="+model.msg_no);
         }
 
-        //查詢對象 msg_private 的 msg_member 來源
+        
         public ActionResult jsonMsgMemberFromUserInfo(string term)
         {
             var user_id = Request.Cookies["UserInfo"]["user_id"];

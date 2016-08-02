@@ -370,6 +370,7 @@
       <result property="update_time" column="update_time"/>
       <!-- activityInfo 的 activity_name-->
       <result property="activity_name" column="activity_name"/>
+      <result property="starttime" column="starttime"/>
     </resultMap>
 
     <resultMap id="BuyerMatchToSellerName" class="ActivityRegisterModel">
@@ -443,6 +444,7 @@
       <result property="buyer_need" column="buyer_need"/>
       <!-- ActivityInfo 的 activity_name-->
       <result property="activity_name" column="activity_name"/>
+      <result property="starttime" column="starttime"/>
     </resultMap>
     
   </resultMaps>

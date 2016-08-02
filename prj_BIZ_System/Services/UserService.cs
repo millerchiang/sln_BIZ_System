@@ -259,7 +259,7 @@ namespace prj_BIZ_System.Services
                     || !MailHelper.checkMailValidate(tempRecord["email"])  //格式合法性
                     || string.IsNullOrEmpty(tempRecord["revenue"])         //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
                     || string.IsNullOrEmpty(tempRecord["capital"])         // md.capital == -1 ; 
-                    || !Int32.TryParse(tempRecord["capital"], out capital);         // md.capital == -1 ; 
+                    || !int.TryParse(tempRecord["capital"].Replace(",", ""), out capital);         // md.capital == -1 ; 
         }
 
         #region 產品說明

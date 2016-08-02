@@ -172,7 +172,6 @@ namespace prj_BIZ_System.App_Start
             return resultDict;
         }
 
-
         /// <summary>
         /// 刪除檔案 (檔案名稱 , 資料夾位置 , 使用者id) ps.資料夾位置字串請參考 getFolderName方內的switch字串
         /// </summary>

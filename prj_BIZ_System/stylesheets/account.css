@@ -11,6 +11,7 @@
 
 .iconlink + .centerbox, .iconlink2 + .centerbox {
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .form_box {
@@ -18,18 +19,21 @@
 }
 .form_box li {
   border-bottom: 1px dotted #cccccc;
+  text-align: left;
+  line-height: 1.6;
 }
 
 .w55 {
   width: 54%;
   float: left;
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 .w45 {
   width: 44%;
   float: right;
   clear: right;
+  margin-top: 15px;
 }
 
 .iconlink {
@@ -49,6 +53,10 @@
 .iconlink:hover:before {
   border-color: transparent transparent transparent #f46813;
 }
+.iconlink span {
+  padding-right: 5px;
+  color: #9e9e9e;
+}
 
 .iconlink2 {
   position: relative;
@@ -64,6 +72,10 @@
 }
 .iconlink2:hover:before {
   background: #c13717;
+}
+.iconlink2 span {
+  padding-right: 5px;
+  color: #9e9e9e;
 }
 
 @media only screen and (max-width: 520px) {
