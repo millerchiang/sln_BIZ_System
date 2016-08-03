@@ -882,13 +882,6 @@ input.tagtext:focus {
   padding: 5px 10px;
   background: #f4f4f4;
   border: 1px solid #e9e8e8;
-  cursor: pointer;
-}
-#output li:after {
-  content: "x";
-  font-weight: bold;
-  color: #9e9e9e;
-  float: right;
 }
 
 #upexls {
