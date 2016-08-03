@@ -78,5 +78,18 @@ namespace prj_BIZ_System.WebService
             return (long)messageService.InsertMsgPrivate(model);
         }
 
+        [HttpGet]
+        public IList<CompanySortModel> GetCompanySort(string user_id)
+        {
+            return messageService.SelectUserKwForMobile(user_id).Select(
+                userInfoModel =>
+                new CompanySortModel
+                {
+                    user_id = userInfoModel.user_id,
+                    company = userInfoModel.company,
+                    company_en = userInfoModel.company_en,
+                }
+            ).ToList();
+        }
     }
 }
