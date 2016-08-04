@@ -417,6 +417,7 @@
     <Content Include="App_Start\Properties\cache.txt" />
     <None Include="Properties\PublishProfiles\.pubxml" />
     <None Include="Properties\PublishProfiles\biz.pubxml" />
+    <None Include="Properties\PublishProfiles\BIZSystem_Develop  - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\local_biz_web.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
