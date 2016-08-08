@@ -80,20 +80,31 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpPost]
-        public object ActivityRegister(ActivityRegisterModel activityRegisterModel)
+        public HttpResponseMessage ActivityRegister(ActivityRegisterModel activityRegisterModel)
         {
-            object activityRegisterId = null;
-            activityRegisterModel.manager_check = "0";
-            activityRegisterModel.create_time = DateTime.Now;
-            try
+            ActivityRegisterModel hasActivityRegister = activityService.GetActivityRegisterSelectOne(activityRegisterModel.activity_id, activityRegisterModel.user_id);
+            var message = ""; 
+            if (hasActivityRegister != null)
             {
-                activityRegisterId = activityService.ActivityRegisterInserOne(activityRegisterModel);
+                message = string.Format("register has exist");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             }
-            catch (Exception ex)
+            else
             {
-
+                object activityRegisterId = null;
+                activityRegisterModel.manager_check = "0";
+                activityRegisterModel.create_time = DateTime.Now;
+                try
+                {
+                    activityRegisterId = activityService.ActivityRegisterInserOne(activityRegisterModel);
+                }
+                catch (Exception ex)
+                {
+                    message = string.Format("insert fail");
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, activityRegisterId);
             }
-            return activityRegisterId;
         }
 
         [HttpPost]
