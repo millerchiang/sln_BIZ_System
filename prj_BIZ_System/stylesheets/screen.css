@@ -1163,7 +1163,7 @@ input.tagtext:focus {
   color: #ffffff;
 }
 
-.submitbuRed, a.buinfor {
+.submitbuRed, a.submitbuRed {
   background: #f2451d;
   color: #ffffff;
   border-radius: 5px;
@@ -1176,7 +1176,7 @@ input.tagtext:focus {
   text-decoration: none;
   font-size: 1em;
 }
-.submitbuRed:hover, a.buinfor:hover {
+.submitbuRed:hover, a.submitbuRed:hover {
   background: #c13717;
 }
 
