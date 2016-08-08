@@ -6,7 +6,11 @@
   width: 100%;
   box-sizing: border-box;
   padding-left: 220px;
-  min-height: 270px;
+  min-height: 160px;
+}
+
+.regis_col01R + .form_box {
+  margin-top: 30px;
 }
 
 .regis_col01R_label {
@@ -56,6 +60,23 @@
   vertical-align: top;
   margin: 0 0 15px 0;
   float: left;
+}
+
+.regis_col06R {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 1%;
+  float: left;
+}
+
+.regis_col06L {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  float: left;
+  clear: left;
 }
 
 .regis_col02R .radioinput + label {
@@ -135,6 +156,68 @@ textarea {
 }
 .datalist ul a {
   font-size: 0.813em;
+}
+
+.datalist2 {
+  border: 1px solid #cccccc;
+  padding: 15px 0;
+}
+.datalist2 h3 {
+  color: #2e7ed1;
+  position: relative;
+  padding: 5px 15px 15px 38px;
+  border-bottom: 1px solid #cccccc;
+}
+.datalist2 h3:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 25px;
+  top: 7px;
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent #1da070;
+}
+.datalist2 h3:after {
+  content: "";
+  width: 8px;
+  height: 3.5px;
+  position: absolute;
+  left: 18px;
+  top: 10.47px;
+  background: #1da070;
+}
+.datalist2 ul {
+  padding: 15px;
+}
+.datalist2 ul a {
+  font-size: 0.813em;
+}
+
+.inforlist {
+  padding-bottom: 15px;
+}
+.inforlist li {
+  line-height: 2em;
+  border-bottom: 1px dotted #cccccc;
+}
+.inforlist li ul {
+  padding: 0;
+}
+.inforlist span {
+  margin-top: 10px;
+  display: block;
+  line-height: 1.5em;
+  font-size: 0.938em;
+  font-weight: bold;
+  background: #fffcf0;
+  text-align: center;
+  padding: 5px;
+}
+
+.inforlistactive {
+  background: #FFFCF0;
 }
 
 @media only screen and (max-width: 768px) {
@@ -250,18 +333,6 @@ textarea {
 .uploadlist {
   padding-bottom: 20px;
   position: relative;
-}
-
-.inforlist {
-  padding-bottom: 15px;
-}
-.inforlist li {
-  line-height: 2em;
-  border-bottom: 1px dotted #cccccc;
-}
-
-.inforlistactive {
-  background: #FFFCF0;
 }
 
 .regis_dmlist + .centerbox, .regis_table + .centerbox, .uploadlist + .centerbox {

@@ -113,10 +113,12 @@
   }
   .loginboxR li input {
     width: 100%;
+    box-sizing: border-box;
   }
 
   .loginbox_submit, .loginbox_newid {
     float: none;
   }
 }
+
 /*# sourceMappingURL=login.css.map */
