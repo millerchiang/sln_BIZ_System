@@ -8,6 +8,8 @@
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
 }
 
+@Styles.Render("~/Content/jqueryUI")
+
 <article class="form_box article_col1">
     <h2>活動資訊編輯</h2>
 
@@ -88,10 +90,10 @@
             <input type="text" name="activity_name" class="regis_col02R" value="@Model.activity_name">
             <label for="leader" class="regis_col02L spanRed">活動時間(起):</label>
 
-            <input type="text" name="starttime" value="@Model.starttime" class="regis_col02R">
+            <input type="text" id="starttime" name="starttime" value="@Model.starttime" class="regis_col02R" maxDate="endtime">
 
             <label for="leader" class="regis_col02L spanRed">活動時間(迄):</label>
-            <input type="text" name="endtime" value="@Model.endtime" class="regis_col02R">
+            <input type="text" id="endtime" name="endtime" value="@Model.endtime" class="regis_col02R" minDate="starttime">
 
             <label for="leader" class="regis_col02L spanRed">活動地點(中文):</label>
             <input type="text" name="addr" value="@Model.addr" class="regis_col02R">
@@ -133,5 +135,47 @@
              <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
             </div>
         </form>
+    @Scripts.Render("~/bundles/jqueryUI")
+    @Scripts.Render("~/bundles/datetimepicker")
+    <script>
+        $(function () {
+            var starttime_val = $("input[name='starttime']").val();
+            $('input[name="starttime"]').datetimepicker({
+                beforeShow: function () {
+                    if ($(this).attr('maxDate')) {
+                        var dateItem = $('#' + $(this).attr('maxDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                        }
+                    }
 
+                    if ($(this).attr('minDate')) {
+                        var dateItem = $('#' + $(this).attr('minDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'minDate', dateItem.val());
+                        }
+                    }
+                }
+            }).datetimepicker('setDate', starttime_val);
+
+            var endtime_val = $("input[name='endtime']").val();
+            $('input[name="endtime"]').datetimepicker({
+                beforeShow: function () {
+                    if ($(this).attr('maxDate')) {
+                        var dateItem = $('#' + $(this).attr('maxDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'maxDate', dateItem.val());
+                        }
+                    }
+
+                    if ($(this).attr('minDate')) {
+                        var dateItem = $('#' + $(this).attr('minDate'));
+                        if (dateItem.val() !== "") {
+                            $(this).datetimepicker('option', 'minDate', dateItem.val());
+                        }
+                    }
+                }
+            }).datetimepicker('setDate', endtime_val);
+        });
+    </script>
 </article>

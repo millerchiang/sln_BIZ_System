@@ -35,3 +35,19 @@
     </table>
 @Html.PagesList((PageList<BuyerInfoModel>)TempData["PageList"])
 </article>
+<script>
+    $(function () {
+        @if (!string.IsNullOrEmpty((string)TempData["buyer_errMsg"]))
+        {
+            <text>
+        function check() {
+            var pw_errMsg = '@TempData["buyer_errMsg"]';
+            if (pw_errMsg != '') {
+                alert(pw_errMsg);
+            }
+        }
+        check();
+        </text>
+    }
+    });
+</script>

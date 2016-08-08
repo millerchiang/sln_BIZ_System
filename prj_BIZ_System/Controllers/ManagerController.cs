@@ -882,18 +882,48 @@ namespace prj_BIZ_System.Controllers
 
             if (model.serial_no == 0)
             {
-                var serial_no = activityService.BuyerInfoInsertOne(model);
-                if (serial_no !=null )
+                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id)) {
+                    TempData["buyer_errMsg"] = "此買主或此活動不存在 ";
+                }
+                else
                 {
-                    UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
-                    ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
-                    MailHelper.sendActivityAddBuyerNotify(
-                        buyer.email , model.activity_id , activity.activity_name , activity.starttime
-                        , activity.endtime, activity.addr, activity.organizer);
+                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    if(buyModel == null)
+                    {
+                        var serial_no = activityService.BuyerInfoInsertOne(model);
+                        if (serial_no !=null )
+                        {
+                            UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
+                            ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
+                            MailHelper.sendActivityAddBuyerNotify(
+                                buyer.email , model.activity_id , activity.activity_name , activity.starttime
+                                , activity.endtime, activity.addr, activity.organizer);
+                        }
+                    }
+                    else
+                    {
+                        TempData["buyer_errMsg"] = "新增失敗...此企業原本就是該活動買主";
+                    }
                 }
             }
-            else {
-                activityService.BuyerInfoUpdateOne(model);
+            else
+            {
+                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id))
+                {
+                    TempData["buyer_errMsg"] = "此買主或此活動不存在 ";
+                }
+                else
+                {
+                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    if (buyModel == null)
+                    {
+                        bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
+                    }
+                    else
+                    {
+                        TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
+                    }
+                }
             }
             return Redirect("BuyerInfoList");
         }

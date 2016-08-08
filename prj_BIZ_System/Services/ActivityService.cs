@@ -138,9 +138,9 @@ namespace prj_BIZ_System.Services
             return mapper.Insert("ActivityInfo.InsertBuyerInfoOne", buyerInfoModel);
         }
 
-        public void BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)
+        public bool BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)
         {
-            mapper.Update("ActivityInfo.UpdateBuyerInfoOne", buyerInfoModel);
+            return mapper.Update("ActivityInfo.UpdateBuyerInfoOne", buyerInfoModel) >0;
         }
 
         public void BuyerInfoDeleteOne(int serial_no)
