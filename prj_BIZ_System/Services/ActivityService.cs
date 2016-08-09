@@ -20,6 +20,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
+        public IList<ActivityInfoModel> GetActivityInfoListNotStart(int? grp_id)
+        {
+            ActivityInfoModel param = new ActivityInfoModel() { grp_id = grp_id };
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityNotStart", param);
+        }
+
         public IList<ActivityInfoModel> GetActivityInfoListLimit(int limit)
         {
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityLimit", limit);

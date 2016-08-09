@@ -33,6 +33,21 @@
       ORDER BY starttime DESC
     </select>
 
+    <!--查詢全部-->
+    <select id="SelectActivityNotStart" resultMap="ActivityInfo">
+      SELECT *
+      FROM activity_info a
+      LEFT JOIN manager.manager_info m
+      ON a.manager_id = m.manager_id
+      where a.starttime > now()
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
+        </isNotEmpty>
+      </dynamic>
+      ORDER BY starttime DESC
+    </select>
+      
     <select id="SelectActivityLimit" parameterType= "int" resultMap="ActivityInfo">
       SELECT *
       FROM activity_info
