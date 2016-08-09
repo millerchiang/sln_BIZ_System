@@ -42,7 +42,7 @@ namespace prj_BIZ_System.Controllers
             {
                 indexModel.enterprisesortList = userService.GetSortList();
                 indexModel.userinfoList = userService.GetUserInfoList();
-                indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6); 
+                indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6).Where(item=>(DateTime.Compare(item.starttime,DateTime.Now) > 0)).ToList(); 
                 indexModel.newsList = activityService.GetNewsLimit(6);
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {

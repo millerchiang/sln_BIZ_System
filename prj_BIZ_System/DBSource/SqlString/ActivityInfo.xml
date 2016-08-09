@@ -289,9 +289,9 @@
 
 
     <!--查詢單筆-->
-      <select id="SelectNewsOne" resultMap="News">
-        SELECT *
-        FROM news
+      <select id="SelectNewsOne" resultMap="NewsWithActivity">
+        SELECT n.* , ai.starttime
+        FROM news n left join activity_info ai on n.activity_id = ai.activity_id
         WHERE news_no = #news_no#
       </select>
 
@@ -608,7 +608,23 @@
       <result property="user_id" column="user_id"/>
       <result property="company" column="company"/>
     </resultMap>
-    
+
+    <resultMap id="NewsWithActivity" class="NewsModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="news_no" column="news_no"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="news_title" column="news_title"/>
+      <result property="news_date" column="news_date"/>
+      <result property="news_type" column="news_type"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="website" column="website"/>
+      <result property="content" column="content"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <!--活動開始時間-->
+      <result property="starttime" column="starttime"/>
+    </resultMap>
+
     <resultMap id="News" class="NewsModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="news_no" column="news_no"/>
