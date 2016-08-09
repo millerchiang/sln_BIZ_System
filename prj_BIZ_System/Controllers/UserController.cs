@@ -170,7 +170,7 @@ namespace prj_BIZ_System.Controllers
                     if (datas[2]!=null)
                     {
                         DateTime checkTime = DateTime.Parse(datas[2]);
-                        var days = new TimeSpan(DateTime.Now.Ticks - checkTime.Ticks).Days;
+                        var days = new TimeSpan(DateTime.Now.Ticks - checkTime.Ticks).TotalDays;
                         if (days > expired_limit_days ) 
                         {
                             result = status_expired;

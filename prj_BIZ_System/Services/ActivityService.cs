@@ -149,6 +149,12 @@ namespace prj_BIZ_System.Services
             mapper.Delete("ActivityInfo.DeleteBuyerInfoOne", param);
         }
 
+        public IList<ActivityRegisterModel> GetSellerInfoActivity(int activity_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel() { activity_id = activity_id };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectSellerInfoActivity", param);
+        }
+
         //EnterpriseSortAndListModel******************************************************************************//
         public IList<EnterpriseSortAndListModel> GetEnterpriseSortAndListAll()
         {
