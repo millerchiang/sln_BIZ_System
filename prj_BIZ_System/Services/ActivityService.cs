@@ -20,6 +20,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
+        public IList<ActivityInfoModel> GetActivityInfoListNotStart(int? grp_id)
+        {
+            ActivityInfoModel param = new ActivityInfoModel() { grp_id = grp_id };
+            return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityNotStart", param);
+        }
+
         public IList<ActivityInfoModel> GetActivityInfoListLimit(int limit)
         {
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityLimit", limit);
@@ -147,6 +153,12 @@ namespace prj_BIZ_System.Services
         {
             BuyerInfoModel param = new BuyerInfoModel() { serial_no = serial_no };
             mapper.Delete("ActivityInfo.DeleteBuyerInfoOne", param);
+        }
+
+        public IList<ActivityRegisterModel> GetSellerInfoActivity(int activity_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel() { activity_id = activity_id };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectSellerInfoActivity", param);
         }
 
         //EnterpriseSortAndListModel******************************************************************************//

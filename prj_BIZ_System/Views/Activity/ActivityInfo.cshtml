@@ -67,7 +67,7 @@
                 <div class="centerbox">
     @if (Model.activityregister == null)
     {
-        if (Model.buyerinfo == null)
+        if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
         {
         <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
         }

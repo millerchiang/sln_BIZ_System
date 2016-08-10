@@ -99,6 +99,8 @@ namespace prj_BIZ_System.Models
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
         public int? grp_id { get; set; }//群組
 
+        public DateTime starttime { get; set; }// 活動開始時間
+
     }
 
     public class EnterpriseSortAndListModel

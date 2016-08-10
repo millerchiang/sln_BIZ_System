@@ -33,9 +33,25 @@
       ORDER BY starttime DESC
     </select>
 
+    <!--查詢全部-->
+    <select id="SelectActivityNotStart" resultMap="ActivityInfo">
+      SELECT *
+      FROM activity_info a
+      LEFT JOIN manager.manager_info m
+      ON a.manager_id = m.manager_id
+      where a.starttime > now()
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
+        </isNotEmpty>
+      </dynamic>
+      ORDER BY starttime DESC
+    </select>
+      
     <select id="SelectActivityLimit" parameterType= "int" resultMap="ActivityInfo">
       SELECT *
       FROM activity_info
+      WHERE starttime > now()
       ORDER BY starttime DESC Limit $limit$
     </select>
 
@@ -289,9 +305,9 @@
 
 
     <!--查詢單筆-->
-      <select id="SelectNewsOne" resultMap="News">
-        SELECT *
-        FROM news
+      <select id="SelectNewsOne" resultMap="NewsWithActivity">
+        SELECT n.* , ai.starttime
+        FROM news n left join activity_info ai on n.activity_id = ai.activity_id
         WHERE news_no = #news_no#
       </select>
 
@@ -411,6 +427,17 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
+
+
+    <!--查詢某活動賣主資訊-->
+    <select id="SelectSellerInfoActivity" resultMap="SellerInfo">
+      SELECT r.*,ui.company
+      FROM activity_register r
+      INNER JOIN user_info ui
+      ON r.user_id = ui.user_id
+      Where r.manager_check='1' and r.activity_id =$activity_id$
+    </select>
+    
     
     <!--
     [[  table = enterprise_sort
@@ -550,6 +577,28 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
     </resultMap>
+
+    <resultMap id="SellerInfo" class="ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="quantity" column="quantity"/>
+      <result property="name_a" column="name_a"/>
+      <result property="title_a" column="title_a"/>
+      <result property="name_b" column="name_b"/>
+      <result property="title_b" column="title_b"/>
+      <result property="telephone" column="telephone"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="manager_check" column="manager_check"/>
+      <result property="user_info" column="user_info"/>
+      <result property="user_info_en" column="user_info_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <!--賣家名稱 userInfo-->
+      <result property="company" column="company"/>
+    </resultMap>
     
     <resultMap id="ActivityRegisterCheck" class="ActivityRegisterModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
@@ -608,7 +657,23 @@
       <result property="user_id" column="user_id"/>
       <result property="company" column="company"/>
     </resultMap>
-    
+
+    <resultMap id="NewsWithActivity" class="NewsModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="news_no" column="news_no"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="news_title" column="news_title"/>
+      <result property="news_date" column="news_date"/>
+      <result property="news_type" column="news_type"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="website" column="website"/>
+      <result property="content" column="content"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <!--活動開始時間-->
+      <result property="starttime" column="starttime"/>
+    </resultMap>
+
     <resultMap id="News" class="NewsModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="news_no" column="news_no"/>

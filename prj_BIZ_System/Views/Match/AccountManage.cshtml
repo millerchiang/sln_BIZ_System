@@ -15,40 +15,67 @@
         Html.RenderAction("_NavSearchPartial", "User");
     }
     <article class="article_col2">
-        <section class="form_box w55">
-            <h2>活動列表</h2>
-            <ul>
-                @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
-                {
-                    <li>
-                        <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
-                        <div class="centerbox">
-                            <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
-                            <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">活動媒合</a>
-                        </div>
-                    </li>
-                }
-                @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                {
-                    <li>
-                        <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
-                        <div class="centerbox">
-                            <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">活動媒合</a>
-                        </div>
-                    </li>
-                }
-            </ul>
+        <section class="w55">
+            @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0) {
+                <section class="form_box">
+                    <h2>活動列表-買方專區</h2>
+                    <ul>
+                        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+                        {
+                            <li>
+                                <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
+                                <div class="centerbox">
+                                    <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">賣家清單</a>
+                                    <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="addbu">活動媒合</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+            @if (Model.activityregisterList != null && Model.activityregisterList.Count > 0)
+            { 
+                <section class="form_box">
+                    <h2>活動列表</h2>
+                    <ul>
+                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
+                        {
+                            <li>
+                                <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
+                                <div class="centerbox">
+                                    <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
+                                    <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">活動媒合</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </section>
+            }
+            @if (
+                (Model.buyerinfoList == null || Model.buyerinfoList.Count == 0) &&
+                (Model.activityregisterList == null || Model.activityregisterList.Count == 0)
+            )
+            {
+                <span>您尚未參加任何活動</span>
+            }
         </section>
         <section class="form_box w45">
             <h2>推薦活動</h2>
-            <ul>
-                @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
-                {
-                    <li>
-                        <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink">@activityInfoModel.activity_name</a>
-                    </li>
-                }
-            </ul>
+            @if (Model.activityinfoList!=null && Model.activityinfoList.Count > 0)
+            {
+                <ul>
+                    @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
+                    {
+                        <li>
+                            <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink"><span>@activityInfoModel.starttime.ToShortDateString()</span>@activityInfoModel.activity_name</a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>目前沒有推薦的活動</span>
+            }
         </section>
     </article>
 </div>

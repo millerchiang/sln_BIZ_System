@@ -85,7 +85,7 @@ namespace prj_BIZ_System.Controllers
                 matchService.MatchmakingNeedInsertOne(matchmakingNeedModel);
             }
 
-            return Content("成功送出想媒合的買家");
+            return Redirect("MatchTimeArrangeSeller?activity_id=" + matchmakingNeedModel.activity_id);
         }
         #endregion
 
