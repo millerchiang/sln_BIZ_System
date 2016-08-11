@@ -67,7 +67,11 @@ namespace prj_BIZ_System.Services
             return mapper.Update("UserInfo.UpdateIdEnable", param) > 0 ;
         }
 
-
+        public bool UserInfoUpdateUpdateAddr(string user_id, string addr)
+        {
+            var param = new UserInfoModel() { user_id = user_id, addr = addr };
+            return mapper.Update("UserInfo.UpdateAddr", param) > 0;
+        }
         //EnterpriseSortListModel******************************************************************************//
 
         public IList<EnterpriseSortListModel> GetSortList()

@@ -3,7 +3,7 @@
   height: 25px;
 }
 
-.deleteSbu {
+.deleteSbu, a.deleteSbu {
   background: #cccccc;
   color: #5e5d5d;
   border-radius: 5px;
@@ -16,12 +16,12 @@
   text-decoration: none;
   font-size: 0.813em;
 }
-.deleteSbu:hover {
+.deleteSbu:hover, a.deleteSbu:hover {
   background: #5e5d5d;
   color: #ffffff;
 }
 
-.submitbu {
+.submitbu, a.submitbu {
   background: #cccccc;
   color: #5e5d5d;
   border-radius: 5px;
@@ -34,12 +34,12 @@
   text-decoration: none;
   font-size: 1em;
 }
-.submitbu:hover {
+.submitbu:hover, a.submitbu:hover {
   background: #03a9f5;
   color: #ffffff;
 }
 
-.submitbuRed {
+.submitbuRed, a.buinfor {
   background: #f2451d;
   color: #ffffff;
   border-radius: 5px;
@@ -52,11 +52,11 @@
   text-decoration: none;
   font-size: 1em;
 }
-.submitbuRed:hover {
+.submitbuRed:hover, a.buinfor:hover {
   background: #c13717;
 }
 
-.buinfor {
+.buinfor, a.buinfor {
   background: #03a9f5;
   color: #ffffff;
   border-radius: 5px;
@@ -69,11 +69,11 @@
   text-decoration: none;
   font-size: 1em;
 }
-.buinfor:hover {
+.buinfor:hover, a.buinfor:hover {
   background: #1184b9;
 }
 
-.addbu {
+.addbu, a.addbu {
   background: #ff9000;
   color: #ffffff;
   border-radius: 5px;
@@ -86,11 +86,11 @@
   text-decoration: none;
   font-size: 0.813em;
 }
-.addbu:hover {
+.addbu:hover, a.addbu:hover {
   background: #f46813;
 }
 
-.submitbuOr {
+.submitbuOr, a.submitbuOr {
   background: #ff9000;
   color: #ffffff;
   border-radius: 5px;
@@ -103,11 +103,11 @@
   text-decoration: none;
   font-size: 1em;
 }
-.submitbuOr:hover {
+.submitbuOr:hover, a.submitbuOr:hover {
   background: #f46813;
 }
 
-.addbublue {
+.addbublue, a.addbublue {
   background: #03a9f5;
   color: #ffffff;
   border-radius: 5px;
@@ -120,11 +120,11 @@
   text-decoration: none;
   font-size: 0.813em;
 }
-.addbublue:hover {
+.addbublue:hover, a.addbublue:hover {
   background: #1184b9;
 }
 
-.disabled {
+.disabled, a.disabled {
   background: #cccccc;
   color: #5e5d5d;
   border-radius: 5px;
@@ -137,12 +137,12 @@
   text-decoration: none;
   font-size: 1em;
 }
-.disabled:hover {
+.disabled:hover, a.disabled:hover {
   background: #03a9f5;
   color: #ffffff;
 }
 
-.addbured {
+.addbured, a.addbured {
   background: #f2451d;
   color: #ffffff;
   border-radius: 5px;
@@ -155,7 +155,7 @@
   text-decoration: none;
   font-size: 0.813em;
 }
-.addbured:hover {
+.addbured:hover, a.addbured:hover {
   background: #c13717;
 }
 
@@ -164,6 +164,27 @@
 }
 .linkb:hover, .linkb:focus, .linkb:active, .linkb.active {
   color: #03a9f5;
+}
+
+.addbu2, a.addbu2 {
+  background: #ff9000;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 100px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+.addbu2:hover, a.addbu2:hover {
+  background: #f46813;
+}
+
+.ui-widget-content a.addbublue, .ui-widget-content a.addbu, .ui-widget-content a.adddbured {
+  color: #ffffff;
 }
 
 /*# sourceMappingURL=layout_bu.css.map */

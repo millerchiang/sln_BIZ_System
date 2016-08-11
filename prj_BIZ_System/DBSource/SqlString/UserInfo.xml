@@ -260,6 +260,12 @@
       SET id_enable = #id_enable#
       WHERE id = $id$
     </update>
+
+    <update id="UpdateAddr" parameterClass="UserInfoModel">
+      UPDATE user_info
+      SET addr = #addr#
+      WHERE user_id = #user_id#
+    </update>
   </statements>
 
   <resultMaps>

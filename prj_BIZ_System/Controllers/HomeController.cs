@@ -85,7 +85,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] != null)
             {
-                indexModel.activityinfoList = activityService.GetActivityInfoList(null).Pages(Request, this, 10);
+                indexModel.activityinfoList = activityService.GetActivityInfoListNotStart(null).Pages(Request, this, 10);
                 return View(indexModel);
             }
             else

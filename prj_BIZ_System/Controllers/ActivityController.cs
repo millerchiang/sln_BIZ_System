@@ -60,7 +60,18 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 某活動賣主資訊列表
+        [HttpGet]
+        public ActionResult SellerInfoActivity(int activity_id)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
 
+            activityModel.activityregisterList = activityService.GetSellerInfoActivity(activity_id);
+            return View(activityModel);
+
+        }
+        #endregion
 
         ////ActivityRegister
         #region 活動報名
