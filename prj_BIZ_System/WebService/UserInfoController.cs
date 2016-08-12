@@ -21,9 +21,19 @@ namespace prj_BIZ_System.WebService
         private PasswordService passwordService = new PasswordService();
 
         [HttpPost]
-        public UserInfoModel CheckUserInfo(string user_id, string user_pw)
+        public UserInfo CheckUserInfo(string user_id, string user_pw)
         {
-            return userService.ChkUserInfoOne(user_id, user_pw);
+            MatchService matchService = new MatchService();
+            UserInfoModel userInfoModel = userService.ChkUserInfoOne(user_id, user_pw);
+
+            string[] activityIdBuyers = matchService.GetUserWhenActivityBuyer(user_id).Select(
+                buyerInfo =>
+                buyerInfo.activity_id.ToString()
+            ).ToArray();
+            string activityIdBuyer = string.Join(",", activityIdBuyers);
+            UserInfo userInfo = new UserInfo(userInfoModel);
+            userInfo.activity_id_buyer = activityIdBuyer;
+            return userInfo;
         }
 
         [HttpPost]
