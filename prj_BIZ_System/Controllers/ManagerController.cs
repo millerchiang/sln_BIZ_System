@@ -14,6 +14,8 @@ using NPOI.SS.UserModel;
 using NPOI.HSSF.UserModel;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Threading;
+using IBatisNet.DataMapper.SessionStore;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -882,18 +884,48 @@ namespace prj_BIZ_System.Controllers
 
             if (model.serial_no == 0)
             {
-                var serial_no = activityService.BuyerInfoInsertOne(model);
-                if (serial_no !=null )
+                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id)) {
+                    TempData["buyer_errMsg"] = "此買主或此活動不存在 ";
+                }
+                else
                 {
-                    UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
-                    ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
-                    MailHelper.sendActivityAddBuyerNotify(
-                        buyer.email , model.activity_id , activity.activity_name , activity.starttime
-                        , activity.endtime, activity.addr, activity.organizer);
+                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    if(buyModel == null)
+                    {
+                        var serial_no = activityService.BuyerInfoInsertOne(model);
+                        if (serial_no !=null )
+                        {
+                            UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
+                            ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
+                            MailHelper.sendActivityAddBuyerNotify(
+                                buyer.email , model.activity_id , activity.activity_name , activity.starttime
+                                , activity.endtime, activity.addr, activity.organizer);
+                        }
+                    }
+                    else
+                    {
+                        TempData["buyer_errMsg"] = "新增失敗...此企業原本就是該活動買主";
+                    }
                 }
             }
-            else {
-                activityService.BuyerInfoUpdateOne(model);
+            else
+            {
+                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id))
+                {
+                    TempData["buyer_errMsg"] = "此買主或此活動不存在 ";
+                }
+                else
+                {
+                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    if (buyModel == null)
+                    {
+                        bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
+                    }
+                    else
+                    {
+                        TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
+                    }
+                }
             }
             return Redirect("BuyerInfoList");
         }
@@ -982,6 +1014,8 @@ namespace prj_BIZ_System.Controllers
                     TempData["import_msg"] = "匯入完成";
                     TempData["allStatusUserInfos"] = ((List<List<object>>)result["allStatusUserInfos"]);
                     UploadHelper.deleteUploadFile(iupexl.FileName, "_temp", UploadConfig.AdminManagerDirName);
+                    Dictionary<int, object> success = (Dictionary<int, object>)result["success"];
+                    if (success.Count > 0) new Thread(new ParameterizedThreadStart(doImportWebData)).Start(success);
                 }
                 else
                 {
@@ -994,6 +1028,42 @@ namespace prj_BIZ_System.Controllers
             }
             return Redirect("UserInfoImport");
         }
+
+        void doImportWebData(object param)
+        {
+            IList<EnterpriseSortListModel> result;
+            _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
+            var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
+            if (isCacheON)
+            {
+                if (CacheDataStore.EnterpriseSortListModelCache == null)
+                {
+                    CacheDataStore.EnterpriseSortListModelCache = userService.GetSortList();
+                }
+                result = CacheDataStore.EnterpriseSortListModelCache;
+            }
+            else
+            {
+                result = userService.GetSortList();
+            }
+
+
+
+            Dictionary<int, object> successUserInfos = new Dictionary<int, object>();
+            successUserInfos = (Dictionary<int, object>)param;
+            foreach (KeyValuePair<int,object> kvp in successUserInfos)
+            {
+                string user_id = ((Dictionary<string, string>)kvp.Value)["user_id"];
+                CompanyData compdata = GetDataFromWeb(user_id);
+                var sort_id = result.Where(item => compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
+                _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
+                bool isUpdateAddSuccess = userService.UserInfoUpdateUpdateAddr(user_id, compdata.Company_Location);
+                logger.Info("user_id=" + user_id + " 匯入後更新地址結果為:" + isUpdateAddSuccess);
+                bool refreshResult = userService.RefreshUserSort(user_id, sort_id);
+                logger.Info("user_id=" + user_id + " 匯入後新增產業別結果為:" + refreshResult);
+            }
+        }
+
         #endregion
 
         ////媒合大表

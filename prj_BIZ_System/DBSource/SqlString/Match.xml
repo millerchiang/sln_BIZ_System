@@ -55,18 +55,19 @@
     -->
       <!--查詢帳戶未報名的活動並排除是買家-->
       <select id="SelectAccountNotRegisterActivity" resultMap="AccountNotRegisterActivity" parameterClass="ActivityRegisterModel">
+
         SELECT *
         FROM activity_info a
-        WHERE a.activity_id NOT IN
+        WHERE a.starttime > now() and a.activity_id NOT IN
         (
-          SELECT r.activity_id
-          FROM activity_register r
-          WHERE r.user_id = #user_id#
+        SELECT r.activity_id
+        FROM activity_register r
+        WHERE r.user_id = #user_id#
         ) AND a.activity_id NOT IN
         (
-          SELECT bl.activity_id
-          FROM buyer_list bl
-          WHERE bl.buyer_id = #user_id#
+        SELECT bl.activity_id
+        FROM buyer_list bl
+        WHERE bl.buyer_id = #user_id#
         )
       </select>
     <!--

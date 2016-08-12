@@ -6,7 +6,11 @@
   width: 100%;
   box-sizing: border-box;
   padding-left: 220px;
-  min-height: 270px;
+  min-height: 180px;
+}
+
+.regis_col01R + .form_box {
+  margin-top: 30px;
 }
 
 .regis_col01R_label {
@@ -56,6 +60,23 @@
   vertical-align: top;
   margin: 0 0 15px 0;
   float: left;
+}
+
+.regis_col06R {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 1%;
+  float: left;
+}
+
+.regis_col06L {
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 15px 0;
+  float: left;
+  clear: left;
 }
 
 .regis_col02R .radioinput + label {
@@ -137,6 +158,68 @@ textarea {
   font-size: 0.813em;
 }
 
+.datalist2 {
+  border: 1px solid #cccccc;
+  padding: 15px 0;
+}
+.datalist2 h3 {
+  color: #2e7ed1;
+  position: relative;
+  padding: 5px 15px 15px 38px;
+  border-bottom: 1px solid #cccccc;
+}
+.datalist2 h3:before {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 25px;
+  top: 7px;
+  border-style: solid;
+  border-width: 5px 0 5px 8px;
+  border-color: transparent transparent transparent #1da070;
+}
+.datalist2 h3:after {
+  content: "";
+  width: 8px;
+  height: 3.5px;
+  position: absolute;
+  left: 18px;
+  top: 10.47px;
+  background: #1da070;
+}
+.datalist2 ul {
+  padding: 15px;
+}
+.datalist2 ul a {
+  font-size: 0.813em;
+}
+
+.inforlist {
+  padding-bottom: 15px;
+}
+.inforlist li {
+  line-height: 2em;
+  border-bottom: 1px dotted #cccccc;
+}
+.inforlist li ul {
+  padding: 0;
+}
+.inforlist span {
+  margin-top: 10px;
+  display: block;
+  line-height: 1.5em;
+  font-size: 0.938em;
+  font-weight: bold;
+  background: #fffcf0;
+  text-align: center;
+  padding: 5px;
+}
+
+.inforlistactive {
+  background: #FFFCF0;
+}
+
 @media only screen and (max-width: 768px) {
   .regis_col01L {
     width: 100%;
@@ -180,6 +263,119 @@ textarea {
     margin: 0 auto;
   }
 }
+.regis_completebox {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  width: 100%;
+  display: block;
+  margin: 0 0 20px 0;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+
+.regis_complete {
+  background: #00bcd5;
+  font-size: 0.75em;
+  text-align: center;
+}
+
+.choose_file {
+  cursor: pointer;
+  z-index: 1;
+  background: #ff9000;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 8px 0;
+  max-width: 100px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+}
+
+#result {
+  width: 180px;
+  height: 180px;
+  border: 1px solid #cccccc;
+  overflow: hidden;
+  background: #ffffff;
+  text-align: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#result img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#result + .choose_file + input {
+  display: none;
+}
+
+.uploadbox {
+  border: 1px solid #cccccc;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 30px;
+}
+
+.uploadlist {
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.regis_dmlist + .centerbox, .regis_table + .centerbox, .uploadlist + .centerbox {
+  padding-top: 30px;
+}
+
+.datalist + .searchbox {
+  margin-top: 30px;
+}
+
+.uploaddm {
+  text-align: center;
+}
+.uploaddm input[type="file"] {
+  width: 240px;
+}
+
+.uploadlist .choose_file {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: -25px;
+}
+
+.dmname label {
+  font-size: 0.938em;
+}
+.dmname input {
+  width: 290px;
+  height: 20px;
+}
+
+.addbu {
+  margin: 0;
+}
+
+.addbu + .edittable:before {
+  content: "";
+  display: block;
+  height: 5px;
+}
+
 select {
   height: 30px;
   border: 1px solid #cccccc;
@@ -206,16 +402,16 @@ select {
   margin-bottom: 30px;
 }
 
+.magb10 {
+  margin-bottom: 10px;
+}
+
 .rightbox {
   float: right;
 }
 
 a.rightbox + a.rightbox {
   margin-right: 10px;
-}
-
-.edittable td:last-of-type {
-  width: auto;
 }
 
 .form_box + article {
@@ -247,6 +443,11 @@ a.rightbox + a.rightbox {
 
 .form_box {
   padding: 25px 15px 10px 15px;
+}
+
+.edittable td:last-of-type {
+  width: auto;
+  min-width: 0;
 }
 
 .borderTitle2 + .addbured {
@@ -338,11 +539,6 @@ a.rightbox + a.rightbox {
   display: none;
 }
 
-.edittable tbody td {
-  padding: 10px 5px;
-  text-align: center;
-}
-
 tfoot tr.tfootbg {
   background: #FFFFE1;
 }
@@ -350,12 +546,12 @@ tfoot p {
   line-height: 2em;
 }
 
-.centerbox2 {
-    text-align:center;
-}
-
 #editform .regis_col04R p {
   line-height: 1.8em;
+}
+
+.centerbox2 {
+  text-align: center;
 }
 
 .regis_col05R {
@@ -370,15 +566,133 @@ tfoot p {
 .membertable td {
   padding: 10px 5px 10px 10px;
   font-size: 0.938em;
+  box-sizing: border-box;
+  position: relative;
 }
 .membertable tr:nth-child(odd) {
-  background: #FFFFE1;
+  background: #E9E9E9;
 }
 .membertable tr:nth-child(even) {
-  background: #EDFFE0;
+  background: #F5F5F5;
 }
 .membertable tr:hover {
-  background: #EBF5FF;
+  background: #F3FFE4;
+}
+
+.deletelistg {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+}
+
+.menubox a {
+  padding-top: 130px;
+  display: inline-block;
+  width: 120px;
+  position: relative;
+  color: #000000;
+  text-decoration: none;
+}
+.menubox a:hover {
+  color: #2e7ed1;
+}
+.menubox a:before {
+  content: "";
+  background: url(../images/msgbox.png) no-repeat;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.menubox a.menubox01:before {
+  background-position: 0 -120px;
+}
+.menubox a.menubox02:before {
+  background-position: 0 -360px;
+}
+.menubox a.menubox03:before {
+  background-position: 0 -600px;
+}
+.menubox a.menubox04:before {
+  background-position: 0 -840px;
+}
+.menubox a.menubox05:before {
+  background-position: 0 -1080px;
+}
+.menubox a.menubox06:before {
+  background-position: 0 -1320px;
+}
+.menubox a.menubox07:before {
+  background-position: 0 -1560px;
+}
+.menubox a.menubox08:before {
+  background-position: 0 -1800px;
+}
+.menubox a.menubox09:before {
+  background-position: 0 -2040px;
+}
+.menubox a.menubox01:hover:before {
+  background-position: 0 0;
+}
+.menubox a.menubox02:hover:before {
+  background-position: 0 -240px;
+}
+.menubox a.menubox03:hover:before {
+  background-position: 0 -480px;
+}
+.menubox a.menubox04:hover:before {
+  background-position: 0 -720px;
+}
+.menubox a.menubox05:hover:before {
+  background-position: 0 -960px;
+}
+.menubox a.menubox06:hover:before {
+  background-position: 0 -1200px;
+}
+.menubox a.menubox07:hover:before {
+  background-position: 0 -1440px;
+}
+.menubox a.menubox08:hover:before {
+  background-position: 1px -1680px;
+}
+.menubox a.menubox09:hover:before {
+  background-position: 0 -1920px;
+}
+.menubox a .unread {
+  position: absolute;
+  right: 0;
+  bottom: 37px;
+  background: #f2451d;
+  color: #ffffff;
+  display: inline-block;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.groupmember {
+  font-size: 0.813em;
+  padding-left: 20px;
+}
+
+.logobox {
+  width: 114px;
+  height: 100px;
+  position: relative;
+}
+.logobox img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .dllist {
@@ -391,6 +705,35 @@ tfoot p {
 .dllist dd {
   background: #F5F5F5;
   padding: 10px 15px 20px 15px;
+}
+
+.multipletable {
+  margin: 20px auto 0 auto;
+}
+.multipletable select {
+  width: 120px;
+  height: 120px;
+}
+
+.datalist3 {
+  position: absolute;
+  z-index: 1;
+  background: #ffffff;
+  width: 150px;
+  right: 0;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  top: 22px;
+  font-size: 0.813em;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.margin0 {
+  margin: 0 auto;
+}
+
+.regis_dmlist a.addbublue:hover {
+  color: #ffffff;
 }
 
 @media only screen and (max-width: 520px) {
@@ -406,6 +749,13 @@ tfoot p {
   .sys_searchboxco2 + .sys_searchboxco2 {
     padding: 0;
     margin-top: 20px;
+  }
+
+  .multipletable td {
+    display: block;
+  }
+  .multipletable td:nth-child(2) {
+    padding: 30px 0;
   }
 }
 

@@ -51,12 +51,12 @@
         <p class="news_content">
             <li>活動類型: @activity_type_chk</li><br />
             <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
-            <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
+            @*<li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />*@
             <li>活動時間: @Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</li><br />
             <li>活動地點(中文): @Model.activityinfo.addr</li><br />
-            <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
+            @*<li>活動地點(英文): @Model.activityinfo.addr_en</li><br />*@
             <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
-            <li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />
+            @*<li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />*@
             <li>主要聯絡人: @Model.activityinfo.name</li><br />
             <li>手機號碼: @Model.activityinfo.phone</li><br />
             <li>電子郵件: @Model.activityinfo.email</li><br />
@@ -67,7 +67,7 @@
                 <div class="centerbox">
     @if (Model.activityregister == null)
     {
-        if (Model.buyerinfo == null)
+        if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
         {
         <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
         }

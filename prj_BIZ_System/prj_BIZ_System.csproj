@@ -20,9 +20,9 @@
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>
     </IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -893,6 +893,7 @@
     <Content Include="Views\Message\PrivateAdd.cshtml" />
     <Content Include="Views\Message\MessagePrivateList.cshtml" />
     <Content Include="Views\Message\PrivateDetailed.cshtml" />
+    <Content Include="Views\Activity\SellerInfoActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
