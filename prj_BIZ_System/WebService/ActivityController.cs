@@ -35,7 +35,7 @@ namespace prj_BIZ_System.WebService
             var activityDics = 
                 activityService.GetActivityInfoList(null).ToDictionary(
                 activityInfo => activityInfo.activity_id,
-                activityInfo => activityInfo.create_time.ToString("yyyy-MM-dd HH:mm"));
+                activityInfo => activityInfo.starttime.ToString("yyyy-MM-dd HH:mm"));
 
             foreach (News news in allNews)
             {
