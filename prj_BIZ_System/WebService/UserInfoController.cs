@@ -23,9 +23,13 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public UserInfo CheckUserInfo(string user_id, string user_pw)
         {
+            user_pw = user_pw.ToUpper();
             MatchService matchService = new MatchService();
             UserInfoModel userInfoModel = userService.ChkUserInfoOne(user_id, user_pw);
-
+            if(userInfoModel == null)
+            {
+                return null;
+            }
             string[] activityIdBuyers = matchService.GetUserWhenActivityBuyer(user_id).Select(
                 buyerInfo =>
                 buyerInfo.activity_id.ToString()
@@ -39,6 +43,7 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public int ModifyUserInfo(UserInfoModel userInfoModel, string sort_id)
         {
+            userInfoModel.user_pw = userInfoModel.user_pw.ToUpper();
             userInfoModel.id_enable = "1";
             bool isInsertSuccess = insertEnterpriseId(userInfoModel.user_id, sort_id);
             return isInsertSuccess == true ? userService.UserInfoUpdateOne(userInfoModel) : 0;
@@ -73,6 +78,7 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object UserInfoInsert(UserInfoModel userInfoModel, string sort_id)
         {
+            userInfoModel.user_pw = userInfoModel.user_pw.ToUpper();
             userInfoModel.id_enable = "0";
             string errorInfo;
             int emailCode = MailHelper.checkEmail(userInfoModel.email, out errorInfo);

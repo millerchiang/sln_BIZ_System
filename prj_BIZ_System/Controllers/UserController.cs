@@ -110,6 +110,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
+                model.user_pw = SecurityHelper.Encrypt256(model.user_pw);
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {
@@ -366,9 +367,11 @@ namespace prj_BIZ_System.Controllers
             if (!string.IsNullOrEmpty(current_user_id))
             {
                 current_id = current_user_id;
-                if (passwordService.getUserPassword(current_id).Equals(old_pw))
+                var securityOldPassword = SecurityHelper.Encrypt256(old_pw);
+                var securityNewPassword = SecurityHelper.Encrypt256(new_pw);
+                if (passwordService.getUserPassword(current_id).Equals(securityOldPassword))
                 {
-                    if (!passwordService.UpdateUserPassword(current_id, new_pw))
+                    if (!passwordService.UpdateUserPassword(current_id, securityNewPassword))
                     {
                         errMsg = "修改失敗";
                     }

@@ -216,7 +216,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult IdentifyUser()
         {
-            UserInfoModel model = userService.ChkUserInfoOne(Request["user_id"], Request["user_pw"]);
+            var securityPassword = SecurityHelper.Encrypt256(Request["user_pw"]);
+            UserInfoModel model = userService.ChkUserInfoOne(Request["user_id"], securityPassword);
 
             HttpCookie cookie = null;
 
@@ -294,7 +295,8 @@ namespace prj_BIZ_System.Controllers
             if (md != null)
             {
                 string new_pw = MailHelper.sendForgetPassword(md.email);
-                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
+                var securityPassword = SecurityHelper.Encrypt256(new_pw);
+                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, securityPassword);
                 if (!isUpdateSuccess)
                 {
                     errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
