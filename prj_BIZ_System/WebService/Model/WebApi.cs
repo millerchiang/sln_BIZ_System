@@ -8,6 +8,28 @@ namespace prj_BIZ_System.WebService.Model
 {
     public class UserInfo  //user_info
     {
+        public UserInfo(UserInfoModel userInfoModel)
+        {
+            user_id = userInfoModel.user_id;//使用者帳號 
+            user_pw = userInfoModel.user_pw;//使用者密碼
+            id_enable = userInfoModel.id_enable;//帳號有效
+            enterprise_type = userInfoModel.enterprise_type;//企業類型
+            company = userInfoModel.company;//公司名稱(中文)
+            leader = userInfoModel.leader;//代表人(中文)
+            addr = userInfoModel.addr;// 公司地址(中文)
+            contact = userInfoModel.contact;// 聯絡人姓名(中文)
+            phone = userInfoModel.phone;//聯絡電話
+            email = userInfoModel.email;//電子郵件
+            capital = userInfoModel.capital;//資本額(單位：萬)
+            revenue = userInfoModel.revenue;//營業額
+            website = userInfoModel.website;//企業網址
+            info = userInfoModel.info;//企業簡介(中文)
+            company_en = userInfoModel.company_en;//公司名稱(英文)
+            leader_en = userInfoModel.leader_en;//代表人(英文)
+            addr_en = userInfoModel.addr_en;//公司地址(英文)
+            contact_en = userInfoModel.contact_en;//聯絡人姓名(英文)
+            info_en = userInfoModel.info_en;//企業簡介(英文)
+        }
         public string user_id { get; set; }//使用者帳號 
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
@@ -27,13 +49,22 @@ namespace prj_BIZ_System.WebService.Model
         public string addr_en { get; set; }//公司地址(英文)
         public string contact_en { get; set; }//聯絡人姓名(英文)
         public string info_en { get; set; }//企業簡介(英文)
-        public string[] activity_id_buyer { get; set; }//企業簡介(英文)
+        public string activity_id_buyer { get; set; }//企業簡介(英文)
     }
 
     public class UserEnterpriseInfo
     {
         public UserInfoModel userinfo { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+    }
+
+    public class News
+    {
+        public int news_no { get; set; }//新聞編號流水號
+        public string news_type { get; set; }//新聞類型
+        public string news_title { get; set; }//新聞標題
+        public int activity_id { get; set; }//活動編號
+        public string starttime { get; set; }//ActivityInfoModel 的 活動開始時間
     }
 
     public class ActivityInfo
