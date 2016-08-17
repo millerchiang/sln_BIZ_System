@@ -80,4 +80,14 @@ namespace prj_BIZ_System.Models
         public string company { get; set; } // userInfo表內 的 公司名稱(中文)
     }
 
+    public class VideoListModel
+    {
+        public int video_no { get; set; } //影音編號
+        public string user_id { get; set; } //使用者帳號
+        public string video_name { get; set; } //影音型錄名稱
+        public string youtube_site { get; set; } //youtube影音網址
+        public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
+
+        public string company { get; set; } // userInfo表內 的 公司名稱(中文)
+    }
 }

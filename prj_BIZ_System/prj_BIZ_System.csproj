@@ -894,6 +894,8 @@
     <Content Include="Views\Message\MessagePrivateList.cshtml" />
     <Content Include="Views\Message\PrivateDetailed.cshtml" />
     <Content Include="Views\Activity\SellerInfoActivity.cshtml" />
+    <Content Include="Views\User\VideoListCreate.cshtml" />
+    <Content Include="Views\User\VideoList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
