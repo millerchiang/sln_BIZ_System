@@ -1,0 +1,67 @@
+﻿@using prj_BIZ_System.App_Start
+@model IList<prj_BIZ_System.Models.VideoListModel>
+
+@{
+    ViewBag.Title = "VideoList";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
+}
+
+<div class="article_col1">
+@{
+    Html.RenderAction("_NavSearchPartial", "User");
+}
+    <article class="article_col2 form_box">
+        <h2>@Request.Cookies["UserInfo"]["company"] - 影音型錄上傳</h2>
+        <a href="/User/Register" class="buinfor">我的會員資料</a>
+        <a href="/User/ProductList" class="buinfor">產品說明</a><br /><br />
+
+        <form id="deleteForm" action="@Url.Action("VideoDelete","User")" method="post">
+            <ul class="regis_dmlist3">
+                @if (Model != null)
+                {
+                    foreach (var mo in Model)
+                    {
+                        <li>
+                            <p style="text-align:left">@(mo.video_name)</p>
+                            <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+                            <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <text>查無資料</text>
+                }
+            </ul>
+            <div class="centerbox">
+                <a href="@Url.Action("VideoListCreate","User")" class="addbu">新增</a>
+                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">刪除</a>
+            </div>
+        </form>
+    </article>
+    </div>
+
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+        $("#deleteLink").click(function () {
+            if(confirm("確認是否要刪除")){
+                $("#deleteForm").submit();
+            }
+        });
+    }
+</script>

@@ -9,6 +9,7 @@
     <typeAlias alias="CompanySortModel" type="prj_BIZ_System.Models.CompanySortModel"/>
     <typeAlias alias="ProductListModel" type="prj_BIZ_System.Models.ProductListModel"/>
     <typeAlias alias="CatalogListModel" type="prj_BIZ_System.Models.CatalogListModel"/>
+    <typeAlias alias="VideoListModel" type="prj_BIZ_System.Models.VideoListModel"/>
   </alias>
 
   <statements>
@@ -126,6 +127,55 @@
     ]]
     -->
 
+
+    <!--
+    [[  table=video_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--查詢影音型錄全部-->
+    <select id="SelectVideoListByUserId" parameterClass="VideoListModel" resultMap="VideoList-result">
+      SELECT c.*, u.company
+      FROM video_list c
+      JOIN user_info u on c.user_id = u.user_id
+      WHERE c.user_id = #user_id#
+    </select>
+
+
+    <!--查詢影音型錄全部-->
+    <select id="SelectVideoListTop" parameterType= "int" resultMap="VideoList-result">
+      SELECT c.* , u.company
+      FROM video_list c
+      JOIN user_info u on c.user_id = u.user_id
+      Order By video_no Desc Limit $limit$
+
+    </select>
+
+
+    <!--查詢影音型錄部份-->
+    <select id="SelectVideoListByVideoNo" parameterClass="VideoListModel" resultMap="VideoList-result">
+      SELECT c.* , u.company
+      FROM video_list c
+      JOIN user_info u on c.user_id = u.user_id
+      WHERE c.user_id = #user_id# and c.video_no = #video_no#
+    </select>
+
+    <!--刪除影音型錄-->
+    <delete id="DeleteVideoListByVideoNo" parameterClass="VideoListModel">
+      DELETE FROM video_list
+      WHERE user_id = #user_id# and video_no = #video_no#
+    </delete>
+
+    <!--新增影音型錄-->
+    <insert id="InsertVideoList" parameterClass="VideoListModel">
+      INSERT INTO video_list(
+      user_id, video_name, youtube_site, deleted)
+      VALUES (#user_id#, #video_name#, #youtube_site#, #deleted#)
+    </insert>
+
+    <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
 
     <!--
     [[  table = product_list
@@ -316,13 +366,22 @@
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
     </resultMap>
-    
+
     <resultMap id="CatalogList-result" class="prj_BIZ_System.Models.CatalogListModel">
       <result property="catalog_no" column="catalog_no" />
       <result property="user_id" column="user_id" />
       <result property="catalog_name" column="catalog_name" />
       <result property="cover_file" column="cover_file" />
       <result property="catalog_file" column="catalog_file" />
+      <result property="deleted" column="deleted" />
+      <result property="company" column="company" />
+    </resultMap>
+
+    <resultMap id="VideoList-result" class="prj_BIZ_System.Models.VideoListModel">
+      <result property="video_no" column="video_no" />
+      <result property="user_id" column="user_id" />
+      <result property="video_name" column="video_name" />
+      <result property="youtube_site" column="youtube_site" />
       <result property="deleted" column="deleted" />
       <result property="company" column="company" />
     </resultMap>

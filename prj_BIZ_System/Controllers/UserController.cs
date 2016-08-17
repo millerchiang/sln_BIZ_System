@@ -324,6 +324,44 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 影音型錄管理
+        public ActionResult VideoList()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["Action"]["user_id"];
+            IList<VideoListModel> videoLists = userService.getAllVideo(user_id);
+            return View(videoLists);
+        }
+
+        public ActionResult VideoListCreate(int[] video_no)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult VideoDelete(int[] video_no)
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["Action"]["user_id"];
+            userService.VideoListsDelete(user_id, video_no);
+            return Redirect("VideoList");
+        }
+
+        [HttpPost]
+        public ActionResult VideoUpload(string video_name, string youtube_site)
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["Action"]["user_id"];
+            bool isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
+            return Redirect("VideoList");
+        }
+        #endregion
+
         public ActionResult _NavSearchPartial()
         {
             IList<EnterpriseSortListModel> result ;

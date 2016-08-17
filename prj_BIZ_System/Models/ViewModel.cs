@@ -58,12 +58,14 @@ namespace prj_BIZ_System.Models
         public EnterpriseSortModel usersort { get; set; }
         public ProductListModel product { get; set; }
         public CatalogListModel catalog { get; set; }
+        public VideoListModel videolog { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
         public IList<CompanySortModel> companysortList { get; set; }
         public IList<ProductListModel> productsortList { get; set; }
         public IList<CatalogListModel> cataloglistList { get; set; }
+        public IList<VideoListModel> videolistList { get; set; }
     }
 
     public class Index_ViewModel
