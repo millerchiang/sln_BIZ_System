@@ -26,23 +26,22 @@
             }
         }
 
-        <p class="news_content">
-            <li>活動類型: @activity_type_chk</li><br />
-            <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
-            <li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />
-            <li>活動時間: @Model.activityinfo.starttime ~ @Model.activityinfo.endtime</li><br />
-            <li>活動地點(中文): @Model.activityinfo.addr</li><br />
-            <li>活動地點(英文): @Model.activityinfo.addr_en</li><br />
-            <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
-            <li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />
-            <li>主要聯絡人: @Model.activityinfo.name</li><br />
-            <li>手機號碼: @Model.activityinfo.phone</li><br />
-            <li>電子郵件: @Model.activityinfo.email</li><br />
+       <ul class="news_content_list">
+            <li>活動類型: <span class="contentspan">@activity_type_chk</span></li>
+            <li>活動名稱(中文): <span class="contentspan">@Model.activityinfo.activity_name</span></li>
+            <li>活動名稱(英文): <span class="contentspan">@Model.activityinfo.activity_name_en</span></li>
+            <li>活動時間: <span class="contentspan">@Model.activityinfo.starttime ~ @Model.activityinfo.endtime</span></li>
+            <li>活動地點(中文): <span class="contentspan">@Model.activityinfo.addr</span></li>
+            <li>活動地點(英文): <span class="contentspan">@Model.activityinfo.addr_en</span></li>
+            <li>主辦單位(中文): <span class="contentspan">@Model.activityinfo.organizer</span></li>
+            <li>主辦單位(英文): <span class="contentspan">@Model.activityinfo.organizer_en</span></li>
+            <li>主要聯絡人: <span class="contentspan">@Model.activityinfo.name</span></li>
+            <li>手機號碼: <span class="contentspan">@Model.activityinfo.phone</span></li>
+            <li>電子郵件:<span class="contentspan"> @Model.activityinfo.email</span></li>
+        </ul>
 
-    <div class="centerbox">
-    <a href="javascript:history.back()" class="buinfor">回到上一頁</a>
-</div>
-</p>
-
+        <div class="centerbox">
+            <a href="javascript:history.back()" class="buinfor">回到上一頁</a>
+        </div>
     </article>
 </div>
