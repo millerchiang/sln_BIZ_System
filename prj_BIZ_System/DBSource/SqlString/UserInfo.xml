@@ -167,6 +167,9 @@
 
     <!--新增影音型錄-->
     <insert id="InsertVideoList" parameterClass="VideoListModel">
+      <selectKey resultClass="int" property="video_no" type="post">
+        SELECT currval('video_list_video_no_seq')
+      </selectKey>
       INSERT INTO video_list(
       user_id, video_name, youtube_site, deleted)
       VALUES (#user_id#, #video_name#, #youtube_site#, #deleted#)
@@ -282,7 +285,7 @@
     <!--修改單筆-->
     <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
       UPDATE user_info
-      SET user_pw = #user_pw#,
+      SET 
       enterprise_type = #enterprise_type#,
       company = #company#,
       id_enable = #id_enable#,
@@ -302,6 +305,23 @@
       contact_en = #contact_en#,
       info_en = #info_en#,
       update_time = #update_time#
+      WHERE user_id = #user_id#
+    </update>
+
+    <!--修改單筆(手機)-->
+    <update id="UpdateOneForMobile" parameterClass="prj_BIZ_System.Models.UserInfoModel">
+      UPDATE user_info
+      SET user_pw = #user_pw#,
+      enterprise_type = #enterprise_type#,
+      company = #company#,
+      id_enable = #id_enable#,
+      leader = #leader#,
+      addr = #addr#,
+      contact = #contact#,
+      phone = #phone#,
+      email = #email#,
+      capital = #capital#,
+      revenue = #revenue#
       WHERE user_id = #user_id#
     </update>
 

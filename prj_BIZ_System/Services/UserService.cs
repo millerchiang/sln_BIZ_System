@@ -54,6 +54,12 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+        public int UserInfoUpdateOneForMobile(UserInfoModel userInfoModel)
+        {
+            Object obj = mapper.Update("UserInfo.UpdateOneForMobile", userInfoModel);
+            return (int)obj;
+        }
+
         public int UserInfoDelectOne(string user_id)
         {
             Object obj = mapper.Delete("UserInfo.DeleteOne", user_id);
@@ -394,7 +400,7 @@ namespace prj_BIZ_System.Services
         }
 
         /*新增影音型錄*/
-        public bool VideoListInsert(string user_id, string video_name, string youtube_site)
+        public object VideoListInsert(string user_id, string video_name, string youtube_site)
         {
             VideoListModel param = new VideoListModel()
             {
@@ -404,7 +410,7 @@ namespace prj_BIZ_System.Services
                 deleted = "1"
             };
             var obj = mapper.Insert("UserInfo.InsertVideoList", param);
-            return true;
+            return obj;
         }
 
         /*查詢特定影音型錄*/
@@ -427,18 +433,19 @@ namespace prj_BIZ_System.Services
         }
 
         /* 刪除影音型錄 */
-        public bool VideoListsDelete(string user_id, int[] video_no)
+        public object VideoListsDelete(string user_id, int[] video_no)
         {
             if (video_no != null)
             {
                 foreach (int no in video_no)
                 {
                     var param = new VideoListModel() { user_id = user_id, video_no = no };
-                    mapper.Delete("UserInfo.DeleteVideoListByVideoNo", param);
+                    var result = mapper.Delete("UserInfo.DeleteVideoListByVideoNo", param);
+                    return result;
                 }
             }
 
-            return true;
+            return 0;
         }
         #endregion
     }

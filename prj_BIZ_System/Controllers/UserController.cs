@@ -357,7 +357,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Login");
             string user_id = Request.Cookies["Action"]["user_id"];
-            bool isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
+            var isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
             return Redirect("VideoList");
         }
         #endregion

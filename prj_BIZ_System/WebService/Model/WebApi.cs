@@ -169,4 +169,12 @@ namespace prj_BIZ_System.WebService.Model
     {
         public IList<MsgPrivateReply> msgPrivateReplyList { get; set; }
     }
+
+
+    public class Video
+    {
+        public int video_no { get; set; } //影音編號
+        public string video_name { get; set; } //影音型錄名稱
+        public string youtube_site { get; set; } //youtube影音網址
+    }
 }

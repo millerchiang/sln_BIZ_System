@@ -265,11 +265,11 @@
             $("#id_image_large").change(function(){
                 if (this.files && this.files[0]) {
                     var reader = new FileReader();
-			
+
                     reader.onload = function (e) {
                         $('#result img').attr('src', e.target.result);
                     }
-			
+
                     reader.readAsDataURL(this.files[0]);
                 }
                 alert("Logo圖片選擇成功");
@@ -312,7 +312,12 @@
 
         $("#form").submit(function () {
             var user_pw = $("input[name='user_pw']").val();
-            var errMsg = checkValidationOk(user_pw);
+            var submitName = '@(ViewBag.SubmitName)';
+            var errMsg = ''
+            if (submitName != "修改") {
+                errMsg = checkValidationOk(user_pw);
+            }
+
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -337,7 +342,7 @@
                     return false;
                 }
             }
-            
+
         });
     });
 
@@ -366,17 +371,17 @@
     function chkpw() {
         var user_pw = $("input[name='user_pw']").val();
         var user_pw1 = $("input[name='user_pw1']").val();
-        if (user_pw != null && user_pw != '') 
+        if (user_pw != null && user_pw != '')
         {
             if (user_pw1 =='')
             {
                 alert("請輸入確認密碼欄位!!");
-                $("input[name='user_pw1']").focus(); 
+                $("input[name='user_pw1']").focus();
             }
             else if (user_pw != user_pw1)
             {
                 alert("確認密碼錯誤,請重新確認密碼是否有誤!!");
-                $("input[name='user_pw1']").focus(); 
+                $("input[name='user_pw1']").focus();
             }
         }
     }
@@ -393,7 +398,7 @@
     function chkuser() {
 
         var user_id = $("input[name='user_id']").val();
-        if (user_id != null && user_id != '') 
+        if (user_id != null && user_id != '')
         {
             $.ajax({
                 type: "get",
@@ -406,7 +411,7 @@
                 var Huser = result;
                 if (Huser == true) {
                     alert("該使用帳號已存在,請確認是否帳號有誤!!");
-                    $("input[name='user_id']").focus();                
+                    $("input[name='user_id']").focus();
                 } else {
                     clearchk();
                     $("input[name='company']").val(result.Company_Name);

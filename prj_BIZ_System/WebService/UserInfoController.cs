@@ -46,7 +46,7 @@ namespace prj_BIZ_System.WebService
             userInfoModel.user_pw = userInfoModel.user_pw.ToUpper();
             userInfoModel.id_enable = "1";
             bool isInsertSuccess = insertEnterpriseId(userInfoModel.user_id, sort_id);
-            return isInsertSuccess == true ? userService.UserInfoUpdateOne(userInfoModel) : 0;
+            return isInsertSuccess == true ? userService.UserInfoUpdateOneForMobile(userInfoModel) : 0;
         }
 
         [HttpGet]
@@ -159,7 +159,8 @@ namespace prj_BIZ_System.WebService
             if (md != null)
             {
                 string new_pw = MailHelper.sendForgetPassword(md.email);
-                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, new_pw);
+                var securityPassword = SecurityHelper.Encrypt256(new_pw);
+                bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, securityPassword);
                 if (!isUpdateSuccess)
                 {
                     errMsg = "304";
@@ -199,6 +200,52 @@ namespace prj_BIZ_System.WebService
                     company_en = userInfoModel.company_en,
                 }
             ).ToList();
+        }
+
+        [HttpPost]
+        public object VideoListInsert(string user_id, string video_name, string youtube_site)
+        {
+            if (user_id == null || video_name == null || youtube_site == null)
+            {
+                string message = string.Format("data has null");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            }
+            var result = userService.VideoListInsert(user_id, video_name, youtube_site);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [HttpGet]
+        public object GetAllVideo(string user_id)
+        {
+            if (user_id == null)
+            {
+                string message = string.Format("user_id null");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            }
+            IList<Video> allVideo = userService.getAllVideo(user_id).Select(
+                videoListModel =>
+                new Video
+                {
+                    video_no = videoListModel.video_no,
+                    video_name = videoListModel.video_name,
+                    youtube_site = videoListModel.youtube_site
+                }
+            ).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, allVideo);
+        }
+
+        [HttpPost]
+        public object DeleteVideoByNo(string user_id, int video_no)
+        {
+            int[] video_nos = new[] { video_no };
+
+            if (user_id == null || video_no == null)
+            {
+                string message = string.Format("user_id or video_no null");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            } 
+            var result = userService.VideoListsDelete(user_id, video_nos);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }
