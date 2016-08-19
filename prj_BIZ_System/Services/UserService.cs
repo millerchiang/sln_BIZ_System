@@ -400,8 +400,7 @@ namespace prj_BIZ_System.Services
             {
                 user_id = user_id,
                 video_name = video_name,
-                youtube_site = youtube_site,
-                deleted = "1"
+                youtube_site = youtube_site
             };
             var obj = mapper.Insert("UserInfo.InsertVideoList", param);
             return true;

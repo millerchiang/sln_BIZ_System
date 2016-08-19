@@ -168,8 +168,8 @@
     <!--新增影音型錄-->
     <insert id="InsertVideoList" parameterClass="VideoListModel">
       INSERT INTO video_list(
-      user_id, video_name, youtube_site, deleted)
-      VALUES (#user_id#, #video_name#, #youtube_site#, #deleted#)
+      user_id, video_name, youtube_site)
+      VALUES (#user_id#, #video_name#, #youtube_site#)
     </insert>
 
     <!--
@@ -382,7 +382,6 @@
       <result property="user_id" column="user_id" />
       <result property="video_name" column="video_name" />
       <result property="youtube_site" column="youtube_site" />
-      <result property="deleted" column="deleted" />
       <result property="company" column="company" />
     </resultMap>
 

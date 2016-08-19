@@ -30,4 +30,15 @@
   padding: 0 0 15px 0;
 }
 
+.news_content_list {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+.news_content_list li {
+  line-height: 2;
+}
+.news_content_list li:last-child {
+  padding-bottom: 30px;
+}
+
 /*# sourceMappingURL=news.css.map */
