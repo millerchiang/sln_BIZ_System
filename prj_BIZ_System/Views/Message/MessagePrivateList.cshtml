@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "私人訊息列表";
+    ViewBag.Title = ViewBag.contentTitle+"訊息列表";
 }
 
 @section pagestyle{
@@ -14,11 +14,11 @@
 
 <div class="article_col1">
     <div class="form_box">
-        <h2>私人訊息</h2>
-        <form id="form" action="@Url.Action("MessagePrivateList")" method="GET">
+        <h2>@(ViewBag.contentTitle)訊息</h2>
+        <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
             <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
             <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
-            <a href="@Url.Action("PrivateAdd")" class="addbu rightbox">新增</a>
+            <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">新增</a>
         </form>
         <table class="edittable">
             <tr>
@@ -30,12 +30,12 @@
                 <th>內容</th>
             </tr>
             @{ 
-                var prevCounts = ((PageList<MsgPrivateModel>)TempData["PageList"]).prevCounts;
+                var prevCounts = ((PageList<MsgModel>)TempData["PageList"]).prevCounts;
             }
             @if (Model.msgPrivateList != null)
             {
                 var i = 0;
-                foreach(MsgPrivateModel md in Model.msgPrivateList)
+                foreach(MsgModel md in Model.msgPrivateList)
                 {
                     <tr class="active">
                         <td>@((++i)+prevCounts)</td>
@@ -53,14 +53,14 @@
                         </td>
                         <td>
                             <div class="centerbox">
-                                <a href="/Message/PrivateDetailed?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
                             </div>
                         </td>
                     </tr>
                 }
             }
         </table>
-        @Html.PagesList((PageList<MsgPrivateModel>)TempData["PageList"])
+        @Html.PagesList((PageList<MsgModel>)TempData["PageList"])
     </div>
 </div>
 

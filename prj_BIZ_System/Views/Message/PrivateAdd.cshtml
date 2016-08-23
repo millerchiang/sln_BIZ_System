@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "新增私人訊息";
+    ViewBag.Title = "新增"+ ViewBag.contentTitle + "訊息";
 }
 
 @section pagestyle{
@@ -14,7 +14,7 @@
 
 <div class="article_col1s">
     <form id="form" action="@Url.Action("DoPrivateAdd")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
-        <h2>新增私人訊息</h2>
+        <h2>新增@(ViewBag.contentTitle)訊息</h2>
         <label for="" class="regis_col02L">對象</label>
         <div class="regis_col02R tagsbox">
             <ul id="taglist">
@@ -34,7 +34,7 @@
         </div>
         <div class="centerbox">
             <button type="submit" class="buinfor">確定新增</button>
-            <a href="@Url.Action("MessagePrivateList")" class="submitbu">返回私人訊息</a>
+            <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle)訊息</a>
         </div>
 
     </form>

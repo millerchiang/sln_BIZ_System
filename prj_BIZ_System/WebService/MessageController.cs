@@ -23,13 +23,13 @@ namespace prj_BIZ_System.WebService
 
             DateTime dt = Convert.ToDateTime(date);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(
-                msgPrivateModel =>
+                msgModel =>
                 new MsgPrivate
                 {
-                    msg_no = msgPrivateModel.msg_no,
-                    msg_title = msgPrivateModel.msg_title,
-                    company = msgPrivateModel.company,
-                    create_time = msgPrivateModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff")
+                    msg_no = msgModel.msg_no,
+                    msg_title = msgModel.msg_title,
+                    company = msgModel.company,
+                    create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff")
                 }
             ).ToList();
             return msgPrivates;
@@ -40,18 +40,18 @@ namespace prj_BIZ_System.WebService
         {
             if (msg_no == 0) return null;
             MessageContent messageContent = new MessageContent();
-            MsgPrivateModel msgPrivateModel = messageService.SelectMsgPrivateOne(msg_no);
+            MsgModel msgModel = messageService.SelectMsgPrivateOne(msg_no);
             messageContent.msgPrivate = new MsgPrivate {
-                msg_no = msgPrivateModel.msg_no,
-                msg_title = msgPrivateModel.msg_title,
-                msg_content = msgPrivateModel.msg_content,
-                company = msgPrivateModel.company,
-                create_time = msgPrivateModel.create_time.ToString("yyyy-MM-dd HH:mm")
+                msg_no = msgModel.msg_no,
+                msg_title = msgModel.msg_title,
+                msg_content = msgModel.msg_content,
+                company = msgModel.company,
+                create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
             };
-            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgPrivateModel.msg_member);
+            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgModel.msg_member);
             string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
-                msgPrivateFileModel =>
-                msgPrivateFileModel.msg_file_site   
+                msgFileModel =>
+                msgFileModel.msg_file_site   
             ).ToArray();
             messageContent.msgPrivate.msg_file = string.Join(",", fileNames);
             messageContent.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no).Select(
@@ -67,13 +67,13 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpPost]
-        public object MessageReply(MsgPrivateReplyModel model)
+        public object MessageReply(MsgReplyModel model)
         {
            return messageService.InsertMsgPrivateReply(model);
         }
 
         [HttpPost]
-        public object AddMessage(MsgPrivateModel model)
+        public object AddMessage(MsgModel model)
         {
             return (long)messageService.InsertMsgPrivate(model);
         }

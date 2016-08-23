@@ -25,35 +25,36 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("Message.SelectUserKwForMobile", param);
         }
 
-        public IList<MsgPrivateModel> SelectMsgPrivate(string keyword , string user_id)
+        public IList<MsgModel> SelectMsgPrivate(string keyword , string user_id)
         {
-            var param = new MsgPrivateModel { msg_title = keyword , creater_id  = user_id };
-            return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivate", param);
+            var param = new MsgModel { msg_title = keyword , creater_id  = user_id };
+            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
         }
 
-        public IList<MsgPrivateModel> SelectMsgPrivateForMobile(string user_id, DateTime create_time)
+        public IList<MsgModel> SelectMsgPrivateForMobile(string user_id, DateTime create_time)
         {
-            var param = new MsgPrivateModel { creater_id = user_id, create_time = create_time };
-            return mapper.QueryForList<MsgPrivateModel>("Message.SelectMsgPrivateForMobile", param);
+            var param = new MsgModel { creater_id = user_id, create_time = create_time };
+            return mapper.QueryForList<MsgModel>("Message.SelectMsgForMobile", param);
         }
 
         public bool isOwnViewPower(int msg_no , string user_id)
         {
-            var param = new MsgPrivateModel { msg_no = msg_no, creater_id = user_id };
+            var param = new MsgModel { msg_no = msg_no, creater_id = user_id };
             return (int)(mapper.QueryForObject("Message.isOwnViewPower", param)) > 0;
         }
         
 
-        public object InsertMsgPrivate(MsgPrivateModel param)
+        public object InsertMsgPrivate(MsgModel param)
         {
             param.msg_member = " " + param.msg_member;
-            return mapper.Insert("Message.InsertMsgPrivate", param);
+            param.is_public = "0";
+            return mapper.Insert("Message.InsertMsg", param);
         }
 
-        public MsgPrivateModel SelectMsgPrivateOne(int msg_no)
+        public MsgModel SelectMsgPrivateOne(int msg_no)
         {
-            MsgPrivateModel param = new MsgPrivateModel() { msg_no = msg_no };
-            return mapper.QueryForObject<MsgPrivateModel>("Message.SelectMsgPrivateOne", param);
+            MsgModel param = new MsgModel() { msg_no = msg_no };
+            return mapper.QueryForObject<MsgModel>("Message.SelectMsgOne", param);
         }
 
         public string transferMsg_member2Msg_company(string msg_member)
@@ -83,28 +84,41 @@ namespace prj_BIZ_System.Services
 
         public void InsertMsgPrivateFile(long msg_no , string filepath)
         {
-            var param = new MsgPrivateFileModel { msg_no = msg_no , msg_file_site = filepath };
-            mapper.Insert("Message.InsertMsgPrivateFile", param);
+            var param = new MsgFileModel { msg_no = msg_no , msg_file_site = filepath };
+            mapper.Insert("Message.InsertMsgFile", param);
         }
 
-        public IList<MsgPrivateFileModel> SelectMsgPrivateFileByMsg_no(int msg_no)
+        public IList<MsgFileModel> SelectMsgPrivateFileByMsg_no(int msg_no)
         {
-            MsgPrivateFileModel param = new MsgPrivateFileModel() { msg_no = msg_no };
-            return mapper.QueryForList<MsgPrivateFileModel>("Message.SelectMsgPrivateFileByMsg_no", param);
+            MsgFileModel param = new MsgFileModel() { msg_no = msg_no };
+            return mapper.QueryForList<MsgFileModel>("Message.SelectMsgFileByMsg_no", param);
         }
 
-        public IList<MsgPrivateReplyModel> SelectMsgPrivateReplyMsg_no(int msg_no)
+        public IList<MsgReplyModel> SelectMsgPrivateReplyMsg_no(int msg_no)
         {
-            MsgPrivateReplyModel param = new MsgPrivateReplyModel() { msg_no = msg_no };
-            return mapper.QueryForList<MsgPrivateReplyModel>("Message.SelectMsgPrivateReplyMsg_no", param);
+            MsgReplyModel param = new MsgReplyModel() { msg_no = msg_no };
+            return mapper.QueryForList<MsgReplyModel>("Message.SelectMsgReplyMsg_no", param);
         }
 
-        public object InsertMsgPrivateReply(MsgPrivateReplyModel param)
+        public object InsertMsgPrivateReply(MsgReplyModel param)
         {
-            var result = mapper.Insert("Message.InsertMsgPrivateReply", param);
+            var result = mapper.Insert("Message.InsertMsgReply", param);
             return result;
         }
 
+        #region --公司訊息--
+        public IList<MsgModel> SelectMsgCompany(string keyword, string user_id)
+        {
+            var param = new MsgModel { msg_title = keyword, creater_id = user_id , user_id = user_id };
+            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
+        }
 
+        public object InsertMsgCompany(MsgModel param)
+        {
+            param.msg_member = " " + param.msg_member;
+            param.is_public = "0";
+            return mapper.Insert("Message.InsertMsg", param);
+        }
+        #endregion
     }
 }

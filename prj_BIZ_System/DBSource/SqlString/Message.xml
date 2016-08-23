@@ -3,9 +3,9 @@
         xmlns="http://ibatis.apache.org/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <alias>
-    <typeAlias alias="MsgPrivate"       type="prj_BIZ_System.Models.MsgPrivateModel"/>
-    <typeAlias alias="MsgPrivateFile"   type="prj_BIZ_System.Models.MsgPrivateFileModel"/>
-    <typeAlias alias="MsgPrivateReply"  type="prj_BIZ_System.Models.MsgPrivateReplyModel"/>
+    <typeAlias alias="Msg"       type="prj_BIZ_System.Models.MsgModel"/>
+    <typeAlias alias="MsgFile"   type="prj_BIZ_System.Models.MsgFileModel"/>
+    <typeAlias alias="MsgReply"  type="prj_BIZ_System.Models.MsgReplyModel"/>
   </alias>
 
   <statements>
@@ -32,37 +32,45 @@
     </select>
     
     <!--查看權限-->
-    <select id="isOwnViewPower"  resultClass="int" parameterClass="MsgPrivate">
-      SELECT count(msg_no) from message.msg_private
+    <select id="isOwnViewPower"  resultClass="int" parameterClass="Msg">
+      SELECT count(msg_no) from message.msg
       where msg_no = $msg_no$ 
         and ( creater_id = #creater_id# 
         or msg_member like '% '||#creater_id#||',%' )
     </select>
     
     <!--私訊列表-->
-    <select id="SelectMsgPrivate" resultMap="SelectMsgPrivate-result" parameterClass="MsgPrivate">
+    <select id="SelectMsg" resultMap="SelectMsg-result" parameterClass="Msg">
       SELECT mp2.* from (
       SELECT mp.*, ui.company , mpr.rpy_cnt
-      FROM message.msg_private as mp
+      FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
-      LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_private_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
+      LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
       where mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
       ) as mp2
-      LEFT JOIN message.msg_private_reply as mpr2 on mp2.msg_no = mpr2.msg_no
+      LEFT JOIN message.msg_reply as mpr2 on mp2.msg_no = mpr2.msg_no
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="msg_title">
-          mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%'
+          ( mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%' )
         </isNotEmpty>
+        <isNotNull prepend="and" property="user_id">
+          mp2.user_id = #user_id#
+        </isNotNull>
+        <isNull prepend="and" property="user_id">
+          <![CDATA[
+            mp2.user_id <> #user_id#
+          ]]>
+        </isNull>
       </dynamic>
-      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.msg_member , mp2.create_time , mp2.company , mp2.rpy_cnt
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.rpy_cnt
       order by mp2.create_time desc
     </select>
 
     <!--私訊列表(手機)-->
-    <select id="SelectMsgPrivateForMobile" resultMap="SelectMsgPrivateOne-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgForMobile" resultMap="SelectMsgOne-result" parameterClass="Msg">
       SELECT mp2.* from (
       SELECT mp.*, ui.company
-      FROM message.msg_private as mp
+      FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       where
       mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
@@ -74,52 +82,52 @@
     </select>
 
     <!--建立新私訊-->
-    <insert id="InsertMsgPrivate" parameterClass="MsgPrivate">
+    <insert id="InsertMsg" parameterClass="Msg">
       <selectKey resultClass="long" property="msg_no" type="post">
-        SELECT currval('message.msg_private_msg_no_seq')
+        SELECT currval('message.msg_msg_no_seq')
       </selectKey>
-      INSERT INTO message.msg_private(
-      creater_id, msg_title, msg_content, msg_member )
-      VALUES (#creater_id#, #msg_title#, #msg_content# , #msg_member# );
+      INSERT INTO message.msg(
+      creater_id, msg_title, msg_content, is_public, user_id, msg_member )
+      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #user_id# , #msg_member# );
     </insert>
 
     <!--查詢單一私訊-->
-    <select id="SelectMsgPrivateOne" resultMap="SelectMsgPrivateOne-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgOne" resultMap="SelectMsgOne-result" parameterClass="Msg">
       SELECT *
-      FROM message.msg_private as mp 
+      FROM message.msg as mp 
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       WHERE mp.msg_no = #msg_no#
     </select>
 
     <!--查詢私訊附件-->
-    <select id="SelectMsgPrivateFileByMsg_no" resultMap="MsgPrivateFile-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgFileByMsg_no" resultMap="MsgFile-result" parameterClass="Msg">
       SELECT *
-      FROM message.msg_private_file
+      FROM message.msg_file
       WHERE msg_no=#msg_no#
     </select>
 
     <!--新增私訊附件-->
-    <insert id="InsertMsgPrivateFile" parameterClass="MsgPrivateFile">
-      INSERT INTO message.msg_private_file(
+    <insert id="InsertMsgFile" parameterClass="MsgFile">
+      INSERT INTO message.msg_file(
       msg_no, msg_file_site)
       VALUES ($msg_no$ , #msg_file_site#);
     </insert>
     
     <!--查詢私訊回應-->
-    <select id="SelectMsgPrivateReplyMsg_no" resultMap="MsgPrivateReply-result" parameterClass="MsgPrivate">
+    <select id="SelectMsgReplyMsg_no" resultMap="MsgReply-result" parameterClass="Msg">
       SELECT *
-      FROM message.msg_private_reply as mpr
+      FROM message.msg_reply as mpr
       LEFT JOIN public.user_info as ui on mpr.msg_reply = ui.user_id
       where mpr.msg_no=#msg_no#
       order by mpr.msg_reply_no
     </select>
 
     <!--建立新私訊回應-->
-    <insert id="InsertMsgPrivateReply" parameterClass="MsgPrivateReply">
+    <insert id="InsertMsgReply" parameterClass="MsgReply">
       <selectKey resultClass="long" property="msg_reply_no" type="post">
-        SELECT currval('message.msg_private_reply_msg_reply_no_seq')
+        SELECT currval('message.msg_reply_msg_reply_no_seq')
       </selectKey>
-      INSERT INTO message.msg_private_reply(
+      INSERT INTO message.msg_reply(
       msg_no, msg_reply, reply_content)
       VALUES (#msg_no#, #msg_reply#, #reply_content#);
 
@@ -137,7 +145,7 @@
       <result property="company" column="company"/>
     </resultMap>
 
-    <resultMap id="SelectMsgPrivate-result" class="MsgPrivate">
+    <resultMap id="SelectMsg-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
       <result property="creater_id" column="creater_id"></result>
@@ -150,7 +158,7 @@
       <result property="rpy_cnt" column="rpy_cnt"></result>
     </resultMap>
 
-    <resultMap id="SelectMsgPrivateOne-result" class="MsgPrivate">
+    <resultMap id="SelectMsgOne-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
       <result property="creater_id" column="creater_id"></result>
@@ -162,7 +170,7 @@
       <result property="company" column="company"></result>
     </resultMap>
     
-    <resultMap id="MsgPrivate-result" class="MsgPrivate">
+    <resultMap id="Msg-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
       <result property="creater_id" column="creater_id"></result>
@@ -172,7 +180,7 @@
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
-    <resultMap id="MsgPrivateFile-result" class="MsgPrivateFile">
+    <resultMap id="MsgFile-result" class="MsgFile">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_file_no" column="msg_file_no"></result>
       <result property="msg_no" column="msg_no"></result>
@@ -180,7 +188,7 @@
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
-    <resultMap id="MsgPrivateReply-result" class="MsgPrivateReply">
+    <resultMap id="MsgReply-result" class="MsgReply">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_reply_no" column="msg_reply_no"></result>
       <result property="msg_no" column="msg_no"></result>

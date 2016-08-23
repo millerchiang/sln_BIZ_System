@@ -38,7 +38,7 @@
             <ul class="col2 listlinks">
                 @if (Model.msgPrivateFileList != null)
                 {
-                    foreach (MsgPrivateFileModel mpf in Model.msgPrivateFileList)
+                    foreach (MsgFileModel mpf in Model.msgPrivateFileList)
                     {
                         <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">@mpf.msg_file_site</a></li>
                     }
@@ -49,7 +49,7 @@
                 <div class="regis_col02R">
                     @if (Model.msgPrivateReplyList != null)
                     {
-                        foreach (MsgPrivateReplyModel r_md in Model.msgPrivateReplyList)
+                        foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
                         {
                             <dl class="dllist">
                                 <dt>@r_md.company <span class="rightbox">@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span></dt>
