@@ -120,12 +120,12 @@ namespace prj_BIZ_System.Models
 
     public class Message_ViewModel
     {
-        public MsgPrivateModel msgPrivate { get; set; }
-        public MsgPrivateFileModel msgPrivateFile { get; set; }
-        public MsgPrivateReplyModel msgPrivateReply { get; set; }
-        public IList<MsgPrivateModel> msgPrivateList { get; set; }
-        public IList<MsgPrivateFileModel> msgPrivateFileList { get; set; }
-        public IList<MsgPrivateReplyModel> msgPrivateReplyList { get; set; }
+        public MsgModel msgPrivate { get; set; }
+        public MsgFileModel msgPrivateFile { get; set; }
+        public MsgReplyModel msgPrivateReply { get; set; }
+        public IList<MsgModel> msgPrivateList { get; set; }
+        public IList<MsgFileModel> msgPrivateFileList { get; set; }
+        public IList<MsgReplyModel> msgPrivateReplyList { get; set; }
     }
 
     public class Cluster_ViewModel
