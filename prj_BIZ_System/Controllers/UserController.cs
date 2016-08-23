@@ -110,6 +110,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
+                model.user_pw = SecurityHelper.Encrypt256(model.user_pw);
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {
@@ -323,6 +324,45 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 影音型錄管理
+        public ActionResult VideoList()
+        {
+
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            IList<VideoListModel> videoLists = userService.getAllVideo(user_id);
+            return View(videoLists);
+        }
+
+        public ActionResult VideoListCreate(int[] video_no)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult VideoDelete(int[] video_no)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            userService.VideoListsDelete(user_id, video_no);
+            return Redirect("VideoList");
+        }
+
+        [HttpPost]
+        public ActionResult VideoUpload(string video_name, string youtube_site)
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["Action"]["user_id"];
+            var isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
+            return Redirect("VideoList");
+        }
+        #endregion
+
         public ActionResult _NavSearchPartial()
         {
             IList<EnterpriseSortListModel> result ;
@@ -366,9 +406,11 @@ namespace prj_BIZ_System.Controllers
             if (!string.IsNullOrEmpty(current_user_id))
             {
                 current_id = current_user_id;
-                if (passwordService.getUserPassword(current_id).Equals(old_pw))
+                var securityOldPassword = SecurityHelper.Encrypt256(old_pw);
+                var securityNewPassword = SecurityHelper.Encrypt256(new_pw);
+                if (passwordService.getUserPassword(current_id).Equals(securityOldPassword))
                 {
-                    if (!passwordService.UpdateUserPassword(current_id, new_pw))
+                    if (!passwordService.UpdateUserPassword(current_id, securityNewPassword))
                     {
                         errMsg = "修改失敗";
                     }

@@ -54,6 +54,12 @@ namespace prj_BIZ_System.Services
             return (int)obj;
         }
 
+        public int UserInfoUpdateOneForMobile(UserInfoModel userInfoModel)
+        {
+            Object obj = mapper.Update("UserInfo.UpdateOneForMobile", userInfoModel);
+            return (int)obj;
+        }
+
         public int UserInfoDelectOne(string user_id)
         {
             Object obj = mapper.Delete("UserInfo.DeleteOne", user_id);
@@ -378,6 +384,67 @@ namespace prj_BIZ_System.Services
             }
 
             return true;
+        }
+        #endregion
+
+        #region 影音型錄上傳
+        public IList<VideoListModel> getAllVideo(string user_id)
+        {
+            VideoListModel param = new VideoListModel() { user_id = user_id };
+            return mapper.QueryForList<VideoListModel>("UserInfo.SelectVideoListByUserId", param);
+        }
+
+        public IList<VideoListModel> getAllVideoTop(int limit)
+        {
+            return mapper.QueryForList<VideoListModel>("UserInfo.SelectVideoListTop", limit);
+        }
+
+        /*新增影音型錄*/
+        public object VideoListInsert(string user_id, string video_name, string youtube_site)
+        {
+            VideoListModel param = new VideoListModel()
+            {
+                user_id = user_id,
+                video_name = video_name,
+                youtube_site = youtube_site
+            };
+            var obj = mapper.Insert("UserInfo.InsertVideoList", param);
+            return obj;
+        }
+
+        /*查詢特定影音型錄*/
+        public List<VideoListModel> SelectVideoListByVideoNo(string user_id, int[] video_no)
+        {
+            if (video_no != null)
+            {
+                List<VideoListModel> catalogNoList = new List<VideoListModel>();
+                foreach (var no in video_no)
+                {
+                    var tempModel = new VideoListModel { user_id = user_id, video_no = no };
+                    catalogNoList.Add(mapper.QueryForObject<VideoListModel>("UserInfo.SelectVideoListByVideoNo", tempModel));
+                }
+                return catalogNoList;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /* 刪除影音型錄 */
+        public object VideoListsDelete(string user_id, int[] video_no)
+        {
+            if (video_no != null)
+            {
+                foreach (int no in video_no)
+                {
+                    var param = new VideoListModel() { user_id = user_id, video_no = no };
+                    var result = mapper.Delete("UserInfo.DeleteVideoListByVideoNo", param);
+                    return result;
+                }
+            }
+
+            return 0;
         }
         #endregion
     }

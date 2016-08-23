@@ -18,9 +18,37 @@ namespace prj_BIZ_System.WebService
         ActivityService activityService = new ActivityService();
 
         [HttpGet]
-        public IList<NewsModel> GetNewsInfo()
+        public IList<News> GetNewsInfo()
         {
-            return activityService.GetNewsAll(null);
+            IList <News> allNews = 
+                activityService.GetNewsAll(null).Select(
+                news =>
+                new News
+                {
+                    news_no = news.news_no,
+                    news_type = news.news_type,
+                    news_title = news.news_title,
+                    activity_id = news.activity_id
+                }
+            ).ToArray();
+
+            var activityDics = 
+                activityService.GetActivityInfoList(null).ToDictionary(
+                activityInfo => activityInfo.activity_id,
+                activityInfo => activityInfo.starttime.ToString("yyyy-MM-dd HH:mm"));
+
+            foreach (News news in allNews)
+            {
+                if(activityDics.ContainsKey(news.activity_id))
+                {
+                    news.starttime = activityDics[news.activity_id];
+                }
+                else
+                {
+                    news.starttime = "";
+                }
+            }
+            return allNews;
         }
 
         [HttpGet]

@@ -16,7 +16,9 @@
         <h2>@Request.Cookies["UserInfo"]["company"] - 產品說明</h2>
 
         <a href="/User/Register" class="buinfor">我的會員資料</a>
-        <a href="/User/CatalogList" class="buinfor">型錄上傳</a><br></br>
+        <a href="/User/CatalogList" class="buinfor">線上型錄</a>
+        <a href="/User/VideoList" class="buinfor">影音型錄</a>
+        <br></br>
 
         <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
             <table class="regis_table">

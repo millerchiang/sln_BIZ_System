@@ -1,8 +1,8 @@
 ﻿@using prj_BIZ_System.App_Start
-@model IList<prj_BIZ_System.Models.CatalogListModel>
+@model IList<prj_BIZ_System.Models.VideoListModel>
 
 @{
-    ViewBag.Title = "CatalogList";
+    ViewBag.Title = "VideoList";
 }
 
 @section pagestyle{
@@ -15,26 +15,22 @@
     Html.RenderAction("_NavSearchPartial", "User");
 }
     <article class="article_col2 form_box">
-        <h2>@Request.Cookies["UserInfo"]["company"] - 線上型錄</h2>
+        <h2>@Request.Cookies["UserInfo"]["company"] - 影音型錄</h2>
         <a href="/User/Register" class="buinfor">我的會員資料</a>
         <a href="/User/ProductList" class="buinfor">產品說明</a>
-        <a href="/User/VideoList" class="buinfor">影音型錄</a>
-        <br />
+        <a href="/User/CatalogList" class="buinfor">線上型錄</a>
+        <br /><br />
 
-        <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
-            <ul class="regis_dmlist">
+        <form id="deleteForm" action="@Url.Action("VideoDelete","User")" method="post">
+            <ul class="regis_dmlist3">
                 @if (Model != null)
                 {
                     foreach (var mo in Model)
                     {
                         <li>
-                            <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
-                                <span>@(mo.catalog_name)</span>
-                                <div class="regisimg">
-                                    <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
-                                </div>
-                            </a>
-                            <input type="checkbox" class="inputCheckbox" name="catalog_no" id="@(mo.catalog_no)" value="@(mo.catalog_no)"><label for="@(mo.catalog_no)"></label>
+                            <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+							<p>@(mo.video_name)</p>
+                            <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
                         </li>
                     }
                 }
@@ -44,11 +40,11 @@
                 }
             </ul>
             <div class="centerbox">
-                <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
+                <a href="@Url.Action("VideoListCreate","User")" class="addbu">新增</a>
                 <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">刪除</a>
             </div>
         </form>
-        </article>
+    </article>
     </div>
 
 @Scripts.Render("~/bundles/fancybox")

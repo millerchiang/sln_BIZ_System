@@ -48,42 +48,40 @@
 
         }
 
-        <p class="news_content">
-            <li>活動類型: @activity_type_chk</li><br />
-            <li>活動名稱(中文): @Model.activityinfo.activity_name</li><br />
-            @*<li>活動名稱(英文): @Model.activityinfo.activity_name_en</li><br />*@
-            <li>活動時間: @Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</li><br />
-            <li>活動地點(中文): @Model.activityinfo.addr</li><br />
-            @*<li>活動地點(英文): @Model.activityinfo.addr_en</li><br />*@
-            <li>主辦單位(中文): @Model.activityinfo.organizer</li><br />
-            @*<li>主辦單位(英文): @Model.activityinfo.organizer_en</li><br />*@
-            <li>主要聯絡人: @Model.activityinfo.name</li><br />
-            <li>手機號碼: @Model.activityinfo.phone</li><br />
-            <li>電子郵件: @Model.activityinfo.email</li><br />
+         <ul class="news_content_list">
+            <li>活動類型: <span class="contentspan">@activity_type_chk</span> </li>
+            <li>活動名稱(中文): <span class="contentspan">@Model.activityinfo.activity_name</span></li>
+            @*<li>活動名稱(英文): <span class="contentspan">@Model.activityinfo.activity_name_en</span></li>*@
+            <li>活動時間: <span class="contentspan">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</span></li>
+            <li>活動地點(中文): <span class="contentspan">@Model.activityinfo.addr</span></li>
+            @*<li>活動地點(英文): <span class="contentspan">@Model.activityinfo.addr_en</span></li>*@
+            <li>主辦單位(中文): <span class="contentspan">@Model.activityinfo.organizer</span></li>
+            @*<li>主辦單位(英文): <span class="contentspan">@Model.activityinfo.organizer_en</span></li>*@
+            <li>主要聯絡人: <span class="contentspan">@Model.activityinfo.name</span></li>
+            <li>手機號碼: <span class="contentspan">@Model.activityinfo.phone</span></li>
+            <li>電子郵件: <span class="contentspan">@Model.activityinfo.email</span></li>
 <!--
-            <li>商務對接: @seller_select_chk                    媒合時程: @matchmaking_select_chk</li><br />
+            <li>商務對接: @seller_select_chk                    媒合時程: @matchmaking_select_chk</li>
 -->
-
-                <div class="centerbox">
-    @if (Model.activityregister == null)
-    {
-        if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
-        {
-        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
-        }
-    }
-    else if (Model.activityregister.manager_check == "0")
-    {
-        <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
-        <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
-    }
-    else
-    {
-        <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
-    }
-    <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
-</div>
-</p>
-
+        </ul>
+        <div class="centerbox">
+            @if (Model.activityregister == null)
+            {
+                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+                {
+                <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+                }
+            }
+            else if (Model.activityregister.manager_check == "0")
+            {
+                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
+                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+            }
+            else
+            {
+                <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
+            }
+            <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
+         </div>
     </article>
 </div>
