@@ -1,0 +1,145 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+@{
+    ViewBag.Title = "Cluster_Add";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+
+
+<main>
+
+    <div class="article_col1s">
+        <form class="form_box sys_searchbox">
+            <h2>新建聚落</h2>
+            <label for="" class="regis_col02L spanRed">聚落名稱</label>
+            <input type="text" class="regis_col02R" required>
+
+            <label for="" class="regis_col02L">建立者帳號</label>
+            <span class="regis_col02R contentspan">@Request.Cookies["UserInfo"]["company"]</span>
+
+            <label for="" class="regis_col02L spanRed">聚落商家</label>
+            <div class="regis_col02R">
+
+                <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+
+                <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">新增廠商</a>
+                <table class="article_col1" id="grouplist">
+
+                    <tr>
+                        <td>商家名稱</td>
+                        <td>編輯</td>
+                    </tr>
+
+                    <tr>
+                        <td id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="javascript:void(0)" class="editbu tempeditbu">刪除</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                @if (Model.clusterMemberList != null)
+                {
+                    foreach (ClusterMemberModel md in Model.clusterMemberList)
+                    {
+                        <tr>
+                            <td id="grp_name_@(md.user_id)">@md.company</td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.cluster_member_no)">刪除</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+                    @*<tr>
+        <td>
+            2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
+        </td>
+    </tr>*@
+                </table>
+
+                <br /><span class="fontRed">*</span>至少須有三位廠商
+
+
+            </div>
+
+            <label for="" class="regis_col02L">內容</label>
+            <textarea class="regis_col02R" name="" id="" placeholder="三百字以內" maxlength="300"></textarea>
+
+            <div class="centerbox">
+                <button type="submit" class="buinfor">送出邀請</button>
+            </div>
+
+        </form>
+        <div id="dialog" title="刪除" style="display:none;">
+            <p>確定刪除<span class="salesid"></span>?</p>
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+<script type="text/javascript" language="javascript">
+    var g_no = 1;
+    var user_id = "";
+    var company = "";
+        $(document).ready(function () {
+            $("#insert_id_cp").autocomplete({
+                source: "@Url.Action("GetUserInfoToIdCp", "Manager")",
+                select: function (event, ui) {
+                    var data = ui.item.label;
+                    var arr = data.split(',');
+//                    g_no++;
+                    user_id = arr[0];
+                    company = arr[1];
+//                    $("#buyer_id").val(arr[0]);
+                    //                    $("#buyer_cp").val(arr[1]);
+//                    $("table.membertable").append(genTemplate());
+//                    $(this).appendTo($("table.membertable tr").last().find("td").last());
+                    $("#addgroup").show();
+                }
+            });
+        })
+
+    $(function () {
+        init();
+    });
+    function init() {
+
+        var $addgroup = $("#addgroup");
+        $addgroup.click(function (e) {
+            $("table.membertable").append(genTemplate(g_no++));
+            $("#insert_id_cp").val("");
+            $("#addgroup").hide();
+        });
+    }
+
+    function genTemplate(g_no) {
+        var template =
+         '<tr>' +
+        '<td>' + g_no +
+         '、<input type="checkbox" class="inputCheckbox" name="user_id" id="' + user_id + '" value="' + user_id + '"><label for="' + user_id + '">' + user_id + ' - ' + company + '</label>' +
+        '<td></td></tr>';
+        return template;
+    }
+    function hidebtn() {
+        $("#addgroup").hide();
+    }
+
+    function showDelete() {
+    }
+</script>
+

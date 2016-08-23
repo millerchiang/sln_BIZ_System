@@ -21,7 +21,7 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id == null || date == null) return null;
 
-            DateTime dt = Convert.ToDateTime(date);
+            DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(
                 msgModel =>
                 new MsgPrivate

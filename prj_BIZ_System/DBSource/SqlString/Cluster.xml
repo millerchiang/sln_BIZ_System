@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Cluster"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="ClusterInfo" type="prj_BIZ_System.Models.ClusterInfoModel"/>
+    <typeAlias alias="ClusterFile" type="prj_BIZ_System.Models.ClusterFileModel"/>
+    <typeAlias alias="ClusterMember" type="prj_BIZ_System.Models.ClusterMemberModel"/>
+  </alias>
+
+  <statements>
+
+    <select id="SelectClusterInfoList" resultMap="ClusterInfo-result" parameterClass="ClusterInfo">
+      SELECT *
+      FROM public.cluster_info
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="user_id">
+          user_id = #user_id#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="SelectClusterMember" resultMap="ClusterMember-result" parameterClass="ClusterMember">
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN user_info
+      ON cluster_member.user_id = user_info.user_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = #cluster_no#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="user_id">
+          user_id = #user_id#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="SelectClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN user_info
+      ON cluster_member.user_id = user_info.user_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = #cluster_no#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
+
+  </statements>
+
+  <resultMaps>
+
+    <resultMap id="ClusterInfo-result" class="prj_BIZ_System.Models.ClusterInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <result property="enable" column="enable"></result>
+      <result property="deleted" column="deleted"></result>
+    </resultMap>
+
+      <resultMap id="ClusterMember-result" class="prj_BIZ_System.Models.ClusterMemberModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_member_no" column="cluster_member_no"></result>
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_enable" column="cluster_enable"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="deleted" column="deleted"></result>
+      <result property="limit" column="limit"></result>
+      <result property="company" column="company"></result>
+    </resultMap>
+  
+  </resultMaps>
+
+</sqlMap>
+
