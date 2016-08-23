@@ -17,9 +17,10 @@ namespace prj_BIZ_System.WebService
         public object MobileDeviceInfoInsert(MobileDeviceInfoModel model)
         {
             var mobileDevice = pushService.getMobileDeviceInfo(model);
+            string message = string.Format("Mobile device has exist.");
             return mobileDevice == null ? 
                 pushService.MobileDeviceInfoInsertOne(model) :
-                Request.CreateResponse(HttpStatusCode.NotModified, model);
+                Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
         }
     }
 }
