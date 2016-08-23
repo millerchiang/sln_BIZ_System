@@ -932,8 +932,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult GetUserInfoToIdCp(string term)
         {
-            if (Request.Cookies["ManagerInfo"] == null)
-                return Redirect("Login");
+//            if (Request.Cookies["ManagerInfo"] == null)
+//                return Redirect("Login");
 
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
             ArrayList arrayList = new ArrayList();

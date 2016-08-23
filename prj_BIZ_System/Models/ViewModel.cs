@@ -125,4 +125,16 @@ namespace prj_BIZ_System.Models
         public IList<MsgPrivateFileModel> msgPrivateFileList { get; set; }
         public IList<MsgPrivateReplyModel> msgPrivateReplyList { get; set; }
     }
+
+    public class Cluster_ViewModel
+    {
+        public ClusterInfoModel clusterInfo { get; set; }
+        public ClusterFileModel clusterFile { get; set; }
+        public ClusterMemberModel clusterMember { get; set; }
+        public IList<ClusterInfoModel> clusterInfoList { get; set; }
+        public IList<ClusterFileModel> clusterFileList { get; set; }
+        public IList<ClusterMemberModel> clusterMemberList { get; set; }
+    }
+
+
 }

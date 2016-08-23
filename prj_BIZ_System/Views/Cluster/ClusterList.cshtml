@@ -1,0 +1,50 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+    @{
+        ViewBag.Title = "ClusterList";
+    }
+
+    @section pagestyle{
+        <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    }
+
+    @Styles.Render("~/Content/jqueryUI")
+
+    <div class="article_col1">
+
+        <article>
+            <h2 class="borderTitle2">產業聚落列表</h2>
+            <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
+            <a href="group_invite.html" class="addbured rightbox">聚落邀請</a>
+            <table class="edittable">
+            @if (Model.clusterInfoList.Count > 0)
+            {
+                <tr>
+                    <th>聚落名稱</th>
+                    <th>成員</th>
+                    <th>詳細資料</th>
+                    <th>退出</th>
+                </tr>
+             }
+                @foreach (var newInfo in Model.clusterInfoList)
+            {
+                    <tr>
+                        <td>@newInfo.cluster_name</td>
+                        <td>@newInfo.cluster_info</td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_detailed.html" class="editbu">詳細資料</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="javascript:void(0)" class="deleteSbu quit">退出</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.PagesList((PageList<ClusterInfoModel>)TempData["PageList"])
+        </article>
+    </div>
