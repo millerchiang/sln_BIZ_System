@@ -15,7 +15,6 @@ namespace prj_BIZ_System.Models
         public DateTime create_time { get; set; } /*建立日期*/
         public DateTime update_time { get; set; } /*更新日期*/
         public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
-        public string deleted { get; set; }        /*是否刪除 0：刪除；1：未刪除*/
 
     }
 
