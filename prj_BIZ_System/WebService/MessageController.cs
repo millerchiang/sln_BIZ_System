@@ -75,6 +75,7 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object AddMessage(MsgModel model)
         {
+            model.is_public = "0";
             return (long)messageService.InsertMsgPrivate(model);
         }
 

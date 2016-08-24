@@ -170,11 +170,18 @@ namespace prj_BIZ_System.WebService.Model
         public IList<MsgPrivateReply> msgPrivateReplyList { get; set; }
     }
 
-
     public class Video
     {
         public int video_no { get; set; } //影音編號
         public string video_name { get; set; } //影音型錄名稱
         public string youtube_site { get; set; } //youtube影音網址
+    }
+
+    public class Cluster
+    {
+        public int cluster_no { get; set; }        /*聚落編號*/
+        public string user_id { get; set; }      /*建立者帳號*/
+        public string cluster_name { get; set; }        /*聚落名稱*/
+        public string cluster_info { get; set; }        /*聚落簡介*/
     }
 }

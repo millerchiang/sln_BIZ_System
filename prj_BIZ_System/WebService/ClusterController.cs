@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.Services;
+﻿using prj_BIZ_System.Models;
+using prj_BIZ_System.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace prj_BIZ_System.WebService
     {
         private ClusterService clusterService = new ClusterService();
 
-        //[HttpGet]
-        //public IList<MsgPrivate> GetMessagePrivateList(string user_id)
-        //{
-        //    clusterService.GetClusterInfoListkw(user_id);
-        //    return msgPrivates;
-        //}
+        [HttpGet]
+        public object GetClusterInfoList(string user_id)
+        {
+            if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User id is null.");
+            return Request.CreateResponse(HttpStatusCode.OK, clusterService.GetClusterInfoListkw(user_id));
+        }
+
+
     }
 }
