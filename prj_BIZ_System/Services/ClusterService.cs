@@ -27,5 +27,27 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<ClusterMemberModel>("Cluster.SelectClusterMember", tempModel);
         }
 
+        public object ClusterInfoInsertOne(ClusterInfoModel clusterInfoModel)
+        {
+            var result = mapper.Insert("Cluster.ClusterInfoInsertOne", clusterInfoModel);
+            return result;
+        }
+        public object ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
+        {
+            var result = mapper.Update("Cluster.ClusterInfoUpdateOne", clusterInfoModel);
+            return result;
+        }
+
+        public object ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
+        {
+            var result = mapper.Insert("Cluster.ClusterMemberInsertOne", clusterMemberModel);
+            return result;
+        }
+        public object ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
+        {
+            var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
+            return result;
+        }
+
     }
 }

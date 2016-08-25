@@ -34,13 +34,45 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Login");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
-            if (Request["cluster_no"]!=null)
+            if (Request["cluster_no"] != null)
+            {
                 clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));
+                ViewBag.PageType = "Edit";
+            }
             else
-                clusterViewModel.clusterMemberList = null ;
+            {
+                clusterViewModel=new Cluster_ViewModel();
+                clusterViewModel.clusterInfo = new ClusterInfoModel();
+                ViewBag.PageType = "Create";
+            }
 
             return View(clusterViewModel);
         }
+
+        public ActionResult EditCluster(string members, ClusterInfoModel model)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+/*
+            if (members != null && members != "")
+            {
+                string members1 = members.Substring(1);
+                string[] member = members1.Split(',');
+                clusterService.ClusterInfoInsertOne(model);
+                for (int i=0;i<member.Count();i++)
+                {
+                    ClusterMemberModel membermodel= new ClusterMemberModel();
+                    membermodel.user_id = member[i];
+                    membermodel.cluster_enable = "0";
+                    membermodel.cluster_no = model.cluster_no;
+
+                    clusterService.ClusterMemberInsertOne(membermodel);
+                }
+            }
+*/
+            return Redirect("ClusterList");
+        }
+
 
     }
 }
