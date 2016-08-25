@@ -179,7 +179,7 @@ namespace prj_BIZ_System.WebService.Model
 
     public class Cluster
     {
-        public int cluster_no { get; set; }        /*聚落編號*/
+        public int? cluster_no { get; set; }        /*聚落編號*/
         public string user_id { get; set; }      /*建立者帳號*/
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_info { get; set; }        /*聚落簡介*/
