@@ -53,23 +53,23 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Login");
-/*
+
             if (members != null && members != "")
             {
                 string members1 = members.Substring(1);
                 string[] member = members1.Split(',');
-                clusterService.ClusterInfoInsertOne(model);
+                int clusterNo = clusterService.ClusterInfoInsertOne(model);
+                string creatorId = Request.Cookies["UserInfo"]["user_id"];
                 for (int i=0;i<member.Count();i++)
                 {
                     ClusterMemberModel membermodel= new ClusterMemberModel();
                     membermodel.user_id = member[i];
-                    membermodel.cluster_enable = "0";
-                    membermodel.cluster_no = model.cluster_no;
-
+                    membermodel.cluster_no = clusterNo;
+                    membermodel.cluster_enable = creatorId == member[i] ? "1" : "0";
                     clusterService.ClusterMemberInsertOne(membermodel);
                 }
             }
-*/
+
             return Redirect("ClusterList");
         }
 

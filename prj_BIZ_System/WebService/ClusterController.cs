@@ -1,5 +1,6 @@
 ﻿using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
+using prj_BIZ_System.WebService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,18 @@ namespace prj_BIZ_System.WebService
         public object GetClusterInfoList(string user_id)
         {
             if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User id is null.");
-            return Request.CreateResponse(HttpStatusCode.OK, clusterService.GetClusterInfoListkw(user_id));
+
+            var clusterInfoList = clusterService.GetClusterInfoListkw(user_id)
+                .Select(clusterInfoModel =>
+                    new Cluster
+                    {
+                        cluster_no = clusterInfoModel.cluster_no,
+                        cluster_name = clusterInfoModel.cluster_name,
+                        user_id = clusterInfoModel.user_id,
+                        cluster_info = clusterInfoModel.cluster_info
+                    }                              
+                ).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
         }
 
 

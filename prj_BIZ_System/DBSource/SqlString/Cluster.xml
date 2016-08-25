@@ -49,6 +49,9 @@
 
     <!--新增聚落-->
     <insert id="ClusterInfoInsertOne" parameterClass="ClusterInfo">
+      <selectKey resultClass="int" property="cluster_no" type="post">
+        SELECT currval('cluster_info_cluster_no_seq')
+      </selectKey>
       INSERT INTO public.cluster_info(
       user_id, cluster_name, cluster_info, enable )
       VALUES (#user_id#,#cluster_name#,#cluster_info#,#enable#)
@@ -65,7 +68,7 @@
     <insert id="ClusterMemberInsertOne" parameterClass="ClusterMember">
       INSERT INTO public.cluster_member(
       cluster_no, user_id, cluster_enable, deleted, "limit" )
-      VALUES ($cluster_no$,#user_id#,"0","1",#limit#)
+      VALUES ($cluster_no$,#user_id#,#cluster_enable#,'1',#limit#)
     </insert>
 
     <!--更新聚落會員-->

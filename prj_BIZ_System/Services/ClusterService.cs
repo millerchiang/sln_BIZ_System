@@ -27,10 +27,10 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<ClusterMemberModel>("Cluster.SelectClusterMember", tempModel);
         }
 
-        public object ClusterInfoInsertOne(ClusterInfoModel clusterInfoModel)
+        public int ClusterInfoInsertOne(ClusterInfoModel clusterInfoModel)
         {
             var result = mapper.Insert("Cluster.ClusterInfoInsertOne", clusterInfoModel);
-            return result;
+            return (int)result;
         }
         public object ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
         {
