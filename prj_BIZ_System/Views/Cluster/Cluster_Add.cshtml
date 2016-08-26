@@ -12,17 +12,28 @@
 
 @Styles.Render("~/Content/jqueryUI")
 
+@if (ViewBag.PageType == "Create")
+{
+    Model.clusterInfo.cluster_name = "";
+    Model.clusterInfo.cluster_info = "";
+    Model.clusterInfo.enable = "0";
+    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
+}
 
 <main>
 
     <div class="article_col1s">
-        <form class="form_box sys_searchbox">
+        <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster","Cluster")" method="post">
+            <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
+            <input type="hidden" name="members" value="">
+            <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
             <h2>新建聚落</h2>
             <label for="" class="regis_col02L spanRed">聚落名稱</label>
-            <input type="text" class="regis_col02R" required>
+            <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" required>
 
             <label for="" class="regis_col02L">建立者帳號</label>
-            <span class="regis_col02R contentspan">@Request.Cookies["UserInfo"]["company"]</span>
+
+            <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
 
             <label for="" class="regis_col02L spanRed">聚落商家</label>
             <div class="regis_col02R">
@@ -30,52 +41,77 @@
                 <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
 
                 <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">新增廠商</a>
-                <table class="article_col1" id="grouplist">
+                <table class="article_col1" id="membertable">
 
                     <tr>
                         <td>商家名稱</td>
                         <td>編輯</td>
                     </tr>
 
-                    <tr>
-                        <td id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="javascript:void(0)" class="editbu tempeditbu">刪除</a>
-                            </div>
-                        </td>
-                    </tr>
-
-                @if (Model.clusterMemberList != null)
-                {
-                    foreach (ClusterMemberModel md in Model.clusterMemberList)
+                    @if (ViewBag.PageType == "Edit")
                     {
-                        <tr>
-                            <td id="grp_name_@(md.user_id)">@md.company</td>
+                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                            <td>
+                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</label>
+                            </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.cluster_member_no)">刪除</a>
+@*                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@Request.Cookies["UserInfo"]["user_id"],@Request["cluster_no"])">退出</a>*@
                                 </div>
                             </td>
                         </tr>
+
                     }
-                }
+                    else {
+
+                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                            <td>
+                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <input type="hidden" name="user_id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</label>
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+
+                    @if (Model.clusterMemberList != null)
+                    {
+                        foreach (ClusterMemberModel md in Model.clusterMemberList)
+                        {
+                            if (md.user_id != Request.Cookies["UserInfo"]["user_id"])
+                            {
+                                <tr id="grp_name_@md.user_id">
+                                    <td>
+                                        <input type="hidden" name="id" value="@md.user_id">
+                                        <label>@md.user_id - @md.company</label>
+                                    </td>
+                                    <td>
+@*
+                                    <div class="centerbox">
+                                        <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_member_no)">刪除</a>
+                                    </div>
+*@
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
 
 
                     @*<tr>
-        <td>
-            2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
-        </td>
-    </tr>*@
+                            <td>
+                                2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
+                            </td>
+                        </tr>*@
                 </table>
 
-                <br /><span class="fontRed">*</span>至少須有三位廠商
-
+                <br />
 
             </div>
 
             <label for="" class="regis_col02L">內容</label>
-            <textarea class="regis_col02R" name="" id="" placeholder="三百字以內" maxlength="300"></textarea>
+            <textarea class="regis_col02R" name="cluster_info" id="" placeholder="三百字以內" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
 
             <div class="centerbox">
                 <button type="submit" class="buinfor">送出邀請</button>
@@ -93,7 +129,7 @@
 </script>
 
 <script type="text/javascript" language="javascript">
-    var g_no = 1;
+    var g_no = 0;
     var user_id = "";
     var company = "";
         $(document).ready(function () {
@@ -107,9 +143,11 @@
                     company = arr[1];
 //                    $("#buyer_id").val(arr[0]);
                     //                    $("#buyer_cp").val(arr[1]);
-//                    $("table.membertable").append(genTemplate());
-//                    $(this).appendTo($("table.membertable tr").last().find("td").last());
-                    $("#addgroup").show();
+//                    $("table.membertable").append(genTemplate(g_no++));
+                    //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
+                    if (!idexist(user_id)) {
+                        $("#addgroup").show();
+                    }
                 }
             });
         })
@@ -121,25 +159,76 @@
 
         var $addgroup = $("#addgroup");
         $addgroup.click(function (e) {
-            $("table.membertable").append(genTemplate(g_no++));
+            $("#membertable").append(genTemplate());
+//            g_no++;
             $("#insert_id_cp").val("");
             $("#addgroup").hide();
         });
     }
 
-    function genTemplate(g_no) {
+    function genTemplate() {
         var template =
-         '<tr>' +
-        '<td>' + g_no +
-         '、<input type="checkbox" class="inputCheckbox" name="user_id" id="' + user_id + '" value="' + user_id + '"><label for="' + user_id + '">' + user_id + ' - ' + company + '</label>' +
-        '<td></td></tr>';
+        '<tr id="grp_name_' + user_id + '">' +
+        '<td>' +
+        '<input type="hidden" name="id" value="' + user_id + '">' +
+        '<input type="hidden" name="user_id" value="' + user_id + '">' +
+        '<label">' + user_id + ' - ' + company + '</label>' +
+        '<td><div class="centerbox">' +
+        '<a href="javascript:void(0)" class="editbu tempeditbu" onclick="showCancel('+ user_id +')">取消</a>' +
+        '</div></td></tr>';
         return template;
     }
     function hidebtn() {
         $("#addgroup").hide();
     }
 
-    function showDelete() {
+    function showCancel(id) {
+        $('#grp_name_' + id).remove();
+//        g_no--;
     }
+
+    function showDelete(id,cid) {
+        $('#grp_name_' + id).remove();
+//        g_no--;
+    }
+
+    function idexist(userid) {
+        var e=false;
+        $('#membertable').find('tr').each(function (index, el) {
+            var id = null;
+            id = $(el).find('td').eq(0).find("input[name='id']").val();
+            if (id != null) {
+                if (userid == id)
+                {
+                    e=true;
+                    return;
+                }
+            }
+        });
+        return e;
+    }
+
+
+    $("#form").submit(function () {
+        g_no = -1;
+        var members = "";
+        $('#membertable').find('tr').each(function (index, el) {
+            g_no++;
+            var id = null;
+            id=$(el).find('td').eq(0).find("input[name='user_id']").val();
+            if (id != null) {
+                members = members + "," + id;
+//                alert(id);
+            }
+        });
+
+        if (g_no < 3) {
+            alert("至少須三家廠商以上!!");
+            return false;
+        }
+        $("input[name='members']").val(members);
+
+    })
+
 </script>
 

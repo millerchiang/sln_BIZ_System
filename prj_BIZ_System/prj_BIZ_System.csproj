@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -262,6 +261,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
     <Compile Include="WebService\ActivityController.cs" />
+    <Compile Include="WebService\ClusterController.cs" />
     <Compile Include="WebService\MatchController.cs" />
     <Compile Include="WebService\MessageController.cs" />
     <Compile Include="WebService\Model\WebApi.cs" />
