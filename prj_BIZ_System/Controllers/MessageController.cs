@@ -215,7 +215,7 @@ namespace prj_BIZ_System.Controllers
                 else
                 {
                     TempData["priDetailView_errmsg"] = "很抱歉!您沒有觀看這則訊息的權限";
-                    return Redirect("MessagePrivateList");
+                    return Redirect("MessageCompanyList");
                 }
             }
             else
