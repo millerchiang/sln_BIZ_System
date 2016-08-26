@@ -9,15 +9,15 @@ namespace prj_BIZ_System.Services
     public class ClusterService : _BaseService
     {
 
-        public IList<ClusterModel> GetClusterList(string user_id,string cluster_enable,string deleted)
+        public IList<ClusterModel> GetClusterList(string user_id)
         {
-            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable= cluster_enable,deleted = deleted };
+            ClusterModel tempModel = new ClusterModel { user_id = user_id };
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
         }
 
-        public ClusterInfoModel GetClusterInfo(int? cluster_no)
+        public ClusterInfoModel GetClusterInfo(int? cluster_no,string user_id,string cluster_name)
         {
-            ClusterInfoModel tempModel = new ClusterInfoModel { cluster_no = cluster_no };
+            ClusterInfoModel tempModel = new ClusterInfoModel { cluster_no = cluster_no, user_id=user_id, cluster_name= cluster_name };
             return mapper.QueryForObject<ClusterInfoModel>("Cluster.SelectClusterInfo", tempModel);
         }
 
@@ -58,11 +58,6 @@ namespace prj_BIZ_System.Services
         public object ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
         {
             var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
-            return result;
-        }
-        public object ClusterMemberQuitOne(ClusterMemberModel clusterMemberModel)
-        {
-            var result = mapper.Update("Cluster.ClusterMemberQuitOne", clusterMemberModel);
             return result;
         }
 

@@ -46,15 +46,15 @@
                                 @if (newInfo.cluster_enable == "1")
                                 {
                                     <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbured">聚落邀請</a>
-                                    <a href="Cluster_Quit?cluster_no=@newInfo.cluster_no" class="deleteSbu quit">退出聚落</a>
+                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit">退出聚落</a>
                                 }
                                 //else if (newInfo.cluster_enable == "0")
                                 //{
                                 //}
                                 else
                                 {
-                                    <a href="Cluster_Accept?cluster_no=@newInfo.cluster_no" class="addbured">接受邀請</a>
-                                    <a href="Cluster_Reject?cluster_no=@newInfo.cluster_no" class="deleteSbu quit">拒絕邀請</a>
+                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbured">接受邀請</a>
+                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu quit">拒絕邀請</a>
                                 }
                             </div>
                         </td>

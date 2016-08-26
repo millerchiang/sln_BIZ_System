@@ -27,12 +27,21 @@
             <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
             <input type="hidden" name="members" value="">
             <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
-            <h2>新建聚落</h2>
+            @if (ViewBag.PageType == "Create")
+            {
+                <h2>新建聚落</h2>
+            }
+            else
+            {
+                <h2>編輯聚落</h2>
+            }
             <label for="" class="regis_col02L spanRed">聚落名稱</label>
-            <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" required>
+            <input type="hidden" name="cluster_name_old" value="@Model.clusterInfo.cluster_name">
+            <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" onblur="chkname()" required>
 
             <label for="" class="regis_col02L">建立者帳號</label>
 
+            <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
 
             <label for="" class="regis_col02L spanRed">聚落商家</label>
@@ -115,6 +124,7 @@
 
             <div class="centerbox">
                 <button type="submit" class="buinfor">送出邀請</button>
+                <button type="button" class="submitbu" onclick="javascript:history.back()">返回前頁</button>
             </div>
 
         </form>
@@ -148,6 +158,7 @@
                     if (!idexist(user_id)) {
                         $("#addgroup").show();
                     }
+                    chkexist(user_id);
                 }
             });
         })
@@ -208,6 +219,55 @@
         return e;
     }
 
+    function chkname() {
+
+        var user_id = $("input[name='userid']").val();
+        var cluster_name = $("input[name='cluster_name']").val();
+        var cluster_name_old = $("input[name='cluster_name_old']").val();
+
+        if (cluster_name != null && cluster_name != '' && cluster_name != cluster_name_old) {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckName", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_name": cluster_name },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        alert("該建立者的聚落名稱已存在,請更改其他名稱!!");
+                        $("input[name='cluster_name']").focus();
+                    }
+                }
+            });
+        }
+    }
+    
+    function chkexist(uid) {
+        var user_id = uid;
+        var cluster_no = $("input[name='no']").val();
+        if (cluster_no != null && cluster_no != '') {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckExist", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_no": cluster_no },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        if (confirm("該廠商曾在該聚落,是否重新邀請?")) {
+                            $("#addgroup").show();
+                        } else {
+                            $("#addgroup").hide();
+                        }
+                    }
+                }
+            });
+        }
+    }
 
     $("#form").submit(function () {
         g_no = -1;
