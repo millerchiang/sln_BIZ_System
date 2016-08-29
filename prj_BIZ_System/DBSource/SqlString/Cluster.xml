@@ -3,6 +3,7 @@
         xmlns="http://ibatis.apache.org/mapping"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <alias>
+    <typeAlias alias="Cluster" type="prj_BIZ_System.Models.ClusterModel"/>
     <typeAlias alias="ClusterInfo" type="prj_BIZ_System.Models.ClusterInfoModel"/>
     <typeAlias alias="ClusterFile" type="prj_BIZ_System.Models.ClusterFileModel"/>
     <typeAlias alias="ClusterMember" type="prj_BIZ_System.Models.ClusterMemberModel"/>
@@ -10,12 +11,47 @@
 
   <statements>
 
+    <select id="SelectClusterInfo" resultMap="ClusterInfo-result" parameterClass="ClusterInfo">
+      SELECT *
+      FROM public.cluster_info
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = $cluster_no$
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="user_id">
+          user_id = #user_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="cluster_name">
+          cluster_name = #cluster_name#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
     <select id="SelectClusterInfoList" resultMap="ClusterInfo-result" parameterClass="ClusterInfo">
       SELECT *
       FROM public.cluster_info
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="user_id">
           user_id = #user_id#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="SelectClusterList" resultMap="Cluster-result" parameterClass="Cluster">
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN cluster_info
+      ON cluster_member.cluster_no = cluster_info.cluster_no
+      where ( cluster_enable = '1' or cluster_enable = '2')
+      <dynamic prepend="">      
+        <isNotEmpty prepend="and" property="user_id">
+          cluster_member.user_id = #user_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="enable">
+          "enable" = #enable#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="limit">
+          "limit" = #limit#
         </isNotEmpty>
       </dynamic>
     </select>
@@ -30,7 +66,7 @@
           cluster_no = $cluster_no$
         </isNotEmpty>
         <isNotEmpty prepend="and" property="user_id">
-          user_id = #user_id#
+          cluster_member.user_id = #user_id#
         </isNotEmpty>
       </dynamic>
     </select>
@@ -40,7 +76,8 @@
       FROM public.cluster_member
       INNER JOIN user_info
       ON cluster_member.user_id = user_info.user_id
-      <dynamic prepend="where">
+      where ( cluster_enable = '1' or cluster_enable = '2')
+      <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = $cluster_no$
         </isNotEmpty>
@@ -67,21 +104,33 @@
     <!--新增聚落會員-->
     <insert id="ClusterMemberInsertOne" parameterClass="ClusterMember">
       INSERT INTO public.cluster_member(
-      cluster_no, user_id, cluster_enable, deleted, "limit" )
-      VALUES ($cluster_no$,#user_id#,#cluster_enable#,'1',#limit#)
+      cluster_no, user_id, cluster_enable, "limit" )
+      VALUES ($cluster_no$,#user_id#,#cluster_enable#,#limit#)
     </insert>
 
-    <!--更新聚落會員-->
+    <!--更新聚落會員狀態-->
     <update id="ClusterMemberUpdateOne" parameterClass="ClusterMember">
       UPDATE public.cluster_member
-      SET cluster_enable=#cluster_enable#, deleted=#deleted#, "limit"=#limit#
+      SET cluster_enable=#cluster_enable#
       WHERE cluster_no=$cluster_no$ AND user_id=#user_id#
     </update>
-
 
   </statements>
 
   <resultMaps>
+
+
+    <resultMap id="Cluster-result" class="prj_BIZ_System.Models.ClusterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="enable" column="enable"></result>
+      <result property="cluster_enable" column="cluster_enable"></result>
+      <result property="limit" column="limit"></result>
+    </resultMap>
+
 
     <resultMap id="ClusterInfo-result" class="prj_BIZ_System.Models.ClusterInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
@@ -101,7 +150,6 @@
       <result property="user_id" column="user_id"></result>
       <result property="cluster_enable" column="cluster_enable"></result>
       <result property="create_time" column="create_time"></result>
-      <result property="deleted" column="deleted"></result>
       <result property="limit" column="limit"></result>
       <result property="company" column="company"></result>
     </resultMap>
