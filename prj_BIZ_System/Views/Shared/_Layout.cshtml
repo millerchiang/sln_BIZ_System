@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title -生產力2.0</title>
+    <title>@ViewBag.Title - BizMatch</title>
     @Styles.Render("~/stylesheets/css")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("pagestyle", false)
@@ -23,10 +23,10 @@
 {
     if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification" && !(ViewBag.Title == "Register" && ViewBag.PageType == "Create"))
     {
-        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Home")</li>
+        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Home")</li>
         if (ViewBag.Title != "Index")
         {
-        <li class="backindex">@Html.ActionLink("回首頁", "Index", "Home")</li>
+        <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_home, "Index", "Home")</li>
         }
     }
 }
@@ -35,12 +35,23 @@ else
     if (ViewBag.Title != "Login")
     {
 
-        <li class="sign_out">@Html.ActionLink("登出", "Logout", "Manager")</li>
+        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Manager")</li>
     }
 }
+@{
 
-                <li><a href="">English</a></li>
-                <li><a href="" class="active">中文</a></li>
+
+    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+    {
+        <li><span class="active">中文</span></li>
+        <li>@Html.ActionLink("English", "SetCulture", "Home", new { Culture = "en-US", returnUrl = this.Request.RawUrl }, null)</li>
+    }
+    else
+    {
+        <li>@Html.ActionLink("中文", "SetCulture", "Home", new { Culture = "zh-TW", returnUrl = this.Request.RawUrl }, null)</li>
+        <li><span class="active">English</span></li>
+    }
+}
             </ul>
             <h1 class="head_logo">
 @if (ViewBag.Form != "Manager")
@@ -59,7 +70,7 @@ else
 
     if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
     {
-                            <li>@Html.ActionLink("登入", "Login", "Home")</li>
+                            <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_login, "Login", "Home")</li>
                         }
     else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
     {
@@ -67,36 +78,36 @@ else
     else
     {
 
-                            <li>@Html.ActionLink("企業資料庫", "Company", "Home")</li>
+                            <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_company, "Company", "Home")</li>
                             <li>
-                                <a href="javascript:void(0)">帳號管理</a>
+                                <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_accountinfo</a>
                                 <ul>
-                                    <li><a href="/User/Register">我的資料庫</a></li>
-                                    <li><a href="/Match/AccountManage">商務對接</a></li>
-                                    <li><a href="/Cluster/ClusterList">產業聚落列表</a></li>
-                                    <li><a href="javascript:void(0)">業績管理</a>
+                                    <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
+                                    <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_match</a></li>
+                                    <li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
+                                    <li><a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                         <ul>
-                                            <li><a href="/User/Register">業務帳號列表</a></li>
-                                            <li><a href="/Match/AccountManage">業績預估表</a></li>
-                                            <li><a href="/Match/AccountManage">報價單列表</a></li>
-                                            <li><a href="/Match/AccountManage">訂單列表</a></li>
+                                            <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_sales_list</a></li>
+                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
+                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_preorder_list</a></li>
+                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="javascript:void(0)">訊息管理</a>
+                                <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_message</a>
                                 <ul>
-                                    <li><a href="/Message/MessagePrivateList">私人訊息</a></li>
-                                    <li><a href="/Message/MessageCompanyList">公司訊息</a></li>
-                                    <li><a href="/Message/MessagePrivateList">聚落訊息</a></li>
+                                    <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_private</a></li>
+                                    <li><a href="/Message/MessageCompanyList">@prj_BIZ_System.LanguageResource.User.lb_msg_company</a></li>
+                                    <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="/Home/News">最新消息</a>
+                                <a href="/Home/News">@prj_BIZ_System.LanguageResource.User.lb_information</a>
                                 <ul>
-                                    <li><a href="/Home/News?type=1">新聞消息</a></li>
-                                    <li><a href="/Home/News?type=0">活動消息</a></li>
+                                    <li><a href="/Home/News?type=1">@prj_BIZ_System.LanguageResource.User.lb_news</a></li>
+                                    <li><a href="/Home/News?type=0">@prj_BIZ_System.LanguageResource.User.lb_activities</a></li>
                                 </ul>
                             </li>
                             @*<li>@Html.ActionLink("首頁", "Index", "Home")</li>
@@ -178,13 +189,13 @@ else
         <div class="footerbox">
             <nav>
                 <ul class="footernav">
-                    <li><a href="about_us.html"> 關於我們 </a></li>
-                    <li><a href="support.html"> 操作手冊 </a></li>
-                    <li><a href="servicepolicy.html"> 服務條款 </a></li>
-                    <li><a href="privacy.html"> 隱私政策 </a></li>
-                    <li><a href="faq.html"> 常見問題 </a></li>
-                    <li><a href="contact.html"> 聯絡我們 </a></li>
-                    <li><a href="appdownload.html">APP 下載 </a></li>
+                    <li><a href="about_us.html"> @prj_BIZ_System.LanguageResource.User.lb_aboutus </a></li>
+                    <li><a href="support.html"> @prj_BIZ_System.LanguageResource.User.lb_operate </a></li>
+                    <li><a href="servicepolicy.html"> @prj_BIZ_System.LanguageResource.User.lb_service </a></li>
+                    <li><a href="privacy.html"> @prj_BIZ_System.LanguageResource.User.lb_policy </a></li>
+                    <li><a href="faq.html"> @prj_BIZ_System.LanguageResource.User.lb_faqs </a></li>
+                    <li><a href="contact.html"> @prj_BIZ_System.LanguageResource.User.lb_contactus </a></li>
+                    <li><a href="appdownload.html">@prj_BIZ_System.LanguageResource.User.lb_app </a></li>
                 </ul>
             </nav>
             <ul class="footercontact">
@@ -194,15 +205,15 @@ else
                     </h2>
                 </li>
                 <li class="ftphone">
-                    聯絡電話: 02-2598-3887
+                    @prj_BIZ_System.LanguageResource.User.lb_tel: 02-2598-3887
                 </li>
                 <li class="ftmail">
-                    聯絡信箱: <a href="mailto:wavegis@gmail.com.tw">wavegis@gmail.com.tw</a>
+                    @prj_BIZ_System.LanguageResource.User.lb_mail: <a href="mailto:wavegis@gmail.com.tw">wavegis@gmail.com.tw</a>
                 </li>
             </ul>
 
             <p class="footerp">
-                版權所有 Copyright © 2016 BIZ Cluster System. All rights reserved
+                @prj_BIZ_System.LanguageResource.User.lb_allrights Copyright © 2016 BIZ Cluster System. All rights reserved
             </p>
 
         </div>

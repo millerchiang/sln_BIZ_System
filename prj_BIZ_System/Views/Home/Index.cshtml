@@ -14,11 +14,18 @@
         <form action="CompanyList" class="searchbox indexsearch">
             <input type="text" name="companyName" placeholder="公司名">
             <select name="sort_id" id="">
-                <option value="">產業別</option>
+                <option value="">@prj_BIZ_System.LanguageResource.User.lb_companytype</option>
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
-                    <option value="@sortList.sort_id">@sortList.enterprise_sort_name</option>
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                    {
+                        <option value="@sortList.sort_id">@sortList.enterprise_sort_name</option>
+                    }
+                    else
+                    {
+                        <option value="@sortList.sort_id">@sortList.enterprise_sort_name_en</option>
+                    }
                 }
             </select>
             <button class="searchbox_submit" type="submit"> 搜尋 </button>

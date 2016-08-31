@@ -18,13 +18,20 @@
             企業資料庫
         </h2>
         <section class="form_box">
-            <h2>產業別</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_companytype</h2>
             <ul class="listlink col2 comicon article_col1">
 
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
-                    <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</a></li>
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                    {
+                        <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</a></li>
+                    }
+                    else{
+                        < li >< a href = "CompanyList?sort_id=@sortList.sort_id" > @sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en </ a ></ li >
+                    }
+
                 }
 
             </ul>

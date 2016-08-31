@@ -113,6 +113,15 @@ header {
   border-color: #74b3f8;
   background-color: #2163aa;
 }
+.head_langBu .active {
+  color: #74b3f8;
+  border-color: #74b3f8;
+  background-color: #2163aa;
+  border: 1px solid;
+  padding: 2px 5px;
+  text-decoration: none;
+  font-size: 0.75em;
+}
 
 .head_logo {
   font-size: 1.688em;
@@ -318,6 +327,7 @@ header {
 input {
   border: 1px solid #cccccc;
   height: 25px;
+  padding-left: 5px;
 }
 
 @-webkit-keyframes menuA {
@@ -501,6 +511,7 @@ aside {
   width: 100%;
   margin: 0 auto;
   max-width: 980px;
+  word-break: break-all;
 }
 
 .article_col2 {
@@ -508,6 +519,7 @@ aside {
   display: inline-block;
   margin-left: 4%;
   vertical-align: top;
+  word-break: break-all;
 }
 
 .ui-tabs .ui-tabs-nav li {
@@ -626,7 +638,8 @@ a:hover, a:focus, a:active, a.active {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
   margin: 20px auto 0 auto;
   position: relative;
 }
@@ -654,7 +667,7 @@ a:hover, a:focus, a:active, a.active {
 
 .form_box {
   border: 1px solid #cccccc;
-  padding: 30px;
+  padding: 35px 30px 20px 30px;
   box-sizing: border-box;
   position: relative;
   clear: both;
@@ -665,11 +678,18 @@ a:hover, a:focus, a:active, a.active {
   padding: 2px 3px;
   position: absolute;
   left: 5px;
-  top: -10px;
+  color: #fff;
+  padding: 5px 10px 4px 10px;
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #00bcd5;
+  background: #00bcd5;
+  box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.6);
+  font-weight: normal;
+  top: -14px;
 }
-.form_box input {
-  border: 1px solid #cccccc;
-  height: 25px;
+.form_box h2.bgblue {
+  border: 1px solid #60d500;
+  background: #88de17;
 }
 .form_box + .form_box {
   margin-top: 30px;
@@ -714,6 +734,8 @@ a:hover, a:focus, a:active, a.active {
 .radioinput + label {
   position: relative;
   padding-left: 20px;
+  line-height: 1;
+  font-size: 0.938em;
 }
 
 .radioinput:checked + label {
@@ -752,6 +774,8 @@ a:hover, a:focus, a:active, a.active {
 .inputCheckbox + label {
   position: relative;
   padding-left: 20px;
+  line-height: 1;
+  font-size: 0.938em;
 }
 
 .inputCheckbox:checked + label {
@@ -824,6 +848,8 @@ a:hover, a:focus, a:active, a.active {
 
 .edittable {
   width: 100%;
+  word-break: break-all;
+  table-layout: fixed;
 }
 .edittable th {
   background: #03a9f5;
@@ -836,6 +862,7 @@ a:hover, a:focus, a:active, a.active {
 }
 .edittable td {
   padding: 5px;
+  font-size: 0.938em;
 }
 .edittable td + td {
   border-left: 1px solid #cccccc;
@@ -861,6 +888,7 @@ a:hover, a:focus, a:active, a.active {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
   margin-bottom: 10px;
 }
 .edittable .deletebu:hover {
@@ -879,6 +907,7 @@ a:hover, a:focus, a:active, a.active {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .edittable .editbu:hover {
   background: #189bac;
@@ -1032,7 +1061,6 @@ a:hover, a:focus, a:active, a.active {
 
 .contentspan {
   color: #737373;
-  font-size: 0.938em;
 }
 
 input:-moz-read-only {
@@ -1059,10 +1087,10 @@ iframe {
 .regis_dmlist3 li {
   float: left;
   width: 32.3333%;
-  min-width: 214px;
   text-align: center;
   margin-bottom: 30px;
   margin-left: 1%;
+  position: relative;
 }
 .regis_dmlist3 li:nth-child(3n+1) {
   clear: left;
@@ -1074,19 +1102,37 @@ iframe {
 .regis_dmlist3 p {
   text-align: left;
   padding: 5px 0;
-  font-size: 0.938em;
+  font-size: 0.875em;
+  text-decoration: none;
   margin: 0 auto;
-  max-width: 14em;
+  max-width: 15em;
   white-space: nowrap;
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   overflow: hidden;
   color: #5e5d5d;
   line-height: 1.6;
-}
-.regis_dmlist3 p:hover {
-  white-space: normal;
+  display: block;
   cursor: pointer;
+}
+.regis_dmlist3 p + span {
+  display: none;
+}
+.regis_dmlist3 p:hover + span {
+  padding: 4px 8px;
+  color: #9e9e9e;
+  position: absolute;
+  left: 50px;
+  bottom: 45px;
+  z-index: 20;
+  white-space: initial;
+  width: 180px;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+  display: block;
+  font-size: 0.75em;
+  text-align: left;
+  line-height: 1.6;
 }
 
 #dialog p {
@@ -1239,6 +1285,38 @@ input.tagtext:focus {
   border-color: transparent transparent #74b3f8 transparent;
 }
 
+.datalist {
+  border: 1px solid #cccccc;
+  padding: 15px 0;
+}
+.datalist h3 {
+  color: #2e7ed1;
+  position: relative;
+  padding: 5px 15px 15px 45px;
+  border-bottom: 1px solid #cccccc;
+}
+.datalist h3:before {
+  content: "";
+  width: 27px;
+  height: 27px;
+  background-image: url(../images/icon-s3235817286.png);
+  background-repeat: no-repeat;
+  background-position: 0 -34px;
+  position: absolute;
+  left: 15px;
+  top: 0;
+}
+.datalist ul {
+  padding: 15px;
+}
+.datalist ul a {
+  font-size: 0.813em;
+}
+
+.borderTitle + .form_box {
+  margin-top: 30px;
+}
+
 .edittable input {
   border: 1px solid #cccccc;
   height: 25px;
@@ -1256,6 +1334,7 @@ input.tagtext:focus {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .deleteSbu:hover, a.deleteSbu:hover {
   background: #5e5d5d;
@@ -1273,7 +1352,8 @@ input.tagtext:focus {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .submitbu:hover, a.submitbu:hover {
   background: #03a9f5;
@@ -1291,7 +1371,8 @@ input.tagtext:focus {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .submitbuRed:hover, a.submitbuRed:hover {
   background: #c13717;
@@ -1308,7 +1389,8 @@ input.tagtext:focus {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .buinfor:hover, a.buinfor:hover {
   background: #1184b9;
@@ -1326,6 +1408,7 @@ input.tagtext:focus {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbu:hover, a.addbu:hover {
   background: #f46813;
@@ -1342,7 +1425,8 @@ input.tagtext:focus {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .submitbuOr:hover, a.submitbuOr:hover {
   background: #f46813;
@@ -1360,6 +1444,7 @@ input.tagtext:focus {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbublue:hover, a.addbublue:hover {
   background: #1184b9;
@@ -1376,7 +1461,8 @@ input.tagtext:focus {
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .disabled:hover, a.disabled:hover {
   background: #03a9f5;
@@ -1395,6 +1481,7 @@ input.tagtext:focus {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbured:hover, a.addbured:hover {
   background: #c13717;
@@ -1419,6 +1506,7 @@ input.tagtext:focus {
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbu2:hover, a.addbu2:hover {
   background: #f46813;
@@ -1461,11 +1549,26 @@ input.tagtext:focus {
     vertical-align: top;
   }
 
+  main, main.main2 {
+    padding-bottom: 260px;
+  }
+
   .article_col2 {
     width: 100%;
     display: inline-block;
     vertical-align: top;
     margin: 30px 0 0 0;
+  }
+
+  footer .footernav li {
+    float: none;
+    line-height: 1.6;
+  }
+  footer .footernav li + li::before {
+    display: none;
+  }
+  footer .footercontact {
+    display: none;
   }
 }
 @media only screen and (max-width: 520px) {

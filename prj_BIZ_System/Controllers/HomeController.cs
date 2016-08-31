@@ -34,10 +34,33 @@ namespace prj_BIZ_System.Controllers
 
         }
 
+        public ActionResult SetCulture(string culture, string returnUrl)
+        {
+            // Validate input 
+            culture = CultureHelper.GetImplementedCulture(culture);
+
+            // Save culture in a cookie 
+            HttpCookie cookie = Request.Cookies["_culture"];
+
+            if (cookie != null)
+            {
+                // update cookie value 
+                cookie.Value = culture;
+            }
+            else
+            {
+                // create cookie value 
+                cookie = new HttpCookie("_culture");
+                cookie.Value = culture;
+                cookie.Expires = DateTime.Now.AddYears(1);
+            }
+
+            Response.Cookies.Add(cookie);
+            return Redirect(returnUrl);
+        }
 
         public ActionResult Index()
         {
-
             if (Request.Cookies["UserInfo"] != null)
             {
                 indexModel.enterprisesortList = userService.GetSortList();

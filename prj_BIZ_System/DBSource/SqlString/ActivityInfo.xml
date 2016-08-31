@@ -444,7 +444,7 @@
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
       <select id="SelectEnterpriseAll" resultMap="EnterpriseSort">
-        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name
+        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en
         FROM enterprise_sort sort
         INNER JOIN enterprise_sort_list list
         ON sort.sort_id = list.sort_id
@@ -452,7 +452,7 @@
       </select>
 
       <select id="SelectEnterpriseByUserId" resultMap="EnterpriseSort">
-        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name
+        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en
         FROM enterprise_sort sort
         INNER JOIN enterprise_sort_list list
         ON sort.sort_id = list.sort_id
@@ -739,6 +739,7 @@
       <result property="sort_id" column="sort_id"/>
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
       <result property="enterprise_sort_name" column="enterprise_sort_name"/>
+      <result property="enterprise_sort_name_en" column="enterprise_sort_name_en"/>
     </resultMap>
 
     <resultMap id="ActivityProductSelect" class="ActivityProductSelectModel">

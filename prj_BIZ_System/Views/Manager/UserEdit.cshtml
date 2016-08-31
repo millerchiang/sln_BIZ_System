@@ -232,12 +232,18 @@
             <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
             <label for="revenue06">一億以上</label>
         </div>
-        <label for="verticals" class="regis_col02L spanRed">產業別(可複選)</label>
+        <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_companytype (可複選)</label>
         <div class="regis_col02R verticalslist">
 
             @foreach (var sortList in Model.enterprisesortList)
             {
-                <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
+                if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                {
+                    <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
+                }
+                else {
+                    <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</label>
+                }
 
             }
         </div>

@@ -9,12 +9,18 @@
     <form action="/Home/CompanyList" class="searchbox">
         <input type="text" name="companyName" placeholder="公司名">
         <select name="sort_id" id="">
-            <option value="">產業別</option>
+            <option value="">@prj_BIZ_System.LanguageResource.User.lb_companytype</option>
             @if (Model != null)
             {
                 foreach (EnterpriseSortListModel md in Model)
                 {
-                    <option value="@md.sort_id">@md.enterprise_sort_name</option>
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                    {
+                        <option value="@md.sort_id">@md.enterprise_sort_name</option>
+                    }
+                    else {
+                        <option value="@md.sort_id">@md.enterprise_sort_name_en</option>
+                    }
                 }
             }
         </select>

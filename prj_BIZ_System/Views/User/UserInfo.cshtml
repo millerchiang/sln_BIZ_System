@@ -138,12 +138,19 @@
                 </div>
                 <label for="revenue" class="regis_col02L">營業額</label>
                 <span class="regis_col02R contentspan">@revenue</span>
-                <label for="verticals" class="regis_col02L">產業別</label>
+                <label for="verticals" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companytype</label>
                 <div class="regis_col02R verticalslist">
 
                     @foreach (var usersortList in Model.usersortList)
                     {
-                        <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                        if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                        {
+                            <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                        }
+                        else
+                        {
+                            <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name_en</span>
+                        }
                     }
                 </div>
                 <label for="website" class="regis_col02L">企業網址</label>

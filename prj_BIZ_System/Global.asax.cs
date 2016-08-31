@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using prj_BIZ_System.Controllers;
 
 namespace prj_BIZ_System
 {
@@ -30,6 +31,23 @@ namespace prj_BIZ_System
 
             UploadConfig.RegisterCustomSetting(uploadFileBaseDir,Server.MapPath("~/"+ uploadFileBaseDir));
             CacheConfig.RegisterCustomSetting(Server.MapPath("~/" + cachePropertyBaseDir));
+        }
+
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            HttpCookie cultureCookie = Request.Cookies["_culture"];
+            if (cultureCookie != null)
+            {
+                // get culture name
+                var cultureInfoName = CultureHelper.GetImplementedCulture(cultureCookie.Value);
+
+                // set culture
+                System.Threading.Thread.CurrentThread.CurrentCulture =
+                new System.Globalization.CultureInfo(cultureInfoName);
+                System.Threading.Thread.CurrentThread.CurrentUICulture =
+                new System.Globalization.CultureInfo(cultureInfoName);
+
+            }
         }
     }
 }
