@@ -207,7 +207,7 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id == null || video_name == null || youtube_site == null)
             {
-                string message = string.Format("data has null");
+                string message = string.Format("data has null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             }
             var result = userService.VideoListInsert(user_id, video_name, youtube_site);
@@ -219,7 +219,7 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id == null)
             {
-                string message = string.Format("user_id null");
+                string message = string.Format("user_id null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             }
             IList<Video> allVideo = userService.getAllVideo(user_id).Select(
@@ -241,7 +241,7 @@ namespace prj_BIZ_System.WebService
 
             if (user_id == null || video_no == null)
             {
-                string message = string.Format("user_id or video_no null");
+                string message = string.Format("user_id or video_no null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             } 
             var result = userService.VideoListsDelete(user_id, video_nos);
