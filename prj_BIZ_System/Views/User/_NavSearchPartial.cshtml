@@ -7,9 +7,9 @@
 
 <aside>
     <form action="/Home/CompanyList" class="searchbox">
-        <input type="text" name="companyName" placeholder="公司名">
+        <input type="text" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
         <select name="sort_id" id="">
-            <option value="">@prj_BIZ_System.LanguageResource.User.lb_companytype</option>
+            <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
             @if (Model != null)
             {
                 foreach (EnterpriseSortListModel md in Model)
@@ -24,7 +24,7 @@
                 }
             }
         </select>
-        <button class="searchbox_submit" type="submit"> 搜尋 </button>
+        <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
     </form>
 </aside>
 

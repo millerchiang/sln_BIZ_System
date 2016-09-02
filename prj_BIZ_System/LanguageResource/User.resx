@@ -117,20 +117,128 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lb_0_5000k" xml:space="preserve">
+    <value>500萬以下</value>
+  </data>
+  <data name="lb_10001_15000k" xml:space="preserve">
+    <value>1001-1500萬</value>
+  </data>
+  <data name="lb_1000dollars" xml:space="preserve">
+    <value>千元</value>
+  </data>
+  <data name="lb_15001k_30000k" xml:space="preserve">
+    <value>1501-3000萬</value>
+  </data>
+  <data name="lb_30001k_50000k" xml:space="preserve">
+    <value>3001-5000萬</value>
+  </data>
+  <data name="lb_50001k_100000k" xml:space="preserve">
+    <value>5000萬-1億</value>
+  </data>
+  <data name="lb_5001k_10000k" xml:space="preserve">
+    <value>501-1000萬</value>
+  </data>
   <data name="lb_aboutus" xml:space="preserve">
     <value>關於我們</value>
   </data>
-  <data name="lb_accountinfo" xml:space="preserve">
+  <data name="lb_accountpw_empty" xml:space="preserve">
+    <value>帳號或密碼不能為空白!!</value>
+  </data>
+  <data name="lb_accountpw_wrong" xml:space="preserve">
+    <value>帳號或密碼錯誤!!</value>
+  </data>
+  <data name="lb_account_info" xml:space="preserve">
     <value>帳號管理</value>
   </data>
+  <data name="lb_account_is_empty" xml:space="preserve">
+    <value>帳號不能為空白!!</value>
+  </data>
   <data name="lb_activities" xml:space="preserve">
+    <value>活動</value>
+  </data>
+  <data name="lb_activities_news" xml:space="preserve">
     <value>活動消息</value>
   </data>
-  <data name="lb_allrights" xml:space="preserve">
-    <value>版權所有</value>
+  <data name="lb_activitylist" xml:space="preserve">
+    <value>活動列表</value>
   </data>
-  <data name="lb_app" xml:space="preserve">
-    <value>APP 下載</value>
+  <data name="lb_activity_amount" xml:space="preserve">
+    <value>與會人數</value>
+  </data>
+  <data name="lb_activity_date" xml:space="preserve">
+    <value>活動時間</value>
+  </data>
+  <data name="lb_activity_name" xml:space="preserve">
+    <value>活動名稱</value>
+  </data>
+  <data name="lb_activity_participant" xml:space="preserve">
+    <value>與會人</value>
+  </data>
+  <data name="lb_activity_register" xml:space="preserve">
+    <value>活動報名</value>
+  </data>
+  <data name="lb_activity_site" xml:space="preserve">
+    <value>活動地點</value>
+  </data>
+  <data name="lb_actmatch" xml:space="preserve">
+    <value>活動媒合</value>
+  </data>
+  <data name="lb_add" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="lb_addr" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="lb_amountofcapital" xml:space="preserve">
+    <value>資本額</value>
+  </data>
+  <data name="lb_amountofreply" xml:space="preserve">
+    <value>回覆數</value>
+  </data>
+  <data name="lb_appdownload" xml:space="preserve">
+    <value>APP下載</value>
+  </data>
+  <data name="lb_audited" xml:space="preserve">
+    <value>已完成審核</value>
+  </data>
+  <data name="lb_author" xml:space="preserve">
+    <value>發布人</value>
+  </data>
+  <data name="lb_back" xml:space="preserve">
+    <value>回活動報名</value>
+  </data>
+  <data name="lb_backhome" xml:space="preserve">
+    <value>回首頁</value>
+  </data>
+  <data name="lb_bizexploremisson" xml:space="preserve">
+    <value>拓銷會</value>
+  </data>
+  <data name="lb_boss" xml:space="preserve">
+    <value>代表人</value>
+  </data>
+  <data name="lb_buyerarea" xml:space="preserve">
+    <value>買方專區</value>
+  </data>
+  <data name="lb_buyerid" xml:space="preserve">
+    <value>買主帳號</value>
+  </data>
+  <data name="lb_buyerinfo" xml:space="preserve">
+    <value>買主資訊</value>
+  </data>
+  <data name="lb_buyerneed" xml:space="preserve">
+    <value>買主媒合需求</value>
+  </data>
+  <data name="lb_catalogupload" xml:space="preserve">
+    <value>上傳型錄</value>
+  </data>
+  <data name="lb_category" xml:space="preserve">
+    <value>企業類型</value>
+  </data>
+  <data name="lb_changepw" xml:space="preserve">
+    <value>修改密碼</value>
+  </data>
+  <data name="lb_checknewpw" xml:space="preserve">
+    <value>確認新密碼</value>
   </data>
   <data name="lb_cluster_list" xml:space="preserve">
     <value>產業聚落列表</value>
@@ -138,14 +246,65 @@
   <data name="lb_company" xml:space="preserve">
     <value>企業資料庫</value>
   </data>
-  <data name="lb_companytype" xml:space="preserve">
-    <value>產業別</value>
+  <data name="lb_companybrief" xml:space="preserve">
+    <value>企業簡介</value>
   </data>
-  <data name="lb_companytype_sel" xml:space="preserve">
-    <value>請選擇產業別</value>
+  <data name="lb_companyid" xml:space="preserve">
+    <value>統一編號</value>
+  </data>
+  <data name="lb_companyname" xml:space="preserve">
+    <value>公司名稱</value>
+  </data>
+  <data name="lb_consult2buyer" xml:space="preserve">
+    <value>想與買家洽談</value>
+  </data>
+  <data name="lb_consult2seller" xml:space="preserve">
+    <value>想與賣家洽談</value>
+  </data>
+  <data name="lb_contactman" xml:space="preserve">
+    <value>主聯絡人</value>
+  </data>
+  <data name="lb_contactname" xml:space="preserve">
+    <value>聯絡人姓名</value>
   </data>
   <data name="lb_contactus" xml:space="preserve">
     <value>聯絡我們</value>
+  </data>
+  <data name="lb_copyright" xml:space="preserve">
+    <value>版權所有</value>
+  </data>
+  <data name="lb_create_account" xml:space="preserve">
+    <value>請自訂帳號</value>
+  </data>
+  <data name="lb_create_activity" xml:space="preserve">
+    <value>新建活動</value>
+  </data>
+  <data name="lb_date" xml:space="preserve">
+    <value>發佈日</value>
+  </data>
+  <data name="lb_datee" xml:space="preserve">
+    <value>發布日期</value>
+  </data>
+  <data name="lb_delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="lb_detail" xml:space="preserve">
+    <value>內容</value>
+  </data>
+  <data name="lb_domestic" xml:space="preserve">
+    <value>國內企業</value>
+  </data>
+  <data name="lb_email" xml:space="preserve">
+    <value>電子郵件</value>
+  </data>
+  <data name="lb_emailbox" xml:space="preserve">
+    <value>聯絡信箱</value>
+  </data>
+  <data name="lb_email_is_empty" xml:space="preserve">
+    <value>E-mail不可為空白</value>
+  </data>
+  <data name="lb_en_info" xml:space="preserve">
+    <value>英文資訊</value>
   </data>
   <data name="lb_estimate" xml:space="preserve">
     <value>業績預估表</value>
@@ -153,29 +312,53 @@
   <data name="lb_faqs" xml:space="preserve">
     <value>常見問題</value>
   </data>
+  <data name="lb_foreign" xml:space="preserve">
+    <value>外國企業</value>
+  </data>
   <data name="lb_forget_pw" xml:space="preserve">
     <value>忘記密碼</value>
   </data>
-  <data name="lb_home" xml:space="preserve">
-    <value>回首頁</value>
+  <data name="lb_good_activities" xml:space="preserve">
+    <value>推薦活動</value>
   </data>
-  <data name="lb_information" xml:space="preserve">
+  <data name="lb_home" xml:space="preserve">
+    <value>首頁</value>
+  </data>
+  <data name="lb_ifforgetpw" xml:space="preserve">
+    <value>若您忘記密碼，請輸入註冊時的帳號及Email，系統將送一組預設密碼給您，如有疑問，請洽系統管理人員，謝謝。</value>
+  </data>
+  <data name="lb_latest_activity" xml:space="preserve">
+    <value>最新活動</value>
+  </data>
+  <data name="lb_latest_activitynews" xml:space="preserve">
     <value>最新消息</value>
+  </data>
+  <data name="lb_latest_company" xml:space="preserve">
+    <value>最新上架企業</value>
+  </data>
+  <data name="lb_latest_news" xml:space="preserve">
+    <value>最新新聞</value>
+  </data>
+  <data name="lb_link" xml:space="preserve">
+    <value>相關資訊連結</value>
   </data>
   <data name="lb_login" xml:space="preserve">
     <value>登入</value>
   </data>
+  <data name="lb_logoupload" xml:space="preserve">
+    <value>上傳LOGO</value>
+  </data>
   <data name="lb_logout" xml:space="preserve">
     <value>登出</value>
   </data>
-  <data name="lb_mail" xml:space="preserve">
-    <value>聯絡信箱</value>
+  <data name="lb_manual" xml:space="preserve">
+    <value>操作手冊</value>
   </data>
   <data name="lb_match" xml:space="preserve">
     <value>商務對接</value>
   </data>
-  <data name="lb_message" xml:space="preserve">
-    <value>訊息管理</value>
+  <data name="lb_morethan100000k" xml:space="preserve">
+    <value>一億以上</value>
   </data>
   <data name="lb_msg_cluster" xml:space="preserve">
     <value>聚落訊息</value>
@@ -183,46 +366,172 @@
   <data name="lb_msg_company" xml:space="preserve">
     <value>公司訊息</value>
   </data>
+  <data name="lb_msg_managment" xml:space="preserve">
+    <value>訊息管理</value>
+  </data>
   <data name="lb_msg_private" xml:space="preserve">
     <value>私人訊息</value>
+  </data>
+  <data name="lb_multiple" xml:space="preserve">
+    <value>可複選</value>
   </data>
   <data name="lb_mycompany" xml:space="preserve">
     <value>我的資料庫</value>
   </data>
+  <data name="lb_myinfo" xml:space="preserve">
+    <value>我的會員資料</value>
+  </data>
   <data name="lb_newid" xml:space="preserve">
-    <value>創造新帳號</value>
+    <value>創建新帳號</value>
+  </data>
+  <data name="lb_newpw" xml:space="preserve">
+    <value>新密碼</value>
   </data>
   <data name="lb_news" xml:space="preserve">
+    <value>新聞</value>
+  </data>
+  <data name="lb_news_info" xml:space="preserve">
     <value>新聞消息</value>
   </data>
-  <data name="lb_operate" xml:space="preserve">
-    <value>操作手冊</value>
+  <data name="lb_id" xml:space="preserve">
+    <value>編號</value>
+  </data>
+  <data name="lb_nonefile" xml:space="preserve">
+    <value>未選擇任何檔案</value>
   </data>
   <data name="lb_order_list" xml:space="preserve">
     <value>訂單列表</value>
   </data>
+  <data name="lb_originalpw" xml:space="preserve">
+    <value>舊密碼</value>
+  </data>
   <data name="lb_password" xml:space="preserve">
     <value>密碼</value>
+  </data>
+  <data name="lb_pdf" xml:space="preserve">
+    <value>線上型錄</value>
+  </data>
+  <data name="lb_pdfupload" xml:space="preserve">
+    <value>上傳檔案</value>
   </data>
   <data name="lb_performance" xml:space="preserve">
     <value>業績管理</value>
   </data>
-  <data name="lb_policy" xml:space="preserve">
+  <data name="lb_phone_no" xml:space="preserve">
+    <value>手機號碼</value>
+  </data>
+  <data name="lb_photoupload" xml:space="preserve">
+    <value>上傳小圖</value>
+  </data>
+  <data name="lb_pleaseuse_companyid" xml:space="preserve">
+    <value>請用統一編號註冊</value>
+  </data>
+  <data name="lb_privacypolicy" xml:space="preserve">
     <value>隱私政策</value>
   </data>
-  <data name="lb_preorder_list" xml:space="preserve">
+  <data name="lb_product_info" xml:space="preserve">
+    <value>產品說明</value>
+  </data>
+  <data name="lb_product_name" xml:space="preserve">
+    <value>產品名稱</value>
+  </data>
+  <data name="lb_pwset8" xml:space="preserve">
+    <value>密碼請設8個字元的英文及數字混合</value>
+  </data>
+  <data name="lb_pw_is_empty" xml:space="preserve">
+    <value>密碼不能為空白!!</value>
+  </data>
+  <data name="lb_quotation_list" xml:space="preserve">
     <value>報價單列表</value>
   </data>
-  <data name="lb_sales_list" xml:space="preserve">
+  <data name="lb_reenterpw" xml:space="preserve">
+    <value>同上密碼請再次輸入確認</value>
+  </data>
+  <data name="lb_registerinfo" xml:space="preserve">
+    <value>報名資料</value>
+  </data>
+  <data name="lb_sales_idlist" xml:space="preserve">
     <value>業務帳號列表</value>
   </data>
-  <data name="lb_service" xml:space="preserve">
-    <value>服務條款</value>
+  <data name="lb_save" xml:space="preserve">
+    <value>儲存</value>
+  </data>
+  <data name="lb_scope" xml:space="preserve">
+    <value>產業別</value>
+  </data>
+  <data name="lb_scope_sel" xml:space="preserve">
+    <value>請選擇產業別</value>
+  </data>
+  <data name="lb_search" xml:space="preserve">
+    <value>搜尋</value>
+  </data>
+  <data name="lb_searchresult" xml:space="preserve">
+    <value>搜尋結果</value>
+  </data>
+  <data name="lb_signup" xml:space="preserve">
+    <value>註冊</value>
+  </data>
+  <data name="lb_signup_me" xml:space="preserve">
+    <value>我要報名</value>
+  </data>
+  <data name="lb_subject" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="lb_submit" xml:space="preserve">
+    <value>送出報名</value>
+  </data>
+  <data name="lb_submit_sure" xml:space="preserve">
+    <value>確定送出</value>
+  </data>
+  <data name="lb_sumofbiz" xml:space="preserve">
+    <value>營業額</value>
   </data>
   <data name="lb_tel" xml:space="preserve">
+    <value>電話/分機</value>
+  </data>
+  <data name="lb_tel_contact" xml:space="preserve">
     <value>聯絡電話</value>
+  </data>
+  <data name="lb_total_results" xml:space="preserve">
+    <value>筆數 : </value>
+  </data>
+  <data name="lb_tradeshow" xml:space="preserve">
+    <value>商洽會</value>
+  </data>
+  <data name="lb_typethefield" xml:space="preserve">
+    <value>請填寫這個欄位</value>
+  </data>
+  <data name="lb_useragreement" xml:space="preserve">
+    <value>服務條款</value>
   </data>
   <data name="lb_user_id" xml:space="preserve">
     <value>帳號</value>
+  </data>
+  <data name="lb_video" xml:space="preserve">
+    <value>影音型錄</value>
+  </data>
+  <data name="lb_videoname" xml:space="preserve">
+    <value>影音名稱</value>
+  </data>
+  <data name="lb_videosite" xml:space="preserve">
+    <value>影音網址</value>
+  </data>
+  <data name="lb_website" xml:space="preserve">
+    <value>企業網址</value>
+  </data>
+  <data name="lb_youcanupload_jpggifpng" xml:space="preserve">
+    <value>您可以上傳jpeg、gif、png檔案格式</value>
+  </data>
+  <data name="lb_zhtw_info" xml:space="preserve">
+    <value>中文資訊</value>
+  </data>
+  <data name="lb_no" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="lb_nodata" xml:space="preserve">
+    <value>查無資料!!</value>
+  </data>
+  <data name="lb_yes" xml:space="preserve">
+    <value>是</value>
   </data>
 </root>

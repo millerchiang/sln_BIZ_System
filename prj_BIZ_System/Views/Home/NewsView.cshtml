@@ -15,12 +15,12 @@
     <article class="article_col2">
         <h2 class="borderTitle">@Model.news.news_title</h2>
         <p class="news_content">
-            發布日期: @Model.news.news_date.ToString("yyyy/MM/dd tt hh:mm")<br />
+            @prj_BIZ_System.LanguageResource.User.lb_datee: @Model.news.news_date.ToString("yyyy/MM/dd tt hh:mm")<br />
             @Html.Raw(@Model.news.content)
             <br />
             @if (Model.news.news_type == "1")
             {
-                @:<h>相關資訊連結:</h>
+                @:<h>@prj_BIZ_System.LanguageResource.User.lb_link:</h>
                 string prefix = Model.news.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0 ? "" : "http://";
                 <a href="@prefix@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
             }
@@ -31,7 +31,7 @@
                     {
                         <a href="/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">報名資訊</a>
                     }
-                    <a href="/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">買主資訊</a>
+                    <a href="/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
                 </div>
 
             }

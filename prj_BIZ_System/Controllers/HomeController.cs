@@ -88,15 +88,15 @@ namespace prj_BIZ_System.Controllers
 
                 if (Request["Type"] == null)
                 {
-                    ViewBag.tname = "最新消息";
+                    ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
                     indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
                 }
                 else
                 {
                     if (Request["Type"]=="0")
-                        ViewBag.tname = "活動消息";
+                        ViewBag.tname = LanguageResource.User.lb_latest_activity;
                     else
-                        ViewBag.tname = "最新新聞";
+                        ViewBag.tname = LanguageResource.User.lb_latest_news;
 
                     indexModel.newsList = activityService.GetNewsType(Request["Type"],null).Pages(Request, this, 10);
                 }
@@ -250,7 +250,7 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
-                TempData["pw_errMsg"] = "帳號或密碼錯誤!!";
+                TempData["pw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
                 return Redirect("Login");
             }
             else

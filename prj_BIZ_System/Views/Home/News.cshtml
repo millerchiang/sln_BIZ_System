@@ -19,12 +19,12 @@
             @foreach (var newsList in Model.newsList)
             {
                 string aa = "news_newspage";
-                string bb = "新聞";
+                string bb = prj_BIZ_System.LanguageResource.User.lb_news;
 
                 if (newsList.news_type == "0")
                 {
                     aa = "news_activity";
-                    bb = "活動";
+                    bb = prj_BIZ_System.LanguageResource.User.lb_activities;
 
                 }
                 <li>

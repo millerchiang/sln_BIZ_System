@@ -12,9 +12,9 @@
 <main>
     <div class="article_col1">
         <form action="CompanyList" class="searchbox indexsearch">
-            <input type="text" name="companyName" placeholder="公司名">
+            <input type="text" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
             <select name="sort_id" id="">
-                <option value="">@prj_BIZ_System.LanguageResource.User.lb_companytype</option>
+                <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
@@ -28,16 +28,27 @@
                     }
                 }
             </select>
-            <button class="searchbox_submit" type="submit"> 搜尋 </button>
+            <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
         </form>
         <aside>
             <div class="newcom">
-                <h3>最新上架企業</h3>
+                <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_company</h3>
                 <ul class="listlink comicon">
-                @foreach (var userList in Model.userinfoList)
-                {
-                    <li><a href="/User/UserInfo?user_id=@userList.user_id">@userList.company</a></li>
-                }
+                    @{
+                        var company = "";
+                        foreach (var userList in Model.userinfoList)
+                        {
+                            company = userList.company;
+                            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                            {
+                                if (userList.company_en != null && userList.company_en != "")
+                                {
+                                    company = userList.company_en;
+                                }
+                            }
+                            <li><a href="/User/UserInfo?user_id=@userList.user_id">@company</a></li>
+                        }
+                    }
                 </ul>
             </div>
 
@@ -45,7 +56,7 @@
         <article class="article_col2">
             <div class="newsbox">
                 <div class="newsboxTitle">
-                    <h3>最新活動</h3>
+                    <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h3>
                     <a href="Activity">More</a>
                 </div>
                 <img src="/images/index_pic.jpg" alt="" class="newsboximg01">
@@ -53,13 +64,24 @@
                 @{
                     int i = 0;
                     int j = 0;
+                    var activity_name = "";
                     foreach (var activityList in Model.activityinfoList)
                     {
                         i = i + 1;
+                        activity_name = activityList.activity_name;
+
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (activityList.activity_name_en != null && activityList.activity_name_en != "")
+                            {
+                                activity_name = activityList.activity_name_en;
+                            }
+                        }
+
                     <li>
                         <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
                             <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
-                            @activityList.activity_name
+                            @activity_name
                         </a>
                     </li>
                     }
@@ -73,7 +95,7 @@
             </div>
             <div class="newsbox">
                 <div class="newsboxTitle">
-                    <h3>最新新聞</h3>
+                    <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activitynews</h3>
                     <a href="News">More</a>
                 </div>
 
