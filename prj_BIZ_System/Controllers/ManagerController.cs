@@ -91,7 +91,6 @@ namespace prj_BIZ_System.Controllers
             {
                 cookie = new HttpCookie("ManagerInfo");
                 cookie.Values.Add("manager_id", model.manager_id);
-                cookie.Values.Add("name", model.name);
                 cookie.Values.Add("phone", model.phone);
                 cookie.Values.Add("email", model.email);
 
@@ -104,6 +103,8 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("news", limitsDict["news"]);
                 cookie.Values.Add("manager", limitsDict["manager"]);
                 cookie.Values.Add("statistic", limitsDict["statistic"]);
+
+                cookie.Values.Add("name", HttpUtility.UrlEncode(model.name));
 
                 Response.AppendCookie(cookie);
             }

@@ -29,17 +29,6 @@
         <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_home, "Index", "Home")</li>
         }
     }
-}
-else
-{
-    if (ViewBag.Title != "Login")
-    {
-
-        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Manager")</li>
-    }
-}
-@{
-
 
     if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
     {
@@ -50,6 +39,15 @@ else
     {
         <li>@Html.ActionLink("中文", "SetCulture", "Home", new { Culture = "zh-TW", returnUrl = this.Request.RawUrl }, null)</li>
         <li><span class="active">English</span></li>
+    }
+
+}
+else
+{
+    if (ViewBag.Title != "Login")
+    {
+
+        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Manager")</li>
     }
 }
             </ul>

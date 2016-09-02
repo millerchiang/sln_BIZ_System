@@ -86,6 +86,32 @@
                 }
                 </ul>
             </div>
-        </article>
+
+@*
+            <div class="newsbox">
+                <div class="newsboxTitle">
+                    <h3>最新型錄</h3>
+                    <a href="">More</a>
+                </div>
+                <ul class="newsboxList02 listlink dmicon">
+
+                    @foreach (var catalogList in Model.cataloglistList)
+                    {
+                        <li>
+                            <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                                <span>@(catalogList.catalog_name)</span>
+                                <div class="regisimg">
+                                    <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
+                                </div>
+                                <p class="conpany_name">@(catalogList.company)</p>
+                            </a>
+
+                        </li>
+                    }
+                </ul>
+            </div>
+*@
+
+</article>
     </div>
 </main>

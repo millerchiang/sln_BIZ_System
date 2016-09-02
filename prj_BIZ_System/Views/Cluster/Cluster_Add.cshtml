@@ -17,7 +17,8 @@
     Model.clusterInfo.cluster_name = "";
     Model.clusterInfo.cluster_info = "";
     Model.clusterInfo.enable = "0";
-    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
+//    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
+    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
 }
 
 <main>
@@ -78,7 +79,7 @@
                             <td>
                                 <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
                                 <input type="hidden" name="user_id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</label>
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
                             </td>
                             <td></td>
                         </tr>
@@ -156,9 +157,12 @@
 //                    $("table.membertable").append(genTemplate(g_no++));
                     //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
                     if (!idexist(user_id)) {
-                        $("#addgroup").show();
+//                        $("#addgroup").show();
+                        chkexist(user_id);
                     }
-                    chkexist(user_id);
+                    else {
+                        $("#addgroup").hide();
+                    }
                 }
             });
         })
@@ -264,6 +268,11 @@
                             $("#addgroup").hide();
                         }
                     }
+                    else {
+                        $("#addgroup").show();
+                    }
+                } else {
+                    $("#addgroup").show();
                 }
             });
         }

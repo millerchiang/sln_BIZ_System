@@ -15,7 +15,7 @@
     Html.RenderAction("_NavSearchPartial", "User");
 }
     <article class="article_col2 form_box">
-        <h2>@Request.Cookies["UserInfo"]["company"] - 線上型錄</h2>
+        <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - 線上型錄</h2>
         <a href="/User/Register" class="buinfor">我的會員資料</a>
         <a href="/User/ProductList" class="buinfor">產品說明</a>
         <a href="/User/VideoList" class="buinfor">影音型錄</a>
