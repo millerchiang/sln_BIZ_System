@@ -14,7 +14,7 @@
     }
     <article class="article_col2">
 
-        <h2 class="borderTitle">活動相關資訊</h2>
+        <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.User.lb_activityinfo</h2>
 
         @{
             string activity_type_chk = "";
@@ -70,11 +70,11 @@
         }
 
          <ul class="news_content_list">
-            <li>活動類型: <span class="contentspan">@activity_type_chk</span> </li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activitytype: <span class="contentspan">@activity_type_chk</span> </li>
             <li>@prj_BIZ_System.LanguageResource.User.lb_activity_name: <span class="contentspan">@activity_name</span></li>
-            <li>@prj_BIZ_System.LanguageResource.User.lb_activity_date: <span class="contentspan">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activity_period: <span class="contentspan">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</span></li>
             <li>@prj_BIZ_System.LanguageResource.User.lb_activity_site: <span class="contentspan">@addr</span></li>
-            <li>主辦單位: <span class="contentspan">@organizer</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_organizer: <span class="contentspan">@organizer</span></li>
             <li>@prj_BIZ_System.LanguageResource.User.lb_contactman: <span class="contentspan">@Model.activityinfo.name</span></li>
             <li>@prj_BIZ_System.LanguageResource.User.lb_phone_no: <span class="contentspan">@Model.activityinfo.phone</span></li>
             <li>@prj_BIZ_System.LanguageResource.User.lb_email: <span class="contentspan">@Model.activityinfo.email</span></li>
@@ -92,8 +92,8 @@
             }
             else if (Model.activityregister.manager_check == "0")
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
-                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
+                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
             }
             else
             {

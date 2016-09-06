@@ -156,9 +156,6 @@
   <data name="lb_activities" xml:space="preserve">
     <value>Activities</value>
   </data>
-  <data name="lb_activities_news" xml:space="preserve">
-    <value>Activities</value>
-  </data>
   <data name="lb_activitylist" xml:space="preserve">
     <value>Activity List</value>
   </data>
@@ -179,9 +176,6 @@
   </data>
   <data name="lb_activity_site" xml:space="preserve">
     <value>Activity Place</value>
-  </data>
-  <data name="lb_actmatch" xml:space="preserve">
-    <value>Activity Matchmaking</value>
   </data>
   <data name="lb_add" xml:space="preserve">
     <value>Add</value>
@@ -232,7 +226,7 @@
     <value>Upload Catalog</value>
   </data>
   <data name="lb_category" xml:space="preserve">
-    <value>Category Of Company</value>
+    <value>Category</value>
   </data>
   <data name="lb_changepw" xml:space="preserve">
     <value>Change Password</value>
@@ -282,9 +276,6 @@
   <data name="lb_date" xml:space="preserve">
     <value>Date</value>
   </data>
-  <data name="lb_datee" xml:space="preserve">
-    <value>Date</value>
-  </data>
   <data name="lb_delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -295,9 +286,6 @@
     <value>Domestic Company</value>
   </data>
   <data name="lb_email" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="lb_emailbox" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="lb_email_is_empty" xml:space="preserve">
@@ -355,8 +343,8 @@ Any further question, please contact adminstrator.</value>
   <data name="lb_manual" xml:space="preserve">
     <value>Operation Manual</value>
   </data>
-  <data name="lb_match" xml:space="preserve">
-    <value>Activity Matchmaking</value>
+  <data name="lb_matchmaking" xml:space="preserve">
+    <value>Matchmaking</value>
   </data>
   <data name="lb_morethan100000k" xml:space="preserve">
     <value>More Than 100 Million</value>
@@ -389,9 +377,6 @@ Any further question, please contact adminstrator.</value>
     <value>Type Your New Password</value>
   </data>
   <data name="lb_news" xml:space="preserve">
-    <value>News</value>
-  </data>
-  <data name="lb_news_info" xml:space="preserve">
     <value>News</value>
   </data>
   <data name="lb_id" xml:space="preserve">
@@ -534,5 +519,65 @@ Any further question, please contact adminstrator.</value>
   </data>
   <data name="lb_yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="lb_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="lb_activityinfo" xml:space="preserve">
+    <value>Activities Information</value>
+  </data>
+  <data name="lb_activityregister" xml:space="preserve">
+    <value>Register Information</value>
+  </data>
+  <data name="lb_activitytype" xml:space="preserve">
+    <value>Type of Activity</value>
+  </data>
+  <data name="lb_activity_no" xml:space="preserve">
+    <value>No. of Activity</value>
+  </data>
+  <data name="lb_activity_period" xml:space="preserve">
+    <value>During the activity</value>
+  </data>
+  <data name="lb_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="lb_company_catalog" xml:space="preserve">
+    <value>Company Catalog </value>
+  </data>
+  <data name="lb_deleteornot" xml:space="preserve">
+    <value>Are you sure you want to delete it?</value>
+  </data>
+  <data name="lb_latestcatalog" xml:space="preserve">
+    <value>Latest Catalog</value>
+  </data>
+  <data name="lb_must" xml:space="preserve">
+    <value>must</value>
+  </data>
+  <data name="lb_no_recommended" xml:space="preserve">
+    <value>No Recommended Activities</value>
+  </data>
+  <data name="lb_no_register" xml:space="preserve">
+    <value>You have not registered any activity</value>
+  </data>
+  <data name="lb_organizer" xml:space="preserve">
+    <value>Organizer</value>
+  </data>
+  <data name="lb_product_company" xml:space="preserve">
+    <value>Company Product</value>
+  </data>
+  <data name="lb_select_successful" xml:space="preserve">
+    <value>Select Successful</value>
+  </data>
+  <data name="lb_sellerid" xml:space="preserve">
+    <value>Seller Id</value>
+  </data>
+  <data name="lb_sellerlist" xml:space="preserve">
+    <value>Seller List</value>
+  </data>
+  <data name="lb_title" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="lb_underreview" xml:space="preserve">
+    <value>Registration Under Review</value>
   </data>
 </root>

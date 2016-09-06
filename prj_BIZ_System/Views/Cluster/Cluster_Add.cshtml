@@ -17,14 +17,14 @@
     Model.clusterInfo.cluster_name = "";
     Model.clusterInfo.cluster_info = "";
     Model.clusterInfo.enable = "0";
-//    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
+    //    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
     Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
 }
 
 <main>
 
     <div class="article_col1s">
-        <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster","Cluster")" method="post">
+        <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster", "Cluster")" method="post">
             <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
             <input type="hidden" name="members" value="">
             <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
@@ -50,7 +50,7 @@
 
                 <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
 
-                <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">新增廠商</a>
+                <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                 <table class="article_col1" id="membertable">
 
                     <tr>
@@ -63,7 +63,7 @@
                         <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
                             <td>
                                 <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @Request.Cookies["UserInfo"]["company"]</label>
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
                             </td>
                             <td>
                                 <div class="centerbox">
@@ -97,11 +97,14 @@
                                         <label>@md.user_id - @md.company</label>
                                     </td>
                                     <td>
-@*
+
                                     <div class="centerbox">
-                                        <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_member_no)">刪除</a>
+                                        @if (md.cluster_enable == "2")
+                                        {
+                                                <a href = "javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_no)">取消</a>
+                                        }
                                     </div>
-*@
+
                                     </td>
                                 </tr>
                             }
@@ -129,8 +132,8 @@
             </div>
 
         </form>
-        <div id="dialog" title="刪除" style="display:none;">
-            <p>確定刪除<span class="salesid"></span>?</p>
+        <div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_delete" style="display:none;">
+            <p>@prj_BIZ_System.LanguageResource.User.lb_delete<span class="salesid"></span>?</p>
         </div>
     </div>
 </main>
@@ -207,6 +210,32 @@
 //        g_no--;
     }
 
+    function showDelete(id, cid) {
+        var user_id = id;
+        var cluster_no = cid;
+        if (cluster_no != null && cluster_no != '') {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("Cluster_Delete", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_no": cluster_no },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        $('#grp_name_' + id).remove();
+                    }
+                    else {
+                        alert("刪除失敗!!");
+                    }
+                } else {
+                    alert("刪除失敗!!");
+                }
+            });
+        }
+    }
+
     function idexist(userid) {
         var e=false;
         $('#membertable').find('tr').each(function (index, el) {
@@ -247,7 +276,7 @@
             });
         }
     }
-    
+
     function chkexist(uid) {
         var user_id = uid;
         var cluster_no = $("input[name='no']").val();

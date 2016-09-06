@@ -55,9 +55,9 @@ namespace prj_BIZ_System.Services
             var result = mapper.Insert("Cluster.ClusterMemberInsertOne", clusterMemberModel);
             return result;
         }
-        public object ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
+        public int ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
         {
-            var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
+            int result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
             return result;
         }
 

@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Activity_ViewModel
 
 @{
-    ViewBag.Title = "活動報名";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_activity_register;
 }
 
 @section pagestyle{
@@ -26,48 +26,48 @@
     }
 
         <article class="form_box article_col2">
-            <h2>活動報名</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_activity_register</h2>
             <form id="insertForm" action="@ViewBag.Action" method="post">
                 <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
-                <label for="activity_id" class="regis_col02L">活動名稱</label>
+                <label for="activity_id" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
                 <p class="regis_col03R">@Model.activityinfo.activity_name</p>
 
 
-                <label for="leader" class="regis_col02L ">帳號</label>
+                <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
                 <p class="regis_col03R">@Model.activityregister.user_id</p>
 
-                <label for="leader" class="regis_col03L">公司名稱</label>
+                <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
                 <p class="regis_col03R">@Model.userinfo.company</p>
 
 
-                <label for="starttime" class="regis_col02L ">活動時間</label>
+                <label for="starttime" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
                 <p id="starttime" class="regis_col03R">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
                 <label for="endtime" class="regis_col03L "> ~ </label>
                 <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-                <label for="activityAddr" class="regis_col02L ">活動地點</label>
+                <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
                 <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
 
 
-                <label for="quantity" class="regis_col02L spanRed">與會人數</label>
+                <label for="quantity" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
                 <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
 
-                <label for="name_a" class="regis_col02L spanRed">與會人</label>
+                <label for="name_a" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_activity_participant</label>
                 <input type="text" name="name_a" value="@Model.activityregister.name_a" class="regis_col03R">
-                <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="職稱"><br />
+                <input type="text" name="title_a" value="@Model.activityregister.title_a" class="regis_col03L" placeholder="@prj_BIZ_System.LanguageResource.User.lb_title"><br />
 
-                <label for="name_b" class="regis_col02L spanRed">主聯絡人</label>
+                <label for="name_b" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_contactman</label>
                 <input type="text" name="name_b" value="@Model.activityregister.name_b" class="regis_col03R" required>
-                <input type="text" name="title_b" value="@Model.activityregister.title_b" class="regis_col03L" placeholder="職稱"><br />
+                <input type="text" name="title_b" value="@Model.activityregister.title_b" class="regis_col03L" placeholder="@prj_BIZ_System.LanguageResource.User.lb_title"><br />
 
-                <label for="phone" class="regis_col02L spanRed">手機號碼</label>
+                <label for="phone" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_phone_no</label>
                 <input type="text" name="phone" value="@Model.activityregister.phone" class="regis_col03R" required>
 
-                <label for="telephone" class="regis_col03L spanRed">電話/分機</label>
+                <label for="telephone" class="regis_col03L spanRed">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
                 <input type="text" name="telephone" value="@Model.activityregister.telephone" class="regis_col03R">
 
-                <label for="email" class="regis_col02L spanRed">電子郵件</label>
+                <label for="email" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_email</label>
                 <input type="email" name="email" value="@Model.activityregister.email" class="regis_col02R" required>
 
                 @*
@@ -77,11 +77,11 @@
                 </div>
                 *@
 
-                <label class="regis_col02L">企業簡介(中)</label>
+                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
                 <div class="regis_col02R">
                     <textarea rows="4" name="user_info">@Model.activityregister.user_info</textarea>
                 </div>
-                <label class="regis_col02L">企業簡介(英)</label>
+                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief (English)</label>
                 <div class="regis_col02R">
                     <textarea rows="4" name="user_info_en">@Model.activityregister.user_info_en</textarea>
                 </div>
@@ -96,21 +96,21 @@
                 </p>
                 *@
                 <div class="regis_col02L">
-                    <label for="" class="label01">公司產品</label>
+                    <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_product_company</label>
                 </div>
                 <div class="regis_col02R">
 @{
     if (Model.productsortList.Count == 0)
     {
-        <label for="" class="label01">無</label>
+        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
     }
     else
     {
                     <table class="regis_table">
                         <tr>
                             <th></th>
-                            <th>產品名稱</th>
-                            <th>產品說明</th>
+                            <th>@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
+                            <th>@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
                         </tr>
                                  @*
                                 @if (ViewBag.PageType.Equals("CreateRegister"))
@@ -150,13 +150,13 @@
 }
                     </div>
                     <div class="regis_col02L">
-                        <label for="" class="label01">公司型錄</label>
+                        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_company_catalog</label>
                     </div>
                     <div class="regis_col02R uplodboxR">
 @{
     if (Model.cataloglistList.Count == 0)
     {
-        <label for="" class="label01">無</label>
+        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
     }
     else
     {

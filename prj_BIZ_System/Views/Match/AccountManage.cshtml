@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "帳戶管理(賣家)";
+    ViewBag.Title = "Account Maanger(Seller)";
 }
 
 @section pagestyle{
@@ -18,15 +18,15 @@
         <section class="w55">
             @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0) {
                 <section class="form_box">
-                    <h2>活動列表-買方專區</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
                     <ul>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
                             <li>
                                 <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
                                 <div class="centerbox">
-                                    <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">賣家清單</a>
-                                    <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="addbu">活動媒合</a>
+                                    <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_sellerlist</a>
+                                    <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
                                 </div>
                             </li>
                         }
@@ -36,15 +36,15 @@
             @if (Model.activityregisterList != null && Model.activityregisterList.Count > 0)
             { 
                 <section class="form_box">
-                    <h2>活動列表</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist</h2>
                     <ul>
                         @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                         {
                             <li>
                                 <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
                                 <div class="centerbox">
-                                    <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">報名資料</a>
-                                    <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">活動媒合</a>
+                                    <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
+                                    <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
                                 </div>
                             </li>
                         }
@@ -56,25 +56,34 @@
                 (Model.activityregisterList == null || Model.activityregisterList.Count == 0)
             )
             {
-                <span>您尚未參加任何活動</span>
+                <span>@prj_BIZ_System.LanguageResource.User.lb_no_register</span>
             }
         </section>
         <section class="form_box w45">
-            <h2>推薦活動</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_good_activities</h2>
             @if (Model.activityinfoList!=null && Model.activityinfoList.Count > 0)
             {
                 <ul>
                     @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
                     {
+                        var activity_name = activityInfoModel.activity_name;
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (activityInfoModel.activity_name_en!=null && activityInfoModel.activity_name_en!="")
+                            {
+                                activity_name = activityInfoModel.activity_name_en;
+                            }
+                        }
+
                         <li>
-                            <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink"><span>@activityInfoModel.starttime.ToShortDateString()</span>@activityInfoModel.activity_name</a>
+                            <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink"><span>@activityInfoModel.starttime.ToShortDateString()</span>@activity_name</a>
                         </li>
                     }
                 </ul>
             }
             else
             {
-                <span>目前沒有推薦的活動</span>
+                <span>@prj_BIZ_System.LanguageResource.User.lb_no_recommended</span>
             }
         </section>
     </article>

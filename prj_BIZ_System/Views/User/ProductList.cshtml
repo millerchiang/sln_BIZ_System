@@ -13,19 +13,19 @@
     Html.RenderAction("_NavSearchPartial","User");
 }
     <article class="article_col2 form_box">
-        <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - 產品說明</h2>
+        <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - @prj_BIZ_System.LanguageResource.User.lb_product_info</h2>
 
-        <a href="/User/Register" class="buinfor">我的會員資料</a>
-        <a href="/User/CatalogList" class="buinfor">線上型錄</a>
-        <a href="/User/VideoList" class="buinfor">影音型錄</a>
+        <a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
+        <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
+        <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
         <br></br>
 
         <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
             <table class="regis_table">
                 <tr>
                     <th></th>
-                    <th width="40%">產品名稱</th>
-                    <th width="40%">產品說明</th>
+                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
+                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
                     <th></th>
                 </tr>
                 @if(Model != null){
@@ -63,13 +63,13 @@
                         <input type="text" name="product_info_en"   value="" placeholder="請輸入產品英文說明..">
                     </td>
                     <td>
-                        <a id="addItemLink" href="javascript:void(0)" class="addbu">新增</a>
+                        <a id="addItemLink" href="javascript:void(0)" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                     </td>
                 </tr>
             </table>
             <div class="centerbox">
-                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">刪除</a>
-                <a id="saveLink" href="javascript:void(0)" class="addbublue">儲存</a>
+                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_delete</a>
+                <a id="saveLink" href="javascript:void(0)" class="addbublue">@prj_BIZ_System.LanguageResource.User.lb_save</a>
             </div>
 
         </form>

@@ -57,6 +57,28 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        public ActionResult Cluster_Delete(string user_id, string cluster_no)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            ClusterMemberModel clusterMemberModel = new ClusterMemberModel();
+            clusterMemberModel.cluster_no = int.Parse(cluster_no);
+            clusterMemberModel.user_id = user_id;
+            clusterMemberModel.cluster_enable = "3";
+
+            int kk= clusterService.ClusterMemberUpdateOne(clusterMemberModel);
+
+            if (kk == 0 )
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
         public ActionResult Cluster_Status()
         {
             if (Request.Cookies["UserInfo"] == null)

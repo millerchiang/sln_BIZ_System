@@ -69,16 +69,16 @@ namespace prj_BIZ_System.Controllers
 
             if (userid == null) //新增
             {
-                ViewBag.tname = "會員註冊";
+                ViewBag.tname = LanguageResource.User.lb_signup;
                 userModel.userinfo = new UserInfoModel();
                 ViewBag.PageType = "Create";
-                ViewBag.SubmitName = "確定送出";
+                ViewBag.SubmitName = LanguageResource.User.lb_submit_sure;
                 cookie.Values.Add("edit", "Add");
                 ViewBag.userSortList = "[]";
             }
             else //修改
             {
-                ViewBag.tname = "我的會員資料";
+                ViewBag.tname = LanguageResource.User.lb_myinfo;
                 userModel.userinfo = userService.GeUserInfoOne(userid);
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
@@ -90,7 +90,7 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.userSortList = "[]";
                 }
                 ViewBag.PageType = "Edit";
-                ViewBag.SubmitName = "修改";
+                ViewBag.SubmitName = LanguageResource.User.lb_edit;
                 cookie.Values.Add("edit", "Update");
                 cookie.Values.Add("user_id", userid);
             }
