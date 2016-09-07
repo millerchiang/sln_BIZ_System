@@ -67,6 +67,10 @@ namespace prj_BIZ_System.Controllers
                 indexModel.userinfoList = userService.GetUserInfoList();
                 indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6); 
                 indexModel.newsList = activityService.GetNewsLimit(6);
+
+                indexModel.cataloglistList = userService.getAllCatalogTop(4);
+                ViewBag.coverDir = UploadConfig.UploadRootPath;
+
                 foreach (NewsModel newsModel in indexModel.newsList)
                 {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
@@ -84,15 +88,15 @@ namespace prj_BIZ_System.Controllers
 
                 if (Request["Type"] == null)
                 {
-                    ViewBag.tname = "最新消息";
+                    ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
                     indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
                 }
                 else
                 {
                     if (Request["Type"]=="0")
-                        ViewBag.tname = "活動消息";
+                        ViewBag.tname = LanguageResource.User.lb_latest_activity;
                     else
-                        ViewBag.tname = "最新新聞";
+                        ViewBag.tname = LanguageResource.User.lb_latest_news;
 
                     indexModel.newsList = activityService.GetNewsType(Request["Type"],null).Pages(Request, this, 10);
                 }
@@ -246,7 +250,7 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
-                TempData["pw_errMsg"] = "帳號或密碼錯誤!!";
+                TempData["pw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
                 return Redirect("Login");
             }
             else
@@ -267,9 +271,10 @@ namespace prj_BIZ_System.Controllers
                 cookie = new HttpCookie("UserInfo");
                 cookie.Values.Add("id_enable", model.id_enable);
                 cookie.Values.Add("user_id", model.user_id);
-                cookie.Values.Add("company", model.company);
+                cookie.Values.Add("company", HttpUtility.UrlEncode(model.company));
                 cookie.Values.Add("website", model.website);
-                cookie.Values.Add("info", model.info);
+                cookie.Values.Add("info", HttpUtility.UrlEncode(model.info));
+                cookie.Values.Add("info_en", model.info_en);
                 Response.AppendCookie(cookie);
 
                 //                Response.Cookies["UserInfo"]["company"] = model.company;

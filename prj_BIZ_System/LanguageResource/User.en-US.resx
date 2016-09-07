@@ -117,65 +117,237 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lb_0_5000k" xml:space="preserve">
+    <value>5 Million or Less</value>
+  </data>
+  <data name="lb_10001_15000k" xml:space="preserve">
+    <value>10 Million - 15 Million</value>
+  </data>
+  <data name="lb_1000dollars" xml:space="preserve">
+    <value>(1000 TWD)</value>
+  </data>
+  <data name="lb_15001k_30000k" xml:space="preserve">
+    <value>15 Million - 30 Million</value>
+  </data>
+  <data name="lb_30001k_50000k" xml:space="preserve">
+    <value>30 Million - 50 Million</value>
+  </data>
+  <data name="lb_50001k_100000k" xml:space="preserve">
+    <value>50 Million - 100 Million</value>
+  </data>
+  <data name="lb_5001k_10000k" xml:space="preserve">
+    <value>5 Million - 10 Million</value>
+  </data>
   <data name="lb_aboutus" xml:space="preserve">
     <value>About Us</value>
   </data>
-  <data name="lb_accountinfo" xml:space="preserve">
+  <data name="lb_accountpw_empty" xml:space="preserve">
+    <value>Don't Forget To Enter Your Account Id &amp; Password!</value>
+  </data>
+  <data name="lb_accountpw_wrong" xml:space="preserve">
+    <value>ID or Password Is Wrong!</value>
+  </data>
+  <data name="lb_account_info" xml:space="preserve">
     <value>Account Info</value>
+  </data>
+  <data name="lb_account_is_empty" xml:space="preserve">
+    <value>Don't Forget To Enter Your Account Id!</value>
   </data>
   <data name="lb_activities" xml:space="preserve">
     <value>Activities</value>
   </data>
-  <data name="lb_allrights" xml:space="preserve">
-    <value>*</value>
+  <data name="lb_activitylist" xml:space="preserve">
+    <value>Activity List</value>
   </data>
-  <data name="lb_app" xml:space="preserve">
+  <data name="lb_activity_amount" xml:space="preserve">
+    <value>Amount Of Participant</value>
+  </data>
+  <data name="lb_activity_date" xml:space="preserve">
+    <value>Activity Date</value>
+  </data>
+  <data name="lb_activity_name" xml:space="preserve">
+    <value>Activity Subject</value>
+  </data>
+  <data name="lb_activity_participant" xml:space="preserve">
+    <value>Participant</value>
+  </data>
+  <data name="lb_activity_register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="lb_activity_site" xml:space="preserve">
+    <value>Activity Place</value>
+  </data>
+  <data name="lb_add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="lb_addr" xml:space="preserve">
+    <value>Company Address</value>
+  </data>
+  <data name="lb_amountofcapital" xml:space="preserve">
+    <value>Amount Of Capital</value>
+  </data>
+  <data name="lb_amountofreply" xml:space="preserve">
+    <value>Amount Of Replies</value>
+  </data>
+  <data name="lb_appdownload" xml:space="preserve">
     <value>App Download</value>
   </data>
+  <data name="lb_audited" xml:space="preserve">
+    <value>Audited</value>
+  </data>
+  <data name="lb_author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="lb_back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="lb_backhome" xml:space="preserve">
+    <value>Homepage</value>
+  </data>
+  <data name="lb_bizexploremisson" xml:space="preserve">
+    <value>Business Explore Mission</value>
+  </data>
+  <data name="lb_boss" xml:space="preserve">
+    <value>Name Of Representative</value>
+  </data>
+  <data name="lb_buyerarea" xml:space="preserve">
+    <value>Buyer-Area</value>
+  </data>
+  <data name="lb_buyerid" xml:space="preserve">
+    <value>Buyer Id</value>
+  </data>
+  <data name="lb_buyerinfo" xml:space="preserve">
+    <value>Buyer Info.</value>
+  </data>
+  <data name="lb_buyerneed" xml:space="preserve">
+    <value>Buyer Preferences</value>
+  </data>
+  <data name="lb_catalogupload" xml:space="preserve">
+    <value>Upload Catalog</value>
+  </data>
+  <data name="lb_category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="lb_changepw" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="lb_checknewpw" xml:space="preserve">
+    <value>Retype Your New Password</value>
+  </data>
   <data name="lb_cluster_list" xml:space="preserve">
-    <value>產業聚落列表</value>
+    <value>Cluster List</value>
   </data>
   <data name="lb_company" xml:space="preserve">
     <value>Enterprises Data Management</value>
   </data>
-  <data name="lb_companytype" xml:space="preserve">
-    <value>Scope Of Business</value>
+  <data name="lb_companybrief" xml:space="preserve">
+    <value>Company Brief</value>
   </data>
-  <data name="lb_companytype_sel" xml:space="preserve">
-    <value>Please choose Scope Of Business</value>
+  <data name="lb_companyid" xml:space="preserve">
+    <value>Company ID Number</value>
+  </data>
+  <data name="lb_companyname" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="lb_consult2buyer" xml:space="preserve">
+    <value>Consult To Buyer</value>
+  </data>
+  <data name="lb_consult2seller" xml:space="preserve">
+    <value>Consult To Seller</value>
+  </data>
+  <data name="lb_contactman" xml:space="preserve">
+    <value>Contact Person</value>
+  </data>
+  <data name="lb_contactname" xml:space="preserve">
+    <value>Contact Person</value>
   </data>
   <data name="lb_contactus" xml:space="preserve">
     <value>Contact Us</value>
   </data>
+  <data name="lb_copyright" xml:space="preserve">
+    <value>*</value>
+  </data>
+  <data name="lb_create_account" xml:space="preserve">
+    <value>Create Account</value>
+  </data>
+  <data name="lb_create_activity" xml:space="preserve">
+    <value>Create Activity</value>
+  </data>
+  <data name="lb_date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="lb_delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="lb_detail" xml:space="preserve">
+    <value>Detail</value>
+  </data>
+  <data name="lb_domestic" xml:space="preserve">
+    <value>Domestic Company</value>
+  </data>
+  <data name="lb_email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="lb_email_is_empty" xml:space="preserve">
+    <value>Don't Forget To Enter Your E-mail !</value>
+  </data>
+  <data name="lb_en_info" xml:space="preserve">
+    <value>English Info</value>
+  </data>
   <data name="lb_estimate" xml:space="preserve">
-    <value>業績預估表</value>
+    <value>Estimated Performance List</value>
   </data>
   <data name="lb_faqs" xml:space="preserve">
     <value>FAQs</value>
   </data>
+  <data name="lb_foreign" xml:space="preserve">
+    <value>Foreign Company</value>
+  </data>
   <data name="lb_forget_pw" xml:space="preserve">
     <value>Forgot Password?</value>
+  </data>
+  <data name="lb_good_activities" xml:space="preserve">
+    <value>Recommended Activities</value>
   </data>
   <data name="lb_home" xml:space="preserve">
     <value>Homepage</value>
   </data>
-  <data name="lb_information" xml:space="preserve">
+  <data name="lb_ifforgetpw" xml:space="preserve">
+    <value>If you forget password, please enter account and Email as you signed up, and then check your Email for password. 
+Any further question, please contact adminstrator.</value>
+  </data>
+  <data name="lb_latest_activity" xml:space="preserve">
+    <value>Latest Activities</value>
+  </data>
+  <data name="lb_latest_activitynews" xml:space="preserve">
     <value>Latest Activites &amp; News</value>
+  </data>
+  <data name="lb_latest_company" xml:space="preserve">
+    <value>Latest Company</value>
+  </data>
+  <data name="lb_latest_news" xml:space="preserve">
+    <value>Latest News</value>
+  </data>
+  <data name="lb_link" xml:space="preserve">
+    <value>Link</value>
   </data>
   <data name="lb_login" xml:space="preserve">
     <value>Sign In</value>
   </data>
+  <data name="lb_logoupload" xml:space="preserve">
+    <value>Upload A Logo File</value>
+  </data>
   <data name="lb_logout" xml:space="preserve">
     <value>Sign Out</value>
   </data>
-  <data name="lb_mail" xml:space="preserve">
-    <value>Email</value>
+  <data name="lb_manual" xml:space="preserve">
+    <value>Operation Manual</value>
   </data>
-  <data name="lb_match" xml:space="preserve">
-    <value>Activity Matchmaking</value>
+  <data name="lb_matchmaking" xml:space="preserve">
+    <value>Matchmaking</value>
   </data>
-  <data name="lb_message" xml:space="preserve">
-    <value>Message management</value>
+  <data name="lb_morethan100000k" xml:space="preserve">
+    <value>More Than 100 Million</value>
   </data>
   <data name="lb_msg_cluster" xml:space="preserve">
     <value>Cluster Msg</value>
@@ -183,46 +355,229 @@
   <data name="lb_msg_company" xml:space="preserve">
     <value>Company Msg</value>
   </data>
+  <data name="lb_msg_managment" xml:space="preserve">
+    <value>Message management</value>
+  </data>
   <data name="lb_msg_private" xml:space="preserve">
     <value>Private Msg</value>
+  </data>
+  <data name="lb_multiple" xml:space="preserve">
+    <value>Multiple Choices</value>
   </data>
   <data name="lb_mycompany" xml:space="preserve">
     <value>My Enterprise Data</value>
   </data>
+  <data name="lb_myinfo" xml:space="preserve">
+    <value>My Campany Info</value>
+  </data>
   <data name="lb_newid" xml:space="preserve">
     <value>Create New Account</value>
+  </data>
+  <data name="lb_newpw" xml:space="preserve">
+    <value>Type Your New Password</value>
   </data>
   <data name="lb_news" xml:space="preserve">
     <value>News</value>
   </data>
-  <data name="lb_operate" xml:space="preserve">
-    <value>Operation Manual</value>
+  <data name="lb_id" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="lb_nonefile" xml:space="preserve">
+    <value>None Selected File</value>
   </data>
   <data name="lb_order_list" xml:space="preserve">
-    <value>訂單列表</value>
+    <value>Order List</value>
+  </data>
+  <data name="lb_originalpw" xml:space="preserve">
+    <value>Type Your Current Password</value>
   </data>
   <data name="lb_password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="lb_performance" xml:space="preserve">
-    <value>業績管理</value>
+  <data name="lb_pdf" xml:space="preserve">
+    <value>On-Line Catalog</value>
   </data>
-  <data name="lb_policy" xml:space="preserve">
+  <data name="lb_pdfupload" xml:space="preserve">
+    <value>Upload A Pdf File</value>
+  </data>
+  <data name="lb_performance" xml:space="preserve">
+    <value>Performance Management</value>
+  </data>
+  <data name="lb_phone_no" xml:space="preserve">
+    <value>Cellphone No.</value>
+  </data>
+  <data name="lb_photoupload" xml:space="preserve">
+    <value>Upload A Photo</value>
+  </data>
+  <data name="lb_pleaseuse_companyid" xml:space="preserve">
+    <value>Type Your Company ID Number</value>
+  </data>
+  <data name="lb_privacypolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
-  <data name="lb_preorder_list" xml:space="preserve">
-    <value>報價單列表</value>
+  <data name="lb_product_info" xml:space="preserve">
+    <value>Product Description</value>
   </data>
-  <data name="lb_sales_list" xml:space="preserve">
-    <value>業務帳號列表</value>
+  <data name="lb_product_name" xml:space="preserve">
+    <value>Product Name </value>
   </data>
-  <data name="lb_service" xml:space="preserve">
-    <value>User Agreement</value>
+  <data name="lb_pwset8" xml:space="preserve">
+    <value>Use a Mix Of Letter And Numbers At Least 8 Character In Length.</value>
+  </data>
+  <data name="lb_pw_is_empty" xml:space="preserve">
+    <value>Don't Forget To Enter Your Password!</value>
+  </data>
+  <data name="lb_quotation_list" xml:space="preserve">
+    <value>Quotation List</value>
+  </data>
+  <data name="lb_reenterpw" xml:space="preserve">
+    <value>Please Re-Enter The Password</value>
+  </data>
+  <data name="lb_registerinfo" xml:space="preserve">
+    <value>Register Info</value>
+  </data>
+  <data name="lb_sales_idlist" xml:space="preserve">
+    <value>Sales ID List</value>
+  </data>
+  <data name="lb_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="lb_scope" xml:space="preserve">
+    <value>Scope Of Business</value>
+  </data>
+  <data name="lb_scope_sel" xml:space="preserve">
+    <value>Scope Of Business</value>
+  </data>
+  <data name="lb_search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="lb_searchresult" xml:space="preserve">
+    <value>Search Results</value>
+  </data>
+  <data name="lb_signup" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="lb_signup_me" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="lb_subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="lb_submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="lb_submit_sure" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="lb_sumofbiz" xml:space="preserve">
+    <value>Sum Of Business</value>
   </data>
   <data name="lb_tel" xml:space="preserve">
-    <value>Tel/Ext.</value>
+    <value>Tel</value>
+  </data>
+  <data name="lb_tel_contact" xml:space="preserve">
+    <value>tel</value>
+  </data>
+  <data name="lb_total_results" xml:space="preserve">
+    <value>Records : </value>
+  </data>
+  <data name="lb_tradeshow" xml:space="preserve">
+    <value>Trade Show</value>
+  </data>
+  <data name="lb_typethefield" xml:space="preserve">
+    <value>Please Type This Field</value>
+  </data>
+  <data name="lb_useragreement" xml:space="preserve">
+    <value>User Agreement</value>
   </data>
   <data name="lb_user_id" xml:space="preserve">
     <value>Account</value>
+  </data>
+  <data name="lb_video" xml:space="preserve">
+    <value>Video Catalog</value>
+  </data>
+  <data name="lb_videoname" xml:space="preserve">
+    <value>Video Name</value>
+  </data>
+  <data name="lb_videosite" xml:space="preserve">
+    <value>Youtube website</value>
+  </data>
+  <data name="lb_website" xml:space="preserve">
+    <value>Company Website</value>
+  </data>
+  <data name="lb_youcanupload_jpggifpng" xml:space="preserve">
+    <value>You Can Upload A Jpeg, Gif, or Png File </value>
+  </data>
+  <data name="lb_zhtw_info" xml:space="preserve">
+    <value>Chinese Info</value>
+  </data>
+  <data name="lb_no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="lb_nodata" xml:space="preserve">
+    <value>No data!!</value>
+  </data>
+  <data name="lb_yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="lb_edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="lb_activityinfo" xml:space="preserve">
+    <value>Activities Information</value>
+  </data>
+  <data name="lb_activityregister" xml:space="preserve">
+    <value>Register Information</value>
+  </data>
+  <data name="lb_activitytype" xml:space="preserve">
+    <value>Type of Activity</value>
+  </data>
+  <data name="lb_activity_no" xml:space="preserve">
+    <value>No. of Activity</value>
+  </data>
+  <data name="lb_activity_period" xml:space="preserve">
+    <value>During the activity</value>
+  </data>
+  <data name="lb_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="lb_company_catalog" xml:space="preserve">
+    <value>Company Catalog </value>
+  </data>
+  <data name="lb_deleteornot" xml:space="preserve">
+    <value>Are you sure you want to delete it?</value>
+  </data>
+  <data name="lb_latestcatalog" xml:space="preserve">
+    <value>Latest Catalog</value>
+  </data>
+  <data name="lb_must" xml:space="preserve">
+    <value>must</value>
+  </data>
+  <data name="lb_no_recommended" xml:space="preserve">
+    <value>No Recommended Activities</value>
+  </data>
+  <data name="lb_no_register" xml:space="preserve">
+    <value>You have not registered any activity</value>
+  </data>
+  <data name="lb_organizer" xml:space="preserve">
+    <value>Organizer</value>
+  </data>
+  <data name="lb_product_company" xml:space="preserve">
+    <value>Company Product</value>
+  </data>
+  <data name="lb_select_successful" xml:space="preserve">
+    <value>Select Successful</value>
+  </data>
+  <data name="lb_sellerid" xml:space="preserve">
+    <value>Seller Id</value>
+  </data>
+  <data name="lb_sellerlist" xml:space="preserve">
+    <value>Seller List</value>
+  </data>
+  <data name="lb_title" xml:space="preserve">
+    <value>Job Title</value>
+  </data>
+  <data name="lb_underreview" xml:space="preserve">
+    <value>Registration Under Review</value>
   </data>
 </root>

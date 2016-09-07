@@ -69,12 +69,11 @@ namespace prj_BIZ_System.App_Start
             sb.Append("<p style='padding: 10px 0'>");
             if (pages.maxCount > 0)
             {
-                sb.Append("總共 " + pages.maxCount);
-                sb.Append("筆");
+                sb.Append(LanguageResource.User.lb_total_results + pages.maxCount);
             }
             else
             {
-                sb.Append("查無資料!!");
+                sb.Append(LanguageResource.User.lb_nodata);
             }
             sb.Append("</p>");
 

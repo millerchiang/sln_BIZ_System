@@ -15,10 +15,10 @@
     }
     <article class="article_col2">
         <h2 class="borderTitle">
-            企業資料庫
+            @prj_BIZ_System.LanguageResource.User.lb_company
         </h2>
         <section class="form_box">
-            <h2>搜尋結果</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_searchresult</h2>
             <ul class="listlink col2 comicon article_col1">
 
                 @if (ViewBag.model == "companysortList")
@@ -26,14 +26,33 @@
 
                     foreach (var sortList in Model.companysortList)
                     {
-                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                        var company = sortList.company;
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (sortList.company_en != null && sortList.company_en != "")
+                            {
+                                company = sortList.company_en;
+                            }
+                        }
+
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
+
                     }
                 }
                 else
                 {
                     foreach (var sortList in Model.userinfoList)
                     {
-                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@sortList.company </a></li>
+                        var company = sortList.company;
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (sortList.company_en != null && sortList.company_en != "")
+                            {
+                                company = sortList.company_en;
+                            }
+                        }
+
+                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
                     }
 
                 }
@@ -41,7 +60,7 @@
             </ul>
         </section>
         <section class="form_box">
-            <h2>最新型錄</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h2>
             <ul class="regis_dmlist">
 
                 @foreach (var catalogList in Model.cataloglistList)
@@ -74,7 +93,7 @@
             type: 'iframe'
         });
         $("#deleteLink").click(function () {
-            if(confirm("確認是否要刪除")){
+            if (confirm("是否確認要刪除")) {
                 $("#deleteForm").submit();
             }
         });

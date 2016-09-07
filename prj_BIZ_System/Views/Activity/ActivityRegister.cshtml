@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Activity_ViewModel
 
 @{
-    ViewBag.Title = "活動註冊資訊";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_activityregister;
 }
 
 @section pagestyle{
@@ -17,45 +17,45 @@
     }
 
     <article class="form_box article_col2">
-        <h2>活動報名</h2>
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_activity_register</h2>
             <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
-            <label for="activity_id" class="regis_col02L">活動名稱</label>
+            <label for="activity_id" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
             <p class="regis_col03R">@Model.activityinfo.activity_name</p>
 
 
-            <label for="leader" class="regis_col02L ">帳號</label>
+            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
             <p class="regis_col03R">@Model.activityregister.user_id</p>
 
-            <label for="leader" class="regis_col03L">公司名稱</label>
+            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
             <p class="regis_col03R">@Model.userinfo.company</p>
 
 
-            <label for="starttime" class="regis_col02L ">活動時間</label>
+            <label for="starttime" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
             <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time.ToString("yyyy/MM/dd tt hh:mm")</p>
 
             <label for="endtime" class="regis_col03L "> ~ </label>
             <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-            <label for="activityAddr" class="regis_col02L ">活動地點</label>
+            <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
             <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
 
-            <label for="leader" class="regis_col02L ">與會人數</label>
+            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
             <p class="regis_col03R">@Model.activityregister.quantity</p>
 
-            <label for="leader" class="regis_col03L">與會人</label>
+            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_activity_participant</label>
             <p class="regis_col03R">@Model.activityregister.name_a  @Model.activityregister.title_a</p>
 
 
-            <label for="leader" class="regis_col02L ">主聯絡人</label>
+            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_contactman</label>
             <p class="regis_col03R">@Model.activityregister.name_b  @Model.activityregister.title_b</p>
 
-            <label for="leader" class="regis_col03L">手機號碼</label>
+            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_phone_no</label>
             <p class="regis_col03R">@Model.activityregister.phone</p>
 
-            <label for="leader" class="regis_col02L ">電話/分機</label>
+            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
             <p class="regis_col03R">@Model.activityregister.telephone</p>
 
-            <label for="leader" class="regis_col03L">電子郵件</label>
+            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_email</label>
             <p class="regis_col03R">@Model.activityregister.email</p>
             
             @*
@@ -64,9 +64,9 @@
                 <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
             </div>
             *@
-            <label class="regis_col02L">企業簡介(中)</label>
+            <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
             <span class="regis_col02R">@Model.activityregister.user_info</span>
-            <label class="regis_col02L">企業簡介(英)</label>
+            <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief (English)</label>
             <span class="regis_col02R">@Model.activityregister.user_info_en</span>
             @*
             <label for="verticals" class="regis_col02L">產業別</label>
@@ -78,22 +78,22 @@
             </p>
             *@
             <div class="regis_col02L">
-                <label for="" class="label01">公司產品</label>
+                <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_product_company</label>
             </div>
             <div class="regis_col02R">
 
                 @{
                     if (Model.activityproductselectList.Count == 0)
                     {
-                        <label for="" class="label01">無</label>
+                        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
                     }
                     else
                     {
                 <table class="regis_table">
                     <tr>
                         <th></th>
-                        <th>產品名稱</th>
-                        <th>產品說明</th>
+                        <th>@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
+                        <th>@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
                     </tr>
                             @foreach (ActivityProductSelectModel activityProductSelectModel in Model.activityproductselectList)
                             {
@@ -108,13 +108,13 @@
                     }
             </div>
             <div class="regis_col02L">
-                <label for="" class="label01">公司型錄</label>
+                <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_company_catalog</label>
             </div>
             <div class="regis_col02R uplodboxR">
 @{
     if (Model.activitycatalogselectList.Count == 0)
     {
-        <label for="" class="label01">無</label>
+        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
     }
     else
     {
@@ -138,7 +138,7 @@
 
 
         <div class="centerbox">
-            <a href="/Activity/ActivityInfo?Id=@Model.activityinfo.activity_id" class="submitbuRed">回活動報名</a>
+            <a href="/Activity/ActivityInfo?Id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_back</a>
         </div>
 
     </article>

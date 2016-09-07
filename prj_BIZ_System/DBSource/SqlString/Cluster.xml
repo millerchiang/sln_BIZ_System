@@ -91,6 +91,7 @@
           cluster_no = $cluster_no$
         </isNotEmpty>
       </dynamic>
+      ORDER BY cluster_enable
     </select>
 
     <!--新增聚落-->

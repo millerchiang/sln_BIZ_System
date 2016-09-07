@@ -15,10 +15,10 @@
     }
     <article class="article_col2">
         <h2 class="borderTitle">
-            企業資料庫
+            @prj_BIZ_System.LanguageResource.User.lb_company
         </h2>
         <section class="form_box">
-            <h2>@prj_BIZ_System.LanguageResource.User.lb_companytype</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_scope</h2>
             <ul class="listlink col2 comicon article_col1">
 
 
@@ -29,7 +29,7 @@
                         <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</a></li>
                     }
                     else{
-                        < li >< a href = "CompanyList?sort_id=@sortList.sort_id" > @sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en </ a ></ li >
+                        <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</a></li>
                     }
 
                 }
@@ -37,7 +37,7 @@
             </ul>
         </section>
         <section class="form_box">
-            <h2>最新型錄</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h2>
             <ul class="regis_dmlist">
 
                 @foreach (var catalogList in Model.cataloglistList)
@@ -71,7 +71,7 @@
             type: 'iframe'
         });
         $("#deleteLink").click(function () {
-            if(confirm("確認是否要刪除")){
+            if (confirm(@prj_BIZ_System.LanguageResource.User.lb_deleteornot)) {
                 $("#deleteForm").submit();
             }
         });

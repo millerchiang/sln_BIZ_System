@@ -17,40 +17,41 @@
     string revenue = "";
     if (Model.userinfo.enterprise_type == "0")
     {
-        enterprise_type = "國內企業";
+        enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_domestic;
     }
     else
     {
-        enterprise_type = "外國企業";
+        enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_foreign;
     }
 
     if (Model.userinfo.revenue == "0")
     {
-        revenue = "500萬以下";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_0_5000k;
     }
     else if (Model.userinfo.revenue == "1")
     {
-        revenue = "501-1000萬";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_5001k_10000k;
     }
     else if (Model.userinfo.revenue == "2")
     {
-        revenue = "1001-1500萬";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_10001_15000k;
     }
     else if (Model.userinfo.revenue == "3")
     {
-        revenue = "1501-3000萬";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_15001k_30000k;
     }
     else if (Model.userinfo.revenue == "4")
     {
-        revenue = "3001-5000萬";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_30001k_50000k;
     }
     else if (Model.userinfo.revenue == "5")
     {
-        revenue = "5000萬-1億";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_50001k_100000k;
     }
     else if (Model.userinfo.revenue == "6")
     {
-        revenue = "一億以上";
+        revenue = @prj_BIZ_System.LanguageResource.User.lb_morethan100000k;
+
     }
 
 }
@@ -63,7 +64,7 @@
         <article class="form_box article_col2">
             <section class="form_box comicon article_col1">
 
-                <h2>公司資料</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_myinfo</h2>
                 <div class="regis_col01L">
                     <div id="result">
                         @if (Model.userinfo.logo_img != null)
@@ -79,51 +80,51 @@
                 </div>
                 <div class="regis_col01R">
                     <label class="regis_col01R_label">
-                        企業類型
+                        @prj_BIZ_System.LanguageResource.User.lb_category
                     </label>
                     <span class="regis_col01R_input contentspan">@enterprise_type</span>
 
                     <label for="" class="regis_col01R_label">
-                        帳號
+                        @prj_BIZ_System.LanguageResource.User.lb_user_id
                     </label>
                     <span class="regis_col01R_input contentspan">@Model.userinfo.user_id</span>
 					
-					<label for="name" class="regis_col01R_label">電話/分機</label>
+					<label for="name" class="regis_col01R_label">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
 					<span class="regis_col01R_input contentspan">@Model.userinfo.phone</span>
 					
-					<label for="email" class="regis_col01R_label">電子郵件</label>
+					<label for="email" class="regis_col01R_label">@prj_BIZ_System.LanguageResource.User.lb_email</label>
 					<span class="regis_col01R_input contentspan">@Model.userinfo.email</span>
                 </div>
 				<div class="form_box w100">
-						<h2>中文資訊</h2>
+						<h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
 				  <label for="" class="regis_col02L">
-                        公司名稱
+                        @prj_BIZ_System.LanguageResource.User.lb_companyname
                     </label>
                     <span class="regis_col02R contentspan">@Model.userinfo.company</span>
-					<label for="leader" class="regis_col02L">代表人</label>
+					<label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.leader</span>
-					<label for="addr" class="regis_col02L">地址</label>
+					<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.addr</span>
-					<label for="name" class="regis_col02L">聯絡人姓名</label>
+					<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
                     			<span class="regis_col02R contentspan">@Model.userinfo.contact</span>
-				    <label class="regis_col02L">企業簡介</label>
+				    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.info</span>
 				</div>
 				
 				<div class="form_box w100">
-					<h2>英文資訊</h2>
+					<h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
 				   <label for="" class="regis_col02L">
-                        公司名稱
+                        @prj_BIZ_System.LanguageResource.User.lb_companyname
                     </label>
                     <span class="regis_col02R contentspan">@Model.userinfo.company_en</span>
 					
-					<label for="leader" class="regis_col02L">代表人</label>
+					<label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.leader_en</span>
-					<label for="addr" class="regis_col02L">地址</label>
+					<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.addr_en</span>
-					<label for="name" class="regis_col02L">聯絡人姓名</label>
+					<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
 					<span class="regis_col02R contentspan">@Model.userinfo.contact_en</span>
-				    <label class="regis_col02L">企業簡介</label>
+				    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
 					<span class="regis_col02R contentspan">
 					 @if (Model.userinfo.info_en != null)
 					{
@@ -132,13 +133,13 @@
                     </span>
 				</div>
               <br/><br/>
-                <label for="capital" class="regis_col02L">資本額</label>
+                <label for="capital" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
                 <div class="regis_col02R">
-                    <span class="contentspan">@Model.userinfo.capital</span> 千元
+                    <span class="contentspan">@Model.userinfo.capital</span> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
                 </div>
-                <label for="revenue" class="regis_col02L">營業額</label>
+                <label for="revenue" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
                 <span class="regis_col02R contentspan">@revenue</span>
-                <label for="verticals" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companytype</label>
+                <label for="verticals" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_scope</label>
                 <div class="regis_col02R verticalslist">
 
                     @foreach (var usersortList in Model.usersortList)
@@ -153,21 +154,21 @@
                         }
                     }
                 </div>
-                <label for="website" class="regis_col02L">企業網址</label>
+                <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
                 <span class="regis_col02R contentspan">@Model.userinfo.website</span>
              
                
                 </section>
 
                 <section class="form_box comicon article_col1">
-                <h2>產品說明</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_product_info</h2>
                 <table class="regis_table">
                     @if (Model != null && Model.productsortList!=null && Model.productsortList.Count()>0)
                     {
                         <tr>
                             <th></th>
-                            <th width="40%">產品名稱</th>
-                            <th width="40%">產品說明</th>
+                            <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
+                            <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
                             <th></th>
                         </tr>
 
@@ -191,7 +192,7 @@
                     }
                     else
                     {
-                        <span>無</span>
+                        <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
                     }
 
 
@@ -201,7 +202,7 @@
             </section>
 
             <section class="form_box article_col1">
-                <h2>型錄資料</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_pdf</h2>
                     @if (Model.cataloglistList != null && Model.cataloglistList.Count() > 0)
                     {
                         @:<ul class="regis_dmlist">
@@ -223,7 +224,7 @@
                     }
                     else
                     {
-                        <span>無</span>
+                        <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
                     }
             </section>
 

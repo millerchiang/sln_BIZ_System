@@ -63,8 +63,8 @@ namespace prj_BIZ_System.Services
         }
         public int ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
         {
-            var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
-            return (int)result;
+            int result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
+            return result;
         }
 
     }

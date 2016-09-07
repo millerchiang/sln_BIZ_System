@@ -17,7 +17,7 @@
                 <label for="leader" class="regis_col02L">管理者帳號</label>
                 <span class="regis_col02R contentspan">@Request.Cookies["ManagerInfo"]["manager_id"]</span>
                 <label for="addr" class="regis_col02L">姓名</label>
-                <span class="regis_col02R contentspan">@Request.Cookies["ManagerInfo"]["name"]</span>
+                <span class="regis_col02R contentspan">@HttpUtility.UrlDecode(Request.Cookies["ManagerInfo"]["name"])</span>
                 <label for="name" class="regis_col02L">電話</label>
                 <span class="regis_col02R contentspan">@Request.Cookies["ManagerInfo"]["phone"]</span>
                 <label for="leader" class="regis_col02L">電子郵件</label>

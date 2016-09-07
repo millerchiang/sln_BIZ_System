@@ -13,7 +13,7 @@
         Html.RenderAction("_NavSearchPartial", "User");
     }
     <article class="article_col2">
-        <h2 class="borderTitle">最新活動</h2>
+        <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h2>
 
         <ul class="news_list listlink">
             @foreach (var activityList in Model.activityinfoList)

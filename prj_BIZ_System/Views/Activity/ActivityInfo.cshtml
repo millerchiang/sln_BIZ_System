@@ -14,52 +14,70 @@
     }
     <article class="article_col2">
 
-        <h2 class="borderTitle">活動相關資訊</h2>
+        <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.User.lb_activityinfo</h2>
 
         @{
             string activity_type_chk = "";
             string seller_select_chk = "";
             string matchmaking_select_chk = "";
-
+            string activity_name = "";
+            string addr = "";
+            string organizer = "";
             if (Model.activityinfo.activity_type == "0")
             {
-                activity_type_chk = "商洽會";
+                activity_type_chk = @prj_BIZ_System.LanguageResource.User.lb_tradeshow;
             }
             else
             {
-                activity_type_chk = "拓銷會";
+                activity_type_chk = @prj_BIZ_System.LanguageResource.User.lb_bizexploremisson;
             }
             if (Model.activityinfo.seller_select == "0")
             {
-                seller_select_chk = "否";
+                seller_select_chk = @prj_BIZ_System.LanguageResource.User.lb_no;
             }
             else
             {
-                seller_select_chk = "是";
+                seller_select_chk = @prj_BIZ_System.LanguageResource.User.lb_yes;
             }
             if (Model.activityinfo.matchmaking_select == "0")
             {
-                matchmaking_select_chk = "否";
+                matchmaking_select_chk = @prj_BIZ_System.LanguageResource.User.lb_no;
             }
             else
             {
-                matchmaking_select_chk = "是";
+                matchmaking_select_chk = @prj_BIZ_System.LanguageResource.User.lb_yes;
             }
 
+            activity_name = Model.activityinfo.activity_name;
+            addr = Model.activityinfo.addr;
+            organizer = Model.activityinfo.organizer;
+
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                if (Model.activityinfo.activity_name_en != null && Model.activityinfo.activity_name_en != "")
+                {
+                    activity_name = Model.activityinfo.activity_name_en;
+                }
+                if (Model.activityinfo.addr_en != null && Model.activityinfo.addr_en != "")
+                {
+                    addr = Model.activityinfo.addr_en;
+                }
+                if (Model.activityinfo.organizer_en != null && Model.activityinfo.organizer_en != "")
+                {
+                    organizer = Model.activityinfo.organizer_en;
+                }
+            }
         }
 
          <ul class="news_content_list">
-            <li>活動類型: <span class="contentspan">@activity_type_chk</span> </li>
-            <li>活動名稱(中文): <span class="contentspan">@Model.activityinfo.activity_name</span></li>
-            @*<li>活動名稱(英文): <span class="contentspan">@Model.activityinfo.activity_name_en</span></li>*@
-            <li>活動時間: <span class="contentspan">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</span></li>
-            <li>活動地點(中文): <span class="contentspan">@Model.activityinfo.addr</span></li>
-            @*<li>活動地點(英文): <span class="contentspan">@Model.activityinfo.addr_en</span></li>*@
-            <li>主辦單位(中文): <span class="contentspan">@Model.activityinfo.organizer</span></li>
-            @*<li>主辦單位(英文): <span class="contentspan">@Model.activityinfo.organizer_en</span></li>*@
-            <li>主要聯絡人: <span class="contentspan">@Model.activityinfo.name</span></li>
-            <li>手機號碼: <span class="contentspan">@Model.activityinfo.phone</span></li>
-            <li>電子郵件: <span class="contentspan">@Model.activityinfo.email</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activitytype: <span class="contentspan">@activity_type_chk</span> </li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activity_name: <span class="contentspan">@activity_name</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activity_period: <span class="contentspan">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm") ~ @Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_activity_site: <span class="contentspan">@addr</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_organizer: <span class="contentspan">@organizer</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_contactman: <span class="contentspan">@Model.activityinfo.name</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_phone_no: <span class="contentspan">@Model.activityinfo.phone</span></li>
+            <li>@prj_BIZ_System.LanguageResource.User.lb_email: <span class="contentspan">@Model.activityinfo.email</span></li>
 <!--
             <li>商務對接: @seller_select_chk                    媒合時程: @matchmaking_select_chk</li>
 -->
@@ -69,19 +87,19 @@
             {
                 if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
                 {
-                <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">我要報名</a>
+                <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
                 }
             }
             else if (Model.activityregister.manager_check == "0")
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">報名審核中</a>
-                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">取消報名</a>
+                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
+                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
             }
             else
             {
-                <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">已完成審核報名</a>
+                <a href="/Activity/ActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_audited</a>
             }
-            <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">買主資訊</a>
+            <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
          </div>
     </article>
 </div>

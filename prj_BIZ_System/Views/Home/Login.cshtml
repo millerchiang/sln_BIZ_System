@@ -91,15 +91,15 @@
             var user_id = $("input[name='user_id']").val();
             var user_pw = $("input[name='user_pw']").val();
             if (user_id == '' && user_pw == '') {
-                $("#msg").html("帳號與密碼不能為空白!!");
+                $("#msg").html("@prj_BIZ_System.LanguageResource.User.lb_accountpw_empty");
             return false;
         }
             else if (user_id == '') {
-                $("#msg").html("帳號不能為空白!!");
+                $("#msg").html("@prj_BIZ_System.LanguageResource.User.lb_account_is_empty");
             return false;
         }
             else if (user_pw == '') {
-                $("#msg").html("密碼不能為空白!!");
+                $("#msg").html("@prj_BIZ_System.LanguageResource.User.lb_pw_is_empty");
             return false;
         }
     });

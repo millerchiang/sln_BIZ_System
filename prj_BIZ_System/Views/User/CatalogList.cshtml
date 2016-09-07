@@ -15,10 +15,10 @@
     Html.RenderAction("_NavSearchPartial", "User");
 }
     <article class="article_col2 form_box">
-        <h2>@Request.Cookies["UserInfo"]["company"] - 線上型錄</h2>
-        <a href="/User/Register" class="buinfor">我的會員資料</a>
-        <a href="/User/ProductList" class="buinfor">產品說明</a>
-        <a href="/User/VideoList" class="buinfor">影音型錄</a>
+        <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - @prj_BIZ_System.LanguageResource.User.lb_pdf</h2>
+        <a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
+        <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+        <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
         <br />
 
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
@@ -40,12 +40,12 @@
                 }
                 else
                 {
-                    <text>查無資料</text>
-                }
+                    <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+}
             </ul>
             <div class="centerbox">
-                <a href="@Url.Action("CatalogCreate","User")" class="addbu">新增</a>
-                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">刪除</a>
+                <a href="@Url.Action("CatalogCreate","User")" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_add</a>
+                <a id="deleteLink" href="javascript:void(0)" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_delete</a>
             </div>
         </form>
         </article>
