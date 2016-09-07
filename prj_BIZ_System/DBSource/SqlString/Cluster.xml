@@ -56,6 +56,15 @@
       </dynamic>
     </select>
 
+    <!--查詢聚落(手機)-->
+    <select id="SelectClusterForMobile" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
+      SELECT ci.cluster_no, ci.user_id, ci.cluster_name, ci.cluster_info, ci.enable
+      FROM public.cluster_member as cm
+      INNER JOIN cluster_info as ci
+      ON cm.cluster_no = ci.cluster_no
+      where cluster_enable = #cluster_enable# and cm.user_id = #user_id#
+    </select>
+
     <select id="SelectClusterMember" resultMap="ClusterMember-result" parameterClass="ClusterMember">
       SELECT *
       FROM public.cluster_member
@@ -103,6 +112,9 @@
 
     <!--新增聚落會員-->
     <insert id="ClusterMemberInsertOne" parameterClass="ClusterMember">
+      <selectKey resultClass="int" property="cluster_member_no" type="post">
+        SELECT currval('cluster_member_cluster_member_no_seq')
+      </selectKey>
       INSERT INTO public.cluster_member(
       cluster_no, user_id, cluster_enable, "limit" )
       VALUES ($cluster_no$,#user_id#,#cluster_enable#,#limit#)
@@ -131,6 +143,14 @@
       <result property="limit" column="limit"></result>
     </resultMap>
 
+    <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.WebService.Model.ClusterInfo">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="enable" column="enable"></result>
+    </resultMap>
 
     <resultMap id="ClusterInfo-result" class="prj_BIZ_System.Models.ClusterInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->

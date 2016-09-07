@@ -30,6 +30,7 @@ namespace prj_BIZ_System.WebService.Model
             contact_en = userInfoModel.contact_en;//聯絡人姓名(英文)
             info_en = userInfoModel.info_en;//企業簡介(英文)
         }
+
         public string user_id { get; set; }//使用者帳號 
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
@@ -180,9 +181,32 @@ namespace prj_BIZ_System.WebService.Model
     public class Cluster
     {
         public int? cluster_no { get; set; }        /*聚落編號*/
-        public string user_id { get; set; }      /*建立者帳號*/
         public string cluster_name { get; set; }        /*聚落名稱*/
-        public string cluster_info { get; set; }        /*聚落簡介*/
         public string cluster_members { get; set; }   /*聚落成員*/
+    }
+
+    public class ClusterInfo
+    {
+        public ClusterInfo()
+        {
+
+        }
+
+        public ClusterInfo(ClusterInfoModel clusterInfoModel)
+        {
+            user_id = clusterInfoModel.user_id;
+            cluster_no = clusterInfoModel.cluster_no;
+            cluster_name = clusterInfoModel.cluster_name;
+            cluster_info = clusterInfoModel.cluster_info;        
+            enable = clusterInfoModel.enable;        
+        }
+
+        public string user_id { get; set; }      /*建立者帳號*/
+        public string creator_name { get; set; }      /*建立者公司*/
+        public int? cluster_no { get; set; }        /*聚落編號*/
+        public string cluster_name { get; set; }        /*聚落名稱*/
+        public string cluster_members { get; set; }   /*聚落成員*/
+        public string cluster_info { get; set; }        /*聚落簡介*/
+        public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
     }
 }

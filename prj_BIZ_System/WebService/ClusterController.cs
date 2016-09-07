@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApiContrib.ModelBinders;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.WebService
 {
@@ -19,52 +20,170 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetClusterInfoList(string user_id)
         {
-            if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
+            ClusterModel clusterModel = new ClusterModel { user_id = user_id, cluster_enable = "1" };
 
-            var clusterInfoList = clusterService.GetClusterInfoListkw(user_id)
-                .Select(clusterInfoModel =>
-                    new Cluster
-                    {
-                        cluster_no = clusterInfoModel.cluster_no,
-                        cluster_name = clusterInfoModel.cluster_name,
-                        user_id = clusterInfoModel.user_id,
-                        cluster_info = clusterInfoModel.cluster_info
-                    }                              
-                ).ToList();
-            clusterInfoList.ForEach(cluster =>
-                {
-                    string[] clusterAry = clusterService.GetClusterMemberList(cluster.cluster_no)
-                    .Select(clusterMember =>
-                        clusterMember.company
-                    ).ToArray();
-                    string clusterMembers = string.Join(",", clusterAry);
-                    cluster.cluster_members = clusterMembers;
-                }
-            );
+            IList<ClusterInfo> clusterInfoList = clusterService.GetClusterListForMobile(clusterModel);
+            clusterInfoList.ForEach(
+                clusterInfo => {
+                setupCreatorAndMember(clusterInfo);
+            });
 
-            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
+            IDictionary<string, Cluster[]> clusterDic = new Dictionary<string, Cluster[]>();
+            clusterDic["enableCluster"] = getClusterByEnable(clusterInfoList, "1");
+            clusterDic["nonEnableCluster"] = getClusterByEnable(clusterInfoList, "0");
+            return Request.CreateResponse(HttpStatusCode.OK, clusterDic);
+        }
+
+        [HttpGet]
+        public object GetClusterInfo(int cluster_no)
+        {
+            ClusterInfoModel clusterInfoModel = clusterService.GetClusterInfo(cluster_no, null, null);
+            if (clusterInfoModel == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is error.");
+
+            ClusterInfo clusterInfo = new ClusterInfo(clusterInfoModel);
+            setupCreatorAndMember(clusterInfo);
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfo);
         }
 
         [HttpPost]
-        public object ClusterInfoInsert(ClusterInfoModel model, string member)
+        public object ModifyClusterInfo(ClusterInfo model)
         {
-            if (model.user_id == null || model.cluster_name == null)
+            if(model.cluster_name.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster name is null.");
+
+            ClusterInfoModel clusterInfoModel = new ClusterInfoModel { cluster_no = model.cluster_no,
+                                                                       cluster_name = model.cluster_name,
+                                                                       cluster_info = model.cluster_info };
+            int updateRowCount = clusterService.ClusterInfoUpdateOne(clusterInfoModel);
+            return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
+        }
+
+        private void setupCreatorAndMember(ClusterInfo clusterInfo)
+        {
+            Dictionary<string, string> clusterDic = clusterService.GetClusterMemberList(clusterInfo.cluster_no)
+                        .ToDictionary(clusterMember => clusterMember.user_id,
+                                    clusterMember => clusterMember.company
+                        );
+            string clusterMembers = string.Join(",", clusterDic.Values);
+            clusterInfo.cluster_members = clusterMembers;
+            clusterInfo.creator_name = clusterDic[clusterInfo.user_id];
+        }
+
+        private Cluster[] getClusterByEnable(IList<ClusterInfo> clusterInfoList, string enable)
+        {
+            return clusterInfoList
+                            .Where(clusterInfoModel =>
+                                clusterInfoModel.enable == enable
+                            )
+                            .Select(clusterInfo =>
+                                new Cluster
+                                {
+                                    cluster_no = clusterInfo.cluster_no,
+                                    cluster_name = clusterInfo.cluster_name,
+                                    cluster_members = clusterInfo.cluster_members
+                                }
+                            ).ToArray();
+        }
+
+        [HttpGet]
+        public object GetClusterMember(int cluster_no)
+        {
+            if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
+            IList<ClusterMemberModel> memberList = clusterService.GetClusterMemberList(cluster_no);
+            var memberOfEnable = memberList
+                                .Where(clusterMember =>
+                                    clusterMember.cluster_enable == "1"
+                                ).Select(clusterMember =>
+                                new Dictionary<string, string>() {
+                                        {"user_id", clusterMember.user_id},
+                                        {"company", clusterMember.company}
+                                    }
+                                ).ToArray();
+            var memberOfNonEnable = memberList
+                                    .Where(clusterMember =>
+                                        clusterMember.cluster_enable == "2"
+                                    ).Select(clusterMember =>
+                                        new Dictionary<string, string>() {
+                                            {"user_id", clusterMember.user_id},
+                                            {"company", clusterMember.company}
+                                        }
+                                    ).ToArray();
+            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
+            members["enableMember"] = memberOfEnable;
+            members["nonEnableMember"] = memberOfNonEnable;
+            return Request.CreateResponse(HttpStatusCode.OK, members);
+        }
+
+        [HttpPost]
+        public object ClusterMemberInvite(int cluster_no, string cluster_members)
+        {
+            if (cluster_no == null || cluster_members.IsNullOrEmpty())
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no or member is null.");
+            }
+            int insertSuccessCount = insertMember(cluster_no, "", cluster_members);
+            return Request.CreateResponse(HttpStatusCode.OK, insertSuccessCount);
+        }
+
+        [HttpPost]
+        public object ClusterInfoInsert(ClusterInfoModel model, string cluster_members)
+        {
+            model.enable = "0";
+
+            if (model.user_id.IsNullOrEmpty() || model.cluster_name.IsNullOrEmpty())
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id or cluster name is null.");
             }
 
-            string[] members = member.Split(',');
             int clusterNo = clusterService.ClusterInfoInsertOne(model);
             string creatorId = model.user_id;
+            insertMember(clusterNo, creatorId, cluster_members);
+
+            return Request.CreateResponse(HttpStatusCode.OK, clusterNo);
+        }
+
+        private int insertMember(int clusterNo, string creatorId, string member)
+        {
+            int insertSuccessCount = 0;
+            string[] members = member.Split(',');
             for (int i = 0; i < members.Count(); i++)
             {
                 ClusterMemberModel membermodel = new ClusterMemberModel();
                 membermodel.user_id = members[i];
                 membermodel.cluster_no = clusterNo;
-                membermodel.cluster_enable = creatorId == members[i] ? "1" : "0";
-                clusterService.ClusterMemberInsertOne(membermodel);
+                membermodel.cluster_enable = creatorId == members[i] ? "1" : "2";
+                int clusterMemberNo = clusterService.ClusterMemberInsertOne(membermodel);
+                insertSuccessCount = insertSuccessCount + (clusterMemberNo > 0 ? 1 : 0);
             }
-            return Request.CreateResponse(HttpStatusCode.OK, clusterNo);
+            return insertSuccessCount;
+        }
+
+        [HttpPost]
+        public object ClusterStatusChange(int cluster_no, string user_id, string status)
+        {
+            ClusterMemberModel clusterMemberModel = new ClusterMemberModel { cluster_no = cluster_no,
+                                                                            user_id = user_id,
+                                                                            cluster_enable = status };
+            if (cluster_no == null || user_id.IsNullOrEmpty())
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id or cluster no is null.");
+            }
+            int updateRowCount = clusterService.ClusterMemberUpdateOne(clusterMemberModel);
+            return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
+        }
+
+        [HttpGet]
+        public object GetClusterInvite(string user_id)
+        {
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
+            ClusterModel clusterModel = new ClusterModel { user_id = user_id, cluster_enable = "2" };
+            IList<ClusterInfo> clusterInviteList = clusterService.GetClusterListForMobile(clusterModel);
+            clusterInviteList.ForEach(
+                clusterInfo => {
+                setupCreatorAndMember(clusterInfo);
+            });
+
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInviteList);
         }
     }
 }

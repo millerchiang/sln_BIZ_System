@@ -87,8 +87,8 @@
         SELECT currval('message.msg_msg_no_seq')
       </selectKey>
       INSERT INTO message.msg(
-      creater_id, msg_title, msg_content, is_public, user_id, msg_member )
-      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #user_id# , #msg_member# );
+      creater_id, msg_title, msg_content, is_public, msg_member )
+      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #msg_member# );
     </insert>
 
     <!--查詢單一私訊-->

@@ -1,4 +1,5 @@
 ﻿using prj_BIZ_System.Models;
+using prj_BIZ_System.WebService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace prj_BIZ_System.Services
         {
             ClusterModel tempModel = new ClusterModel { user_id = user_id };
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
+        }
+
+        public IList<ClusterInfo> GetClusterListForMobile(ClusterModel model)
+        {
+            return mapper.QueryForList<ClusterInfo>("Cluster.SelectClusterForMobile", model);
         }
 
         public ClusterInfoModel GetClusterInfo(int? cluster_no,string user_id,string cluster_name)
@@ -44,21 +50,21 @@ namespace prj_BIZ_System.Services
             var result = mapper.Insert("Cluster.ClusterInfoInsertOne", clusterInfoModel);
             return (int)result;
         }
-        public object ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
+        public int ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
         {
             var result = mapper.Update("Cluster.ClusterInfoUpdateOne", clusterInfoModel);
-            return result;
+            return (int)result;
         }
 
-        public object ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
+        public int ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
         {
             var result = mapper.Insert("Cluster.ClusterMemberInsertOne", clusterMemberModel);
-            return result;
+            return (int)result;
         }
-        public object ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
+        public int ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
         {
             var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
-            return result;
+            return (int)result;
         }
 
     }
