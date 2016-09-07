@@ -56,11 +56,6 @@
         <isNotNull prepend="and" property="user_id">
           mp2.user_id = #user_id#
         </isNotNull>
-        <isNull prepend="and" property="user_id">
-          <![CDATA[
-            mp2.user_id <> #user_id#
-          ]]>
-        </isNull>
       </dynamic>
       group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.rpy_cnt
       order by mp2.create_time desc

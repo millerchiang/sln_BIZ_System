@@ -263,6 +263,7 @@
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
+    <Compile Include="Services\SalesService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
     <Compile Include="WebService\ActivityController.cs" />
@@ -363,6 +364,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DBSource\SqlString\SalesInfo.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\UserInfo.xml">

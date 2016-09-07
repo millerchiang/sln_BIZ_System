@@ -20,6 +20,9 @@ namespace prj_BIZ_System.Controllers
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
 
+        public SalesService salesInfoService;
+        public Sales_ViewModel salesViewModel;
+
         public UserController()
         {
             userService = new UserService();
@@ -28,6 +31,8 @@ namespace prj_BIZ_System.Controllers
             passwordService = new PasswordService();
             passwordViewModel = new Password_ViewModel();
 
+            salesInfoService = new SalesService();
+            salesViewModel = new Sales_ViewModel();
         }
 
 
@@ -427,6 +432,59 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 業務帳號管理
+        public ActionResult CheckSales(string sales_id)
+        {
+            SalesInfoModel kk = salesInfoService.getSalesInfo(sales_id);
+            if (kk == null)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(kk, JsonRequestBehavior.AllowGet);
 
+        }
+
+
+        // GET: SalesInfo
+        public ActionResult SalesInfo(int? where_grp_id, string where_sales_id)
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("Login");
+            ViewBag.Title = "SalesInfo";
+            //salesViewModel.groupList = salesInfoService.getAllGroup();
+            salesViewModel.salesInfoList = salesInfoService.getSalesInfoByCondition(where_grp_id, where_sales_id);//.Pages(Request, this, 10);
+            ViewBag.Where_GroupId = where_grp_id;
+            ViewBag.Where_SalesId = where_sales_id;
+            return View(salesViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SalesInfoInsertUpdate(string pagetype, SalesInfoModel model)
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("Login");
+            //model.create_sales = Request.Cookies["SalesInfo"]["manager_id"];
+            if ("Insert".Equals(pagetype))
+            {
+                salesInfoService.SalesInfoInsertOne(model);
+                //                return Redirect("SalesInfo");
+            }
+            else if ("Update".Equals(pagetype))
+            {
+                salesInfoService.SalesInfoUpdateOne(model);
+                //                bool isUpdateSuccess = salesInfoService.SalesInfoUpdateOne(model);
+                //                return Json(isUpdateSuccess);
+            }
+            return Redirect("SalesInfo");
+        }
+
+        public ActionResult DeleteSalesInfoJson(string sales_id, string enable)
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("Login");
+            //非真的刪 , 只是停用
+            bool isDelSuccess = salesInfoService.SalesInfoDisableOne(sales_id, enable);
+            return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
     }
 }

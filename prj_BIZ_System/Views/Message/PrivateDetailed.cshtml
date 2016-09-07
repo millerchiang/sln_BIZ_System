@@ -10,6 +10,7 @@
 }
 
 @Styles.Render("~/Content/jqueryUI")
+@Styles.Render("~/Scripts/css/fancybox")
 
 <div class="article_col1s">
 
@@ -40,7 +41,7 @@
                 {
                     foreach (MsgFileModel mpf in Model.msgPrivateFileList)
                     {
-                        <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)">@mpf.msg_file_site</a></li>
+                        <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
                     }
                 }
             </ul>
@@ -75,9 +76,16 @@
 </div>
 
 @Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/fancybox")
 
 <script>
-		  $(function() {
+    $(function () {
+            $(".fancybox").fancybox({
+                width: 600,
+                height: 300,
+                type: 'iframe'
+            });
+
 		  	$("#upexl").on('change',function(){
 				$("#upexl_name").val($(this).val());
 			});
@@ -111,4 +119,17 @@
 		      return errMsg;
 		  }
 
+    //暫時放著
+    /*
+		  var re_for_xls = /\.(xls)$/i;
+		  $("#form").submit(function () {
+
+		      var iupexl = $("input[name='iupexl']").val();
+		      if (!re_for_xls.test(iupexl)) {
+		          alert("上傳檔案副檔名 必須為 xls");
+		          return false;
+		      }
+		      $("#loaderdiv").css("display", "block");
+		  });
+    */
 </script>

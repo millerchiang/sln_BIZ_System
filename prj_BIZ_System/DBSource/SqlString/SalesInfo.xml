@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="UserInfo"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="SalesInfoModel" type="prj_BIZ_System.Models.SalesInfoModel"/>
+  </alias>
+
+  <statements>
+
+    <!--
+    [[  table=video_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+    <!--查詢影音型錄全部-->
+    <select id="SelectSalesInfoByUserId" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT sales_id, user_id, sales_name, id_enable, phone, email,
+      "limit", create_time, update_time
+      FROM sales.sales_info
+    </select>
+
+
+    <!--查詢影音型錄全部-->
+    <select id="SelectSalesInfoTop" parameterType= "int" resultMap="SalesInfo-result">
+      SELECT c.* , u.company
+      FROM video_list c
+      JOIN user_info u on c.user_id = u.user_id
+      Order By video_no Desc Limit $limit$
+
+    </select>
+
+
+    <!--查詢影音型錄部份-->
+    <select id="SelectSalesInfoByVideoNo" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT sales_id, user_id, sales_name, id_enable, phone, email,
+      "limit", create_time, update_time
+      FROM sales.sales_info
+      WHERE c.user_id = #user_id# and c.video_no = #video_no#
+    </select>
+
+    <!--刪除影音型錄-->
+    <delete id="DeleteSalesInfoByVideoNo" parameterClass="SalesInfoModel">
+      DELETE FROM sales.sales_info
+      WHERE user_id = #user_id# and video_no = #video_no#
+    </delete>
+
+    <!--新增影音型錄-->
+    <insert id="InsertSalesInfo" parameterClass="SalesInfoModel">
+      <selectKey resultClass="int" property="sales_id" type="post">
+        SELECT currval('sales.sales_info_sales_id_seq')
+      </selectKey>
+      INSERT INTO sales.sales_info(
+      sales_id, user_id, sales_name, sales_pw, id_enable, phone, email,
+      "limit", create_time, update_time)
+      VALUES (#sales_id#, #user_id#, #sales_name#, #sales_pw#, #id_enable#, #phone#, #email#,
+      #limit#, #create_time#, #update_time#);
+    </insert>
+
+    <update id="UpdateActivityRegisterOne" parameterClass="ActivityRegisterModel">
+      UPDATE sales.sales_info
+      SET sales_id=#sales_id#, user_id=##, sales_name=?, sales_pw=?, id_enable=?,
+      phone=?, email=?, "limit"=?, create_time=?, update_time=?
+      WHERE
+    </update>
+
+      <!--
+    <<<<<<<<<<<<<<<<<<<<<<<<<<<
+    ]]
+    -->
+
+  </statements>
+
+  <resultMaps>
+    <resultMap id="SalesInfo-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="sales_id" column="sales_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <!--<result property="sales_pw" column="sales_pw"/>-->
+      <result property="id_enable" column="id_enable"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="limit" column="limit"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
+  </resultMaps>
+
+</sqlMap>
+
