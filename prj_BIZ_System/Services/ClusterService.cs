@@ -1,6 +1,7 @@
 ﻿using prj_BIZ_System.Models;
 using prj_BIZ_System.WebService.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +22,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterInfo>("Cluster.SelectClusterForMobile", model);
         }
 
+        public IList<Hashtable> GetNotInClusterMember(int cluster_no)
+        {
+            return mapper.QueryForList<Hashtable>("Cluster.SelectNotInClusterMember", cluster_no);
+        }
+
         public ClusterInfoModel GetClusterInfo(int? cluster_no,string user_id,string cluster_name)
         {
             ClusterInfoModel tempModel = new ClusterInfoModel { cluster_no = cluster_no, user_id=user_id, cluster_name= cluster_name };
@@ -31,6 +37,12 @@ namespace prj_BIZ_System.Services
         {
             ClusterInfoModel tempModel = new ClusterInfoModel { user_id = user_id };
             return mapper.QueryForList<ClusterInfoModel>("Cluster.SelectClusterInfoList", tempModel);
+        }
+
+        public IList<ClusterMemberModel> GetAllClusterMemberList(int? cluster_no)
+        {
+            ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
+            return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectAllClusterMemberList", tempModel);
         }
 
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)

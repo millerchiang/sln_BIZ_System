@@ -60,13 +60,26 @@ namespace prj_BIZ_System.WebService
 
         private void setupCreatorAndMember(ClusterInfo clusterInfo)
         {
-            Dictionary<string, string> clusterDic = clusterService.GetClusterMemberList(clusterInfo.cluster_no)
-                        .ToDictionary(clusterMember => clusterMember.user_id,
-                                    clusterMember => clusterMember.company
-                        );
-            string clusterMembers = string.Join(",", clusterDic.Values);
-            clusterInfo.cluster_members = clusterMembers;
-            clusterInfo.creator_name = clusterDic[clusterInfo.user_id];
+            IList<Tuple<string, string, string>> clusterMembers;
+            clusterMembers = clusterService
+                             .GetAllClusterMemberList(clusterInfo.cluster_no)
+                             .Select(clusterMember =>
+                                  new Tuple<string, string, string>(  
+                                       clusterMember.user_id,
+                                       clusterMember.company,
+                                       clusterMember.cluster_enable
+                                  )
+                             ).ToList();
+            string[] enableMember = clusterMembers
+                                    .Where(memberTuple => memberTuple.Item3 == "1")
+                                    .Select(memberTuple => memberTuple.Item2)
+                                    .ToArray();
+            string clusterString = string.Join(",", enableMember);
+            clusterInfo.cluster_members = clusterString;
+            clusterInfo.creator_name = clusterMembers
+                                       .Where(memberTuple => memberTuple.Item1 == clusterInfo.user_id)
+                                       .Select(memberTuple => memberTuple.Item2)
+                                       .ToArray()[0];
         }
 
         private Cluster[] getClusterByEnable(IList<ClusterInfo> clusterInfoList, string enable)
@@ -110,6 +123,15 @@ namespace prj_BIZ_System.WebService
                                         }
                                     ).ToArray();
             return Request.CreateResponse(HttpStatusCode.OK, members);
+        }
+
+        [HttpGet]
+        public object GetNotInClusterMember(int cluster_no)
+        {
+            if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
+            var notInClusterMembers = clusterService.GetNotInClusterMember(cluster_no);
+
+            return Request.CreateResponse(HttpStatusCode.OK, notInClusterMembers);
         }
 
         [HttpPost]
