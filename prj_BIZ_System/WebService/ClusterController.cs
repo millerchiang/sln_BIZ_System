@@ -90,7 +90,8 @@ namespace prj_BIZ_System.WebService
         {
             if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
             IList<ClusterMemberModel> memberList = clusterService.GetClusterMemberList(cluster_no);
-            var memberOfEnable = memberList
+            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
+            members["enableMember"] = memberList
                                 .Where(clusterMember =>
                                     clusterMember.cluster_enable == "1"
                                 ).Select(clusterMember =>
@@ -99,7 +100,7 @@ namespace prj_BIZ_System.WebService
                                         {"company", clusterMember.company}
                                     }
                                 ).ToArray();
-            var memberOfNonEnable = memberList
+            members["nonEnableMember"] = memberList
                                     .Where(clusterMember =>
                                         clusterMember.cluster_enable == "2"
                                     ).Select(clusterMember =>
@@ -108,9 +109,6 @@ namespace prj_BIZ_System.WebService
                                             {"company", clusterMember.company}
                                         }
                                     ).ToArray();
-            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
-            members["enableMember"] = memberOfEnable;
-            members["nonEnableMember"] = memberOfNonEnable;
             return Request.CreateResponse(HttpStatusCode.OK, members);
         }
 

@@ -94,6 +94,23 @@
       ORDER BY cluster_enable
     </select>
 
+    <!--查詢非聚落成員(手機)-->
+    <select id="SelectClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
+      <![CDATA[
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN user_info
+      ON cluster_member.user_id = user_info.user_id
+      where ( cluster_enable = '1' or cluster_enable = '2')
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = $cluster_no$
+        </isNotEmpty>
+      </dynamic>
+      ORDER BY cluster_enable
+      ]]>
+    </select>
+
     <!--新增聚落-->
     <insert id="ClusterInfoInsertOne" parameterClass="ClusterInfo">
       <selectKey resultClass="int" property="cluster_no" type="post">
