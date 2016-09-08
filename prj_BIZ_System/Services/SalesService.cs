@@ -352,7 +352,7 @@ namespace prj_BIZ_System.Services
             return true;
         }
 
-        internal SalesInfoModel getSalesInfo(string sales_id)
+        public SalesInfoModel getSalesInfo(string sales_id)
         {
             throw new NotImplementedException();
         }
@@ -378,22 +378,23 @@ namespace prj_BIZ_System.Services
 
         #region 新增的方法
 
-        internal IList<SalesInfoModel> getSalesInfoByCondition(int? where_grp_id, string where_sales_id)
+        public IList<SalesInfoModel> getSalesInfoByCondition(string where_sales_id, string where_company)
+        {
+            var param = new SalesInfoModel() { sales_id = where_sales_id , company = where_company };
+            return mapper.QueryForList<SalesInfoModel>("SalesInfo.SelectSalesInfoByCondition", param);
+        }
+
+        public object getAllGroup()
         {
             throw new NotImplementedException();
         }
 
-        internal object getAllGroup()
+        public void SalesInfoInsertOne(SalesInfoModel model)
         {
             throw new NotImplementedException();
         }
 
-        internal void SalesInfoInsertOne(SalesInfoModel model)
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void SalesInfoUpdateOne(SalesInfoModel model)
+        public void SalesInfoUpdateOne(SalesInfoModel model)
         {
             throw new NotImplementedException();
         }
@@ -415,7 +416,7 @@ namespace prj_BIZ_System.Services
             return true;
         }
 
-        internal bool SalesInfoDisableOne(string sales_id, string enable)
+        public bool SalesInfoDisableOne(string sales_id, string enable)
         {
             throw new NotImplementedException();
         }

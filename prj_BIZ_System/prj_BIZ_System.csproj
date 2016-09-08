@@ -238,6 +238,7 @@
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PushController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -914,6 +915,7 @@
     <Content Include="Views\Cluster\Cluster_Add.cshtml" />
     <Content Include="Views\User\VideoListCreate.cshtml" />
     <Content Include="Views\User\VideoList.cshtml" />
+    <Content Include="Views\Sales\SalesInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
