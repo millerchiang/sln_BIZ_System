@@ -94,15 +94,18 @@ namespace prj_BIZ_System.Models
 
     public class SalesInfoModel
     {
-        public int sales_id { get; set; } //業務帳號
-        public string user_id { get; set; } //所屬企業帳號
-        public string sales_name { get; set; } //業務姓名
-        public string sales_pw { get; set; }//業務密碼
+        public string sales_id { get; set; }        //業務帳號
+        public string user_id { get; set; }         //所屬企業帳號
+        public string sales_name { get; set; }      //業務姓名
+        public string sales_pw { get; set; }        //業務密碼
+        public string id_enable { get; set; }       //帳號有效 0：無效(未驗證前) 1：有效(驗證完成)
         public string user_idid_enable { get; set; }//帳號有效
-        public string phone { get; set; }//聯絡電話
-        public string email { get; set; }//電子郵件
-        public string limit { get; set; }//權限 (0：關閉；1：開放)
-        public DateTime create_time { get; set; }//建立時間
-        public DateTime? update_time { get; set; }//修改時間
+        public string phone { get; set; }           //聯絡電話
+        public string email { get; set; }           //電子郵件
+        public string limit { get; set; }           //權限 (0：關閉；1：開放)
+        public DateTime create_time { get; set; }   //建立時間
+        public DateTime? update_time { get; set; }  //修改時間
+
+        public string company { get; set; }         //公司名稱
     }
 }
