@@ -6,83 +6,54 @@
 }
 
 
-			<table class="edittable">
+<table class="edittable">
 
-            <tr>
-                @*<th>建立者帳號</th>*@
-                <th>活動類型</th>
-                <th>活動名稱</th>
-                <th>時間(起)</th>
-                <th>時間(迄)</th>
-                <th>活動地點</th>
-                <th>主辦單位</th>
-                <th>聯絡人</th>
-                <th>手機號碼</th>
-                <th>電子郵件</th>
-                <th>商務對接</th>
-                <th>媒合時程</th>
-<!--
-                <th>活動名稱(英文)</th>
-                <th>活動地點(英文)</th>
-                <th>主辦單位(英文)</th>
--->
-                <th></th>
-                @*<th>媒合大表時間</th>*@
-                <th>媒合大表</th>
-            </tr>
-            @foreach (ActivityInfoModel newInfo in Model.activityinfoList)
+    <tr>
+        <th>活動類型</th>
+        <th>活動名稱</th>
+        <th>時間(起)</th>
+        <th>時間(迄)</th>
+        <th>商務對接</th>
+        <th>媒合公開</th>
+        <th>匯出名單</th>
+        <th>媒合大表</th>
+        <th></th>
+    </tr>
+    @foreach (ActivityInfoModel newInfo in Model.activityinfoList)
             {
-                <tr>
-                    @*<td>@newInfo.manager_id</td>*@
-                    @if (newInfo.activity_type == "0")
-                    {
-                        <td>商洽會</td>
-                    }
-                    else
-                    {
-                        <td>拓銷會</td>
-                    }
-
-                    <td>@newInfo.activity_name</td>
-                    <td>@newInfo.starttime</td>
-                    <td>@newInfo.endtime</td>
-                    <td>@newInfo.addr</td>
-                    <td>@newInfo.organizer</td>
-                    <td>@newInfo.name</td>
-                    <td>@newInfo.phone</td>
-                    <td>@newInfo.email</td>
-                    <td>@newInfo.seller_select</td>
-                    <td>@newInfo.matchmaking_select</td>
-<!--
-                    <td>@newInfo.activity_name_en</td>
-                    <td>@newInfo.addr_en</td>
-                    <td>@newInfo.organizer_en</td>
--->
-                    <td>
-                        <a href="/Manager/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
-                        <a href="/Manager/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
-                    </td>
-                    @*<td>
-                        <a href="@Url.Action("MatchScheduleTime","Manager",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表時間</a>
-                    </td>*@
-                    <td>
-                        <a href="@Url.Action("MatchScheduleList","Manager",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
-                    </td>
-                </tr>
+        <tr>
+            @*<td>@newInfo.manager_id</td>*@
+            @if (newInfo.activity_type == "0")
+            {
+                <td>商洽會</td>
             }
-        </table>
+            else
+            {
+                <td>拓銷會</td>
+            }
+
+            <td>@newInfo.activity_name</td>
+            <td>@newInfo.starttime</td>
+            <td>@newInfo.endtime</td>
+            <td>@newInfo.seller_select</td>
+            <td>@newInfo.matchmaking_select</td>
+            <td>
+                <div class="centerbox">
+                    <a href="" class="addbured">匯出</a>
+                </div>
+            </td>
+            <td>
+                <div class="centerbox">
+                    <a href="@Url.Action("MatchScheduleList","Manager",new {activity_id = @newInfo.activity_id})" class="addbu">媒合大表</a>
+                </div>
+            </td>
+            <td>
+                <div class="centerbox">
+                    <a href="/Manager/DeleteActivity?Id=@newInfo.activity_id" class="deletebu">刪除</a>
+                    <a href="/Manager/EditActivity?Id=@newInfo.activity_id" class="editbu">修改</a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
 @Html.PagesList((PageList<ActivityInfoModel>)TempData["PageList"])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
