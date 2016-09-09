@@ -17,6 +17,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
         }
 
+        public IList<ClusterInfo> GetClusterListByIdAndClusterEnable(string user_id, string cluster_enable)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable };
+            return mapper.QueryForList<ClusterInfo>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
+        }
+
         public IList<ClusterInfo> GetClusterListForMobile(ClusterModel model)
         {
             return mapper.QueryForList<ClusterInfo>("Cluster.SelectClusterForMobile", model);

@@ -65,6 +65,23 @@
       where cluster_enable = #cluster_enable# and cm.user_id = #user_id#
     </select>
 
+    <!--查詢聚落-->
+    <select id="ClusterListByIdAndClusterEnable" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
+      SELECT ci.cluster_no,
+      get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
+      get_company_by_user_id(ci.user_id) as creator_name,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.enable,
+      ci.create_time as cict,
+      cm.create_time as cmct
+      FROM cluster_member as cm,
+      cluster_info as ci
+      where cm.cluster_no = ci.cluster_no
+      and cluster_enable = #cluster_enable#
+      and cm.user_id = #user_id#
+    </select>
+
     <select id="SelectClusterMember" resultMap="ClusterMember-result" parameterClass="ClusterMember">
       SELECT *
       FROM public.cluster_member
@@ -170,11 +187,12 @@
     <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.WebService.Model.ClusterInfo">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
-      <result property="user_id" column="user_id"></result>
+      <result property="creator_name" column="creator_name"></result>
       <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_members" column="cluster_members"></result>
       <result property="cluster_info" column="cluster_info"></result>
-      <result property="cluster_create_time" column="cluster_create_time"></result>
-      <result property="member_invite_time" column="member_invite_time"></result>
+      <result property="cluster_create_time" column="cict"></result>
+      <result property="member_invite_time" column="cmct"></result>
       <result property="enable" column="enable"></result>
     </resultMap>
 

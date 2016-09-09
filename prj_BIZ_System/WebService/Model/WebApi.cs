@@ -194,16 +194,14 @@ namespace prj_BIZ_System.WebService.Model
 
         public ClusterInfo(ClusterInfoModel clusterInfoModel)
         {
-            user_id = clusterInfoModel.user_id;
             cluster_no = clusterInfoModel.cluster_no;
             cluster_name = clusterInfoModel.cluster_name;
             cluster_info = clusterInfoModel.cluster_info;        
             enable = clusterInfoModel.enable;        
         }
 
-        public string user_id { get; set; }      /*建立者帳號*/
-        public string creator_name { get; set; }      /*建立者公司*/
         public int? cluster_no { get; set; }        /*聚落編號*/
+        public string creator_name { get; set; }      /*建立者公司*/
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_members { get; set; }   /*聚落成員*/
         public string cluster_info { get; set; }        /*聚落簡介*/
