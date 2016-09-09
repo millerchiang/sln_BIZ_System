@@ -42,13 +42,15 @@
       FROM public.cluster_member
       INNER JOIN cluster_info
       ON cluster_member.cluster_no = cluster_info.cluster_no
-      where ( cluster_enable = '1' or cluster_enable = '2')
-      <dynamic prepend="">      
+      <dynamic prepend="where">      
         <isNotEmpty prepend="and" property="user_id">
           cluster_member.user_id = #user_id#
         </isNotEmpty>
         <isNotEmpty prepend="and" property="enable">
           "enable" = #enable#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="cluster_enable">
+          "cluster_enable" = #cluster_enable#
         </isNotEmpty>
         <isNotEmpty prepend="and" property="limit">
           "limit" = #limit#

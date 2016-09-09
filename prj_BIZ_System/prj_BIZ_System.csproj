@@ -913,6 +913,9 @@
     <Content Include="Views\Cluster\Cluster_Add.cshtml" />
     <Content Include="Views\User\VideoListCreate.cshtml" />
     <Content Include="Views\User\VideoList.cshtml" />
+    <Content Include="Views\Cluster\_ClusterMenuPartial.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Detail.cshtml" />
+    <Content Include="Views\Cluster\ClusterInvited.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

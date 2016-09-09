@@ -10,9 +10,9 @@ namespace prj_BIZ_System.Services
     public class ClusterService : _BaseService
     {
 
-        public IList<ClusterModel> GetClusterList(string user_id)
+        public IList<ClusterModel> GetClusterList(string user_id,string cluster_enable)
         {
-            ClusterModel tempModel = new ClusterModel { user_id = user_id };
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable= cluster_enable };
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
         }
 

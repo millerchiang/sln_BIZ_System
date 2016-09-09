@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -25,9 +26,52 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Login");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
 
-            clusterViewModel.clusterList = clusterService.GetClusterList(user_id).Pages(Request, this, 10);
+            clusterViewModel.clusterList = clusterService.GetClusterList(user_id,"1").Pages(Request, this, 10);
             return View(clusterViewModel);
         }
+
+        public ActionResult ClusterInvited()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            clusterViewModel.clusterList = clusterService.GetClusterList(user_id, "2");//.Pages(Request, this, 3);
+            string members = "";
+            DateTime invitetime=DateTime.Now;
+            int i = 0;
+            clusterViewModel.clusterInviteList = new List<ClusterInviteModel>();
+
+            foreach (var newInfo in clusterViewModel.clusterList)
+            {
+                clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(newInfo.cluster_no);
+                members = "";
+                foreach (var newInfo1 in clusterViewModel.clusterMemberList)
+                {
+                    if (newInfo1.cluster_enable=="1")
+                    {
+                        members = members + "," + newInfo1.company;
+                    }
+                    else if (newInfo1.cluster_enable == "2" && newInfo1.user_id== user_id)
+                    {
+                        invitetime = newInfo1.create_time;
+                    }
+                }
+                if (!members.IsNullOrEmpty())
+                {
+                    members = members.Substring(1);
+                }
+                clusterViewModel.clusterInviteList[i] = new ClusterInviteModel();
+                clusterViewModel.clusterInviteList[i].cluster_no = newInfo.cluster_no;
+                clusterViewModel.clusterInviteList[i].cluster_name = newInfo.cluster_name;
+                clusterViewModel.clusterInviteList[i].cluster_info = newInfo.cluster_info;
+                clusterViewModel.clusterInviteList[i].create_time = invitetime;
+                clusterViewModel.clusterInviteList[i].members = members;
+            }
+
+                return View(clusterViewModel);
+        }
+
 
         [HttpGet]
         public ActionResult CheckName(string user_id, string cluster_name)
@@ -168,6 +212,22 @@ namespace prj_BIZ_System.Controllers
             return Redirect("ClusterList");
         }
 
+        public ActionResult _ClusterMenuPartial()
+        {
+            return PartialView();
+        }
+
+        public ActionResult Cluster_Detail()
+        {
+            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"]==null)
+                return Redirect("~/Home/Login");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+            clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));
+//            ViewBag.PageType = "Edit";
+            return View(clusterViewModel);
+
+        }
 
     }
 }

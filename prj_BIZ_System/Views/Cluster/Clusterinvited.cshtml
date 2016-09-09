@@ -1,0 +1,73 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+    @{
+        ViewBag.Title = "ClusterList";
+    }
+
+    @section pagestyle{
+        <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    }
+
+    @Styles.Render("~/Content/jqueryUI")
+
+    <div class="article_col1">
+
+        <article>
+            <h2 class="borderTitle2">受邀聚落清單</h2>
+            <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
+            <a href="ClusterList" class="addbu2 rightbox">產業聚落管理</a>
+            <table class="edittable">
+            @if (Model.clusterList.Count > 0)
+            {
+                <tr>
+                    <th width="20%">聚落名稱</th>
+                    <th>聚落說明</th>
+                    <th width="20%">邀請狀態</th>
+                </tr>
+             }
+                @foreach (var newInfo in Model.clusterList)
+                {
+
+                    <div class="form_box">
+                        <h2>@newInfo.cluster_name</h2>
+                        <label for="" class="regis_col02L">邀請時間</label>
+                        <span class="regis_col02R contentspan">@newInfo.</span>
+                        <label for="" class="regis_col02L">建立者</label>
+                        <span class="regis_col02R contentspan">昕傳科技</span>
+
+                        <label for="" class="regis_col02L">成員</label>
+                        <p class="regis_col02R contentspan">
+                            昕傳實業、昕傳實業、昕傳實業
+                        </p>
+
+                        <label for="" class="regis_col02L">簡介</label>
+                        <p class="regis_col02R contentspan">
+                            簡介文字內容簡介文字內容簡介文字內容簡介文字內容簡介文字內容
+                            簡介文字內容簡介文字內容簡介文字內容簡介文字內容簡介文字內容
+                            簡介文字內容簡介文字內容簡介文字內容簡介文字內容簡介文字內容
+                        </p>
+
+                        <div class="centerbox">
+                            <a href="" class="addbu">加入</a>
+                            <a href="" class="deleteSbu">婉拒</a>
+                        </div>
+                    </div>
+
+                    <tr>
+
+                        <td>@newInfo.cluster_name</td>
+                        <td>@newInfo.cluster_info</td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbured">加入</a>
+                                <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu quit">婉拒</a>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </table>
+            @Html.PagesList((PageList<ClusterModel>)TempData["PageList"])
+        </article>
+    </div>

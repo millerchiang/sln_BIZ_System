@@ -17,6 +17,17 @@ namespace prj_BIZ_System.Models
         public string limit { get; set; }        /*業務會員權限 ps.業務會員權限以逗點分隔*/
     }
 
+    public class ClusterInviteModel
+    {
+        public string user_id { get; set; }      /*成員帳號*/
+        public int? cluster_no { get; set; }        /*聚落編號*/
+        public string cluster_name { get; set; }        /*聚落名稱*/
+        public string cluster_info { get; set; }        /*聚落簡介*/
+        public string members { get; set; }        /*聚落成員*/
+        public DateTime create_time { get; set; } /*邀請時間*/
+//        public string cluster_enable { get; set; }        /*是否接受邀請 0：不接受；1：接受*/
+    }
+
 
     public class ClusterInfoModel
     {

@@ -14,21 +14,22 @@
     <div class="article_col1">
 
         <article>
-            <h2 class="borderTitle2">產業聚落列表</h2>
+            <h2 class="borderTitle2">產業聚落管理</h2>
             <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
-@*            <a href="group_invite.html" class="addbured rightbox">聚落邀請</a>*@
+            <a href="ClusterInvited" class="addbu2 rightbox">受邀聚落清單</a>
             <table class="edittable">
             @if (Model.clusterList.Count > 0)
             {
                 <tr>
-                    <th>聚落狀態</th>
-                    <th>聚落名稱</th>
+                    <th width="10%">聚落狀態</th>
+                    <th width="20%">聚落名稱</th>
                     <th>聚落說明</th>
-                    <th>邀請狀態</th>
+                    <th width="20%">邀請狀態</th>
+                    <th width="10%">聚落管理</th>
                 </tr>
              }
                 @foreach (var newInfo in Model.clusterList)
-            {
+                {
                     <tr>
                         @if (newInfo.enable == "1")
                         {
@@ -43,21 +44,19 @@
                         <td>@newInfo.cluster_info</td>
                         <td>
                             <div class="centerbox">
-                                @if (newInfo.cluster_enable == "1")
-                                {
-                                    <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbured">聚落邀請</a>
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit">退出聚落</a>
-                                }
-                                //else if (newInfo.cluster_enable == "0")
-                                //{
-                                //}
-                                else
-                                {
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbured">接受邀請</a>
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu quit">拒絕邀請</a>
-                                }
+                            <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbured">聚落邀請</a>
+                            <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit">退出聚落</a>
                             </div>
                         </td>
+                        <td>
+                        @if (newInfo.enable == "1")
+                        {
+                            <div class="centerbox">
+                                <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
+                            </div>
+                        }
+                        </td>
+
                     </tr>
                 }
             </table>
