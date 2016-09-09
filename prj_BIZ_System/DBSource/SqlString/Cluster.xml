@@ -114,7 +114,7 @@
       FROM public.cluster_member
       INNER JOIN user_info
       ON cluster_member.user_id = user_info.user_id
-      where ( cluster_enable = '1' )
+      where ( cluster_enable = '1' or cluster_enable = '2' )
       <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = $cluster_no$

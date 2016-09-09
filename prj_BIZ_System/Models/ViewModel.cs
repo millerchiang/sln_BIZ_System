@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using prj_BIZ_System.WebService.Model;
 
 namespace prj_BIZ_System.Models
 {
@@ -135,12 +136,12 @@ namespace prj_BIZ_System.Models
         public ClusterInfoModel clusterInfo { get; set; }
         public ClusterFileModel clusterFile { get; set; }
         public ClusterMemberModel clusterMember { get; set; }
-        public ClusterInviteModel clusterInvite { get; set; }
         public IList<ClusterModel> clusterList { get; set; }
         public IList<ClusterInfoModel> clusterInfoList { get; set; }
         public IList<ClusterFileModel> clusterFileList { get; set; }
         public IList<ClusterMemberModel> clusterMemberList { get; set; }
-        public IList<ClusterInviteModel> clusterInviteList { get; set; }
+        public IList<ClusterInfo> clusterWebServiceInfoList { get; set; }
+
     }
 
 

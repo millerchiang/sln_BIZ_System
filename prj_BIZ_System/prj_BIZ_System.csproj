@@ -918,6 +918,7 @@
     <Content Include="Views\Cluster\_ClusterMenuPartial.cshtml" />
     <Content Include="Views\Cluster\Cluster_Detail.cshtml" />
     <Content Include="Views\Cluster\ClusterInvited.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Members.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

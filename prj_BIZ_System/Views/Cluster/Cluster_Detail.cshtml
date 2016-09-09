@@ -21,7 +21,7 @@
             <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
             <div class="form_box">
                 <h2>聚落明細</h2>
-                <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster", "Cluster")" method="post">
+                <form id="form" class="" action="@Url.Action("EditCluster", "Cluster")" method="post">
                     <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
                     <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
