@@ -60,11 +60,28 @@
 
     <!--查詢聚落(手機)-->
     <select id="SelectClusterForMobile" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
-      SELECT ci.cluster_no, ci.user_id, ci.cluster_name, ci.cluster_info, ci.enable
+      SELECT ci.cluster_no, ci.user_id, ci.cluster_name, ci.cluster_info, ci.enable, ci.create_time as cluster_create_time, cm.create_time as member_invite_time
       FROM public.cluster_member as cm
       INNER JOIN cluster_info as ci
       ON cm.cluster_no = ci.cluster_no
       where cluster_enable = #cluster_enable# and cm.user_id = #user_id#
+    </select>
+
+    <!--查詢聚落-->
+    <select id="ClusterListByIdAndClusterEnable" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
+      SELECT ci.cluster_no,
+      get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
+      get_company_by_user_id(ci.user_id) as creator_name,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.enable,
+      ci.create_time as cict,
+      cm.create_time as cmct
+      FROM cluster_member as cm,
+      cluster_info as ci
+      where cm.cluster_no = ci.cluster_no
+      and cluster_enable = #cluster_enable#
+      and cm.user_id = #user_id#
     </select>
 
     <select id="SelectClusterMember" resultMap="ClusterMember-result" parameterClass="ClusterMember">
@@ -82,18 +99,41 @@
       </dynamic>
     </select>
 
+    <select id="SelectAllClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN user_info
+      ON cluster_member.user_id = user_info.user_id
+      where 
+      cluster_no = $cluster_no$
+      ORDER BY cluster_enable
+    </select>
+
     <select id="SelectClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
       SELECT *
       FROM public.cluster_member
       INNER JOIN user_info
       ON cluster_member.user_id = user_info.user_id
-      where ( cluster_enable = '1' or cluster_enable = '2')
+      where ( cluster_enable = '1' )
       <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = $cluster_no$
         </isNotEmpty>
       </dynamic>
       ORDER BY cluster_enable
+    </select>
+
+    <!--查詢非聚落成員-->
+    <select id="SelectNotInClusterMember" resultClass="HashTable" parameterClass="int">
+      select user_id, company, company_en
+      from public.user_info
+      where user_id
+      not in (
+      select cm.user_id
+        from public.cluster_member as cm
+        where (cluster_enable = '1' or cluster_enable = '2')
+        and cluster_no = $cluster_no$
+      )
     </select>
 
     <!--新增聚落-->
@@ -149,9 +189,12 @@
     <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.WebService.Model.ClusterInfo">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
-      <result property="user_id" column="user_id"></result>
+      <result property="creator_name" column="creator_name"></result>
       <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_members" column="cluster_members"></result>
       <result property="cluster_info" column="cluster_info"></result>
+      <result property="cluster_create_time" column="cict"></result>
+      <result property="member_invite_time" column="cmct"></result>
       <result property="enable" column="enable"></result>
     </resultMap>
 

@@ -21,18 +21,19 @@ namespace prj_BIZ_System.WebService
         public object GetClusterInfoList(string user_id)
         {
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
-            ClusterModel clusterModel = new ClusterModel { user_id = user_id, cluster_enable = "1" };
 
-            IList<ClusterInfo> clusterInfoList = clusterService.GetClusterListForMobile(clusterModel);
-            clusterInfoList.ForEach(
-                clusterInfo => {
-                setupCreatorAndMember(clusterInfo);
-            });
+            IList<ClusterInfo> clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2");
 
-            IDictionary<string, Cluster[]> clusterDic = new Dictionary<string, Cluster[]>();
-            clusterDic["enableCluster"] = getClusterByEnable(clusterInfoList, "1");
-            clusterDic["nonEnableCluster"] = getClusterByEnable(clusterInfoList, "0");
-            return Request.CreateResponse(HttpStatusCode.OK, clusterDic);
+            //IList<ClusterInfo> clusterInfoList = clusterService.GetClusterListForMobile(clusterModel);
+            //clusterInfoList.ForEach(
+            //    clusterInfo => {
+            //    setupCreatorAndMember(clusterInfo);
+            //});
+
+            //IDictionary<string, Cluster[]> clusterDic = new Dictionary<string, Cluster[]>();
+            //clusterDic["enableCluster"] = getClusterByEnable(clusterInfoList, "1");
+            //clusterDic["nonEnableCluster"] = getClusterByEnable(clusterInfoList, "0");
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
         }
 
         [HttpGet]
@@ -42,7 +43,7 @@ namespace prj_BIZ_System.WebService
             if (clusterInfoModel == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is error.");
 
             ClusterInfo clusterInfo = new ClusterInfo(clusterInfoModel);
-            setupCreatorAndMember(clusterInfo);
+            //setupCreatorAndMember(clusterInfo);
             return Request.CreateResponse(HttpStatusCode.OK, clusterInfo);
         }
 
@@ -58,16 +59,29 @@ namespace prj_BIZ_System.WebService
             return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
         }
 
-        private void setupCreatorAndMember(ClusterInfo clusterInfo)
-        {
-            Dictionary<string, string> clusterDic = clusterService.GetClusterMemberList(clusterInfo.cluster_no)
-                        .ToDictionary(clusterMember => clusterMember.user_id,
-                                    clusterMember => clusterMember.company
-                        );
-            string clusterMembers = string.Join(",", clusterDic.Values);
-            clusterInfo.cluster_members = clusterMembers;
-            clusterInfo.creator_name = clusterDic[clusterInfo.user_id];
-        }
+        //private void setupCreatorAndMember(ClusterInfo clusterInfo)
+        //{
+        //    IList<Tuple<string, string, string>> clusterMembers;
+        //    clusterMembers = clusterService
+        //                     .GetAllClusterMemberList(clusterInfo.cluster_no)
+        //                     .Select(clusterMember =>
+        //                          new Tuple<string, string, string>(  
+        //                               clusterMember.user_id,
+        //                               clusterMember.company,
+        //                               clusterMember.cluster_enable
+        //                          )
+        //                     ).ToList();
+        //    string[] enableMember = clusterMembers
+        //                            .Where(memberTuple => memberTuple.Item3 == "1")
+        //                            .Select(memberTuple => memberTuple.Item2)
+        //                            .ToArray();
+        //    string clusterString = string.Join(",", enableMember);
+        //    clusterInfo.cluster_members = clusterString;
+        //    clusterInfo.creator_name = clusterMembers
+        //                               .Where(memberTuple => memberTuple.Item1 == clusterInfo.user_id)
+        //                               .Select(memberTuple => memberTuple.Item2)
+        //                               .ToArray()[0];
+        //}
 
         private Cluster[] getClusterByEnable(IList<ClusterInfo> clusterInfoList, string enable)
         {
@@ -90,7 +104,8 @@ namespace prj_BIZ_System.WebService
         {
             if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
             IList<ClusterMemberModel> memberList = clusterService.GetClusterMemberList(cluster_no);
-            var memberOfEnable = memberList
+            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
+            members["enableMember"] = memberList
                                 .Where(clusterMember =>
                                     clusterMember.cluster_enable == "1"
                                 ).Select(clusterMember =>
@@ -99,7 +114,7 @@ namespace prj_BIZ_System.WebService
                                         {"company", clusterMember.company}
                                     }
                                 ).ToArray();
-            var memberOfNonEnable = memberList
+            members["nonEnableMember"] = memberList
                                     .Where(clusterMember =>
                                         clusterMember.cluster_enable == "2"
                                     ).Select(clusterMember =>
@@ -108,10 +123,16 @@ namespace prj_BIZ_System.WebService
                                             {"company", clusterMember.company}
                                         }
                                     ).ToArray();
-            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
-            members["enableMember"] = memberOfEnable;
-            members["nonEnableMember"] = memberOfNonEnable;
             return Request.CreateResponse(HttpStatusCode.OK, members);
+        }
+
+        [HttpGet]
+        public object GetNotInClusterMember(int cluster_no)
+        {
+            if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
+            var notInClusterMembers = clusterService.GetNotInClusterMember(cluster_no);
+
+            return Request.CreateResponse(HttpStatusCode.OK, notInClusterMembers);
         }
 
         [HttpPost]
@@ -178,10 +199,10 @@ namespace prj_BIZ_System.WebService
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
             ClusterModel clusterModel = new ClusterModel { user_id = user_id, cluster_enable = "2" };
             IList<ClusterInfo> clusterInviteList = clusterService.GetClusterListForMobile(clusterModel);
-            clusterInviteList.ForEach(
-                clusterInfo => {
-                setupCreatorAndMember(clusterInfo);
-            });
+            //clusterInviteList.ForEach(
+            //    clusterInfo => {
+            //    setupCreatorAndMember(clusterInfo);
+            //});
 
             return Request.CreateResponse(HttpStatusCode.OK, clusterInviteList);
         }
