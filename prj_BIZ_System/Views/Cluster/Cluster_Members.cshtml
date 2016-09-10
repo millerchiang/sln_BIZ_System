@@ -23,81 +23,91 @@
             <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
             <div class="form_box">
                 <h2>商家管理</h2>
-                <form id="form" class="" action="@Url.Action("EditCluster", "Cluster")" method="post">
+                <form id="form" class="" action="@Url.Action("EditClusterMember", "Cluster")" method="post">
                     <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
                     <input type="hidden" name="members" value="">
-                    <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
+                    @*<input type="hidden" name="enable" value="@Model.clusterInfo.enable">
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
                     <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
+                    <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
 
-                    <label for="" class="regis_col02L">新增邀請</label>
-                    <div class="regis_col02R">
+                    <div class="regis_col02L">企業聚落成員</div>
+                    <table class="regis_col02R membertable" id="gmember">
+                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                            <td>
+                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
+                            </td>
+                        </tr>
 
-                        <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                        @if (Model.clusterMemberList != null)
+                        {
+                            foreach (ClusterMemberModel md in Model.clusterMemberList)
+                            {
+                                if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "1")
+                                {
+                                    <tr id="grp_name_@md.user_id">
+                                        <td>
+                                            <input type="hidden" name="id" value="@md.user_id">
+                                            <label>@md.user_id - @md.company</label>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </table>
 
-                        <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
-                        <table class="article_col1" id="membertable">
-
-                            <tr>
-                                <td>商家名稱</td>
-                                <td>編輯</td>
-                            </tr>
-
-                            <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
-                                <td>
-                                    <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                    <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
-                                </td>
-                                <td>
-                                    <div class="centerbox">
-                                        @*                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@Request.Cookies["UserInfo"]["user_id"],@Request["cluster_no"])">退出</a>*@
-                                    </div>
-                                </td>
-                            </tr>
-
+                    <div class="form_box regis_dmlist">
+                        <div class="regis_col02L">邀請中成員</div>
+                        <table class="regis_col02R membertable" id="membertable">
                             @if (Model.clusterMemberList != null)
                             {
                                 foreach (ClusterMemberModel md in Model.clusterMemberList)
                                 {
-                                    if (md.user_id != Request.Cookies["UserInfo"]["user_id"])
+                                    if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "2")
                                     {
                                         <tr id="grp_name_@md.user_id">
-                                            <td>
+                                            <td class="removeup">
                                                 <input type="hidden" name="id" value="@md.user_id">
+                                                <input type="hidden" name="cid" value="@md.cluster_no">
                                                 <label>@md.user_id - @md.company</label>
-                                            </td>
-                                            <td>
-
-                                                <div class="centerbox">
-                                                    @if (md.cluster_enable == "2")
-                                                    {
-                                                        <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_no)">取消</a>
-                                                    }
-                                                </div>
-
                                             </td>
                                         </tr>
                                     }
                                 }
                             }
-
-
                         </table>
+                    </div>
 
-                        <br />
+                    <div class="form_box regis_dmlist">
+                        <div class="regis_col02L">新增邀請</div>
+                        <div class="regis_col02R">
+                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                            <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
+                        </div>
+                        <div class="regis_col02L" id="newmemberlabel"></div>
+                        <table class="regis_col02R membertable" id="newmembertable"></table>
+
+                        <div class="centerbox">
+                            <button id="sendinvite" type="submit" class="buinfor" style="display:none">送出邀請</button>
+
+                        </div>
 
                     </div>
 
-                    <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">
-
-                    <div class="centerbox">
-                        <button type="submit" class="buinfor">送出邀請</button>
-                    </div>
-
-                </form>
+            </form>
             </div>
         </article>
     </div>
+
+    <div id="dialog" title="邀請成員" style="display:none;">
+        <p>
+            <span class="instext"></span><br />
+            <span id="business_id"></span>
+        </p>
+    </div>
+
+
 </main>
 
 <script type="text/javascript"
@@ -106,6 +116,7 @@
 
 <script type="text/javascript" language="javascript">
     var g_no = 0;
+    var g_new = 0;
     var user_id = "";
     var company = "";
         $(document).ready(function () {
@@ -139,23 +150,25 @@
 
         var $addgroup = $("#addgroup");
         $addgroup.click(function (e) {
-            $("#membertable").append(genTemplate());
-//            g_no++;
+            $("#newmembertable").append(genTemplate());
+            g_new++;
             $("#insert_id_cp").val("");
             $("#addgroup").hide();
+            $("#sendinvite").show();
+            $("#newmemberlabel").html("新邀請成員");
+
         });
     }
 
     function genTemplate() {
         var template =
         '<tr id="grp_name_' + user_id + '">' +
-        '<td>' +
-        '<input type="hidden" name="id" value="' + user_id + '">' +
-        '<input type="hidden" name="user_id" value="' + user_id + '">' +
-        '<label">' + user_id + ' - ' + company + '</label>' +
-        '<td><div class="centerbox">' +
-        '<a href="javascript:void(0)" class="editbu tempeditbu" onclick="showCancel('+ user_id +')">取消</a>' +
-        '</div></td></tr>';
+            '<td class="removeup">' +
+                '<input type="hidden" name="id" value="' + user_id + '">' +
+                '<input type="hidden" name="user_id" value="' + user_id + '">' +
+                '<label>' + user_id + ' - ' + company + '</label>' +
+            '</td>' + 
+        '</tr>';
         return template;
     }
     function hidebtn() {
@@ -164,12 +177,7 @@
 
     function showCancel(id) {
         $('#grp_name_' + id).remove();
-//        g_no--;
-    }
-
-    function showDelete(id,cid) {
-        $('#grp_name_' + id).remove();
-//        g_no--;
+        g_new--;
     }
 
     function showDelete(id, cid) {
@@ -200,17 +208,42 @@
 
     function idexist(userid) {
         var e=false;
-        $('#membertable').find('tr').each(function (index, el) {
+        $('#gmember').find('tr').each(function (index, el) {
             var id = null;
             id = $(el).find('td').eq(0).find("input[name='id']").val();
-            if (id != null) {
-                if (userid == id)
-                {
-                    e=true;
-                    return;
-                }
+            if (userid == id)
+            {
+                e=true;
+                return false;
             }
         });
+
+        if (e == false)
+        {
+            $('#membertable').find('tr').each(function (index, el) {
+                var id = null;
+                id = $(el).find('td').eq(0).find("input[name='id']").val();
+                if (id != null) {
+                    if (userid == id) {
+                        e = true;
+                        return false;
+                    }
+                }
+            });
+        }
+        if (e == false) {
+            $('#newmembertable').find('tr').each(function (index, el) {
+                var id = null;
+                id = $(el).find('td').eq(0).find("input[name='id']").val();
+                if (id != null) {
+                    if (userid == id) {
+                        e = true;
+                        return false;
+                    }
+                }
+            });
+        }
+
         return e;
     }
 
@@ -270,15 +303,21 @@
     }
 
     $("#form").submit(function () {
-        g_no = -1;
+        g_no = 0;
         var members = "";
+        $('#gmember').find('tr').each(function (index, el) {
+            g_no++;
+        })
         $('#membertable').find('tr').each(function (index, el) {
+            g_no++;
+        })
+
+        $('#newmembertable').find('tr').each(function (index, el) {
             g_no++;
             var id = null;
             id=$(el).find('td').eq(0).find("input[name='user_id']").val();
             if (id != null) {
                 members = members + "," + id;
-//                alert(id);
             }
         });
 
@@ -289,6 +328,59 @@
         $("input[name='members']").val(members);
 
     })
+
+    $("#membertable").on('click', 'tr', function () {
+        var inputtext = $(this).text();
+        var _this = $(this);
+        var id = $(this).find('td').eq(0).find("input[name='id']").val();
+        var cid = $(this).find('td').eq(0).find("input[name='cid']").val();
+
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    showDelete(id,cid);
+//                    _this.remove();
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("是否刪除邀請中的");
+        $("#business_id").text(inputtext);
+    })
+
+
+    $("#newmembertable").on('click', 'tr', function () {
+        var inputtext = $(this).text();
+        var _this = $(this);
+        var id = $(this).find('td').eq(0).find("input[name='user_id']").val();
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    showCancel(id);
+//                    _this.remove();
+                    $(this).dialog("close");
+                    if (g_new <= 0) {
+                        $("#sendinvite").hide();
+                        $("#newmemberlabel").html("");
+                    }
+
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("是否取消新邀請的");
+        $("#business_id").text(inputtext);
+    })
+
 
 </script>
 

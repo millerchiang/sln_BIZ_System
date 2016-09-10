@@ -220,6 +220,30 @@ namespace prj_BIZ_System.Controllers
             return Redirect("ClusterList");
         }
 
+        public ActionResult EditClusterMember(string no, string members)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            int clusterNo = int.Parse(no); 
+
+            if (members != null && members != "")
+            {
+                string members1 = members.Substring(1);
+                string[] member = members1.Split(',');
+                string creatorId = Request.Cookies["UserInfo"]["user_id"];
+                for (int i = 0; i < member.Count(); i++)
+                {
+                    ClusterMemberModel membermodel = new ClusterMemberModel();
+                    membermodel.user_id = member[i];
+                    membermodel.cluster_no = clusterNo;
+                    membermodel.cluster_enable = "2";
+                    clusterService.ClusterMemberInsertOne(membermodel);
+                }
+            }
+            return Redirect("Cluster_Members?cluster_no=" + clusterNo);
+        }
+
         public ActionResult _ClusterMenuPartial()
         {
             return PartialView();

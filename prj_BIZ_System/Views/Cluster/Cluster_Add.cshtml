@@ -205,10 +205,10 @@
 //        g_no--;
     }
 
-    function showDelete(id,cid) {
-        $('#grp_name_' + id).remove();
-//        g_no--;
-    }
+//    function showDelete(id,cid) {
+//        $('#grp_name_' + id).remove();
+////        g_no--;
+//    }
 
     function showDelete(id, cid) {
         var user_id = id;
@@ -316,7 +316,7 @@
             id=$(el).find('td').eq(0).find("input[name='user_id']").val();
             if (id != null) {
                 members = members + "," + id;
-//                alert(id);
+                alert(id);
             }
         });
 
