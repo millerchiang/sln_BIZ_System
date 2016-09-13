@@ -759,10 +759,10 @@ namespace prj_BIZ_System.Controllers
 
             if (userid == null) //新增
             {
-                ViewBag.tname = "會員註冊";
+                ViewBag.tname = LanguageResource.User.lb_signup;
                 activityModel.userinfo = new UserInfoModel();
                 ViewBag.PageType = "Create";
-                ViewBag.SubmitName = "確定送出";
+                ViewBag.SubmitName = LanguageResource.User.lb_submit_sure;
                 cookie.Values.Add("edit", "Add");
                 ViewBag.userSortList = "[]";
             }

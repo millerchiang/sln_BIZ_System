@@ -1,5 +1,7 @@
 ﻿using prj_BIZ_System.Models;
+using prj_BIZ_System.WebService.Model;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,10 +11,26 @@ namespace prj_BIZ_System.Services
     public class ClusterService : _BaseService
     {
 
-        public IList<ClusterModel> GetClusterList(string user_id)
+        public IList<ClusterModel> GetClusterList(string user_id,string cluster_enable)
         {
-            ClusterModel tempModel = new ClusterModel { user_id = user_id };
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable= cluster_enable };
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
+        }
+
+        public IList<ClusterInfo> GetClusterListByIdAndClusterEnable(string user_id, string cluster_enable)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable };
+            return mapper.QueryForList<ClusterInfo>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
+        }
+
+        public IList<ClusterInfo> GetClusterListForMobile(ClusterModel model)
+        {
+            return mapper.QueryForList<ClusterInfo>("Cluster.SelectClusterForMobile", model);
+        }
+
+        public IList<Hashtable> GetNotInClusterMember(int cluster_no)
+        {
+            return mapper.QueryForList<Hashtable>("Cluster.SelectNotInClusterMember", cluster_no);
         }
 
         public ClusterInfoModel GetClusterInfo(int? cluster_no,string user_id,string cluster_name)
@@ -25,6 +43,12 @@ namespace prj_BIZ_System.Services
         {
             ClusterInfoModel tempModel = new ClusterInfoModel { user_id = user_id };
             return mapper.QueryForList<ClusterInfoModel>("Cluster.SelectClusterInfoList", tempModel);
+        }
+
+        public IList<ClusterMemberModel> GetAllClusterMemberList(int? cluster_no)
+        {
+            ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
+            return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectAllClusterMemberList", tempModel);
         }
 
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)
@@ -44,20 +68,20 @@ namespace prj_BIZ_System.Services
             var result = mapper.Insert("Cluster.ClusterInfoInsertOne", clusterInfoModel);
             return (int)result;
         }
-        public object ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
+        public int ClusterInfoUpdateOne(ClusterInfoModel clusterInfoModel)
         {
             var result = mapper.Update("Cluster.ClusterInfoUpdateOne", clusterInfoModel);
-            return result;
+            return (int)result;
         }
 
-        public object ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
+        public int ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
         {
             var result = mapper.Insert("Cluster.ClusterMemberInsertOne", clusterMemberModel);
-            return result;
+            return (int)result;
         }
-        public object ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
+        public int ClusterMemberUpdateOne(ClusterMemberModel clusterMemberModel)
         {
-            var result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
+            int result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
             return result;
         }
 

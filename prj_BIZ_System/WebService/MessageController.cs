@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApiContrib.ModelBinders;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.WebService
 {
@@ -19,7 +20,7 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public IList<MsgPrivate> GetMessagePrivateList(string user_id, string date)
         {
-            if (user_id == null || date == null) return null;
+            if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return null;
 
             DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(
@@ -82,6 +83,8 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public IList<CompanySortModel> GetCompanySort(string user_id)
         {
+            if (user_id.IsNullOrEmpty()) return null;
+
             return messageService.SelectUserKwForMobile(user_id).Select(
                 userInfoModel =>
                 new CompanySortModel

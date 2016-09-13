@@ -2,7 +2,7 @@
 @using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Cluster_ViewModel
     @{
-        ViewBag.Title = "ClusterList";
+        ViewBag.Title = "Cluster List";
     }
 
     @section pagestyle{
@@ -11,56 +11,44 @@
 
     @Styles.Render("~/Content/jqueryUI")
 
-    <div class="article_col1">
+    <div class="article_col1s">
 
-        <article>
-            <h2 class="borderTitle2">產業聚落列表</h2>
-            <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
-@*            <a href="group_invite.html" class="addbured rightbox">聚落邀請</a>*@
-            <table class="edittable">
-            @if (Model.clusterList.Count > 0)
+    <article>
+        <h2 class="borderTitle2">產業聚落管理</h2>
+        <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
+        <a href="ClusterInvited" class="addbu2 rightbox">受邀聚落清單</a>
+        @foreach (var newInfo in Model.clusterWebServiceInfoList)
             {
-                <tr>
-                    <th>聚落狀態</th>
-                    <th>聚落名稱</th>
-                    <th>聚落說明</th>
-                    <th>邀請狀態</th>
-                </tr>
-             }
-                @foreach (var newInfo in Model.clusterList)
-            {
-                    <tr>
-                        @if (newInfo.enable == "1")
-                        {
-                            <td>成立</td>
-                        }
-                        else
-                        {
-                            <td>未成立</td>
-                        }
 
-                        <td>@newInfo.cluster_name</td>
-                        <td>@newInfo.cluster_info</td>
-                        <td>
-                            <div class="centerbox">
-                                @if (newInfo.cluster_enable == "1")
-                                {
-                                    <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbured">聚落邀請</a>
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit">退出聚落</a>
-                                }
-                                //else if (newInfo.cluster_enable == "0")
-                                //{
-                                //}
-                                else
-                                {
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbured">接受邀請</a>
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu quit">拒絕邀請</a>
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </table>
-            @Html.PagesList((PageList<ClusterModel>)TempData["PageList"])
-        </article>
-    </div>
+            <div class="form_box">
+                <h2>@newInfo.cluster_name</h2>
+                <label for="" class="regis_col02L"></label>
+                <span class="regis_col02R contentspan"><a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit rightbox">退出聚落</a></span>
+                <label for="" class="regis_col02L">邀請時間</label>
+                <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
+                <label for="" class="regis_col02L">建立者</label>
+                <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                <label for="" class="regis_col02L">成員</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_members
+                </p>
+
+                <label for="" class="regis_col02L">簡介</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_info
+                </p>
+
+                <div class="centerbox">
+                    <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbu">聚落邀請</a>
+                    @if (newInfo.enable == "1")
+                    {
+                        <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
+                    }
+
+                </div>
+            </div>
+        }
+        @Html.PagesList((PageList<prj_BIZ_System.WebService.Model.ClusterInfo>)TempData["PageList"])
+    </article>
+</div>
+

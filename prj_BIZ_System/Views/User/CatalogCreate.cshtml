@@ -14,7 +14,7 @@
         Html.RenderAction("_NavSearchPartial");
     }
     <article class="article_col2 form_box">
-        <h2>上傳型錄</h2>
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_catalogupload</h2>
         <form id="form" action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
 			<div class="uploadlist dmname">
 				<label for="catalog_name">型錄名稱:</label>
@@ -25,11 +25,11 @@
                 <input type="file" id="cover_file" name="cover_file">
             </div>
             <div class="uploadlist">
-                <label class="choose_file" id="upload" for="catalog_file">上傳檔案</label>
+                <label class="choose_file" id="upload" for="catalog_file">@prj_BIZ_System.LanguageResource.User.lb_pdfupload</label>
                 <input type="file" id="catalog_file" name="catalog_file">
             </div>
             <div class="centerbox">
-                <button type="submit" class="submitbu">確定送出</button>
+                <button type="submit" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_submit_sure</button>
             </div>
         </form>
     </article>
@@ -53,14 +53,13 @@
 
             var pic = $("input[name='cover_file']").val();
             if (!re_for_pic.test(pic)) {
-                alert("上傳小圖 必須為 jpg、gif、png ");
+                alert(@prj_BIZ_System.LanguageResource.User.lb_photoupload + " " + @prj_BIZ_System.LanguageResource.User.lb_must + " jpg、gif、png ");
                 return false;
             }
 
             var file = $("input[name='catalog_file']").val();
-            if (!re_for_pdf.test(file))
-            {
-                alert("上傳檔案 必須為 pdf檔");
+            if (!re_for_pdf.test(file)) {
+                alert(@prj_BIZ_System.LanguageResource.User.lb_pdfupload + " " + @prj_BIZ_System.LanguageResource.User.lb_must + " pdf ");
                 return false;
             }
             $("#loaderdiv").css("display", "block");
@@ -71,7 +70,7 @@
         var errMsg = '';
         if (catalog_name == null || catalog_name == '') {
             errMsg += '型錄名稱不可為空白\n';
-        } 
+        }
         return errMsg;
     }
 </script>

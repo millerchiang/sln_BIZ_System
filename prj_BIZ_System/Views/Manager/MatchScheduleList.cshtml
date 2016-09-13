@@ -43,8 +43,8 @@
                     @for (int i = 0; i < Model.schedulePeriodSetList.Count; i++)
                     {
                         <tr>
-                            <td>
-                                @Model.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm")<br/>
+                            <td class="centerbox">
+                                @Model.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm")<br />
                                 ~@Model.schedulePeriodSetList[i].time_end.ToString("yyyy/MM/dd HH:mm")
                                 <input type="hidden" name="period_sn" value="@Model.schedulePeriodSetList[i].period_sn" />
                                 <input type="hidden" name="activity_id" value="@Model.schedulePeriodSetList[i].activity_id" />
@@ -53,7 +53,7 @@
 
                             @for (int j = 0; j < Model.buyerinfoList.Count; j++)
                             {
-                                <td>
+                                <td class="centerbox">
                                     <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))">
                                         <option value="">--請選擇--</option>
                                         @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
@@ -95,6 +95,20 @@
                     </tr>
 
                     <tr>
+                        <td class="centerbox2">買方有媒合意願</td>
+                        @foreach (BuyerInfoModel buyerIngoModel in Model.buyerinfoList)
+                        {
+                            if (Model.sellerCompanyNamereply1Dic.ContainsKey(buyerIngoModel.buyer_id))
+                            {
+                                <td class="centerbox2"></td>
+                            }
+                            else {
+                                <td class="centerbox2"></td>
+                            }
+                        }
+                    </tr>
+
+                    <tr class="tfootbg">
                         <td class="centerbox2">賣方有媒合意願</td>
                         @*@foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
                             {

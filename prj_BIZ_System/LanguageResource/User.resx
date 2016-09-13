@@ -156,17 +156,14 @@
   <data name="lb_activities" xml:space="preserve">
     <value>活動</value>
   </data>
-  <data name="lb_activities_news" xml:space="preserve">
-    <value>活動消息</value>
-  </data>
   <data name="lb_activitylist" xml:space="preserve">
     <value>活動列表</value>
   </data>
   <data name="lb_activity_amount" xml:space="preserve">
     <value>與會人數</value>
   </data>
-  <data name="lb_activity_date" xml:space="preserve">
-    <value>活動時間</value>
+  <data name="lb_activity_period" xml:space="preserve">
+    <value>活動期間</value>
   </data>
   <data name="lb_activity_name" xml:space="preserve">
     <value>活動名稱</value>
@@ -179,9 +176,6 @@
   </data>
   <data name="lb_activity_site" xml:space="preserve">
     <value>活動地點</value>
-  </data>
-  <data name="lb_actmatch" xml:space="preserve">
-    <value>活動媒合</value>
   </data>
   <data name="lb_add" xml:space="preserve">
     <value>新增</value>
@@ -280,10 +274,7 @@
     <value>新建活動</value>
   </data>
   <data name="lb_date" xml:space="preserve">
-    <value>發佈日</value>
-  </data>
-  <data name="lb_datee" xml:space="preserve">
-    <value>發布日期</value>
+    <value>發佈日期</value>
   </data>
   <data name="lb_delete" xml:space="preserve">
     <value>刪除</value>
@@ -296,9 +287,6 @@
   </data>
   <data name="lb_email" xml:space="preserve">
     <value>電子郵件</value>
-  </data>
-  <data name="lb_emailbox" xml:space="preserve">
-    <value>聯絡信箱</value>
   </data>
   <data name="lb_email_is_empty" xml:space="preserve">
     <value>E-mail不可為空白</value>
@@ -354,8 +342,8 @@
   <data name="lb_manual" xml:space="preserve">
     <value>操作手冊</value>
   </data>
-  <data name="lb_match" xml:space="preserve">
-    <value>商務對接</value>
+  <data name="lb_matchmaking" xml:space="preserve">
+    <value>商務媒合</value>
   </data>
   <data name="lb_morethan100000k" xml:space="preserve">
     <value>一億以上</value>
@@ -389,9 +377,6 @@
   </data>
   <data name="lb_news" xml:space="preserve">
     <value>新聞</value>
-  </data>
-  <data name="lb_news_info" xml:space="preserve">
-    <value>新聞消息</value>
   </data>
   <data name="lb_id" xml:space="preserve">
     <value>編號</value>
@@ -533,5 +518,65 @@
   </data>
   <data name="lb_yes" xml:space="preserve">
     <value>是</value>
+  </data>
+  <data name="lb_edit" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="lb_activityinfo" xml:space="preserve">
+    <value>活動相關資訊</value>
+  </data>
+  <data name="lb_activityregister" xml:space="preserve">
+    <value>活動註冊資訊</value>
+  </data>
+  <data name="lb_activitytype" xml:space="preserve">
+    <value>活動類型</value>
+  </data>
+  <data name="lb_activity_date" xml:space="preserve">
+    <value>活動日期</value>
+  </data>
+  <data name="lb_activity_no" xml:space="preserve">
+    <value>活動編號</value>
+  </data>
+  <data name="lb_cancel" xml:space="preserve">
+    <value>取消報名</value>
+  </data>
+  <data name="lb_company_catalog" xml:space="preserve">
+    <value>公司型錄</value>
+  </data>
+  <data name="lb_deleteornot" xml:space="preserve">
+    <value>是否確認要刪除?</value>
+  </data>
+  <data name="lb_latestcatalog" xml:space="preserve">
+    <value>最新型錄</value>
+  </data>
+  <data name="lb_must" xml:space="preserve">
+    <value>必須為</value>
+  </data>
+  <data name="lb_no_recommended" xml:space="preserve">
+    <value>目前沒有推薦的活動</value>
+  </data>
+  <data name="lb_no_register" xml:space="preserve">
+    <value>您尚未參加任何活動</value>
+  </data>
+  <data name="lb_organizer" xml:space="preserve">
+    <value>主辦單位</value>
+  </data>
+  <data name="lb_product_company" xml:space="preserve">
+    <value>公司產品</value>
+  </data>
+  <data name="lb_select_successful" xml:space="preserve">
+    <value>Logo圖片選擇成功</value>
+  </data>
+  <data name="lb_sellerid" xml:space="preserve">
+    <value>賣家帳號</value>
+  </data>
+  <data name="lb_sellerlist" xml:space="preserve">
+    <value>賣家清單</value>
+  </data>
+  <data name="lb_title" xml:space="preserve">
+    <value>職稱</value>
+  </data>
+  <data name="lb_underreview" xml:space="preserve">
+    <value>報名審核中</value>
   </data>
 </root>

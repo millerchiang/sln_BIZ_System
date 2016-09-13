@@ -1,0 +1,56 @@
+﻿
+
+<aside>
+    <div class="datalist">
+        <h3>我的產業聚落</h3>
+        <ul class="listlink comicon inforlist">
+            @if (Request.Cookies["_menu"].Value == "Cluster_Detail")
+            {
+                <li class="inforactive"><span>聚落明細</span></li>
+            }
+            else
+            {
+                <li><a href="Cluster_Detail?cluster_no=@Request["cluster_no"]">聚落明細</a></li>
+            }
+
+            @if (Request.Cookies["_menu"].Value == "Cluster_Members")
+            {
+                <li class="inforactive"><span>商家管理</span></li>
+            }
+            else
+            {
+                <li><a href="Cluster_Members?cluster_no=@Request["cluster_no"]">商家管理</a></li>
+            }
+
+            <li><a href="group_file_manager.html">文件管理</a></li>
+            <li><a href="group_order_manager.html">聚落訂單管理</a></li>
+            <li><a href="group_sales_set.html">訊息管理</a></li>
+            <li><a href="group_sales_set.html">業務權限設定</a></li>
+            @*<li>
+                <a href="javascript:void(0)" class="floor active">聚落明細</a>
+                <ul class="floor2 open">
+                    <li>
+                        <a href="group_detailed.html">聚落明細</a>
+                    </li>
+                    <li><a href="group_business_manager.html">商家管理</a></li>
+                    <li><a href="group_file_manager.html">文件管理</a></li>
+                    <li><a href="group_order_manager.html">聚落訂單管理</a></li>
+                    <li class="inforactive"><span>訊息管理</span></li>
+                    <li><a href="group_sales_set.html">業務權限設定</a></li>
+                </ul>
+            </li>*@
+
+        </ul>
+    </div>
+
+</aside>
+
+<script>
+	  $(function() {
+	  	$( ".floor" ).click(function() {
+		  	 $( ".floor2" ).toggleClass('open');
+			 $(this).toggleClass('active');
+		});
+
+	  });
+</script>

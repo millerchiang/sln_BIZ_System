@@ -1,0 +1,386 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+@{
+    ViewBag.Title = "Cluster_Members";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+
+<main>
+
+    <div class="article_col1">
+        @{
+            Html.RenderAction("_ClusterMenuPartial", "Cluster");
+        }
+
+        <article class="article_col2">
+            <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
+            <div class="form_box">
+                <h2>商家管理</h2>
+                <form id="form" class="" action="@Url.Action("EditClusterMember", "Cluster")" method="post">
+                    <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
+                    <input type="hidden" name="members" value="">
+                    @*<input type="hidden" name="enable" value="@Model.clusterInfo.enable">
+                    <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
+                    <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
+                    <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
+
+                    <div class="regis_col02L">企業聚落成員</div>
+                    <table class="regis_col02R membertable" id="gmember">
+                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                            <td>
+                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
+                            </td>
+                        </tr>
+
+                        @if (Model.clusterMemberList != null)
+                        {
+                            foreach (ClusterMemberModel md in Model.clusterMemberList)
+                            {
+                                if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "1")
+                                {
+                                    <tr id="grp_name_@md.user_id">
+                                        <td>
+                                            <input type="hidden" name="id" value="@md.user_id">
+                                            <label>@md.user_id - @md.company</label>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </table>
+
+                    <div class="form_box regis_dmlist">
+                        <div class="regis_col02L">邀請中成員</div>
+                        <table class="regis_col02R membertable" id="membertable">
+                            @if (Model.clusterMemberList != null)
+                            {
+                                foreach (ClusterMemberModel md in Model.clusterMemberList)
+                                {
+                                    if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "2")
+                                    {
+                                        <tr id="grp_name_@md.user_id">
+                                            <td class="removeup">
+                                                <input type="hidden" name="id" value="@md.user_id">
+                                                <input type="hidden" name="cid" value="@md.cluster_no">
+                                                <label>@md.user_id - @md.company</label>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </table>
+                    </div>
+
+                    <div class="form_box regis_dmlist">
+                        <div class="regis_col02L">新增邀請</div>
+                        <div class="regis_col02R">
+                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                            <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
+                        </div>
+                        <div class="regis_col02L" id="newmemberlabel"></div>
+                        <table class="regis_col02R membertable" id="newmembertable"></table>
+
+                        <div class="centerbox">
+                            <button id="sendinvite" type="submit" class="buinfor" style="display:none">送出邀請</button>
+
+                        </div>
+
+                    </div>
+
+            </form>
+            </div>
+        </article>
+    </div>
+
+    <div id="dialog" title="邀請成員" style="display:none;">
+        <p>
+            <span class="instext"></span><br />
+            <span id="business_id"></span>
+        </p>
+    </div>
+
+
+</main>
+
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+<script type="text/javascript" language="javascript">
+    var g_no = 0;
+    var g_new = 0;
+    var user_id = "";
+    var company = "";
+        $(document).ready(function () {
+            $("#insert_id_cp").autocomplete({
+                source: "@Url.Action("GetUserInfoToIdCp", "Manager")",
+                select: function (event, ui) {
+                    var data = ui.item.label;
+                    var arr = data.split(',');
+//                    g_no++;
+                    user_id = arr[0];
+                    company = arr[1];
+//                    $("#buyer_id").val(arr[0]);
+                    //                    $("#buyer_cp").val(arr[1]);
+//                    $("table.membertable").append(genTemplate(g_no++));
+                    //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
+                    if (!idexist(user_id)) {
+//                        $("#addgroup").show();
+                        chkexist(user_id);
+                    }
+                    else {
+                        $("#addgroup").hide();
+                    }
+                }
+            });
+        })
+
+    $(function () {
+        init();
+    });
+    function init() {
+
+        var $addgroup = $("#addgroup");
+        $addgroup.click(function (e) {
+            $("#newmembertable").append(genTemplate());
+            g_new++;
+            $("#insert_id_cp").val("");
+            $("#addgroup").hide();
+            $("#sendinvite").show();
+            $("#newmemberlabel").html("新邀請成員");
+
+        });
+    }
+
+    function genTemplate() {
+        var template =
+        '<tr id="grp_name_' + user_id + '">' +
+            '<td class="removeup">' +
+                '<input type="hidden" name="id" value="' + user_id + '">' +
+                '<input type="hidden" name="user_id" value="' + user_id + '">' +
+                '<label>' + user_id + ' - ' + company + '</label>' +
+            '</td>' + 
+        '</tr>';
+        return template;
+    }
+    function hidebtn() {
+        $("#addgroup").hide();
+    }
+
+    function showCancel(id) {
+        $('#grp_name_' + id).remove();
+        g_new--;
+    }
+
+    function showDelete(id, cid) {
+        var user_id = id;
+        var cluster_no = cid;
+        if (cluster_no != null && cluster_no != '') {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("Cluster_Delete", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_no": cluster_no },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        $('#grp_name_' + id).remove();
+                    }
+                    else {
+                        alert("刪除失敗!!");
+                    }
+                } else {
+                    alert("刪除失敗!!");
+                }
+            });
+        }
+    }
+
+    function idexist(userid) {
+        var e=false;
+        $('#gmember').find('tr').each(function (index, el) {
+            var id = null;
+            id = $(el).find('td').eq(0).find("input[name='id']").val();
+            if (userid == id)
+            {
+                e=true;
+                return false;
+            }
+        });
+
+        if (e == false)
+        {
+            $('#membertable').find('tr').each(function (index, el) {
+                var id = null;
+                id = $(el).find('td').eq(0).find("input[name='id']").val();
+                if (id != null) {
+                    if (userid == id) {
+                        e = true;
+                        return false;
+                    }
+                }
+            });
+        }
+        if (e == false) {
+            $('#newmembertable').find('tr').each(function (index, el) {
+                var id = null;
+                id = $(el).find('td').eq(0).find("input[name='id']").val();
+                if (id != null) {
+                    if (userid == id) {
+                        e = true;
+                        return false;
+                    }
+                }
+            });
+        }
+
+        return e;
+    }
+
+    function chkname() {
+
+        var user_id = $("input[name='userid']").val();
+        var cluster_name = $("input[name='cluster_name']").val();
+        var cluster_name_old = $("input[name='cluster_name_old']").val();
+
+        if (cluster_name != null && cluster_name != '' && cluster_name != cluster_name_old) {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckName", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_name": cluster_name },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        alert("該建立者的聚落名稱已存在,請更改其他名稱!!");
+                        $("input[name='cluster_name']").focus();
+                    }
+                }
+            });
+        }
+    }
+
+    function chkexist(uid) {
+        var user_id = uid;
+        var cluster_no = $("input[name='no']").val();
+        if (cluster_no != null && cluster_no != '') {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckExist", "Cluster")",
+                cache: false,
+                data: { "user_id": user_id, "cluster_no": cluster_no },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        if (confirm("該廠商曾在該聚落,是否重新邀請?")) {
+                            $("#addgroup").show();
+                        } else {
+                            $("#addgroup").hide();
+                        }
+                    }
+                    else {
+                        $("#addgroup").show();
+                    }
+                } else {
+                    $("#addgroup").show();
+                }
+            });
+        }
+    }
+
+    $("#form").submit(function () {
+        g_no = 0;
+        var members = "";
+        $('#gmember').find('tr').each(function (index, el) {
+            g_no++;
+        })
+        $('#membertable').find('tr').each(function (index, el) {
+            g_no++;
+        })
+
+        $('#newmembertable').find('tr').each(function (index, el) {
+            g_no++;
+            var id = null;
+            id=$(el).find('td').eq(0).find("input[name='user_id']").val();
+            if (id != null) {
+                members = members + "," + id;
+            }
+        });
+
+        if (g_no < 3) {
+            alert("至少須三家廠商以上!!");
+            return false;
+        }
+        $("input[name='members']").val(members);
+
+    })
+
+    $("#membertable").on('click', 'tr', function () {
+        var inputtext = $(this).text();
+        var _this = $(this);
+        var id = $(this).find('td').eq(0).find("input[name='id']").val();
+        var cid = $(this).find('td').eq(0).find("input[name='cid']").val();
+
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    showDelete(id,cid);
+//                    _this.remove();
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("是否刪除邀請中的");
+        $("#business_id").text(inputtext);
+    })
+
+
+    $("#newmembertable").on('click', 'tr', function () {
+        var inputtext = $(this).text();
+        var _this = $(this);
+        var id = $(this).find('td').eq(0).find("input[name='user_id']").val();
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    showCancel(id);
+//                    _this.remove();
+                    $(this).dialog("close");
+                    if (g_new <= 0) {
+                        $("#sendinvite").hide();
+                        $("#newmemberlabel").html("");
+                    }
+
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("是否取消新邀請的");
+        $("#business_id").text(inputtext);
+    })
+
+
+</script>
+
