@@ -20,6 +20,9 @@ namespace prj_BIZ_System.Controllers
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
 
+        public SalesService salesInfoService;
+        public Sales_ViewModel salesViewModel;
+
         public UserController()
         {
             userService = new UserService();
@@ -28,6 +31,8 @@ namespace prj_BIZ_System.Controllers
             passwordService = new PasswordService();
             passwordViewModel = new Password_ViewModel();
 
+            salesInfoService = new SalesService();
+            salesViewModel = new Sales_ViewModel();
         }
 
 
@@ -426,7 +431,6 @@ namespace prj_BIZ_System.Controllers
             return Redirect("Register");
         }
         #endregion
-
-
+        
     }
 }

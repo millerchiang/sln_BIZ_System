@@ -238,6 +238,7 @@
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PushController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
+    <Compile Include="Services\SalesService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
     <Compile Include="WebService\ActivityController.cs" />
@@ -368,6 +370,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\Push.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DBSource\SqlString\SalesInfo.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DBSource\SqlString\UserInfo.xml">
@@ -923,6 +928,9 @@
     <Content Include="Views\Cluster\Cluster_Detail.cshtml" />
     <Content Include="Views\Cluster\ClusterInvited.cshtml" />
     <Content Include="Views\Cluster\Cluster_Members.cshtml" />
+    <Content Include="Views\Manager\SalesInfo.cshtml" />
+    <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
+    <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

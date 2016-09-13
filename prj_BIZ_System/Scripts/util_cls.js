@@ -44,6 +44,27 @@ util_cls.form.form2row = function (id, form_id) {
 
 }
 
+util_cls.form.row2span = function (id, form_id) {
+    var jsonStr = $("#rowdata_" + id).text();
+    var jsonObj = JSON.parse(jsonStr);
+    var $form = $('#' + form_id);
+    for (var i in jsonObj) {
+        if (i == "enable") {
+            if (jsonObj[i] == "0") {
+                $("#enable01").prop("checked", true);
+            } else {
+                $("#enable02").prop("checked", true);
+            }
+        } else {
+            if ($form.find('span[name="' + i + '"]').size() > 0) {
+                $form.find('span[name="' + i + '"]').html(jsonObj[i]);
+            } else if ($form.find('select[name="' + i + '"]').size() > 0) {
+                $form.find('select[name="' + i + '"]').val(jsonObj[i]);
+            }
+        }
+    }
+}
+
 util_cls.json.getValueFromJsonStr = function (jsonstr, i) {
     var result = "";
     if (jsonstr != null && jsonstr != '') {
