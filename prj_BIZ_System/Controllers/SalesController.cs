@@ -33,7 +33,7 @@ namespace prj_BIZ_System.Controllers
             salesViewModel = new Sales_ViewModel();
         }
 
-        #region 業務帳號管理
+        #region 業務帳號ByCompany管理
         public ActionResult CheckSales(string sales_id)
         {
             SalesInfoModel kk = salesService.getSalesInfo(sales_id);
@@ -43,27 +43,39 @@ namespace prj_BIZ_System.Controllers
                 return Json(kk, JsonRequestBehavior.AllowGet);
 
         }
+        // GET: SalesInfo
 
+        /* 
+
+        */
 
         // GET: SalesInfo
-        public ActionResult SalesInfo(string where_sales_id, string where_company)
+        public ActionResult SalesInfoByCompany(string where_sales_id, string where_sales_name)
         {
-            //if (Request.Cookies["SalesInfo"] == null)
-                //return Redirect("Login");
-            ViewBag.Title = "SalesInfo";
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            ViewBag.Title = "SalesInfoByCompany";
             //salesViewModel.groupList = salesInfoService.getAllGroup();
-            salesViewModel.salesInfoList = salesService.getSalesInfoByCondition(where_sales_id, where_company);//.Pages(Request, this, 10);
+            salesViewModel.salesInfoList = salesService.getSalesInfoByConditionForACompany(where_sales_id, where_sales_name, user_id).Pages(Request, this, 10);
             ViewBag.Where_sales_id = where_sales_id;
-            ViewBag.Where_company = where_company;
+            ViewBag.Where_sales_name = where_sales_name;
             return View(salesViewModel);
         }
 
         [HttpPost]
-        public ActionResult SalesInfoInsertUpdate(string pagetype, SalesInfoModel model)
+        public ActionResult SalesInfoInsertUpdateByCompany(string pagetype, SalesInfoModel model)
         {
             //if (Request.Cookies["SalesInfo"] == null)
-                //return Redirect("Login");
+            //return Redirect("Login");
             //model.create_sales = Request.Cookies["SalesInfo"]["manager_id"];
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            if (Request.Cookies["UserInfo"] != null)
+                model.user_id = Request.Cookies["UserInfo"]["user_id"];
+
             if ("Insert".Equals(pagetype))
             {
                 salesService.SalesInfoInsertOne(model);
@@ -71,11 +83,11 @@ namespace prj_BIZ_System.Controllers
             }
             else if ("Update".Equals(pagetype))
             {
-                salesService.SalesInfoUpdateOne(model);
+                salesService.UpdateSalesInfoOneByCompany(model);
                 //                bool isUpdateSuccess = salesInfoService.SalesInfoUpdateOne(model);
                 //                return Json(isUpdateSuccess);
             }
-            return Redirect("SalesInfo");
+            return Redirect("SalesInfoByCompany");
         }
 
         public ActionResult DeleteSalesInfoJson(string sales_id, string enable)
@@ -87,5 +99,35 @@ namespace prj_BIZ_System.Controllers
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        #region 業務自己管理
+
+        public ActionResult SalesInfoBySales()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SalesInfoUpdateBySales(string old_sales_pw , SalesInfoModel model)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Login");
+
+            if (salesService.isPasswdValidByCheck(old_sales_pw, model.sales_id))
+            {
+                bool isUpdateSuccess = salesService.UpdateSalesInfoOneBySales(model);
+                TempData["salesUpdateResult"] = isUpdateSuccess? "修改成功":"修改失敗";
+            }
+            else
+            {
+                TempData["salesUpdateResult"] = "舊密碼錯誤";
+            }
+            return Redirect("SalesInfo");
+        }
+        #endregion
+
+
     }
 }

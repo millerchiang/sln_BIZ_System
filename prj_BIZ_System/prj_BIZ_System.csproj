@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -915,7 +914,9 @@
     <Content Include="Views\Cluster\Cluster_Add.cshtml" />
     <Content Include="Views\User\VideoListCreate.cshtml" />
     <Content Include="Views\User\VideoList.cshtml" />
-    <Content Include="Views\Sales\SalesInfo.cshtml" />
+    <Content Include="Views\Manager\SalesInfo.cshtml" />
+    <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
+    <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,79 @@
+﻿@model prj_BIZ_System.Models.Sales_ViewModel
+
+@{
+    ViewBag.Title = "SalesInfo";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <form class="form_box sys_searchbox magb30">
+        <h2>業務會員帳號查詢</h2>
+        <div class="sys_searchboxcol01L">
+            <label for="" class="regis_col02L">帳號</label>
+            <input type="text" name="where_sales_id" class="regis_col02R" value="@ViewBag.Where_sales_id">
+
+            <label for="" class="regis_col02L">公司名稱</label>
+            <input type="text" name="where_company" class="regis_col02R" value="@ViewBag.Where_company">
+        </div>
+        <div class="sys_searchboxcol01R">
+            <button type="submit" class="buinfor">搜尋</button>
+        </div>
+    </form>
+
+    <div class="sys_searchboxco2">
+        <article>
+            <h2 class="borderTitle2">查詢結果</h2>
+
+            <table class="edittable">
+                <tr>
+                    <th>帳號</th>
+                    <th>公司名稱</th>
+                    <th>電話</th>
+                    <th>詳細資料</th>
+                </tr>
+                @if(Model.salesInfoList != null)
+                {
+                    foreach (SalesInfoModel md in Model.salesInfoList)
+                    {
+
+                        <tr>
+                        <td>@md.sales_id</td>
+                        <td>@md.company</td>
+                        <td>@md.phone</td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="javascript:void(0)" class="deletebu" onclick="util_cls.form.row2span('@(md.sales_id)','acc_from')">詳細資料</a>
+                                <span style="display:none" id="rowdata_@(md.sales_id)">{"sales_id":"@(md.sales_id)","sales_name":"@(md.sales_name)","phone":"@(md.phone)","email":"@(md.email)"}</span>
+                                <a href="javascript:void(0)" class="editbu editopen">重設密碼</a>
+                            </div>
+                        </td>
+
+                    </tr>
+                    }
+                }
+            </table>
+            @Html.PagesList((PageList<SalesInfoModel>)TempData["PageList"])
+        </article>
+    </div>
+    <div class="sys_searchboxco2">
+        <form action="" class="form_box" id="acc_from">
+            <h2>詳細資料</h2>
+            <label for="leader" class="regis_col02L spanRed">帳號</label>
+            <span class="regis_col02R" name="sales_id"></span>
+
+            <label for="addr" class="regis_col02L">業務名稱</label>
+            <span class="regis_col02R" name="sales_name"></span>
+
+            <label for="addr" class="regis_col02L">電話</label>
+            <span class="regis_col02R" name="phone"></span>
+
+            <label for="email" class="regis_col02L spanRed">電子郵件</label>
+            <span class="regis_col02R" name="email"></span>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/util_cls.js" type="text/javascript"></script>
+
