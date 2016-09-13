@@ -35,7 +35,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult UserInfo()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id = Request["user_id"];
 //            userModel.enterprisesortList = userService.GetSortList();
             userModel.userinfo = userService.GeUserInfoOne(user_id);
@@ -121,7 +121,7 @@ namespace prj_BIZ_System.Controllers
             else //修改
             {
                 if (Request.Cookies["UserInfo"] == null)
-                    return Redirect("~/Home/Login");
+                    return Redirect("~/Home/Index");
 
                 string current_user_id = Request.Cookies["UserInfo"]["user_id"];
                 var old_model = userService.GeUserInfoOne(current_user_id);
@@ -209,14 +209,14 @@ namespace prj_BIZ_System.Controllers
 
             TempData["MailValidateResult"] = result;
 
-            return Redirect("../Home/Login");
+            return Redirect("../Home/Index");
         }
 
         #region 產品說明
         public ActionResult ProductList()
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id = Request.Cookies["Action"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
             return View(productLists);
@@ -226,7 +226,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ProductDelete(int[] del_prods)
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             try
             {
                 string user_id =  Request.Cookies["Action"]["user_id"];
@@ -243,7 +243,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ProductInsert(List<ProductListModel> old_prods, List<ProductListModel> new_prods)
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             try
             {
                 string user_id =  Request.Cookies["Action"]["user_id"];
@@ -261,7 +261,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult CatalogList()
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
@@ -272,7 +272,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult CatalogCreate(int[] catalog_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             return View();
         }
 
@@ -280,7 +280,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult CatalogDelete(int[] catalog_no)
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id =  Request.Cookies["Action"]["user_id"];
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
@@ -309,7 +309,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult CatalogUpload(string catalog_name , HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             if (cover_file != null && catalog_file !=null)
             {
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
@@ -329,7 +329,7 @@ namespace prj_BIZ_System.Controllers
         {
 
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<VideoListModel> videoLists = userService.getAllVideo(user_id);
             return View(videoLists);
@@ -338,7 +338,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult VideoListCreate(int[] video_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             return View();
         }
 
@@ -346,7 +346,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult VideoDelete(int[] video_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             userService.VideoListsDelete(user_id, video_no);
             return Redirect("VideoList");
@@ -356,7 +356,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult VideoUpload(string video_name, string youtube_site)
         {
             if (Request.Cookies["Action"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             string user_id = Request.Cookies["Action"]["user_id"];
             var isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
             return Redirect("VideoList");
@@ -387,7 +387,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditPasswd()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             return View();
         }
@@ -396,7 +396,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult PasswordInsertUpdate(string old_pw, string new_pw)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             string current_id = "";
             string current_user_id = Request.Cookies["UserInfo"]["user_id"]; // 取 user_id 的 cookie
