@@ -56,16 +56,7 @@
       </dynamic>
     </select>
 
-    <!--查詢聚落(手機)-->
-    <select id="SelectClusterForMobile" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
-      SELECT ci.cluster_no, ci.user_id, ci.cluster_name, ci.cluster_info, ci.enable, ci.create_time as cluster_create_time, cm.create_time as member_invite_time
-      FROM public.cluster_member as cm
-      INNER JOIN cluster_info as ci
-      ON cm.cluster_no = ci.cluster_no
-      where cluster_enable = #cluster_enable# and cm.user_id = #user_id#
-    </select>
-
-    <!--查詢聚落-->
+    <!--查詢(邀請中、已加入)聚落列表-->
     <select id="ClusterListByIdAndClusterEnable" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
       get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
@@ -80,6 +71,22 @@
       where cm.cluster_no = ci.cluster_no
       and cluster_enable = #cluster_enable#
       and cm.user_id = #user_id#
+    </select>
+
+    <!--查詢聚落詳細資訊(手機)-->
+    <select id="ClusterDetail" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
+      SELECT ci.cluster_no,
+      get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
+      get_company_by_user_id(ci.user_id) as creator_name,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.enable,
+      ci.create_time as cict,
+      cm.create_time as cmct
+      FROM cluster_member as cm,
+      cluster_info as ci
+      where cm.cluster_no = ci.cluster_no
+      and ci.cluster_no = $cluster_no$
     </select>
 
     <select id="SelectClusterMember" resultMap="ClusterMember-result" parameterClass="ClusterMember">
@@ -97,22 +104,12 @@
       </dynamic>
     </select>
 
-    <select id="SelectAllClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
-      SELECT *
-      FROM public.cluster_member
-      INNER JOIN user_info
-      ON cluster_member.user_id = user_info.user_id
-      where 
-      cluster_no = $cluster_no$
-      ORDER BY cluster_enable
-    </select>
-
     <select id="SelectClusterMemberList" resultMap="ClusterMember-result" parameterClass="ClusterMember">
       SELECT *
       FROM public.cluster_member
       INNER JOIN user_info
       ON cluster_member.user_id = user_info.user_id
-      where ( cluster_enable = '1' )
+      where ( cluster_enable = '1' or cluster_enable = '2' )
       <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = $cluster_no$
@@ -132,6 +129,7 @@
         where (cluster_enable = '1' or cluster_enable = '2')
         and cluster_no = $cluster_no$
       )
+      and id_enable = '1'
     </select>
 
     <!--新增聚落-->
