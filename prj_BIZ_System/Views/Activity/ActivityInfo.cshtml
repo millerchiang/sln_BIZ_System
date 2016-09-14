@@ -6,6 +6,8 @@
 
 @section pagestyle{
     <link href="/stylesheets/news.css" rel="stylesheet" />
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
 <div class="article_col1">
@@ -87,7 +89,14 @@
             {
                 if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
                 {
-                <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
+                    if (Request.Cookies["UserInfo"] != null)
+                    {
+                        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
+                    }
+                    else
+                    {
+                        <a id="checkmember" href="javascript:void(0)" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
+                    }
                 }
             }
             else if (Model.activityregister.manager_check == "0")
@@ -103,3 +112,40 @@
          </div>
     </article>
 </div>
+<div id="dialog" title="註冊會員" style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+    </p>
+</div>
+
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+<script type="text/javascript" language="javascript">
+
+    $("#checkmember").click(function (e) {
+        //       alert("報名必須註冊會員，如果是會員請至首頁<<會員登入>>，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!");
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    window.location = "/Home/Index";
+                    event.returnValue = false; //需要加上這行 Why??
+                    //window.open(url); //如果是開窗就不用加 event.returnValue = false;
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("報名必須註冊會員，如果是會員請至首頁<<會員登入>>" +
+            "，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!是否進入會員登入頁?");
+
+    });
+
+
+
+</script>

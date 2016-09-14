@@ -415,6 +415,10 @@
     <Content Include="DBSource\Config\SqlMap.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\bxslider\images\bx_loader.gif" />
+    <Content Include="Scripts\bxslider\images\controls.png" />
+    <Content Include="Scripts\bxslider\jquery.bxslider.css" />
+    <Content Include="Scripts\bxslider\jquery.bxslider.min.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -821,6 +825,7 @@
     </Content>
     <Content Include="Scripts\jqueryUI\jquery-ui.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\regis.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\util_cls.js" />
@@ -873,7 +878,6 @@
     <Content Include="Views\Home\Verification.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manager\EditActivity.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
     <Content Include="Views\Manager\UserList.cshtml" />
     <Content Include="Views\Manager\EditBuyerInfo.cshtml" />

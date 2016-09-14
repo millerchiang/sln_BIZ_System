@@ -61,83 +61,71 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
+            indexModel.enterprisesortList = userService.GetSortList();
+            indexModel.userinfoList = userService.GetUserInfoList();
+            indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
+            indexModel.newsList = activityService.GetNewsLimit(6);
+
+            indexModel.cataloglistList = userService.getAllCatalogTop(4);
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
+
             if (Request.Cookies["UserInfo"] != null)
             {
-                indexModel.enterprisesortList = userService.GetSortList();
-                indexModel.userinfoList = userService.GetUserInfoList();
-                indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6); 
-                indexModel.newsList = activityService.GetNewsLimit(6);
+                ViewBag.logoDir = UploadHelper.getPictureDirPath(Request.Cookies["UserInfo"]["user_id"], "logo");
+            }
 
-                indexModel.cataloglistList = userService.getAllCatalogTop(4);
-                ViewBag.coverDir = UploadConfig.UploadRootPath;
-
-                foreach (NewsModel newsModel in indexModel.newsList)
+            foreach (NewsModel newsModel in indexModel.newsList)
                 {
                         newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
                 }
                 return View(indexModel);
-            }
-            else
-                return Redirect("Login");
         }
 
         public ActionResult News()
         {
-            if (Request.Cookies["UserInfo"] != null)
+
+            if (Request["Type"] == null)
             {
-
-                if (Request["Type"] == null)
-                {
-                    ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
-                    indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
-                }
-                else
-                {
-                    if (Request["Type"]=="0")
-                        ViewBag.tname = LanguageResource.User.lb_latest_activity;
-                    else
-                        ViewBag.tname = LanguageResource.User.lb_latest_news;
-
-                    indexModel.newsList = activityService.GetNewsType(Request["Type"],null).Pages(Request, this, 10);
-                }
-
-
-                return View(indexModel);
+                ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
+                indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
             }
             else
-                return Redirect("Login");
+            {
+                if (Request["Type"] == "0")
+                    ViewBag.tname = LanguageResource.User.lb_latest_activity;
+                else
+                    ViewBag.tname = LanguageResource.User.lb_latest_news;
+
+                indexModel.newsList = activityService.GetNewsType(Request["Type"], null).Pages(Request, this, 10);
+            }
+            return View(indexModel);
         }
 
         public ActionResult Activity()
         {
-            if (Request.Cookies["UserInfo"] != null)
-            {
-                indexModel.activityinfoList = activityService.GetActivityInfoListNotStart(null).Pages(Request, this, 10);
-                return View(indexModel);
-            }
-            else
-                return Redirect("Login");
+            indexModel.activityinfoList = activityService.GetActivityInfoListNotStart(null).Pages(Request, this, 10);
+            return View(indexModel);
         }
 
 
         public ActionResult Company()
         {
-            if (Request.Cookies["UserInfo"] != null)
-            {
+//            if (Request.Cookies["UserInfo"] != null)
+//            {
                 userModel.cataloglistList = userService.getAllCatalogTop(4);
                 userModel.enterprisesortList = userService.GetSortList();
                 ViewBag.coverDir = UploadConfig.UploadRootPath;
 
                 return View(userModel);
-            }
-            else
-                return Redirect("Login");
+ //           }
+ //           else
+ //               return Redirect("Login");
         }
 
         public ActionResult CompanyList()
         {
-            if (Request.Cookies["UserInfo"] != null)
-            {
+//            if (Request.Cookies["UserInfo"] != null)
+//            {
                 userModel.cataloglistList = userService.getAllCatalogTop(4);
                 string sort_id = "";
                 string kw = "";
@@ -161,22 +149,22 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.coverDir = UploadConfig.UploadRootPath;
 
                 return View(userModel);
-            }
-            else
-                return Redirect("Login");
+ //           }
+ //           else
+ //               return Redirect("Login");
         }
 
         
         public ActionResult NewsView()
         {
-            if (Request.Cookies["UserInfo"] != null && Request["Id"] !=null)
+            if (Request["Id"] !=null)
             {
                 doNewsView();
 
                 return View(indexModel);
             }
             else
-                return Redirect("Login");
+                return Redirect("Index");
         }
 
         //與App共用內容
@@ -215,15 +203,9 @@ namespace prj_BIZ_System.Controllers
                 aCookie.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(aCookie);
             }
-            return Redirect("Login");
+            return Redirect("Index");
         }
 
-
-
-        public ActionResult Login()
-        {
-            return View();
-        }
 
         public ActionResult ReAccountMailValidate()
         {
@@ -251,7 +233,7 @@ namespace prj_BIZ_System.Controllers
             if (model == null)
             {
                 TempData["pw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
-                return Redirect("Login");
+                return Redirect("Index");
             }
             else
             {
@@ -275,6 +257,7 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("website", model.website);
                 cookie.Values.Add("info", HttpUtility.UrlEncode(model.info));
                 cookie.Values.Add("info_en", model.info_en);
+                cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
                 Response.AppendCookie(cookie);
 
                 //                Response.Cookies["UserInfo"]["company"] = model.company;
@@ -341,7 +324,7 @@ namespace prj_BIZ_System.Controllers
 
             TempData["fp_errMsg"] = errMsg;
 
-            return Redirect("Login");
+            return Redirect("Index");
         }
     }
 }

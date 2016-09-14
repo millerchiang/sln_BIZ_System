@@ -127,6 +127,7 @@
     <select id="SelectUserInfoToIdandCp" resultMap="UserInfo">
       select user_id,company
       from user_info
+      where id_enable = '1'
     </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<

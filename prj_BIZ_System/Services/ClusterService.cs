@@ -23,9 +23,10 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterInfo>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
         }
 
-        public IList<ClusterInfo> GetClusterListForMobile(ClusterModel model)
+        public ClusterInfo GetClusterDetailByNo(int cluster_no)
         {
-            return mapper.QueryForList<ClusterInfo>("Cluster.SelectClusterForMobile", model);
+            ClusterModel tempModel = new ClusterModel { cluster_no = cluster_no };
+            return mapper.QueryForObject<ClusterInfo>("Cluster.ClusterDetail", tempModel);
         }
 
         public IList<Hashtable> GetNotInClusterMember(int cluster_no)
@@ -43,12 +44,6 @@ namespace prj_BIZ_System.Services
         {
             ClusterInfoModel tempModel = new ClusterInfoModel { user_id = user_id };
             return mapper.QueryForList<ClusterInfoModel>("Cluster.SelectClusterInfoList", tempModel);
-        }
-
-        public IList<ClusterMemberModel> GetAllClusterMemberList(int? cluster_no)
-        {
-            ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
-            return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectAllClusterMemberList", tempModel);
         }
 
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)
