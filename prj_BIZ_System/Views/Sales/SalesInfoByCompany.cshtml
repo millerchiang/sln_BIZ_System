@@ -1,0 +1,155 @@
+﻿@model prj_BIZ_System.Models.Sales_ViewModel
+
+@{
+    ViewBag.Title = "SalesInfo";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+
+    <div class="sys_searchboxco2">
+        <form action="@Url.Action("SalesInfoByCompany","Sales")" class="form_box sys_searchbox">
+            <h2>業務帳號查詢</h2>
+            <div class="sys_searchboxcol01L">
+                <label for="" class="regis_col02L">業務帳號</label>
+                <input type="text" name="where_sales_id" class="regis_col02R">
+
+                <label for="" class="regis_col02L">業務姓名</label>
+                <input type="text" name="where_sales_name" class="regis_col02R">
+            </div>
+            <div class="sys_searchboxcol01R">
+                <button type="submit" class="buinfor">搜尋</button>
+            </div>
+
+        </form>
+        <article>
+            <h2 class="borderTitle2">查詢結果</h2>
+            <a href="javascript:void(0)" class="addbu rightbox" id="accaddbu">新增帳號</a>
+            <table class="edittable">
+                <tr>
+                    <th>帳號</th>
+                    <th>姓名</th>
+                    <th>電話</th>
+                    <th>電子郵件</th>
+                    <th>修改</th>
+                </tr>
+                 @if (Model.salesInfoList != null)
+                 {
+                     foreach (SalesInfoModel md in Model.salesInfoList)
+                     {
+                       <tr>
+                        <td>@md.sales_id</td>
+                        <td>@md.sales_name</td>
+                        <td>@md.phone</td>
+                        <td>@md.email</td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="javascript:void(0)" class="editbu detailedbu" onclick="util_cls.form.row2form('@(md.sales_id)','acc_from')">修改</a>
+				                <span style="display:none" id="rowdata_@(md.sales_id)">{"sales_id":"@(md.sales_id)","sales_name":"@(md.sales_name)","phone":"@(md.phone)","email":"@(md.email)"}</span>
+                            </div>
+                        </td>
+
+                    </tr>
+                     }
+                 }
+            </table>
+            @Html.PagesList((PageList<SalesInfoModel>)TempData["PageList"])
+        </article>
+    </div>
+    <div class="sys_searchboxco2">
+        <form action="@Url.Action("SalesInfoInsertUpdateByCompany","Sales")" class="form_box" id="acc_from" method="post">
+	    <input type="hidden" name="pagetype" value="Insert">
+            <h2>新增帳號</h2>
+            <label for="leader" class="regis_col02L spanRed">業務帳號</label>
+            <input type="text" class="regis_col02R" name="sales_id">
+
+            <label for="addr" class="regis_col02L">業務姓名</label>
+            <input type="text" class="regis_col02R" name="sales_name">
+
+            <label for="addr" class="regis_col02L">電話</label>
+            <input type="text" class="regis_col02R" name="phone">
+
+            <label for="email" class="regis_col02L spanRed">電子郵件</label>
+            <input type="text" class="regis_col02R" name="email">
+
+            <div class="centerbox">
+                <a href="javascript:void(0)" class="buinfor" id="acc_edit" style="display: none;">修改</a>
+                <!--<a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">刪除</a>-->
+                <a href="javascript:void(0)" class="submitbuOr" id="acc_add">確定新增</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/util_cls.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        base();
+    }
+
+    function base() {
+        $("input[name='sales_id']").bind("blur", chksales);
+        $("#acc_add").click(function () {
+            $("#acc_from").submit();
+        });
+
+        $("#accaddbu").on('click', function () {
+            $("#acc_add").show();
+            $("#acc_edit").hide();
+            $("input").val("");
+            //$("input[id='enable02']").prop("checked", true);
+            $("#acc_from h2").text("新增帳號");
+            $("input[name='sales_id']").prop("readonly", false).bind("blur", chksales);
+        });
+
+        $(".detailedbu").on('click', function () {
+            $('#acc_edit').show();
+            $('#acc_add').hide();
+            $("#acc_from h2").text("詳細資料");
+            $("input[name='sales_id']").prop("readonly", true).unbind("blur");
+        });
+
+        $("#acc_add").click(function () {
+            $("input[name='pagetype']").val("Insert");
+            $("#acc_from").submit();
+        });
+
+        $("#acc_edit").click(function () {
+            $("input[name='pagetype']").val("Update");
+            $("#acc_from").submit();
+        });
+    }
+
+    function chksales() {
+
+        var sales_id = $("input[name='sales_id']").val();
+        if (sales_id != null && sales_id != '') 
+        {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckSales", "Sales")",
+                cache: false,
+                data: { "sales_id": sales_id },
+                dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser === false) {
+                    } else {
+                        alert("該使用帳號已被使用!!");
+                        $("input[name='sales_id']").focus();                
+                    }
+                }
+                else {
+                }
+            });
+    }
+    }
+</script>
+

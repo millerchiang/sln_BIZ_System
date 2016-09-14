@@ -27,7 +27,7 @@ namespace prj_BIZ_System.Services
 
         public IList<MsgModel> SelectMsgPrivate(string keyword , string user_id)
         {
-            var param = new MsgModel { msg_title = keyword , creater_id  = user_id };
+            var param = new MsgModel { msg_title = keyword , creater_id  = user_id , user_id = "0"};
             return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
         }
 
@@ -48,6 +48,7 @@ namespace prj_BIZ_System.Services
         {
             param.msg_member = " " + param.msg_member;
             param.is_public = "0";
+            param.user_id = "0";
             return mapper.Insert("Message.InsertMsg", param);
         }
 

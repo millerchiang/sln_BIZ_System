@@ -24,6 +24,7 @@ namespace prj_BIZ_System.Controllers
         public ActivityService activityService;
         public ManagerService managerService;
         public UserService userService;
+        public SalesService salesService;
         public Manager_ViewModel managerViewModel;
         public Manager_Activity_ViewModel activityModel;
         public Match_ViewModel matchModel;
@@ -32,6 +33,7 @@ namespace prj_BIZ_System.Controllers
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
+        public Sales_ViewModel salesViewModel;
 
         public ManagerController()
         {
@@ -46,6 +48,9 @@ namespace prj_BIZ_System.Controllers
 
             passwordService = new PasswordService();
             passwordViewModel = new Password_ViewModel();
+
+            salesService = new SalesService();
+            salesViewModel = new Sales_ViewModel();
 
             ViewBag.Form = "Manager";
 
@@ -1593,6 +1598,22 @@ namespace prj_BIZ_System.Controllers
 
             return Redirect("EditPasswd");
         }
+        #endregion
+
+
+        #region  業務資料管理
+
+        public ActionResult SalesInfo(string where_sales_id, string where_company)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            ViewBag.Title = "SalesInfo";
+            salesViewModel.salesInfoList = salesService.getSalesInfoByConditionForManager(where_sales_id, where_company).Pages(Request, this, 10);
+            ViewBag.Where_sales_id = where_sales_id;
+            ViewBag.Where_company = where_company;
+            return View(salesViewModel);
+        }
+
         #endregion
 
     }

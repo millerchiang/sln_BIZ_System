@@ -21,14 +21,14 @@
 
 @if (ViewBag.Form != "Manager")
 {
-    if (ViewBag.Title != "Login" && ViewBag.Title != "ForgetPassword" && ViewBag.Title != "Verification" && !(ViewBag.Title == "Register" && ViewBag.PageType == "Create"))
+    if (Request.Cookies["UserInfo"] != null)
     {
         <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Home")</li>
+    }
         if (ViewBag.Title != "Index")
         {
         <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_backhome, "Index", "Home")</li>
         }
-    }
 
     if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
     {
@@ -66,24 +66,27 @@ else
                     @if (ViewBag.Form != "Manager")
 {
 
-    if (ViewBag.Title == "Register" && ViewBag.PageType == "Create")
-    {
-                            <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_login, "Login", "Home")</li>
-                        }
-    else if (ViewBag.Title == "Login" || ViewBag.Title == "ForgetPassword" || ViewBag.Title == "Verification")
-    {
-    }
-    else
-    {
 
                             <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_company, "Company", "Home")</li>
+                            <li>
+                            <a href="/Home/News">@prj_BIZ_System.LanguageResource.User.lb_latest_activitynews</a>
+                            <ul>
+                                <li><a href="/Home/News?type=1">@prj_BIZ_System.LanguageResource.User.lb_news</a></li>
+                                <li><a href="/Home/News?type=0">@prj_BIZ_System.LanguageResource.User.lb_activities</a></li>
+                            </ul>
+                        </li>
+
+
+                        if (Request.Cookies["UserInfo"] != null)
+                        {
                             <li>
                                 <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_account_info</a>
                                 <ul>
                                     <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
                                     <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
                                     <li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
-                                    <li><a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
+                                    <li>
+                                        <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                         <ul>
                                             <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
                                             <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
@@ -101,16 +104,6 @@ else
                                     <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="/Home/News">@prj_BIZ_System.LanguageResource.User.lb_latest_activitynews</a>
-                                <ul>
-                                    <li><a href="/Home/News?type=1">@prj_BIZ_System.LanguageResource.User.lb_news</a></li>
-                                    <li><a href="/Home/News?type=0">@prj_BIZ_System.LanguageResource.User.lb_activities</a></li>
-                                </ul>
-                            </li>
-                            @*<li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                            <li>@Html.ActionLink("登出", "Logout", "Home")</li>*@
-
                         }
 }
                     else
@@ -123,6 +116,7 @@ else
                                 <a href="javascript:void(0)">管理者權限</a>
                                 <ul>
                                     <li><a href="/Manager/ManagerInfo">管理者帳號</a></li>
+                                    <li><a href="/Manager/SalesInfo">業務會員帳號查詢</a></li>
                                     <li><a href="/Manager/Group">群組權限設定</a></li>
                                     <li><a href="/Manager/EditPasswd">管理者密碼修改</a></li>
                                 </ul>
@@ -174,6 +168,7 @@ else
 
                         }
                     }
+
 
                 </ul>
             </nav>

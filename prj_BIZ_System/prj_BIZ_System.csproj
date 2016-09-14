@@ -238,6 +238,7 @@
     <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PushController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\_BaseController.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PasswordService.cs" />
     <Compile Include="Services\PushService.cs" />
+    <Compile Include="Services\SalesService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\_BaseService.cs" />
     <Compile Include="WebService\ActivityController.cs" />
@@ -370,6 +372,9 @@
     <Content Include="DBSource\SqlString\Push.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="DBSource\SqlString\SalesInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="DBSource\SqlString\UserInfo.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -410,6 +415,10 @@
     <Content Include="DBSource\Config\SqlMap.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\bxslider\images\bx_loader.gif" />
+    <Content Include="Scripts\bxslider\images\controls.png" />
+    <Content Include="Scripts\bxslider\jquery.bxslider.css" />
+    <Content Include="Scripts\bxslider\jquery.bxslider.min.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
@@ -816,6 +825,7 @@
     </Content>
     <Content Include="Scripts\jqueryUI\jquery-ui.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\regis.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\util_cls.js" />
@@ -868,7 +878,6 @@
     <Content Include="Views\Home\Verification.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manager\EditActivity.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\User\register.cshtml" />
     <Content Include="Views\Manager\UserList.cshtml" />
     <Content Include="Views\Manager\EditBuyerInfo.cshtml" />
@@ -915,6 +924,13 @@
     <Content Include="Views\Cluster\Cluster_Add.cshtml" />
     <Content Include="Views\User\VideoListCreate.cshtml" />
     <Content Include="Views\User\VideoList.cshtml" />
+    <Content Include="Views\Cluster\_ClusterMenuPartial.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Detail.cshtml" />
+    <Content Include="Views\Cluster\ClusterInvited.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Members.cshtml" />
+    <Content Include="Views\Manager\SalesInfo.cshtml" />
+    <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
+    <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

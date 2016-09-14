@@ -19,6 +19,8 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
+  font-size: 0.875em;
 }
 
 .regis_col01R_input {
@@ -26,6 +28,8 @@
   display: inline-block;
   vertical-align: top;
   margin: 0 0 15px 0;
+  line-height: 29px;
+  float: left;
 }
 
 .regis_col02L {
@@ -35,6 +39,8 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
+  font-size: 0.938em;
 }
 
 .regis_col02R {
@@ -44,6 +50,7 @@
   margin: 0 0 15px 0;
   box-sizing: border-box;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col03L {
@@ -52,6 +59,8 @@
   vertical-align: top;
   margin: 0 0 15px 1%;
   float: left;
+  line-height: 29px;
+  font-size: 0.938em;
 }
 
 .regis_col03R {
@@ -60,6 +69,7 @@
   vertical-align: top;
   margin: 0 0 15px 0;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col06R {
@@ -68,6 +78,7 @@
   vertical-align: top;
   margin: 0 0 15px 1%;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col06L {
@@ -77,6 +88,7 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
 }
 
 .regis_col02R .radioinput + label {
@@ -86,11 +98,47 @@
   float: left;
 }
 
+.regis_col_bg {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  font-size: 0.875em;
+}
+.regis_col_bg:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: -5px;
+  height: 15px;
+  top: 7px;
+}
+
+.regis_col_bg2 {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  background: #f7f7f7;
+  border-right: 10px solid #ffffff;
+  font-size: 0.875em;
+}
+.regis_col_bg2:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: -5px;
+  height: 15px;
+  top: 7px;
+}
+
 .verticalslist .inputCheckbox + label {
   width: 50%;
-  padding-bottom: 10px;
+  padding-bottom: 16px;
   box-sizing: border-box;
   float: left;
+}
+
+.verticalslist label:nth-of-type(odd) {
+  clear: left;
 }
 
 .label01 {
@@ -98,10 +146,8 @@
   width: 100%;
 }
 
-.addbu {
-  margin: 5px 0;
-}
-
+/*.addbu
+ * margin: 5px 0 */
 textarea {
   width: 100%;
   height: 90px;
@@ -115,6 +161,7 @@ textarea {
 .regis_table th {
   background: #f4f4f4;
   padding: 10px 0;
+  font-size: 0.938em;
 }
 .regis_table th + th {
   padding-left: 16px;
@@ -128,34 +175,13 @@ textarea {
 .regis_table td {
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 0.875em;
 }
-
-.datalist {
-  border: 1px solid #cccccc;
-  padding: 15px 0;
+.regis_table input + input {
+  margin-top: 10px;
 }
-.datalist h3 {
-  color: #2e7ed1;
-  position: relative;
-  padding: 5px 15px 15px 45px;
-  border-bottom: 1px solid #cccccc;
-}
-.datalist h3:before {
-  content: "";
-  width: 27px;
-  height: 27px;
-  background-image: url(../images/icon-s3235817286.png);
-  background-repeat: no-repeat;
-  background-position: 0 -34px;
-  position: absolute;
-  left: 15px;
-  top: 0;
-}
-.datalist ul {
-  padding: 15px;
-}
-.datalist ul a {
-  font-size: 0.813em;
+.regis_table tr:nth-child(odd) {
+  background: #fffff3;
 }
 
 .datalist2 {
@@ -205,16 +231,6 @@ textarea {
 .inforlist li ul {
   padding: 0;
 }
-.inforlist span {
-  margin-top: 10px;
-  display: block;
-  line-height: 1.5em;
-  font-size: 0.938em;
-  font-weight: bold;
-  background: #fffcf0;
-  text-align: center;
-  padding: 5px;
-}
 
 .inforlistactive {
   background: #FFFCF0;
@@ -222,9 +238,6 @@ textarea {
 
 @media only screen and (max-width: 768px) {
   .regis_col01L {
-    width: 100%;
-    display: inline-block;
-    vertical-align: top;
     margin: 0 0 30px 0;
   }
 
@@ -288,11 +301,13 @@ textarea {
   display: inline-block;
   padding: 8px 0;
   max-width: 100px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 
 #result {
@@ -366,6 +381,102 @@ textarea {
   height: 20px;
 }
 
+@media only screen and (min-width: 600px) {
+  .databubox {
+    display: inline-block;
+    padding-bottom: 20px;
+  }
+
+  .databu + a {
+    margin-left: 20px;
+  }
+  .databu + a:after {
+    content: "";
+    height: 48px;
+    position: absolute;
+    border-left: 2px dotted #000000;
+    left: -10px;
+    top: 1px;
+  }
+  .databu:link, .databu:visited {
+    text-decoration: none;
+    float: left;
+    font-size: 0.938em;
+    position: relative;
+    padding-left: 45px;
+    padding-right: 10px;
+    line-height: 50px;
+    display: inline-block;
+  }
+  .databu:before {
+    content: "";
+    background-image: url(../images/icon/myinfor.png);
+    width: 42px;
+    height: 38px;
+    position: absolute;
+    top: 6px;
+    left: 0;
+  }
+  .databu.databu02:before, .databu.databu02.active:before {
+    background-position: -42px 0%;
+  }
+  .databu.databu03:before, .databu.databu03.active:before {
+    background-position: -84px 0%;
+  }
+  .databu.databu04:before, .databu.databu04.active:before {
+    background-position: -126px 0%;
+  }
+  .databu.databu05:before, .databu.databu05.active:before {
+    background-position: -166px 0%;
+  }
+  .databu:hover, .databu:focus, .databu:active, .databu.active {
+    color: #03a9f5;
+  }
+  .databu:hover:before, .databu:focus:before, .databu:active:before, .databu.active:before {
+    background-position-y: 100%;
+  }
+  .databu.active {
+    background-color: #f4f4f4;
+    color: #000000;
+  }
+  .databu.active:before {
+    background-position: 0% 0%;
+  }
+}
+@media only screen and (max-width: 599px) {
+  .databubox {
+    margin-bottom: 20px;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .databu:link, .databu:visited {
+    border: 1px solid #00bcd5;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 0.938em;
+    padding: 10px;
+    display: block;
+    float: left;
+    margin-top: 10px;
+  }
+  .databu.active {
+    background-color: #00bcd5;
+    color: #ffffff;
+  }
+  .databu + a {
+    margin-left: 10px;
+  }
+}
+@media only screen and (max-width: 490px) {
+  .databu:link, .databu:visited {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .databu + a {
+    margin-left: 0;
+  }
+}
 .addbu {
   margin: 0;
 }
@@ -441,10 +552,6 @@ a.rightbox + a.rightbox {
   box-sizing: border-box;
 }
 
-.form_box {
-  padding: 25px 15px 10px 15px;
-}
-
 .edittable td:last-of-type {
   width: auto;
   min-width: 0;
@@ -452,6 +559,10 @@ a.rightbox + a.rightbox {
 
 .borderTitle2 + .addbured {
   float: right;
+}
+
+.borderTitle2 + .form_box {
+  margin-top: 10px;
 }
 
 .borderTitle2 {
@@ -564,7 +675,7 @@ tfoot p {
   display: inline-block;
 }
 .membertable td {
-  padding: 10px 5px 10px 10px;
+  padding: 0 5px 0 10px;
   font-size: 0.938em;
   box-sizing: border-box;
   position: relative;
@@ -705,6 +816,69 @@ tfoot p {
 .dllist dd {
   background: #F5F5F5;
   padding: 10px 15px 20px 15px;
+}
+
+.dialoglist {
+  padding-bottom: 20px;
+}
+.dialoglist li {
+  clear: both;
+}
+.dialoglist li + li {
+  margin-top: 20px;
+}
+.dialoglist .dialog_img {
+  width: 50px;
+  height: 50px;
+  float: left;
+  position: relative;
+}
+.dialoglist .dialog_img img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 50%;
+}
+.dialoglist .dialogbox {
+  margin-left: 60px;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+.dialoglist .dialogbox:before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -6px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 6px 5px 0;
+  border-color: transparent #f8f8f8 transparent transparent;
+}
+.dialoglist h6 {
+  float: left;
+  font-size: 0.938em;
+}
+.dialoglist span {
+  float: right;
+  font-size: 0.813em;
+  color: #cccccc;
+}
+.dialoglist p {
+  clear: right;
+  font-size: 0.875em;
+  color: #9e9e9e;
+  padding-top: 5px;
+  line-height: 1.6;
 }
 
 .multipletable {

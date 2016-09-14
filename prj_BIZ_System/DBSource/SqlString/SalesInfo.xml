@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="SalesInfo"
+        xmlns="http://ibatis.apache.org/mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <alias>
+    <typeAlias alias="SalesInfoModel" type="prj_BIZ_System.Models.SalesInfoModel"/>
+  </alias>
+
+  <statements>
+
+    <!--
+    [[  table=video_list
+    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    -->
+
+    <!--查詢業務會員ById-->
+    <select id="SelectSalesInfoById" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT s.sales_id, s.user_id, s.sales_name, s.sales_pw, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time
+      FROM sales.sales_info s
+      WHERE s.sales_id = #sales_id#
+    </select>
+    
+    <!--查詢業務會員全部-->
+    <select id="SelectSalesInfoByCondition" parameterClass="SalesInfoModel" resultMap="SalesInfoCompany-result">
+      SELECT s.sales_id, s.user_id, s.sales_pw, s.sales_name, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time ,u.company
+      FROM sales.sales_info s
+      JOIN user_info u on s.user_id = u.user_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="sales_id">
+          s.sales_id like '%'||#sales_id#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="company">
+          u.company like '%'||#company#||'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <select id="getSalesInfoByConditionForACompany" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT s.sales_id, s.user_id, s.sales_pw, s.sales_name, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time
+      FROM sales.sales_info s
+      where s.user_id = #user_id#
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="sales_id">
+          s.sales_id like '%'||#sales_id#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="sales_name">
+          s.sales_name like '%'||#sales_name#||'%'
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+    <!--刪除業務會員-->
+    <delete id="DeleteSalesInfoByVideoNo" parameterClass="SalesInfoModel">
+      DELETE FROM sales.sales_info
+      WHERE user_id = #user_id#
+    </delete>
+
+    <!--新增業務會員-->
+    <insert id="InsertSalesInfo" parameterClass="SalesInfoModel">
+      INSERT INTO sales.sales_info(
+      sales_id, user_id, sales_name, sales_pw, id_enable, phone, email,
+      "limit", create_time)
+      VALUES (#sales_id#, #user_id#, #sales_name#, #sales_pw#, #id_enable#, #phone#, #email#,
+      #limit#, now());
+    </insert>
+
+    <!--修改業務會員-->
+    <update id="UpdateSalesInfoOneByCompany" parameterClass="SalesInfoModel">
+      UPDATE sales.sales_info
+      SET sales_id=#sales_id#, user_id=#user_id#, sales_name=#sales_name#, id_enable=#id_enable#,
+      phone=#phone#, email=#email#, "limit"=#limit#, update_time=now()
+      WHERE sales_id=#sales_id# and user_id=#user_id#
+    </update>
+
+    
+      <!--
+    =====[ 業務個人修改 ]================================================================
+    -->
+    <!--修改業務會員-->
+    <update id="UpdateSalesInfoOneBySales" parameterClass="SalesInfoModel">
+      UPDATE sales.sales_info
+      SET user_id=#user_id#
+      , sales_pw=#sales_pw#
+      , sales_name=#sales_name#
+      , phone=#phone#
+      , email=#email#
+      , update_time=now()
+      WHERE sales_id=#sales_id#
+    </update>
+
+
+  </statements>
+
+  <resultMaps>
+    <resultMap id="SalesInfo-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="sales_id" column="sales_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="sales_pw" column="sales_pw"/>
+      <result property="id_enable" column="id_enable"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="limit" column="limit"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
+
+    <resultMap id="SalesInfoCompany-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="sales_id" column="sales_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="sales_pw" column="sales_pw"/>
+      <result property="id_enable" column="id_enable"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="limit" column="limit"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <result property="company" column="company"/>
+    </resultMap>
+  </resultMaps>
+
+</sqlMap>
+
