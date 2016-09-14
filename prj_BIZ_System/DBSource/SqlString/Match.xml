@@ -44,6 +44,15 @@
         ON ar.user_id = ui.user_id
         WHERE ar.user_id = #user_id#
       </select>
+
+      <!--查詢賣家在哪個活動的報名資料-->
+      <select id="SelectSellerRegisterInfo" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register ar
+        INNER JOIN user_info ui
+        ON ar.user_id = ui.user_id
+        WHERE ar.activity_id =#activity_id# and ui.user_id = #user_id#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
