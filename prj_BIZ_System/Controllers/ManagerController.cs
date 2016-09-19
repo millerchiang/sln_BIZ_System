@@ -1135,10 +1135,10 @@ namespace prj_BIZ_System.Controllers
 
             ViewBag.Action = "StoreMatchData";
             int sellercount = 0;
-            IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
-                (int.Parse(Request["activity_id"]), "1");
-            IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
-                (int.Parse(Request["activity_id"]), "");
+            //IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
+            //    (int.Parse(Request["activity_id"]), "1");
+            //IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
+            //    (int.Parse(Request["activity_id"]), "");
             ISet<string> buyerReply1Set = new HashSet<string>();
             ISet<string> buyerReply0Set = new HashSet<string>();
 
@@ -1188,36 +1188,36 @@ namespace prj_BIZ_System.Controllers
             }
 
             /*列出雙方有媒合意願的賣家*/
-            foreach (MatchmakingNeedModel model in CheckIs1List)
-            {
-                buyerReply1Set.Add(model.buyer_id);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs1List)
+            //{
+            //    buyerReply1Set.Add(model.buyer_id);
+            //}
 
             foreach (string buyer in buyerReply1Set)
             {
                 matchModel.sellerCompanyNamereply1Dic[buyer] = new List<string>();
             }
 
-            foreach (MatchmakingNeedModel model in CheckIs1List)
-            {
-                matchModel.sellerCompanyNamereply1Dic[model.buyer_id].Add(model.company);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs1List)
+            //{
+            //    matchModel.sellerCompanyNamereply1Dic[model.buyer_id].Add(model.company);
+            //}
 
             /*列出有媒合意願的賣家*/
-            foreach (MatchmakingNeedModel model in CheckIs0List)
-            {
-                buyerReply0Set.Add(model.buyer_id);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs0List)
+            //{
+            //    buyerReply0Set.Add(model.buyer_id);
+            //}
 
             foreach (string buyer in buyerReply0Set)
             {
                 matchModel.sellerCompanyNamereply0Dic[buyer] = new List<string>();
             }
 
-            foreach (MatchmakingNeedModel model in CheckIs0List)
-            {
-                matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs0List)
+            //{
+            //    matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
+            //}
 
             /*刪除某時段,媒合大表中的相同時段資料刪除*/
             ISet<int> schedulePeriodSn = new HashSet<int>();
@@ -1263,10 +1263,10 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
 
             ViewBag.Action = "StoreMatchData";
-            IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
-                (int.Parse(Request["activity_id"]), "1");
-            IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
-                (int.Parse(Request["activity_id"]), "");
+            //IList<MatchmakingNeedModel> CheckIs1List = matchService.GetCertainActivityWithBuyerReplyAllList
+            //    (int.Parse(Request["activity_id"]), "1");
+            //IList<MatchmakingNeedModel> CheckIs0List = matchService.GetCertainActivityWithBuyerReplyAllList
+            //    (int.Parse(Request["activity_id"]), "");
             ISet<string> buyerReply1Set = new HashSet<string>();
             ISet<string> buyerReply0Set = new HashSet<string>();
 
@@ -1316,36 +1316,36 @@ namespace prj_BIZ_System.Controllers
             }
 
             /*列出雙方有媒合意願的賣家*/
-            foreach (MatchmakingNeedModel model in CheckIs1List)
-            {
-                buyerReply1Set.Add(model.buyer_id);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs1List)
+            //{
+            //    buyerReply1Set.Add(model.buyer_id);
+            //}
 
             foreach (string buyer in buyerReply1Set)
             {
                 matchModel.sellerCompanyNamereply1Dic[buyer] = new List<string>();
             }
 
-            foreach (MatchmakingNeedModel model in CheckIs1List)
-            {
-                matchModel.sellerCompanyNamereply1Dic[model.buyer_id].Add(model.company);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs1List)
+            //{
+            //    matchModel.sellerCompanyNamereply1Dic[model.buyer_id].Add(model.company);
+            //}
 
             /*列出有媒合意願的賣家*/
-            foreach (MatchmakingNeedModel model in CheckIs0List)
-            {
-                buyerReply0Set.Add(model.buyer_id);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs0List)
+            //{
+            //    buyerReply0Set.Add(model.buyer_id);
+            //}
 
             foreach (string buyer in buyerReply0Set)
             {
                 matchModel.sellerCompanyNamereply0Dic[buyer] = new List<string>();
             }
 
-            foreach (MatchmakingNeedModel model in CheckIs0List)
-            {
-                matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
-            }
+            //foreach (MatchmakingNeedModel model in CheckIs0List)
+            //{
+            //    matchModel.sellerCompanyNamereply0Dic[model.buyer_id].Add(model.company);
+            //}
 
 
             /*讀取樣板*/
@@ -1378,7 +1378,7 @@ namespace prj_BIZ_System.Controllers
                         IRow MyRow1 = _sheet.GetRow(4 + i);
                         if (MyRow1 == null)
                             MyRow1 = _sheet.CreateRow(4 + i);
-                        if (i == 0 && tok==0)
+                        if (i == 0 && tok == 0)
                         {
                             tok = 1;
                             CreateCell("雙方有媒合意願", MyRow1, 0, CellStyle); //
@@ -1387,7 +1387,8 @@ namespace prj_BIZ_System.Controllers
 
                     }
                 }
-                catch {
+                catch
+                {
                 }
 
                 CurrCol++;
@@ -1426,18 +1427,18 @@ namespace prj_BIZ_System.Controllers
                 IRow MyRow1 = _sheet.GetRow(CurrRow);
                 if (MyRow1 == null)
                     MyRow1 = _sheet.CreateRow(CurrRow);
-                CreateCell(schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm") + "~"+ schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")
+                CreateCell(schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm") + "~" + schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")
                     , MyRow1, 0, CellStyle); //
                 CurrRow++;
             }
 
-            
+
             for (i = 1; i < CurrRow; i++)
             {
                 for (j = 1; j < CurrCol; j++)
                 {
                     IRow MyRow1 = _sheet.GetRow(i);
-                    CreateCell(matchModel.matchMakingScheduleSellerCompany[(i-1)* (CurrCol-1) + (j-1)], 
+                    CreateCell(matchModel.matchMakingScheduleSellerCompany[(i - 1) * (CurrCol - 1) + (j - 1)],
                         MyRow1, j, CellStyle1); //
                 }
             }

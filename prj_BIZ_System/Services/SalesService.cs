@@ -87,6 +87,11 @@ namespace prj_BIZ_System.Services
             }
         }
 
+        public SalesInfoModel GeSalesInfoOne(string sales_id)
+        {
+            return (SalesInfoModel)mapper.QueryForObject("SalesInfo.SelectSalesInfoById", sales_id);
+        }
+
         #endregion
     }
 }

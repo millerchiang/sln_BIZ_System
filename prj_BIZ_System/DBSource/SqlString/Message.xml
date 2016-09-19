@@ -82,8 +82,8 @@
         SELECT currval('message.msg_msg_no_seq')
       </selectKey>
       INSERT INTO message.msg(
-      creater_id, msg_title, msg_content, is_public, msg_member )
-      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #msg_member# );
+      creater_id, msg_title, msg_content, is_public ,user_id , msg_member )
+      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #user_id# , #msg_member# );
     </insert>
 
     <!--查詢單一私訊-->
@@ -127,7 +127,17 @@
       VALUES (#msg_no#, #msg_reply#, #reply_content#);
 
     </insert>
-
+    
+    <!-- [查詢該公司業務會員]-->
+    <select id="SelectSalesKw" resultMap="SalesInfo-result">
+      <![CDATA[
+      SELECT *
+      FROM sales.sales_info
+      WHERE id_enable='1'
+        and user_id = #user_id#
+        and ( sales_name like '%'||#sales_name#||'%')
+      ]]>
+    </select>
   </statements>
 
   <resultMaps>
@@ -193,7 +203,21 @@
     <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
     </resultMap>
-   
+
+    <resultMap id="SalesInfo-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="sales_id" column="sales_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="sales_pw" column="sales_pw"/>
+      <result property="id_enable" column="id_enable"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="limit" column="limit"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
   </resultMaps>
 
 </sqlMap>

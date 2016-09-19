@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Message_ViewModel
 
 @{
-    ViewBag.Title = "私人訊息內容";
+    ViewBag.Title = ViewBag.contentTitle+"訊息內容";
 }
 
 @section pagestyle{
@@ -15,7 +15,7 @@
 <div class="article_col1s">
 
     <form id="form" action="@Url.Action("doPrivateDetailed")" class="form_box sys_searchbox">
-        <h2>私人訊息</h2>
+        <h2>@(ViewBag.contentTitle)訊息</h2>
 
         <div class="regis_col02L">發佈人</div>
         <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
@@ -68,7 +68,7 @@
                 </div>
         
         <div class="centerbox">
-            <a href="@Url.Action("MessagePrivateList")" class="submitbu rightbox">返回私人訊息</a>
+            <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)訊息</a>
         </div>
 
     </form>

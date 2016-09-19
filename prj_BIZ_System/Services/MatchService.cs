@@ -56,45 +56,86 @@ namespace prj_BIZ_System.Services
         }
 
         //MatchmakingNeedModel
-        public object MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
+        //public object MatchmakingNeedInsertOne(MatchmakingNeedModel matchmakingNeedModel)
+        //{
+        //    return mapper.Insert("Match.InsertMatchmakingNeedOne", matchmakingNeedModel);
+        //}
+
+        //public int MatchmakingNeedUpdateOne(MatchmakingNeedModel matchmakingNeedModel)
+        //{
+        //    return mapper.Update("Match.UpdateMatchmakingNeedOne", matchmakingNeedModel);
+        //}
+
+        public object MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Insert("Match.InsertMatchmakingNeedOne", matchmakingNeedModel);
+            return mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
         }
 
-        public int MatchmakingNeedUpdateOne(MatchmakingNeedModel matchmakingNeedModel)
+        public object MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Update("Match.UpdateMatchmakingNeedOne", matchmakingNeedModel);
+            return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
         }
 
-        public IList<MatchmakingNeedModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
+
+
+
+
+
+
+
+        //public IList<MatchmakingNeedModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
+        //{
+        //    MatchmakingNeedModel param = new MatchmakingNeedModel() {activity_id = activity_id, seller_id = user_id};
+        //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectSellerForActivityMatchBuyer", param);
+        //}
+
+        public IList <MatchmakingAllModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
         {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() {activity_id = activity_id, seller_id = user_id};
-            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectSellerForActivityMatchBuyer", param);
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectSellerForActivityMatchBuyer", param);
         }
 
-        public IList<MatchmakingNeedModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id, string buyer_reply)
+
+
+
+        public IList<MatchmakingAllModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id)
         {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id, buyer_reply = buyer_reply };
-            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectBuyerForActivityMatchSeller", param);
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, buyer_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectBuyerForActivityMatchSeller", param);
         }
 
-        public IList<MatchmakingNeedModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
+        //public IList<MatchmakingNeedModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
+        //{
+        //    MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, seller_id = user_id };
+        //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivitySellerCheckBuyer", param);
+        //}
+
+        //public IList<MatchmakingNeedModel> GetCertainActivityBuyerCheckSellerList(int activity_id, string user_id)
+        //{
+        //    MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id };
+        //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
+        //}
+
+
+        public IList<MatchmakingAllModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
         {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, seller_id = user_id };
-            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivitySellerCheckBuyer", param);
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectCertainActivitySellerCheckBuyer", param);
+
         }
 
-        public IList<MatchmakingNeedModel> GetCertainActivityBuyerCheckSellerList(int activity_id, string user_id)
+        public IList<MatchmakingAllModel> GetCertainActivityBuyerCheckSellerList(int activity_id, string user_id)
         {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_id = user_id };
-            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
         }
 
-        public IList<MatchmakingNeedModel> GetCertainActivityWithBuyerReplyAllList(int activity_id, string buyer_reply)
-        {
-            MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_reply = buyer_reply };
-            return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityWithBuyerReplyAll", param);
-        }
+        /*媒合大表的*/
+        //public IList<MatchmakingNeedModel> GetCertainActivityWithBuyerReplyAllList(int activity_id, string buyer_reply)
+        //{
+        //    MatchmakingNeedModel param = new MatchmakingNeedModel() { activity_id = activity_id, buyer_reply = buyer_reply };
+        //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityWithBuyerReplyAll", param);
+        //}
 
         //SchedulePeriodSetModel
         public void MatchTimeIntervalInsert(SchedulePeriodSetModel schedulePeriodSetModel)

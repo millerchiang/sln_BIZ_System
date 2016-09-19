@@ -74,18 +74,18 @@ namespace prj_BIZ_System.WebService
             ).ToList();
         }
 
-        [HttpGet]
-        public IList<Seller> GetSellerForMatch(int activity_id, string user_id)
-        {
-            return matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "").Select(
-                matchmakingNeed => new Seller
-                {
-                    activity_id = matchmakingNeed.activity_id,
-                    seller_id = matchmakingNeed.seller_id,
-                    company = matchmakingNeed.company
-                }
-            ).ToList();
-        }
+        //[HttpGet]
+        //public IList<Seller> GetSellerForMatch(int activity_id, string user_id)
+        //{
+        //    return matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "").Select(
+        //        matchmakingNeed => new Seller
+        //        {
+        //            activity_id = matchmakingNeed.activity_id,
+        //            seller_id = matchmakingNeed.seller_id,
+        //            company = matchmakingNeed.company
+        //        }
+        //    ).ToList();
+        //}
 
         [HttpGet]
         public SellerNeed GetBuyerForSellerCheck(int activity_id, string user_id)
@@ -114,71 +114,71 @@ namespace prj_BIZ_System.WebService
             return sellerNeed;
         }
 
-        [HttpGet]
-        public BuyerNeed GetSellerForBuyerCheck(int activity_id, string user_id)
-        {
-            if (user_id == null) return null;
-            BuyerNeed buyerNeed = new BuyerNeed();
-            buyerNeed.buyer_check =
-            matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "1").Select(
-                matchmakingNeed =>
-                new Seller
-                {
-                    seller_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company,
-                }
-            ).ToList();
+        //[HttpGet]
+        //public BuyerNeed GetSellerForBuyerCheck(int activity_id, string user_id)
+        //{
+        //    if (user_id == null) return null;
+        //    BuyerNeed buyerNeed = new BuyerNeed();
+        //    buyerNeed.buyer_check =
+        //    matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "1").Select(
+        //        matchmakingNeed =>
+        //        new Seller
+        //        {
+        //            seller_id = matchmakingNeed.buyer_id,
+        //            company = matchmakingNeed.company,
+        //        }
+        //    ).ToList();
 
-            buyerNeed.manager_schedule = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
-                new Seller
-                {
-                    seller_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
-                }
-            ).ToList();
+        //    buyerNeed.manager_schedule = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
+        //        matchmakingNeed =>
+        //        new Seller
+        //        {
+        //            seller_id = matchmakingNeed.buyer_id,
+        //            company = matchmakingNeed.company
+        //        }
+        //    ).ToList();
 
-            return buyerNeed;
-        }
+        //    return buyerNeed;
+        //}
 
-        [HttpPost]
-        public object SellerMatchToBuyer(int activity_id, string seller_id, string buyer_id)
-        {
-            string[] buyer_ids = buyer_id.Split(',');
+        //[HttpPost]
+        //public object SellerMatchToBuyer(int activity_id, string seller_id, string buyer_id)
+        //{
+        //    string[] buyer_ids = buyer_id.Split(',');
 
-            MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
-            matchmakingNeedModel.activity_id = activity_id;
-            matchmakingNeedModel.seller_id = seller_id;
-            matchmakingNeedModel.buyer_reply = "0";
+        //    MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
+        //    matchmakingNeedModel.activity_id = activity_id;
+        //    matchmakingNeedModel.seller_id = seller_id;
+        //    matchmakingNeedModel.buyer_reply = "0";
 
-            object matchmakingNeedId = null;
-            foreach (string id in buyer_ids)
-            {
-                matchmakingNeedModel.buyer_id = id;
-                matchmakingNeedId = matchService.MatchmakingNeedInsertOne(matchmakingNeedModel);
-            }
+        //    object matchmakingNeedId = null;
+        //    foreach (string id in buyer_ids)
+        //    {
+        //        matchmakingNeedModel.buyer_id = id;
+        //        matchmakingNeedId = matchService.MatchmakingNeedInsertOne(matchmakingNeedModel);
+        //    }
 
-            return matchmakingNeedId;
-        }
+        //    return matchmakingNeedId;
+        //}
 
-        [HttpPost]
-        public int BuyerMatchToSeller(int activity_id, string buyer_id, string seller_id)
-        {
-            string[] seller_ids = seller_id.Split(',');
+        //[HttpPost]
+        //public int BuyerMatchToSeller(int activity_id, string buyer_id, string seller_id)
+        //{
+        //    string[] seller_ids = seller_id.Split(',');
 
-            MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
-            matchmakingNeedModel.activity_id = activity_id;
-            matchmakingNeedModel.buyer_id = buyer_id;
+        //    MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
+        //    matchmakingNeedModel.activity_id = activity_id;
+        //    matchmakingNeedModel.buyer_id = buyer_id;
 
-            int matchmakingNeedUpDateRow = 0;
-            foreach (string id in seller_ids)
-            {
-                matchmakingNeedModel.seller_id = id;
-                matchmakingNeedUpDateRow += matchService.MatchmakingNeedUpdateOne(matchmakingNeedModel);
-            }
+        //    int matchmakingNeedUpDateRow = 0;
+        //    foreach (string id in seller_ids)
+        //    {
+        //        matchmakingNeedModel.seller_id = id;
+        //        matchmakingNeedUpDateRow += matchService.MatchmakingNeedUpdateOne(matchmakingNeedModel);
+        //    }
 
-            return matchmakingNeedUpDateRow;
-        }
+        //    return matchmakingNeedUpDateRow;
+        //}
 
 
     }

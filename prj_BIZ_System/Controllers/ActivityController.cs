@@ -68,8 +68,15 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             activityModel.activityregisterList = activityService.GetSellerInfoActivity(activity_id);
+            ViewBag.activity_id = activity_id;
             return View(activityModel);
 
+        }
+
+        public ActionResult ShowRegisterinfoForSeller(int activity_id,string user_id)
+        {
+            var register = activityService.SelectSellerRegisterInfo(activity_id, user_id);
+            return Redirect("ActivityRegister?register_id="+ register.register_id + "&activity_id="+ activity_id);
         }
         #endregion
 

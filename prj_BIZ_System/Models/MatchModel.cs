@@ -16,6 +16,21 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
     }
 
+    public class MatchmakingAllModel
+    {
+        public int serial_no { get; set; }      //流水號
+        public int activity_id { get; set; }    //活動編號
+        public string seller_id { get; set; }   //參加廠商帳號
+        public string buyer_id { get; set; }    //對接買主帳號
+
+        public string company { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
+    }
+
+
+
+
+
+
     public class MatchmakingScheduleModel
     {
         public int serial_no { get; set; }        /*流水號*/

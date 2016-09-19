@@ -12,6 +12,7 @@
         <tr>
             <th>@prj_BIZ_System.LanguageResource.User.lb_sellerid</th>
             <th>@prj_BIZ_System.LanguageResource.User.lb_companyname</th>
+            <th>@prj_BIZ_System.LanguageResource.User.lb_registerinfo</th>
             <!--<th>買主媒合需求</th>-->
         </tr>
         @foreach (ActivityRegisterModel sellerInfoModel in Model.activityregisterList)
@@ -19,7 +20,7 @@
             <tr>
                 <td><a href="/User/UserInfo?user_id=@sellerInfoModel.user_id">@sellerInfoModel.user_id</a></td>
                 <td>@sellerInfoModel.company</td>
-                @*<td>@buyerInfoModel.buyer_need</td>*@
+                <td><a href="ShowRegisterinfoForSeller?activity_id=@(ViewBag.activity_id)&user_id=@(sellerInfoModel.user_id)">報名資料</a></td>
             </tr>
         }
     </table>

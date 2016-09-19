@@ -77,9 +77,10 @@ namespace prj_BIZ_System.Models
         public string addr { get; set; }//ActivityInfoModel 活動地點)
         public DateTime starttime { get; set; }//ActivityInfoModel 的 活動開始時間
         public DateTime endtime { get; set; }//ActivityInfoModel 的 活動結束時間
+        public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)
+        public string matchmaking_select { get; set; }//ActivityInfoModel 的 是否顯示媒合時程 (0：否；1：是)
         public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
         public string buyer_need { get; set; }//BuyerInfoModel 的 買主媒合需求
-
         public int? grp_id { get; set; }//群組
     }
 
