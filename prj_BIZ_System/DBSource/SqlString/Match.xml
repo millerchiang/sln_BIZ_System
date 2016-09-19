@@ -15,36 +15,45 @@
     [[  table = activity_register
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢賣家帳戶已審核通過的活動-->
-    <select id="SelectSellerAccountPassActivity" resultMap="SellerAccountPassActivity" parameterClass="ActivityRegisterModel">
-      SELECT *
-      FROM activity_register r
-      INNER JOIN user_info u
-      ON  r.user_id = u.user_id
-      INNER JOIN activity_info a
-      ON r.activity_id = a.activity_id
-      WHERE r.manager_check  = '1'
-      AND r.user_id = #user_id#
-    </select>
+      <!--查詢賣家帳戶已審核通過的活動-->
+      <select id="SelectSellerAccountPassActivity" resultMap="SellerAccountPassActivity" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register r
+        INNER JOIN user_info u
+        ON  r.user_id = u.user_id
+        INNER JOIN activity_info a
+        ON r.activity_id = a.activity_id
+        WHERE r.manager_check  = '1'
+        AND r.user_id = #user_id#
+      </select>
+    
+      <!--查詢某活動有審核的賣家公司名稱-->
+      <select id="SelectCertainActivityHaveCheckSellerName" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register r
+        INNER JOIN user_info ui
+        ON r.user_id = ui.user_id
+        WHERE r.manager_check = '1'
+        AND r.activity_id = #activity_id#
+      </select>
+    
+      <!--查詢賣家報名了哪些活動-->
+      <select id="SelectSellerJoinThoseActivity" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register ar
+        INNER JOIN user_info ui
+        ON ar.user_id = ui.user_id
+        WHERE ar.user_id = #user_id#
+      </select>
 
-    <!--查詢某活動有審核的賣家公司名稱-->
-    <select id="SelectCertainActivityHaveCheckSellerName" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
-      SELECT *
-      FROM activity_register r
-      INNER JOIN user_info ui
-      ON r.user_id = ui.user_id
-      WHERE r.manager_check = '1'
-      AND r.activity_id = #activity_id#
-    </select>
-
-    <!--查詢賣家報名了哪些活動-->
-    <select id="SelectSellerJoinThoseActivity" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
-      SELECT *
-      FROM activity_register ar
-      INNER JOIN user_info ui
-      ON ar.user_id = ui.user_id
-      WHERE ar.user_id = #user_id#
-    </select>
+      <!--查詢賣家在哪個活動的報名資料-->
+      <select id="SelectSellerRegisterInfo" resultMap="BuyerMatchToSellerName" parameterClass="ActivityRegisterModel">
+        SELECT *
+        FROM activity_register ar
+        INNER JOIN user_info ui
+        ON ar.user_id = ui.user_id
+        WHERE ar.activity_id =#activity_id# and ui.user_id = #user_id#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -54,60 +63,60 @@
     [[  table = activity_info
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢帳戶未報名的活動並排除是買家-->
-    <select id="SelectAccountNotRegisterActivity" resultMap="AccountNotRegisterActivity" parameterClass="ActivityRegisterModel">
+      <!--查詢帳戶未報名的活動並排除是買家-->
+      <select id="SelectAccountNotRegisterActivity" resultMap="AccountNotRegisterActivity" parameterClass="ActivityRegisterModel">
 
-      SELECT *
-      FROM activity_info a
-      WHERE a.starttime > now() and a.activity_id NOT IN
-      (
-      SELECT r.activity_id
-      FROM activity_register r
-      WHERE r.user_id = #user_id#
-      ) AND a.activity_id NOT IN
-      (
-      SELECT bl.activity_id
-      FROM buyer_list bl
-      WHERE bl.buyer_id = #user_id#
-      )
-    </select>
+        SELECT *
+        FROM activity_info a
+        WHERE a.starttime > now() and a.activity_id NOT IN
+        (
+        SELECT r.activity_id
+        FROM activity_register r
+        WHERE r.user_id = #user_id#
+        ) AND a.activity_id NOT IN
+        (
+        SELECT bl.activity_id
+        FROM buyer_list bl
+        WHERE bl.buyer_id = #user_id#
+        )
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-
+    
     <!--
     [[  table = buyer_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--查詢賣家要媒合的買家名稱與買家需求, 後台_顯示某活動的買主公司名稱-->
-    <select id="SelectSellerMatchToBuyerNameAndNeed" resultMap="SellerMatchToBuyerNameAndNeed" parameterClass="BuyerInfoModel">
-      SELECT *
-      FROM buyer_list bl
-      INNER JOIN user_info ui
-      ON bl.buyer_id = ui.user_id
-      WHERE bl.activity_id = #activity_id#
-    </select>
+      <!--查詢賣家要媒合的買家名稱與買家需求, 後台_顯示某活動的買主公司名稱-->
+      <select id="SelectSellerMatchToBuyerNameAndNeed" resultMap="SellerMatchToBuyerNameAndNeed" parameterClass="BuyerInfoModel">
+        SELECT *
+        FROM buyer_list bl
+        INNER JOIN user_info ui
+        ON bl.buyer_id = ui.user_id
+        WHERE bl.activity_id = #activity_id#
+      </select>
 
-    <!--查詢用戶(買主)所屬活動-->
-    <select id="SelectUserWhenActivityBuyer" resultMap="BuyerAccountPassActivity" parameterClass="BuyerInfoModel">
-      select *
-      FROM buyer_list bl
-      INNER JOIN activity_info a
-      ON bl.activity_id = a.activity_id
-      WHERE bl.buyer_id = #buyer_id#
-    </select>
-    <!--查詢某活動的買主清單資訊-->
-    <select id="SelectBuyerListAll" resultMap="BuyerInfo" parameterClass="BuyerInfoModel">
-      select *
-      from buyer_list
-      WHERE activity_id = #activity_id#
-    </select>
+      <!--查詢用戶(買主)所屬活動-->
+      <select id="SelectUserWhenActivityBuyer" resultMap="BuyerAccountPassActivity" parameterClass="BuyerInfoModel">
+        select *
+        FROM buyer_list bl
+        INNER JOIN activity_info a
+        ON bl.activity_id = a.activity_id
+        WHERE bl.buyer_id = #buyer_id#
+      </select>
+      <!--查詢某活動的買主清單資訊-->
+      <select id="SelectBuyerListAll" resultMap="BuyerInfo" parameterClass="BuyerInfoModel">
+        select *
+        from buyer_list
+        WHERE activity_id = #activity_id#
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-
+    
     <!--
     [[  table = matchmaking_need
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -115,66 +124,66 @@
     
     <!--1.輸入賣家想要媒合的買家清單-->
     <!--<insert id="InsertMatchmakingNeedOne" parameterClass="MatchmakingNeedModel">
-      <selectKey resultClass="int" property="serial_no" type="post">
-        SELECT currval('matchmaking_need_seq')
-      </selectKey>
-      INSERT INTO matchmaking_need (
-      activity_id, seller_id, buyer_id, buyer_reply
-      ) VALUES (
-      #activity_id#, #seller_id#, #buyer_id#, #buyer_reply#
-      )
+        <selectKey resultClass="int" property="serial_no" type="post">
+          SELECT currval('matchmaking_need_seq')
+        </selectKey>
+        INSERT INTO matchmaking_need (
+        activity_id, seller_id, buyer_id, buyer_reply
+        ) VALUES (
+        #activity_id#, #seller_id#, #buyer_id#, #buyer_reply#
+        )
     </insert>-->
-   
+    
     <!--2.輸入買主想要媒合的賣家清單-->
     <!--<update id="UpdateMatchmakingNeedOne" parameterClass="MatchmakingNeedModel">
-      UPDATE matchmaking_need
-      SET buyer_reply = '1'
-      WHERE activity_id = #activity_id#
-      AND seller_id = #seller_id#
-      AND buyer_id = #buyer_id#
+        UPDATE matchmaking_need
+        SET buyer_reply = '1'
+        WHERE activity_id = #activity_id#
+        AND seller_id = #seller_id#
+        AND buyer_id = #buyer_id#
     </update>-->
-
+    
     <!--3.查詢賣家對哪個活動有意願洽談的買主-->
     <!--<select id="SelectSellerForActivityMatchBuyer" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
-      SELECT *
-      FROM matchmaking_need mn
-      INNER JOIN user_info ui
-      ON mn.buyer_id = ui.user_id
-      WHERE activity_id = #activity_id#
-      AND seller_id = #seller_id#
+        SELECT *
+        FROM matchmaking_need mn
+        INNER JOIN user_info ui
+        ON mn.buyer_id = ui.user_id
+        WHERE activity_id = #activity_id#
+        AND seller_id = #seller_id#
     </select>-->
-    
+
    
     <!--4.查詢買家對哪個活動有意願洽談的賣主, 查詢買家要媒合的賣家名稱且是賣家有勾選過的-->
     <!--<select id="SelectBuyerForActivityMatchSeller" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
-      SELECT *
-      FROM matchmaking_need mn
-      INNER JOIN user_info ui
-      ON mn.seller_id = ui.user_id
-      WHERE mn.activity_id = #activity_id#
-      AND mn.buyer_id = #buyer_id#
-      <dynamic prepend="">
-        <isNotEmpty prepend="AND" property="buyer_reply">
-          mn.buyer_reply = #buyer_reply#
-        </isNotEmpty>
-      </dynamic>
+        SELECT *
+        FROM matchmaking_need mn
+        INNER JOIN user_info ui
+        ON mn.seller_id = ui.user_id
+        WHERE mn.activity_id = #activity_id#
+        AND mn.buyer_id = #buyer_id#
+        <dynamic prepend="">
+          <isNotEmpty prepend="AND" property="buyer_reply">
+            mn.buyer_reply = #buyer_reply#
+          </isNotEmpty>
+        </dynamic>
     </select>-->
-   
+    
     <!--5.查詢某活動和買主回覆狀態的買主與賣家帳號資料-->
     <!--<select id="SelectCertainActivityWithBuyerReplyAll" resultMap="SellerForActivityMatchBuyer" parameterClass="MatchmakingNeedModel">
-      SELECT *
-      FROM matchmaking_need mn
-      INNER JOIN user_info ui
-      ON mn.seller_id = ui.user_id
-      WHERE mn.activity_id = #activity_id#
-      <dynamic prepend="">
-        <isNotEmpty prepend="AND" property="buyer_reply">
-          mn.buyer_reply = #buyer_reply#
-        </isNotEmpty>
-      </dynamic>
+        SELECT *
+        FROM matchmaking_need mn
+        INNER JOIN user_info ui
+        ON mn.seller_id = ui.user_id
+        WHERE mn.activity_id = #activity_id#
+        <dynamic prepend="">
+          <isNotEmpty prepend="AND" property="buyer_reply">
+            mn.buyer_reply = #buyer_reply#
+          </isNotEmpty>
+        </dynamic>
     </select>-->
-
-
+    
+    
     <!--6.查詢某活動的賣家有無勾選買主-->
     <!--<select id="SelectCertainActivitySellerCheckBuyer" resultMap="MatchmakingNeed" parameterClass="MatchmakingNeedModel">
         SELECT *
@@ -182,14 +191,14 @@
         WHERE activity_id = #activity_id#
         AND seller_id = #seller_id#
     </select>-->
-
+    
     <!--7.查詢某活動的買家有無勾選賣主-->
     <!--<select id="SelectCertainActivityBuyerCheckSeller" resultMap="MatchmakingNeed" parameterClass="MatchmakingNeedModel">
-      SELECT *
-      FROM matchmaking_need
-      WHERE activity_id = #activity_id#
-      AND buyer_id = #buyer_id#
-      AND buyer_reply = '1'
+        SELECT *
+        FROM matchmaking_need
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND buyer_reply = '1'
     </select>-->
     
     <!--1.輸入賣家想要媒合的買家清單-->
@@ -253,7 +262,7 @@
       FROM matchmaking_buyerneed
       WHERE activity_id = #activity_id#
       AND buyer_id = #buyer_id#
-    </select>
+      </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -263,117 +272,117 @@
     [[  table = manager.schedule_period_set
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--新增某活動要媒合的時段-->
-    <insert id="InsertMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
-      INSERT INTO manager.schedule_period_set (
-      activity_id, time_start, time_end
-      ) VALUES (
-      #activity_id#, #time_start#, #time_end#
-      )
-    </insert>
-
-    <!--查詢某活動的所有媒合時段-->
-    <select id="SelectActivityMatchTimeInterval" resultMap="SchedulePeriodSet" parameterClass="SchedulePeriodSetModel">
-      SELECT *
-      FROM manager.schedule_period_set
-      WHERE activity_id = #activity_id#
-    </select>
-
-    <!--刪除某活動的某個媒合時段-->
-    <delete id="DeleteMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
-      DELETE FROM manager.schedule_period_set
-      WHERE period_sn = #period_sn#
-    </delete>
-
-    <!--更新某活動的某個媒合時段-->
-    <update id="UpdateMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
-      UPDATE manager.schedule_period_set
-      SET
-      time_start = #time_start#,
-      time_end   = #time_end#
-      WHERE period_sn = #period_sn#
-    </update>
+      <!--新增某活動要媒合的時段-->
+      <insert id="InsertMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+        INSERT INTO manager.schedule_period_set (
+        activity_id, time_start, time_end
+        ) VALUES (
+        #activity_id#, #time_start#, #time_end#
+        )
+      </insert>
+    
+      <!--查詢某活動的所有媒合時段-->
+      <select id="SelectActivityMatchTimeInterval" resultMap="SchedulePeriodSet" parameterClass="SchedulePeriodSetModel">
+        SELECT *
+        FROM manager.schedule_period_set
+        WHERE activity_id = #activity_id#
+      </select>
+    
+      <!--刪除某活動的某個媒合時段-->
+      <delete id="DeleteMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+        DELETE FROM manager.schedule_period_set
+        WHERE period_sn = #period_sn#
+      </delete>
+    
+      <!--更新某活動的某個媒合時段-->
+      <update id="UpdateMatchTimeInterval" parameterClass="SchedulePeriodSetModel">
+        UPDATE manager.schedule_period_set
+        SET 
+        time_start = #time_start#,
+        time_end   = #time_end#
+        WHERE period_sn = #period_sn#
+      </update>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-
+    
     <!--
     [[  table = manager.matchmaking_schedule
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
-    <!--新增某時段選擇要媒合的賣家-->
-    <insert id="InsertCertainTimeMatchSeller" parameterClass="MatchmakingScheduleModel">
-      INSERT INTO manager.matchmaking_schedule (
-      activity_id, period_sn, buyer_id,
-      seller_id, create_time, update_time
-      ) VALUES (
-      #activity_id#, #period_sn#, #buyer_id#,
-      #seller_id#, #create_time#, #update_time#
-      )
-    </insert>
+      <!--新增某時段選擇要媒合的賣家-->
+      <insert id="InsertCertainTimeMatchSeller" parameterClass="MatchmakingScheduleModel">
+        INSERT INTO manager.matchmaking_schedule (
+        activity_id, period_sn, buyer_id,
+        seller_id, create_time, update_time
+        ) VALUES (
+        #activity_id#, #period_sn#, #buyer_id#,
+        #seller_id#, #create_time#, #update_time#
+        )
+      </insert>
+      
+      <!--查詢某活動的媒合大表資料-->
+      <select id="SelectCertainActivityMatchMakingData" resultMap="MatchmakingSchedule" parameterClass="MatchmakingScheduleModel">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.seller_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+      </select>
+    
+      <!--查詢用戶(買主)時,媒合大表資料by活動-->
+      <select id="SelectWhenUserIsBuyerMatchMakingData" resultMap="MatchmakingSchedule">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.seller_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+        AND ms.buyer_id = #buyer_id#
+      </select>
+    
+      <!--查詢用戶(賣家)時,媒合大表資料by活動-->
+      <select id="SelectWhenUserIsSellerMatchMakingData" resultMap="MatchmakingSchedule">
+        SELECT *
+        FROM manager.matchmaking_schedule ms
+        INNER JOIN user_info ui
+        ON ms.buyer_id = ui.user_id
+        WHERE ms.activity_id = #activity_id#
+        AND ms.seller_id = #seller_id#
+      </select>
+    
+      <!--更新某活動與某時段與某買主的媒合大表資料-->
+      <update id="UpdateCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
+        UPDATE manager.matchmaking_schedule
+        SET
+        seller_id = #seller_id#
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND period_sn = #period_sn#
+      </update>
+      
+      <!--刪除某活動與某時段與某買主的媒合大表資料-->
+      <delete id="DeleteCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
+        DELETE FROM manager.matchmaking_schedule
+        WHERE activity_id = #activity_id#
+        AND buyer_id = #buyer_id#
+        AND period_sn = #period_sn#
+      </delete>
 
-    <!--查詢某活動的媒合大表資料-->
-    <select id="SelectCertainActivityMatchMakingData" resultMap="MatchmakingSchedule" parameterClass="MatchmakingScheduleModel">
-      SELECT *
-      FROM manager.matchmaking_schedule ms
-      INNER JOIN user_info ui
-      ON ms.seller_id = ui.user_id
-      WHERE ms.activity_id = #activity_id#
-    </select>
-
-    <!--查詢用戶(買主)時,媒合大表資料by活動-->
-    <select id="SelectWhenUserIsBuyerMatchMakingData" resultMap="MatchmakingSchedule">
-      SELECT *
-      FROM manager.matchmaking_schedule ms
-      INNER JOIN user_info ui
-      ON ms.seller_id = ui.user_id
-      WHERE ms.activity_id = #activity_id#
-      AND ms.buyer_id = #buyer_id#
-    </select>
-
-    <!--查詢用戶(賣家)時,媒合大表資料by活動-->
-    <select id="SelectWhenUserIsSellerMatchMakingData" resultMap="MatchmakingSchedule">
-      SELECT *
-      FROM manager.matchmaking_schedule ms
-      INNER JOIN user_info ui
-      ON ms.buyer_id = ui.user_id
-      WHERE ms.activity_id = #activity_id#
-      AND ms.seller_id = #seller_id#
-    </select>
-
-    <!--更新某活動與某時段與某買主的媒合大表資料-->
-    <update id="UpdateCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
-      UPDATE manager.matchmaking_schedule
-      SET
-      seller_id = #seller_id#
-      WHERE activity_id = #activity_id#
-      AND buyer_id = #buyer_id#
-      AND period_sn = #period_sn#
-    </update>
-
-    <!--刪除某活動與某時段與某買主的媒合大表資料-->
-    <delete id="DeleteCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
-      DELETE FROM manager.matchmaking_schedule
-      WHERE activity_id = #activity_id#
-      AND buyer_id = #buyer_id#
-      AND period_sn = #period_sn#
-    </delete>
-
-    <!--刪除某活動與某時段的媒合大表資料-->
-    <delete id="DeleteMatchkingDataByActivityWithPeriod" parameterClass="MatchmakingScheduleModel">
-      DELETE FROM manager.matchmaking_schedule
-      WHERE activity_id = #activity_id#
-      AND period_sn = #period_sn#
-    </delete>
+      <!--刪除某活動與某時段的媒合大表資料-->
+      <delete id="DeleteMatchkingDataByActivityWithPeriod" parameterClass="MatchmakingScheduleModel">
+        DELETE FROM manager.matchmaking_schedule
+        WHERE activity_id = #activity_id#
+        AND period_sn = #period_sn#
+      </delete>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-
-
+    
+    
   </statements>
-
+  
   <resultMaps>
 
     <resultMap id="MatchmakingSchedule" class="MatchmakingScheduleModel">
@@ -388,7 +397,7 @@
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
     </resultMap>
-
+    
     <resultMap id="SchedulePeriodSet" class="SchedulePeriodSetModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="period_sn" column="period_sn"/>
@@ -396,10 +405,10 @@
       <result property="time_start" column="time_start"/>
       <result property="time_end" column="time_end"/>
     </resultMap>
-
+    
     <!--<resultMap id="MatchmakingNeed" class="MatchmakingNeedModel">
       -->
-    <!--property是Model屬性,column是資料庫欄位名稱-->
+      <!--property是Model屬性,column是資料庫欄位名稱-->
     <!--
       <result property="serial_no" column="serial_no"/>
       <result property="activity_id" column="activity_id"/>
@@ -436,7 +445,7 @@
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
     </resultMap>
-    
+
       
       
       
@@ -487,7 +496,7 @@
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
     </resultMap>
-
+    
 
     <resultMap id="AccountNotRegisterActivity" class="ActivityInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
@@ -539,7 +548,7 @@
       <result property="activity_name" column="activity_name"/>
       <result property="starttime" column="starttime"/>
     </resultMap>
-
+    
   </resultMaps>
-
+  
 </sqlMap>

@@ -247,6 +247,12 @@ namespace prj_BIZ_System.Services
             return mapper.Update("ActivityInfo.DeleteActivityRegisterOne", param);
         }
 
+        public ActivityRegisterModel SelectSellerRegisterInfo(int activity_id , string user_id)
+        {
+            var param = new ActivityRegisterModel() { activity_id = activity_id , user_id = user_id };
+            return mapper.QueryForObject<ActivityRegisterModel>("Match.SelectSellerRegisterInfo" , param);
+        }
+
         //ActivityProductSelectModel******************************************************************************//
         public void ActivityProductDeleteOne(int activity_id,string user_id)
         {

@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "新增"+ ViewBag.contentTitle + "訊息";
 }
-確定新增
+
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
@@ -13,7 +13,7 @@
 @Styles.Render("~/Content/jqueryUI")
 
 <div class="article_col1s">
-    <form id="form" action="@Url.Action("DoPrivateAdd")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
+    <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
         <h2>新增@(ViewBag.contentTitle)訊息</h2>
         <label for="" class="regis_col02L">對象</label>
         <div class="regis_col02R tagsbox">
@@ -112,7 +112,7 @@
 		      .autocomplete({
 		        autoFocus: true,
 		        minLength: 1,
-		        source: "@Url.Action("jsonMsgMemberFromUserInfo")",
+		        source: "@Url.Action("jsonMsgMemberFor"+ViewBag.msgType)",
 		          response: function (event, ui) {
 		              $("#taglist li").each(function (index,el) {
 		                  for (var i = ui.content.length - 1 ; i >= 0; i--) {

@@ -8,11 +8,14 @@ namespace prj_BIZ_System.Services
     public class MessageService : _BaseService
     {
         private UserService userService;
+        private SalesService salesService;
+
         public MessageService()
         {
             userService = new UserService();
+            salesService = new SalesService();
         }
-
+        
         public IList<UserInfoModel> SelectUserKw(string user_id , string kw)
         {
             UserInfoModel param = new UserInfoModel() { user_id = user_id , company = kw };
@@ -23,6 +26,12 @@ namespace prj_BIZ_System.Services
         {
             UserInfoModel param = new UserInfoModel() { user_id = user_id };
             return mapper.QueryForList<UserInfoModel>("Message.SelectUserKwForMobile", param);
+        }
+
+        public IList<SalesInfoModel> SelectSalesKw(string user_id, string kw)
+        {
+            SalesInfoModel param = new SalesInfoModel() { user_id = user_id, sales_name = kw };
+            return mapper.QueryForList<SalesInfoModel>("Message.SelectSalesKw", param);
         }
 
         public IList<MsgModel> SelectMsgPrivate(string keyword , string user_id)
@@ -58,7 +67,7 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<MsgModel>("Message.SelectMsgOne", param);
         }
 
-        public string transferMsg_member2Msg_company(string msg_member)
+        public string transferMsg_member2Msg_company(string msg_member, prj_BIZ_System.Controllers.MessageCatalog catalog)
         {
             string result = "";
             StringBuilder sb = new StringBuilder();
@@ -68,14 +77,27 @@ namespace prj_BIZ_System.Services
                 for (int i=0; i< msg_member_arr.Length;i++)
                 {
                     // msg_member_arr[i] 為 user_id
-                    UserInfoModel userInfoModel = userService.GeUserInfoOne(msg_member_arr[i].Trim());
-                    if (userInfoModel != null)
+                    switch (catalog)
                     {
-                        sb.Append(separate);
-                        sb.Append(userInfoModel.company);
+                        case Controllers.MessageCatalog.Private:
+                            UserInfoModel userInfoModel = userService.GeUserInfoOne(msg_member_arr[i].Trim());
+                            if (userInfoModel != null)
+                            {
+                                sb.Append(separate);
+                                sb.Append(userInfoModel.company);
+                            }
+                            break;
+                        case Controllers.MessageCatalog.Company:
+                            SalesInfoModel salesInfoModel = salesService.GeSalesInfoOne(msg_member_arr[i].Trim());
+                            if (salesInfoModel != null)
+                            {
+                                sb.Append(separate);
+                                sb.Append(salesInfoModel.sales_name);
+                            }
+                            break;
                     }
                 }
-                if (msg_member_arr.Length>0)
+                if (msg_member_arr.Length>0 && sb.ToString().Length > separate.Length)
                 {
                     result = sb.ToString().Substring(separate.Length);
                 }
