@@ -59,6 +59,35 @@
   border-color: transparent transparent transparent #f46813;
 }
 
+.newsboxTitle2 a:link, .newsboxTitle2 a:visited {
+  position: absolute;
+  background: #ffffff;
+  right: 0;
+  color: #03a9f5;
+  font-size: 0.75em;
+  border-radius: 10px;
+  padding: 2px 5px 2px 10px;
+  text-decoration: none;
+}
+.newsboxTitle2 a:link:before, .newsboxTitle2 a:visited:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 3px 0 3px 5px;
+  border-color: transparent transparent transparent #03a9f5;
+  right: 35px;
+  top: 5px;
+}
+.newsboxTitle2 a:hover, .newsboxTitle2 a:focus, .newsboxTitle2 a:active, .newsboxTitle2 a.active {
+  text-decoration: underline;
+  color: #1184b9;
+}
+.newsboxTitle2 a:hover:before, .newsboxTitle2 a:focus:before, .newsboxTitle2 a:active:before, .newsboxTitle2 a.active:before {
+  border-color: transparent transparent transparent #1184b9;
+}
+
 .newsboxList01 {
   display: inline-block;
   vertical-align: top;

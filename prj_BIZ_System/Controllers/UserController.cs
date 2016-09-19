@@ -261,6 +261,27 @@ namespace prj_BIZ_System.Controllers
                 return Json("error");
             }
         }
+
+        public ActionResult ProductListEdit()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
+        }
+
+        public ActionResult ProductDetail()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
+        }
+
+        public ActionResult ProductDetailEdit()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
+        }
         #endregion
 
         #region 型錄管理
