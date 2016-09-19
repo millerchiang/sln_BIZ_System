@@ -208,7 +208,7 @@
     <value>Business Explore Mission</value>
   </data>
   <data name="lb_boss" xml:space="preserve">
-    <value>Name Of Representative</value>
+    <value>Representative</value>
   </data>
   <data name="lb_buyerarea" xml:space="preserve">
     <value>Buyer-Area</value>
@@ -238,7 +238,7 @@
     <value>Cluster List</value>
   </data>
   <data name="lb_company" xml:space="preserve">
-    <value>Enterprises Data Management</value>
+    <value>Enterprises Database</value>
   </data>
   <data name="lb_companybrief" xml:space="preserve">
     <value>Company Brief</value>
@@ -366,9 +366,6 @@ Any further question, please contact adminstrator.</value>
   </data>
   <data name="lb_mycompany" xml:space="preserve">
     <value>My Enterprise Data</value>
-  </data>
-  <data name="lb_myinfo" xml:space="preserve">
-    <value>My Campany Info</value>
   </data>
   <data name="lb_newid" xml:space="preserve">
     <value>Create New Account</value>
@@ -579,5 +576,14 @@ Any further question, please contact adminstrator.</value>
   </data>
   <data name="lb_underreview" xml:space="preserve">
     <value>Registration Under Review</value>
+  </data>
+  <data name="lb_explain" xml:space="preserve">
+    <value>illustrate</value>
+  </data>
+  <data name="lb_info" xml:space="preserve">
+    <value> Campany Info</value>
+  </data>
+  <data name="lb_latest_video" xml:space="preserve">
+    <value>Latest Video Catalog</value>
   </data>
 </root>

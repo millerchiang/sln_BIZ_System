@@ -331,7 +331,7 @@
     <value>相關資訊連結</value>
   </data>
   <data name="lb_login" xml:space="preserve">
-    <value>登入</value>
+    <value>會員登入</value>
   </data>
   <data name="lb_logoupload" xml:space="preserve">
     <value>上傳LOGO</value>
@@ -578,5 +578,14 @@
   </data>
   <data name="lb_underreview" xml:space="preserve">
     <value>報名審核中</value>
+  </data>
+  <data name="lb_explain" xml:space="preserve">
+    <value>說明</value>
+  </data>
+  <data name="lb_info" xml:space="preserve">
+    <value>企業資料說明</value>
+  </data>
+  <data name="lb_latest_video" xml:space="preserve">
+    <value>最新影音型錄</value>
   </data>
 </root>

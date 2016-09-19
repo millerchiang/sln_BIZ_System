@@ -930,6 +930,7 @@
     <Content Include="Views\Manager\SalesInfo.cshtml" />
     <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
     <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
+    <Content Include="Views\Home\_HomeLeftPartial.cshtml" />
     <Content Include="Views\User\ProductDetail.cshtml" />
     <Content Include="Views\User\ProductDetailEdit.cshtml" />
     <Content Include="Views\User\ProductListEdit.cshtml" />

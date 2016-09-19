@@ -1,46 +1,69 @@
 ﻿@using prj_BIZ_System.Models
 @model IList<EnterpriseSortListModel>
 
-@{
-
-}
-
 <aside>
-    <form action="/Home/CompanyList" class="searchbox">
-        <input type="text" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
-        <select name="sort_id" id="">
-            <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
-            @if (Model != null)
+    <div class="searchdiv mg30">
+        <div class="newsboxTitle2">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_company @prj_BIZ_System.LanguageResource.User.lb_search</h3>
+        </div>
+        <form action="/Home/CompanyList" class="indexsearch">
+            <select name="searchbox" id="searchbox">
+                <option value="searchname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_companyname</option>
+                <option value="searchtype">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_scope</option>
+            </select>
+            <input type="text" id="searchname" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
+            <select name="sort_id" id="searchtype" style="display:none">
+                <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
+                @if (Model != null)
             {
                 foreach (EnterpriseSortListModel md in Model)
                 {
                     if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
                     {
-                        <option value="@md.sort_id">@md.enterprise_sort_name</option>
-                    }
-                    else {
-                        <option value="@md.sort_id">@md.enterprise_sort_name_en</option>
+                            <option value="@md.sort_id">@md.enterprise_sort_name</option>
+                        }
+                        else {
+                            <option value="@md.sort_id">@md.enterprise_sort_name_en</option>
+                        }
                     }
                 }
-            }
-        </select>
-        <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
-    </form>
+            </select>
+            <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
+        </form>
+    </div>
 </aside>
 
 <script>
-    var vn = location.pathname.replace("/User/","");
-    var urlMapping = [
-        ["ProductList"  , 1],
-        ["CatalogCreate", 2],
-        ["CatalogList"  , 2]
-    ];
 
-    $.each(urlMapping, function (index, el) {
-        if(el[0] == vn){
-            $(".datalist").find("li").eq(el[1]).addClass("inforlistactive");
-        }
+    $(document).ready(function () {
+        $("#searchbox").on('change', function () {
+            var selects = $("select option:selected").val();
+            if (selects == 'searchname') {
+                $("#searchname").show();
+                $("#searchtype").hide();
+                $("#searchtype").val('');
+
+            } else if (selects == 'searchtype') {
+                $("#searchname").hide();
+                $("#searchtype").show();
+                $("#searchname").val('');
+            }
+
+        });
     });
+
+    //var vn = location.pathname.replace("/User/","");
+    //var urlMapping = [
+    //    ["ProductList"  , 1],
+    //    ["CatalogCreate", 2],
+    //    ["CatalogList"  , 2]
+    //];
+
+    //$.each(urlMapping, function (index, el) {
+    //    if(el[0] == vn){
+    //        $(".datalist").find("li").eq(el[1]).addClass("inforlistactive");
+    //    }
+    //});
 
     
 </script>
