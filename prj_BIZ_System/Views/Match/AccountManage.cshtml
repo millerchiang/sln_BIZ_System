@@ -6,6 +6,8 @@
     ViewBag.Title = "Account Maanger(Seller)";
 }
 
+@Styles.Render("~/Content/jqueryUI")
+
 @section pagestyle{
     <link href="~/stylesheets/account.css" rel="stylesheet" />
 }
@@ -16,7 +18,8 @@
     }
     <article class="article_col2">
         <section class="w55">
-            @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0) {
+            @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0)
+            {
                 <section class="form_box">
                     <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
                     <ul>
@@ -34,7 +37,7 @@
                 </section>
             }
             @if (Model.activityregisterList != null && Model.activityregisterList.Count > 0)
-            { 
+            {
                 <section class="form_box">
                     <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist</h2>
                     <ul>
@@ -44,7 +47,13 @@
                                 <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
                                 <div class="centerbox">
                                     <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
-                                    <a href="@Url.Action("WhetherMetchBuyer","Match",new {activity_id = activityRegisterModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    @if (activityRegisterModel.seller_select == "0")
+                                    {
+                                        <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    }
+                                    else {
+                                        <a href="@Url.Action("WhetherMetchBuyer", "Match", new { activity_id = activityRegisterModel.activity_id })" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    }
                                 </div>
                             </li>
                         }
@@ -52,16 +61,16 @@
                 </section>
             }
             @if (
-                (Model.buyerinfoList == null || Model.buyerinfoList.Count == 0) &&
-                (Model.activityregisterList == null || Model.activityregisterList.Count == 0)
-            )
+            (Model.buyerinfoList == null || Model.buyerinfoList.Count == 0) &&
+            (Model.activityregisterList == null || Model.activityregisterList.Count == 0)
+        )
             {
                 <span>@prj_BIZ_System.LanguageResource.User.lb_no_register</span>
             }
         </section>
         <section class="form_box w45">
             <h2>@prj_BIZ_System.LanguageResource.User.lb_good_activities</h2>
-            @if (Model.activityinfoList!=null && Model.activityinfoList.Count > 0)
+            @if (Model.activityinfoList != null && Model.activityinfoList.Count > 0)
             {
                 <ul>
                     @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
@@ -69,7 +78,7 @@
                         var activity_name = activityInfoModel.activity_name;
                         if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                         {
-                            if (activityInfoModel.activity_name_en!=null && activityInfoModel.activity_name_en!="")
+                            if (activityInfoModel.activity_name_en != null && activityInfoModel.activity_name_en != "")
                             {
                                 activity_name = activityInfoModel.activity_name_en;
                             }
@@ -89,3 +98,22 @@
     </article>
 </div>
 
+<div id="dialog" title="商務對接" style="display:none;">
+    <p>
+        <span>因廠商報名仍在進行，所以媒合功能尚未開放。廠商名單底定後系統將以email形式通知您進行媒合，謝謝!</span>
+    </p>
+</div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+
+<script type="text/javascript">
+    $("#dialog").dialog({
+        autoOpen: false,
+        modal: true
+    });
+
+    function doOpenDialog() {
+        $("#dialog").dialog("open");
+    }
+
+</script>

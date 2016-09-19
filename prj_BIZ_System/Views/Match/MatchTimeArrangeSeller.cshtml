@@ -22,10 +22,10 @@
         <section class="form_box w55">
             <h2>您表達有意願洽談的買主</h2>
             <ul class="comicon listlink">
-                @foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
+                @foreach (MatchmakingAllModel matchmakingAllModel in Model.matchmakingAllList)
                 {
                     <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingNeedModel.buyer_id})">@matchmakingNeedModel.company</a>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingAllModel.buyer_id})">@matchmakingAllModel.company</a>
                     </li>
                 }
             </ul>
