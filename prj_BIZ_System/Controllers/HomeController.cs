@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace prj_BIZ_System.Controllers
 {
 
-    public class HomeController : Controller
+    public class HomeController : _BaseController
     {
 
         public UserService userService;
@@ -59,26 +59,32 @@ namespace prj_BIZ_System.Controllers
             return Redirect(returnUrl);
         }
 
-        public ActionResult Index()
+        public ActionResult _HomeLeftPartial()
         {
-            indexModel.enterprisesortList = userService.GetSortList();
             indexModel.userinfoList = userService.GetUserInfoList();
+            indexModel.enterprisesortList = userService.GetSortList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
-            indexModel.newsList = activityService.GetNewsLimit(6);
-
-            indexModel.cataloglistList = userService.getAllCatalogTop(4);
-            ViewBag.coverDir = UploadConfig.UploadRootPath;
-
             if (Request.Cookies["UserInfo"] != null)
             {
                 ViewBag.logoDir = UploadHelper.getPictureDirPath(Request.Cookies["UserInfo"]["user_id"], "logo");
             }
+            return PartialView(indexModel);
+        }
+
+
+        public ActionResult Index()
+        {
+            indexModel.newsList = activityService.GetNewsLimit(6);
+            indexModel.cataloglistList = userService.getAllCatalogTop(4);
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
 
             foreach (NewsModel newsModel in indexModel.newsList)
-                {
-                        newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
-                }
-                return View(indexModel);
+            {
+                    newsModel.content = HttpUtility.HtmlDecode(newsModel.content);
+            }
+
+            docookie("_mainmenu", "Index");
+            return View(indexModel);
         }
 
         public ActionResult News()

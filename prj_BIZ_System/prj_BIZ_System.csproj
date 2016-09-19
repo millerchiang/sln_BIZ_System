@@ -931,6 +931,7 @@
     <Content Include="Views\Manager\SalesInfo.cshtml" />
     <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
     <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
+    <Content Include="Views\Home\_HomeLeftPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

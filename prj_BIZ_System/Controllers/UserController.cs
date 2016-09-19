@@ -39,8 +39,8 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult UserInfo()
         {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
+//            if (Request.Cookies["UserInfo"] == null)
+//                return Redirect("~/Home/Index");
             string user_id = Request["user_id"];
 //            userModel.enterprisesortList = userService.GetSortList();
             userModel.userinfo = userService.GeUserInfoOne(user_id);
@@ -50,6 +50,7 @@ namespace prj_BIZ_System.Controllers
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
             ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
             ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
+            docookie("_mainmenu", "UserInfo");
             return View(userModel);
         }
 

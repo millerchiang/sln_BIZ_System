@@ -56,15 +56,27 @@
 
 }
 
-<main>
     <div class="article_col1">
         @{
-            Html.RenderAction("_NavSearchPartial", "User");
+//            Html.RenderAction("_NavSearchPartial", "User");
+            Html.RenderAction("_HomeLeftPartial", "Home");
         }
-        <article class="form_box article_col2">
+        <article class="article_col2">
             <section class="form_box comicon article_col1">
 
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_myinfo</h2>
+                @{ 
+                    var company = Model.userinfo.company;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.userinfo.company_en != null && Model.userinfo.company_en!="")
+                        {
+                            company = Model.userinfo.company_en;
+                        }
+                    }
+                }
+
+
+                <h2>@company @prj_BIZ_System.LanguageResource.User.lb_info</h2>
                 <div class="regis_col01L">
                     <div id="result">
                         @if (Model.userinfo.logo_img != null)
@@ -233,7 +245,6 @@
 
     </div>
 
-</main>
 @Scripts.Render("~/bundles/fancybox")
 
 <script>
