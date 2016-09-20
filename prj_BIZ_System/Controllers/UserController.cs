@@ -47,6 +47,8 @@ namespace prj_BIZ_System.Controllers
             userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
             userModel.productsortList = userService.getAllProduct(user_id);
             userModel.cataloglistList = userService.getAllCatalog(user_id);
+            userModel.videolistList= userService.getAllVideo(user_id);
+
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
             ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
             ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
@@ -102,6 +104,8 @@ namespace prj_BIZ_System.Controllers
             }
 
             Response.AppendCookie(cookie);
+            docookie("_mainmenu", "Register");
+
             return View(userModel);
         }
 

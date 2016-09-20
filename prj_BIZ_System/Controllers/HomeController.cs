@@ -61,9 +61,25 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult _HomeLeftPartial()
         {
-            indexModel.userinfoList = userService.GetUserInfoList();
+//            IList<EnterpriseSortListModel> result;
             indexModel.enterprisesortList = userService.GetSortList();
+            indexModel.userinfoList = userService.GetUserInfoList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
+
+            var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
+            if (isCacheON)
+            {
+                if (CacheDataStore.EnterpriseSortListModelCache == null)
+                {
+                    CacheDataStore.EnterpriseSortListModelCache = userService.GetSortList();
+                }
+                indexModel.enterprisesortList = CacheDataStore.EnterpriseSortListModelCache;
+            }
+            else
+            {
+                indexModel.enterprisesortList = userService.GetSortList();
+            }
+
             if (Request.Cookies["UserInfo"] != null)
             {
                 ViewBag.logoDir = UploadHelper.getPictureDirPath(Request.Cookies["UserInfo"]["user_id"], "logo");
@@ -104,60 +120,54 @@ namespace prj_BIZ_System.Controllers
 
                 indexModel.newsList = activityService.GetNewsType(Request["Type"], null).Pages(Request, this, 10);
             }
+            docookie("_mainmenu", "News");
             return View(indexModel);
         }
 
         public ActionResult Activity()
         {
             indexModel.activityinfoList = activityService.GetActivityInfoListNotStart(null).Pages(Request, this, 10);
+            docookie("_mainmenu", "Activity");
             return View(indexModel);
         }
 
 
         public ActionResult Company()
         {
-//            if (Request.Cookies["UserInfo"] != null)
-//            {
-                userModel.cataloglistList = userService.getAllCatalogTop(4);
-                userModel.enterprisesortList = userService.GetSortList();
-                ViewBag.coverDir = UploadConfig.UploadRootPath;
+            userModel.cataloglistList = userService.getAllCatalogTop(4);
+            userModel.enterprisesortList = userService.GetSortList();
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
 
-                return View(userModel);
- //           }
- //           else
- //               return Redirect("Login");
+            docookie("_mainmenu", "Company");
+            return View(userModel);
         }
 
         public ActionResult CompanyList()
         {
-//            if (Request.Cookies["UserInfo"] != null)
-//            {
-                userModel.cataloglistList = userService.getAllCatalogTop(4);
-                string sort_id = "";
-                string kw = "";
-                if (Request["companyName"]!= null)
-                    kw = Request["companyName"];
-                if (Request["sort_id"] != null)
-                    sort_id = Request["sort_id"];
+            userModel.cataloglistList = userService.getAllCatalogTop(4);
+            string sort_id = "";
+            string kw = "";
+            if (Request["companyName"]!= null)
+                kw = Request["companyName"];
+            if (Request["sort_id"] != null)
+                sort_id = Request["sort_id"];
 
-                if (sort_id != "")
-                {
-                    userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
-                    ViewBag.model = "companysortList";
-                }
-                else
-                {
-                    userModel.userinfoList = userService.SelectUserKw(kw);
-                    ViewBag.model = "userinfoList";
-                }
+            if (sort_id != "")
+            {
+                userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
+                ViewBag.model = "companysortList";
+            }
+            else
+            {
+                userModel.userinfoList = userService.SelectUserKw(kw);
+                ViewBag.model = "userinfoList";
+            }
 
 
-                ViewBag.coverDir = UploadConfig.UploadRootPath;
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
 
-                return View(userModel);
- //           }
- //           else
- //               return Redirect("Login");
+            docookie("_mainmenu", "CompanyList");
+            return View(userModel);
         }
 
         
@@ -167,6 +177,7 @@ namespace prj_BIZ_System.Controllers
             {
                 doNewsView();
 
+                docookie("_mainmenu", "NewsView");
                 return View(indexModel);
             }
             else

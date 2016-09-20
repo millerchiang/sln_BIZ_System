@@ -586,4 +586,7 @@ Any further question, please contact adminstrator.</value>
   <data name="lb_latest_video" xml:space="preserve">
     <value>Latest Video Catalog</value>
   </data>
+  <data name="lb_profile" xml:space="preserve">
+    <value>Company Profile</value>
+  </data>
 </root>

@@ -9,9 +9,6 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial", "User");
-    }
     <article class="article_col2">
         <h2 class="borderTitle">@Model.news.news_title</h2>
         <p class="news_content">
@@ -37,4 +34,7 @@
             }
         </p>
 </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>

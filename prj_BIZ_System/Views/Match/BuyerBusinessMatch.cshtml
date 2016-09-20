@@ -10,9 +10,6 @@
 }
 
 <div class="article_col1">
-   @{
-       Html.RenderAction("_NavSearchPartial", "User");
-    }
 
     <article class="form_box article_col2">
         <h2>商務對接</h2>
@@ -56,6 +53,9 @@
             </div>
         </form>
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 <script type="text/javascript">

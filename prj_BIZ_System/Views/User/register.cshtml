@@ -84,183 +84,189 @@
 
 }
 
+ <div class="article_col1">
+    <article class="form_box article_col2">
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_profile</h2>
 
-
-            <article class="form_box article_col1">
-
-                <h2>@ViewBag.tname</h2>
-
-@if (ViewBag.PageType != "Create")
-{
-                <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+        @*@if (ViewBag.PageType != "Create")
+        {
+            <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
                 <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
                 <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
                 <br /><br />
-}
-                <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
-                    <div class="regis_col01L">
+        }*@
+        <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
+            <div class="regis_col01L">
 
-                        <div id="result">
-                            @if (Model.userinfo.logo_img != null)
-                            {
-                                <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
-                            }
-                            else
-                            {
-                                <img src="/images/logopic.jpg" alt="">
-                            }
-                        </div>
-                        <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_logoupload</label>
-                        <input type="file" id="id_image_large" name="logo_img">
+                <div id="result">
+                    @if (Model.userinfo.logo_img != null)
+                    {
+                        <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                    }
+                    else
+                    {
+                        <img src="/images/logopic.jpg" alt="">
+                    }
+                </div>
+                <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_logoupload</label>
+                <input type="file" id="id_image_large" name="logo_img">
+            </div>
+            <div class="regis_col01R">
+                <!--
+                <div class="regis_completebox">
+                    <div class="regis_complete" style="width:70%">
+                        70%
                     </div>
-                    <div class="regis_col01R">
-                        <!--
-                        <div class="regis_completebox">
-                            <div class="regis_complete" style="width:70%">
-                                70%
-                            </div>
-                        </div>
-                        -->
-                        <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
+                </div>
+                -->
+                <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
 
-                        <label class="regis_col01R_label spanRed">
-                            @prj_BIZ_System.LanguageResource.User.lb_category
-                        </label>
-                        <div class="regis_col01R_input">
-                            <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01 onclick="tipstring('0')">
-                            <label for="enterprise_type01">@prj_BIZ_System.LanguageResource.User.lb_domestic</label>
-                            <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
-                            <label for="enterprise_type02">@prj_BIZ_System.LanguageResource.User.lb_foreign</label>
-                        </div>
-                        <label for="" class="regis_col01R_label spanRed">
-                            @prj_BIZ_System.LanguageResource.User.lb_account_info
-                        </label>
-                        @if (ViewBag.PageType == "Create")
-                        {
-                            <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" placeholder=" @prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid" onblur="chkuser()" required>
-                        }
-                        else
-                        {
-                            <input type="text" name="user_id" value="@Model.userinfo.user_id" readonly class="regis_col01R_input spanRed" required>
-                            @*<input type="hidden" name="user_id" value="@Model.userinfo.user_id">
-                            <label for="" class="regis_col01R_input">
-                                @Model.userinfo.user_id
-                            </label>*@
+                <label class="regis_col01R_label spanRed">
+                    @prj_BIZ_System.LanguageResource.User.lb_category
+                </label>
+                <div class="regis_col01R_input">
+                    <input type="radio" class="radioinput" id="enterprise_type01" name="enterprise_type" value="0" @enterprise_type01 onclick="tipstring('0')">
+                    <label for="enterprise_type01">@prj_BIZ_System.LanguageResource.User.lb_domestic</label>
+                    <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
+                    <label for="enterprise_type02">@prj_BIZ_System.LanguageResource.User.lb_foreign</label>
+                </div>
+                <label for="" class="regis_col01R_label spanRed">
+                    @prj_BIZ_System.LanguageResource.User.lb_account_info
+                </label>
+                @if (ViewBag.PageType == "Create")
+                {
+                    <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" placeholder=" @prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid " onblur="chkuser()" required>
+                }
+                else
+                {
+                    <input type="text" name="user_id" value="@Model.userinfo.user_id" readonly class="regis_col01R_input spanRed" required>
+                    @*<input type="hidden" name="user_id" value="@Model.userinfo.user_id">
+                        <label for="" class="regis_col01R_input">
+                            @Model.userinfo.user_id
+                        </label>*@
 
-                        }
+                }
 
-                        @if (ViewBag.PageType == "Create")
-                        {
-                            <label for="" class="regis_col01R_label spanRed">
-                                @prj_BIZ_System.LanguageResource.User.lb_password
-                            </label>
-                            <input name="user_pw" type="password"  value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_pwset8 required>
+                @if (ViewBag.PageType == "Create")
+                {
+                    <label for="" class="regis_col01R_label spanRed">
+                        @prj_BIZ_System.LanguageResource.User.lb_password
+                    </label>
+                            <input name="user_pw" type="password" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_pwset8 required>
                             <label for="" class="regis_col01R_label spanRed">
                                 @prj_BIZ_System.LanguageResource.User.lb_checknewpw
                             </label>
                             <input name="user_pw1" type="password" value="" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_reenterpw onblur="chkpw()" required>
 
-                        }
-                        else
-                        {
-                            <label for="" class="regis_col01R_label">
-                                @prj_BIZ_System.LanguageResource.User.lb_changepw
-                            </label>
+                }
+                else
+                {
+                    <label for="" class="regis_col01R_label">
+                        @prj_BIZ_System.LanguageResource.User.lb_changepw
+                    </label>
                             <div class="regis_col01R_input">
-                                <input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw"  required>
+                                <input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw" required>
                                 <a class="addbu" href="EditPasswd">@prj_BIZ_System.LanguageResource.User.lb_changepw</a>
                             </div>
-                        }
+                }
 
-						<label for="name" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
-						<input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
-						<label for="email" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_email</label>
-						<input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
+                <label for="name" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
+                <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
+                <label for="email" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_email</label>
+                <input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
 
-                    </div>
-					
-					<div class="form_box w100">
-						<h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
-						<label for="" class="regis_col02L spanRed">
-                            @prj_BIZ_System.LanguageResource.User.lb_companyname
-                        </label>
-                        <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R" required>
-						 <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-						<input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
-						<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-						<input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
-						<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-						<input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
-                        <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-                        <div class="regis_col02R">
-                            <textarea rows="4" name="info">@Model.userinfo.info</textarea>
-                        </div>
-					</div>
-					
-					<div class="form_box w100">
-						<h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
-						 <label for="" class="regis_col02L spanRed">
-                            @prj_BIZ_System.LanguageResource.User.lb_companyname
-                        </label>
-                        <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R" required>
-						<label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-						<input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
-						<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-						<input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
-						<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-						<input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
-                        <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-                        <div class="regis_col02R">
-                            <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
-                        </div>
-					</div>
-					
-					<br/><br/>
-                    <label for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
-                    <div class="regis_col02R">
-                        <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
-                    </div>
-                    <label for="revenue" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
-                    <div class="regis_col02R">
-                        <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
-                        <label for="revenue00">@prj_BIZ_System.LanguageResource.User.lb_0_5000k</label>
-                        <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
-                        <label for="revenue01">@prj_BIZ_System.LanguageResource.User.lb_5001k_10000k</label>
-                        <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02>
-                        <label for="revenue02">@prj_BIZ_System.LanguageResource.User.lb_10001_15000k</label>
-                        <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
-                        <label for="revenue03">@prj_BIZ_System.LanguageResource.User.lb_15001k_30000k</label>
-                        <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
-                        <label for="revenue04">@prj_BIZ_System.LanguageResource.User.lb_30001k_50000k</label>
-                        <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
-                        <label for="revenue05">@prj_BIZ_System.LanguageResource.User.lb_50001k_100000k</label>
-                        <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
-                        <label for="revenue06">@prj_BIZ_System.LanguageResource.User.lb_morethan100000k</label>
-                    </div>
-                    <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_scope (@prj_BIZ_System.LanguageResource.User.lb_multiple)</label>
-                    <div class="regis_col02R verticalslist">
+            </div>
 
-                    @foreach (var sortList in Model.enterprisesortList)
+            <div class="form_box w100">
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
+                <label for="" class="regis_col02L spanRed">
+                    @prj_BIZ_System.LanguageResource.User.lb_companyname
+                </label>
+                <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R" required>
+                <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                <input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
+                <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                <input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
+                <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                <input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
+                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                <div class="regis_col02R">
+                    <textarea rows="4" name="info">@Model.userinfo.info</textarea>
+                </div>
+            </div>
+
+            <div class="form_box w100">
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
+                <label for="" class="regis_col02L spanRed">
+                    @prj_BIZ_System.LanguageResource.User.lb_companyname
+                </label>
+                <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R" required>
+                <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                <input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
+                <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                <input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
+                <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                <input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
+                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                <div class="regis_col02R">
+                    <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
+                </div>
+            </div>
+
+            <br /><br />
+            <label for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+            <div class="regis_col02R">
+                <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+            </div>
+            <label for="revenue" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
+            <div class="regis_col02R">
+                <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
+                <label for="revenue00">@prj_BIZ_System.LanguageResource.User.lb_0_5000k</label>
+                <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
+                <label for="revenue01">@prj_BIZ_System.LanguageResource.User.lb_5001k_10000k</label>
+                <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02>
+                <label for="revenue02">@prj_BIZ_System.LanguageResource.User.lb_10001_15000k</label>
+                <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
+                <label for="revenue03">@prj_BIZ_System.LanguageResource.User.lb_15001k_30000k</label>
+                <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
+                <label for="revenue04">@prj_BIZ_System.LanguageResource.User.lb_30001k_50000k</label>
+                <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
+                <label for="revenue05">@prj_BIZ_System.LanguageResource.User.lb_50001k_100000k</label>
+                <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
+                <label for="revenue06">@prj_BIZ_System.LanguageResource.User.lb_morethan100000k</label>
+            </div>
+            <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_scope (@prj_BIZ_System.LanguageResource.User.lb_multiple)</label>
+            <div class="regis_col02R verticalslist">
+
+                @foreach (var sortList in Model.enterprisesortList)
+                {
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
                     {
-                        if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
-                        {
-                            <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
-                        }
-                        else
-                        {
-                            <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</label>
-                        }
-
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
                     }
-                    </div>
-                    <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
-                    <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
-                    <div class="centerbox">
-                        <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
-                    </div>
+                    else
+                    {
+                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</label>
+                    }
 
-                </form>
-            </article>
+                }
+            </div>
+            <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
+            <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
+            <div class="centerbox">
+                <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
+            </div>
+
+        </form>
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+</div>
+
+
+
+
 
 <script>
     $(function () {

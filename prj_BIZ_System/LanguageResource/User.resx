@@ -588,4 +588,7 @@
   <data name="lb_latest_video" xml:space="preserve">
     <value>最新影音型錄</value>
   </data>
+  <data name="lb_profile" xml:space="preserve">
+    <value>公司簡介</value>
+  </data>
 </root>

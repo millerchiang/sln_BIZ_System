@@ -9,16 +9,13 @@
 }
 
 <div class="article_col1">
-@{
-    Html.RenderAction("_NavSearchPartial","User");
-}
     <article class="article_col2 form_box">
         <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - @prj_BIZ_System.LanguageResource.User.lb_product_info</h2>
 
-        <a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
+        @*<a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
         <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
         <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
-        <br></br>
+        <br></br>*@
 
         <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
             <table class="regis_table">
@@ -74,6 +71,9 @@
 
         </form>
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 <script>
     $(function () {

@@ -2,10 +2,8 @@
 @model prj_BIZ_System.Models.Index_ViewModel
 
 <aside>
-    @if (Request["_mainmenu"]!=null && Request["_mainmenu"] == "Index")
-    {
-
-        if (Request.Cookies["UserInfo"] == null)
+    @{
+        if (Request.Cookies["UserInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
         {
             <!--login-->
         <div class="mg30 loginbox">
@@ -52,7 +50,7 @@
             <!--login-->
 
         }
-        else
+        else if (Request.Cookies["UserInfo"] != null)
         {
         <div class="mg30 userlist">
             @if (HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]) != "")
@@ -63,54 +61,21 @@
             }
             <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</h2>
             <ul class="userfn">
-                <li><a href="company_info_edit.html">公司簡介</a></li>
-                <li><a href="company_info_edit_product.html">公司產品</a></li>
-                <li><a href="company_info_edit_dm.html">線上型錄</a></li>
-                <li><a href="company_info_edit_dm_movie.html">影音型錄</a></li>
+                <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_profile</a></li>
+                <li><a href="/User/ProductList">@prj_BIZ_System.LanguageResource.User.lb_product_info</a></li>
+                <li><a href="/User/CatalogList">@prj_BIZ_System.LanguageResource.User.lb_pdf</a></li>
+                <li><a href="/User/VideoList">@prj_BIZ_System.LanguageResource.User.lb_video</a></li>
                 <li>
                     <a href="message_companylist.html">
                         未讀訊息
                         <span class="userfnmsg">100</span>
                     </a>
                 </li>
-                <li><a href="schedule.html">活動媒合</a></li>
+                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
             </ul>
         </div>
         }
     }
-
-    <div class="newsbox mg30">
-        <div class="newsboxTitle2">
-            <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h3>
-            <a href="Activity">More</a>
-        </div>
-        <ul class="newsboxList01 listlink dmicon">
-            @{
-                var activity_name = "";
-                foreach (var activityList in Model.activityinfoList)
-                {
-                    activity_name = activityList.activity_name;
-
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (activityList.activity_name_en != null && activityList.activity_name_en != "")
-                        {
-                            activity_name = activityList.activity_name_en;
-                        }
-                    }
-
-                    <li>
-                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
-                            <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
-                            @activity_name
-                        </a>
-                    </li>
-                }
-            }
-
-
-        </ul>
-    </div>
 
     <div class="searchdiv mg30">
         <div class="newsboxTitle2">
@@ -140,6 +105,40 @@
             <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
         </form>
     </div>
+
+    <div class="newsbox mg30">
+        <div class="newsboxTitle2">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h3>
+            <a href="/Home/Activity">More</a>
+        </div>
+        <ul class="newsboxList01 listlink dmicon">
+            @{
+                var activity_name = "";
+                foreach (var activityList in Model.activityinfoList)
+                {
+                    activity_name = activityList.activity_name;
+
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (activityList.activity_name_en != null && activityList.activity_name_en != "")
+                        {
+                            activity_name = activityList.activity_name_en;
+                        }
+                    }
+
+                    <li>
+                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
+                            <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
+                            @activity_name
+                        </a>
+                    </li>
+                }
+            }
+
+
+        </ul>
+    </div>
+
 
     <div class="regis_dmlist3 mg30">
         <div class="newsboxTitle2">
