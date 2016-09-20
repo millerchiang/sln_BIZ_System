@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.User_ViewModel
 
 @{
-    ViewBag.Title = "News";
+    ViewBag.Title = "CompanyList";
 }
 @section pagestyle{
     <link href="/stylesheets/company_info.css" rel="stylesheet" />
@@ -10,9 +10,6 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial", "User");
-    }
     <article class="article_col2">
         <h2 class="borderTitle">
             @prj_BIZ_System.LanguageResource.User.lb_company
@@ -78,6 +75,10 @@
             </ul>
         </section>
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
 </div>
 @Scripts.Render("~/bundles/fancybox")
 
@@ -93,7 +94,7 @@
             type: 'iframe'
         });
         $("#deleteLink").click(function () {
-            if (confirm("是否確認要刪除")) {
+            if (confirm("@prj_BIZ_System.LanguageResource.User.lb_deleteornot")) {
                 $("#deleteForm").submit();
             }
         });

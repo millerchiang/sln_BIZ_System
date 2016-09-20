@@ -117,7 +117,7 @@
   padding-left: 5px;
   position: relative;
   box-sizing: border-box;
-  background: #f7f7f7;
+  background: #f4f4f4;
   border-right: 10px solid #ffffff;
   font-size: 0.875em;
 }
@@ -128,6 +128,38 @@
   left: -5px;
   height: 15px;
   top: 7px;
+}
+
+.regis_col_bg3 {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 5px 0;
+  line-height: 29px;
+  display: block;
+  font-size: 0.875em;
+  padding-left: 15px;
+}
+.regis_col_bg3:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: 5px;
+  height: 15px;
+  top: 7px;
+}
+
+.bgbox {
+  background: #f4f4f4;
+  margin: 0 0 15px 0;
+  display: inline-block;
+  padding: 10px 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bgbox2 {
+  background: #FFFFE1;
 }
 
 .verticalslist .inputCheckbox + label {
@@ -334,7 +366,7 @@ textarea {
   max-height: 100%;
 }
 
-#result + .choose_file + input {
+#result + .choose_file + input, #resultB + .choose_file + input {
   display: none;
 }
 
@@ -379,6 +411,122 @@ textarea {
 .dmname input {
   width: 290px;
   height: 20px;
+}
+
+.productlist li {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  position: relative;
+  margin: 10px 0;
+}
+.productlist li:hover {
+  background: #f4f4f4;
+}
+.productlist li.activeBg {
+  background: #e9e8e8;
+}
+.productlist li + li:before {
+  content: "";
+  border-top: 1px solid #cccccc;
+  width: 100%;
+  position: absolute;
+  top: -11px;
+  left: 0;
+}
+.productlist .imgbox {
+  float: left;
+  clear: left;
+  width: 105px;
+  height: 105px;
+  background: #f7f7f7;
+  position: relative;
+  margin-right: 10px;
+}
+.productlist .imgbox img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.productlist .productbu {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100%;
+}
+.productlist a {
+  float: right;
+}
+.productlist a + a {
+  margin-right: 10px;
+}
+.productlist a.addbu.active {
+  background: #e76212;
+}
+.productlist h3, .productlist p {
+  font-size: 0.938em;
+  line-height: 1.6;
+}
+.productlist .producttext {
+  min-height: 105px;
+  box-sizing: border-box;
+  padding-bottom: 30px;
+}
+.productlist .productCheckT h3 {
+  padding-right: 55px;
+}
+.productlist .productCheck {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.productlist2 .imgbox {
+  width: 80px;
+  height: 80px;
+  background: #f7f7f7;
+  position: relative;
+}
+.productlist2 .imgbox img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.imgboxB {
+  width: 450px;
+  height: 450px;
+  background: #f7f7f7;
+  position: relative;
+  margin: 0 auto 30px auto;
+  border: 1px solid #cccccc;
+}
+.imgboxB img {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 @media only screen and (min-width: 600px) {
@@ -466,6 +614,12 @@ textarea {
   }
   .databu + a {
     margin-left: 10px;
+  }
+
+  .imgboxB {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
   }
 }
 @media only screen and (max-width: 490px) {

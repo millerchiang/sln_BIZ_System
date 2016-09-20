@@ -11,9 +11,6 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial", "User");
-    }
     <article class="article_col2">
 
         <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.User.lb_activityinfo</h2>
@@ -111,6 +108,11 @@
             <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
          </div>
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
+
 </div>
 <div id="dialog" title="註冊會員" style="display:none;">
     <p>

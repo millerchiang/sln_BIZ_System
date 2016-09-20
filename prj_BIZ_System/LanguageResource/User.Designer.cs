@@ -682,6 +682,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 說明 的當地語系化字串。
+        /// </summary>
+        public static string lb_explain {
+            get {
+                return ResourceManager.GetString("lb_explain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 常見問題 的當地語系化字串。
         /// </summary>
         public static string lb_faqs {
@@ -745,6 +754,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 企業資料說明 的當地語系化字串。
+        /// </summary>
+        public static string lb_info {
+            get {
+                return ResourceManager.GetString("lb_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 最新活動 的當地語系化字串。
         /// </summary>
         public static string lb_latest_activity {
@@ -781,6 +799,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 最新影音型錄 的當地語系化字串。
+        /// </summary>
+        public static string lb_latest_video {
+            get {
+                return ResourceManager.GetString("lb_latest_video", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 最新型錄 的當地語系化字串。
         /// </summary>
         public static string lb_latestcatalog {
@@ -799,7 +826,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 登入 的當地語系化字串。
+        ///   查詢類似 會員登入 的當地語系化字串。
         /// </summary>
         public static string lb_login {
             get {
@@ -1119,6 +1146,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_product_name {
             get {
                 return ResourceManager.GetString("lb_product_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 公司簡介 的當地語系化字串。
+        /// </summary>
+        public static string lb_profile {
+            get {
+                return ResourceManager.GetString("lb_profile", resourceCulture);
             }
         }
         

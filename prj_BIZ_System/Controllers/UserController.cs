@@ -39,17 +39,20 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult UserInfo()
         {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
+//            if (Request.Cookies["UserInfo"] == null)
+//                return Redirect("~/Home/Index");
             string user_id = Request["user_id"];
 //            userModel.enterprisesortList = userService.GetSortList();
             userModel.userinfo = userService.GeUserInfoOne(user_id);
             userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
             userModel.productsortList = userService.getAllProduct(user_id);
             userModel.cataloglistList = userService.getAllCatalog(user_id);
+            userModel.videolistList= userService.getAllVideo(user_id);
+
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
             ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
             ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
+            docookie("_mainmenu", "UserInfo");
             return View(userModel);
         }
 
@@ -101,6 +104,8 @@ namespace prj_BIZ_System.Controllers
             }
 
             Response.AppendCookie(cookie);
+            docookie("_mainmenu", "Register");
+
             return View(userModel);
         }
 
@@ -259,6 +264,27 @@ namespace prj_BIZ_System.Controllers
             {
                 return Json("error");
             }
+        }
+
+        public ActionResult ProductListEdit()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
+        }
+
+        public ActionResult ProductDetail()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
+        }
+
+        public ActionResult ProductDetailEdit()
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+            return View();
         }
         #endregion
 
