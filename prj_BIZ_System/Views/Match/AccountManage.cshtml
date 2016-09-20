@@ -47,12 +47,12 @@
                                 <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
                                 <div class="centerbox">
                                     <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
-                                    @if (activityRegisterModel.seller_select == "0")
+                                    @if (activityRegisterModel.seller_select.Equals("0") && activityRegisterModel.matchmaking_select.Equals("0"))
                                     {
                                         <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
                                     }
                                     else {
-                                        <a href="@Url.Action("WhetherMetchBuyer", "Match", new { activity_id = activityRegisterModel.activity_id })" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                        <a href="@Url.Action("WhetherMetchBuyer", "Match", new { activity_id = activityRegisterModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
                                     }
                                 </div>
                             </li>

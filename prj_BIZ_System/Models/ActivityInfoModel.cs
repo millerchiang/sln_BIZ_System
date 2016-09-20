@@ -44,6 +44,9 @@ namespace prj_BIZ_System.Models
         public int? grp_id { get; set; }//群組
         public DateTime starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
         public DateTime? endtime { get; set; }//活動時間(迄) yyyy/mm/dd hh:mm
+
+        private bool ischeck = false;
+        public bool Ischeck { get; set; }//判斷買主是否被勾選
     }
 
     public class UserInfoToIdAndCpModel

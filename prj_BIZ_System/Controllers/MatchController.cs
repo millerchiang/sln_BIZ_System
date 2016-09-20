@@ -6,16 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using System.Collections;
 using System.Collections.Generic;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
     public class MatchController : Controller
     {
+        public ActivityService activityService;
         public MatchService matchService;
         public Match_ViewModel matchModel;
 
         public MatchController()
         {
+            activityService = new ActivityService();
             matchService = new MatchService();
             matchModel = new Match_ViewModel();
         }
@@ -45,18 +48,21 @@ namespace prj_BIZ_System.Controllers
 
             int activity_id = int.Parse(Request["activity_id"]);
 
+            ActivityInfoModel activityInfoModel =  activityService.GetActivityInfoOne(activity_id);
+
+
             //matchModel.matchmakingNeedList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
-            matchModel.matchmakingAllList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
+            //matchModel.matchmakingAllList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
 
 
-            if (matchModel.matchmakingAllList.Any())
+            if(activityInfoModel.matchmaking_select.Equals("0") && activityInfoModel.seller_select.Equals("1"))
+            {
+                return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
+            }
+            else
             {
                 return Redirect("MatchTimeArrangeSeller?activity_id=" + activity_id);
             }
-            else {
-                return Redirect("SellerBusinessMatch?activity_id=" + activity_id);
-            }
-
         }
         #endregion
 
@@ -67,27 +73,80 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Login");
 
-            ViewBag.Action = "EditSellerMatchBuyerToInsert";
+            //ViewBag.Action = "EditSellerMatchBuyerToInsert";
+            ViewBag.Action = "EditSellerMatchBuyerToInsertUpdate";
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
+            string[] buyerArray = matchService.GetCertainActivitySellerCheckBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]).Select(model => model.buyer_id).ToArray();
+
+
+            foreach (BuyerInfoModel model in matchModel.buyerinfoList)
+            {
+                if (buyerArray.Contains(model.buyer_id))
+                {
+                    model.Ischeck = true;
+                }
+            }
+
+            if (buyerArray.Any())
+            {
+                ViewBag.PageType = "Edit";
+                ViewBag.SubmitName = "修改";
+            }
+            else {
+                ViewBag.PageType = "Create";
+                ViewBag.SubmitName = "新增";
+            }
+
             return View(matchModel);
         }
 
         [HttpPost]
-        public ActionResult EditSellerMatchBuyerToInsert(MatchmakingAllModel matchmakingAllModel, string[] buyer_id)
+        public ActionResult EditSellerMatchBuyerToInsertUpdate(MatchmakingAllModel matchmakingAllModel, IList<string> buyer_id, int[] serial_no)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Login");
 
             matchmakingAllModel.seller_id = Request.Cookies["UserInfo"]["user_id"];
-            //matchmakingNeedModel.buyer_reply = "0";
 
-            foreach (string id in buyer_id)
+            var oldSellerneedList = matchService.getMatchmakingSellerneedList(matchmakingAllModel.activity_id, matchmakingAllModel.seller_id).Select(model => new { model.serial_no, model.buyer_id }).ToList();
+            IList<string> oldBuyer_id = new List<string>();
+
+            if (oldSellerneedList.Count == 0)
             {
-                matchmakingAllModel.buyer_id = id;
-                matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                foreach (string id in buyer_id)
+                {
+                    matchmakingAllModel.buyer_id = id;
+                    matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                }
+            }
+            else
+            {
+                foreach (var oldsellerneed in oldSellerneedList)
+                {
+                    if (buyer_id == null)
+                    {
+                        buyer_id = new List<string>();
+                    }
+
+                    if (!buyer_id.Contains(oldsellerneed.buyer_id))
+                    {
+                        matchService.MatchmakingSellerneedDelete(oldsellerneed.serial_no);
+                    }
+
+                    oldBuyer_id.Add(oldsellerneed.buyer_id);
+                }
+                var buyerArray = buyer_id.Except(oldBuyer_id);//取差集
+
+                foreach (string except_id in buyerArray)
+                {
+                    matchmakingAllModel.buyer_id = except_id;
+                    matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                }
             }
 
-            return Redirect("MatchTimeArrangeSeller?activity_id=" + matchmakingAllModel.activity_id);
+            return Redirect("SellerBusinessMatch?activity_id=" + matchmakingAllModel.activity_id);
+
+            //return Redirect("MatchTimeArrangeSeller?activity_id=" + matchmakingAllModel.activity_id);
         }
         #endregion
 
