@@ -59,6 +59,33 @@
   border-color: transparent transparent transparent #f46813;
 }
 
+.newsboxList01 {
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 100%;
+}
+.newsboxList01 li {
+  border-bottom: 1px dotted #cccccc;
+  line-height: 2em;
+  padding-left: 10px;
+}
+.newsboxList01 li a:link, .newsboxList01 li a:visited, .newsboxList01 li a:hover, .newsboxList01 li a:focus, .newsboxList01 li a:active {
+  font-size: 0.938em;
+  position: relative;
+  display: inline-block;
+  line-height: 1.6;
+}
+.newsboxList01 li a span {
+  color: #9e9e9e;
+}
+.newsboxList01 li a:hover span {
+  color: #03a9f5;
+}
+.newsboxList01.dmicon a:before {
+  top: 9px;
+}
+
 .newsboxList02 {
   display: inline-block;
   width: 100%;

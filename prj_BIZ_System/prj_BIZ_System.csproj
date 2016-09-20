@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -946,6 +945,9 @@
     <Content Include="Views\Sales\SalesInfoByCompany.cshtml" />
     <Content Include="Views\Sales\SalesInfoBySales.cshtml" />
     <Content Include="Views\Home\_HomeLeftPartial.cshtml" />
+    <Content Include="Views\User\ProductDetail.cshtml" />
+    <Content Include="Views\User\ProductDetailEdit.cshtml" />
+    <Content Include="Views\User\ProductListEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
