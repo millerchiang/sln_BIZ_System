@@ -591,4 +591,7 @@
   <data name="lb_profile" xml:space="preserve">
     <value>公司簡介</value>
   </data>
+  <data name="lb_prod_model_no" xml:space="preserve">
+    <value>型號</value>
+  </data>
 </root>

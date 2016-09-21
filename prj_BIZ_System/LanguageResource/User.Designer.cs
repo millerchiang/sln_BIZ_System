@@ -1123,6 +1123,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 型號 的當地語系化字串。
+        /// </summary>
+        public static string lb_prod_model_no {
+            get {
+                return ResourceManager.GetString("lb_prod_model_no", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 公司產品 的當地語系化字串。
         /// </summary>
         public static string lb_product_company {

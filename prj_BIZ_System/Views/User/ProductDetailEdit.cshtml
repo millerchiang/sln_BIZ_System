@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.ProductListModel
 
 @{
-    ViewBag.Title = "ProductList";
+   //ViewBag.Title = "ProductList";
 }
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
@@ -16,7 +16,7 @@
             <a href="company_info_edit_dm_movie.html" class="databu databu04">影音型錄</a>
         </div>
 
-        <form action="">
+        <form id="form" action="@Url.Action("doProductInsertOrUpdate","User")" method="post" enctype="multipart/form-data">
             <div class="magb30 centerbox2">
                 <div class="imgboxB" id="resultB">
                     <img src="../../images/product/p12b.jpg" alt="">
@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div class="centerbox">
-                <a href="@Url.Action("ProductListEdit","User",new { user_id = ViewBag.user_id })" class="addbublue">儲存</a>
+                <a href="javascript:void(0)" class="addbublue" onclick="doSubmit()">儲存</a>
             </div>
 
         </form>
@@ -102,125 +102,7 @@
     $(function () {
         init();
     });
-    function init() {
-
-        var $addItemLint = $("#addItemLink");
-        var g_no = 1;
-        $addItemLint.click(function (e) {
-            $("table.regis_table").append(genTemplate(g_no++));
-            $(this).appendTo($("table.regis_table tr").last().find("td").last());
-        });
-
-        $("tr._old_prods").find("input[type='text']").change(function () {
-            $(this).parents("tr").find("input[name='isChanged']").val('true');
-        });
-
-        $("#deleteLink").click(function () {
-            if (confirm("確認是否要刪除")) {
-                var $selected = $("tr").find("input[name='product_id']:checked");
-                var del_prods = [];
-                $selected.each(function (index, el) {
-                    var value = $(el).val();
-                    if (value != null && value != '') {
-                        del_prods.push(value);
-                    }
-                });
-                var param = {
-                    "del_prods": del_prods
-                };
-
-                $.ajax({
-                    type: "post",
-                    url: "@Url.Action("ProductDelete", "User")",
-                    cache: false,
-                    data: param,
-                    dataType: "json"
-                }).done(function(result) {
-                    if (result == 'success') {
-                        alert("刪除成功");
-                    } else {
-                        alert("刪除失敗");
-                    }
-                    location.reload();
-                });
-            }
-        });
-
-        $("#saveLink").click(function () {
-            var old_prods = [];
-            var new_prods = [];
-
-            $("tr._old_prods").each(function (index, el) {
-                var isChanged = $(el).find("input[name='isChanged']").val();
-                if (isChanged == 'true') {
-                    new_ProductListModel(old_prods, el);
-                }
-            });
-
-            $("tr._new_prods").each(function (index, el) {
-                new_ProductListModel(new_prods, el);
-            });
-
-            var param = {
-                "old_prods": old_prods ,
-                "new_prods": new_prods
-            };
-
-            $.ajax({
-                type: "post",
-                url: "@Url.Action("ProductInsert", "User")",
-                cache: false,
-                data: param,
-                dataType: "json"
-            }).done(function(result) {
-                if (result == 'success') {
-                    alert("新增成功");
-                } else {
-                    alert("新增失敗");
-                }
-                location.reload();
-            });
-
-        })
-    }
-
-    function new_ProductListModel(collection, el) {
-        var product_id      = $(el).find("input[name='product_id']").val();
-        var product_name    = $(el).find("input[name='product_name']").val();
-        var product_name_en = $(el).find("input[name='product_name_en']").val();
-        var product_info    = $(el).find("input[name='product_info']").val();
-        var product_info_en = $(el).find("input[name='product_info_en']").val();
-        if (product_name != '' || product_name_en != '' || product_info != '' || product_info_en!='') {
-            collection.push(
-                {
-                    "product_id"      : product_id,
-                    "product_name"    : product_name,
-                    "product_name_en" : product_name_en,
-                    "product_info"    : product_info,
-                    "product_info_en" : product_info_en
-                }
-            );
-        }
-    }
-
-    function genTemplate(no) {
-        var template =
-           '<tr class="_new_prods">                                                                                 ' +
-           '	<td>                                                                                                ' +
-           //'		<input type="checkbox" class="inputCheckbox" name="product_id" id="product'+ no +'" value="">   ' +
-           //'		<label for="product'+no+'"></label>                                                             ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">           ' +
-           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">           ' +
-           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	</td>                                                                                               ' +
-           '</tr>                                                                                                   ' ;
-        return template;
+    function doSubmit() {
+        $("#form").submit();
     }
 </script>

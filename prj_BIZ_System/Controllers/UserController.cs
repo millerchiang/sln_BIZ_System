@@ -45,7 +45,7 @@ namespace prj_BIZ_System.Controllers
 //            userModel.enterprisesortList = userService.GetSortList();
             userModel.userinfo = userService.GeUserInfoOne(user_id);
             userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
-            userModel.productsortList = userService.getAllProduct(user_id);
+            userModel.productsortList = userService.getAllProduct(user_id).Pages<ProductListModel>(Request, this, 10);
             userModel.cataloglistList = userService.getAllCatalog(user_id);
             userModel.videolistList= userService.getAllVideo(user_id);
 
@@ -225,7 +225,7 @@ namespace prj_BIZ_System.Controllers
         #region 產品說明
         public ActionResult ProductList(string user_id)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             //string user_id = Request.Cookies["Action"]["user_id"];
             ViewBag.user_id = user_id;
@@ -236,7 +236,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult doProductInsertOrUpdate(ProductListModel model)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
             if(model.product_id == null)
@@ -256,11 +256,11 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ProductDelete(int[] del_prods)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             try
             {
-                string user_id =  Request.Cookies["Action"]["user_id"];
+                string user_id =  Request.Cookies["UserInfo"]["user_id"];
                 bool isDelSuccess = userService.ProductListDelete(user_id, del_prods);
                 return Json("success");
             }
@@ -273,11 +273,11 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult ProductInsert(List<ProductListModel> old_prods, List<ProductListModel> new_prods)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             try
             {
-                string user_id =  Request.Cookies["Action"]["user_id"];
+                string user_id =  Request.Cookies["UserInfo"]["user_id"];
                 userService.ProductListRefresh(user_id, old_prods, new_prods);
                 return Json("success");
             }
@@ -289,16 +289,16 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ProductListEdit()
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["Action"]["user_id"];
-            IList<ProductListModel> productLists = userService.getAllProduct(user_id);
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            IList<ProductListModel> productLists = userService.getAllProduct(user_id).Pages< ProductListModel>(Request,this,10);
             return View(productLists);
         }
 
         public ActionResult ProductDetail(int? product_id)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
             ProductListModel result = userService.getProductOne(product_id);
@@ -307,10 +307,10 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ProductDetailEdit(int? product_id)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             ProductListModel result = userService.getProductOne(product_id);
-            return View(result);
+            return result==null? View(new ProductListModel()) : View(result);
         }
         #endregion
 

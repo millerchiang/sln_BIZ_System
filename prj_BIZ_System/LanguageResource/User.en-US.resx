@@ -589,4 +589,7 @@ Any further question, please contact adminstrator.</value>
   <data name="lb_profile" xml:space="preserve">
     <value>Company Profile</value>
   </data>
+  <data name="lb_prod_model_no" xml:space="preserve">
+    <value>model number</value>
+  </data>
 </root>
