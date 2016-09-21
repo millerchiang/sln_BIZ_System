@@ -65,6 +65,7 @@ namespace prj_BIZ_System.Controllers
             indexModel.enterprisesortList = userService.GetSortList();
             indexModel.userinfoList = userService.GetUserInfoList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
+            indexModel.videolistList = userService.getAllVideoTop(1);
 
             var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
             if (isCacheON)
@@ -249,22 +250,14 @@ namespace prj_BIZ_System.Controllers
 
             if (model == null)
             {
-                TempData["pw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
+                TempData["userpw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
                 return Redirect("Index");
             }
             else
             {
-//                cookie = new HttpCookie("UserInfo");
-//                cookie.Values.Add("id_enable", model.id_enable);
-
-                //                Response.Cookies["UserInfo"]["id_enable"] = model.id_enable;
-                //                Response.Cookies["UserInfo"]["user_id"] = model.user_id;
                 if (model.id_enable == "0")
                 {
-                    //                    Response.AppendCookie(cookie);
-                    //                    return Redirect("../User/register?user_id=" + model.user_id);
                     return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
-
                 }
 
                 cookie = new HttpCookie("UserInfo");
@@ -277,9 +270,6 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
                 Response.AppendCookie(cookie);
 
-                //                Response.Cookies["UserInfo"]["company"] = model.company;
-                //                Response.Cookies["UserInfo"]["website"] = model.website;
-                //                Response.Cookies["UserInfo"]["info"] = model.info;
             }
             return Redirect("Index");
         }
@@ -298,15 +288,15 @@ namespace prj_BIZ_System.Controllers
         }
 
 
-        public ActionResult MailValidateResult()
-        {
-            var result = TempData["MailValidateResult"];
-            if(result == null)
-            {
-                result = "";
-            }
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult MailValidateResult()
+        //{
+        //    var result = TempData["MailValidateResult"];
+        //    if(result == null)
+        //    {
+        //        result = "";
+        //    }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult ForgetPassword()
         {

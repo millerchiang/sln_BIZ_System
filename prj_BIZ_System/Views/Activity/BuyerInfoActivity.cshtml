@@ -5,23 +5,28 @@
 @{
     ViewBag.Title = "買主資訊列表";
 }
+<div class="article_col1">
 
-<article class="form_box article_col1">
-    <h2>買主資訊列表</h2>
-    <table class="edittable">
-        <tr>
-            <th>買主帳號</th>
-            <th>公司名稱</th>
-            <th>買主媒合需求</th>
-        </tr>
-        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-        {
+    <article class="form_box article_col2">
+        <h2>買主資訊列表</h2>
+        <table class="edittable">
             <tr>
-                <td><a href="/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.buyer_id</a></td>
-                <td>@buyerInfoModel.company</td>
-                <td>@buyerInfoModel.buyer_need</td>
+                <th>買主帳號</th>
+                <th>公司名稱</th>
+                <th>買主媒合需求</th>
             </tr>
-        }
-    </table>
+            @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+            {
+                <tr>
+                    <td><a href="/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.buyer_id</a></td>
+                    <td>@buyerInfoModel.company</td>
+                    <td>@buyerInfoModel.buyer_need</td>
+                </tr>
+            }
+        </table>
 
-</article>
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+</div>

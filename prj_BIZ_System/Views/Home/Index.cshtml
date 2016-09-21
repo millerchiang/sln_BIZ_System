@@ -7,6 +7,7 @@
 @section pagestyle{
     <link href="/stylesheets/index.css" rel="stylesheet" />
     <link rel="stylesheet" href="/Scripts/bxslider/jquery.bxslider.css">
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -53,7 +54,7 @@
 
             <div class="mg30">
                 <div class="newsboxTitle">
-                    <h3>最新上架型錄</h3>
+                    <h3>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h3>
                     <a href="">More</a>
                 </div>
                 <ul class="regis_dmlist">
@@ -113,30 +114,72 @@
             Html.RenderAction("_HomeLeftPartial", "Home");
         }
     </div>
+<div id="dialog" title="訊息" style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+    </p>
+</div>
+
 
 @Scripts.Render("~/bundles/fancybox")
 
 <script type="text/javascript" src="/Scripts/regis.js"></script>
 <script type="text/javascript" src="/Scripts/bxslider/jquery.bxslider.min.js"></script>
+<script type="text/javascript"
+        src="/Scripts/jquery-ui-1.10.2.min.js">
+</script>
 
 <script type="text/javascript" language="javascript">
 
     $(function () {
         init();
 
-         @if (!string.IsNullOrEmpty((string)TempData["fp_errMsg"]))
+         @if (!string.IsNullOrEmpty((string)TempData["userpw_errMsg"]))
         {
             <text>
             function check() {
-                var pw_errMsg = '@TempData["fp_errMsg"]';
+                var pw_errMsg = '@TempData["userpw_errMsg"]';
                 if (pw_errMsg != ''){
-                      alert(pw_errMsg);
+//                   alert(pw_errMsg);
+                    $("#dialog").dialog({
+                        autoOpen: true,
+                        modal: true,
+                        buttons: {
+                            "確定": function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    $(".instext").text(pw_errMsg);
                 }
             }
              check();
             </text>
         }
-        loadData();
+
+         @if (!string.IsNullOrEmpty((string)TempData["MailValidateResult"]))
+        {
+            <text>
+            function check1() {
+                var MailValidateResult = '@TempData["MailValidateResult"]';
+                if (MailValidateResult != '') {
+//                    alert(MailValidateResult);
+                    $("#dialog").dialog({
+                        autoOpen: true,
+                        modal: true,
+                        buttons: {
+                            "確定": function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                    $(".instext").text(MailValidateResult);
+             }
+         }
+             check1();
+        </text>
+    }
+
     });
 
     function init() {
@@ -145,20 +188,6 @@
             height: 300,
             type: 'iframe'
         });
-    }
-
-    function loadData (){
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("MailValidateResult", "Home")",
-            cache: false,
-        dataType: "json",
-        success: function (msg) {
-            if (msg != '') {
-                alert(msg);
-            }
-        }
-    });
     }
 
 		$(document).ready(function() {

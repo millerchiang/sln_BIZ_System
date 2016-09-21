@@ -13,7 +13,7 @@ using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Controllers
 {
-    public class ActivityController : Controller
+    public class ActivityController : _BaseController
     {
         public ActivityService activityService;
         public UserService userService;
@@ -55,6 +55,7 @@ namespace prj_BIZ_System.Controllers
 //                return Redirect("~/Home/Index");
 
             activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"]));
+            docookie("_mainmenu", "BuyerInfoActivity");
             return View(activityModel);
 
         }
