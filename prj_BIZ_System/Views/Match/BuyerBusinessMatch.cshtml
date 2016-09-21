@@ -24,9 +24,20 @@
                     <tr>
                         <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb">@activityRegisterModel.company</a></td>
                         <td>
-                            <input type="checkbox" class="inputCheckbox" name="seller_id"
-                                   id="Seller@(activityRegisterModel.register_id)"
-                                   value="@activityRegisterModel.user_id">
+                            @if (activityRegisterModel.Ischeck == true)
+                            {
+                                <input type="checkbox" class="inputCheckbox" name="seller_id"
+                                       id="Seller@(activityRegisterModel.register_id)"
+                                       value="@activityRegisterModel.user_id" checked="checked">
+
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="inputCheckbox" name="seller_id"
+                                       id="Seller@(activityRegisterModel.register_id)"
+                                       value="@activityRegisterModel.user_id">
+
+                            }
                             <label for="Seller@(activityRegisterModel.register_id)"></label>
                             <input type="hidden" name="activity_id" value="@activityRegisterModel.activity_id">
                         </td>
@@ -49,7 +60,7 @@
                 }*@
             </table>
             <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">確定送出</button>
+                <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
             </div>
         </form>
     </article>
@@ -61,13 +72,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $("#submitInfo").click(function () {
-            if (confirm('提示訊息:送出後無法更改，請警慎填寫')) {
-                return true
-            } else {
-                return false
-            }
-        });
+        //$("#submitInfo").click(function () {
+        //    if (confirm('提示訊息:送出後無法更改，請警慎填寫')) {
+        //        return true
+        //    } else {
+        //        return false
+        //    }
+        //});
 
     });
 </script>

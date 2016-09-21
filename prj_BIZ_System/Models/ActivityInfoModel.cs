@@ -41,6 +41,7 @@ namespace prj_BIZ_System.Models
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
         public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)
+        public string matchmaking_select { get; set; }//是否顯示媒合時程 (0：否；1：是)
 
         public int? grp_id { get; set; }//群組
         public DateTime starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
@@ -86,6 +87,8 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
         public string buyer_need { get; set; }//BuyerInfoModel 的 買主媒合需求
         public int? grp_id { get; set; }//群組
+        private bool ischeck = false;
+        public bool Ischeck { get; set; }//判斷賣家是否被勾選
     }
 
     public class NewsModel
