@@ -24,14 +24,24 @@
                     <th>想與買主洽談</th>
                 </tr>
                 @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-                {    
+                {
                     <tr>
                         <td><a href="@Url.Action("UserInfo","User", new { user_id = buyerInfoModel.buyer_id})" class="linkb">@buyerInfoModel.company</a></td>
                         <td>@buyerInfoModel.buyer_need</td>
                         <td>
-                            <input type="checkbox" class="inputCheckbox" name="buyer_id" 
-                                   id="buyer@(buyerInfoModel.serial_no)"
-                                   value="@buyerInfoModel.buyer_id">
+                            
+                            @if (buyerInfoModel.Ischeck == true)
+                            {
+                                <input type="checkbox" class="inputCheckbox" name="buyer_id"
+                                       id="buyer@(buyerInfoModel.serial_no)"
+                                       value="@buyerInfoModel.buyer_id" checked="checked">
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="inputCheckbox" name="buyer_id"
+                                       id="buyer@(buyerInfoModel.serial_no)"
+                                       value="@buyerInfoModel.buyer_id">
+                            }
                             <label for="buyer@(buyerInfoModel.serial_no)"></label>
                             <input type="hidden" name="activity_id" value="@buyerInfoModel.activity_id">
                         </td>
@@ -39,7 +49,8 @@
                 }
             </table>
             <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">確定送出</button>
+                @*<button id="submitInfo" type="submit" class="submitbuRed">確定送出</button>*@
+                <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
             </div>
         </form>
     </article>

@@ -9,9 +9,6 @@
 }
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial", "User");
-    }
     <article class="article_col2">
         <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h2>
 
@@ -31,4 +28,9 @@
 
 
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
+
 </div>

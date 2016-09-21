@@ -1,0 +1,182 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+<aside>
+    @{
+        if (Request.Cookies["UserInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
+        {
+            <!--login-->
+        <div class="mg30 loginbox">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_login</h3>
+            <div class="login_idlist" id="tabA">
+                <a href="javascript:void(0)" title="企業會員" class="login_id login_id1 active">企</a>
+                <a href="javascript:void(0)" title="業務會員" class="login_id login_id2">業</a>
+                <a href="javascript:void(0)" title="生管會員" class="login_id login_id3">生</a>
+            </div>
+            <div class="loginfrom" id="tabbox">
+
+                <form id="form" action="~/Home/IdentifyUser">
+
+                    <input type="text" name="user_id" placeholder="@prj_BIZ_System.LanguageResource.User.lb_user_id" required>
+                    <input type="password" name="user_pw" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
+
+                    <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
+                    <a href="/User/Register?user_id=new" class="loginbox_newid">@prj_BIZ_System.LanguageResource.User.lb_newid </a>
+                </form>
+
+                <form id="form2" action="/Home/IdentifyUser" style="display:none">
+                    <input type="text" name="user_id1" placeholder="@prj_BIZ_System.LanguageResource.User.lb_user_id" required>
+                    <input type="password" name="user_pw1" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
+                    <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
+                </form>
+
+                <form id="form3" action="/Home/IdentifyUser" style="display:none">
+                    <input type="text" name="user_id2" placeholder="@prj_BIZ_System.LanguageResource.User.lb_user_id" required>
+                    <input type="password" name="user_pw2" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
+                    <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
+                </form>
+            </div>
+            <a href="javascript:void(0)" class="login_info">
+                @prj_BIZ_System.LanguageResource.User.lb_explain
+            </a>
+            <ul class="login_infobox">
+                <li>請點擊右上按鈕選擇會員身份</li>
+                <li><span class="login_id login_id1 active">企</span>企業會員</li>
+                <li><span class="login_id login_id2 active">業</span>業務會員</li>
+                <li><span class="login_id login_id3 active">生</span>生管會員</li>
+            </ul>
+            <a href="/Home/ForgetPassword" class="loginbox_fpw">@prj_BIZ_System.LanguageResource.User.lb_forget_pw</a>
+        </div>
+            <!--login-->
+
+        }
+        else if (Request.Cookies["UserInfo"] != null)
+        {
+        <div class="mg30 userlist">
+            @if (HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]) != "")
+            {
+                <div class="userimg">
+                    <img src="@(ViewBag.logoDir + HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]))" alt="">
+                </div>
+            }
+            <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</h2>
+            <ul class="userfn">
+                <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_profile</a></li>
+                <li><a href="/User/ProductList">@prj_BIZ_System.LanguageResource.User.lb_product_info</a></li>
+                <li><a href="/User/CatalogList">@prj_BIZ_System.LanguageResource.User.lb_pdf</a></li>
+                <li><a href="/User/VideoList">@prj_BIZ_System.LanguageResource.User.lb_video</a></li>
+                <li>
+                    <a href="message_companylist.html">
+                        未讀訊息
+                        <span class="userfnmsg">100</span>
+                    </a>
+                </li>
+                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
+            </ul>
+        </div>
+        }
+    }
+
+    <div class="searchdiv mg30">
+        <div class="newsboxTitle2">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_company @prj_BIZ_System.LanguageResource.User.lb_search</h3>
+        </div>
+        <form action="CompanyList" class="indexsearch">
+            <select name="searchbox" id="searchbox">
+                <option value="searchname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_companyname</option>
+                <option value="searchtype">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_scope</option>
+            </select>
+            <input type="text" id="searchname" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
+            <select name="sort_id" id="searchtype" style="display:none">
+                <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
+
+                @foreach (var sortList in Model.enterprisesortList)
+                {
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                    {
+                        <option value="@sortList.sort_id">@sortList.enterprise_sort_name</option>
+                    }
+                    else
+                    {
+                        <option value="@sortList.sort_id">@sortList.enterprise_sort_name_en</option>
+                    }
+                }
+            </select>
+            <button class="searchbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_search </button>
+        </form>
+    </div>
+
+    <div class="newsbox mg30">
+        <div class="newsboxTitle2">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h3>
+            <a href="/Home/Activity">More</a>
+        </div>
+        <ul class="newsboxList01 listlink dmicon">
+            @{
+                var activity_name = "";
+                foreach (var activityList in Model.activityinfoList)
+                {
+                    activity_name = activityList.activity_name;
+
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (activityList.activity_name_en != null && activityList.activity_name_en != "")
+                        {
+                            activity_name = activityList.activity_name_en;
+                        }
+                    }
+
+                    <li>
+                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
+                            <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
+                            @activity_name
+                        </a>
+                    </li>
+                }
+            }
+
+
+        </ul>
+    </div>
+
+
+    <div class="regis_dmlist3 mg30">
+        <div class="newsboxTitle2">
+            <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_video</h3>
+        </div>
+        <div class="centerbox2">
+            <iframe src="https://www.youtube.com/embed/82a4QvVsDAg" frameborder="0" allowfullscreen=""></iframe>
+        </div>
+        <p>Mars - Principles in Action</p>
+    </div>
+</aside>
+
+<script>
+    $(document).ready(function () {
+        $("#searchbox").on('change', function () {
+            var selects = $("select option:selected").val();
+            if (selects == 'searchname') {
+                $("#searchname").show();
+                $("#searchtype").hide();
+                $("#searchtype").val('');
+
+            } else if (selects == 'searchtype') {
+                $("#searchname").hide();
+                $("#searchtype").show();
+                $("#searchname").val('');
+            }
+
+        });
+
+        $("#tabA").on('click', 'a', function () {
+            var index = $("#tabA a").index(this);
+            var formbox = $("#tabbox form")[index];
+            $("#tabA a").removeClass('active');
+            $(this).addClass('active');
+            $("#tabbox form").hide();
+            $("#tabbox").find(formbox).show();
+        })
+
+    })
+
+</script>

@@ -110,26 +110,6 @@ namespace prj_BIZ_System.Controllers
 
         }
 
-        public void docookie(string cks,string v)
-        {
-            HttpCookie cookie = Request.Cookies[cks];
-
-            if (cookie != null)
-            {
-                // update cookie value 
-                cookie.Value = v;
-            }
-            else
-            {
-                // create cookie value 
-                cookie = new HttpCookie(cks);
-                cookie.Value = v;
-                //                cookie.Expires = DateTime.Now.AddYears(1);
-            }
-
-            Response.Cookies.Add(cookie);
-        }
-
         public ActionResult Cluster_Members()
         {
             if (Request.Cookies["UserInfo"] == null)

@@ -13,6 +13,27 @@ namespace prj_BIZ_System.Controllers
     public class _BaseController : Controller
     {
         public Logger logger = LogManager.GetCurrentClassLogger();
+
+        public void docookie(string cks, string v)
+        {
+            HttpCookie cookie = Request.Cookies[cks];
+
+            if (cookie != null)
+            {
+                // update cookie value 
+                cookie.Value = v;
+            }
+            else
+            {
+                // create cookie value 
+                cookie = new HttpCookie(cks);
+                cookie.Value = v;
+                //                cookie.Expires = DateTime.Now.AddYears(1);
+            }
+
+            Response.Cookies.Add(cookie);
+        }
+
     }
 
     ///////////////////多國語系

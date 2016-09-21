@@ -245,15 +245,17 @@
       AND mb.buyer_id = #buyer_id#
     </select> 
     
-    
-      
-      
-    <!--6.查詢某活動的賣家有無勾選買主-->
-    <select id="SelectCertainActivitySellerCheckBuyer" resultMap="MatchmakingAll" parameterClass="MatchmakingAllModel">
-      SELECT *, get_company_by_user_id(buyer_id) as company
-      FROM matchmaking_sellerneed
-      WHERE activity_id = #activity_id#
-      AND seller_id = #seller_id#
+    <!--6.查詢某活動的賣家有勾選那些買主-->
+    <select id="SelectCertainActivitySellerCheckBuyer" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
+      SELECT *
+      FROM matchmaking_sellerneed ms
+      INNER JOIN buyer_list bl
+      ON ms.activity_id = bl.activity_id
+      INNER JOIN user_info ui
+      ON ms.buyer_id = ui.user_id
+      WHERE ms.buyer_id = bl.buyer_id
+      AND ms.seller_id = #seller_id#
+      AND ms.activity_id = #activity_id#
     </select>
     
     <!--7.查詢某活動的買家有無勾選賣主-->
@@ -263,6 +265,22 @@
       WHERE activity_id = #activity_id#
       AND buyer_id = #buyer_id#
     </select>
+       
+    <!--9.查詢賣家媒合意願清單的某活動的賣家有選那些買主-->
+    <select id ="SelectMatchmakingSellerneed" resultMap="MatchmakingAll" parameterClass="MatchmakingAllModel">
+      SELECT *
+      FROM matchmaking_sellerneed
+      WHERE activity_id = #activity_id#
+      AND seller_id = #seller_id#
+    </select>
+    
+    <!--10.刪除賣家媒合意願清單的某活動的賣家有選的買主-->
+    <delete id="DeleteMatchmakingSellerneed" parameterClass="MatchmakingAllModel">
+      DELETE FROM matchmaking_sellerneed
+      WHERE serial_no = #serial_no#
+    </delete>
+    
+   
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]

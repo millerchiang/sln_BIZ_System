@@ -9,9 +9,6 @@
 }
 
 <div class="article_col1">
-@{
-    Html.RenderAction("_NavSearchPartial", "User");
-}
     <article class="article_col2">
         <h2 class="borderTitle">@ViewBag.tname</h2>
 
@@ -37,4 +34,7 @@
 
         @Html.PagesList((PageList<NewsModel>)TempData["PageList"])
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>

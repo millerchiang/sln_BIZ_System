@@ -10,9 +10,6 @@
 
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial");
-    }
     <article class="article_col2 form_box">
         <h2>@prj_BIZ_System.LanguageResource.User.lb_catalogupload</h2>
         <form id="form" action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
@@ -33,6 +30,9 @@
             </div>
         </form>
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 <script>

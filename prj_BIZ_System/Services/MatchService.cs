@@ -76,6 +76,18 @@ namespace prj_BIZ_System.Services
             return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
         }
 
+        public IList<MatchmakingAllModel> getMatchmakingSellerneedList(int activity_id, string seller_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = seller_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMatchmakingSellerneed", param);
+        }
+
+        public void MatchmakingSellerneedDelete(int serial_no)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { serial_no = serial_no };
+            mapper.Delete("Match.DeleteMatchmakingSellerneed", param);
+        }
+
 
 
 
