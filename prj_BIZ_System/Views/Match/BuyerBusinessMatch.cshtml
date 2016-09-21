@@ -5,6 +5,8 @@
     ViewBag.Title = "商務對接(買家)";
 }
 
+@Styles.Render("~/Content/jqueryUI")
+
 @section pagestyle{
     <link href="~/stylesheets/business.css" rel="stylesheet" />
 }
@@ -60,7 +62,7 @@
                 }*@
             </table>
             <div class="centerbox">
-                <button id="submitInfo" type="submit" class="submitbuRed">@ViewBag.SubmitName</button>
+                <a href="javascript:void(0)" id="submitInfo" class="submitbuRed">@ViewBag.SubmitName</a>
             </div>
         </form>
     </article>
@@ -69,16 +71,33 @@
     }
 </div>
 
+<div id="dialog" title="商務對接" style="display:none;">
+    <p>
+        <span>是否修改洽談對象</span>
+    </p>
+</div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+
+
+
+
 <script type="text/javascript">
-    $(document).ready(function () {
 
-        //$("#submitInfo").click(function () {
-        //    if (confirm('提示訊息:送出後無法更改，請警慎填寫')) {
-        //        return true
-        //    } else {
-        //        return false
-        //    }
-        //});
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                "Save": function () {
+                    $("#insertForm").submit();
+                },
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
 
-    });
+        $("#submitInfo").click(function () {
+            $("#dialog").dialog("open");
+        });
 </script>
