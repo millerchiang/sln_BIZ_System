@@ -57,191 +57,210 @@
 }
 
     <div class="article_col1">
-        @{
-//            Html.RenderAction("_NavSearchPartial", "User");
-            Html.RenderAction("_HomeLeftPartial", "Home");
-        }
         <article class="article_col2">
-            <section class="form_box comicon article_col1">
-
-                @{ 
+                @{
                     var company = Model.userinfo.company;
                     if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                     {
-                        if (Model.userinfo.company_en != null && Model.userinfo.company_en!="")
+                        if (Model.userinfo.company_en != null && Model.userinfo.company_en != "")
                         {
                             company = Model.userinfo.company_en;
                         }
                     }
                 }
 
+            <section class="form_box w100 article_col1">
+                <div class="databubox" id="tabA">
+                    <a href="javascript:void(0)" class="databu databu05 active">@prj_BIZ_System.LanguageResource.User.lb_profile</a>
+                    <a href="javascript:void(0)" class="databu databu02">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+                    <a href="javascript:void(0)" class="databu databu03">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
+                    <a href="javascript:void(0)" class="databu databu04">@prj_BIZ_System.LanguageResource.User.lb_video</a>
+                </div>
 
-                <h2>@company @prj_BIZ_System.LanguageResource.User.lb_info</h2>
-                <div class="regis_col01L">
-                    <div id="result">
-                        @if (Model.userinfo.logo_img != null)
+                <div id="tabbox">
+                    <h2>@company</h2>
+                    <section id="section">
+                        <div class="regis_col01L">
+                            <div id="result">
+                                @if (Model.userinfo.logo_img != null)
+                                {
+                                    <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                                }
+                                else
+                                {
+                                    <img src="/images/logopic.jpg" alt="">
+                                }
+                            </div>
+
+                        </div>
+                        <div class="regis_col01R">
+                            <label class="regis_col01R_label regis_col_bg2">
+                                @prj_BIZ_System.LanguageResource.User.lb_category
+                            </label>
+                            <span class="regis_col01R_input contentspan">@enterprise_type</span>
+
+
+                            <label for="" class="regis_col01R_label regis_col_bg2">
+                                @prj_BIZ_System.LanguageResource.User.lb_user_id
+                            </label>
+                            <span class="regis_col01R_input contentspan">@Model.userinfo.user_id</span>
+
+                            <label for="name" class="regis_col01R_label regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
+                            <span class="regis_col01R_input contentspan">@Model.userinfo.phone</span>
+
+                            <label for="email" class="regis_col01R_label regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_email</label>
+                            <span class="regis_col01R_input contentspan">@Model.userinfo.email</span>
+
+                        </div>
+                        <div class="form_box w100">
+                            <h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
+                            <label for="" class="regis_col02L regis_col_bg2">
+                                @prj_BIZ_System.LanguageResource.User.lb_companyname
+                            </label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.company</span>
+                            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.leader</span>
+                            <label for="addr" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.addr</span>
+                            <label for="name" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.contact</span>
+                            <label class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.info</span>
+
+                        </div>
+
+                        <div class="form_box w100">
+                            <h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
+                            <label for="" class="regis_col02L regis_col_bg2">
+                                @prj_BIZ_System.LanguageResource.User.lb_companyname
+                            </label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.company_en</span>
+
+                            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.leader_en</span>
+                            <label for="addr" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.addr_en</span>
+                            <label for="name" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                            <span class="regis_col02R contentspan">@Model.userinfo.contact_en</span>
+                            <label class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                            <span class="regis_col02R contentspan">
+                                @if (Model.userinfo.info_en != null)
+                                {
+                                    @Model.userinfo.info_en
+                                }
+                            </span>
+
+                        </div>
+                        <br>
+                        <br>
+
+                        <label for="capital" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+                        <div class="regis_col02R">
+                            <span class="contentspan">@Model.userinfo.capital</span> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                        </div>
+                        <label for="revenue" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
+                        <span class="regis_col02R contentspan">@revenue</span>
+                        <label for="verticals" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_scope</label>
+                        <div class="regis_col02R verticalslist">
+
+                            @foreach (var usersortList in Model.usersortList)
+                            {
+                                if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                                {
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                                }
+                                else
+                                {
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name_en</span>
+                                }
+                            }
+                        </div>
+                        <label for="website" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_website</label>
+                        <span class="regis_col02R contentspan">@Model.userinfo.website</span>
+                    </section>
+
+                    <section id="section2" style="display:none">
+                        <table class="regis_table">
+                            @if (Model != null && Model.productsortList != null && Model.productsortList.Count() > 0)
+                            {
+                                <tr>
+                                    <th></th>
+                                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
+                                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
+                                    <th></th>
+                                </tr>
+                                foreach (ProductListModel model in Model.productsortList)
+                                {
+                                    <tr class="_old_prods">
+                                        <td></td>
+                                        <td>
+                                            @(model.product_name)<p>
+                                                @(model.product_name_en)
+                                        </td>
+                                        <td>
+                                            @(model.product_info)<p>
+                                                @(model.product_info_en)
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
+                            }
+                        </table>
+                    </section>
+
+                    <section id="section3" style="display:none">
+                        @if (Model.cataloglistList != null && Model.cataloglistList.Count() > 0)
                         {
-                            <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                            @:<ul class="regis_dmlist">
+                        foreach (var mo in Model.cataloglistList)
+                            {
+                                <li>
+                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                        <span>@(mo.catalog_name)</span>
+                                        <div class="regisimg">
+                                            <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                        </div>
+
+                                    </a>
+                                </li>
+                            }
+                            @:</ul>
                         }
                         else
                         {
-                            <img src="/images/logopic.jpg" alt="">
+                            <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
                         }
-                    </div>
-
-                </div>
-                <div class="regis_col01R">
-                    <label class="regis_col01R_label">
-                        @prj_BIZ_System.LanguageResource.User.lb_category
-                    </label>
-                    <span class="regis_col01R_input contentspan">@enterprise_type</span>
-
-                    <label for="" class="regis_col01R_label">
-                        @prj_BIZ_System.LanguageResource.User.lb_user_id
-                    </label>
-                    <span class="regis_col01R_input contentspan">@Model.userinfo.user_id</span>
-					
-					<label for="name" class="regis_col01R_label">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
-					<span class="regis_col01R_input contentspan">@Model.userinfo.phone</span>
-					
-					<label for="email" class="regis_col01R_label">@prj_BIZ_System.LanguageResource.User.lb_email</label>
-					<span class="regis_col01R_input contentspan">@Model.userinfo.email</span>
-                </div>
-				<div class="form_box w100">
-						<h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
-				  <label for="" class="regis_col02L">
-                        @prj_BIZ_System.LanguageResource.User.lb_companyname
-                    </label>
-                    <span class="regis_col02R contentspan">@Model.userinfo.company</span>
-					<label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.leader</span>
-					<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.addr</span>
-					<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-                    			<span class="regis_col02R contentspan">@Model.userinfo.contact</span>
-				    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.info</span>
-				</div>
-				
-				<div class="form_box w100">
-					<h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
-				   <label for="" class="regis_col02L">
-                        @prj_BIZ_System.LanguageResource.User.lb_companyname
-                    </label>
-                    <span class="regis_col02R contentspan">@Model.userinfo.company_en</span>
-					
-					<label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.leader_en</span>
-					<label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.addr_en</span>
-					<label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-					<span class="regis_col02R contentspan">@Model.userinfo.contact_en</span>
-				    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-					<span class="regis_col02R contentspan">
-					 @if (Model.userinfo.info_en != null)
-					{
-                        @Model.userinfo.info_en
-					}
-                    </span>
-				</div>
-              <br/><br/>
-                <label for="capital" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
-                <div class="regis_col02R">
-                    <span class="contentspan">@Model.userinfo.capital</span> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
-                </div>
-                <label for="revenue" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
-                <span class="regis_col02R contentspan">@revenue</span>
-                <label for="verticals" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_scope</label>
-                <div class="regis_col02R verticalslist">
-
-                    @foreach (var usersortList in Model.usersortList)
-                    {
-                        if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
-                        {
-                            <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
-                        }
-                        else
-                        {
-                            <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name_en</span>
-                        }
-                    }
-                </div>
-                <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
-                <span class="regis_col02R contentspan">@Model.userinfo.website</span>
-             
-               
-                </section>
-
-                <section class="form_box comicon article_col1">
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_product_info</h2>
-                <table class="regis_table">
-                    @if (Model != null && Model.productsortList!=null && Model.productsortList.Count()>0)
-                    {
-                        <tr>
-                            <th></th>
-                            <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
-                            <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
-                            <th></th>
-                        </tr>
-
-                    
-                        foreach (ProductListModel model in Model.productsortList)
-                        {
-                            <tr class="_old_prods">
-                                <td>
-                                </td>
-                                <td>
-                                    @(model.product_name)<p>
-                                    @(model.product_name_en)
-                                </td>
-                                <td>
-                                    @(model.product_info)<p>
-                                    @(model.product_info_en)
-                                </td>
-                                <td></td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
-                    }
-
-
-                </table>
-
-
-            </section>
-
-            <section class="form_box article_col1">
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_pdf</h2>
-                    @if (Model.cataloglistList != null && Model.cataloglistList.Count() > 0)
-                    {
-                        @:<ul class="regis_dmlist">
-
-                                foreach (var mo in Model.cataloglistList)
+                    </section>
+                    <section id="section4" style="display:none">
+                        <ul class="regis_dmlist3">
+                            @if (Model.videolistList != null)
+                            {
+                                foreach (var mo in Model.videolistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
-                                            <span>@(mo.catalog_name)</span>
-                                            <div class="regisimg">
-                                                <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
-                                            </div>
-
-                                        </a>
+                                        <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+                                        <p>@(mo.video_name)</p>
+                                        <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
                                     </li>
                                 }
-                        
-                        @:</ul>
-                    }
-                    else
-                    {
-                        <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
-                    }
+                            }
+                            else
+                            {
+                                <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
+                            }
+                        </ul>
+                    </section>
+                </div>
             </section>
 
-</article>
-
+        </article>
+        @{
+            Html.RenderAction("_HomeLeftPartial", "Home");
+        }
 
     </div>
 
@@ -259,4 +278,17 @@
             type: 'iframe'
         });
     }
+
+    $(document).ready(function () {
+        $("#tabA").on('click', 'a', function () {
+            var index = $("#tabA a").index(this);
+            var formbox = $("#tabbox section")[index];
+            $("#tabA a").removeClass('active');
+            $(this).addClass('active');
+            $("#tabbox section").hide();
+            $("#tabbox").find(formbox).show();
+        })
+    })
+
+
 </script>

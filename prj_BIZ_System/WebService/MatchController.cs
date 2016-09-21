@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApiContrib.ModelBinders;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.WebService
 {
@@ -17,169 +18,182 @@ namespace prj_BIZ_System.WebService
         MatchService matchService = new MatchService();
 
         [HttpGet]
-        public IList<AccountActivity> GetAccountActivity(string user_id)
+        public object GetAccountActivity(string user_id)
         {
-            if (user_id == null) return null;
+            if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
 
-            List<AccountActivity> accountActivitys = matchService.GetSellerAccountPassActivity(user_id).Select(
+            var accountActivitys = matchService.GetSellerAccountPassActivity(user_id).Select(
                 activityRegister =>
-                new AccountActivity
+                new 
                 {
-                    activity_id = activityRegister.activity_id,
-                    activity_name = activityRegister.activity_name,
-                    is_buyer = "0"
+                    activityRegister.activity_id,
+                    activityRegister.activity_name,
+                    is_buyer = "0",
+                    activityRegister.seller_select
                 }
             ).ToList();
 
             accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id).Select(
                 buyerInfo =>
-                new AccountActivity
+                new 
                 {
-                    activity_id = buyerInfo.activity_id,
-                    activity_name = buyerInfo.activity_name,
-                    is_buyer = "1"
+                    buyerInfo.activity_id,
+                    buyerInfo.activity_name,
+                    is_buyer = "1",
+                    buyerInfo.seller_select
                 }
             ).ToList());
-            return accountActivitys;
+            return Request.CreateResponse(HttpStatusCode.OK, accountActivitys);
         }
 
         [HttpGet]
-        public IList<AccountActivity> GetRecommedActivity(string user_id)
+        public object GetRecommedActivity(string user_id)
         {
-            if (user_id == null) return null;
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
 
-            List<AccountActivity> recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id).Select(
+            var recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id).Select(
                 activityInfo =>
-                new AccountActivity
+                new 
                 {
-                    activity_id = activityInfo.activity_id,
-                    activity_name = activityInfo.activity_name,
+                    activityInfo.activity_id,
+                    activityInfo.activity_name,
                     is_buyer = "0"
                 }
             ).ToList();
-            return recommedActivitys;
+            return Request.CreateResponse(HttpStatusCode.OK, recommedActivitys);
+        }
+
+        #region 取得活動媒合買家
+        [HttpGet]
+        public object GetBuyerForMatch(int activity_id)
+        {
+            if (activity_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
+            var buyerForMatch = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id)
+                .Select(
+                buyerInfo => 
+                new
+                {
+                    buyerInfo.activity_id,
+                    buyerInfo.buyer_id,
+                    buyerInfo.company,
+                    buyerInfo.buyer_need
+                }
+            ).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, buyerForMatch);
+        }
+        #endregion
+
+        #region 取得活動媒合賣家
+        [HttpGet]
+        public object GetSellerForMatch(int activity_id)
+        {
+            if (activity_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
+            var sellerForMatch = matchService.GetCertainActivityHaveCheckSellerNameList(activity_id)
+                .Select(
+                activityRegisterModel => 
+                new 
+                {
+                    activityRegisterModel.activity_id,
+                    activityRegisterModel.user_id,
+                    activityRegisterModel.company
+                }
+            ).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, sellerForMatch);
+        }
+        #endregion
+
+        [HttpGet]
+        public object GetBuyerForSellerCheck(int activity_id, string user_id)
+        {
+            if (activity_id == null || user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
+            Dictionary<string, dynamic> sellerNeed = new Dictionary<string, dynamic>();
+            sellerNeed["check"] = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, user_id)
+                                .Select(
+                                    matchmakingNeed =>
+                                    new 
+                                    {
+                                        matchmakingNeed.buyer_id,
+                                        matchmakingNeed.company
+                                    }
+                                ).ToList();
+            sellerNeed["schedule"] = new List<dynamic>();
+            //sellerNeed.schedule = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
+            //    matchmakingNeed =>
+            //    new Buyer
+            //    {
+            //        buyer_id = matchmakingNeed.buyer_id,
+            //        company = matchmakingNeed.company
+            //    }
+            //).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, sellerNeed);
         }
 
         [HttpGet]
-        public IList<Buyer> GetBuyerForMatch(int activity_id)
+        public object GetSellerForBuyerCheck(int activity_id, string user_id)
         {
-            return matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id).Select(
-                buyerInfo => new Buyer
-                {
-                    activity_id = buyerInfo.activity_id,
-                    buyer_id = buyerInfo.buyer_id,
-                    company = buyerInfo.company,
-                    buyer_need = buyerInfo.buyer_need
-                }
-            ).ToList();
+            if (activity_id == null || user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
+            Dictionary<string, dynamic> buyerNeed = new Dictionary<string, dynamic>();
+            buyerNeed["check"] = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, user_id)
+                                .Select(
+                                    matchmakingNeed =>
+                                    new 
+                                    {
+                                        matchmakingNeed.seller_id,
+                                        matchmakingNeed.company,
+                                    }
+                                ).ToList();
+            buyerNeed["schedule"] = new List<dynamic>();
+            //buyerNeed.manager_schedule = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
+            //    matchmakingNeed =>
+            //    new Seller
+            //    {
+            //        seller_id = matchmakingNeed.buyer_id,
+            //        company = matchmakingNeed.company
+            //    }
+            //).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, buyerNeed);
         }
 
-        //[HttpGet]
-        //public IList<Seller> GetSellerForMatch(int activity_id, string user_id)
-        //{
-        //    return matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "").Select(
-        //        matchmakingNeed => new Seller
-        //        {
-        //            activity_id = matchmakingNeed.activity_id,
-        //            seller_id = matchmakingNeed.seller_id,
-        //            company = matchmakingNeed.company
-        //        }
-        //    ).ToList();
-        //}
-
-        [HttpGet]
-        public SellerNeed GetBuyerForSellerCheck(int activity_id, string user_id)
+        [HttpPost]
+        public object SellerMatchToBuyer(int activity_id, string seller_id, string buyer_id)
         {
-            if (user_id == null) return null;
-            SellerNeed sellerNeed = new SellerNeed();
-            sellerNeed.seller_check =
-            matchService.GetSellerForActivityMatchBuyerList(activity_id, user_id).Select(
-                matchmakingNeed =>
-                new Buyer
-                {
-                    buyer_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
-                }
-            ).ToList();
+            if (activity_id == null || seller_id.IsNullOrEmpty() || buyer_id.IsNullOrEmpty())
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "id is null");
 
-            sellerNeed.manager_schedule = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
-                new Buyer
-                {
-                    buyer_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
-                }
-            ).ToList();
+            string[] buyer_ids = buyer_id.Split(',');
 
-            return sellerNeed;
+            MatchmakingAllModel matchmakingAllModel = new MatchmakingAllModel();
+            matchmakingAllModel.activity_id = activity_id;
+            matchmakingAllModel.seller_id = seller_id;
+
+            object matchmakingNeedId = null;
+            foreach (string id in buyer_ids)
+            {
+                matchmakingAllModel.buyer_id = id;
+                matchmakingNeedId = matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, matchmakingNeedId);
         }
 
-        //[HttpGet]
-        //public BuyerNeed GetSellerForBuyerCheck(int activity_id, string user_id)
-        //{
-        //    if (user_id == null) return null;
-        //    BuyerNeed buyerNeed = new BuyerNeed();
-        //    buyerNeed.buyer_check =
-        //    matchService.GetBuyerForActivityMatchSellerList(activity_id, user_id, "1").Select(
-        //        matchmakingNeed =>
-        //        new Seller
-        //        {
-        //            seller_id = matchmakingNeed.buyer_id,
-        //            company = matchmakingNeed.company,
-        //        }
-        //    ).ToList();
+        [HttpPost]
+        public object BuyerMatchToSeller(int activity_id, string buyer_id, string seller_id)
+        {
+            if (activity_id == null || seller_id.IsNullOrEmpty() || buyer_id.IsNullOrEmpty())
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "id is null");
 
-        //    buyerNeed.manager_schedule = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
-        //        matchmakingNeed =>
-        //        new Seller
-        //        {
-        //            seller_id = matchmakingNeed.buyer_id,
-        //            company = matchmakingNeed.company
-        //        }
-        //    ).ToList();
+            string[] seller_ids = seller_id.Split(',');
 
-        //    return buyerNeed;
-        //}
+            MatchmakingAllModel matchmakingAllModel = new MatchmakingAllModel();
+            matchmakingAllModel.activity_id = activity_id;
+            matchmakingAllModel.buyer_id = buyer_id;
 
-        //[HttpPost]
-        //public object SellerMatchToBuyer(int activity_id, string seller_id, string buyer_id)
-        //{
-        //    string[] buyer_ids = buyer_id.Split(',');
-
-        //    MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
-        //    matchmakingNeedModel.activity_id = activity_id;
-        //    matchmakingNeedModel.seller_id = seller_id;
-        //    matchmakingNeedModel.buyer_reply = "0";
-
-        //    object matchmakingNeedId = null;
-        //    foreach (string id in buyer_ids)
-        //    {
-        //        matchmakingNeedModel.buyer_id = id;
-        //        matchmakingNeedId = matchService.MatchmakingNeedInsertOne(matchmakingNeedModel);
-        //    }
-
-        //    return matchmakingNeedId;
-        //}
-
-        //[HttpPost]
-        //public int BuyerMatchToSeller(int activity_id, string buyer_id, string seller_id)
-        //{
-        //    string[] seller_ids = seller_id.Split(',');
-
-        //    MatchmakingNeedModel matchmakingNeedModel = new MatchmakingNeedModel();
-        //    matchmakingNeedModel.activity_id = activity_id;
-        //    matchmakingNeedModel.buyer_id = buyer_id;
-
-        //    int matchmakingNeedUpDateRow = 0;
-        //    foreach (string id in seller_ids)
-        //    {
-        //        matchmakingNeedModel.seller_id = id;
-        //        matchmakingNeedUpDateRow += matchService.MatchmakingNeedUpdateOne(matchmakingNeedModel);
-        //    }
-
-        //    return matchmakingNeedUpDateRow;
-        //}
-
-
+            object matchmakingNeedId = null;
+            foreach (string id in seller_ids)
+            {
+                matchmakingAllModel.seller_id = id;
+                matchmakingNeedId = matchService.MatchmakingBuyerneedInsertOne(matchmakingAllModel);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, matchmakingNeedId);
+        }
     }
 }

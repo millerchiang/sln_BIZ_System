@@ -1150,6 +1150,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 公司簡介 的當地語系化字串。
+        /// </summary>
+        public static string lb_profile {
+            get {
+                return ResourceManager.GetString("lb_profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 密碼不能為空白!! 的當地語系化字串。
         /// </summary>
         public static string lb_pw_is_empty {

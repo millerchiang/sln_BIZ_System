@@ -40,10 +40,14 @@ namespace prj_BIZ_System.Models
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
+        public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)
 
         public int? grp_id { get; set; }//群組
         public DateTime starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
         public DateTime? endtime { get; set; }//活動時間(迄) yyyy/mm/dd hh:mm
+
+        private bool ischeck = false;
+        public bool Ischeck { get; set; }//判斷買主是否被勾選
     }
 
     public class UserInfoToIdAndCpModel

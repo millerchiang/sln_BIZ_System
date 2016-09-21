@@ -59,35 +59,6 @@
   border-color: transparent transparent transparent #f46813;
 }
 
-.newsboxTitle2 a:link, .newsboxTitle2 a:visited {
-  position: absolute;
-  background: #ffffff;
-  right: 0;
-  color: #03a9f5;
-  font-size: 0.75em;
-  border-radius: 10px;
-  padding: 2px 5px 2px 10px;
-  text-decoration: none;
-}
-.newsboxTitle2 a:link:before, .newsboxTitle2 a:visited:before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 3px 0 3px 5px;
-  border-color: transparent transparent transparent #03a9f5;
-  right: 35px;
-  top: 5px;
-}
-.newsboxTitle2 a:hover, .newsboxTitle2 a:focus, .newsboxTitle2 a:active, .newsboxTitle2 a.active {
-  text-decoration: underline;
-  color: #1184b9;
-}
-.newsboxTitle2 a:hover:before, .newsboxTitle2 a:focus:before, .newsboxTitle2 a:active:before, .newsboxTitle2 a.active:before {
-  border-color: transparent transparent transparent #1184b9;
-}
-
 .newsboxList01 {
   display: inline-block;
   vertical-align: top;
@@ -378,102 +349,6 @@
 }
 .loginbox_newid:hover, .loginbox_newid:focus, .loginbox_newid:active, .loginbox_newid.active {
   background: #f46813;
-}
-
-.userlist {
-  background: #f8f8f8;
-  display: inline-block;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 0;
-}
-.userlist .userimg {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  margin: 0 auto;
-  border: 3px solid #cccccc;
-  background: #ffffff;
-}
-.userlist .userimg img {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  position: absolute;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-}
-.userlist h2 {
-  background: #efefef;
-  padding: 10px 0;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.125em;
-  font-weight: bold;
-}
-.userlist .userfn {
-  padding: 0 10px;
-}
-.userlist .userfn li {
-  line-height: 2.5;
-}
-.userlist .userfn li + li {
-  border-top: 1px solid #d8d8d8;
-}
-.userlist .userfn li a:link, .userlist .userfn li a:visited {
-  text-decoration: none;
-  font-size: 0.938em;
-  padding-left: 50px;
-  position: relative;
-  color: #717171;
-}
-.userlist .userfn li a:link:before, .userlist .userfn li a:visited:before {
-  content: "";
-  width: 28px;
-  height: 28px;
-  left: 3px;
-  top: -6px;
-  position: absolute;
-  background-position: 0 0;
-  background-repeat: no-repeat;
-  background-image: url("../images/icon/indexicon.png");
-}
-.userlist .userfn li a:hover, .userlist .userfn li a:focus, .userlist .userfn li a:active, .userlist .userfn li a.active {
-  color: #03a9f5;
-}
-.userlist .userfn li a:hover:before, .userlist .userfn li a:hover .userfnmsg, .userlist .userfn li a:focus:before, .userlist .userfn li a:focus .userfnmsg, .userlist .userfn li a:active:before, .userlist .userfn li a:active .userfnmsg, .userlist .userfn li a.active:before, .userlist .userfn li a.active .userfnmsg {
-  opacity: 0.7;
-}
-.userlist .userfn li:nth-of-type(2) a:before {
-  background-position-y: -28px;
-}
-.userlist .userfn li:nth-of-type(3) a:before {
-  background-position-y: -56px;
-}
-.userlist .userfn li:nth-of-type(4) a:before {
-  background-position-y: -84px;
-}
-.userlist .userfn li:nth-of-type(5) a:before {
-  background-position-y: -112px;
-}
-.userlist .userfn li:nth-of-type(6) a:before {
-  background-position-y: -140px;
-}
-.userlist .userfn li .userfnmsg {
-  float: right;
-  background: #f2451d;
-  line-height: 1;
-  color: #ffffff;
-  padding: 2px 5px;
-  margin-top: 9px;
-}
-
-.mg30 + .mg30 {
-  margin-top: 30px;
 }
 
 @media only screen and (max-width: 768px) {

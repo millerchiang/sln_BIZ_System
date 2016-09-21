@@ -105,40 +105,6 @@ namespace prj_BIZ_System.WebService.Model
         public string manager_check { get; set; }//後台審核 (0：不通過；1：通過)
     }
 
-    public class AccountActivity
-    {
-        public int activity_id { get; set; }//活動編號
-        public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
-        public string is_buyer { get; set; }//是否為活動買家(1:買家,0:賣家)
-    }
-
-    public class Buyer
-    {
-        public int activity_id { get; set; }//活動編號
-        public string buyer_id { get; set; }//買主帳號
-        public string buyer_need { get; set; }//買主媒合需求
-        public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
-    }
-
-    public class SellerNeed
-    {
-        public IList<Buyer> seller_check { get; set; }//賣家有意願洽談買家
-        public IList<Buyer> manager_schedule { get; set; }//主辦方排定買家
-    }
-
-    public class Seller
-    {
-        public int activity_id { get; set; }//活動編號
-        public string seller_id { get; set; }//賣家帳號
-        public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
-    }
-
-    public class BuyerNeed
-    {
-        public IList<Seller> buyer_check { get; set; }//買家有意願洽談賣家
-        public IList<Seller> manager_schedule { get; set; }//主辦方排定賣家
-    }
-
     public class MsgPrivate
     {
         public long msg_no { get; set; }             //私人訊息編號

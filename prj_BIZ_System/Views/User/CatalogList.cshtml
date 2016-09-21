@@ -11,15 +11,12 @@
 }
 
 <div class="article_col1">
-@{
-    Html.RenderAction("_NavSearchPartial", "User");
-}
     <article class="article_col2 form_box">
         <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - @prj_BIZ_System.LanguageResource.User.lb_pdf</h2>
-        <a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
+        @*<a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
         <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
         <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
-        <br />
+        <br />*@
 
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
             <ul class="regis_dmlist">
@@ -49,6 +46,9 @@
             </div>
         </form>
         </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
     </div>
 
 @Scripts.Render("~/bundles/fancybox")

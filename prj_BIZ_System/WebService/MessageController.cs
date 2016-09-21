@@ -20,7 +20,7 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public IList<MsgPrivate> GetMessagePrivateList(string user_id, string date)
         {
-            if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return null;
+           if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return null;
 
             DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(

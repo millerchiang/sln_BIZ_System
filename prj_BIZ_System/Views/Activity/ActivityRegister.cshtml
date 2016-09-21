@@ -12,9 +12,6 @@
 
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial", "User");
-    }
 
     <article class="form_box article_col2">
         <h2>@prj_BIZ_System.LanguageResource.User.lb_activity_register</h2>
@@ -142,6 +139,9 @@
         </div>
 
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 @Scripts.Render("~/bundles/fancybox")

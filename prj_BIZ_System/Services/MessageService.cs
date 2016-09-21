@@ -42,7 +42,7 @@ namespace prj_BIZ_System.Services
 
         public IList<MsgModel> SelectMsgPrivateForMobile(string user_id, DateTime create_time)
         {
-            var param = new MsgModel { creater_id = user_id, create_time = create_time };
+            var param = new MsgModel { creater_id = user_id, user_id = "0", create_time = create_time };
             return mapper.QueryForList<MsgModel>("Message.SelectMsgForMobile", param);
         }
 
