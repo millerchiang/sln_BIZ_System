@@ -50,10 +50,8 @@ namespace prj_BIZ_System.Controllers
 
             ActivityInfoModel activityInfoModel =  activityService.GetActivityInfoOne(activity_id);
 
-
             //matchModel.matchmakingNeedList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
             //matchModel.matchmakingAllList = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, Request.Cookies["UserInfo"]["user_id"]);
-
 
             if(activityInfoModel.matchmaking_select.Equals("0") && activityInfoModel.seller_select.Equals("1"))
             {
@@ -73,7 +71,6 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Login");
 
-            //ViewBag.Action = "EditSellerMatchBuyerToInsert";
             ViewBag.Action = "EditSellerMatchBuyerToInsertUpdate";
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
             string[] buyerArray = matchService.GetCertainActivitySellerCheckBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]).Select(model => model.buyer_id).ToArray();
@@ -145,8 +142,6 @@ namespace prj_BIZ_System.Controllers
             }
 
             return Redirect("SellerBusinessMatch?activity_id=" + matchmakingAllModel.activity_id);
-
-            //return Redirect("MatchTimeArrangeSeller?activity_id=" + matchmakingAllModel.activity_id);
         }
         #endregion
 

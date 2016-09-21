@@ -259,7 +259,7 @@
     </select>
     
     <!--7.查詢某活動的買家有無勾選賣主-->
-    <select id="SelectCertainActivityBuyerCheckSeller" resultMap="MatchmakingAll" parameterClass="MatchmakingAllModel">
+    <select id="SelectCertainActivityBuyerCheckSeller" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
       SELECT *, get_company_by_user_id(seller_id) as company
       FROM matchmaking_buyerneed
       WHERE activity_id = #activity_id#
@@ -441,7 +441,6 @@
       <result property="activity_id" column="activity_id"/>
       <result property="seller_id" column="seller_id"/>
       <result property="buyer_id" column="buyer_id"/>
-      <result property="company" column="company"/>
     </resultMap>
 
     <!--<resultMap id="SellerForActivityMatchBuyer" class="MatchmakingNeedModel">
