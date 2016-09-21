@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
+@model prj_BIZ_System.Models.ProductListModel
 
 @{
     ViewBag.Title = "ProductList";
@@ -27,91 +27,73 @@
             <div class="magb30">
                 <div class="form_box w100">
                     <h2>中文資訊</h2>
+                    <input type="hidden" name="product_id" value="@Model.product_id" class="regis_col02R" />
                     <span class="regis_col02L regis_col_bg">
                         類型:
                     </span>
-                    <input class="regis_col02R">
-                    </input>
+                    <input name="product_category" value="@Model.product_category" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品名稱:
                     </span>
-                    <input class="regis_col02R">
-
-                    </input>
+                    <input name="product_name" value="@Model.product_name" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         商品型號:
                     </span>
-                    <input class="regis_col02R">
-
-                    </input>
+                    <input name="model_no" value="@Model.model_no_en" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品資料:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="product_info" class="regis_col02R">@Model.product_info</textarea>
                     <span class="regis_col02L regis_col_bg">
                         商品專利/得獎:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="patent_or_winners" class="regis_col02R">@Model.patent_or_winners</textarea>
 
                     <span class="regis_col02L regis_col_bg">
                         商品規格或其它:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="specifications_or_other" class="regis_col02R">@Model.specifications_or_other</textarea>
                 </div>
                 <div class="form_box w100">
                     <h2>英文資訊</h2>
                     <span class="regis_col02L regis_col_bg">
                         類型:
                     </span>
-                    <input class="regis_col02R">
-                    </input>
+                    <input name="product_category_en" value="@Model.product_category_en" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品名稱:
                     </span>
-                    <input class="regis_col02R">
+                    <input name="product_name_en" value="@Model.product_name_en" class="regis_col02R" />
 
-                    </input>
 
                     <span class="regis_col02L regis_col_bg">
                         商品型號:
                     </span>
-                    <input class="regis_col02R">
+                    <input name="model_no_en" value="@Model.model_no_en" class="regis_col02R" />
 
-                    </input>
 
                     <span class="regis_col02L regis_col_bg">
                         產品資料:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="product_info_en" class="regis_col02R">@Model.product_info_en</textarea>
+                    
                     <span class="regis_col02L regis_col_bg">
                         商品專利/得獎:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="patent_or_winners_en" class="regis_col02R">@Model.patent_or_winners_en</textarea>
 
                     <span class="regis_col02L regis_col_bg">
                         商品規格或其它:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="specifications_or_other_en" class="regis_col02R">@Model.specifications_or_other_en</textarea>
                 </div>
             </div>
             <div class="centerbox">
-                <a href="" class="addbublue">儲存</a>
+                <a href="@Url.Action("ProductListEdit","User",new { user_id = ViewBag.user_id })" class="addbublue">儲存</a>
             </div>
 
         </form>

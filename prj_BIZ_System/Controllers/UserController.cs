@@ -219,15 +219,36 @@ namespace prj_BIZ_System.Controllers
         }
 
         #region 產品說明
-        public ActionResult ProductList()
+        public ActionResult ProductList(string user_id)
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["Action"]["user_id"];
+            //string user_id = Request.Cookies["Action"]["user_id"];
+            ViewBag.user_id = user_id;
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
             return View(productLists);
         }
-        
+
+        [HttpPost]
+        public ActionResult doProductInsertOrUpdate(ProductListModel model)
+        {
+            if (Request.Cookies["Action"] == null)
+                return Redirect("~/Home/Index");
+
+            if(model.product_id == null)
+            {
+                model.user_id = Request.Cookies["UserInfo"]["user_id"];
+                int product_id = (int)userService.insertProductList(model);
+            }
+            else
+            {
+                model.user_id = Request.Cookies["UserInfo"]["user_id"];
+                int updateCount = (int)userService.updateProductList(model);
+            }
+
+            return Redirect("ProductListEdit");
+        }
+
         [HttpPost]
         public ActionResult ProductDelete(int[] del_prods)
         {
@@ -266,21 +287,26 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Index");
-            return View();
+            string user_id = Request.Cookies["Action"]["user_id"];
+            IList<ProductListModel> productLists = userService.getAllProduct(user_id);
+            return View(productLists);
         }
 
-        public ActionResult ProductDetail()
+        public ActionResult ProductDetail(int? product_id)
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Index");
-            return View();
+
+            ProductListModel result = userService.getProductOne(product_id);
+            return View(result);
         }
 
-        public ActionResult ProductDetailEdit()
+        public ActionResult ProductDetailEdit(int? product_id)
         {
             if (Request.Cookies["Action"] == null)
                 return Redirect("~/Home/Index");
-            return View();
+            ProductListModel result = userService.getProductOne(product_id);
+            return View(result);
         }
         #endregion
 

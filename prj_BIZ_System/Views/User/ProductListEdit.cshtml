@@ -17,22 +17,33 @@
         <a href="company_info_edit_dm_movie.html" class="databu databu04">影音型錄</a>
     </div>
     <ul class="productlist">
-        <li>
-            <div class="imgbox">
-                <img src="../../images/product/p1.jpg" alt="">
-            </div>
-            <div class="producttext productCheckT">
-                <h3>產品名稱: The 1080P Hight Definition Mobile DVR </h3>
-                <p>型號:HDVR</p>
-            </div>
-            <div class="productCheck">
-                <input type="checkbox" class="inputCheckbox" name="" id="dm01">
-                <label for="dm01" class="labeltCheckbox">刪除</label>
-            </div>
-            <div class="productbu">
-                <a href="company_info_edit_product.html" class="editsbu ">編輯產品</a>
-            </div>
-        </li>
+        @if(Model!=null && Model.Count() > 0)
+        {
+            foreach(ProductListModel md in Model)
+            {
+            <li>
+                <div class="imgbox">
+                    <img src="../../images/product/p1.jpg" alt="">
+                </div>
+                <div class="producttext productCheckT">
+                    <h3>產品名稱: @md.product_name</h3>
+                    <p>型號:@(md.model_no)</p>
+                </div>
+                <div class="productCheck">
+                    <input name="delProductList" value="@md.product_id" type="checkbox" class="inputCheckbox" id="dm@(md.product_id)">
+                    <label for="dm@(md.product_id)" class="labeltCheckbox">刪除</label>
+                </div>
+                <div class="productbu">
+                    <a href="@Url.Action("ProductDetailEdit","User",new { product_id = md.product_id} )" class="editsbu ">編輯產品</a>
+                </div>
+            </li>
+            }
+        }
+        else
+        {
+
+        }
+        <!--
         <li>
             <div class="imgbox">
                 <img src="../../images/product/p2.jpg" alt="">
@@ -177,6 +188,7 @@
                 <a href="company_info_edit_product.html" class="editsbu ">編輯產品</a>
             </div>
         </li>
+        -->
     </ul>
 
     <p style="margin-top:10px">

@@ -1,5 +1,5 @@
 ﻿@using prj_BIZ_System.Models
-@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
+@model ProductListModel
 
 @{
     ViewBag.Title = "ProductList";
@@ -25,35 +25,35 @@
                     類型:
                 </span>
                 <span class="regis_col02R contentspan">
-                    生活用品
+                    @Model.product_category
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     產品名稱:
                 </span>
                 <span class="regis_col02R contentspan">
-                    The 1080P Hight Definition Mobile DVR
+                    @Model.product_name
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     商品型號:
                 </span>
                 <span class="regis_col02R contentspan">
-                    HDVR
+                    @Model.model_no
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     產品資料:
                 </span>
                 <p class="regis_col02R contentspan">
-                    The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
+                    @Model.product_info
                 </p>
 
                 <span class="regis_col02L regis_col_bg2">
                     商品專利/得獎:
                 </span>
                 <p class="regis_col02R contentspan">
-                    The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
+                    @Model.patent_or_winners
                 </p>
 
 
@@ -61,14 +61,14 @@
                     商品規格或其它:
                 </span>
                 <p class="regis_col02R contentspan">
-                    The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
+                    @Model.specifications_or_other
                 </p>
 
 
 
             </div>
             <div class="centerbox magb30">
-                <a href="company_info_product.html" class="submitbu">回產品列表</a>
+                <a href="@Url.Action("ProductList","User")" class="submitbu">回產品列表</a>
             </div>
         </section>
 
