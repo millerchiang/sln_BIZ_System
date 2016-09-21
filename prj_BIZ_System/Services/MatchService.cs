@@ -138,7 +138,7 @@ namespace prj_BIZ_System.Services
 
         public IList<MatchmakingAllModel> GetCertainActivityBuyerCheckSellerList(int activity_id, string user_id)
         {
-            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, buyer_id = user_id };
             return mapper.QueryForList<MatchmakingAllModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
         }
 

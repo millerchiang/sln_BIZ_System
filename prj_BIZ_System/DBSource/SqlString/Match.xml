@@ -216,9 +216,9 @@
     <!--2.輸入買主想要媒合的賣家清單-->
     <insert id="InsertMatchmakingbuyerneedOne" parameterClass="MatchmakingAllModel">
       <selectKey resultClass="int" property="serial_no" type="post">
-        SELECT currval('matchmaking_bothneed_seq')
+        SELECT currval('matchmaking_buyerneed_seq')
       </selectKey>
-      INSERT INTO matchmaking_bothneed (
+      INSERT INTO matchmaking_buyerneed (
       activity_id, buyer_id, seller_id
       ) VALUES (
       #activity_id#, #buyer_id#, #seller_id#
