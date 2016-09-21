@@ -1,8 +1,8 @@
 ﻿@using prj_BIZ_System.Models
-@model IEnumerable<prj_BIZ_System.Models.ProductListModel>
+@model prj_BIZ_System.Models.ProductListModel
 
 @{
-    ViewBag.Title = "ProductList";
+   //ViewBag.Title = "ProductList";
 }
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
@@ -16,7 +16,7 @@
             <a href="company_info_edit_dm_movie.html" class="databu databu04">影音型錄</a>
         </div>
 
-        <form action="">
+        <form id="form" action="@Url.Action("doProductInsertOrUpdate","User")" method="post" enctype="multipart/form-data">
             <div class="magb30 centerbox2">
                 <div class="imgboxB" id="resultB">
                     <img src="../../images/product/p12b.jpg" alt="">
@@ -27,91 +27,73 @@
             <div class="magb30">
                 <div class="form_box w100">
                     <h2>中文資訊</h2>
+                    <input type="hidden" name="product_id" value="@Model.product_id" class="regis_col02R" />
                     <span class="regis_col02L regis_col_bg">
                         類型:
                     </span>
-                    <input class="regis_col02R">
-                    </input>
+                    <input name="product_category" value="@Model.product_category" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品名稱:
                     </span>
-                    <input class="regis_col02R">
-
-                    </input>
+                    <input name="product_name" value="@Model.product_name" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         商品型號:
                     </span>
-                    <input class="regis_col02R">
-
-                    </input>
+                    <input name="model_no" value="@Model.model_no_en" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品資料:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="product_info" class="regis_col02R">@Model.product_info</textarea>
                     <span class="regis_col02L regis_col_bg">
                         商品專利/得獎:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="patent_or_winners" class="regis_col02R">@Model.patent_or_winners</textarea>
 
                     <span class="regis_col02L regis_col_bg">
                         商品規格或其它:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="specifications_or_other" class="regis_col02R">@Model.specifications_or_other</textarea>
                 </div>
                 <div class="form_box w100">
                     <h2>英文資訊</h2>
                     <span class="regis_col02L regis_col_bg">
                         類型:
                     </span>
-                    <input class="regis_col02R">
-                    </input>
+                    <input name="product_category_en" value="@Model.product_category_en" class="regis_col02R" />
 
                     <span class="regis_col02L regis_col_bg">
                         產品名稱:
                     </span>
-                    <input class="regis_col02R">
+                    <input name="product_name_en" value="@Model.product_name_en" class="regis_col02R" />
 
-                    </input>
 
                     <span class="regis_col02L regis_col_bg">
                         商品型號:
                     </span>
-                    <input class="regis_col02R">
+                    <input name="model_no_en" value="@Model.model_no_en" class="regis_col02R" />
 
-                    </input>
 
                     <span class="regis_col02L regis_col_bg">
                         產品資料:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="product_info_en" class="regis_col02R">@Model.product_info_en</textarea>
+                    
                     <span class="regis_col02L regis_col_bg">
                         商品專利/得獎:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="patent_or_winners_en" class="regis_col02R">@Model.patent_or_winners_en</textarea>
 
                     <span class="regis_col02L regis_col_bg">
                         商品規格或其它:
                     </span>
-                    <textarea class="regis_col02R">
-                        The 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVRThe 1080P Hight Definition Mobile DVR
-                    </textarea>
+                    <textarea name="specifications_or_other_en" class="regis_col02R">@Model.specifications_or_other_en</textarea>
                 </div>
             </div>
             <div class="centerbox">
-                <a href="" class="addbublue">儲存</a>
+                <a href="javascript:void(0)" class="addbublue" onclick="doSubmit()">儲存</a>
             </div>
 
         </form>
@@ -120,125 +102,7 @@
     $(function () {
         init();
     });
-    function init() {
-
-        var $addItemLint = $("#addItemLink");
-        var g_no = 1;
-        $addItemLint.click(function (e) {
-            $("table.regis_table").append(genTemplate(g_no++));
-            $(this).appendTo($("table.regis_table tr").last().find("td").last());
-        });
-
-        $("tr._old_prods").find("input[type='text']").change(function () {
-            $(this).parents("tr").find("input[name='isChanged']").val('true');
-        });
-
-        $("#deleteLink").click(function () {
-            if (confirm("確認是否要刪除")) {
-                var $selected = $("tr").find("input[name='product_id']:checked");
-                var del_prods = [];
-                $selected.each(function (index, el) {
-                    var value = $(el).val();
-                    if (value != null && value != '') {
-                        del_prods.push(value);
-                    }
-                });
-                var param = {
-                    "del_prods": del_prods
-                };
-
-                $.ajax({
-                    type: "post",
-                    url: "@Url.Action("ProductDelete", "User")",
-                    cache: false,
-                    data: param,
-                    dataType: "json"
-                }).done(function(result) {
-                    if (result == 'success') {
-                        alert("刪除成功");
-                    } else {
-                        alert("刪除失敗");
-                    }
-                    location.reload();
-                });
-            }
-        });
-
-        $("#saveLink").click(function () {
-            var old_prods = [];
-            var new_prods = [];
-
-            $("tr._old_prods").each(function (index, el) {
-                var isChanged = $(el).find("input[name='isChanged']").val();
-                if (isChanged == 'true') {
-                    new_ProductListModel(old_prods, el);
-                }
-            });
-
-            $("tr._new_prods").each(function (index, el) {
-                new_ProductListModel(new_prods, el);
-            });
-
-            var param = {
-                "old_prods": old_prods ,
-                "new_prods": new_prods
-            };
-
-            $.ajax({
-                type: "post",
-                url: "@Url.Action("ProductInsert", "User")",
-                cache: false,
-                data: param,
-                dataType: "json"
-            }).done(function(result) {
-                if (result == 'success') {
-                    alert("新增成功");
-                } else {
-                    alert("新增失敗");
-                }
-                location.reload();
-            });
-
-        })
-    }
-
-    function new_ProductListModel(collection, el) {
-        var product_id      = $(el).find("input[name='product_id']").val();
-        var product_name    = $(el).find("input[name='product_name']").val();
-        var product_name_en = $(el).find("input[name='product_name_en']").val();
-        var product_info    = $(el).find("input[name='product_info']").val();
-        var product_info_en = $(el).find("input[name='product_info_en']").val();
-        if (product_name != '' || product_name_en != '' || product_info != '' || product_info_en!='') {
-            collection.push(
-                {
-                    "product_id"      : product_id,
-                    "product_name"    : product_name,
-                    "product_name_en" : product_name_en,
-                    "product_info"    : product_info,
-                    "product_info_en" : product_info_en
-                }
-            );
-        }
-    }
-
-    function genTemplate(no) {
-        var template =
-           '<tr class="_new_prods">                                                                                 ' +
-           '	<td>                                                                                                ' +
-           //'		<input type="checkbox" class="inputCheckbox" name="product_id" id="product'+ no +'" value="">   ' +
-           //'		<label for="product'+no+'"></label>                                                             ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">           ' +
-           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">           ' +
-           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	</td>                                                                                               ' +
-           '</tr>                                                                                                   ' ;
-        return template;
+    function doSubmit() {
+        $("#form").submit();
     }
 </script>

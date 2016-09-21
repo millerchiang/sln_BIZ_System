@@ -66,55 +66,11 @@ namespace prj_BIZ_System.Services
         //    return mapper.Update("Match.UpdateMatchmakingNeedOne", matchmakingNeedModel);
         //}
 
-        public object MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
-        {
-            return mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
-        }
-
-        public object MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
-        {
-            return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
-        }
-
-        public IList<MatchmakingAllModel> getMatchmakingSellerneedList(int activity_id, string seller_id)
-        {
-            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = seller_id };
-            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMatchmakingSellerneed", param);
-        }
-
-        public void MatchmakingSellerneedDelete(int serial_no)
-        {
-            MatchmakingAllModel param = new MatchmakingAllModel() { serial_no = serial_no };
-            mapper.Delete("Match.DeleteMatchmakingSellerneed", param);
-        }
-
-
-
-
-
-
-
-
         //public IList<MatchmakingNeedModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
         //{
         //    MatchmakingNeedModel param = new MatchmakingNeedModel() {activity_id = activity_id, seller_id = user_id};
         //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectSellerForActivityMatchBuyer", param);
         //}
-
-        public IList <MatchmakingAllModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
-        {
-            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
-            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectSellerForActivityMatchBuyer", param);
-        }
-
-
-
-
-        public IList<MatchmakingAllModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id)
-        {
-            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, buyer_id = user_id };
-            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectBuyerForActivityMatchSeller", param);
-        }
 
         //public IList<MatchmakingNeedModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
         //{
@@ -128,6 +84,52 @@ namespace prj_BIZ_System.Services
         //    return mapper.QueryForList<MatchmakingNeedModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
         //}
 
+        //MatchmakingAllModel
+        public object MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        {
+            return mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
+        }
+
+        public object MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        {
+            return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
+        }
+
+        public IList<MatchmakingAllModel> GetMatchmakingSellerneedList(int activity_id, string seller_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = seller_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMatchmakingSellerneed", param);
+        }
+
+        public IList<MatchmakingAllModel> GetMatchmakingBuyerneedList(int activity_id, string buyer_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, buyer_id = buyer_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMatchmakingBuyerneed", param);
+        }
+
+        public void MatchmakingSellerneedDelete(int serial_no)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { serial_no = serial_no };
+            mapper.Delete("Match.DeleteMatchmakingSellerneed", param);
+        }
+
+        public void MatchmakingBuyerneedDelete(int serial_no)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { serial_no = serial_no };
+            mapper.Delete("Match.DeleteMatchmakingBuyerneed", param);
+        }
+
+        public IList <MatchmakingAllModel> GetSellerForActivityMatchBuyerList(int activity_id, string user_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, seller_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectSellerForActivityMatchBuyer", param);
+        }
+
+        public IList<MatchmakingAllModel> GetBuyerForActivityMatchSellerList(int activity_id, string user_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id, buyer_id = user_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectBuyerForActivityMatchSeller", param);
+        }
 
         public IList<MatchmakingAllModel> GetCertainActivitySellerCheckBuyerList(int activity_id, string user_id)
         {

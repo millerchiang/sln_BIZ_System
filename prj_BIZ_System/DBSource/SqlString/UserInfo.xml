@@ -188,7 +188,14 @@
     <select id="SelectProductListByUserId" parameterClass="ProductListModel" resultMap="ProductList-result">
       SELECT *
       FROM product_list
-      WHERE user_id = #user_id#
+      WHERE deleted = '1' and user_id = #user_id#
+    </select>
+
+    <!--查詢產品單筆-->
+    <select id="SelectProductListByProductId" parameterClass="ProductListModel" resultMap="ProductList-result">
+      SELECT *
+      FROM product_list
+      WHERE product_id = #product_id#
     </select>
 
     <!--刪除產品-->
@@ -200,6 +207,9 @@
 
     <!--新增產品-->
     <insert id="InsertProductList" parameterClass="ProductListModel">
+      <selectKey resultClass="int" property="product_id" type="post">
+        SELECT currval('product_list_seq')
+      </selectKey>
       INSERT INTO product_list(
       user_id, product_name, product_info, product_name_en,
       product_info_en, deleted)
@@ -410,10 +420,19 @@
     <resultMap id="ProductList-result" class="prj_BIZ_System.Models.ProductListModel">
       <result property="product_id" column="product_id"/>
       <result property="user_id" column="user_id"/>
+      <result property="product_category" column="product_category"/>
       <result property="product_name" column="product_name"/>
       <result property="product_info" column="product_info"/>
+      <result property="model_no" column="model_no"/>
+      <result property="patent_or_winners" column="patent_or_winners"/>
+      <result property="specifications_or_other" column="specifications_or_other"/>
+      <result property="product_category_en" column="product_category_en"/>
       <result property="product_name_en" column="product_name_en"/>
       <result property="product_info_en" column="product_info_en"/>
+      <result property="model_no_en" column="model_no_en"/>
+      <result property="patent_or_winners_en" column="patent_or_winners_en"/>
+      <result property="specifications_or_other_en" column="specifications_or_other_en"/>
+      <result property="product_pic_site" column="product_pic_site"/>
       <result property="deleted" column="deleted"/>
     </resultMap>
 

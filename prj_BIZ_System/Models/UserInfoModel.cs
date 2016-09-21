@@ -63,10 +63,19 @@ namespace prj_BIZ_System.Models
     {
         public int? product_id { get; set; } //P+流水號9碼
         public string user_id { get; set; } //使用者帳號  (國內企業輸入統編為會員帳號；國外會員自訂)
+        public string product_category { get; set; } //類別(中文)
         public string product_name { get; set; } //產品名稱(中文)
-        public string product_info { get; set; } //產品簡介(中文)
+        public string product_info { get; set; } //產品資料(中文)
+        public string model_no { get; set; } //商品型號(中文)
+        public string patent_or_winners { get; set; } //商品專利/得獎(中文)
+        public string specifications_or_other { get; set; } //商品規格/其他(中文)
+        public string product_category_en { get; set; } //類別(英文)
         public string product_name_en { get; set; } //產品名稱(英文)
-        public string product_info_en { get; set; } //產品簡介(英文)
+        public string product_info_en { get; set; } //產品資料(英文)
+        public string model_no_en { get; set; } //商品型號(英文)
+        public string patent_or_winners_en { get; set; } //商品專利/得獎(英文)
+        public string specifications_or_other_en { get; set; } //商品規格/其他(英文)
+        public string product_pic_site { get; set; } //商品圖片位置
         public string deleted { get; set; } //是否刪除  (0：刪除；1：未刪除)
     }
     

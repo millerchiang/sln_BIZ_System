@@ -280,6 +280,28 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ProductListModel>("UserInfo.SelectProductListByUserId", param);
         }
 
+        public ProductListModel getProductOne(int? product_id)
+        {
+            ProductListModel param = new ProductListModel() { product_id = product_id };
+            return mapper.QueryForObject<ProductListModel>("UserInfo.SelectProductListByProductId", param);
+        }
+
+        /*新增產品*/
+        public object insertProductList(ProductListModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Insert("UserInfo.InsertProductList", param);
+        }
+
+        /*修改產品*/
+        public int updateProductList(ProductListModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Update("UserInfo.UpdateProductList", param);
+        }
+
         /*新增並修改產品*/
         public bool ProductListRefresh(string user_id, List<ProductListModel> old_prods, List<ProductListModel> new_prods)
         {

@@ -180,36 +180,32 @@
                     </section>
 
                     <section id="section2" style="display:none">
-                        <table class="regis_table">
-                            @if (Model != null && Model.productsortList != null && Model.productsortList.Count() > 0)
+                        <ul class="productlist">
+                            @if (Model.productsortList != null && Model.productsortList.Count() > 0)
                             {
-                                <tr>
-                                    <th></th>
-                                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_name</th>
-                                    <th width="40%">@prj_BIZ_System.LanguageResource.User.lb_product_info</th>
-                                    <th></th>
-                                </tr>
-                                foreach (ProductListModel model in Model.productsortList)
+                                foreach (ProductListModel md in Model.productsortList)
                                 {
-                                    <tr class="_old_prods">
-                                        <td></td>
-                                        <td>
-                                            @(model.product_name)<p>
-                                                @(model.product_name_en)
-                                        </td>
-                                        <td>
-                                            @(model.product_info)<p>
-                                                @(model.product_info_en)
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                    <li>
+                                        <div class="imgbox">
+                                            <img src="../../images/product/p1.jpg" alt="">
+                                        </div>
+                                        <div class="producttext">
+                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @md.product_name </h3>
+                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @md.model_no </p>
+                                        </div>
+                                        <div class="productbu">
+
+                                            <a href='@Url.Action("ProductDetail","User",new { product_id = md.product_id })' class="deleteSbu">詳細內容</a>
+                                        </div>
+                                    </li>
                                 }
+                                @Html.PagesList((PageList<ProductListModel>)TempData["PageList"]);
                             }
                             else
                             {
                                 <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
                             }
-                        </table>
+                        </ul>
                     </section>
 
                     <section id="section3" style="display:none">
