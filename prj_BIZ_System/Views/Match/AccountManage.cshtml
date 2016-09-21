@@ -29,7 +29,14 @@
                                 <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
                                 <div class="centerbox">
                                     <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_sellerlist</a>
-                                    <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    @if (buyerInfoModel.seller_select == "0")
+                                    {
+                                        <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("WhetherMetchSeller","Match", new { activity_id = buyerInfoModel.activity_id })" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                    }
                                 </div>
                             </li>
                         }

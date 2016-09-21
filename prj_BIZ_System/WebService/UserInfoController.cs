@@ -177,9 +177,19 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public IList<EnterpriseSortListModel> GetSortList()
+        public object GetSortList(string localization)
         {
-            return userService.GetSortList();
+            return userService.GetSortList().Select(
+                enterpriseSortListModel =>
+                new
+                {
+                    enterpriseSortListModel.sort_id,
+                    enterpriseSortListModel.enterprise_sort_id,
+                    enterprise_sort_name = localization == "en" ?
+                    enterpriseSortListModel.enterprise_sort_name_en :
+                    enterpriseSortListModel.enterprise_sort_name
+                }
+            ).ToList();
         }
 
         [HttpGet]

@@ -250,7 +250,7 @@
       
     <!--6.查詢某活動的賣家有無勾選買主-->
     <select id="SelectCertainActivitySellerCheckBuyer" resultMap="MatchmakingAll" parameterClass="MatchmakingAllModel">
-      SELECT *
+      SELECT *, get_company_by_user_id(buyer_id) as company
       FROM matchmaking_sellerneed
       WHERE activity_id = #activity_id#
       AND seller_id = #seller_id#
@@ -258,11 +258,11 @@
     
     <!--7.查詢某活動的買家有無勾選賣主-->
     <select id="SelectCertainActivityBuyerCheckSeller" resultMap="MatchmakingAll" parameterClass="MatchmakingAllModel">
-      SELECT *
+      SELECT *, get_company_by_user_id(seller_id) as company
       FROM matchmaking_buyerneed
       WHERE activity_id = #activity_id#
       AND buyer_id = #buyer_id#
-      </select>
+    </select>
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -423,6 +423,7 @@
       <result property="activity_id" column="activity_id"/>
       <result property="seller_id" column="seller_id"/>
       <result property="buyer_id" column="buyer_id"/>
+      <result property="company" column="company"/>
     </resultMap>
 
     <!--<resultMap id="SellerForActivityMatchBuyer" class="MatchmakingNeedModel">
@@ -544,6 +545,8 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+      <result property="seller_select" column="seller_select"/>
+      
       <!-- ActivityInfo 的 activity_name-->
       <result property="activity_name" column="activity_name"/>
       <result property="starttime" column="starttime"/>
