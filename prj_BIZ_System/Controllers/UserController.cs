@@ -224,18 +224,6 @@ namespace prj_BIZ_System.Controllers
         }
 
         #region 產品說明
-        public ActionResult ProductList(string user_id)
-        {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-            //string user_id = Request.Cookies["UserInfo"]["user_id"];
-            ViewBag.user_id = user_id;
-            IList<ProductListModel> productLists = userService.getAllProduct(user_id);
-            ViewBag.productDir = UploadHelper.getPictureDirPath(user_id, "product");
-            docookie("_mainmenu", "ProductList");
-            return View(productLists);
-        }
-
         [HttpPost]
         public ActionResult doProductInsertOrUpdate(ProductListModel model , HttpPostedFileBase product_img)
         {
@@ -281,23 +269,6 @@ namespace prj_BIZ_System.Controllers
                 bool isDelSuccess = userService.ProductListDeleteFake(user_id, del_prods); //假刪
                 return Redirect("ProductListEdit");
             
-        }
-
-        [HttpPost]
-        public ActionResult ProductInsert(List<ProductListModel> old_prods, List<ProductListModel> new_prods)
-        {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-            try
-            {
-                string user_id =  Request.Cookies["UserInfo"]["user_id"];
-                userService.ProductListRefresh(user_id, old_prods, new_prods);
-                return Json("success");
-            }
-            catch (Exception ex)
-            {
-                return Json("error");
-            }
         }
 
         public ActionResult ProductListEdit()

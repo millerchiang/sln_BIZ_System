@@ -17,7 +17,7 @@
                 <a href="company_info_dm_movie.html" class="databu databu04">影音型錄</a>
             </div>
             <div class="imgboxB">
-                <img src="@ViewBag.productDir@Model.product_pic_site" alt="">
+                <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?"/images/productpic.jpg":ViewBag.productDir+Model.product_pic_site)" alt="">
             </div>
             <div class="magb30">
 

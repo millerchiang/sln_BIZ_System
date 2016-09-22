@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.ProductListModel
 
 @{
-   //ViewBag.Title = "ProductList";
+//ViewBag.Title = "ProductList";
 }
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
@@ -10,10 +10,10 @@
     <div class="article_col1">
         <article class="article_col2 form_box">
             <h2>昕昕科技</h2>
-            <form id="form" action="@Url.Action("doProductInsertOrUpdate","User")" method="post" enctype="multipart/form-data">
+            <form id="form" action="@Url.Action("doProductInsertOrUpdate", "User")" method="post" enctype="multipart/form-data">
                 <div class="magb30 centerbox2">
                     <div class="imgboxB" id="resultB">
-                        <img src="@ViewBag.productDir@Model.product_pic_site" alt="">
+                        <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?"/images/productpic.jpg":ViewBag.productDir+Model.product_pic_site)" alt="">
                     </div>
                     <label class="choose_file" id="upload" for="id_image_large">上傳圖片</label>
                     <input type="file" id="id_image_large" name="product_img">
@@ -100,6 +100,8 @@
         $(function () {
             init();
         });
+
+        function init() { }
         function doSubmit() {
             var errmsg = checkEmpty();
             if ( errmsg != '') {

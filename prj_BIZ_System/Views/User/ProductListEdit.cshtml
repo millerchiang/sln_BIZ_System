@@ -18,7 +18,7 @@
                         {
                             <li>
                                 <div class="imgbox">
-                                    <img src="@ViewBag.productDir@md.product_pic_site" alt="">
+                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?"/images/logopic.jpg":ViewBag.productDir+md.product_pic_site)" alt="">
                                 </div>
                                 <div class="producttext productCheckT">
                                     <h3>產品名稱: @md.product_name</h3>
@@ -56,8 +56,9 @@
         });
         function init() {
             $("#deleteP").click(function () {
-                alert($("input[name='del_prods']:checked").size());
-                $("#form").submit();
+                if(confirm("確定要刪除嗎?")){
+                    $("#form").submit();
+                }
             });
 
         }
