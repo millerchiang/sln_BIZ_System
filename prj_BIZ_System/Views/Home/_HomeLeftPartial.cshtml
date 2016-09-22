@@ -144,14 +144,19 @@
         <div class="newsboxTitle2">
             <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_video</h3>
         </div>
-        <div class="centerbox2">
-            <iframe src="https://www.youtube.com/embed/82a4QvVsDAg" frameborder="0" allowfullscreen=""></iframe>
-        </div>
-        <p>Mars - Principles in Action</p>
+
+        @foreach (var mo in Model.videolistList)
+        {
+            <div class="centerbox2">
+                <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p>@(mo.video_name)</p>
+        }
     </div>
 </aside>
 
-<script>
+<script type="text/javascript" language="javascript">
+
     $(document).ready(function () {
         $("#searchbox").on('change', function () {
             var selects = $("select option:selected").val();

@@ -72,6 +72,7 @@ namespace prj_BIZ_System.Models
     public class Index_ViewModel
     {
         public IList<CatalogListModel> cataloglistList { get; set; }
+        public IList<VideoListModel> videolistList { get; set; }
         public IList<UserInfoModel> userinfoList { get; set; }
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
