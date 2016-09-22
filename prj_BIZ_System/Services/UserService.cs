@@ -302,36 +302,6 @@ namespace prj_BIZ_System.Services
             return mapper.Update("UserInfo.UpdateProductList", param);
         }
 
-        /*新增並修改產品*/
-        public bool ProductListRefresh(string user_id, List<ProductListModel> old_prods, List<ProductListModel> new_prods)
-        {
-            #region 修改
-            if (old_prods!=null)
-            {
-                foreach(ProductListModel old_prod in old_prods)
-                {
-                    old_prod.user_id = user_id;
-                    old_prod.deleted = "1";
-                    var obj = mapper.Update("UserInfo.UpdateProductList", old_prod);
-                }
-            }
-            #endregion
-
-            #region 新增
-
-            if (new_prods != null)
-            {
-                foreach (ProductListModel new_prod in new_prods)
-                {
-                    new_prod.user_id = user_id;
-                    new_prod.deleted = "1";
-                    var obj = mapper.Insert("UserInfo.InsertProductList", new_prod);
-                }
-            }
-            #endregion
-            return true;
-        }
-
         /*刪除產品*/
         public bool ProductListDelete(string user_id, int[] del_prods)
         {
@@ -341,6 +311,20 @@ namespace prj_BIZ_System.Services
                 {
                     var tempModel = new ProductListModel { user_id = user_id, product_id = del_prod };
                     mapper.Delete("UserInfo.DeleteProductListByProductId", tempModel);
+                }
+            }
+            return true;
+        }
+
+        /*假刪除產品*/
+        public bool ProductListDeleteFake(string user_id, int[] del_prods)
+        {
+            if (del_prods != null)
+            {
+                foreach (int del_prod in del_prods)
+                {
+                    var tempModel = new ProductListModel { user_id = user_id, product_id = del_prod };
+                    mapper.Update("UserInfo.DeleteProductListByProductIdFake", tempModel);
                 }
             }
             return true;

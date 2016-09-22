@@ -73,3 +73,39 @@ util_cls.json.getValueFromJsonStr = function (jsonstr, i) {
     }
     return result;
 }
+
+util_cls.checkFileSize = function (id, limit_size) {
+    var fileSize = 0;
+    if (!limit_size) {
+        limit_size = 10 * 1024 * 1024;
+    }
+
+    var file = document.getElementById(id);
+    if ($.browser.msie) {
+        var img = new Image();
+        img.onload = checkFileSize();
+        img.src = file.value;
+    }
+    else {
+        fileSize = file.files.item(0).size;
+        return checkFileSize();
+    }
+    function checkFileSize() {
+        if ($.browser.msie) {
+            fileSize = this.fileSize;
+            if (fileSize > limit_size) {
+                Message((fileSize / 1024 / 1024 ).toPrecision(4), (limit_size / 1024 / 1024 ).toPrecision(2));
+            } else {
+                //document.FileForm.submit();
+            }
+
+        }
+        //alert((fileSize / 1024 / 1024).toPrecision(4), (limit_size / 1024 / 1024).toPrecision(2) + "MB");
+        return fileSize > limit_size;
+    }
+
+    function Message(file, limit) {
+        var msg = " " + file + "  " + limit + " ！"
+        alert(msg);
+    }
+}

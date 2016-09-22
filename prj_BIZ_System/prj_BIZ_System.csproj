@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -409,6 +408,7 @@
     <Content Include="images\iosqr.jpg" />
     <Content Include="images\logopic.jpg" />
     <Content Include="images\msgbox.png" />
+    <Content Include="images\productpic.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -898,7 +898,6 @@
     <Content Include="Views\Manager\B_NewsList.cshtml" />
     <Content Include="Views\Manager\EditNewsActivity.cshtml" />
     <Content Include="Views\Manager\EditNewsInfo.cshtml" />
-    <Content Include="Views\User\ProductList.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
