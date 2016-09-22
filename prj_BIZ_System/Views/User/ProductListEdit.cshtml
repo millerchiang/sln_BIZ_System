@@ -9,7 +9,7 @@
 }
     <div class="article_col1">
         <article class="article_col2 form_box">
-            <h2>昕昕科技</h2>
+            <h2>@ViewBag.company</h2>
             <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
                 <ul class="productlist">
                     @if (Model != null && Model.Count() > 0)
@@ -18,7 +18,7 @@
                         {
                             <li>
                                 <div class="imgbox">
-                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?"/images/logopic.jpg":ViewBag.productDir+md.product_pic_site)" alt="">
+                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
                                 </div>
                                 <div class="producttext productCheckT">
                                     <h3>產品名稱: @md.product_name</h3>

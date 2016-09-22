@@ -9,15 +9,9 @@
 }
     <article class="article_col1">
         <section class="form_box w100 article_col1">
-            <h2>崴奕公寓大廈管理維護有限公司</h2>
-            <div class="databubox">
-                <a href="company_info.html" class="databu databu05">公司資料</a>
-                <a href="company_info_product.html" class="databu databu02 active">產品介紹</a>
-                <a href="company_info_dm.html" class="databu databu03">線上型錄</a>
-                <a href="company_info_dm_movie.html" class="databu databu04">影音型錄</a>
-            </div>
+            <h2>@Model.company</h2>
             <div class="imgboxB">
-                <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?"/images/productpic.jpg":ViewBag.productDir+Model.product_pic_site)" alt="">
+                <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?UploadHelper.defaultImgBig:ViewBag.productDir+Model.product_pic_site)" alt="">
             </div>
             <div class="magb30">
 

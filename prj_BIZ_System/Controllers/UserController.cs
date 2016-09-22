@@ -277,6 +277,8 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id).Pages< ProductListModel>(Request,this,10);
+            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+            ViewBag.company = userInfoModel == null ? "" : userInfoModel.company;
             ViewBag.productDir = UploadHelper.getPictureDirPath(user_id, "product");
             docookie("_mainmenu", "ProductListEdit");
             return View(productLists);

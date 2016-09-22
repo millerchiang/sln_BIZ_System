@@ -9,11 +9,11 @@
 }
     <div class="article_col1">
         <article class="article_col2 form_box">
-            <h2>昕昕科技</h2>
+            <h2>@Model.company</h2>
             <form id="form" action="@Url.Action("doProductInsertOrUpdate", "User")" method="post" enctype="multipart/form-data">
                 <div class="magb30 centerbox2">
                     <div class="imgboxB" id="resultB">
-                        <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?"/images/productpic.jpg":ViewBag.productDir+Model.product_pic_site)" alt="">
+                        <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?UploadHelper.defaultImgBig:ViewBag.productDir+Model.product_pic_site)" alt="">
                     </div>
                     <label class="choose_file" id="upload" for="id_image_large">上傳圖片</label>
                     <input type="file" id="id_image_large" name="product_img">

@@ -187,7 +187,7 @@
                                 {
                                     <li>
                                         <div class="imgbox">
-                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?"/images/logopic.jpg":ViewBag.productDir+md.product_pic_site)" alt="">
+                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
                                         </div>
                                         <div class="producttext">
                                             <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @md.product_name </h3>
