@@ -912,7 +912,7 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
-    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList123.cshtml" />
     <Content Include="Views\Manager\MatchScheduleTime.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
@@ -949,6 +949,7 @@
     <Content Include="Views\User\ProductDetail.cshtml" />
     <Content Include="Views\User\ProductDetailEdit.cshtml" />
     <Content Include="Views\User\ProductListEdit.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

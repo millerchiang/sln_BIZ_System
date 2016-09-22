@@ -1082,8 +1082,10 @@ namespace prj_BIZ_System.Controllers
 
             ViewBag.Action = "StoreMatchTimeInterval";
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
-            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
-            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+            matchModel.schedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.schedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+            matchModel.schedulePeriodSet.time_start = DateTime.Now;
+            matchModel.schedulePeriodSet.time_end = DateTime.Now.AddMinutes(1);
             return View(matchModel);
         }
 
@@ -1126,9 +1128,9 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合時程大表列表
+        #region 媒合時程大表列表舊版
         [HttpGet]
-        public ActionResult MatchScheduleList()
+        public ActionResult MatchScheduleList123()
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -1147,8 +1149,8 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動媒合時段*/
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
             /*取得設定時間的活動編號*/
-            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
-            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+            matchModel.schedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.schedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
 
             /*列出某活動有審核的賣家*/
             matchModel.activityregisterList = matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
@@ -1255,6 +1257,44 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region 媒合大表列表新版
+
+        [HttpGet]
+        public ActionResult MatchScheduleList()
+        {
+            if(Request.Cookies["ManagerInfo"] == null){
+                return Redirect("Login");
+            }
+
+            /*頁面端取得資訊*/
+            ViewBag.Action = "StoreMatchData";
+            /*取得設定時間的活動編號*/
+            matchModel.schedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.schedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+            /*列出某活動的所有買主*/
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
+            /*列出某活動的所有媒合時段*/
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
+
+            /*列出某活動的雙方有意願*/
+            matchModel.matchmakingBothList = matchService.GetMatchmakingbothneedList(int.Parse(Request["activity_id"]));
+            /*列出某活動的買家有意願*/
+            matchModel.matchmakingBuyerList = matchService.GetCertainActivityBuyerCheckSellerList(int.Parse(Request["activity_id"]),"");
+            /*列出某活動的賣家有意願*/
+            matchModel.matchmakingSellerList = matchService.GetMSneedBySellerCompanyList(int.Parse(Request["activity_id"]));
+
+            return View(matchModel);
+        }
+
+        #endregion
+
+
+
+
+
+
+
+
         #region 媒合大表匯出Excel
         [HttpGet]
         public ActionResult ExportExcelByNPOI()
@@ -1275,8 +1315,8 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動媒合時段*/
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(int.Parse(Request["activity_id"]));
             /*取得設定時間的活動編號*/
-            matchModel.SchedulePeriodSet = new SchedulePeriodSetModel();
-            matchModel.SchedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
+            matchModel.schedulePeriodSet = new SchedulePeriodSetModel();
+            matchModel.schedulePeriodSet.activity_id = int.Parse(Request["activity_id"]);
 
             /*列出某活動有審核的賣家*/
             matchModel.activityregisterList = matchService.GetCertainActivityHaveCheckSellerNameList(int.Parse(Request["activity_id"]));
