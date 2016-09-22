@@ -7,173 +7,58 @@
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
-
-    <article class="article_col1 form_box">
-    <h2>昕昕科技</h2>
-    <div class="databubox">
-        <a href="company_info_edit.html" class="databu databu01">我的會員資料</a>
-        <a href="company_info_edit_productlist.html" class="databu databu02 active">產品介紹</a>
-        <a href="company_info_edit_dm.html" class="databu databu03">線上型錄</a>
-        <a href="company_info_edit_dm_movie.html" class="databu databu04">影音型錄</a>
-    </div>
-    <ul class="productlist">
-        @if(Model!=null && Model.Count() > 0)
-        {
-            foreach(ProductListModel md in Model)
-            {
-            <li>
-                <div class="imgbox">
-                    <img src="../../images/product/p1.jpg" alt="">
-                </div>
-                <div class="producttext productCheckT">
-                    <h3>產品名稱: @md.product_name</h3>
-                    <p>型號:@(md.model_no)</p>
-                </div>
-                <div class="productCheck">
-                    <input name="delProductList" value="@md.product_id" type="checkbox" class="inputCheckbox" id="dm@(md.product_id)">
-                    <label for="dm@(md.product_id)" class="labeltCheckbox">刪除</label>
-                </div>
-                <div class="productbu">
-                    <a href="@Url.Action("ProductDetailEdit","User",new { product_id = md.product_id} )" class="editsbu ">編輯產品</a>
-                </div>
-            </li>
-            }
-        }
-        else
-        {
-
-        }
-    </ul>
-
-    @Html.PagesList((PageList<ProductListModel>)TempData["PageList"])
-    <div class="centerbox">
-        <a href="@Url.Action("ProductDetailEdit","User")" class="addbu">新增</a>
-        <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>
-    </div>
-    </article>	
-<script>
-    $(function () {
-        init();
-    });
-    function init() {
-
-        var $addItemLint = $("#addItemLink");
-        var g_no = 1;
-        $addItemLint.click(function (e) {
-            $("table.regis_table").append(genTemplate(g_no++));
-            $(this).appendTo($("table.regis_table tr").last().find("td").last());
-        });
-
-        $("tr._old_prods").find("input[type='text']").change(function () {
-            $(this).parents("tr").find("input[name='isChanged']").val('true');
-        });
-
-        $("#deleteLink").click(function () {
-            if (confirm("確認是否要刪除")) {
-                var $selected = $("tr").find("input[name='product_id']:checked");
-                var del_prods = [];
-                $selected.each(function (index, el) {
-                    var value = $(el).val();
-                    if (value != null && value != '') {
-                        del_prods.push(value);
+    <div class="article_col1">
+        <article class="article_col2 form_box">
+            <h2>昕昕科技</h2>
+            <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
+                <ul class="productlist">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (ProductListModel md in Model)
+                        {
+                            <li>
+                                <div class="imgbox">
+                                    <img src="@ViewBag.productDir@md.product_pic_site" alt="">
+                                </div>
+                                <div class="producttext productCheckT">
+                                    <h3>產品名稱: @md.product_name</h3>
+                                    <p>型號:@(md.model_no)</p>
+                                </div>
+                                <div class="productCheck">
+                                    <input name="del_prods" value="@md.product_id" type="checkbox" class="inputCheckbox" id="dm@(md.product_id)">
+                                    <label for="dm@(md.product_id)" class="labeltCheckbox">刪除</label>
+                                </div>
+                                <div class="productbu">
+                                    <a href="@Url.Action("ProductDetailEdit","User",new { product_id = md.product_id} )" class="editsbu ">編輯產品</a>
+                                </div>
+                            </li>
+                        }
                     }
-                });
-                var param = {
-                    "del_prods": del_prods
-                };
+                    else
+                    {
 
-                $.ajax({
-                    type: "post",
-                    url: "@Url.Action("ProductDelete", "User")",
-                    cache: false,
-                    data: param,
-                    dataType: "json"
-                }).done(function(result) {
-                    if (result == 'success') {
-                        alert("刪除成功");
-                    } else {
-                        alert("刪除失敗");
                     }
-                    location.reload();
-                });
-            }
-        });
-
-        $("#saveLink").click(function () {
-            var old_prods = [];
-            var new_prods = [];
-
-            $("tr._old_prods").each(function (index, el) {
-                var isChanged = $(el).find("input[name='isChanged']").val();
-                if (isChanged == 'true') {
-                    new_ProductListModel(old_prods, el);
-                }
-            });
-
-            $("tr._new_prods").each(function (index, el) {
-                new_ProductListModel(new_prods, el);
-            });
-
-            var param = {
-                "old_prods": old_prods ,
-                "new_prods": new_prods
-            };
-
-            $.ajax({
-                type: "post",
-                url: "@Url.Action("ProductInsert", "User")",
-                cache: false,
-                data: param,
-                dataType: "json"
-            }).done(function(result) {
-                if (result == 'success') {
-                    alert("新增成功");
-                } else {
-                    alert("新增失敗");
-                }
-                location.reload();
-            });
-
-        })
-    }
-
-    function new_ProductListModel(collection, el) {
-        var product_id      = $(el).find("input[name='product_id']").val();
-        var product_name    = $(el).find("input[name='product_name']").val();
-        var product_name_en = $(el).find("input[name='product_name_en']").val();
-        var product_info    = $(el).find("input[name='product_info']").val();
-        var product_info_en = $(el).find("input[name='product_info_en']").val();
-        if (product_name != '' || product_name_en != '' || product_info != '' || product_info_en!='') {
-            collection.push(
-                {
-                    "product_id"      : product_id,
-                    "product_name"    : product_name,
-                    "product_name_en" : product_name_en,
-                    "product_info"    : product_info,
-                    "product_info_en" : product_info_en
-                }
-            );
+                </ul>
+            </form>
+            @Html.PagesList((PageList<ProductListModel>)TempData["PageList"])
+            <div class="centerbox">
+                <a href="@Url.Action("ProductDetailEdit","User")" class="addbu">新增</a>
+                <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>
+            </div>
+        </article>
+        @{
+            Html.RenderAction("_HomeLeftPartial", "Home");
         }
-    }
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+        function init() {
+            $("#deleteP").click(function () {
+                alert($("input[name='del_prods']:checked").size());
+                $("#form").submit();
+            });
 
-    function genTemplate(no) {
-        var template =
-           '<tr class="_new_prods">                                                                                 ' +
-           '	<td>                                                                                                ' +
-           //'		<input type="checkbox" class="inputCheckbox" name="product_id" id="product'+ no +'" value="">   ' +
-           //'		<label for="product'+no+'"></label>                                                             ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '        <input type="text"  name="product_name"    value="" placeholder="請輸入產品中文名稱..">           ' +
-           '	    <input type="text"  name="product_name_en" value="" placeholder="請輸入產品英文名稱..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	    <input type="text"  name="product_info"    value="" placeholder="請輸入產品中文說明..">           ' +
-           '	    <input type="text"  name="product_info_en" value="" placeholder="請輸入產品英文說明..">           ' +
-           '	</td>                                                                                               ' +
-           '	<td>                                                                                                ' +
-           '	</td>                                                                                               ' +
-           '</tr>                                                                                                   ' ;
-        return template;
-    }
-</script>
+        }
+    </script>

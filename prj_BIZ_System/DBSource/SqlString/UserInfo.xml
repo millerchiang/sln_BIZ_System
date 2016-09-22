@@ -205,24 +205,43 @@
       and product_id = #product_id#
     </delete>
 
+    <!--假刪除產品-->
+    <delete id="DeleteProductListByProductIdFake" parameterClass="ProductListModel">
+      UPDATE product_list
+      SET deleted = '0'
+      WHERE user_id = #user_id# and product_id = #product_id#
+    </delete>
+    
     <!--新增產品-->
     <insert id="InsertProductList" parameterClass="ProductListModel">
       <selectKey resultClass="int" property="product_id" type="post">
         SELECT currval('product_list_seq')
       </selectKey>
-      INSERT INTO product_list(
-      user_id, product_name, product_info, product_name_en,
-      product_info_en, deleted)
-      VALUES (#user_id#,#product_name#,#product_info#,#product_name_en#
-      ,#product_info_en#,#deleted#
+      INSERT INTO public.product_list(
+      user_id, product_category, product_name, product_info,
+      model_no, patent_or_winners, specifications_or_other, product_category_en,
+      product_name_en, product_info_en, model_no_en, patent_or_winners_en,
+      specifications_or_other_en, product_pic_site, deleted)
+      VALUES (#user_id#,#product_category#,#product_name#,#product_info#
+      ,#model_no#, #patent_or_winners#, #specifications_or_other#, #product_category_en#
+      ,#product_name_en#, #product_info_en#, #model_no_en#, #patent_or_winners_en#,
+      #specifications_or_other_en#, #product_pic_site#, #deleted#
       )
     </insert>
 
     <!--更新產品-->
     <update id="UpdateProductList" parameterClass="ProductListModel">
-      UPDATE product_list
-      SET user_id=#user_id#, product_name=#product_name#, product_info=#product_info#, product_name_en=#product_name_en#,
-      product_info_en=#product_info_en#, deleted=#deleted#
+      UPDATE public.product_list
+      SET user_id=#user_id#, product_category=#product_category#, product_name=#product_name#,
+      product_info=#product_info#, model_no=#model_no#, patent_or_winners=#patent_or_winners#, specifications_or_other=#specifications_or_other#,
+      product_category_en=#product_category_en#, product_name_en=#product_name_en#, product_info_en=#product_info_en#,
+      model_no_en=#model_no_en#, patent_or_winners_en=#patent_or_winners_en#, specifications_or_other_en=#specifications_or_other_en#
+      <dynamic prepend="">
+        <isNotNull prepend="," property="product_pic_site">
+          product_pic_site=#product_pic_site#
+        </isNotNull>  
+      </dynamic>
+      , deleted=#deleted#
       WHERE product_id=#product_id#
     </update>
     <!--

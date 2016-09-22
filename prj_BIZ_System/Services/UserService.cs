@@ -345,6 +345,20 @@ namespace prj_BIZ_System.Services
             }
             return true;
         }
+
+        /*假刪除產品*/
+        public bool ProductListDeleteFake(string user_id, int[] del_prods)
+        {
+            if (del_prods != null)
+            {
+                foreach (int del_prod in del_prods)
+                {
+                    var tempModel = new ProductListModel { user_id = user_id, product_id = del_prod };
+                    mapper.Update("UserInfo.DeleteProductListByProductIdFake", tempModel);
+                }
+            }
+            return true;
+        }
         #endregion
 
         #region 型錄上傳

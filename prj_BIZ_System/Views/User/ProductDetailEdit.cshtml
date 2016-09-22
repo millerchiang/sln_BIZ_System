@@ -7,102 +7,115 @@
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
-    <article class="article_col1 form_box">
-        <h2>昕昕科技</h2>
-        <div class="databubox">
-            <a href="company_info_edit.html" class="databu databu01">我的會員資料</a>
-            <a href="company_info_edit_product.html" class="databu databu02 active">產品說明</a>
-            <a href="company_info_edit_dm.html" class="databu databu03">線上型錄</a>
-            <a href="company_info_edit_dm_movie.html" class="databu databu04">影音型錄</a>
-        </div>
-
-        <form id="form" action="@Url.Action("doProductInsertOrUpdate","User")" method="post" enctype="multipart/form-data">
-            <div class="magb30 centerbox2">
-                <div class="imgboxB" id="resultB">
-                    <img src="../../images/product/p12b.jpg" alt="">
+    <div class="article_col1">
+        <article class="article_col2 form_box">
+            <h2>昕昕科技</h2>
+            <form id="form" action="@Url.Action("doProductInsertOrUpdate","User")" method="post" enctype="multipart/form-data">
+                <div class="magb30 centerbox2">
+                    <div class="imgboxB" id="resultB">
+                        <img src="@ViewBag.productDir@Model.product_pic_site" alt="">
+                    </div>
+                    <label class="choose_file" id="upload" for="id_image_large">上傳圖片</label>
+                    <input type="file" id="id_image_large" name="product_img">
                 </div>
-                <label class="choose_file" id="upload" for="id_image_large">上傳圖片</label>
-                <input type="file" id="id_image_large" name="logo_img">
-            </div>
-            <div class="magb30">
-                <div class="form_box w100">
-                    <h2>中文資訊</h2>
-                    <input type="hidden" name="product_id" value="@Model.product_id" class="regis_col02R" />
-                    <span class="regis_col02L regis_col_bg">
-                        類型:
-                    </span>
-                    <input name="product_category" value="@Model.product_category" class="regis_col02R" />
+                <div class="magb30">
+                    <div class="form_box w100">
+                        <h2>中文資訊</h2>
+                        <input type="hidden" name="product_id" value="@Model.product_id" class="regis_col02R" />
+                        <span class="regis_col02L regis_col_bg">
+                            類型:
+                        </span>
+                        <input name="product_category" value="@Model.product_category" class="regis_col02R" />
 
-                    <span class="regis_col02L regis_col_bg">
-                        產品名稱:
-                    </span>
-                    <input name="product_name" value="@Model.product_name" class="regis_col02R" />
+                        <span class="regis_col02L regis_col_bg">
+                            產品名稱:
+                        </span>
+                        <input name="product_name" value="@Model.product_name" class="regis_col02R" />
 
-                    <span class="regis_col02L regis_col_bg">
-                        商品型號:
-                    </span>
-                    <input name="model_no" value="@Model.model_no_en" class="regis_col02R" />
+                        <span class="regis_col02L regis_col_bg">
+                            商品型號:
+                        </span>
+                        <input name="model_no" value="@Model.model_no_en" class="regis_col02R" />
 
-                    <span class="regis_col02L regis_col_bg">
-                        產品資料:
-                    </span>
-                    <textarea name="product_info" class="regis_col02R">@Model.product_info</textarea>
-                    <span class="regis_col02L regis_col_bg">
-                        商品專利/得獎:
-                    </span>
-                    <textarea name="patent_or_winners" class="regis_col02R">@Model.patent_or_winners</textarea>
+                        <span class="regis_col02L regis_col_bg">
+                            產品資料:
+                        </span>
+                        <textarea name="product_info" class="regis_col02R">@Model.product_info</textarea>
+                        <span class="regis_col02L regis_col_bg">
+                            商品專利/得獎:
+                        </span>
+                        <textarea name="patent_or_winners" class="regis_col02R">@Model.patent_or_winners</textarea>
 
-                    <span class="regis_col02L regis_col_bg">
-                        商品規格或其它:
-                    </span>
-                    <textarea name="specifications_or_other" class="regis_col02R">@Model.specifications_or_other</textarea>
+                        <span class="regis_col02L regis_col_bg">
+                            商品規格或其它:
+                        </span>
+                        <textarea name="specifications_or_other" class="regis_col02R">@Model.specifications_or_other</textarea>
+                    </div>
+                    <div class="form_box w100">
+                        <h2>英文資訊</h2>
+                        <span class="regis_col02L regis_col_bg">
+                            類型:
+                        </span>
+                        <input name="product_category_en" value="@Model.product_category_en" class="regis_col02R" />
+
+                        <span class="regis_col02L regis_col_bg">
+                            產品名稱:
+                        </span>
+                        <input name="product_name_en" value="@Model.product_name_en" class="regis_col02R" />
+
+
+                        <span class="regis_col02L regis_col_bg">
+                            商品型號:
+                        </span>
+                        <input name="model_no_en" value="@Model.model_no_en" class="regis_col02R" />
+
+
+                        <span class="regis_col02L regis_col_bg">
+                            產品資料:
+                        </span>
+                        <textarea name="product_info_en" class="regis_col02R">@Model.product_info_en</textarea>
+
+                        <span class="regis_col02L regis_col_bg">
+                            商品專利/得獎:
+                        </span>
+                        <textarea name="patent_or_winners_en" class="regis_col02R">@Model.patent_or_winners_en</textarea>
+
+                        <span class="regis_col02L regis_col_bg">
+                            商品規格或其它:
+                        </span>
+                        <textarea name="specifications_or_other_en" class="regis_col02R">@Model.specifications_or_other_en</textarea>
+                    </div>
                 </div>
-                <div class="form_box w100">
-                    <h2>英文資訊</h2>
-                    <span class="regis_col02L regis_col_bg">
-                        類型:
-                    </span>
-                    <input name="product_category_en" value="@Model.product_category_en" class="regis_col02R" />
-
-                    <span class="regis_col02L regis_col_bg">
-                        產品名稱:
-                    </span>
-                    <input name="product_name_en" value="@Model.product_name_en" class="regis_col02R" />
-
-
-                    <span class="regis_col02L regis_col_bg">
-                        商品型號:
-                    </span>
-                    <input name="model_no_en" value="@Model.model_no_en" class="regis_col02R" />
-
-
-                    <span class="regis_col02L regis_col_bg">
-                        產品資料:
-                    </span>
-                    <textarea name="product_info_en" class="regis_col02R">@Model.product_info_en</textarea>
-                    
-                    <span class="regis_col02L regis_col_bg">
-                        商品專利/得獎:
-                    </span>
-                    <textarea name="patent_or_winners_en" class="regis_col02R">@Model.patent_or_winners_en</textarea>
-
-                    <span class="regis_col02L regis_col_bg">
-                        商品規格或其它:
-                    </span>
-                    <textarea name="specifications_or_other_en" class="regis_col02R">@Model.specifications_or_other_en</textarea>
+                <div class="centerbox">
+                    <a href="javascript:void(0)" class="addbublue" onclick="doSubmit()">儲存</a>
                 </div>
-            </div>
-            <div class="centerbox">
-                <a href="javascript:void(0)" class="addbublue" onclick="doSubmit()">儲存</a>
-            </div>
 
-        </form>
-    </article>
-<script>
-    $(function () {
-        init();
-    });
-    function doSubmit() {
-        $("#form").submit();
-    }
-</script>
+            </form>
+        </article>
+        @{
+            Html.RenderAction("_HomeLeftPartial", "Home");
+        }
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+        function doSubmit() {
+            var errmsg = checkEmpty();
+            if ( errmsg != '') {
+                alert(errmsg);
+                return false;
+            } else {
+                $("#form").submit();
+            }
+        }
+
+        function checkEmpty() {
+            var errmsg = '';
+            var product_name = $("input[name='product_name']").val();
+            if (product_name == null || product_name == '') {
+                errmsg+="產品名稱不可以為空值";
+            }
+            return errmsg;
+        }
+    </script>

@@ -51,6 +51,7 @@ namespace prj_BIZ_System.Controllers
 
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
             ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
+            ViewBag.productDir = UploadHelper.getPictureDirPath(user_id, "product");
             ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
             docookie("_mainmenu", "UserInfo");
             return View(userModel);
@@ -227,28 +228,45 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            //string user_id = Request.Cookies["Action"]["user_id"];
+            //string user_id = Request.Cookies["UserInfo"]["user_id"];
             ViewBag.user_id = user_id;
             IList<ProductListModel> productLists = userService.getAllProduct(user_id);
+            ViewBag.productDir = UploadHelper.getPictureDirPath(user_id, "product");
+            docookie("_mainmenu", "ProductList");
             return View(productLists);
         }
 
         [HttpPost]
-        public ActionResult doProductInsertOrUpdate(ProductListModel model)
+        public ActionResult doProductInsertOrUpdate(ProductListModel model , HttpPostedFileBase product_img)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
+            model.user_id = Request.Cookies["UserInfo"]["user_id"];
             if(model.product_id == null)
             {
-                model.user_id = Request.Cookies["UserInfo"]["user_id"];
+
+                if (product_img != null && product_img.ContentLength > 0)
+                {
+                    model.product_pic_site = product_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(product_img, UploadConfig.subDirForProduct, model.user_id, model.product_pic_site);
+                }
                 int product_id = (int)userService.insertProductList(model);
+                
             }
             else
             {
-                model.user_id = Request.Cookies["UserInfo"]["user_id"];
-                int updateCount = (int)userService.updateProductList(model);
+                if (product_img != null && product_img.ContentLength > 0 && !string.IsNullOrEmpty(model.user_id))
+                {
+                    var old_prod_model = userService.getProductOne(model.product_id);
+                    UploadHelper.deleteUploadFile(old_prod_model.product_pic_site, "product", model.user_id);
+                    model.product_pic_site = product_img.FileName.Replace(".","_"+DateTime.Now.ToString("yyyyMMddHHmmss")+".");
+                    UploadHelper.doUploadFilePlus(product_img, UploadConfig.subDirForProduct, model.user_id, model.product_pic_site);
+                }
             }
+                
+                    
+            int updateCount = (int)userService.updateProductList(model);
 
             return Redirect("ProductListEdit");
         }
@@ -258,16 +276,11 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            try
-            {
+            
                 string user_id =  Request.Cookies["UserInfo"]["user_id"];
-                bool isDelSuccess = userService.ProductListDelete(user_id, del_prods);
-                return Json("success");
-            }
-            catch (Exception ex)
-            {
-                return Json("error");
-            }
+                bool isDelSuccess = userService.ProductListDeleteFake(user_id, del_prods); //假刪
+                return Redirect("ProductListEdit");
+            
         }
 
         [HttpPost]
@@ -293,15 +306,16 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<ProductListModel> productLists = userService.getAllProduct(user_id).Pages< ProductListModel>(Request,this,10);
+            ViewBag.productDir = UploadHelper.getPictureDirPath(user_id, "product");
+            docookie("_mainmenu", "ProductListEdit");
             return View(productLists);
         }
 
         public ActionResult ProductDetail(int? product_id)
         {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-
             ProductListModel result = userService.getProductOne(product_id);
+            ViewBag.productDir = UploadHelper.getPictureDirPath(result.user_id, "product");
+            docookie("_mainmenu", "ProductDetail");
             return View(result);
         }
 
@@ -310,6 +324,8 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             ProductListModel result = userService.getProductOne(product_id);
+            ViewBag.productDir = result != null?UploadHelper.getPictureDirPath(result.user_id, "product"):"";
+            docookie("_mainmenu", "ProductDetailEdit");
             return result==null? View(new ProductListModel()) : View(result);
         }
         #endregion
@@ -317,9 +333,9 @@ namespace prj_BIZ_System.Controllers
         #region 型錄管理
         public ActionResult CatalogList()
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id =  Request.Cookies["Action"]["user_id"];
+            string user_id =  Request.Cookies["UserInfo"]["user_id"];
             IList<CatalogListModel> catalogLists = userService.getAllCatalog(user_id);
             ViewBag.coverDir = UploadHelper.getPictureDirPath(user_id, "catalog_cover");
             ViewBag.catalogDir = UploadHelper.getPictureDirPath(user_id, "catalog_file");
@@ -336,9 +352,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult CatalogDelete(int[] catalog_no)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id =  Request.Cookies["Action"]["user_id"];
+            string user_id =  Request.Cookies["UserInfo"]["user_id"];
             IList<CatalogListModel> catalogLists =userService.SelectCatalogListByCatalogNo(user_id, catalog_no);
 
             #region 刪除檔案
@@ -365,13 +381,13 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult CatalogUpload(string catalog_name , HttpPostedFileBase cover_file , HttpPostedFileBase catalog_file)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             if (cover_file != null && catalog_file !=null)
             {
                 if(cover_file.ContentLength > 0 && catalog_file.ContentLength > 0)
                 {
-                    string user_id = Request.Cookies["Action"]["user_id"];
+                    string user_id = Request.Cookies["UserInfo"]["user_id"];
                     UploadHelper.doUploadFile(cover_file, UploadConfig.subDirForCover , user_id);
                     UploadHelper.doUploadFile(catalog_file, UploadConfig.subDirForCatalog, user_id);
                     bool isUploadSuccess = userService.CatalogListInsert(user_id, catalog_name , cover_file.FileName, catalog_file.FileName);
@@ -412,9 +428,9 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult VideoUpload(string video_name, string youtube_site)
         {
-            if (Request.Cookies["Action"] == null)
+            if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["Action"]["user_id"];
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
             var isUploadSuccess = userService.VideoListInsert(user_id, video_name, youtube_site);
             return Redirect("VideoList");
         }
