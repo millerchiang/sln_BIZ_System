@@ -48,6 +48,11 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string subDirForNews { get; set; }
 
+        /// <summary>
+        /// 產品列表圖片儲存路徑
+        /// </summary>
+        public static string subDirForProduct { get; set; }
+
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
             UploadRootPath = "/" + rootPath;
@@ -59,6 +64,7 @@ namespace prj_BIZ_System.App_Start
             subDirForLogo = "Logo/";
             subDirForNews = "News/";
             subDirForMessageFile = "Pri_Message/";
+            subDirForProduct = "Product/";
             #endregion
         }
     }
@@ -66,6 +72,8 @@ namespace prj_BIZ_System.App_Start
 
     public class UploadHelper
     {
+        public static string defaultImgSmall = "/images/logopic.jpg";
+        public static string defaultImgBig = "/images/productpic.jpg";
         public static string[] sniff = { "jpg", "gif", "png", "pdf", "txt" };
         /// <summary>
         /// 取得私訊附件資料夾路徑(使用者id)
@@ -122,6 +130,10 @@ namespace prj_BIZ_System.App_Start
                     folder_name = UploadConfig.subDirForMessageFile;
                     break;
 
+                case "product":
+                    folder_name = UploadConfig.subDirForProduct;
+                    break;
+
                 default : 
                     folder_name = dir_type;
                     break;
@@ -134,7 +146,7 @@ namespace prj_BIZ_System.App_Start
         /// <summary>
         /// 上傳檔案 (檔案 , 資料夾位置 , 使用者id)
         /// </summary>
-        public static Dictionary<string, string> doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id)
+        public static Dictionary<string, string> doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id )
         {
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
             
@@ -168,6 +180,48 @@ namespace prj_BIZ_System.App_Start
             finally{
                 resultDict.Add("filepath", targetCoverFilePath);
                 resultDict.Add("relativFilepath", user_id +"/"+ subFileDir + "/"+ uploadFile.FileName);
+            }
+            return resultDict;
+        }
+
+        /// <summary>
+        /// 上傳檔案 (檔案 , 資料夾位置 , 使用者id)
+        /// </summary>
+        public static Dictionary<string, string> doUploadFilePlus(HttpPostedFileBase uploadFile, string subFileDir, string user_id, string newFileName)
+        {
+            Dictionary<string, string> resultDict = new Dictionary<string, string>();
+
+            string targetRootDir = Path.Combine(UploadConfig.UploadRootDir, user_id);
+            string targetFilePath = "";
+            targetFilePath = Path.Combine(targetRootDir, subFileDir);
+            if (!Directory.Exists(UploadConfig.UploadRootDir))
+            {
+                Directory.CreateDirectory(UploadConfig.UploadRootDir);
+            }
+            if (!Directory.Exists(targetRootDir))
+            {
+                Directory.CreateDirectory(targetRootDir);
+            }
+            if (!Directory.Exists(targetFilePath))
+            {
+                Directory.CreateDirectory(targetFilePath);
+            }
+            string targetCoverFilePath = Path.Combine(targetFilePath, newFileName==null? uploadFile.FileName: newFileName);
+            try
+            {
+                uploadFile.SaveAs(targetCoverFilePath);
+                resultDict.Add("result", "success");
+                resultDict.Add("msg", "");
+            }
+            catch (Exception ex)
+            {
+                resultDict.Add("result", "fail");
+                resultDict.Add("msg", ex.ToString());
+            }
+            finally
+            {
+                resultDict.Add("filepath", targetCoverFilePath);
+                resultDict.Add("relativFilepath", user_id + "/" + subFileDir + "/" + uploadFile.FileName);
             }
             return resultDict;
         }

@@ -408,6 +408,7 @@
     <Content Include="images\iosqr.jpg" />
     <Content Include="images\logopic.jpg" />
     <Content Include="images\msgbox.png" />
+    <Content Include="images\productpic.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -898,7 +899,6 @@
     <Content Include="Views\Manager\B_NewsList.cshtml" />
     <Content Include="Views\Manager\EditNewsActivity.cshtml" />
     <Content Include="Views\Manager\EditNewsInfo.cshtml" />
-    <Content Include="Views\User\ProductList.cshtml" />
     <Content Include="Views\User\CatalogCreate.cshtml" />
     <Content Include="Views\User\CatalogList.cshtml" />
     <Content Include="Views\User\UserInfo.cshtml" />
@@ -912,7 +912,7 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
-    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList123.cshtml" />
     <Content Include="Views\Manager\MatchScheduleTime.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
@@ -949,6 +949,7 @@
     <Content Include="Views\User\ProductDetail.cshtml" />
     <Content Include="Views\User\ProductDetailEdit.cshtml" />
     <Content Include="Views\User\ProductListEdit.cshtml" />
+    <Content Include="Views\Manager\MatchScheduleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

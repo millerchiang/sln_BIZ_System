@@ -265,12 +265,17 @@
       AND ms.seller_id = #seller_id#
     </select>
 
-    <!--查詢某活動的買家有無勾選賣主-->
+    <!--查詢某活動的買家有無勾選賣主, 後台_查詢某活動買家媒合意願清單-->
     <select id="SelectCertainActivityBuyerCheckSeller" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
       SELECT *, get_company_by_user_id(seller_id) as company
-      FROM matchmaking_buyerneed
+      FROM matchmaking_buyerneed mb
       WHERE activity_id = #activity_id#
-      AND buyer_id = #buyer_id#
+      <dynamic prepend="">
+        <isNotEmpty prepend="AND" property="buyer_id">
+          mn.buyer_id = #buyer_id#
+        </isNotEmpty>
+      </dynamic>
+      <!--AND buyer_id = #buyer_id#-->
     </select>
 
     <!--查詢賣家媒合意願清單的某活動的賣家有選那些買主-->
@@ -302,6 +307,33 @@
       DELETE FROM matchmaking_buyerneed
       WHERE serial_no = #serial_no#
     </delete>
+    
+    <!--查詢雙方有媒合意願的清單-->
+    <select id="SelectMatchmakingbothneed" resultMap="MatchmakingBoth" parameterClass="MatchmakingAllModel">
+      SELECT mb.activity_id, mb.buyer_id, mb.seller_id, ui.company
+      FROM  matchmaking_buyerneed mb
+      INNER JOIN user_info ui
+      ON mb.seller_id = ui.user_id
+      WHERE mb.activity_id = #activity_id#
+      INTERSECT
+      SELECT ms.activity_id, ms.buyer_id, ms.seller_id, ui.company
+      FROM matchmaking_sellerneed ms
+      INNER JOIN user_info ui
+      ON ms.seller_id = ui.user_id
+      WHERE ms.activity_id = #activity_id#
+    </select>
+    
+    <!--後台_查詢賣家有媒合意願的清單(賣家公司名稱)-->
+    <select id="SelectMSneedBySellerCompany" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
+      SELECT *
+      FROM matchmaking_sellerneed ms
+      INNER JOIN user_info ui
+      ON ms.seller_id = ui.user_id
+      WHERE ms.activity_id = #activity_id#
+    </select>
+    
+    
+    
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -488,6 +520,15 @@
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
     </resultMap>
+    
+    
+    <resultMap id="MatchmakingBoth" class="MatchmakingAllModel">
+      <result property="activity_id" column="activity_id"/>
+      <result property="seller_id" column="seller_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <!-- UserInfo 的 company-->
+      <result property="company" column="company"/>
+    </resultMap>
 
 
 
@@ -594,7 +635,7 @@
       <result property="activity_name" column="activity_name"/>
       <result property="starttime" column="starttime"/>
     </resultMap>
-
+   
   </resultMaps>
 
 </sqlMap>

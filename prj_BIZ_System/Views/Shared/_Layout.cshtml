@@ -10,7 +10,9 @@
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("pagestyle", false)
     @*<script src="../Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>*@
+    <script>jQuery.browser={};(function(){jQuery.browser.msie=false; jQuery.browser.version=0;if(navigator.userAgent.match(/MSIE ([0-9]+)./)){ jQuery.browser.msie=true;jQuery.browser.version=RegExp.$1;}})();</script>
 </head>
+
 <body>
     <div id="loaderdiv" class="loaderbox" style="display:none">
         <div class="loader">Loading...</div>

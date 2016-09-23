@@ -187,7 +187,7 @@
                                 {
                                     <li>
                                         <div class="imgbox">
-                                            <img src="../../images/product/p1.jpg" alt="">
+                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
                                         </div>
                                         <div class="producttext">
                                             <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @md.product_name </h3>
@@ -284,6 +284,14 @@
             $("#tabbox section").hide();
             $("#tabbox").find(formbox).show();
         })
+
+        var sectionIndex = location.href.split("#")[1];
+        if (sectionIndex) {
+            $("#tabA a").removeClass('active');
+            $("#tabA a").eq(sectionIndex).addClass('active');
+            $("#tabbox section").hide();
+            $("#tabbox").find($("#tabbox section")[sectionIndex]).show();
+        }
     })
 
 

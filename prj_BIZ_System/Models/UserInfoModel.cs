@@ -77,6 +77,9 @@ namespace prj_BIZ_System.Models
         public string specifications_or_other_en { get; set; } //商品規格/其他(英文)
         public string product_pic_site { get; set; } //商品圖片位置
         public string deleted { get; set; } //是否刪除  (0：刪除；1：未刪除)
+
+        public string company { get; set; } //公司名稱
+        public string company_en { get; set; } //公司名稱(英文)
     }
     
     public class CatalogListModel
