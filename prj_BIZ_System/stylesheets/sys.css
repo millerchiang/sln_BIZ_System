@@ -824,6 +824,23 @@ tfoot p {
   float: left;
 }
 
+/*select color */
+.edittable tr.schedulebg001, select option.schedulebg001 {
+  background: #e5ffe1;
+  font-size: 0.938em;
+  line-height: 1.6;
+}
+.edittable tr.schedulebg002, select option.schedulebg002 {
+  background: #c2f4ec;
+  font-size: 0.938em;
+  line-height: 1.6;
+}
+.edittable tr.schedulebg003, select option.schedulebg003 {
+  background: #f0f0f0;
+  font-size: 0.938em;
+  line-height: 1.6;
+}
+
 .membertable tbody, .membertable tr, .membertable td {
   width: 100%;
   display: inline-block;
