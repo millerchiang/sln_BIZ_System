@@ -78,6 +78,8 @@ namespace prj_BIZ_System.App_Start
 
     public class UploadHelper
     {
+        public static string defaultImgSmall = "/images/logopic.jpg";
+        public static string defaultImgBig = "/images/productpic.jpg";
         public static string[] sniff = { "jpg", "gif", "png", "pdf", "txt" };
         /// <summary>
         /// 取得私訊附件資料夾路徑(使用者id)

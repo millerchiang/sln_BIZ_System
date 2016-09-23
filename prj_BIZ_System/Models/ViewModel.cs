@@ -92,7 +92,7 @@ namespace prj_BIZ_System.Models
 
     public class Match_ViewModel
     {
-        public SchedulePeriodSetModel SchedulePeriodSet { get; set; }
+        public SchedulePeriodSetModel schedulePeriodSet { get; set; }
         public MatchmakingScheduleModel matchmakingSchedule { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
@@ -107,6 +107,13 @@ namespace prj_BIZ_System.Models
         public string[] matchMakingScheduleSellerId { get; set; }
         public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
         public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
+
+
+        public IList<MatchmakingAllModel> matchmakingBothList { get; set; }
+        public IList<MatchmakingAllModel> matchmakingBuyerList { get; set; }
+        public IList<MatchmakingAllModel> matchmakingSellerList { get; set; }
+
+
     }
 
     public class Manager_ViewModel

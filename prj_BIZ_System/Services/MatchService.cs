@@ -144,6 +144,21 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingAllModel>("Match.SelectCertainActivityBuyerCheckSeller", param);
         }
 
+        public IList<MatchmakingAllModel> GetMatchmakingbothneedList(int activity_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMatchmakingbothneed", param);
+        }
+
+        public IList<MatchmakingAllModel> GetMSneedBySellerCompanyList(int activity_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMSneedBySellerCompany", param);
+        }
+
+
+
+
         /*媒合大表的*/
         //public IList<MatchmakingNeedModel> GetCertainActivityWithBuyerReplyAllList(int activity_id, string buyer_reply)
         //{
