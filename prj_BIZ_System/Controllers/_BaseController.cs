@@ -12,6 +12,7 @@ namespace prj_BIZ_System.Controllers
 {
     public class _BaseController : Controller
     {
+        public int pageSeqCount = 0;
         public Logger logger = LogManager.GetCurrentClassLogger();
 
         public void docookie(string cks, string v)

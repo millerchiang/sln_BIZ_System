@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace prj_BIZ_System.Controllers
 {
-    public class PushController : Controller
+    public class PushController : _BaseController
     {
         public PushService pushService;
         public Push_ViewModel pushViewModel;

@@ -37,6 +37,17 @@
       </dynamic>
     </select>
 
+    <select id="SelectClusterFileList" resultMap="ClusterFile-result" parameterClass="ClusterFile">
+      SELECT *
+      FROM public.cluster_file
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = #cluster_no#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
+      
     <select id="SelectClusterList" resultMap="Cluster-result" parameterClass="Cluster">
       SELECT *
       FROM public.cluster_member
@@ -168,6 +179,17 @@
       WHERE cluster_no=$cluster_no$ AND user_id=#user_id#
     </update>
 
+    <!--新增聚落文件資料-->
+    <insert id="ClusterFileInsertOne" parameterClass="ClusterFile">
+      <selectKey resultClass="int" property="cluster_file_no" type="post">
+        SELECT currval('cluster_file_cluster_file_no_seq')
+      </selectKey>
+      INSERT INTO public.cluster_file(
+      cluster_no, user_id, cluster_file_site, deleted )
+      VALUES ($cluster_no$,#user_id#,#cluster_file_site#,#deleted#)
+    </insert>
+
+
   </statements>
 
   <resultMaps>
@@ -207,6 +229,16 @@
       <result property="enable" column="enable"></result>
     </resultMap>
 
+    <resultMap id="ClusterFile-result" class="prj_BIZ_System.Models.ClusterFileModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_file_no" column="cluster_file_no"></result>
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_file_site" column="cluster_file_site"></result>
+      <result property="create_time" column="create_time"></result>
+    </resultMap>
+    
+      
       <resultMap id="ClusterMember-result" class="prj_BIZ_System.Models.ClusterMemberModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_member_no" column="cluster_member_no"></result>

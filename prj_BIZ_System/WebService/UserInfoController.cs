@@ -91,7 +91,7 @@ namespace prj_BIZ_System.WebService
             {
                 try
                 {
-                    userInfoId = userService.UserInfoInsertOne(userInfoModel);
+                    userInfoId = userService.UserInfoInsertForMobile(userInfoModel);
                     if (userInfoId != null)
                     {
                         SendAccountMailValidate(userInfoId, userInfoModel.user_id, userInfoModel.email);
