@@ -44,6 +44,16 @@ namespace prj_BIZ_System.Services
 
         public object UserInfoInsertOne(UserInfoModel userInfoModel)
         {
+            if (!string.IsNullOrEmpty(userInfoModel.user_pw))
+            {
+                userInfoModel.user_pw = SecurityHelper.Encrypt256(userInfoModel.user_pw);
+            }
+            var result = mapper.Insert("UserInfo.InsertOne", userInfoModel);
+            return result;
+        }
+
+        public object UserInfoInsertForMobile(UserInfoModel userInfoModel)
+        {
             var result = mapper.Insert("UserInfo.InsertOne", userInfoModel);
             return result;
         }
@@ -73,10 +83,16 @@ namespace prj_BIZ_System.Services
             return mapper.Update("UserInfo.UpdateIdEnable", param) > 0 ;
         }
 
-        public bool UserInfoUpdateUpdateAddr(string user_id, string addr)
+        public bool UserInfoUpdateAddr(string user_id, string addr)
         {
             var param = new UserInfoModel() { user_id = user_id, addr = addr };
             return mapper.Update("UserInfo.UpdateAddr", param) > 0;
+        }
+
+        public bool UserInfoUpdateCapital(string user_id, int capital)
+        {
+            var param = new UserInfoModel() { user_id = user_id, capital = capital/1000 };
+            return mapper.Update("UserInfo.UpdateCapital", param) > 0;
         }
         //EnterpriseSortListModel******************************************************************************//
 
@@ -162,11 +178,14 @@ namespace prj_BIZ_System.Services
                         tempRecord["company_en"]= headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //公司名稱(英文)
                         tempRecord["leader"]    = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //代表人(中文)
                         tempRecord["leader_en"] = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //代表人(英文)
-                        tempRecord["addr"]      = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //地址
+                        tempRecord["addr"]      = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //地址(中文)
+                        tempRecord["addr_en"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //地址(英文)
                         tempRecord["contact"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //主聯絡人
                         tempRecord["phone"]     = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //電話號碼*
                         tempRecord["email"]     = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //電子郵件*
-                        tempRecord["capital"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString() : ""; //資本額*(單位:萬)
+                        //底下是測試用
+                        //tempRecord["email"]     = headerRow.GetCell(d++) != null ? "fion@wavegis.com.tw":""; //電子郵件*
+                        tempRecord["capital"]   = headerRow.GetCell(d++) != null && !string.IsNullOrEmpty(headerRow.GetCell(d-1).ToString()) ? headerRow.GetCell(d-1).ToString() : "0"; //資本額*(單位:千) 沒填的話給0
                         tempRecord["revenue"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
                         tempRecord["website"]   = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業網址
                         tempRecord["info"]      = headerRow.GetCell(d++) != null ? headerRow.GetCell(d-1).ToString():""; //企業簡介(中文)
@@ -192,6 +211,7 @@ namespace prj_BIZ_System.Services
                                 md.leader           = tempRecord["leader"];
                                 md.leader_en        = tempRecord["leader_en"];
                                 md.addr             = tempRecord["addr"];
+                                md.addr_en          = tempRecord["addr_en"];
                                 md.contact          = tempRecord["contact"];
                                 md.phone            = tempRecord["phone"];
                                 md.email            = tempRecord["email"];

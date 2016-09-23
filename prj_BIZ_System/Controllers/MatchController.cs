@@ -10,7 +10,7 @@ using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
-    public class MatchController : Controller
+    public class MatchController : _BaseController
     {
         public ActivityService activityService;
         public MatchService matchService;

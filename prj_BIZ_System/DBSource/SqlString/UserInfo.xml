@@ -366,6 +366,12 @@
       SET addr = #addr#
       WHERE user_id = #user_id#
     </update>
+
+    <update id="UpdateCapital" parameterClass="UserInfoModel">
+      UPDATE user_info
+      SET capital = $capital$
+      WHERE capital = 0 and user_id = #user_id#
+    </update>
   </statements>
 
   <resultMaps>
