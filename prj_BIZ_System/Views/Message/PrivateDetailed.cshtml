@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Message_ViewModel
 
 @{
-    ViewBag.Title = ViewBag.contentTitle+"訊息內容";
+    ViewBag.Title = ViewBag.contentTitle + "訊息內容";
 }
 
 @section pagestyle{
@@ -12,67 +12,71 @@
 @Styles.Render("~/Content/jqueryUI")
 @Styles.Render("~/Scripts/css/fancybox")
 
-<div class="article_col1s">
+<div class="article_col1">
+    <article class="article_col2">
 
-    <form id="form" action="@Url.Action("doPrivateDetailed")" class="form_box sys_searchbox">
-        <h2>@(ViewBag.contentTitle)訊息</h2>
+        <form id="form" action="@Url.Action("doPrivateDetailed")" class="form_box sys_searchbox">
+            <h2>@(ViewBag.contentTitle)訊息</h2>
 
-        <div class="regis_col02L">發佈人</div>
-        <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
+            <div class="regis_col02L">發佈人</div>
+            <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
 
-        <div class="regis_col02L">訊息對象</div>
-        <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
+            <div class="regis_col02L">訊息對象</div>
+            <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
 
-        <div class="regis_col02L">發佈日期</div>
-        <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
+            <div class="regis_col02L">發佈日期</div>
+            <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
 
-        <div class="regis_col02L">主題</div>
-        <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
+            <div class="regis_col02L">主題</div>
+            <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
 
-        <div class="regis_col02L">內容</div>
-        <p class="regis_col02R contentspan">
-            @Model.msgPrivate.msg_content
-        </p>
+            <div class="regis_col02L">內容</div>
+            <p class="regis_col02R contentspan">
+                @Model.msgPrivate.msg_content
+            </p>
 
-        <div class="regis_col02L">附件</div>
-        <div class="regis_col02R">
-            <ul class="col2 listlinks">
-                @if (Model.msgPrivateFileList != null)
-                {
-                    foreach (MsgFileModel mpf in Model.msgPrivateFileList)
+            <div class="regis_col02L">附件</div>
+            <div class="regis_col02R">
+                <ul class="col2 listlinks">
+                    @if (Model.msgPrivateFileList != null)
                     {
-                        <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
-                    }
-                }
-            </ul>
-        </div>
-        <div class="regis_col02L">回覆</div>
-                <div class="regis_col02R">
-                    @if (Model.msgPrivateReplyList != null)
-                    {
-                        foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
+                        foreach (MsgFileModel mpf in Model.msgPrivateFileList)
                         {
-                            <dl class="dllist">
-                                <dt>@r_md.company <span class="rightbox">@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span></dt>
-                                <dd class="contentspan">
-                                    @r_md.reply_content
-                                </dd>
-                            </dl>
+                            <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
                         }
                     }
-                    <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no"/>
-                    <textarea name="reply_content" id="reply_content" placeholder="三百字以內" maxlength="300"></textarea>
-                    <div class="centerbox">
-                        <button type="submit" class="addbu">回覆</button>
-                    </div>
+                </ul>
+            </div>
+            <div class="regis_col02L">回覆</div>
+            <div class="regis_col02R">
+                @if (Model.msgPrivateReplyList != null)
+                {
+                    foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
+                    {
+                        <dl class="dllist">
+                            <dt>@r_md.company <span class="rightbox">@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span></dt>
+                            <dd class="contentspan">
+                                @r_md.reply_content
+                            </dd>
+                        </dl>
+                    }
+                }
+                <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
+                <textarea name="reply_content" id="reply_content" placeholder="三百字以內" maxlength="300"></textarea>
+                <div class="centerbox">
+                    <button type="submit" class="addbu">回覆</button>
                 </div>
-        
-        <div class="centerbox">
-            <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)訊息</a>
-        </div>
+            </div>
 
-    </form>
+            <div class="centerbox">
+                <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)訊息</a>
+            </div>
 
+        </form>
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 @Scripts.Render("~/bundles/jqueryUI")
@@ -80,44 +84,44 @@
 
 <script>
     $(function () {
-            $(".fancybox").fancybox({
-                width: 600,
-                height: 300,
-                type: 'iframe'
-            });
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
 
-		  	$("#upexl").on('change',function(){
-				$("#upexl_name").val($(this).val());
-			});
+        $("#upexl").on('change', function () {
+            $("#upexl_name").val($(this).val());
+        });
 
-		  	$("#form").submit(function () {
-		  	    var reply_content = $("#reply_content").val();
-		  	    var errMsg = checkValidationOk(reply_content)
-		  	    if (errMsg != '') {
-		  	        alert(errMsg);
-		  	        return false;
-		  	    }
-		  	});
+        $("#form").submit(function () {
+            var reply_content = $("#reply_content").val();
+            var errMsg = checkValidationOk(reply_content)
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
 
-		  	$("#reply_content").keydown(function (e) {
-		  	    if ($(this).val().length > 300) {
-		  	        if (e.keyCode != 8) {
-		  	            return false;
-		  	        }
-		  	    }
-		  	})
+        $("#reply_content").keydown(function (e) {
+            if ($(this).val().length > 300) {
+                if (e.keyCode != 8) {
+                    return false;
+                }
+            }
+        })
 
-		  });
+    });
 
-		  function checkValidationOk(reply_content) {
-		      var errMsg = '';
-		      if (reply_content == null || reply_content == '') {
-		          errMsg += "回覆內容不能為空白!!\n";
-		      } else if (reply_content.length > 300) {
-		          errMsg += "回覆內容不能超過三百字!!";
-		      }
-		      return errMsg;
-		  }
+    function checkValidationOk(reply_content) {
+        var errMsg = '';
+        if (reply_content == null || reply_content == '') {
+            errMsg += "回覆內容不能為空白!!\n";
+        } else if (reply_content.length > 300) {
+            errMsg += "回覆內容不能超過三百字!!";
+        }
+        return errMsg;
+    }
 
     //暫時放著
     /*

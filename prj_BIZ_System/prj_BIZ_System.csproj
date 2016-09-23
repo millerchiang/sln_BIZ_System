@@ -949,6 +949,8 @@
     <Content Include="Views\User\ProductDetail.cshtml" />
     <Content Include="Views\User\ProductDetailEdit.cshtml" />
     <Content Include="Views\User\ProductListEdit.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Files.cshtml" />
+    <Content Include="Views\Cluster\Cluster_UploadFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
