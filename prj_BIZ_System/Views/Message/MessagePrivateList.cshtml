@@ -13,55 +13,62 @@
 @Styles.Render("~/Content/jqueryUI")
 
 <div class="article_col1">
-    <div class="form_box">
-        <h2>@(ViewBag.contentTitle)訊息</h2>
-        <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
-            <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
-            <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
-            <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">新增</a>
-        </form>
-        <table class="edittable">
-            <tr>
-                <th>編號</th>
-                <th style="width: 50%">主題</th>
-                <th>發佈人</th>
-                <th>回覆數</th>
-                <th>發佈日</th>
-                <th>內容</th>
-            </tr>
-            @{ 
-                var prevCounts = ((PageList<MsgModel>)TempData["PageList"]).prevCounts;
-            }
-            @if (Model.msgPrivateList != null)
-            {
-                var i = 0;
-                foreach(MsgModel md in Model.msgPrivateList)
-                {
-                    <tr class="active">
-                        <td>@((++i)+prevCounts)</td>
-                        <td class="alignleft">
-                            @md.msg_title
-                        </td>
-                        <td>
-                            @md.company
-                        </td>
-                        <td>
-                            @md.rpy_cnt
-                        </td>
-                        <td>
-                            @md.create_time.ToString("yyyy/MM/dd")
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
+    <article class="article_col2">
+        <div class="form_box">
+            <h2>@(ViewBag.contentTitle)訊息</h2>
+            <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
+                <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
+                <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
+                <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">新增</a>
+            </form>
+            <table class="edittable">
+                <tr>
+                    <th style="width: 6%">編號</th>
+                    <th style="width: 40%">主題</th>
+                    <th style="width: 15%">發佈人</th>
+                    <th>回覆數</th>
+                    <th style="width: 15%">發佈日</th>
+                    <th>內容</th>
+                </tr>
+                @{
+                    var prevCounts = ((PageList<MsgModel>)TempData["PageList"]).prevCounts;
                 }
-            }
-        </table>
-        @Html.PagesList((PageList<MsgModel>)TempData["PageList"])
-    </div>
+                @if (Model.msgPrivateList != null)
+                {
+                    var i = 0;
+                    foreach (MsgModel md in Model.msgPrivateList)
+                    {
+                        <tr class="active">
+                            <td>@((++i) + prevCounts)</td>
+                            <td class="alignleft">
+                                @md.msg_title
+                            </td>
+                            <td>
+                                @md.company
+                            </td>
+                            <td>
+                                @md.rpy_cnt
+                            </td>
+                            <td>
+                                @md.create_time.ToString("yyyy/MM/dd")
+                            </td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            @Html.PagesList((PageList<MsgModel>)TempData["PageList"])
+        </div>
+
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
 </div>
 
 @Scripts.Render("~/bundles/jqueryUI")

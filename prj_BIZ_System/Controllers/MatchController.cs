@@ -29,7 +29,7 @@ namespace prj_BIZ_System.Controllers
         {
 
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"]);
@@ -44,7 +44,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult WhetherMetchBuyer()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             int activity_id = int.Parse(Request["activity_id"]);
 
@@ -69,7 +69,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult SellerBusinessMatch()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             ViewBag.Action = "EditSellerMatchBuyerToInsertUpdate";
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(int.Parse(Request["activity_id"]));
@@ -101,7 +101,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditSellerMatchBuyerToInsertUpdate(MatchmakingAllModel matchmakingAllModel, IList<string> buyer_id)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             matchmakingAllModel.seller_id = Request.Cookies["UserInfo"]["user_id"];
 
@@ -149,7 +149,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult WhetherMetchSeller()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             int activity_id = int.Parse(Request["activity_id"]);
 
@@ -174,7 +174,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult BuyerBusinessMatch()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             //ViewBag.Action = "EditBuyerMatchSellerToInsert";
             ViewBag.Action = "EditBuyerMatchSellerToInsertUpdate";
@@ -210,7 +210,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult EditBuyerMatchSellerToInsertUpdate(MatchmakingAllModel matchmakingAllModel, IList<string> seller_id)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             matchmakingAllModel.buyer_id = Request.Cookies["UserInfo"]["user_id"];
 
@@ -258,7 +258,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeSeller()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             matchModel.matchmakingAllList = matchService.GetSellerForActivityMatchBuyerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             matchModel.matchmakingScheduleList = matchService.GetWhenUserIsSellerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
@@ -270,7 +270,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MatchTimeArrangeBuyer()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             matchModel.matchmakingAllList = matchService.GetBuyerForActivityMatchSellerList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);
             matchModel.matchmakingScheduleList = matchService.GetWhenUserIsBuyerMatchMakingDataList(int.Parse(Request["activity_id"]), Request.Cookies["UserInfo"]["user_id"]);

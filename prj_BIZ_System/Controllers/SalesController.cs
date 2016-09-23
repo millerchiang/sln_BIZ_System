@@ -53,7 +53,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult SalesInfoByCompany(string where_sales_id, string where_sales_name)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             string user_id = Request.Cookies["UserInfo"]["user_id"];
             ViewBag.Title = "SalesInfoByCompany";
@@ -71,7 +71,7 @@ namespace prj_BIZ_System.Controllers
             //return Redirect("Login");
             //model.create_sales = Request.Cookies["SalesInfo"]["manager_id"];
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             if (Request.Cookies["UserInfo"] != null)
                 model.user_id = Request.Cookies["UserInfo"]["user_id"];
@@ -105,7 +105,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult SalesInfoBySales()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             return View();
         }
 
@@ -113,7 +113,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult SalesInfoUpdateBySales(string old_sales_pw , SalesInfoModel model)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             if (salesService.isPasswdValidByCheck(old_sales_pw, model.sales_id))
             {

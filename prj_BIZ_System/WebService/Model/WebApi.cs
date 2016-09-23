@@ -115,6 +115,7 @@ namespace prj_BIZ_System.WebService.Model
         public string create_time { get; set; }      //建立時間
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
+        public string is_read { get; set; }
     }
 
     public class MsgPrivateReply

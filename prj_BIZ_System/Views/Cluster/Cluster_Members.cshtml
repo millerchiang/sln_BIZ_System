@@ -18,7 +18,7 @@
         }
 
         <article class="article_col2">
-            <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
+            <h2 class="borderTitle2">@HttpUtility.UrlDecode(Request["cluster_name"])</h2>
             <div class="form_box">
                 <h2>商家管理</h2>
                 <form id="form" class="" action="@Url.Action("EditClusterMember", "Cluster")" method="post">

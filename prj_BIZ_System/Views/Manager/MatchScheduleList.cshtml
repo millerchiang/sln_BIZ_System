@@ -17,15 +17,16 @@
     <article>
         <form id="form" action="@ViewBag.Action" method="post">
             <h2 class="borderTitle2">媒合時程大表</h2>
-            <a href="@Url.Action("ExportExcelByNPOI","Manager",new {activity_id = Model.SchedulePeriodSet.activity_id})" class="addbublue rightbox">匯出Excel</a>
+            <a href="@Url.Action("ExportExcelByNPOI", "Manager", new { activity_id = Model.schedulePeriodSet.activity_id })" class="addbublue rightbox">匯出Excel</a>
             <a href="javascript:return false;" class="addbublue rightbox" id="saveMatchData">儲存</a>
+            <a href="javascript:return false;" class="addbublue rightbox">排序</a>
             <table class="edittable">
                 <thead>
 
                     <tr>
                         <th>
                             <div class="centerbox">
-                                <a href="@Url.Action("MatchScheduleTime","Manager",new { activity_id = Model.SchedulePeriodSet.activity_id})" class="addbu">設定時段</a>
+                                <a href="@Url.Action("MatchScheduleTime", "Manager", new { activity_id = Model.schedulePeriodSet.activity_id })" class="addbu">設定時段</a>
                             </div>
                         </th>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
@@ -34,38 +35,41 @@
                                 @buyerInfoModel.company
                                 <input type="hidden" name="buyer_id" value="@buyerInfoModel.buyer_id" />
                             </th>
-
                         }
                     </tr>
-
                 </thead>
                 <tbody>
                     @for (int i = 0; i < Model.schedulePeriodSetList.Count; i++)
                     {
                         <tr>
                             <td class="centerbox">
-                                @Model.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm")<br />
-                                ~@Model.schedulePeriodSetList[i].time_end.ToString("yyyy/MM/dd HH:mm")
-                                <input type="hidden" name="period_sn" value="@Model.schedulePeriodSetList[i].period_sn" />
+                                <p>@Model.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm")</p>
+                                <p>@Model.schedulePeriodSetList[i].time_end.ToString("yyyy/MM/dd HH:mm")</p>
                                 <input type="hidden" name="activity_id" value="@Model.schedulePeriodSetList[i].activity_id" />
+                                <input type="hidden" name="period_sn" value="@Model.schedulePeriodSetList[i].period_sn" />
                             </td>
-                            <!-------------------我是分隔線-------------------->
-
+                            <!------------我是分隔線------------>
                             @for (int j = 0; j < Model.buyerinfoList.Count; j++)
                             {
                                 <td class="centerbox">
-                                    <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))">
+                                    <select id="seller_id@(sellerIdCount++)">
                                         <option value="">--請選擇--</option>
-                                        @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
-                                        {
-                                            if (activityRegisterModel.company == Model.matchMakingScheduleSellerCompany[i * Model.buyerinfoList.Count + j])
+                                        @{
+                                            var bothAll = Model.matchmakingBothList
+                                            .Where(both => both.buyer_id == Model.buyerinfoList[j].buyer_id)
+                                            .Select(both => new { both.seller_id, both.company }).ToArray();
+
+                                            var buyerAll = Model.matchmakingBuyerList
+                                            .Where(buyer => buyer.buyer_id == Model.buyerinfoList[j].buyer_id)
+                                            .Select(buyer => new { buyer.seller_id, buyer.company }).ToArray();
+
+
+
+                                            foreach (var both in bothAll)
                                             {
-                                                <option value="@activityRegisterModel.user_id" selected="selected">@activityRegisterModel.company</option>
+                                                <option value="" class=""></option>
                                             }
-                                            else
-                                            {
-                                                <option value="@activityRegisterModel.user_id">@activityRegisterModel.company</option>
-                                            }
+
                                         }
                                     </select>
                                 </td>
@@ -74,17 +78,21 @@
                     }
                 </tbody>
                 <tfoot>
-
                     <tr class="tfootbg">
                         <td class="centerbox2">雙方有媒合意願</td>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            if (Model.sellerCompanyNamereply1Dic.ContainsKey(buyerInfoModel.buyer_id))
+                            var bothAllArray = Model.matchmakingBothList.Select(both => both.buyer_id).ToArray();
+
+                            if (bothAllArray.Contains(buyerInfoModel.buyer_id))
                             {
+                                var bothstr = Model.matchmakingBothList
+                                .Where(both => both.buyer_id == buyerInfoModel.buyer_id)
+                                .Select(both => both.company);
                                 <td class="centerbox2">
-                                    @foreach (string sellerName in Model.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id])
+                                    @foreach (var str in bothstr)
                                     {
-                                        <p>@String.Format(sellerName)</p>
+                                        <p>@String.Format(str)<br /></p>
                                     }
                                 </td>
                             }
@@ -95,164 +103,78 @@
                     </tr>
 
                     <tr>
-                        <td class="centerbox2">買方有媒合意願</td>
-                        @foreach (BuyerInfoModel buyerIngoModel in Model.buyerinfoList)
+                        <td class="centerbox2">買家有媒合意願</td>
+                        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            if (Model.sellerCompanyNamereply1Dic.ContainsKey(buyerIngoModel.buyer_id))
+                            var buyerNeedAllArray = Model.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
+
+                            if (buyerNeedAllArray.Contains(buyerInfoModel.buyer_id))
                             {
-                                <td class="centerbox2"></td>
+                                var bothAllStr = Model.matchmakingBothList
+                                           .Where(both => both.buyer_id == buyerInfoModel.buyer_id)
+                                           .Select(both => both.company);
+
+
+                                var buyerAllStr = Model.matchmakingBuyerList
+                                            .Where(buyer => buyer.buyer_id == buyerInfoModel.buyer_id)
+                                            .Select(buyer => buyer.company);
+
+                                var exceptStr = buyerAllStr.Except(bothAllStr);//取差集後的公司名稱
+
+                                <td class="centerbox2">
+
+
+                                    @foreach (var str in exceptStr)
+                                    {
+                                        <p>@String.Format(str)<br /></p>
+                                    }
+                                </td>
+
                             }
-                            else {
+                            else
+                            {
                                 <td class="centerbox2"></td>
                             }
                         }
                     </tr>
 
                     <tr class="tfootbg">
-                        <td class="centerbox2">賣方有媒合意願</td>
-                        @*@foreach (MatchmakingNeedModel matchmakingNeedModel in Model.matchmakingNeedList)
-                            {
-                                if (matchmakingNeedModel.buyer_reply == "0")
-                                {
-                                    <p>@matchmakingNeedModel.company</p>
-                                }
-                            }*@
-
+                        <td class="centerbox2">賣家有媒合意願</td>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
-                            if (Model.sellerCompanyNamereply0Dic.ContainsKey(buyerInfoModel.buyer_id))
+                            var sellerNeedAllArray = Model.matchmakingSellerList.Select(seller => seller.buyer_id).ToArray();
+                            if (sellerNeedAllArray.Contains(buyerInfoModel.buyer_id))
                             {
+
+                                var bothAllStr = Model.matchmakingBothList
+                                           .Where(both => both.buyer_id == buyerInfoModel.buyer_id)
+                                           .Select(both => both.company);
+
+                                var sellerAllstr = Model.matchmakingSellerList
+                                            .Where(seller => seller.buyer_id == buyerInfoModel.buyer_id)
+                                            .Select(seller => seller.company);
+
+                                var exceptStr = sellerAllstr.Except(bothAllStr);//取差集後的公司名稱
+
+
                                 <td class="centerbox2">
-                                    @foreach (string sellerName in Model.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id])
+                                    @foreach (var str in exceptStr)
                                     {
-                                        <p>@String.Format(sellerName)</p>
+                                        <p>@String.Format(str)<br /></p>
                                     }
                                 </td>
                             }
-                            else {
+                            else
+                            {
                                 <td class="centerbox2"></td>
                             }
                         }
                     </tr>
+
                 </tfoot>
             </table>
         </form>
     </article>
+
+
 </div>
-
-<script type="text/javascript">
-    $(function () {
-        /*儲存媒合資料*/
-        $("#saveMatchData").click(function () {
-            $("#form").submit();
-        });
-
-        /*下拉式選單媒合資料初始化*/
-        initMatchData();
-    });
-
-    var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
-    var sellerIds = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerId));
-    var allSellers = @Html.Raw(Json.Encode(Model.activityRegisterSellerCompany));
-    var sellerCounts = @Model.matchMakingScheduleSellerCompany.Count();
-    var periodCounts = @Model.schedulePeriodSetList.Count();
-    var buyerCounts = @Model.buyerinfoList.Count();
-
-    console.log(sellerCompanys);
-    console.log(sellerIds);
-    console.log(allSellers);
-    console.log(sellerCounts);
-    console.log(periodCounts);
-    console.log(buyerCounts);
-
-    function initMatchData ()
-    {
-        for(var index = 0; index < sellerCounts; index++)
-        {
-            if(sellerIds[index] != "")
-            {
-                var i = Math.floor(index/buyerCounts);//無條件捨去
-                var j = index % buyerCounts;
-                //console.log("i:"+i);
-                //console.log("j:"+j);
-
-                /*刪除列的資料*/
-                for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
-                {
-                    $("#seller_id"+(i*buyerCounts+indexRow)+" option[value="+sellerIds[index]+"]").remove();
-                }
-
-                /*刪除行的資料*/
-                for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
-                {
-                    $("#seller_id"+indexColumn+" option[value="+sellerIds[index]+"]").remove();
-                }
-
-                /*回填自己index的初值*/
-                $("#seller_id"+index).append($("<option></option>").val(sellerIds[index]).text(sellerCompanys[index]));
-                $("#seller_id"+index+" option[value="+ sellerIds[index] +"]").attr("selected", true);
-
-            }
-        }
-    }
-
-    /*下拉式選單選擇後橫排及豎排不能複選的功能*/
-    function PullDownMenus(sellerIdCount) {
-        var selectedSellerText = $("#seller_id"+sellerIdCount + " option:selected").text();
-        var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
-
-
-        var i = Math.floor(sellerIdCount/buyerCounts);//無條件捨去
-        var j = sellerIdCount % buyerCounts;
-        console.log("i:"+i);
-        console.log("j:"+j);
-        console.log(selectedSellerValue);
-
-        if(selectedSellerValue != "")
-        {
-            /*刪除列的資料*/
-            for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
-            {
-                $("#seller_id"+(i*buyerCounts+indexRow)+" option[value="+selectedSellerValue+"]").remove();
-            }
-
-            /*刪除行的資料*/
-            for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
-            {
-                $("#seller_id"+indexColumn+" option[value="+selectedSellerValue+"]").remove();
-            }
-        }else{
-            $("#seller_id"+sellerIdCount+" option[value="+selectedSellerValue+"]").remove();
-        }
-
-        console.log(sellerIds[sellerIdCount]);
-        /*有選有*/
-        if(sellerIds[sellerIdCount] != "") {
-
-            /*回填列的資料*/
-            for(var indexRow = 0; indexRow < buyerCounts; indexRow++)
-            {
-                if((i*buyerCounts+indexRow) != sellerIdCount){
-                    $("#seller_id"+(i*buyerCounts+indexRow)).append($("<option></option>").val(sellerIds[sellerIdCount]).text(sellerCompanys[sellerIdCount]));
-                }
-            }
-            /*回填行的資料*/
-            for(var indexColumn = j; indexColumn < sellerCounts; indexColumn+=buyerCounts)
-            {
-                if(indexColumn  != sellerIdCount){
-                    $("#seller_id"+indexColumn).append($("<option></option>").val(sellerIds[sellerIdCount]).text(sellerCompanys[sellerIdCount]));
-                }
-            }
-
-            /*回填自己index的初值*/
-            $("#seller_id"+sellerIdCount).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
-            $("#seller_id"+sellerIdCount+" option[value="+ selectedSellerValue +"]").attr("selected", true);
-
-        }else{
-            /*空選有 回填自己index的初值*/
-            $("#seller_id"+sellerIdCount).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText));
-            $("#seller_id"+sellerIdCount+" option[value="+ selectedSellerValue +"]").attr("selected", true);
-        }
-    }
-
-</script>

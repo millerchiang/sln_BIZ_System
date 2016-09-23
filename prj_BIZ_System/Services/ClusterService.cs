@@ -46,6 +46,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterInfoModel>("Cluster.SelectClusterInfoList", tempModel);
         }
 
+        public IList<ClusterFileModel> GetClusterFileListkw(int cluster_no)
+        {
+            ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
+            return mapper.QueryForList<ClusterFileModel>("Cluster.SelectClusterFileList", tempModel);
+        }
+
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)
         {
             ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
@@ -79,6 +85,13 @@ namespace prj_BIZ_System.Services
             int result = mapper.Update("Cluster.ClusterMemberUpdateOne", clusterMemberModel);
             return result;
         }
+
+        public int ClusterFileInsertOne(ClusterFileModel clusterFileModel)
+        {
+            var result = mapper.Insert("Cluster.ClusterFileInsertOne", clusterFileModel);
+            return (int)result;
+        }
+
 
     }
 }
