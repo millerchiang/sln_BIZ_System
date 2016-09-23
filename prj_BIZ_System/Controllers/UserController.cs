@@ -121,7 +121,6 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                model.user_pw = SecurityHelper.Encrypt256(model.user_pw);
                 var id = userService.UserInfoInsertOne(model);
                 if( id != null)
                 {

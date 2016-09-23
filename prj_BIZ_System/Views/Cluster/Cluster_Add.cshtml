@@ -21,8 +21,6 @@
     Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
 }
 
-<main>
-
     <div class="article_col1s">
         <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster", "Cluster")" method="post">
             <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
@@ -136,7 +134,6 @@
             <p>@prj_BIZ_System.LanguageResource.User.lb_delete<span class="salesid"></span>?</p>
         </div>
     </div>
-</main>
 
 <script type="text/javascript"
         src="/Scripts/jquery-ui-1.10.2.min.js">

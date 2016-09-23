@@ -10,7 +10,7 @@
             }
             else
             {
-                <li><a href="Cluster_Detail?cluster_no=@Request["cluster_no"]">聚落明細</a></li>
+                <li><a href="Cluster_Detail">聚落明細</a></li>
             }
 
             @if (Request.Cookies["_menu"].Value == "Cluster_Members")
@@ -19,10 +19,18 @@
             }
             else
             {
-                <li><a href="Cluster_Members?cluster_no=@Request["cluster_no"]">商家管理</a></li>
+                <li><a href="Cluster_Members">商家管理</a></li>
             }
 
-            <li><a href="group_file_manager.html">文件管理</a></li>
+            @if (Request.Cookies["_menu"].Value == "Cluster_Files")
+            {
+                <li class="inforactive"><span>文件管理</span></li>
+            }
+            else
+            {
+                <li><a href="Cluster_Files">文件管理</a></li>
+            }
+
             <li><a href="group_order_manager.html">聚落訂單管理</a></li>
             <li><a href="group_sales_set.html">訊息管理</a></li>
             <li><a href="group_sales_set.html">業務權限設定</a></li>

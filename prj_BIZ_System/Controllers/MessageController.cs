@@ -37,7 +37,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessagePrivateList(string keyword)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<MsgModel> result = messageService.SelectMsgPrivate(keyword, user_id).Pages(Request, this, 10); ;
@@ -53,7 +53,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult PrivateAdd()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             ViewBag.msgType      = getLabelString(MessageCatalog.Private, "msgType");
             ViewBag.contentTitle = getLabelString(MessageCatalog.Private, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Private, "backUrl");
@@ -64,7 +64,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult DoPrivateAdd(MsgModel model , List<HttpPostedFileBase> iupexls)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             model.creater_id = Request.Cookies["UserInfo"]["user_id"];
             model.msg_no = (long)messageService.InsertMsgPrivate(model);
@@ -98,7 +98,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult PrivateDetailed(int msg_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             ViewBag.contentTitle = getLabelString(MessageCatalog.Private, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Private, "backUrl");
@@ -130,7 +130,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult doPrivateDetailed(MsgReplyModel model)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
             messageService.InsertMsgPrivateReply(model);
@@ -151,7 +151,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageCompanyList(string keyword)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<MsgModel> result = messageService.SelectMsgCompany(keyword, user_id).Pages(Request, this, 10); ;
@@ -167,7 +167,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageCompanyAdd()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             ViewBag.msgType      = getLabelString(MessageCatalog.Company, "msgType");
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
@@ -180,7 +180,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult DoCompanyAdd(MsgModel model, List<HttpPostedFileBase> iupexls)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
             model.user_id = Request.Cookies["UserInfo"]["user_id"]; //先寫死成登入者帳號,之後要記得用業務槷反查
             model.creater_id = Request.Cookies["UserInfo"]["user_id"];
             model.msg_no = (long)messageService.InsertMsgCompany(model); //這裡直接與私人訊息共用Service , 不是寫錯
@@ -213,7 +213,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageCompanyDetailed(int msg_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Company, "backUrl");
@@ -257,7 +257,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageClusterList(string keyword)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             IList<MsgModel> result = messageService.SelectMsgPrivate(keyword, user_id).Pages(Request, this, 10); ;
@@ -269,7 +269,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageClusterAdd()
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             return View();
         }
@@ -277,7 +277,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult MessageClusterDetailed(int msg_no)
         {
             if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Login");
+                return Redirect("~/Home/Index");
 
             if (msg_no != 0)
             {

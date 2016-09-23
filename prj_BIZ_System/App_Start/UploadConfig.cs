@@ -34,6 +34,11 @@ namespace prj_BIZ_System.App_Start
         public static string subDirForCatalog { get; set; }
 
         /// <summary>
+        /// 聚落檔案目錄路徑
+        /// </summary>
+        public static string subDirForCluster { get; set; }
+
+        /// <summary>
         /// Logo圖片儲存路徑
         /// </summary>
         public static string subDirForLogo { get; set; }
@@ -64,6 +69,7 @@ namespace prj_BIZ_System.App_Start
             subDirForLogo = "Logo/";
             subDirForNews = "News/";
             subDirForMessageFile = "Pri_Message/";
+            subDirForCluster = "Cluster/";
             subDirForProduct = "Product/";
             #endregion
         }
@@ -116,6 +122,10 @@ namespace prj_BIZ_System.App_Start
 
                 case "catalog_file":
                     folder_name = UploadConfig.subDirForCatalog;
+                    break;
+
+                case "cluster_file":
+                    folder_name = UploadConfig.subDirForCluster;
                     break;
 
                 case "logo":

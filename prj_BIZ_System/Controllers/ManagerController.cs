@@ -1061,9 +1061,23 @@ namespace prj_BIZ_System.Controllers
             {
                 string user_id = ((Dictionary<string, string>)kvp.Value)["user_id"];
                 CompanyData compdata = GetDataFromWeb(user_id);
-                var sort_id = result.Where(item => compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
+                logger.Info(user_id + "取回的值是否成功:");
+                if (compdata == null)
+                {
+                    logger.Info("不存在");
+                }
+                else
+                {
+                    logger.Info("存在" + "=>資本額為" + (compdata.Capital_Stock_Amount==null?"0": compdata.Capital_Stock_Amount.ToString()));
+                }
+                var sort_id = result.Where(item => compdata!=null && compdata.Business_Item!=null && compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
                 _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
-                bool isUpdateAddSuccess = userService.UserInfoUpdateUpdateAddr(user_id, compdata.Company_Location);
+                int intCaptial = 0;
+                if (Int32.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
+                {
+                    bool isUpdateCapSuccess = userService.UserInfoUpdateCapital(user_id, intCaptial);
+                }
+                bool isUpdateAddSuccess = userService.UserInfoUpdateAddr(user_id, compdata.Company_Location);
                 logger.Info("user_id=" + user_id + " 匯入後更新地址結果為:" + isUpdateAddSuccess);
                 bool refreshResult = userService.RefreshUserSort(user_id, sort_id);
                 logger.Info("user_id=" + user_id + " 匯入後新增產業別結果為:" + refreshResult);
