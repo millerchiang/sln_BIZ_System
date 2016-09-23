@@ -73,6 +73,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<MsgModel>("Message.SelectMsgOneAndRead", param);
         }
 
+        public IList<long> SelectMsgReadNo(string user_id)
+        {
+            MsgModel param = new MsgModel() { user_id = user_id };
+            return mapper.QueryForList<long>("Message.SelectMsgReadNo", param);
+        }
+
         public string transferMsg_member2Msg_company(string msg_member, prj_BIZ_System.Controllers.MessageCatalog catalog)
         {
             string result = "";

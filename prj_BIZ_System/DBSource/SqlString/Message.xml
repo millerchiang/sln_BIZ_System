@@ -102,12 +102,16 @@
       WHERE mp.msg_no = #msg_no#
     </select>
 
-    <!--查詢單一私訊(已讀)-->
+    <!--查詢單一私訊並寫入已讀-->
     <select id="SelectMsgOneAndRead" resultMap="SelectMsgOne-result" parameterClass="Msg">
-      SELECT *, set_msg_read_by_no_and_userid(#msg_no#, #user_id#)
-      FROM message.msg as mp
-      LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
-      WHERE mp.msg_no = #msg_no#
+      select * 
+      from message.set_msg_read_and_return_content(#msg_no#, #user_id#)
+    </select>
+
+    <!--查詢已讀私訊編號-->
+    <select id="SelectMsgReadNo" resultClass="long" parameterClass="Msg">
+      select msg_no 
+      from message.msg_read where user_id = #user_id#
     </select>
 
     <!--查詢私訊附件-->
@@ -177,6 +181,7 @@
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
       <result property="rpy_cnt" column="rpy_cnt"></result>
+      
     </resultMap>
 
     <resultMap id="SelectMsgOne-result" class="Msg">

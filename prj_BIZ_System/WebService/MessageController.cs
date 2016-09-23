@@ -33,6 +33,11 @@ namespace prj_BIZ_System.WebService
                     create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff")
                 }
             ).ToList();
+            IList<long> readMsgNo = messageService.SelectMsgReadNo(user_id);
+            msgPrivates.ForEach(msgPrivate => {
+                msgPrivate.is_read =
+                readMsgNo.Contains(msgPrivate.msg_no) ? "1" : "0";
+            });
             return msgPrivates;
         }
 
