@@ -29,7 +29,8 @@ namespace prj_BIZ_System.WebService
                     activityRegister.activity_id,
                     activityRegister.activity_name,
                     is_buyer = "0",
-                    activityRegister.seller_select
+                    activityRegister.seller_select,
+                    activityRegister.matchmaking_select
                 }
             ).ToList();
 
@@ -40,7 +41,8 @@ namespace prj_BIZ_System.WebService
                     buyerInfo.activity_id,
                     buyerInfo.activity_name,
                     is_buyer = "1",
-                    buyerInfo.seller_select
+                    buyerInfo.seller_select,
+                    buyerInfo.matchmaking_select
                 }
             ).ToList());
             return Request.CreateResponse(HttpStatusCode.OK, accountActivitys);

@@ -67,6 +67,38 @@ namespace prj_BIZ_System.WebService
             return messageContent;
         }
 
+        [HttpGet]
+        public MessageContent GetMessageContentAndRead(int msg_no, string user_id)
+        {
+            if (msg_no == 0) return null;
+            MessageContent messageContent = new MessageContent();
+            MsgModel msgModel = messageService.SelectMsgPrivateOneAndRead(msg_no, user_id);
+            messageContent.msgPrivate = new MsgPrivate
+            {
+                msg_no = msgModel.msg_no,
+                msg_title = msgModel.msg_title,
+                msg_content = msgModel.msg_content,
+                company = msgModel.company,
+                create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
+            };
+            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgModel.msg_member, prj_BIZ_System.Controllers.MessageCatalog.Private);
+            string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
+                msgFileModel =>
+                msgFileModel.msg_file_site
+            ).ToArray();
+            messageContent.msgPrivate.msg_file = string.Join(",", fileNames);
+            messageContent.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no).Select(
+                msgPrivateReplyModel =>
+                new MsgPrivateReply
+                {
+                    company = msgPrivateReplyModel.company,
+                    reply_content = msgPrivateReplyModel.reply_content,
+                    create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
+                }
+            ).ToList();
+            return messageContent;
+        }
+
         [HttpPost]
         public object MessageReply(MsgReplyModel model)
         {

@@ -102,6 +102,14 @@
       WHERE mp.msg_no = #msg_no#
     </select>
 
+    <!--查詢單一私訊(已讀)-->
+    <select id="SelectMsgOneAndRead" resultMap="SelectMsgOne-result" parameterClass="Msg">
+      SELECT *, set_msg_read_by_no_and_userid(#msg_no#, #user_id#)
+      FROM message.msg as mp
+      LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      WHERE mp.msg_no = #msg_no#
+    </select>
+
     <!--查詢私訊附件-->
     <select id="SelectMsgFileByMsg_no" resultMap="MsgFile-result" parameterClass="Msg">
       SELECT *
