@@ -173,10 +173,11 @@
       </select>
        
       <!--查詢活動報名單筆-->
-      <select id="SelectActivityRegisterOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
-        SELECT *
-        FROM activity_register
-        WHERE register_id = #register_id#
+      <select id="SelectActivityRegisterOne" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+        SELECT ar.* , ui.company , ui.company_en
+        FROM activity_register ar
+        LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+        WHERE ar.register_id = #register_id#
       </select>
 
     <!--查詢活動報名單筆 by activity and user-->
@@ -577,6 +578,28 @@
       <result property="user_info_en" column="user_info_en"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="ActivityRegisterWithUser" class="ActivityRegisterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="register_id" column="register_id"/>
+      <result property="activity_id" column="activity_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="quantity" column="quantity"/>
+      <result property="name_a" column="name_a"/>
+      <result property="title_a" column="title_a"/>
+      <result property="name_b" column="name_b"/>
+      <result property="title_b" column="title_b"/>
+      <result property="telephone" column="telephone"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="manager_check" column="manager_check"/>
+      <result property="user_info" column="user_info"/>
+      <result property="user_info_en" column="user_info_en"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="SellerInfo" class="ActivityRegisterModel">

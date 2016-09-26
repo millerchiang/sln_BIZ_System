@@ -1,3 +1,9 @@
+.boxtest {
+  overflow: hidden;
+  width: 100%;
+  max-height: 236px;
+}
+
 .newsboxTitle {
   padding-bottom: 15px;
   position: relative;

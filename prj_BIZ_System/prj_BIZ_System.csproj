@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -406,6 +405,9 @@
     <Content Include="images\icon\indexicon.png" />
     <Content Include="images\icon\myinfor.png" />
     <Content Include="images\index_pic.jpg" />
+    <Content Include="images\index_sample_pic01.jpg" />
+    <Content Include="images\index_sample_pic02.JPG" />
+    <Content Include="images\index_sample_pic03.JPG" />
     <Content Include="images\iosqr.jpg" />
     <Content Include="images\logopic.jpg" />
     <Content Include="images\msgbox.png" />

@@ -29,7 +29,7 @@ namespace prj_BIZ_System.Controllers
         public Manager_Activity_ViewModel activityModel;
         public Match_ViewModel matchModel;
         public MatchService matchService;
-        private const int notFoundIndex = 999;
+        private const long notFoundIndex = 99999999999999999;
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
@@ -62,8 +62,8 @@ namespace prj_BIZ_System.Controllers
             Session.Clear();
             HttpCookie aCookie;
             string cookieName;
-//            int limit = Request.Cookies.Count;
-//            for (int i = 0; i < limit; i++)
+            //            int limit = Request.Cookies.Count;
+            //            for (int i = 0; i < limit; i++)
             {
                 cookieName = "ManagerInfo";// Request.Cookies[i].Name;
                 aCookie = new HttpCookie(cookieName);
@@ -113,8 +113,8 @@ namespace prj_BIZ_System.Controllers
 
                 Response.AppendCookie(cookie);
             }
-//            return Redirect("ManagerInfo");
-           return Redirect("Index");
+            //            return Redirect("ManagerInfo");
+            return Redirect("Index");
         }
 
 
@@ -140,13 +140,13 @@ namespace prj_BIZ_System.Controllers
 
 
         // GET: ManagerInfo
-        public ActionResult ManagerInfo(int? where_grp_id , string where_manager_id)
+        public ActionResult ManagerInfo(int? where_grp_id, string where_manager_id)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
-            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this,10);
+            managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this, 10);
             ViewBag.Where_GroupId = where_grp_id;
             ViewBag.Where_ManagerId = where_manager_id;
             return View(managerViewModel);
@@ -161,18 +161,18 @@ namespace prj_BIZ_System.Controllers
             if ("Insert".Equals(pagetype))
             {
                 managerService.ManagerInfoInsertOne(model);
-//                return Redirect("ManagerInfo");
+                //                return Redirect("ManagerInfo");
             }
             else if ("Update".Equals(pagetype))
             {
                 managerService.ManagerInfoUpdateOne(model);
-//                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
-//                return Json(isUpdateSuccess);
+                //                bool isUpdateSuccess = managerService.ManagerInfoUpdateOne(model);
+                //                return Json(isUpdateSuccess);
             }
             return Redirect("ManagerInfo");
         }
 
-        public ActionResult DeleteManagerInfoJson(string manager_id , string enable)
+        public ActionResult DeleteManagerInfoJson(string manager_id, string enable)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -193,7 +193,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
 
-            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this,10);
+            managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this, 10);
 
             return View(managerViewModel);
         }
@@ -216,13 +216,13 @@ namespace prj_BIZ_System.Controllers
             result.Add("memangers", manager_model_list);
             result.Add("limits", limitsDict);
 
-            return Json( result , JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public ActionResult GroupInsertUpdate(
-              int? grp_id   , string grp_name   , string user    , string activity 
-            , string push   , string news       , string manager , string statistic
+              int? grp_id, string grp_name, string user, string activity
+            , string push, string news, string manager, string statistic
         )
         {
             if (Request.Cookies["ManagerInfo"] == null)
@@ -235,14 +235,14 @@ namespace prj_BIZ_System.Controllers
             limits.Add("manager", manager);
             limits.Add("statistic", statistic);
 
-            if(grp_id == null)
+            if (grp_id == null)
             {
-                managerService.GroupInsertOne(grp_name , limits);
+                managerService.GroupInsertOne(grp_name, limits);
                 return Redirect("Group");
             }
             else
             {
-                bool isUpdateSuccess = managerService.GroupUpdateOne( grp_id , grp_name , limits);
+                bool isUpdateSuccess = managerService.GroupUpdateOne(grp_id, grp_name, limits);
                 return Json(isUpdateSuccess);
             }
         }
@@ -470,7 +470,7 @@ namespace prj_BIZ_System.Controllers
             }
 
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id).Pages(Request, this, 10); 
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
@@ -478,7 +478,7 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名審核
 
         [HttpGet]
-        public ActionResult ActivityRegisterCheck(int? selectActivityId , string selectCompany,string startDate,string endDate)
+        public ActionResult ActivityRegisterCheck(int? selectActivityId, string selectCompany, string startDate, string endDate)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -512,8 +512,8 @@ namespace prj_BIZ_System.Controllers
             if (registInfo != null)
             {
                 MailHelper.sendActivityCheckNotify(
-                      registInfo.manager_check  , registInfo.activity_id    , registInfo.activity_name  , registInfo.starttime.ToString("yyyy-MM-dd HH:mm") , registInfo.endtime.ToString("yyyy-MM-dd HH:mm")
-                    , registInfo.addr           , registInfo.quantity       , registInfo.name_b         , registInfo.phone , registInfo.email );
+                      registInfo.manager_check, registInfo.activity_id, registInfo.activity_name, registInfo.starttime.ToString("yyyy-MM-dd HH:mm"), registInfo.endtime.ToString("yyyy-MM-dd HH:mm")
+                    , registInfo.addr, registInfo.quantity, registInfo.name_b, registInfo.phone, registInfo.email);
             }
             return Redirect("ActivityRegisterCheck");
         }
@@ -532,7 +532,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,grp_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id);
             ArrayList activityNameList = new ArrayList();
 
 
@@ -563,7 +563,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate,grp_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByCondition(selectActivityName, selectCompany, startDate, endDate, grp_id);
             ArrayList companyList = new ArrayList();
             foreach (ActivityRegisterModel model in activityModel.activityregisterList)
             {
@@ -589,7 +589,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
 
-            activityModel.userinfoList = userService.GetUserInfoListkw(user_id,company).Pages(Request, this, 10);
+            activityModel.userinfoList = userService.GetUserInfoListkw(user_id, company).Pages(Request, this, 10);
             return View(activityModel);
         }
         public ActionResult DeleteUser()
@@ -679,7 +679,7 @@ namespace prj_BIZ_System.Controllers
                 string url1 = "http://data.gcis.nat.gov.tw/od/data/api/5F64D864-61CB-4D0D-8AD9-492047CC1EA6?$format=json&$filter=Business_Accounting_NO eq " + user_id;
                 string url2 = "http://data.gcis.nat.gov.tw/od/data/api/236EE382-4942-41A9-BD03-CA0709025E7C?$format=json&$filter=Business_Accounting_NO eq " + user_id;
 
-///////////////////URL2///////////////
+                ///////////////////URL2///////////////
                 HttpWebRequest request1 = WebRequest.Create(url1) as HttpWebRequest;
                 using (HttpWebResponse response1 = request1.GetResponse() as HttpWebResponse)
                 {
@@ -712,7 +712,7 @@ namespace prj_BIZ_System.Controllers
                     companydata.Business_Item_Count = jarray[0].Cmp_Business.Count();
                     for (int i = 0; i < companydata.Business_Item_Count; i++)
                     {
-                        companydata.Business_Item.Add(jarray[0].Cmp_Business[i].Business_Item.Substring(0,2));
+                        companydata.Business_Item.Add(jarray[0].Cmp_Business[i].Business_Item.Substring(0, 2));
                     }
                 }
                 ////////////////////////////////////
@@ -732,7 +732,7 @@ namespace prj_BIZ_System.Controllers
         [HttpGet]
         public ActionResult CheckUser(string user_id)
         {
-//            bool Huser = true;
+            //            bool Huser = true;
             activityModel.userinfo = userService.GeUserInfoOne(user_id);
             if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
             {
@@ -825,7 +825,7 @@ namespace prj_BIZ_System.Controllers
                 string current_user_id = model.user_id;
                 var old_model = userService.GeUserInfoOne(current_user_id);
                 model.update_time = DateTime.Now;
-//                model.user_id = current_user_id;
+                //                model.user_id = current_user_id;
                 if (logo_img != null && logo_img.ContentLength > 0 && !string.IsNullOrEmpty(current_user_id))
                 {
                     if (old_model.logo_img != null)
@@ -859,7 +859,7 @@ namespace prj_BIZ_System.Controllers
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
 
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id,DateTime.Now).Pages(Request, this, 10);
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, DateTime.Now).Pages(Request, this, 10);
             return View(activityModel);
 
         }
@@ -904,21 +904,22 @@ namespace prj_BIZ_System.Controllers
 
             if (model.serial_no == 0)
             {
-                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id)) {
+                if (model.activity_id == 0 || string.IsNullOrEmpty(model.buyer_id))
+                {
                     TempData["buyer_errMsg"] = "此買主或此活動不存在 ";
                 }
                 else
                 {
                     var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
-                    if(buyModel == null)
+                    if (buyModel == null)
                     {
                         var serial_no = activityService.BuyerInfoInsertOne(model);
-                        if (serial_no !=null )
+                        if (serial_no != null)
                         {
                             UserInfoModel buyer = userService.GeUserInfoOne(model.buyer_id);
                             ActivityInfoModel activity = activityService.GetActivityInfoOne(model.activity_id);
                             MailHelper.sendActivityAddBuyerNotify(
-                                buyer.email , model.activity_id , activity.activity_name , activity.starttime
+                                buyer.email, model.activity_id, activity.activity_name, activity.starttime
                                 , activity.endtime, activity.addr, activity.organizer);
                         }
                     }
@@ -936,15 +937,15 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
-                    if (buyModel == null)
-                    {
+                    //var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    //if (buyModel == null)
+                    //{
                         bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
-                    }
-                    else
-                    {
-                        TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
+                    //}
                 }
             }
             return Redirect("BuyerInfoList");
@@ -952,8 +953,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult GetUserInfoToIdCp(string term)
         {
-//            if (Request.Cookies["ManagerInfo"] == null)
-//                return Redirect("Login");
+            //            if (Request.Cookies["ManagerInfo"] == null)
+            //                return Redirect("Login");
 
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
             ArrayList arrayList = new ArrayList();
@@ -1020,13 +1021,13 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
             logger.Info("已登入");
 
-            logger.Info("上傳檔案名稱:"+ iupexl.FileName);
+            logger.Info("上傳檔案名稱:" + iupexl.FileName);
             if (iupexl != null && iupexl.FileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) && iupexl.ContentLength > 0)
             {
                 string targetDir = "_temp";
                 Dictionary<string, string> uploadResultDic = null;
                 uploadResultDic = UploadHelper.doUploadFile(iupexl, targetDir, UploadConfig.AdminManagerDirName);
-                logger.Info("上傳結果:"+uploadResultDic["result"]);
+                logger.Info("上傳結果:" + uploadResultDic["result"]);
 
                 if ("success".Equals(uploadResultDic["result"]))
                 {
@@ -1071,30 +1072,39 @@ namespace prj_BIZ_System.Controllers
 
             Dictionary<int, object> successUserInfos = new Dictionary<int, object>();
             successUserInfos = (Dictionary<int, object>)param;
-            foreach (KeyValuePair<int,object> kvp in successUserInfos)
+            foreach (KeyValuePair<int, object> kvp in successUserInfos)
             {
                 string user_id = ((Dictionary<string, string>)kvp.Value)["user_id"];
-                CompanyData compdata = GetDataFromWeb(user_id);
-                logger.Info(user_id + "取回的值是否成功:");
-                if (compdata == null)
-                {
-                    logger.Info("不存在");
+                try {
+                    CompanyData compdata = GetDataFromWeb(user_id);
+                    logger.Info(user_id + "取回的值是否成功:");
+                    if (compdata == null)
+                    {
+                        logger.Info("不存在");
+                    }
+                    else
+                    {
+                        logger.Info("存在" + "=>資本額為" + (compdata.Capital_Stock_Amount == null ? "0" : compdata.Capital_Stock_Amount.ToString()));
+                    }
+                    var sort_id = result.Where(item => compdata != null && compdata.Business_Item != null && compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
+                    _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
+                    long intCaptial = 0;
+                    if (Int64.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
+                    {
+                        bool isUpdateCapSuccess = userService.UserInfoUpdateCapital(user_id, intCaptial);
+                    }
+                    bool isUpdateAddSuccess = userService.UserInfoUpdateAddr(user_id, compdata.Company_Location);
+                    logger.Info("user_id=" + user_id + " 匯入後更新地址結果為:" + isUpdateAddSuccess);
+                    bool refreshResult = userService.RefreshUserSort(user_id, sort_id);
+                    logger.Info("user_id=" + user_id + " 匯入後新增產業別結果為:" + refreshResult);
                 }
-                else
+                catch(Exception ex)
                 {
-                    logger.Info("存在" + "=>資本額為" + (compdata.Capital_Stock_Amount==null?"0": compdata.Capital_Stock_Amount.ToString()));
+                    logger.Error("-----------------------------------");
+                    logger.Error("user_id=" + user_id + "抓取opendata失敗..");
+                    logger.Error(ex.Message);
+                    continue ;
                 }
-                var sort_id = result.Where(item => compdata!=null && compdata.Business_Item!=null && compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
-                _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
-                long intCaptial = 0;
-                if (Int64.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
-                {
-                    bool isUpdateCapSuccess = userService.UserInfoUpdateCapital(user_id, intCaptial);
-                }
-                bool isUpdateAddSuccess = userService.UserInfoUpdateAddr(user_id, compdata.Company_Location);
-                logger.Info("user_id=" + user_id + " 匯入後更新地址結果為:" + isUpdateAddSuccess);
-                bool refreshResult = userService.RefreshUserSort(user_id, sort_id);
-                logger.Info("user_id=" + user_id + " 匯入後新增產業別結果為:" + refreshResult);
             }
         }
 
@@ -1187,7 +1197,7 @@ namespace prj_BIZ_System.Controllers
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
 
             /*列出某活動的時間區段輸入媒合的賣家*/
-            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+            long i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
 
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
             matchModel.matchMakingScheduleSellerId = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
@@ -1285,15 +1295,16 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合大表列表新版
-
+        #region 媒合時程大表列表新版
         [HttpGet]
         public ActionResult MatchScheduleList()
         {
-            if(Request.Cookies["ManagerInfo"] == null){
+            if (Request.Cookies["ManagerInfo"] == null)
+            {
                 return Redirect("Login");
             }
 
+            string IsBothOrBuyer;
             /*頁面端取得資訊*/
             ViewBag.Action = "StoreMatchData";
             /*取得設定時間的活動編號*/
@@ -1307,7 +1318,7 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動的雙方有意願*/
             matchModel.matchmakingBothList = matchService.GetMatchmakingbothneedList(int.Parse(Request["activity_id"]));
             /*列出某活動的買家有意願*/
-            matchModel.matchmakingBuyerList = matchService.GetCertainActivityBuyerCheckSellerList(int.Parse(Request["activity_id"]),"");
+            matchModel.matchmakingBuyerList = matchService.GetCertainActivityBuyerCheckSellerList(int.Parse(Request["activity_id"]), "");
             /*列出某活動的賣家有意願*/
             matchModel.matchmakingSellerList = matchService.GetMSneedBySellerCompanyList(int.Parse(Request["activity_id"]));
 
@@ -1315,10 +1326,13 @@ namespace prj_BIZ_System.Controllers
             //matchModel.matchSellerCompanyDatamergeList = Enumerable.Repeat(new List<object>(), matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count).ToList();
 
             int allCount = matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count;
-            matchModel.matchSellerCompanyDatamergeList = new List<List<object>>();
+            //matchModel.matchSellerCompanyDatamergeList = new List<List<object>>();
+            matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string,string,string>>>();
+
             for (int temp = 0; temp < allCount; temp++)
             {
-                List<object> data = new List<object>();
+                //List<object> data = new List<object>();
+                List<Tuple<string, string, string>> data = new List<Tuple<string, string, string>>();
                 matchModel.matchSellerCompanyDatamergeList.Add(data);
             }
 
@@ -1327,37 +1341,152 @@ namespace prj_BIZ_System.Controllers
                 var bothAllBuyer_id = matchModel.matchmakingBothList.Select(both => both.buyer_id).ToArray();
                 if (bothAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
                 {
-                    /*雙方媒合意願 某買主有那些賣家*/
                     var bothList =
                         matchModel.matchmakingBothList
                         .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(both => new  { IsBothOrBuyer = "both",  both.seller_id, both.company }).ToList();
+                        .Select(both => new Tuple<string, string, string> (IsBothOrBuyer = "both", both.seller_id, both.company )).ToList();
+
                     matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
-                   
                 }
 
                 var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
                 if (buyerAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
                 {
-                    /*買方媒合意願 某買主有那些賣家*/
                     var bothList =
                         matchModel.matchmakingBothList
                         .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(both => new  { IsBothOrBuyer = "buyer", both.seller_id, both.company }).ToList();
+                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", both.seller_id, both.company)).ToList();
 
                     var buyerList =
                         matchModel.matchmakingBuyerList
                         .Where(buyer => buyer.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(buyer => new { IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company }).ToList();
+                        .Select(buyer => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company)).ToList();
 
                     var exceptList = buyerList.Except(bothList);
                     matchModel.matchSellerCompanyDatamergeList[i].AddRange(exceptList);
                 }
             }
 
+            /*列出某活動的媒合大表資料*/
+            matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
+            
+            /*列出某活動的時間區段輸入媒合的賣家*/
+            long x = notFoundIndex, y = notFoundIndex; //x是時段, y是買主
+            matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+            matchModel.matchMakingScheduleSellerId = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
+
+            foreach (MatchmakingScheduleModel matchmakingScheduleModel in matchModel.matchmakingScheduleList)
+            {
+                foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+                {
+                    if (schedulePeriodSetModel.period_sn == matchmakingScheduleModel.period_sn)
+                    {
+                        x = matchModel.schedulePeriodSetList.IndexOf(schedulePeriodSetModel);
+                    }
+                }
+
+                foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+                {
+                    if (buyerInfoModel.buyer_id.Equals(matchmakingScheduleModel.buyer_id))
+                    {
+                        y = matchModel.buyerinfoList.IndexOf(buyerInfoModel);
+                    }
+                }
+
+                if ((x != notFoundIndex) && (y != notFoundIndex))
+                {
+                    matchModel.matchMakingScheduleSellerCompany[x * matchModel.buyerinfoList.Count + y] = matchmakingScheduleModel.company;
+                    matchModel.matchMakingScheduleSellerId[x * matchModel.buyerinfoList.Count + y] = matchmakingScheduleModel.seller_id;
+                }
+            }
+
+            /*刪除某時段，媒合大表中的相同時段資料刪除*/
+
+
+
+
+
+
             return View(matchModel);
         }
 
+        #endregion
+
+        #region 媒合時程大表新增修改刪除新版
+        [HttpPost]
+        public ActionResult StoreMatchData(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
+        {
+            if(Request.Cookies["ManagerInfo"] == null){
+                return Redirect("Login");
+            }
+
+            /*列出某活動的媒合大表資料*/
+            matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(activity_id);
+            /*列出某活動的所有買主*/
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id);
+            /*列出某活動的所有媒合時段*/
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(activity_id);
+            /*列出某活動的時間區段輸入媒合的賣家*/
+            long i = notFoundIndex, j = notFoundIndex; //i是時段, j是買主
+            matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, buyer_id.Length * period_sn.Length).ToArray();
+            
+            foreach(MatchmakingScheduleModel model in matchModel.matchmakingScheduleList)
+            {
+                foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+                {
+                    if (schedulePeriodSetModel.period_sn == model.period_sn)
+                    {
+                        i = matchModel.schedulePeriodSetList.IndexOf(schedulePeriodSetModel);
+                    }
+                }
+
+                foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+                {
+                    if (buyerInfoModel.buyer_id.Equals(model.buyer_id))
+                    {
+                        j = matchModel.buyerinfoList.IndexOf(buyerInfoModel);
+                    }
+                }
+
+                if((i != notFoundIndex) && (j != notFoundIndex))
+                {
+                    matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = model.company;
+                }
+
+            }
+
+            MatchmakingScheduleModel matchmakingScheduleModel = new MatchmakingScheduleModel();
+            matchmakingScheduleModel.activity_id = activity_id;
+            matchmakingScheduleModel.create_time = DateTime.Now;
+
+            for(int x = 0; x < period_sn.Length * buyer_id.Length; x++)
+            {
+                if(matchModel.matchMakingScheduleSellerCompany[x].Equals("") && seller_id[x].Length != 0)
+                {
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchService.CertainTimeMatchSellerInsert(matchmakingScheduleModel);
+                }
+                else if (matchModel.matchMakingScheduleSellerCompany[x] != "" && seller_id[x] != "")
+                {
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchmakingScheduleModel.update_time = DateTime.Now;
+                    matchService.CertainActivityMatchkingDataUpdate(matchmakingScheduleModel);
+                }
+                else if (matchModel.matchMakingScheduleSellerCompany[x].Length != 0 && seller_id[x].Equals(""))
+                {
+                    matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
+                    matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
+                    matchmakingScheduleModel.seller_id = seller_id[x];
+                    matchService.CertainActivityMatchkingDataDelete(matchmakingScheduleModel);
+                }
+            }
+
+            return Redirect("MatchScheduleList?activity_id=" + activity_id);
+        }
         #endregion
 
         #region 媒合大表匯出Excel
@@ -1390,7 +1519,7 @@ namespace prj_BIZ_System.Controllers
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
 
             /*列出某活動的時間區段輸入媒合的賣家*/
-            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+            long i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
 
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
             matchModel.matchMakingScheduleSellerId = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
@@ -1471,82 +1600,82 @@ namespace prj_BIZ_System.Controllers
 
             CreateCell("時段\\買方名稱", MyRow, 0, CellStyle);
 
-            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
-            {
-                CreateCell(buyerInfoModel.company, MyRow, CurrCol, CellStyle); //買家公司名稱
-                try
-                {
-                    for (i = 0; i < matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id].Count; i++)
-                    {
-                        if (CurrRowMax < 4 + i)
-                            CurrRowMax = 4 + i;
-                        IRow MyRow1 = _sheet.GetRow(4 + i);
-                        if (MyRow1 == null)
-                            MyRow1 = _sheet.CreateRow(4 + i);
-                        if (i == 0 && tok == 0)
-                        {
-                            tok = 1;
-                            CreateCell("雙方有媒合意願", MyRow1, 0, CellStyle); //
-                        }
-                        CreateCell(matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
+            //foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            //{
+            //    CreateCell(buyerInfoModel.company, MyRow, CurrCol, CellStyle); //買家公司名稱
+            //    try
+            //    {
+            //        for (i = 0; i < matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id].Count; i++)
+            //        {
+            //            if (CurrRowMax < 4 + i)
+            //                CurrRowMax = 4 + i;
+            //            IRow MyRow1 = _sheet.GetRow(4 + i);
+            //            if (MyRow1 == null)
+            //                MyRow1 = _sheet.CreateRow(4 + i);
+            //            if (i == 0 && tok == 0)
+            //            {
+            //                tok = 1;
+            //                CreateCell("雙方有媒合意願", MyRow1, 0, CellStyle); //
+            //            }
+            //            CreateCell(matchModel.sellerCompanyNamereply1Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
 
-                    }
-                }
-                catch
-                {
-                }
+            //        }
+            //    }
+            //    catch
+            //    {
+            //    }
 
-                CurrCol++;
-            }
+            //    CurrCol++;
+            //}
 
-            CurrCol = 1;
-            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
-            {
-                tok = 0;
-                try
-                {
-                    for (i = 0; i < matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id].Count; i++)
-                    {
-                        IRow MyRow1 = _sheet.GetRow(CurrRowMax + 2 + i);
-                        if (MyRow1 == null)
-                            MyRow1 = _sheet.CreateRow(CurrRowMax + 2 + i);
-                        if (i == 0 && tok == 0)
-                        {
-                            tok = 1;
-                            CreateCell("賣方有媒合意願", MyRow1, 0, CellStyle); //
-                        }
-                        CreateCell(matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
+            //CurrCol = 1;
+            //foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            //{
+            //    tok = 0;
+            //    try
+            //    {
+            //        for (i = 0; i < matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id].Count; i++)
+            //        {
+            //            IRow MyRow1 = _sheet.GetRow(CurrRowMax + 2 + i);
+            //            if (MyRow1 == null)
+            //                MyRow1 = _sheet.CreateRow(CurrRowMax + 2 + i);
+            //            if (i == 0 && tok == 0)
+            //            {
+            //                tok = 1;
+            //                CreateCell("賣方有媒合意願", MyRow1, 0, CellStyle); //
+            //            }
+            //            CreateCell(matchModel.sellerCompanyNamereply0Dic[buyerInfoModel.buyer_id][i], MyRow1, CurrCol, CellStyle1); //買家公司名稱
 
-                    }
-                }
-                catch
-                {
-                }
+            //        }
+            //    }
+            //    catch
+            //    {
+            //    }
 
-                CurrCol++;
-            }
+            //    CurrCol++;
+            //}
 
-            CurrRow = 1;
-            foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
-            {
-                IRow MyRow1 = _sheet.GetRow(CurrRow);
-                if (MyRow1 == null)
-                    MyRow1 = _sheet.CreateRow(CurrRow);
-                CreateCell(schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm") + "~" + schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")
-                    , MyRow1, 0, CellStyle); //
-                CurrRow++;
-            }
+            //CurrRow = 1;
+            //foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
+            //{
+            //    IRow MyRow1 = _sheet.GetRow(CurrRow);
+            //    if (MyRow1 == null)
+            //        MyRow1 = _sheet.CreateRow(CurrRow);
+            //    CreateCell(schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm") + "~" + schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")
+            //        , MyRow1, 0, CellStyle); //
+            //    CurrRow++;
+            //}
 
 
-            for (i = 1; i < CurrRow; i++)
-            {
-                for (j = 1; j < CurrCol; j++)
-                {
-                    IRow MyRow1 = _sheet.GetRow(i);
-                    CreateCell(matchModel.matchMakingScheduleSellerCompany[(i - 1) * (CurrCol - 1) + (j - 1)],
-                        MyRow1, j, CellStyle1); //
-                }
-            }
+            //for (i = 1; i < CurrRow; i++)
+            //{
+            //    for (j = 1; j < CurrCol; j++)
+            //    {
+            //        IRow MyRow1 = _sheet.GetRow(i);
+            //        CreateCell(matchModel.matchMakingScheduleSellerCompany[(i - 1) * (CurrCol - 1) + (j - 1)],
+            //            MyRow1, j, CellStyle1); //
+            //    }
+            //}
 
             string SavePath = @"D:/Download/matchmaking.xls";
             FileStream file = new FileStream(SavePath, FileMode.Create);
@@ -1569,9 +1698,9 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合時程大表新增修改刪除
+        #region 媒合時程大表新增修改刪除舊版
         [HttpPost]
-        public ActionResult StoreMatchData(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
+        public ActionResult StoreMatchDataOld(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -1583,7 +1712,7 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動媒合時段*/
             matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(activity_id);
             /*列出某活動的時間區段輸入媒合的賣家*/
-            int i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
+            long i = notFoundIndex, j = notFoundIndex;//i是時段, j是買主
 
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, buyer_id.Length * period_sn.Length).ToArray();
 
@@ -1665,7 +1794,7 @@ namespace prj_BIZ_System.Controllers
 
             string current_id = "";
             string current_manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; // 取 manager_id 的 cookie
-//            string current_user_id = ""; // "12345678"; // 取 user_id 的 cookie
+                                                                                      //            string current_user_id = ""; // "12345678"; // 取 user_id 的 cookie
             string errMsg = "修改成功";
             if (!string.IsNullOrEmpty(current_manager_id))
             {
@@ -1683,23 +1812,23 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-/*
-            if (!string.IsNullOrEmpty(current_user_id))
-            {
-                current_id = current_user_id;
-                if (passwordService.getUserPassword(current_id).Equals(old_pw))
-                {
-                    if (!passwordService.UpdateUserPassword(current_id, new_pw))
-                    {
-                        errMsg = "修改失敗";
-                    }
-                }
-                else
-                {
-                    errMsg = "輸入的舊密碼不正確";
-                }
-            }
-*/
+            /*
+                        if (!string.IsNullOrEmpty(current_user_id))
+                        {
+                            current_id = current_user_id;
+                            if (passwordService.getUserPassword(current_id).Equals(old_pw))
+                            {
+                                if (!passwordService.UpdateUserPassword(current_id, new_pw))
+                                {
+                                    errMsg = "修改失敗";
+                                }
+                            }
+                            else
+                            {
+                                errMsg = "輸入的舊密碼不正確";
+                            }
+                        }
+            */
             TempData["pw_errMsg"] = errMsg;
 
             return Redirect("EditPasswd");
