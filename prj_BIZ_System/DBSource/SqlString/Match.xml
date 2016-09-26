@@ -426,7 +426,8 @@
     <update id="UpdateCertainActivityMatchkingData" parameterClass="MatchmakingScheduleModel">
       UPDATE manager.matchmaking_schedule
       SET
-      seller_id = #seller_id#
+      seller_id = #seller_id#,
+      update_time = #update_time#
       WHERE activity_id = #activity_id#
       AND buyer_id = #buyer_id#
       AND period_sn = #period_sn#

@@ -113,7 +113,8 @@ namespace prj_BIZ_System.Models
         public IList<MatchmakingAllModel> matchmakingBuyerList { get; set; }
         public IList<MatchmakingAllModel> matchmakingSellerList { get; set; }
 
-        public List<List<object>> matchSellerCompanyDatamergeList { get; set; }  
+        //public List<List<object>> matchSellerCompanyDatamergeList { get; set; }
+        public List<List<Tuple<string,string,string>>> matchSellerCompanyDatamergeList { get; set; }
     }
 
     public class Manager_ViewModel

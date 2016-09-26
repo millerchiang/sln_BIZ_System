@@ -52,24 +52,29 @@
                             @for (int j = 0; j < Model.buyerinfoList.Count; j++)
                             {
                                 <td class="centerbox">
-                                    <select id="seller_id@(sellerIdCount++)">
+                                    <select name="seller_id" id="seller_id@(sellerIdCount++)">
                                         <option value="">--請選擇--</option>
                                         @{
-                                            var bothAll = Model.matchmakingBothList
-                                            .Where(both => both.buyer_id == Model.buyerinfoList[j].buyer_id)
-                                            .Select(both => new { both.seller_id, both.company }).ToArray();
-
-                                            var buyerAll = Model.matchmakingBuyerList
-                                            .Where(buyer => buyer.buyer_id == Model.buyerinfoList[j].buyer_id)
-                                            .Select(buyer => new { buyer.seller_id, buyer.company }).ToArray();
-
-
-
-                                            foreach (var both in bothAll)
+                                            List<Tuple<string, string, string>> dataAll = Model.matchSellerCompanyDatamergeList[j].ToList();
+                                            foreach (Tuple<string, string, string> data in dataAll)
                                             {
-                                                <option value="" class=""></option>
+                                                if (data.Item3.Equals(Model.matchMakingScheduleSellerCompany[i * Model.buyerinfoList.Count + j]))
+                                                {
+                                                    <option value="@data.Item2" selected="selected">@data.Item3</option>
+                                                }
+                                                else
+                                                {
+                                                    //item1 :IsBothOrBuyer item2 :seller_id item3 :company
+                                                    if (data.Item1.Equals("both"))
+                                                    {
+                                                        <option class="schedulebg001" value="@data.Item2">@data.Item3</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option class="schedulebg002" value="@data.Item2">@data.Item3</option>
+                                                    }
+                                                }
                                             }
-
                                         }
                                     </select>
                                 </td>
@@ -175,6 +180,14 @@
             </table>
         </form>
     </article>
-
-
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        /*儲存媒合資料*/
+        $("#saveMatchData").click(function () {
+            $("#form").submit();
+        });
+    });
+
+</script>
