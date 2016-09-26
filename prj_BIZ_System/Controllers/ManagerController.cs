@@ -1297,17 +1297,54 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動的賣家有意願*/
             matchModel.matchmakingSellerList = matchService.GetMSneedBySellerCompanyList(int.Parse(Request["activity_id"]));
 
+            /*列出某活動的雙方媒合意願與買方媒合意願的合併資料*/
+            //matchModel.matchSellerCompanyDatamergeList = Enumerable.Repeat(new List<object>(), matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count).ToList();
+
+            int allCount = matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count;
+            matchModel.matchSellerCompanyDatamergeList = new List<List<object>>();
+            for (int temp = 0; temp < allCount; temp++)
+            {
+                List<object> data = new List<object>();
+                matchModel.matchSellerCompanyDatamergeList.Add(data);
+            }
+
+            for (int i = 0; i < matchModel.buyerinfoList.Count; i++)
+            {
+                var bothAllBuyer_id = matchModel.matchmakingBothList.Select(both => both.buyer_id).ToArray();
+                if (bothAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                {
+                    /*雙方媒合意願 某買主有那些賣家*/
+                    var bothList =
+                        matchModel.matchmakingBothList
+                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(both => new  { IsBothOrBuyer = "both",  both.seller_id, both.company }).ToList();
+                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
+                   
+                }
+
+                var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
+                if (buyerAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                {
+                    /*買方媒合意願 某買主有那些賣家*/
+                    var bothList =
+                        matchModel.matchmakingBothList
+                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(both => new  { IsBothOrBuyer = "buyer", both.seller_id, both.company }).ToList();
+
+                    var buyerList =
+                        matchModel.matchmakingBuyerList
+                        .Where(buyer => buyer.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(buyer => new { IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company }).ToList();
+
+                    var exceptList = buyerList.Except(bothList);
+                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(exceptList);
+                }
+            }
+
             return View(matchModel);
         }
 
         #endregion
-
-
-
-
-
-
-
 
         #region 媒合大表匯出Excel
         [HttpGet]

@@ -104,7 +104,7 @@
 
     <!--查詢單一私訊並寫入已讀-->
     <select id="SelectMsgOneAndRead" resultMap="SelectMsgOne-result" parameterClass="Msg">
-      select * 
+      select *
       from message.set_msg_read_and_return_content(#msg_no#, #user_id#)
     </select>
 
