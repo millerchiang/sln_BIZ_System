@@ -154,10 +154,21 @@
                         <br>
                         <br>
 
+                       @if (Model.userinfo.enterprise_type == "0")
+                       {
                         <label for="capital" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
                         <div class="regis_col02R">
                             <span class="contentspan">@Model.userinfo.capital</span> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
                         </div>
+                       }
+                       else
+                       {
+                        <label for="capital" class="regis_col02L regis_col_bg2" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+                        <div class="regis_col02R" style="display:none">
+                            <span class="contentspan">@Model.userinfo.capital</span> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                        </div>
+                       }
+
                         <label for="revenue" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
                         <span class="regis_col02R contentspan">@revenue</span>
                         <label for="verticals" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_scope</label>
