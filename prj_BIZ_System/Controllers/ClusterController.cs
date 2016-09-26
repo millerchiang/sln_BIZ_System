@@ -219,23 +219,23 @@ namespace prj_BIZ_System.Controllers
 
         
         [HttpPost]
-        public ActionResult FilesUpload(HttpPostedFileBase cluster_file)
+        public ActionResult FilesUpload(HttpPostedFileBase upexl)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-            if (cluster_file != null)
+            if (upexl != null)
             {
-                if (cluster_file.ContentLength > 0)
+                if (upexl.ContentLength > 0)
                 {
                     string cluster_no = Request["cluster_no"];
                     Dictionary<string, string> uploadResult = null;
-                    uploadResult = UploadHelper.doUploadFile(cluster_file, UploadConfig.subDirForCluster + cluster_no, UploadConfig.AdminManagerDirName);
+                    uploadResult = UploadHelper.doUploadFile(upexl, UploadConfig.subDirForCluster + cluster_no, UploadConfig.AdminManagerDirName);
                     if ("success".Equals(uploadResult["result"]))
                     {
                         ClusterFileModel filemodel = new ClusterFileModel();
                         filemodel.cluster_no = int.Parse(Request["cluster_no"]);
                         filemodel.user_id = Request.Cookies["UserInfo"]["user_id"];
-                        filemodel.cluster_file_site = cluster_file.FileName;
+                        filemodel.cluster_file_site = upexl.FileName;
                         filemodel.deleted = "1";
                         clusterService.ClusterFileInsertOne(filemodel);
                     }
