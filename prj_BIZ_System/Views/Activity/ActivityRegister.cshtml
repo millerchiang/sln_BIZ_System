@@ -16,65 +16,65 @@
     <article class="form_box article_col2">
         <h2>@prj_BIZ_System.LanguageResource.User.lb_activity_register</h2>
             <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
-            <label for="activity_id" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
-            <p class="regis_col03R">@Model.activityinfo.activity_name</p>
+            <label for="activity_id" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
+            <p class="regis_col03R contentspan">@Model.activityinfo.activity_name</p>
 
 
-            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
-            <p class="regis_col03R">@Model.activityregister.user_id</p>
+            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.user_id</p>
 
-            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
-            <p class="regis_col03R">@Model.userinfo.company</p>
-
-
-            <label for="starttime" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
-            <p id="starttime" class="regis_col03R">@Model.activityinfo.create_time.ToString("yyyy/MM/dd tt hh:mm")</p>
-
-            <label for="endtime" class="regis_col03L "> ~ </label>
-            <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
-
-            <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
-            <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
-
-            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
-            <p class="regis_col03R">@Model.activityregister.quantity</p>
-
-            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_activity_participant</label>
-            <p class="regis_col03R">@Model.activityregister.name_a  @Model.activityregister.title_a</p>
+            <label for="leader" class="regis_col03L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.company</p>
 
 
-            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_contactman</label>
-            <p class="regis_col03R">@Model.activityregister.name_b  @Model.activityregister.title_b</p>
+            <label for="starttime" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
+            <p id="starttime" class="regis_col03R contentspan">@Model.activityinfo.create_time.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_phone_no</label>
-            <p class="regis_col03R">@Model.activityregister.phone</p>
+            <label for="endtime" class="regis_col03L"> ~ </label>
+            <p id="endtime" class="regis_col03R contentspan">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-            <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
-            <p class="regis_col03R">@Model.activityregister.telephone</p>
+            <label for="activityAddr" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
+            <p id="activityAddr" class="regis_col02R contentspan">@Model.activityinfo.addr</p>
 
-            <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_email</label>
-            <p class="regis_col03R">@Model.activityregister.email</p>
+            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.quantity</p>
+
+            <label for="leader" class="regis_col03L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_activity_participant</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.name_a  @Model.activityregister.title_a</p>
+
+
+            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_contactman</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.name_b  @Model.activityregister.title_b</p>
+
+            <label for="leader" class="regis_col03L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_phone_no</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.phone</p>
+
+            <label for="leader" class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.telephone</p>
+
+            <label for="leader" class="regis_col03L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_email</label>
+            <p class="regis_col03R contentspan">@Model.activityregister.email</p>
             
             @*
-            <label for="website" class="regis_col02L">公司網址</label>
+            <label for="website" class="regis_col02L regis_col_bg2">公司網址</label>
             <div class="regis_col02R">
                 <a class="linkb" href="@Model.userinfo.website" target="_block">@Model.userinfo.website</a>
             </div>
             *@
-            <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-            <span class="regis_col02R">@Model.activityregister.user_info</span>
-            <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief (English)</label>
-            <span class="regis_col02R">@Model.activityregister.user_info_en</span>
+            <label class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+            <span class="regis_col02R contentspan">@Model.activityregister.user_info</span>
+            <label class="regis_col02L regis_col_bg2">@prj_BIZ_System.LanguageResource.User.lb_companybrief (English)</label>
+            <span class="regis_col02R contentspan">@Model.activityregister.user_info_en</span>
             @*
-            <label for="verticals" class="regis_col02L">產業別</label>
-            <p class="regis_col02R verticalslist">
+            <label for="verticals" class="regis_col02L regis_col_bg2">產業別</label>
+            <p class="regis_col02R verticalslist contentspan">
                 @foreach (EnterpriseSortAndListModel enterpriseSortAndListmodel in Model.enterprisesortandlistList)
                 {
                     @enterpriseSortAndListmodel.enterprise_sort_id @enterpriseSortAndListmodel.enterprise_sort_name <br />
                 }
             </p>
             *@
-            <div class="regis_col02L">
+            <div class="regis_col02L regis_col_bg2">
                 <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_product_company</label>
             </div>
             <div class="regis_col02R">
@@ -82,7 +82,7 @@
                 @{
                     if (Model.activityproductselectList.Count == 0)
                     {
-                        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
+                        <label for="" class="label01 contentspan">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
                     }
                     else
                     {
@@ -104,14 +104,14 @@
                     }
                     }
             </div>
-            <div class="regis_col02L">
+            <div class="regis_col02L regis_col_bg2">
                 <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_company_catalog</label>
             </div>
             <div class="regis_col02R uplodboxR">
 @{
     if (Model.activitycatalogselectList.Count == 0)
     {
-        <label for="" class="label01">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
+        <label for="" class="label01 contentspan">@prj_BIZ_System.LanguageResource.User.lb_nodata</label>
     }
     else
     {

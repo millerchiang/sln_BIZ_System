@@ -21,7 +21,7 @@ namespace prj_BIZ_System.Services
         public void PushSampleInsertOne(PushSampleModel model)
         {
             var result = mapper.Insert("Push.InsertPushSample", model);
-            return ;
+            return;
         }
 
         public bool PushSampleUpdateOne(PushSampleModel model)
@@ -47,11 +47,11 @@ namespace prj_BIZ_System.Services
         public int getPushListCountBySampleId(int sample_id)
         {
             var param = new PushListModel { sample_id = sample_id };
-            int userCount = (int)mapper.QueryForObject("Push.SelectPushListCountBySampleId", param );
-            return userCount ;
+            int userCount = (int)mapper.QueryForObject("Push.SelectPushListCountBySampleId", param);
+            return userCount;
         }
 
-        public IList<PushListModel> getPushListByCondition(string push_type , string push_name,int? grp_id)
+        public IList<PushListModel> getPushListByCondition(string push_type, string push_name, int? grp_id)
         {
             var param = new PushListModel { push_type = push_type, push_name = push_name, grp_id = grp_id };
             return mapper.QueryForList<PushListModel>("Push.getPushListByCondition", param);
@@ -76,7 +76,7 @@ namespace prj_BIZ_System.Services
         public bool DeletePushListOne(int? push_id)
         {
             var param = new PushListModel { push_id = push_id };
-            return mapper.Delete("Push.DeletePushList", param) > 0 ;
+            return mapper.Delete("Push.DeletePushList", param) > 0;
         }
 
         public object MobileDeviceInfoInsertOne(MobileDeviceInfoModel model)

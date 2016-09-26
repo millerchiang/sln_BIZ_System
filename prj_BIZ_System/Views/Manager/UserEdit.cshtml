@@ -120,7 +120,7 @@
         <div class="regis_col01R">
             <input type="hidden" name="id_enable" value="@Model.userinfo.id_enable">
 
-            <label class="regis_col01R_label">
+            <label class="regis_col01R_label" onclick="chkuser1()">
                 是否啟用
             </label>
             <div class="regis_col01R_input">
@@ -315,7 +315,7 @@
 
         $("#form").submit(function () {
             var user_pw = $("input[name='user_pw']").val();
-            var errMsg = checkValidationOk(user_pw);
+            //var errMsg = checkValidationOk(user_pw);
             if (errMsg != '') {
                 alert(errMsg);
                 return false;
@@ -352,6 +352,39 @@
             $("input[name='sort_id'][id='"+i+"']").prop("checked",false);
         }
     }
+    function chkuser1() {
+        var user_id = $("input[name='user_id']").val();
+        if (user_id != null && user_id != '') 
+        {
+            $.ajax({
+                type: "get",
+                url: "@Url.Action("CheckUserExit", "Manager")",
+                cache: false,
+            data: { "user_id": user_id },
+            dataType: "json"
+            }).done(function (result) {
+                if (result != null) {
+                    var Huser = result;
+                    if (Huser == true) {
+                        $("input[name='user_id']").focus();                
+                    } else {
+//                        clearchk();
+//                        $("input[name='company']").val(result.Company_Name);
+//                        $("input[name='addr']").val(result.Company_Location);
+                        $("input[name='capital']").val(result.Capital_Stock_Amount/1000);
+                        var i=0;
+                        for (i=0;i<result.Business_Item_Count;i++)
+                        {
+                            $("input[name='sort_id'][id2='"+result.Business_Item[i]+"']").prop("checked",true);
+                        }
+                        alert("取資料OK!!");
+                    }
+                }
+                else {
+                }
+            });
+        }
+    }
 
     function chkuser() {
 
@@ -368,7 +401,6 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        alert("該使用帳號已存在,請確認是否帳號有誤!!");
                         $("input[name='user_id']").focus();                
                     } else {
                         clearchk();

@@ -745,6 +745,20 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        public ActionResult CheckUserExit(string user_id)
+        {
+            //            bool Huser = true;
+//            activityModel.userinfo = userService.GeUserInfoOne(user_id);
+//            if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
+//            {
+                CompanyData compdata = GetDataFromWeb(user_id);
+                return Json(compdata, JsonRequestBehavior.AllowGet);
+//            }
+//            else
+//            {
+//                return Json(true, JsonRequestBehavior.AllowGet);
+//            }
+        }
 
         public ActionResult UserEdit()
         {
@@ -923,15 +937,15 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
-                    if (buyModel == null)
-                    {
+                    //var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    //if (buyModel == null)
+                    //{
                         bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
-                    }
-                    else
-                    {
-                        TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
+                    //}
                 }
             }
             return Redirect("BuyerInfoList");
@@ -1073,8 +1087,8 @@ namespace prj_BIZ_System.Controllers
                 }
                 var sort_id = result.Where(item => compdata != null && compdata.Business_Item != null && compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
                 _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
-                int intCaptial = 0;
-                if (Int32.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
+                long intCaptial = 0;
+                if (Int64.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
                 {
                     bool isUpdateCapSuccess = userService.UserInfoUpdateCapital(user_id, intCaptial);
                 }
