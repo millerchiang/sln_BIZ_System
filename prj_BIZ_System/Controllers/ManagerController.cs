@@ -1072,8 +1072,8 @@ namespace prj_BIZ_System.Controllers
                 }
                 var sort_id = result.Where(item => compdata!=null && compdata.Business_Item!=null && compdata.Business_Item.Contains(item.enterprise_sort_id)).Select(item => item.sort_id).Distinct().ToArray();
                 _BaseService.mapper.SessionStore = new HybridWebThreadSessionStore(_BaseService.mapper.Id);
-                int intCaptial = 0;
-                if (Int32.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
+                long intCaptial = 0;
+                if (Int64.TryParse(compdata.Capital_Stock_Amount, out intCaptial) && intCaptial > 0)
                 {
                     bool isUpdateCapSuccess = userService.UserInfoUpdateCapital(user_id, intCaptial);
                 }

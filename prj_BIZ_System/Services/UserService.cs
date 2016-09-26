@@ -89,7 +89,7 @@ namespace prj_BIZ_System.Services
             return mapper.Update("UserInfo.UpdateAddr", param) > 0;
         }
 
-        public bool UserInfoUpdateCapital(string user_id, int capital)
+        public bool UserInfoUpdateCapital(string user_id, long capital)
         {
             var param = new UserInfoModel() { user_id = user_id, capital = capital/1000 };
             return mapper.Update("UserInfo.UpdateCapital", param) > 0;
@@ -215,7 +215,7 @@ namespace prj_BIZ_System.Services
                                 md.contact          = tempRecord["contact"];
                                 md.phone            = tempRecord["phone"];
                                 md.email            = tempRecord["email"];
-                                md.capital          = Convert.ToInt32(tempRecord["capital"]);
+                                md.capital          = Convert.ToInt64(tempRecord["capital"]);
                                 md.revenue          = tempRecord["revenue"];
                                 md.website          = tempRecord["website"];
                                 md.info             = tempRecord["info"];
