@@ -922,15 +922,15 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
-                    if (buyModel == null)
-                    {
+                    //var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
+                    //if (buyModel == null)
+                    //{
                         bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
-                    }
-                    else
-                    {
-                        TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
-                    }
+                    //}
+                    //else
+                    //{
+                    //    TempData["buyer_errMsg"] = "更新失敗...此企業原本就是該活動買主";
+                    //}
                 }
             }
             return Redirect("BuyerInfoList");

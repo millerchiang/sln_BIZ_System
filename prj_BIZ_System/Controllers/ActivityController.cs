@@ -119,7 +119,7 @@ namespace prj_BIZ_System.Controllers
             }else {
                 ViewBag.Action = "EditActivityRegisterUpdate";
                 activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
-                activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+                //activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
 //                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
 
@@ -164,7 +164,7 @@ namespace prj_BIZ_System.Controllers
             activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
 
             activityModel.activityregister = activityService.GetActivityRegisterOne(int.Parse(Request["register_id"]));
-            activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+            //activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
 
             //                activityModel.activityinfo = activityService.GetActivityInfoOne(int.Parse(Request["activity_id"]));
 

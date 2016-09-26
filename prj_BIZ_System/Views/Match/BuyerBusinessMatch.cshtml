@@ -16,15 +16,15 @@
     <article class="form_box article_col2">
         <h2>商務對接</h2>
         <form id="insertForm" action="@ViewBag.Action" method="post">
-            <table class="edittable">
+            <table class="edittable mg30">
                 <tr>
-                    <th width="30%">公司名稱</th>
-                    <th>想與賣家洽談</th>
+                    <th>公司名稱</th>
+                    <th  style="width: 97px;">想與賣家洽談</th>
                 </tr>
                 @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                 {
                     <tr>
-                        <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb">@activityRegisterModel.company</a></td>
+                        <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb" target="_blank">@activityRegisterModel.company</a></td>
                         <td>
                             @if (activityRegisterModel.Ischeck == true)
                             {
@@ -61,7 +61,7 @@
                     </tr>
                 }*@
             </table>
-            <div class="centerbox">
+            <div class="centerbox mg30">
                 <a href="javascript:void(0)" id="submitInfo" class="submitbuRed">@ViewBag.SubmitName</a>
             </div>
         </form>
