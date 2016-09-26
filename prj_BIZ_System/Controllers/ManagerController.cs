@@ -745,6 +745,20 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        public ActionResult CheckUserExit(string user_id)
+        {
+            //            bool Huser = true;
+//            activityModel.userinfo = userService.GeUserInfoOne(user_id);
+//            if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
+//            {
+                CompanyData compdata = GetDataFromWeb(user_id);
+                return Json(compdata, JsonRequestBehavior.AllowGet);
+//            }
+//            else
+//            {
+//                return Json(true, JsonRequestBehavior.AllowGet);
+//            }
+        }
 
         public ActionResult UserEdit()
         {
