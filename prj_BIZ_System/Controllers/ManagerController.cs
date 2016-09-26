@@ -748,16 +748,16 @@ namespace prj_BIZ_System.Controllers
         public ActionResult CheckUserExit(string user_id)
         {
             //            bool Huser = true;
-//            activityModel.userinfo = userService.GeUserInfoOne(user_id);
-//            if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
-//            {
-                CompanyData compdata = GetDataFromWeb(user_id);
-                return Json(compdata, JsonRequestBehavior.AllowGet);
-//            }
-//            else
-//            {
-//                return Json(true, JsonRequestBehavior.AllowGet);
-//            }
+            //            activityModel.userinfo = userService.GeUserInfoOne(user_id);
+            //            if (activityModel.userinfo == null || activityModel.userinfo.user_id == null)
+            //            {
+            CompanyData compdata = GetDataFromWeb(user_id);
+            return Json(compdata, JsonRequestBehavior.AllowGet);
+            //            }
+            //            else
+            //            {
+            //                return Json(true, JsonRequestBehavior.AllowGet);
+            //            }
         }
 
         public ActionResult UserEdit()
@@ -940,7 +940,7 @@ namespace prj_BIZ_System.Controllers
                     //var buyModel = activityService.GetBuyerDataByActivityWithIdOne(model.activity_id, model.buyer_id);
                     //if (buyModel == null)
                     //{
-                        bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
+                    bool isUpdateSuccess = activityService.BuyerInfoUpdateOne(model);
                     //}
                     //else
                     //{
@@ -1318,7 +1318,7 @@ namespace prj_BIZ_System.Controllers
 
             int allCount = matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count;
             //matchModel.matchSellerCompanyDatamergeList = new List<List<object>>();
-            matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string,string,string>>>();
+            matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string, string, string>>>();
 
             for (int temp = 0; temp < allCount; temp++)
             {
@@ -1335,7 +1335,7 @@ namespace prj_BIZ_System.Controllers
                     var bothList =
                         matchModel.matchmakingBothList
                         .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(both => new Tuple<string, string, string> (IsBothOrBuyer = "both", both.seller_id, both.company )).ToList();
+                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "both", both.seller_id, both.company)).ToList();
 
                     matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
                 }
@@ -1360,7 +1360,7 @@ namespace prj_BIZ_System.Controllers
 
             /*列出某活動的媒合大表資料*/
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
-            
+
             /*列出某活動的時間區段輸入媒合的賣家*/
             long x = notFoundIndex, y = notFoundIndex; //x是時段, y是買主
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
@@ -1392,10 +1392,18 @@ namespace prj_BIZ_System.Controllers
             }
 
             /*刪除某時段，媒合大表中的相同時段資料刪除*/
+            var schedulePeriodSn = matchModel.schedulePeriodSetList
+                   .Select(time => time.period_sn);
+            var matchmakingPeriodSn = matchModel.matchmakingScheduleList
+                   .Select(data => data.period_sn);
 
+            var periodSns = from nl in matchmakingPeriodSn
+                            where schedulePeriodSn.Contains(nl) == false
+                            select nl;
+            if (periodSns.Count() != 0)
+            {
 
-
-
+            }
 
 
             return View(matchModel);
@@ -1407,7 +1415,8 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult StoreMatchData(int[] period_sn, int activity_id, string[] buyer_id, string[] seller_id)
         {
-            if(Request.Cookies["ManagerInfo"] == null){
+            if (Request.Cookies["ManagerInfo"] == null)
+            {
                 return Redirect("Login");
             }
 
@@ -1420,8 +1429,8 @@ namespace prj_BIZ_System.Controllers
             /*列出某活動的時間區段輸入媒合的賣家*/
             long i = notFoundIndex, j = notFoundIndex; //i是時段, j是買主
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, buyer_id.Length * period_sn.Length).ToArray();
-            
-            foreach(MatchmakingScheduleModel model in matchModel.matchmakingScheduleList)
+
+            foreach (MatchmakingScheduleModel model in matchModel.matchmakingScheduleList)
             {
                 foreach (SchedulePeriodSetModel schedulePeriodSetModel in matchModel.schedulePeriodSetList)
                 {
@@ -1439,7 +1448,7 @@ namespace prj_BIZ_System.Controllers
                     }
                 }
 
-                if((i != notFoundIndex) && (j != notFoundIndex))
+                if ((i != notFoundIndex) && (j != notFoundIndex))
                 {
                     matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j] = model.company;
                 }
@@ -1450,9 +1459,9 @@ namespace prj_BIZ_System.Controllers
             matchmakingScheduleModel.activity_id = activity_id;
             matchmakingScheduleModel.create_time = DateTime.Now;
 
-            for(int x = 0; x < period_sn.Length * buyer_id.Length; x++)
+            for (int x = 0; x < period_sn.Length * buyer_id.Length; x++)
             {
-                if(matchModel.matchMakingScheduleSellerCompany[x].Equals("") && seller_id[x].Length != 0)
+                if (matchModel.matchMakingScheduleSellerCompany[x].Equals("") && seller_id[x].Length != 0)
                 {
                     matchmakingScheduleModel.period_sn = period_sn[x / buyer_id.Length];
                     matchmakingScheduleModel.buyer_id = buyer_id[x % buyer_id.Length];
