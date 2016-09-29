@@ -85,6 +85,7 @@ namespace prj_BIZ_System.Models
         public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)
         public string matchmaking_select { get; set; }//ActivityInfoModel 的 是否顯示媒合時程 (0：否；1：是)
         public string company { get; set; }//UserInfoToIdAndCpModel 的 公司名稱
+        public string company_en { get; set; }//UserInfoToIdAndCpModel 的 公司英文名稱
         public string buyer_need { get; set; }//BuyerInfoModel 的 買主媒合需求
         public int? grp_id { get; set; }//群組
         private bool ischeck = false;

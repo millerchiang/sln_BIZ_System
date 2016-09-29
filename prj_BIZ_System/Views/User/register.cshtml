@@ -214,10 +214,21 @@
             </div>
 
             <br /><br />
-            <label for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
-            <div class="regis_col02R">
+            
+            @if (Model.userinfo.enterprise_type == "0")
+            {
+            <label id="lbcapital" for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+            <div class="regis_col02R" id="capital">
                 <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
             </div>
+            }
+            else
+            {
+                <label id="lbcapital" for="capital" class="regis_col02L spanRed" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+                <div class="regis_col02R" id="capital" style="display:none">
+                    <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                </div>
+            }
             <label for="revenue" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
             <div class="regis_col02R">
                 <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
@@ -380,9 +391,17 @@
 
     function tipstring(id) {
         if (id=="0")
+        {
             $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid");
+            $("#lbcapital").show();
+            $("#capital").show();
+        }
         else
+        {
             $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_create_account");
+            $("#lbcapital").hide();
+            $("#capital").hide();
+        }
     }
 
     function chkpw() {

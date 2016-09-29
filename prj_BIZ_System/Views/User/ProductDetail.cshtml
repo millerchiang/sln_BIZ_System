@@ -7,7 +7,8 @@
 @section pagestyle{
     <link href="/stylesheets/sys.css" rel="stylesheet" />
 }
-    <article class="article_col1">
+<div class="article_col1">
+    <article class="article_col2">
         <section class="form_box w100 article_col1">
             <h2>@Model.company</h2>
             <div class="imgboxB">
@@ -67,12 +68,17 @@
         </section>
 
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+</div>
+
 <script>
     $(function () {
         init();
     });
     function init() {
 
-        
+
     }
 </script>

@@ -11,15 +11,15 @@
         <h2>買主資訊列表</h2>
         <table class="edittable">
             <tr>
-                <th>買主帳號</th>
+                @*<th>買主帳號</th>*@
                 <th>公司名稱</th>
-                <th>買主媒合需求</th>
+                <th width="75%">買主媒合需求</th>
             </tr>
             @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
             {
                 <tr>
-                    <td><a href="/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.buyer_id</a></td>
-                    <td>@buyerInfoModel.company</td>
+                    @*<td><a href="/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.buyer_id</a></td>*@
+                    <td><a href="/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.company</a></td>
                     <td>@buyerInfoModel.buyer_need</td>
                 </tr>
             }

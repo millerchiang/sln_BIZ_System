@@ -20,7 +20,7 @@ namespace prj_BIZ_System.WebService.Model
             contact = userInfoModel.contact;// 聯絡人姓名(中文)
             phone = userInfoModel.phone;//聯絡電話
             email = userInfoModel.email;//電子郵件
-            capital = userInfoModel.capital;//資本額(單位：萬)
+            capital = userInfoModel.capital;//資本額(單位：千)
             revenue = userInfoModel.revenue;//營業額
             website = userInfoModel.website;//企業網址
             info = userInfoModel.info;//企業簡介(中文)
@@ -41,7 +41,7 @@ namespace prj_BIZ_System.WebService.Model
         public string contact { get; set; }// 聯絡人姓名(中文)
         public string phone { get; set; }//聯絡電話
         public string email { get; set; }//電子郵件
-        public int capital { get; set; }//資本額(單位：萬)
+        public long capital { get; set; }//資本額(單位：千)
         public string revenue { get; set; }//營業額
         public string website { get; set; }//企業網址
         public string info { get; set; }//企業簡介(中文)
