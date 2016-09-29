@@ -333,5 +333,20 @@ namespace prj_BIZ_System.Controllers
 
             return Redirect("Index");
         }
+
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public ActionResult AppDownload()
+        {
+            return View();
+        }
+
+        public ActionResult Errfile()
+        {
+            return View();
+        }
     }
 }

@@ -41,7 +41,7 @@
     
     <!--私訊列表-->
     <select id="SelectMsg" resultMap="SelectMsg-result" parameterClass="Msg">
-      SELECT mp2.* from (
+      SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read  from (
       SELECT mp.*, ui.company , mpr.rpy_cnt
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
@@ -62,8 +62,8 @@
     </select>
 
     <!--私訊列表(手機)-->
-    <select id="SelectMsgForMobile" resultMap="SelectMsgOne-result" parameterClass="Msg">
-      SELECT mp2.* from (
+    <select id="SelectMsgForMobile" resultMap="SelectMsg-result" parameterClass="Msg">
+      SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read from (
       SELECT mp.*, ui.company , mpr.rpy_cnt
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
@@ -181,7 +181,8 @@
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
       <result property="rpy_cnt" column="rpy_cnt"></result>
-      
+      <result property="is_read" column="is_read"></result>
+
     </resultMap>
 
     <resultMap id="SelectMsgOne-result" class="Msg">
@@ -194,6 +195,7 @@
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
+
     </resultMap>
     
     <resultMap id="Msg-result" class="Msg">

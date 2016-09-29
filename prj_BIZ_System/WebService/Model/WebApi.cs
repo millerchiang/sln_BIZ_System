@@ -55,7 +55,7 @@ namespace prj_BIZ_System.WebService.Model
 
     public class UserEnterpriseInfo
     {
-        public UserInfoModel userinfo { get; set; }
+        public UserInfo userinfo { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
     }
 
