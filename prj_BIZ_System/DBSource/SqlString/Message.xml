@@ -102,10 +102,10 @@
       WHERE mp.msg_no = #msg_no#
     </select>
 
-    <!--查詢單一私訊並寫入已讀-->
+    <!--查詢單一私訊並寫入已讀Table(msg_read)-->
     <select id="SelectMsgOneAndRead" resultMap="SelectMsgOne-result" parameterClass="Msg">
       select *
-      from message.set_msg_read_and_return_content(#msg_no#, #user_id#)
+      from message.set_msg_read_and_return_content($msg_no$, #user_id#)
     </select>
 
     <!--查詢已讀私訊編號-->
