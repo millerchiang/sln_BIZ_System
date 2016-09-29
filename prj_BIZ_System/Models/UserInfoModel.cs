@@ -12,6 +12,7 @@ namespace prj_BIZ_System.Models
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
         public string enterprise_type { get; set; }//企業類型
+        public string enterprise_type_en { get; set; }//企業類型
         public string company { get; set; }//公司名稱(中文)
         public string leader { get; set; }//代表人(中文)
         public string addr { get; set; }// 公司地址(中文)

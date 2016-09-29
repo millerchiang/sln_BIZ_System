@@ -65,7 +65,9 @@ namespace prj_BIZ_System.WebService
                 "一億以上"
             };
             UserEnterpriseInfo userEnterpriseInfo = new UserEnterpriseInfo();
-            userEnterpriseInfo.userinfo = userService.GeUserInfoOne(user_id);
+
+            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+            userEnterpriseInfo.userinfo = new UserInfo(userInfoModel);
             userEnterpriseInfo.userinfo.user_pw = null;
             int enterprise_typeNum = int.Parse(userEnterpriseInfo.userinfo.enterprise_type);
             int revenueNum = int.Parse(userEnterpriseInfo.userinfo.revenue);
