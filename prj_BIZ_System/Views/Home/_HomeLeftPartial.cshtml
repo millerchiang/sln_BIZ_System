@@ -59,7 +59,19 @@
                     <img src="@(ViewBag.logoDir + HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]))" alt="">
                 </div>
             }
-            <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</h2>
+
+                @{
+                    var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                    var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (company_en != null && company_en != "")
+                        {
+                            company = company_en;
+                        }
+                    }
+                }
+            <h2> @company</h2>
             <ul class="userfn">
                 <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_profile</a></li>
                 <li><a href="/User/ProductListEdit">@prj_BIZ_System.LanguageResource.User.lb_product_info</a></li>

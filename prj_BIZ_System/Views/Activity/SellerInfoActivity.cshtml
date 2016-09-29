@@ -17,9 +17,18 @@
         </tr>
         @foreach (ActivityRegisterModel sellerInfoModel in Model.activityregisterList)
         {
+            var company = sellerInfoModel.company;
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                if (sellerInfoModel.company_en != null && sellerInfoModel.company_en != "")
+                {
+                    company = sellerInfoModel.company_en;
+                }
+            }
+
             <tr>
                 <td><a href="/User/UserInfo?user_id=@sellerInfoModel.user_id" target="_blank">@sellerInfoModel.user_id</a></td>
-                <td>@sellerInfoModel.company</td>
+                <td>@company</td>
                 <td><a href="ShowRegisterinfoForSeller?activity_id=@(ViewBag.activity_id)&user_id=@(sellerInfoModel.user_id)" target="_blank">報名資料</a></td>
             </tr>
         }

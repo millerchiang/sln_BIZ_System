@@ -17,34 +17,61 @@
     Model.activityregister.user_info_en = Model.userinfo.info_en;
 }
 
-
-
-
 <div class="article_col1">
         <article class="form_box article_col2">
             <h2>@prj_BIZ_System.LanguageResource.User.lb_activity_register</h2>
             <form id="insertForm" action="@ViewBag.Action" method="post">
                 <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
                 <label for="activity_id" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
-                <p class="regis_col03R">@Model.activityinfo.activity_name</p>
+
+                @{ 
+                    var activity_name = Model.activityinfo.activity_name;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.activityinfo.activity_name_en != null && Model.activityinfo.activity_name_en != "")
+                        {
+                            activity_name = Model.activityinfo.activity_name_en;
+                        }
+                    }
+                }
+
+                <p class="regis_col03R">@activity_name</p>
 
 
                 <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
                 <p class="regis_col03R">@Model.activityregister.user_id</p>
 
                 <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
-                <p class="regis_col03R">@Model.activityregister.company</p>
-
-
+                @{ 
+                    var company = Model.activityregister.company;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.activityregister.company_en != null && Model.activityregister.company_en != "")
+                        {
+                            company = Model.activityregister.company_en;
+                        }
+                    }
+                }
+                <p class="regis_col03R">@company</p>
                 <label for="starttime" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
                 <p id="starttime" class="regis_col03R">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
                 <label for="endtime" class="regis_col03L "> ~ </label>
                 <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-                <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
-                <p id="activityAddr" class="regis_col02R">@Model.activityinfo.addr</p>
+                @{
+                    var addr = Model.activityinfo.addr;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.activityinfo.addr_en != null && Model.activityinfo.addr_en != "")
+                        {
+                            addr = Model.activityinfo.addr_en;
+                        }
+                    }
+                }
 
+                <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
+                <p id="activityAddr" class="regis_col02R">@addr</p>
 
                 <label for="quantity" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
                 <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />

@@ -267,9 +267,9 @@
 
     <!--查詢某活動的買家有無勾選賣主, 後台_查詢某活動買家媒合意願清單-->
     <select id="SelectCertainActivityBuyerCheckSeller" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
-      SELECT *, get_company_by_user_id(seller_id) as company
-      FROM matchmaking_buyerneed mb
-      WHERE activity_id = #activity_id#
+      SELECT * 
+      FROM matchmaking_buyerneed mb,get_company_and_en_by_user_id(seller_id)
+      WHERE activity_id = $activity_id$
       <dynamic prepend="">
         <isNotEmpty prepend="AND" property="buyer_id">
           mb.buyer_id = #buyer_id#
@@ -468,6 +468,7 @@
       <result property="update_time" column="update_time"/>
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="SchedulePeriodSet" class="SchedulePeriodSetModel">
@@ -520,6 +521,7 @@
       <result property="buyer_id" column="buyer_id"/>
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
     
     
@@ -580,6 +582,7 @@
       <result property="update_time" column="update_time"/>
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
 
@@ -621,6 +624,7 @@
       <result property="buyer_need" column="buyer_need"/>
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="BuyerAccountPassActivity" class="BuyerInfoModel">
