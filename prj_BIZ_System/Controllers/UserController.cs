@@ -297,8 +297,14 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             ProductListModel result = userService.getProductOne(product_id);
             ViewBag.productDir = result != null?UploadHelper.getPictureDirPath(result.user_id, "product"):"";
+
+            string defaultCompany = string.Empty;
+            if (product_id == null) {
+                var loginer = userService.GeUserInfoOne(Request.Cookies["UserInfo"]["user_id"]);
+                defaultCompany = loginer!=null? loginer.company : "";
+            }
             docookie("_mainmenu", "ProductDetailEdit");
-            return result==null? View(new ProductListModel()) : View(result);
+            return result==null? View(new ProductListModel() { company = defaultCompany }) : View(result);
         }
         #endregion
 

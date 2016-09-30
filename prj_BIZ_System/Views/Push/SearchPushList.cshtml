@@ -74,7 +74,7 @@
                 }
             }
         </table>
-        @Html.PagesList((PageList<PushListModel>)TempData["PageList"])
+        @Html.PagesList((List<PageList<PushListModel>>)ViewData["PageList"])
     </article>
 </div>
 

@@ -40,13 +40,17 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             var user_id = Request.Cookies["UserInfo"]["user_id"];
-            IList<MsgModel> result = messageService.SelectMsgPrivate(keyword, user_id).Pages(Request, this, 10); ;
+            var totalMsg = messageService.SelectMsgPrivate(keyword, user_id);
+            IList<MsgModel> result = totalMsg.Pages(Request, this, 10); ;
+            IList<MsgModel> result2 = totalMsg.Pages(Request, this, 10); ;
+
             ViewBag.keyword = keyword;
             ViewBag.contentTitle    = getLabelString(MessageCatalog.Private, "contentTitle");
             ViewBag.searchUrl       = getLabelString(MessageCatalog.Private, "searchUrl");
             ViewBag.addUrl          = getLabelString(MessageCatalog.Private, "addUrl");
             ViewBag.detailUrl       = getLabelString(MessageCatalog.Private, "detailUrl");
             messageViewModel.msgPrivateList = result;
+            messageViewModel.msgPrivateList2 = result2;
             return View(messageViewModel);
         }
         
