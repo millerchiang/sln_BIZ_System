@@ -58,7 +58,18 @@ namespace prj_BIZ_System.WebService
                 "國內企業",
                 "國外企業"
             };
+            string[] enterprise_type_en = new string[]
+            {
+                "Domestic",
+                "Foreign"
+            };
             string[] revenue = new string[] 
+            {
+                "500萬以下", "501-1000萬", "1001-1500萬",
+                "1501-3000萬", "3001-5000萬", "5000萬-1億",
+                "一億以上"
+            };
+            string[] revenue_en = new string[]
             {
                 "500萬以下", "501-1000萬", "1001-1500萬",
                 "1501-3000萬", "3001-5000萬", "5000萬-1億",

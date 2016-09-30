@@ -35,6 +35,7 @@ namespace prj_BIZ_System.WebService.Model
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
         public string enterprise_type { get; set; }//企業類型
+        public string enterprise_type_en { get; set; }//企業類型
         public string company { get; set; }//公司名稱(中文)
         public string leader { get; set; }//代表人(中文)
         public string addr { get; set; }// 公司地址(中文)
@@ -43,6 +44,7 @@ namespace prj_BIZ_System.WebService.Model
         public string email { get; set; }//電子郵件
         public long capital { get; set; }//資本額(單位：千)
         public string revenue { get; set; }//營業額
+        public string revenue_en { get; set; }//營業額
         public string website { get; set; }//企業網址
         public string info { get; set; }//企業簡介(中文)
         public string company_en { get; set; }//公司名稱(英文)
