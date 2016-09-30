@@ -53,13 +53,13 @@
 
             var pic = $("input[name='cover_file']").val();
             if (!re_for_pic.test(pic)) {
-                alert(@prj_BIZ_System.LanguageResource.User.lb_photoupload + " " + @prj_BIZ_System.LanguageResource.User.lb_must + " jpg、gif、png ");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_photoupload" + " " + "@prj_BIZ_System.LanguageResource.User.lb_must" + " jpg、gif、png ");
                 return false;
             }
 
             var file = $("input[name='catalog_file']").val();
             if (!re_for_pdf.test(file)) {
-                alert(@prj_BIZ_System.LanguageResource.User.lb_pdfupload + " " + @prj_BIZ_System.LanguageResource.User.lb_must + " pdf ");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_pdfupload" + " " + "@prj_BIZ_System.LanguageResource.User.lb_must" + " pdf ");
                 return false;
             }
             $("#loaderdiv").css("display", "block");

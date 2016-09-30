@@ -35,6 +35,7 @@ namespace prj_BIZ_System.WebService.Model
         public string user_pw { get; set; }//使用者密碼
         public string id_enable { get; set; }//帳號有效
         public string enterprise_type { get; set; }//企業類型
+        public string enterprise_type_en { get; set; }//企業類型
         public string company { get; set; }//公司名稱(中文)
         public string leader { get; set; }//代表人(中文)
         public string addr { get; set; }// 公司地址(中文)
@@ -43,6 +44,7 @@ namespace prj_BIZ_System.WebService.Model
         public string email { get; set; }//電子郵件
         public long capital { get; set; }//資本額(單位：千)
         public string revenue { get; set; }//營業額
+        public string revenue_en { get; set; }//營業額
         public string website { get; set; }//企業網址
         public string info { get; set; }//企業簡介(中文)
         public string company_en { get; set; }//公司名稱(英文)
@@ -55,7 +57,7 @@ namespace prj_BIZ_System.WebService.Model
 
     public class UserEnterpriseInfo
     {
-        public UserInfoModel userinfo { get; set; }
+        public UserInfo userinfo { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
     }
 
@@ -169,8 +171,10 @@ namespace prj_BIZ_System.WebService.Model
 
         public int? cluster_no { get; set; }        /*聚落編號*/
         public string creator_name { get; set; }      /*建立者公司*/
+        public string creator_name_en { get; set; }      /*建立者公司*/
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_members { get; set; }   /*聚落成員*/
+        public string cluster_members_en { get; set; }   /*聚落成員*/
         public string cluster_info { get; set; }        /*聚落簡介*/
         public DateTime cluster_create_time { get; set; }        /*聚落成立時間*/
         public DateTime member_invite_time { get; set; }        /*聚落成員邀請時間*/

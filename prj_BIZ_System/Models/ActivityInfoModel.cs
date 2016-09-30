@@ -38,6 +38,8 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string company_en { get; set; }//UserInfoModel 的 公司名稱(英文)
+        public string activity_name_en { get; set; }//ActivityInfoModel 的 活動名稱(英文)
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string user_id { get; set; }//UserInfoModel 的 使用者帳號
         public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)

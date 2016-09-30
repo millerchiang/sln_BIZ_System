@@ -23,6 +23,8 @@ namespace prj_BIZ_System.Models
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
         public int rpy_cnt { get; set; } //回覆數
+        public string is_read { get; set; }
+
     }
 
     /*

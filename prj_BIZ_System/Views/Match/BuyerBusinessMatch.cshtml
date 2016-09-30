@@ -23,8 +23,17 @@
                 </tr>
                 @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                 {
+                    var company = activityRegisterModel.company;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (activityRegisterModel.company_en != null && activityRegisterModel.company_en != "")
+                        {
+                            company = activityRegisterModel.company_en;
+                        }
+                    }
+
                     <tr>
-                        <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb" target="_blank">@activityRegisterModel.company</a></td>
+                        <td><a href="@Url.Action("UserInfo","User", new { user_id = activityRegisterModel.user_id})" class="linkb" target="_blank">@company</a></td>
                         <td>
                             @if (activityRegisterModel.Ischeck == true)
                             {

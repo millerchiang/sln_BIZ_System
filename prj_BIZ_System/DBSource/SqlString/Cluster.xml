@@ -72,15 +72,19 @@
     <!--查詢(邀請中、已加入)聚落列表-->
     <select id="ClusterListByIdAndClusterEnable" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
-      get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
-      get_company_by_user_id(ci.user_id) as creator_name,
+      cmen.cluster_members,
+      cmen.cluster_members_en,
+      cnen.company as creator_name,
+      cnen.company_en as creator_name_en,
       ci.cluster_name,
       ci.cluster_info,
       ci.enable,
       ci.create_time as cict,
       cm.create_time as cmct
       FROM cluster_member as cm,
-      cluster_info as ci
+      cluster_info as ci,
+      get_cluster_member_and_en_by_no_and_enable(ci.cluster_no,'1') as cmen,
+      get_company_and_en_by_user_id(ci.user_id) as cnen
       where cm.cluster_no = ci.cluster_no
       and cluster_enable = #cluster_enable#
       and cm.user_id = #user_id#
@@ -89,15 +93,19 @@
     <!--查詢聚落詳細資訊(手機)-->
     <select id="ClusterDetail" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
-      get_cluster_member_by_no_and_enable(ci.cluster_no,'1') as cluster_members,
-      get_company_by_user_id(ci.user_id) as creator_name,
+      cmen.cluster_members,
+      cmen.cluster_members_en,
+      cnen.company as creator_name,
+      cnen.company_en as creator_name_en,
       ci.cluster_name,
       ci.cluster_info,
       ci.enable,
       ci.create_time as cict,
       cm.create_time as cmct
       FROM cluster_member as cm,
-      cluster_info as ci
+      cluster_info as ci,
+      get_cluster_member_and_en_by_no_and_enable(ci.cluster_no,'1') as cmen,
+      get_company_and_en_by_user_id(ci.user_id) as cnen
       where cm.cluster_no = ci.cluster_no
       and ci.cluster_no = $cluster_no$
     </select>
@@ -210,8 +218,10 @@
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
       <result property="creator_name" column="creator_name"></result>
+      <result property="creator_name_en" column="creator_name_en"></result>
       <result property="cluster_name" column="cluster_name"></result>
       <result property="cluster_members" column="cluster_members"></result>
+      <result property="cluster_members_en" column="cluster_members_en"></result>
       <result property="cluster_info" column="cluster_info"></result>
       <result property="cluster_create_time" column="cict"></result>
       <result property="member_invite_time" column="cmct"></result>

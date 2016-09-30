@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -390,6 +389,7 @@
     <Content Include="images\bg\hand.png" />
     <Content Include="images\bg\handd.png" />
     <Content Include="images\bg\head_bg.jpg" />
+    <Content Include="images\bg\nolink.png" />
     <Content Include="images\dmtest.jpg" />
     <Content Include="images\icon-s3235817286.png" />
     <Content Include="images\icon-s4a3ab92539.png" />
@@ -849,11 +849,14 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\util_cls.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="stylesheets\aboutus.css" />
     <Content Include="stylesheets\account.css" />
     <Content Include="stylesheets\app.css" />
+    <Content Include="stylesheets\appdownload.css" />
     <Content Include="stylesheets\application.css" />
     <Content Include="stylesheets\business.css" />
     <Content Include="stylesheets\company_info.css" />
+    <Content Include="stylesheets\errfile.css" />
     <Content Include="stylesheets\fromstyle.css" />
     <Content Include="stylesheets\ie.css" />
     <Content Include="stylesheets\index.css" />
@@ -956,6 +959,9 @@
     <Content Include="Views\Manager\MatchScheduleList.cshtml" />
     <Content Include="Views\Cluster\Cluster_Files.cshtml" />
     <Content Include="Views\Cluster\Cluster_UploadFiles.cshtml" />
+    <Content Include="Views\Home\AboutUs.cshtml" />
+    <Content Include="Views\Home\AppDownload.cshtml" />
+    <Content Include="Views\Home\Errfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
