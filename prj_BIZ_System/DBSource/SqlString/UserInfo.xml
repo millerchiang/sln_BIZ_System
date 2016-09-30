@@ -268,7 +268,7 @@
           company like '%'||#company#||'%'
         </isNotEmpty>
       </dynamic>
-      ORDER BY update_time DESC
+      ORDER BY id DESC
     </select>
 
 

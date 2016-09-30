@@ -55,13 +55,26 @@
                         <td>商家名稱</td>
                         <td>編輯</td>
                     </tr>
+                    @{
+                        var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                        var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (company_en != null && company_en != "")
+                            {
+                                company = company_en;
+                            }
+                        }
+                    }
+
 
                     @if (ViewBag.PageType == "Edit")
                     {
                         <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
                             <td>
                                 <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
+
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
                             </td>
                             <td>
                                 <div class="centerbox">
@@ -77,7 +90,7 @@
                             <td>
                                 <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
                                 <input type="hidden" name="user_id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
                             </td>
                             <td></td>
                         </tr>

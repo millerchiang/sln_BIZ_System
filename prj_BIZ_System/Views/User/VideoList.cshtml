@@ -12,7 +12,18 @@
 
 <div class="article_col1">
     <article class="article_col2 form_box">
-        <h2>@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]) - @prj_BIZ_System.LanguageResource.User.lb_video</h2>
+        @{
+            var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                if (company_en != null && company_en != "")
+                {
+                    company = company_en;
+                }
+            }
+        }
+        <h2>@company - @prj_BIZ_System.LanguageResource.User.lb_video</h2>
         @*<a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
         <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
         <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>

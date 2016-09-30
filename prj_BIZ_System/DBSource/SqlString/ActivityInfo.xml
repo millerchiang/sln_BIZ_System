@@ -433,7 +433,7 @@
 
     <!--查詢某活動賣主資訊-->
     <select id="SelectSellerInfoActivity" resultMap="SellerInfo">
-      SELECT r.*,ui.company
+      SELECT r.*,ui.company,ui.company_en
       FROM activity_register r
       INNER JOIN user_info ui
       ON r.user_id = ui.user_id
@@ -622,6 +622,7 @@
       <result property="update_time" column="update_time"/>
       <!--賣家名稱 userInfo-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
     
     <resultMap id="ActivityRegisterCheck" class="ActivityRegisterModel">
@@ -744,6 +745,7 @@
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="BuyerInfo2" class="BuyerInfoModel">
@@ -754,6 +756,8 @@
       <result property="buyer_need" column="buyer_need"/>
       <result property="activity_name" column="activity_name"/>
       <result property="company" column="company"/>
+      <result property="activity_name_en" column="activity_name_en"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
 
