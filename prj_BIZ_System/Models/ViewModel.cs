@@ -102,9 +102,11 @@ namespace prj_BIZ_System.Models
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
         public IList<MatchmakingScheduleModel> matchmakingScheduleList { get; set; }
 
-        public string[] activityRegisterSellerCompany { get; set; }
+        public string[] activityRegisterSellerCompany { get; set; }//舊版
         public string[] matchMakingScheduleSellerCompany { get; set; }
         public string[] matchMakingScheduleSellerId { get; set; }
+        public string[] bothWithbuyerMergeSellerCompany { get; set; }
+
         public Dictionary<string, IList<string>> sellerCompanyNamereply1Dic = new Dictionary<string, IList<string>>();
         public Dictionary<string, IList<string>> sellerCompanyNamereply0Dic = new Dictionary<string, IList<string>>();
 
@@ -113,7 +115,6 @@ namespace prj_BIZ_System.Models
         public IList<MatchmakingAllModel> matchmakingBuyerList { get; set; }
         public IList<MatchmakingAllModel> matchmakingSellerList { get; set; }
 
-        //public List<List<object>> matchSellerCompanyDatamergeList { get; set; }
         public List<List<Tuple<string,string,string>>> matchSellerCompanyDatamergeList { get; set; }
     }
 

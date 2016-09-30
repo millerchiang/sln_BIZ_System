@@ -35,12 +35,12 @@
                     foreach (SchedulePeriodSetModel schedulePeriodSetModel in Model.schedulePeriodSetList)
                     {
                         <tr>
-                            <td>時段@(++timeIntervalCount)</td>
-                            <td>
+                            <td class="centerbox2">時段@(++timeIntervalCount)</td>
+                            <td class="centerbox2">
                                 <input type="hidden" name="old_period_sn" value="@schedulePeriodSetModel.period_sn" />
                                 <input type="text" name="old_time_start" value="@schedulePeriodSetModel.time_start.ToString("yyyy/MM/dd HH:mm")" />
                             </td>
-                            <td>
+                            <td class="centerbox2">
                                 <input type="text" name="old_time_end" value="@schedulePeriodSetModel.time_end.ToString("yyyy/MM/dd HH:mm")" />
                             </td>
                             <td>
