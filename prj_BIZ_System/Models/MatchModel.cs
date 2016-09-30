@@ -24,6 +24,7 @@ namespace prj_BIZ_System.Models
         public string buyer_id { get; set; }    //對接買主帳號
 
         public string company { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
+        public string company_en { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
 
         public string IsBothOrBuyer { get; set; } //是雙方媒合資料或買方媒合資料
     }
@@ -44,6 +45,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; } /*更新日期*/
 
         public string company { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
+        public string company_en { get; set; }     //UserInfoToIdAndCpModel 的 公司名稱
     }
 
     public class SchedulePeriodSetModel

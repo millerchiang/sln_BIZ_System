@@ -92,6 +92,7 @@ namespace prj_BIZ_System.Controllers
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
 //            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
             activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);
@@ -110,6 +111,8 @@ namespace prj_BIZ_System.Controllers
                 activityModel.activityregister = new ActivityRegisterModel();
 //                activityModel.activityinfo = new ActivityInfoModel();
                 activityModel.activityregister.user_id = Request.Cookies["UserInfo"]["user_id"];
+                activityModel.activityregister.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                activityModel.activityregister.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
 
                 ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCover;
                 ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
@@ -152,6 +155,7 @@ namespace prj_BIZ_System.Controllers
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
             activityModel.userinfo = new UserInfoModel();
             activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
             activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
 //            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
             activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);

@@ -28,13 +28,25 @@
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
                     <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
                     <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
+                    @{
+                        var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                        var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (company_en != null && company_en != "")
+                            {
+                                company = company_en;
+                            }
+                        }
+                    }
+
 
                     <div class="regis_col02L">企業聚落成員</div>
                     <table class="regis_col02R membertable" id="gmember">
                         <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
                             <td>
                                 <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"])</label>
+                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
                             </td>
                         </tr>
 
