@@ -56,7 +56,7 @@
                      }
                  }
             </table>
-            @Html.PagesList((PageList<SalesInfoModel>)TempData["PageList"])
+            @Html.PagesList((List<PageList<SalesInfoModel>>)ViewData["PageList"])
         </article>
     </div>
     <div class="sys_searchboxco2">

@@ -33,7 +33,7 @@
             </tr>
         }
     </table>
-@Html.PagesList((PageList<BuyerInfoModel>)TempData["PageList"])
+@Html.PagesList((List<PageList<BuyerInfoModel>>)ViewData["PageList"])
 </article>
 <script>
     $(function () {

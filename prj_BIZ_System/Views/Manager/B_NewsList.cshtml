@@ -88,5 +88,5 @@ else
             </tr>
         }
     </table>
-    @Html.PagesList((PageList<NewsModel>)TempData["PageList"])
+    @Html.PagesList((List<PageList<NewsModel>>)ViewData["PageList"])
 </article>
