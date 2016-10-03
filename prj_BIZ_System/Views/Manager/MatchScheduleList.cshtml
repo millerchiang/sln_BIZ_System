@@ -55,7 +55,8 @@
                                     <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))" onClick="GetBeforeSellerValue(@(sellerIdCount-1))">
                                         <option value="">--請選擇--</option>
                                         @{
-                                            List<Tuple<string, string, string>> dataAll = Model.matchSellerCompanyDatamergeList[j].ToList();
+                                            List<Tuple<string, string, string>> dataAll = Model.matchSellerCompanyDatamergeList[i * Model.buyerinfoList.Count + j].ToList();
+
                                             foreach (Tuple<string, string, string> data in dataAll)
                                             {
                                                 if (data.Item3.Equals(Model.matchMakingScheduleSellerCompany[i * Model.buyerinfoList.Count + j]))
@@ -188,6 +189,9 @@
         $("#saveMatchData").click(function () {
             $("#form").submit();
         });
+
+        /*下拉式選單媒合資料初始化*/
+        initMarchData();
     });
 
     var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
@@ -202,46 +206,58 @@
         var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
         notChangedBeforeSellerValue = selectedSellerValue;
     }
+    var allSellerId;
     var allSellerCompany;
     var activity_id = $("input[name='activity_id']").val();
+
+
+    function initMarchData(){
+
+    }
+
 
     /*下拉式選單後橫排及豎排不能複選功能*/
     function PullDownMenus(sellerIdCount) {
         var selectedSellerText = $("#seller_id" + sellerIdCount + " option:selected").text();
         var selectedSellerValue = $("#seller_id" + sellerIdCount + " option:selected").val();
-        var tempSellercompany = [];
-
+        var tempSellerCompany = [];
+        var tempSellerId = [];
 
         for(var i=0; i < periodCounts * buyerCounts; i++ ){
-            tempSellercompany[i] =  $("#seller_id" + i + " option:selected").val();
+            tempSellerId[i] =  $("#seller_id" + i + " option:selected").val();
+            tempSellerCompany[i] =  $("#seller_id" + i + " option:selected").text();
         }
-        allSellerCompany = tempSellercompany;
+        allSellerId = tempSellerId;
+        allSellerCompany = tempSellerCompany;
+
+        console.log("allSellerId:"+allSellerId);
         console.log("allSellerCompany:"+allSellerCompany);
 
         $.ajax({
             type: "GET",
             url: "@Url.Action("MatchConstrains", "Manager")",
-            data: {"allSellerCompany": allSellerCompany, "activity_id":activity_id, "sellerIdCount":sellerIdCount},
-            //data: {"selectedSellerValue": selectedSellerValue, "activity_id":activity_id, "sellerIdCount":sellerIdCount},
+            data: {"allSellerId": allSellerId, "allSellerCompany": allSellerCompany, "activity_id":activity_id},
             traditional:true,
             cache: false,
             dataType:"json"
         }).done(function (result){
             console.log(result);
             for(var i=0; i < periodCounts * buyerCounts; i++){
-                console.log(result["allData"][i].length);
                 $("#seller_id"+i).html("");
-                $("#seller_id"+i).append($("<option></option>").val("").text("請選擇"));
-                for(var j=0; j< result["allData"][i].length; j++){
 
-                    //if(sellerIdCount == i){
-                    //    $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText).attr("selected",true));
-                    //}
+                $("#seller_id"+i).append($("<option></option>").val("").text("--請選擇--"));
 
-                    if(result["allData"][i][j].Item1 === "both"){
-                        $("#seller_id"+i).append($("<option></option>").val(result["allData"][i][j].Item2).text(result["allData"][i][j].Item3).prop("class","schedulebg001"));
+                if(allSellerId[i] != ""){
+                    $("#seller_id"+i).append($("<option></option>").val(allSellerId[i]).text(allSellerCompany[i]).attr("selected",true));
+                    console.log(allSellerCompany[i]);
+                }
+
+                for(var j=0; j< result[i].length; j++){
+
+                    if(result[i][j].Item1 === "both"){
+                        $("#seller_id"+i).append($("<option></option>").val(result[i][j].Item2).text(result[i][j].Item3).prop("class","schedulebg001"));
                     }else{
-                        $("#seller_id"+i).append($("<option></option>").val(result["allData"][i][j].Item2).text(result["allData"][i][j].Item3).prop("class","schedulebg002"));
+                        $("#seller_id"+i).append($("<option></option>").val(result[i][j].Item2).text(result[i][j].Item3).prop("class","schedulebg002"));
                     }
                 }
             }

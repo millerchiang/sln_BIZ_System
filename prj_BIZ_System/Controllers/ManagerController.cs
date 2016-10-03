@@ -1330,12 +1330,14 @@ namespace prj_BIZ_System.Controllers
                 int allCount = (matchModel.schedulePeriodSetList.Count / matchModel.schedulePeriodSetList.Count)
                                 * matchModel.buyerinfoList.Count;
                 matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string, string, string>>>();
-
+                matchModel.matchBothForbuyer_idList = new List<List<Tuple<string, string, string>>>();
 
                 for (int temp = 0; temp < allCount; temp++)
                 {
-                    List<Tuple<string, string, string>> data = new List<Tuple<string, string, string>>();
-                    matchModel.matchSellerCompanyDatamergeList.Add(data);
+                    List<Tuple<string, string, string>> mergeData = new List<Tuple<string, string, string>>();
+                    List<Tuple<string, string, string>> bothData = new List<Tuple<string, string, string>>();
+                    matchModel.matchSellerCompanyDatamergeList.Add(mergeData);
+                    matchModel.matchBothForbuyer_idList.Add(bothData);
                 }
 
                 for (int i = 0; i < matchModel.buyerinfoList.Count; i++)
@@ -1349,6 +1351,7 @@ namespace prj_BIZ_System.Controllers
                             .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "both", both.seller_id, both.company)).ToList();
 
                         matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
+                        matchModel.matchBothForbuyer_idList[i].AddRange(bothList);
                     }
 
                     var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
@@ -1371,8 +1374,8 @@ namespace prj_BIZ_System.Controllers
 
                 /*matchSellerCompanyDatamergeList 取company存到陣列中*/
                 matchModel.bothWithbuyerMergeSellerCompany = Enumerable.Repeat(String.Empty, matchModel.matchSellerCompanyDatamergeList.Count).ToArray();
-                var companys =  matchModel.matchSellerCompanyDatamergeList
-                                          .SelectMany(data => 
+                var companys = matchModel.matchSellerCompanyDatamergeList
+                                          .SelectMany(data =>
                                                       data.Select(comapny => comapny.Item3)).ToList();
                 var companysArrays = companys.Distinct().ToArray();
 
@@ -1382,7 +1385,7 @@ namespace prj_BIZ_System.Controllers
 
             /*列出某活動的媒合大表資料*/
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
-
+            
             /*列出某活動的時間區段輸入媒合的賣家*/
             long x = notFoundIndex, y = notFoundIndex; //x是時段, y是買主
             matchModel.matchMakingScheduleSellerCompany = Enumerable.Repeat(String.Empty, matchModel.buyerinfoList.Count * matchModel.schedulePeriodSetList.Count).ToArray();
@@ -1413,6 +1416,75 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
+            if (matchModel.matchmakingScheduleList.Count != 0)
+            {
+                var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
+
+                for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++)
+                {
+                    matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeData);
+                }
+
+                List<int> indexAll = new List<int>();
+                for (int i = 0; i < matchModel.matchMakingScheduleSellerId.Length; i++)
+                {
+                    if (!matchModel.matchMakingScheduleSellerId[i].IsNullOrEmpty())
+                    {
+                        indexAll.Add(i);
+                    }
+                }
+
+                /*刪除列的資料*/
+                foreach (int index in indexAll)
+                {
+                    double row = Math.Floor((double)index / matchModel.buyerinfoList.Count);
+                    for (int indexRow = 0; indexRow < matchModel.buyerinfoList.Count; indexRow++)
+                    {
+                        matchModel.matchSellerCompanyDatamergeList
+                            [(int)row * matchModel.buyerinfoList.Count + indexRow]
+                            .RemoveAll(item => item.Item2.Equals(matchModel.matchMakingScheduleSellerId[index]));
+                    }
+                }
+
+                /*刪除行的資料*/
+                foreach (int index in indexAll)
+                {
+                    int column = index % matchModel.buyerinfoList.Count;
+                    for (int indexColumn = column; indexColumn < matchModel.matchSellerCompanyDatamergeList.Count; indexColumn += matchModel.buyerinfoList.Count)
+                    {
+                        matchModel.matchSellerCompanyDatamergeList
+                            [indexColumn]
+                            .RemoveAll(item => item.Item2.Equals(matchModel.matchMakingScheduleSellerId[index]));
+                    }
+                }
+
+                /*回填資料*/
+                for (int i = 0; i < matchModel.matchMakingScheduleSellerId.Length; i++)
+                {
+                    if (!matchModel.matchMakingScheduleSellerId[i].IsNullOrEmpty())
+                    {
+                        var seller_idArray = matchModel.matchBothForbuyer_idList[i % matchModel.buyerinfoList.Count]
+                                  .Select(item => item.Item2).ToArray();
+
+                        if (seller_idArray.Contains(matchModel.matchMakingScheduleSellerId[i]))
+                        {
+                            List<Tuple<string, string, string>> backFillDataList = new List<Tuple<string, string, string>>();
+                            Tuple<string, string, string> backFillData = new Tuple<string, string, string>(IsBothOrBuyer = "both", matchModel.matchMakingScheduleSellerId[i], matchModel.matchMakingScheduleSellerCompany[i]);
+                            backFillDataList.Add(backFillData);
+                            matchModel.matchSellerCompanyDatamergeList[i].AddRange(backFillDataList);
+                        }
+                        else
+                        {
+                            List<Tuple<string, string, string>> backFillDataList = new List<Tuple<string, string, string>>();
+                            Tuple<string, string, string> backFillData = new Tuple<string, string, string>(IsBothOrBuyer = "buyer", matchModel.matchMakingScheduleSellerId[i], matchModel.matchMakingScheduleSellerCompany[i]);
+                            backFillDataList.Add(backFillData);
+                            matchModel.matchSellerCompanyDatamergeList[i].AddRange(backFillDataList);
+                        }
+                    }
+                }
+
+            }
+
             /*刪除某時段，媒合大表中的相同時段資料刪除*/
             var schedulePeriodSn = matchModel.schedulePeriodSetList
                    .Select(time => time.period_sn);
@@ -1433,15 +1505,11 @@ namespace prj_BIZ_System.Controllers
 
             return View(matchModel);
         }
-
         #endregion
 
-
-
         #region 媒合時程大表條件限制
-        public ActionResult MatchConstrains(string[] allSellerCompany, int activity_id, int sellerIdCount)
+        public ActionResult MatchConstrains(string[] allSellerId, int activity_id)
         {
-
             string IsBothOrBuyer;
             /*列出某活動的所有買主*/
             matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id);
@@ -1497,31 +1565,29 @@ namespace prj_BIZ_System.Controllers
 
             var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
 
-            for (int i = 0; i < matchModel.schedulePeriodSetList.Count-1; i++) //原先就加過一次
+            for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++) //原先就加過一次
             {
                 matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeData);
             }
 
-            //double x = Math.Floor((double)sellerIdCount / matchModel.buyerinfoList.Count);
-            //int    y = sellerIdCount % matchModel.buyerinfoList.Count;
             List<int> indexAll = new List<int>();
 
-            //var  = allSellerCompany.Where(SellerCompany => !SellerCompany.IsNullOrEmpty()).ToArray();
-            for(int i=0; i < allSellerCompany.Length; i++)
+            for (int i = 0; i < allSellerId.Length; i++)
             {
-                if (!allSellerCompany[i].IsNullOrEmpty())
+                if (!allSellerId[i].IsNullOrEmpty())
                 {
                     indexAll.Add(i);
                 }
             }
 
             /*刪除列的資料*/
-            foreach (int index in indexAll) {
+            foreach (int index in indexAll)
+            {
                 double x = Math.Floor((double)index / matchModel.buyerinfoList.Count);
                 for (int indexRow = 0; indexRow < matchModel.buyerinfoList.Count; indexRow++)
                 {
                     matchModel.matchSellerCompanyDatamergeList
-                              [(int)x * matchModel.buyerinfoList.Count + indexRow].RemoveAll(item => item.Item2.Equals(allSellerCompany[index]));
+                              [(int)x * matchModel.buyerinfoList.Count + indexRow].RemoveAll(item => item.Item2.Equals(allSellerId[index]));
                 }
             }
 
@@ -1532,20 +1598,14 @@ namespace prj_BIZ_System.Controllers
                 for (int indexColumn = y; indexColumn < matchModel.matchSellerCompanyDatamergeList.Count; indexColumn += matchModel.buyerinfoList.Count)
                 {
                     matchModel.matchSellerCompanyDatamergeList
-                              [indexColumn].RemoveAll(item => item.Item2.Equals(allSellerCompany[index]));
+                              [indexColumn].RemoveAll(item => item.Item2.Equals(allSellerId[index]));
                 }
             }
 
-            var xxx = new { allData = matchModel.matchSellerCompanyDatamergeList, allindex = indexAll };
-
-            return Json(xxx, JsonRequestBehavior.AllowGet);
+            //var result = new { filteredSellerData = matchModel.matchSellerCompanyDatamergeList, selectedSellerData = allSellerCompany };
+            return Json(matchModel.matchSellerCompanyDatamergeList, JsonRequestBehavior.AllowGet);
         }
-
-
         #endregion
-
-
-
 
         #region 媒合時程大表新增修改刪除新版
         [HttpPost]
