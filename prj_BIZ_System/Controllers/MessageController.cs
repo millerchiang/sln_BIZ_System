@@ -41,8 +41,8 @@ namespace prj_BIZ_System.Controllers
 
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             var totalMsg = messageService.SelectMsgPrivate(keyword, user_id);
-            IList<MsgModel> result = totalMsg.Pages(Request, this, 10); ;
-            IList<MsgModel> result2 = totalMsg.Pages(Request, this, 10); ;
+            IList<MsgModel> result = totalMsg.Where( msg => "0".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
+            IList<MsgModel> result2 = totalMsg.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
 
             ViewBag.keyword = keyword;
             ViewBag.contentTitle    = getLabelString(MessageCatalog.Private, "contentTitle");
@@ -104,6 +104,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
+            string current_user_id = Request.Cookies["UserInfo"]["user_id"];
             ViewBag.contentTitle = getLabelString(MessageCatalog.Private, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Private, "backUrl");
 
@@ -111,7 +112,8 @@ namespace prj_BIZ_System.Controllers
             {
                 if (isOwnViewPower(msg_no,MessageType.Person)) //檢查權限
                 {
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
 
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
@@ -283,11 +285,14 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
+            string current_user_id = Request.Cookies["UserInfo"]["user_id"];
             if (msg_no != 0)
             {
                 if (isOwnViewPower(msg_no, MessageType.CompanyPublic)) //檢查權限
                 {
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    
+                    //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
 
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Cluster);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
