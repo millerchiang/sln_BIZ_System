@@ -138,6 +138,7 @@ namespace prj_BIZ_System.Models
         public MsgFileModel msgPrivateFile { get; set; }
         public MsgReplyModel msgPrivateReply { get; set; }
         public IList<MsgModel> msgPrivateList { get; set; }
+        public IList<MsgModel> msgPrivateList2 { get; set; }
         public IList<MsgFileModel> msgPrivateFileList { get; set; }
         public IList<MsgReplyModel> msgPrivateReplyList { get; set; }
     }

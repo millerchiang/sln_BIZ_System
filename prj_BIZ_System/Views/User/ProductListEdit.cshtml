@@ -40,7 +40,7 @@
                     }
                 </ul>
             </form>
-            @Html.PagesList((PageList<ProductListModel>)TempData["PageList"])
+            @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"])
             <div class="centerbox">
                 <a href="@Url.Action("ProductDetailEdit","User")" class="addbu">新增</a>
                 <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>

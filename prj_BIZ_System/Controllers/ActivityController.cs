@@ -90,13 +90,13 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
-            activityModel.userinfo = new UserInfoModel();
-            activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
-            activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
-            activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
-//            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
-            activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);
-            activityModel.userinfo.info_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info_en"]);
+            activityModel.userinfo = userService.GeUserInfoOne(Request.Cookies["UserInfo"]["user_id"]);
+            //activityModel.userinfo = new UserInfoModel();
+            //activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            //activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+            //activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
+            //activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);
+            //activityModel.userinfo.info_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info_en"]);
 
             activityModel.enterprisesortandlistList = activityService.GetEnterpriseSortAndListOne(Request.Cookies["UserInfo"]["user_id"]);
             activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);
@@ -153,13 +153,13 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             activityModel.activityinfoList = activityService.GetActivityInfoList(null);
-            activityModel.userinfo = new UserInfoModel();
-            activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
-            activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
-            activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
-//            activityModel.userinfo.addr = Request.Cookies["UserInfo"]["addr"];
-            activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);
-            activityModel.userinfo.info_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info_en"]);
+            activityModel.userinfo = userService.GeUserInfoOne(Request.Cookies["UserInfo"]["user_id"]);
+            //activityModel.userinfo = new UserInfoModel();
+            //activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            //activityModel.userinfo.company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+            //activityModel.userinfo.website = Request.Cookies["UserInfo"]["website"];
+            //activityModel.userinfo.info = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info"]);
+            //activityModel.userinfo.info_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["info_en"]);
 
             activityModel.enterprisesortandlistList = activityService.GetEnterpriseSortAndListOne(Request.Cookies["UserInfo"]["user_id"]);
             activityModel.productsortList = userService.getAllProduct(Request.Cookies["UserInfo"]["user_id"]);

@@ -264,6 +264,22 @@
             </div>
             <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
             <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
+
+            @if (ViewBag.PageType == "Create")
+            {
+                <div class="centerbox" style="padding-bottom:30px">
+                    <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree">
+                    <label for="ihaveagree" class="fontRed">我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</label>
+                </div>
+            }
+            else
+            {
+                <div class="centerbox" style="display:none">
+                    <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree" checked>
+                    <label for="ihaveagree" class="fontRed">我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</label>
+                </div>
+            }
+
             <div class="centerbox">
                 <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
             </div>
@@ -300,9 +316,7 @@
                 }
 
                 alert(@prj_BIZ_System.LanguageResource.User.lb_select_successful);
-
             });
-
         }) ;
 
     }
@@ -362,6 +376,12 @@
                 return false;
             }
 
+            var revenue = $("input[name='ihaveagree']:checked").val();
+            if (revenue==null || revenue==''){
+                alert("請勾選[我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。]");
+                return false;
+            }
+
             if($("input[name='enterprise_type']:checked").val()==0){
                 var reg = /\D/;
                 var user_id = $("input[name='user_id']").val();
@@ -403,6 +423,7 @@
             $("#capital").hide();
         }
     }
+
 
     function chkpw() {
         var user_pw = $("input[name='user_pw']").val();
