@@ -16,6 +16,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using IBatisNet.DataMapper.SessionStore;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -1075,7 +1076,8 @@ namespace prj_BIZ_System.Controllers
             foreach (KeyValuePair<int, object> kvp in successUserInfos)
             {
                 string user_id = ((Dictionary<string, string>)kvp.Value)["user_id"];
-                try {
+                try
+                {
                     CompanyData compdata = GetDataFromWeb(user_id);
                     logger.Info(user_id + "取回的值是否成功:");
                     if (compdata == null)
@@ -1098,12 +1100,12 @@ namespace prj_BIZ_System.Controllers
                     bool refreshResult = userService.RefreshUserSort(user_id, sort_id);
                     logger.Info("user_id=" + user_id + " 匯入後新增產業別結果為:" + refreshResult);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error("-----------------------------------");
                     logger.Error("user_id=" + user_id + "抓取opendata失敗..");
                     logger.Error(ex.Message);
-                    continue ;
+                    continue;
                 }
             }
         }
@@ -1323,48 +1325,59 @@ namespace prj_BIZ_System.Controllers
             matchModel.matchmakingSellerList = matchService.GetMSneedBySellerCompanyList(int.Parse(Request["activity_id"]));
 
             /*列出某活動的雙方媒合意願與買方媒合意願的合併資料*/
-            //matchModel.matchSellerCompanyDatamergeList = Enumerable.Repeat(new List<object>(), matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count).ToList();
-
-            int allCount = matchModel.schedulePeriodSetList.Count * matchModel.buyerinfoList.Count;
-            //matchModel.matchSellerCompanyDatamergeList = new List<List<object>>();
-            matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string, string, string>>>();
-
-            for (int temp = 0; temp < allCount; temp++)
+            if (matchModel.schedulePeriodSetList.Count != 0)
             {
-                //List<object> data = new List<object>();
-                List<Tuple<string, string, string>> data = new List<Tuple<string, string, string>>();
-                matchModel.matchSellerCompanyDatamergeList.Add(data);
-            }
+                int allCount = (matchModel.schedulePeriodSetList.Count / matchModel.schedulePeriodSetList.Count)
+                                * matchModel.buyerinfoList.Count;
+                matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string, string, string>>>();
 
-            for (int i = 0; i < matchModel.buyerinfoList.Count; i++)
-            {
-                var bothAllBuyer_id = matchModel.matchmakingBothList.Select(both => both.buyer_id).ToArray();
-                if (bothAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+
+                for (int temp = 0; temp < allCount; temp++)
                 {
-                    var bothList =
-                        matchModel.matchmakingBothList
-                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "both", both.seller_id, both.company)).ToList();
-
-                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
+                    List<Tuple<string, string, string>> data = new List<Tuple<string, string, string>>();
+                    matchModel.matchSellerCompanyDatamergeList.Add(data);
                 }
 
-                var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
-                if (buyerAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                for (int i = 0; i < matchModel.buyerinfoList.Count; i++)
                 {
-                    var bothList =
-                        matchModel.matchmakingBothList
-                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", both.seller_id, both.company)).ToList();
+                    var bothAllBuyer_id = matchModel.matchmakingBothList.Select(both => both.buyer_id).ToArray();
+                    if (bothAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                    {
+                        var bothList =
+                            matchModel.matchmakingBothList
+                            .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                            .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "both", both.seller_id, both.company)).ToList();
 
-                    var buyerList =
-                        matchModel.matchmakingBuyerList
-                        .Where(buyer => buyer.buyer_id == matchModel.buyerinfoList[i].buyer_id)
-                        .Select(buyer => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company)).ToList();
+                        matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
+                    }
 
-                    var exceptList = buyerList.Except(bothList);
-                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(exceptList);
+                    var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
+                    if (buyerAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                    {
+                        var bothList =
+                            matchModel.matchmakingBothList
+                            .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                            .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", both.seller_id, both.company)).ToList();
+
+                        var buyerList =
+                            matchModel.matchmakingBuyerList
+                            .Where(buyer => buyer.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                            .Select(buyer => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company)).ToList();
+
+                        var exceptList = buyerList.Except(bothList);
+                        matchModel.matchSellerCompanyDatamergeList[i].AddRange(exceptList);
+                    }
                 }
+
+                /*matchSellerCompanyDatamergeList 取company存到陣列中*/
+                matchModel.bothWithbuyerMergeSellerCompany = Enumerable.Repeat(String.Empty, matchModel.matchSellerCompanyDatamergeList.Count).ToArray();
+                var companys =  matchModel.matchSellerCompanyDatamergeList
+                                          .SelectMany(data => 
+                                                      data.Select(comapny => comapny.Item3)).ToList();
+                var companysArrays = companys.Distinct().ToArray();
+
+                //matchModel.bothWithbuyerMergeSellerCompany = companys;
+                matchModel.bothWithbuyerMergeSellerCompany = companysArrays;
             }
 
             /*列出某活動的媒合大表資料*/
@@ -1406,19 +1419,133 @@ namespace prj_BIZ_System.Controllers
             var matchmakingPeriodSn = matchModel.matchmakingScheduleList
                    .Select(data => data.period_sn);
 
-            var periodSns = from nl in matchmakingPeriodSn
-                            where schedulePeriodSn.Contains(nl) == false
-                            select nl;
+            var periodSns = from periodSn in matchmakingPeriodSn
+                            where schedulePeriodSn.Contains(periodSn) == false
+                            select periodSn;
+
             if (periodSns.Count() != 0)
             {
-
+                foreach (int periodSn in periodSns)
+                {
+                    matchService.MatchkingDataByActivityWithPeriodDelete(int.Parse(Request["activity_id"]), periodSn);
+                }
             }
-
 
             return View(matchModel);
         }
 
         #endregion
+
+
+
+        #region 媒合時程大表條件限制
+        public ActionResult MatchConstrains(string[] allSellerCompany, int activity_id, int sellerIdCount)
+        {
+
+            string IsBothOrBuyer;
+            /*列出某活動的所有買主*/
+            matchModel.buyerinfoList = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id);
+            /*列出某活動的所有媒合時段*/
+            matchModel.schedulePeriodSetList = matchService.GetActivityMatchTimeIntervalList(activity_id);
+            /*列出某活動的雙方有意願*/
+            matchModel.matchmakingBothList = matchService.GetMatchmakingbothneedList(activity_id);
+            /*列出某活動的買家有意願*/
+            matchModel.matchmakingBuyerList = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, "");
+
+            int allCount = (matchModel.schedulePeriodSetList.Count / matchModel.schedulePeriodSetList.Count)
+                                * matchModel.buyerinfoList.Count;
+
+            matchModel.matchSellerCompanyDatamergeList = new List<List<Tuple<string, string, string>>>();
+
+
+            for (int temp = 0; temp < allCount; temp++)
+            {
+                List<Tuple<string, string, string>> data = new List<Tuple<string, string, string>>();
+                matchModel.matchSellerCompanyDatamergeList.Add(data);
+            }
+
+            for (int i = 0; i < matchModel.buyerinfoList.Count; i++)
+            {
+                var bothAllBuyer_id = matchModel.matchmakingBothList.Select(both => both.buyer_id).ToArray();
+                if (bothAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                {
+                    var bothList =
+                        matchModel.matchmakingBothList
+                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "both", both.seller_id, both.company)).ToList();
+
+                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(bothList);
+                }
+
+                var buyerAllBuyer_id = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
+                if (buyerAllBuyer_id.Contains(matchModel.buyerinfoList[i].buyer_id))
+                {
+                    var bothList =
+                        matchModel.matchmakingBothList
+                        .Where(both => both.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(both => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", both.seller_id, both.company)).ToList();
+
+                    var buyerList =
+                        matchModel.matchmakingBuyerList
+                        .Where(buyer => buyer.buyer_id == matchModel.buyerinfoList[i].buyer_id)
+                        .Select(buyer => new Tuple<string, string, string>(IsBothOrBuyer = "buyer", buyer.seller_id, buyer.company)).ToList();
+
+                    var exceptList = buyerList.Except(bothList);
+                    matchModel.matchSellerCompanyDatamergeList[i].AddRange(exceptList);
+                }
+            }
+
+            var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
+
+            for (int i = 0; i < matchModel.schedulePeriodSetList.Count-1; i++) //原先就加過一次
+            {
+                matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeData);
+            }
+
+            //double x = Math.Floor((double)sellerIdCount / matchModel.buyerinfoList.Count);
+            //int    y = sellerIdCount % matchModel.buyerinfoList.Count;
+            List<int> indexAll = new List<int>();
+
+            //var  = allSellerCompany.Where(SellerCompany => !SellerCompany.IsNullOrEmpty()).ToArray();
+            for(int i=0; i < allSellerCompany.Length; i++)
+            {
+                if (!allSellerCompany[i].IsNullOrEmpty())
+                {
+                    indexAll.Add(i);
+                }
+            }
+
+            /*刪除列的資料*/
+            foreach (int index in indexAll) {
+                double x = Math.Floor((double)index / matchModel.buyerinfoList.Count);
+                for (int indexRow = 0; indexRow < matchModel.buyerinfoList.Count; indexRow++)
+                {
+                    matchModel.matchSellerCompanyDatamergeList
+                              [(int)x * matchModel.buyerinfoList.Count + indexRow].RemoveAll(item => item.Item2.Equals(allSellerCompany[index]));
+                }
+            }
+
+            /*刪除行的資料*/
+            foreach (int index in indexAll)
+            {
+                int y = index % matchModel.buyerinfoList.Count;
+                for (int indexColumn = y; indexColumn < matchModel.matchSellerCompanyDatamergeList.Count; indexColumn += matchModel.buyerinfoList.Count)
+                {
+                    matchModel.matchSellerCompanyDatamergeList
+                              [indexColumn].RemoveAll(item => item.Item2.Equals(allSellerCompany[index]));
+                }
+            }
+
+            var xxx = new { allData = matchModel.matchSellerCompanyDatamergeList, allindex = indexAll };
+
+            return Json(xxx, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
+
+
+
 
         #region 媒合時程大表新增修改刪除新版
         [HttpPost]

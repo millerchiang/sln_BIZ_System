@@ -52,7 +52,7 @@
                             @for (int j = 0; j < Model.buyerinfoList.Count; j++)
                             {
                                 <td class="centerbox">
-                                    <select name="seller_id" id="seller_id@(sellerIdCount++)">
+                                    <select name="seller_id" id="seller_id@(sellerIdCount++)" onchange="PullDownMenus(@(sellerIdCount-1))" onClick="GetBeforeSellerValue(@(sellerIdCount-1))">
                                         <option value="">--請選擇--</option>
                                         @{
                                             List<Tuple<string, string, string>> dataAll = Model.matchSellerCompanyDatamergeList[j].ToList();
@@ -78,9 +78,9 @@
                                         }
                                     </select>
                                 </td>
-                            }
+                                            }
                         </tr>
-                    }
+                                            }
                 </tbody>
                 <tfoot>
                     <tr class="schedulebg001">
@@ -189,5 +189,64 @@
             $("#form").submit();
         });
     });
+
+    var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
+    var sellerIds      = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerId));
+    var allsellers     = @Html.Raw(Json.Encode(Model.bothWithbuyerMergeSellerCompany));
+    var sellerCounts   = @Model.matchMakingScheduleSellerCompany.Count();
+    var periodCounts   = @Model.schedulePeriodSetList.Count();
+    var buyerCounts    = @Model.buyerinfoList.Count();
+
+
+    function GetBeforeSellerValue(sellerIdCount){
+        var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
+        notChangedBeforeSellerValue = selectedSellerValue;
+    }
+    var allSellerCompany;
+    var activity_id = $("input[name='activity_id']").val();
+
+    /*下拉式選單後橫排及豎排不能複選功能*/
+    function PullDownMenus(sellerIdCount) {
+        var selectedSellerText = $("#seller_id" + sellerIdCount + " option:selected").text();
+        var selectedSellerValue = $("#seller_id" + sellerIdCount + " option:selected").val();
+        var tempSellercompany = [];
+
+
+        for(var i=0; i < periodCounts * buyerCounts; i++ ){
+            tempSellercompany[i] =  $("#seller_id" + i + " option:selected").val();
+        }
+        allSellerCompany = tempSellercompany;
+        console.log("allSellerCompany:"+allSellerCompany);
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("MatchConstrains", "Manager")",
+            data: {"allSellerCompany": allSellerCompany, "activity_id":activity_id, "sellerIdCount":sellerIdCount},
+            //data: {"selectedSellerValue": selectedSellerValue, "activity_id":activity_id, "sellerIdCount":sellerIdCount},
+            traditional:true,
+            cache: false,
+            dataType:"json"
+        }).done(function (result){
+            console.log(result);
+            for(var i=0; i < periodCounts * buyerCounts; i++){
+                console.log(result["allData"][i].length);
+                $("#seller_id"+i).html("");
+                $("#seller_id"+i).append($("<option></option>").val("").text("請選擇"));
+                for(var j=0; j< result["allData"][i].length; j++){
+
+                    //if(sellerIdCount == i){
+                    //    $("#seller_id"+i).append($("<option></option>").val(selectedSellerValue).text(selectedSellerText).attr("selected",true));
+                    //}
+
+                    if(result["allData"][i][j].Item1 === "both"){
+                        $("#seller_id"+i).append($("<option></option>").val(result["allData"][i][j].Item2).text(result["allData"][i][j].Item3).prop("class","schedulebg001"));
+                    }else{
+                        $("#seller_id"+i).append($("<option></option>").val(result["allData"][i][j].Item2).text(result["allData"][i][j].Item3).prop("class","schedulebg002"));
+                    }
+                }
+            }
+        });
+
+    }
 
 </script>
