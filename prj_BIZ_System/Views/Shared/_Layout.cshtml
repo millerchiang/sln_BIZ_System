@@ -178,7 +178,7 @@
     </header>
     @{
         var mainclass = "";
-        if (Request.Cookies["mainclass"] != null)
+        if (Request.Cookies["mainclass"] !=null && Request.Cookies["mainclass"].Value != null)
         {
             mainclass = Request.Cookies["mainclass"].Value;
         }
