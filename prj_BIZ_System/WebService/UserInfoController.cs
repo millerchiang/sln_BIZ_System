@@ -256,7 +256,14 @@ namespace prj_BIZ_System.WebService
                                                 product.product_name,
                                                 product.product_info,
                                                 product.model_no,
-
+                                                product.patent_or_winners,
+                                                product.specifications_or_other,
+                                                product.product_category_en,
+                                                product.product_name_en,
+                                                product.product_info_en,
+                                                product.model_no_en,
+                                                product.patent_or_winners_en,
+                                                product.product_pic_site
                                             }
                                         );
             return Request.CreateResponse(HttpStatusCode.OK, allProduct);
