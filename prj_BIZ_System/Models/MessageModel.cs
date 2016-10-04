@@ -13,7 +13,7 @@ namespace prj_BIZ_System.Models
         public string msg_title { get; set; }        //訊息標題
         public string msg_content { get; set; }      //訊息內容
 
-        public int cluster_no { get; set; }         //聚落編號 (Default 0，代表沒有聚落)
+        public int? cluster_no { get; set; }         //聚落編號 (Default 0，代表沒有聚落)
         public string is_public { get; set; }       //聚落公開 (公開：1；私人：0)
         public string user_id { get; set; }         //公司id (有值: 公司訊息 ; 空值 : 非公司訊息)
 
@@ -25,6 +25,7 @@ namespace prj_BIZ_System.Models
         public int rpy_cnt { get; set; } //回覆數
         public string is_read { get; set; }     // 0 :未讀 , 1:已讀
 
+        public string cluster_user { get; set; } //聚落使用者的id
     }
 
     /*

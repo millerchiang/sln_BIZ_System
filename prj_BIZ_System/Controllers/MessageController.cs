@@ -260,6 +260,29 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region --聚落訊息--
+
+        public ActionResult MessageClusterMain(string cluster_public_where , string cluster_private_where)
+        {
+            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
+                return Redirect("~/Home/Index");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            ViewBag.cluster_public_where = cluster_public_where;
+            ViewBag.cluster_private_where = cluster_private_where;
+            IList<MsgModel> result_public  = messageService.SelectMsgClusterPublic(Request["cluster_no"], user_id , cluster_public_where);
+            IList<MsgModel> result_private = messageService.SelectMsgClusterPrivate(Request["cluster_no"], user_id, cluster_private_where);
+            return View();
+        }
+
+        public ActionResult MessageClusterAddPrivate()
+        {
+            return View();
+        }
+
+        public ActionResult MessageClusterAddPublic()
+        {
+            return View();
+        }
+
         public ActionResult MessageClusterList(string keyword)
         {
             if (Request.Cookies["UserInfo"] == null)

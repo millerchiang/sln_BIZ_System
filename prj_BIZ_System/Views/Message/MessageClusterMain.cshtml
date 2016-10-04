@@ -1,0 +1,245 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+@{
+    ViewBag.Title = "MessageClusterAddPublic";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+<div class="article_col1">
+    @{
+        Html.RenderAction("_ClusterMenuPartial", "Cluster");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle2">聚落A</h2>
+
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-0">公告訊息</a></li>
+                <li><a href="#tabs-1">私人訊息</a></li>
+            </ul>
+
+            <div id="tabs-0">
+                <input name ="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
+                <a href="" class="addbublue magb10">查詢</a>
+                <a href="~/Message/MessageClusterAddPublic" class="addbu rightbox">新增</a>
+                <table class="edittable">
+                    <tr>
+                        <th>編號</th>
+                        <th style="width: 50%">主題</th>
+                        <th>發佈人</th>
+                        <th>發佈日</th>
+                        <th>內容</th>
+                    </tr>
+                    <tr class="active">
+                        <td>1</td>
+                        <td class="alignleft">
+                            新北市電腦公會
+                        </td>
+                        <td>
+                            昕傳科技A
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="alignleft">
+                            新北市電腦公會
+                        </td>
+                        <td>
+                            昕傳科技B
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="alignleft">
+                            新北市電腦公會
+                        </td>
+                        <td>
+                            昕傳科技C
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td>4</td>
+                        <td class="alignleft">
+                            新北市電腦公會
+                        </td>
+                        <td>
+                            昕傳科技D
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+                <p style="margin-top:10px">
+                    總共4筆
+                </p>
+                <ul class="pagelist">
+                    <li><a href="">&lt;</a></li>
+
+                    <li><a href="">1</a></li>
+                    <li><a href="">2</a></li>
+                    <li><a href="">3</a></li>
+                    <li><a href="">4</a></li>
+                    <li><a href="">5</a></li>
+                    <li><a href="">6</a></li>
+                    <li><a href="">7</a></li>
+                    <li><a href="">8</a></li>
+                    <li><a href="">9</a></li>
+                    <li><a href="">10</a></li>
+
+                    <li><a href="">&gt;</a></li>
+                </ul>
+            </div>
+            <div id="tabs-1">
+                <input type="text" placeholder="請輸入查詢條件">
+                <a href="" name ="cluster_private_where" value="@ViewBag.cluster_private_where" class="addbublue magb10">查詢</a>
+                <a href="~/Message/MessageClusterAddPrivate" class="addbu rightbox">新增</a>
+
+                <table class="edittable">
+                    <tr>
+                        <th>編號</th>
+                        <th style="width: 50%">主題</th>
+                        <th>發佈人</th>
+                        <th>發佈日</th>
+                        <th>內容</th>
+                    </tr>
+                    <tr class="active">
+                        <td>1</td>
+                        <td class="alignleft">
+                            關於報價
+                        </td>
+                        <td>
+                            欣欣紡織
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td class="alignleft">
+                            關於報價
+                        </td>
+                        <td>
+                            方方電子
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td class="alignleft">
+                            關於報價
+                        </td>
+                        <td>
+                            方方電子
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td class="alignleft">
+                            關於報價
+                        </td>
+                        <td>
+                            方方電子
+                        </td>
+                        <td>
+                            2016/01/20
+                        </td>
+                        <td>
+                            <div class="centerbox">
+                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+                <p style="margin-top:10px">
+                    總共4筆
+                </p>
+                <ul class="pagelist">
+                    <li><a href="">&lt;</a></li>
+
+                    <li><a href="">1</a></li>
+                    <li><a href="">2</a></li>
+                    <li><a href="">3</a></li>
+                    <li><a href="">4</a></li>
+                    <li><a href="">5</a></li>
+                    <li><a href="">6</a></li>
+                    <li><a href="">7</a></li>
+                    <li><a href="">8</a></li>
+                    <li><a href="">9</a></li>
+                    <li><a href="">10</a></li>
+
+                    <li><a href="">&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+    </article>
+</div>
+@Scripts.Render("~/bundles/jqueryUI")
+<script>
+	  $(function() {
+	    $( "#tabs" ).tabs();
+
+	  	$( ".floor" ).click(function() {
+		  	 $( ".floor2" ).toggleClass('open');
+			 $(this).toggleClass('active');
+		});
+
+	  });
+</script>
