@@ -1243,6 +1243,16 @@ namespace prj_BIZ_System.Controllers
                     }
                 }
 
+                /*當只設定時間時,需複製資料給下拉選單,不然會出錯*/
+                for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++) //原先就加過一次
+                {
+                    var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
+                    var copyMergeDataRange = copyMergeData.GetRange(0, matchModel.buyerinfoList.Count);
+                    matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeDataRange);
+                    copyMergeData.Clear();
+                    copyMergeDataRange.Clear();
+                }
+
                 /*matchSellerCompanyDatamergeList 取company存到陣列中*/
                 matchModel.bothWithbuyerMergeSellerCompany = Enumerable.Repeat(String.Empty, matchModel.matchSellerCompanyDatamergeList.Count).ToArray();
                 var companys = matchModel.matchSellerCompanyDatamergeList
@@ -1310,13 +1320,6 @@ namespace prj_BIZ_System.Controllers
 
             if (matchModel.matchmakingScheduleList.Count != 0)
             {
-                var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
-
-                for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++)
-                {
-                    matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeData);
-                }
-
                 List<int> indexAll = new List<int>();
                 for (int i = 0; i < matchModel.matchMakingScheduleSellerId.Length; i++)
                 {
@@ -1437,11 +1440,14 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-            var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
-
+            /*複製資料*/
             for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++) //原先就加過一次
             {
-                matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeData);
+                var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
+                var copyMergeDataRange =  copyMergeData.GetRange(0, matchModel.buyerinfoList.Count);
+                matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeDataRange);
+                copyMergeData.Clear();
+                copyMergeDataRange.Clear();
             }
 
             List<int> indexAll = new List<int>();
