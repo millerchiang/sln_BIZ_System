@@ -406,7 +406,7 @@
     <value>手機號碼</value>
   </data>
   <data name="lb_photoupload" xml:space="preserve">
-    <value>上傳小圖</value>
+    <value>上傳封面</value>
   </data>
   <data name="lb_pleaseuse_companyid" xml:space="preserve">
     <value>請用統一編號註冊</value>
@@ -593,5 +593,41 @@
   </data>
   <data name="lb_prod_model_no" xml:space="preserve">
     <value>型號</value>
+  </data>
+  <data name="lb_activity_photo1" xml:space="preserve">
+    <value>新北市ICT國際對接</value>
+  </data>
+  <data name="lb_activity_photo2" xml:space="preserve">
+    <value>新北市4G而動-快速作業平臺</value>
+  </data>
+  <data name="lb_activity_photo3" xml:space="preserve">
+    <value>新北市機械及金屬產業高值化拓展會</value>
+  </data>
+  <data name="lb_activitypic" xml:space="preserve">
+    <value>活動照片</value>
+  </data>
+  <data name="lb_amountparticipant_is_empty" xml:space="preserve">
+    <value>與會人數不可為空白</value>
+  </data>
+  <data name="lb_celeno_is_empty" xml:space="preserve">
+    <value>手機號碼不可為空白</value>
+  </data>
+  <data name="lb_contact_is_empty" xml:space="preserve">
+    <value>主聯絡人不可為空白</value>
+  </data>
+  <data name="lb_list" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="lb_participant_is_empty" xml:space="preserve">
+    <value>與會人不可為空白</value>
+  </data>
+  <data name="lb_sureregister" xml:space="preserve">
+    <value>確認是否報名此活動?</value>
+  </data>
+  <data name="lb_telno_is_empty" xml:space="preserve">
+    <value>電話/分機不可為空白</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
   </data>
 </root>

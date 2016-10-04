@@ -11,6 +11,7 @@ using WebApiContrib.ModelBinders;
 using prj_BIZ_System.App_Start;
 using System.Web;
 using prj_BIZ_System.WebService.Model;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.WebService
 {
@@ -71,9 +72,9 @@ namespace prj_BIZ_System.WebService
             };
             string[] revenue_en = new string[]
             {
-                "500萬以下", "501-1000萬", "1001-1500萬",
-                "1501-3000萬", "3001-5000萬", "5000萬-1億",
-                "一億以上"
+                "5 millions or Less", "5-10 millions", "10-15 millions",
+                "15-30 millions", "30-50 millions", "50 millions-1 billion",
+                "1 billion"
             };
             UserEnterpriseInfo userEnterpriseInfo = new UserEnterpriseInfo();
 
@@ -83,7 +84,10 @@ namespace prj_BIZ_System.WebService
             int enterprise_typeNum = int.Parse(userEnterpriseInfo.userinfo.enterprise_type);
             int revenueNum = int.Parse(userEnterpriseInfo.userinfo.revenue);
             userEnterpriseInfo.userinfo.enterprise_type = enterprise_type[enterprise_typeNum];
+            userEnterpriseInfo.userinfo.enterprise_type_en = enterprise_type_en[enterprise_typeNum];
             userEnterpriseInfo.userinfo.revenue = revenue[revenueNum];
+            userEnterpriseInfo.userinfo.revenue_en = revenue_en[revenueNum];
+
             userEnterpriseInfo.usersortList = userService.SelectUserSortByUserId(user_id);
             return userEnterpriseInfo;
         }
@@ -190,7 +194,7 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public object GetSortList(string localization)
+        public object GetSortList()
         {
             return userService.GetSortList().Select(
                 enterpriseSortListModel =>
@@ -198,9 +202,8 @@ namespace prj_BIZ_System.WebService
                 {
                     enterpriseSortListModel.sort_id,
                     enterpriseSortListModel.enterprise_sort_id,
-                    enterprise_sort_name = localization == "en" ?
-                    enterpriseSortListModel.enterprise_sort_name_en :
-                    enterpriseSortListModel.enterprise_sort_name
+                    enterpriseSortListModel.enterprise_sort_name,
+                    enterpriseSortListModel.enterprise_sort_name_en
                 }
             ).ToList();
         }
@@ -235,6 +238,49 @@ namespace prj_BIZ_System.WebService
             }
             var result = userService.VideoListInsert(user_id, video_name, youtube_site);
             return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [HttpGet]
+        public object GetAllProduct(string user_id)
+        {
+            if (user_id.IsNullOrEmpty())
+            {
+                string message = string.Format("user_id null.");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            }
+            var allProduct = userService.getAllProduct(user_id).Select(
+                                            product =>
+                                            new
+                                            {
+                                                product.product_category,
+                                                product.product_name,
+                                                product.product_info,
+                                                product.model_no,
+
+                                            }
+                                        );
+            return Request.CreateResponse(HttpStatusCode.OK, allProduct);
+        }
+
+        [HttpGet]
+        public object GetAllCatalog(string user_id)
+        {
+            if (user_id.IsNullOrEmpty())
+            {
+                string message = string.Format("user_id null.");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
+            }
+            var allCatalog = userService.getAllCatalog(user_id).Select(
+                                            catalogListModel => 
+                                            new
+                                            {
+                                                catalogListModel.catalog_no,
+                                                catalogListModel.catalog_name,
+                                                catalogListModel.cover_file,
+                                                catalogListModel.catalog_file
+                                            }
+                                        );
+            return Request.CreateResponse(HttpStatusCode.OK, allCatalog);
         }
 
         [HttpGet]

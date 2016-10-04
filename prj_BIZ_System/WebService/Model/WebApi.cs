@@ -59,6 +59,9 @@ namespace prj_BIZ_System.WebService.Model
     {
         public UserInfo userinfo { get; set; }
         public IList<EnterpriseSortModel> usersortList { get; set; }
+        public IList<ProductListModel> productsortList { get; set; }
+        public IList<CatalogListModel> cataloglistList { get; set; }
+        public IList<Video> videolistList { get; set; }
     }
 
     public class News

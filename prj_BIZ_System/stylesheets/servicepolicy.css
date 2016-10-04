@@ -1,0 +1,28 @@
+article {
+  line-height: 2;
+}
+
+.titles {
+  color: #2e7ed1;
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+  padding-bottom: 1em;
+  text-decoration: underline;
+}
+
+section h2 {
+  color: #03a9f5;
+  font-size: 1.25em;
+  font-weight: bold;
+  padding-top: 15px;
+}
+section ul {
+  list-style-position: outside;
+  padding-left: 2em;
+}
+section ul li {
+  list-style-type: square;
+}
+
+/*# sourceMappingURL=servicepolicy.css.map */
