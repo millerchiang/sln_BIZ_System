@@ -269,14 +269,14 @@
             {
                 <div class="centerbox" style="padding-bottom:30px">
                     <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree">
-                    <label for="ihaveagree" class="fontRed">我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</label>
+                    <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
                 </div>
             }
             else
             {
                 <div class="centerbox" style="display:none">
                     <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree" checked>
-                    <label for="ihaveagree" class="fontRed">我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</label>
+                    <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
                 </div>
             }
 
@@ -315,7 +315,7 @@
                     reader.readAsDataURL(this.files[0]);
                 }
 
-                alert(@prj_BIZ_System.LanguageResource.User.lb_select_successful);
+                alert("@prj_BIZ_System.LanguageResource.User.lb_select_successful");
             });
         }) ;
 
@@ -330,7 +330,7 @@
                         $("input[name='sort_id'][value='"+el.sort_id+"']").prop("checked",true);
                     });
                 };
-                var userSortList = @Html.Raw(ViewBag.userSortList);
+                var userSortList = @Html.Raw(HttpUtility.UrlDecode(ViewBag.userSortList));
                 UpdateRender();
             </text>
         }
@@ -367,18 +367,18 @@
 
             var revenue = $("input[name='revenue']:checked").val();
             if (revenue==null || revenue==''){
-                alert("請選取公司營業額!!");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_sum_is_empty!!");
                 return false;
             }
             var sort_id = $("input[name='sort_id']:checked").val();
             if (sort_id==null || sort_id==''){
-                alert("請選取產業別!!");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_scope_sel!!");
                 return false;
             }
 
             var revenue = $("input[name='ihaveagree']:checked").val();
             if (revenue==null || revenue==''){
-                alert("請勾選[我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。]");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_check [@prj_BIZ_System.LanguageResource.User.lb_ihaveagree]");
                 return false;
             }
 
@@ -386,7 +386,7 @@
                 var reg = /\D/;
                 var user_id = $("input[name='user_id']").val();
                 if(reg.test(user_id)||user_id==null||user_id.length!=8){
-                    alert("國內企業帳號限制為8位數字!!");
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_iduse_companyid!!");
                     return false;
                 }
             }
@@ -400,10 +400,10 @@
         var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
         var errMsg = '';
         if (user_pw == null || user_pw == '') {
-            errMsg += '新密碼不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_newpw_is_empty \n';
         } else {
             if(!reg.test(user_pw)){
-                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+                errMsg += '@prj_BIZ_System.LanguageResource.User.lb_pwset8 \n';
             }
         }
         return errMsg;
@@ -432,12 +432,12 @@
         {
             if (user_pw1 =='')
             {
-                alert("請輸入確認密碼欄位!!");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_confirmpw_is_empty");
                 $("input[name='user_pw1']").focus();
             }
             else if (user_pw != user_pw1)
             {
-                alert("確認密碼錯誤,請重新確認密碼是否有誤!!");
+                alert("@prj_BIZ_System.LanguageResource.User.lb_reconfirmpw");
                 $("input[name='user_pw1']").focus();
             }
         }
@@ -467,7 +467,7 @@
             if (result != null) {
                 var Huser = result;
                 if (Huser == true) {
-                    alert("該使用帳號已存在,請確認是否帳號有誤!!");
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_id_alreadyexist");
                     $("input[name='user_id']").focus();
                 } else {
                     clearchk();

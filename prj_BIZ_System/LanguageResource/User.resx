@@ -289,7 +289,7 @@
     <value>電子郵件</value>
   </data>
   <data name="lb_email_is_empty" xml:space="preserve">
-    <value>E-mail不可為空白</value>
+    <value>電子郵件不可為空白</value>
   </data>
   <data name="lb_en_info" xml:space="preserve">
     <value>英文資訊</value>
@@ -406,7 +406,7 @@
     <value>手機號碼</value>
   </data>
   <data name="lb_photoupload" xml:space="preserve">
-    <value>上傳封面</value>
+    <value>上傳圖片</value>
   </data>
   <data name="lb_pleaseuse_companyid" xml:space="preserve">
     <value>請用統一編號註冊</value>
@@ -627,7 +627,113 @@
   <data name="lb_telno_is_empty" xml:space="preserve">
     <value>電話/分機不可為空白</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="lb_ihaveagree" xml:space="preserve">
+    <value>我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</value>
+  </data>
+  <data name="lb_addvideo" xml:space="preserve">
+    <value>上傳影音型錄</value>
+  </data>
+  <data name="lb_add_fail" xml:space="preserve">
+    <value>新增失敗</value>
+  </data>
+  <data name="lb_add_successful" xml:space="preserve">
+    <value>新增成功</value>
+  </data>
+  <data name="lb_buyerlist" xml:space="preserve">
+    <value>買主資訊列表</value>
+  </data>
+  <data name="lb_catalogname" xml:space="preserve">
+    <value>型錄名稱</value>
+  </data>
+  <data name="lb_catalog_is_empty" xml:space="preserve">
+    <value>型錄名稱不可為空白</value>
+  </data>
+  <data name="lb_check" xml:space="preserve">
+    <value>請勾選</value>
+  </data>
+  <data name="lb_confirmpw_is_empty" xml:space="preserve">
+    <value>請輸入確認密碼欄位!!</value>
+  </data>
+  <data name="lb_coverupload" xml:space="preserve">
+    <value>上傳封面</value>
+  </data>
+  <data name="lb_delete_fail" xml:space="preserve">
+    <value>刪除失敗</value>
+  </data>
+  <data name="lb_delete_successful" xml:space="preserve">
+    <value>刪除成功</value>
+  </data>
+  <data name="lb_hello" xml:space="preserve">
+    <value>您好，歡迎您成為會員!</value>
+  </data>
+  <data name="lb_iduse_companyid" xml:space="preserve">
+    <value>國內企業帳號請用統一編號註冊</value>
+  </data>
+  <data name="lb_id_alreadyexist" xml:space="preserve">
+    <value>該使用帳號已存在,請確認是否帳號有誤!!</value>
+  </data>
+  <data name="lb_memberok" xml:space="preserve">
+    <value>會員驗證</value>
+  </data>
+  <data name="lb_newpw_is_empty" xml:space="preserve">
+    <value>新密碼不可為空白</value>
+  </data>
+  <data name="lb_oldpw_is_empty" xml:space="preserve">
+    <value>舊密碼不可為空白</value>
+  </data>
+  <data name="lb_productbrife_en_is_empty" xml:space="preserve">
+    <value>請輸入產品英文說明</value>
+  </data>
+  <data name="lb_productbrife_tw_is_empty" xml:space="preserve">
+    <value>請輸入產品中文說明</value>
+  </data>
+  <data name="lb_product_en_is_empty" xml:space="preserve">
+    <value>請輸入產品英文名稱</value>
+  </data>
+  <data name="lb_product_tw_is_empty" xml:space="preserve">
+    <value>請輸入產品中文名稱</value>
+  </data>
+  <data name="lb_p_category" xml:space="preserve">
+    <value>產品類型</value>
+  </data>
+  <data name="lb_p_info" xml:space="preserve">
+    <value>產品資料</value>
+  </data>
+  <data name="lb_p_model" xml:space="preserve">
+    <value>產品型號</value>
+  </data>
+  <data name="lb_p_patent" xml:space="preserve">
+    <value>產品專利/得獎</value>
+  </data>
+  <data name="lb_p_specification" xml:space="preserve">
+    <value>產品規格及其他</value>
+  </data>
+  <data name="lb_reconfirmpw" xml:space="preserve">
+    <value>確認密碼錯誤,請重新確認密碼是否有誤!!</value>
+  </data>
+  <data name="lb_sendmail" xml:space="preserve">
+    <value>我們已寄發一封「會員驗證信」至您的註冊信箱</value>
+  </data>
+  <data name="lb_sum_is_empty" xml:space="preserve">
+    <value>請選取公司營業額</value>
+  </data>
+  <data name="lb_verifacationletter" xml:space="preserve">
+    <value>請您於三日內開啟信件，點選會員驗證連結，
+以完成會員註冊作業，謝謝!</value>
+  </data>
+  <data name="lb_back_pdlist" xml:space="preserve">
+    <value>回產品列表</value>
+  </data>
+  <data name="lb_buyer" xml:space="preserve">
+    <value>買家</value>
+  </data>
+  <data name="lb_changeselect" xml:space="preserve">
+    <value>是否修改洽談對象</value>
+  </data>
+  <data name="lb_pdname_is_empty" xml:space="preserve">
+    <value>產品名稱不可為空白</value>
+  </data>
+  <data name="lb_seller" xml:space="preserve">
+    <value>賣家</value>
   </data>
 </root>
