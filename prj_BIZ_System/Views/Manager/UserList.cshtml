@@ -77,7 +77,7 @@
                     </tr>
                 }
             </table>
-            @Html.PagesList((PageList<UserInfoModel>)TempData["PageList"])
+            @Html.PagesList((List<PageList<UserInfoModel>>)ViewData["PageList"])
         </article>
 </div>
 

@@ -24,7 +24,7 @@
             }
 
         </ul>
-        @Html.PagesList((PageList<ActivityInfoModel>)TempData["PageList"])
+        @Html.PagesList((List<PageList<ActivityInfoModel>>)ViewData["PageList"])
 
 
     </article>

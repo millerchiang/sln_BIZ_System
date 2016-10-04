@@ -48,7 +48,7 @@
                 </div>
             </div>
         }
-        @Html.PagesList((PageList<prj_BIZ_System.WebService.Model.ClusterInfo>)TempData["PageList"])
+        @Html.PagesList((List<PageList<prj_BIZ_System.WebService.Model.ClusterInfo>>)ViewData["PageList"])
     </article>
 </div>
 

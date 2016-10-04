@@ -13,14 +13,18 @@
 @Styles.Render("~/Content/jqueryUI")
 
 <div class="article_col1">
-    <article class="article_col2">
-        <div class="form_box">
-            <h2>@(ViewBag.contentTitle)訊息</h2>
+    <article class="article_col2 form_box">
+        <h2>@(ViewBag.contentTitle)訊息</h2>
+        <div class="magb30">
             <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
                 <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
                 <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
                 <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">新增</a>
             </form>
+        </div>
+        <div class="magb30">
+            <h3 class="borderTitle2">未讀@(ViewBag.contentTitle)訊息</h3>
+            
             <table class="edittable">
                 <tr>
                     <th style="width: 6%">編號</th>
@@ -31,7 +35,7 @@
                     <th>內容</th>
                 </tr>
                 @{
-                    var prevCounts = ((PageList<MsgModel>)TempData["PageList"]).prevCounts;
+                    var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
                 }
                 @if (Model.msgPrivateList != null)
                 {
@@ -61,9 +65,53 @@
                     }
                 }
             </table>
-            @Html.PagesList((PageList<MsgModel>)TempData["PageList"])
+            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"])
         </div>
 
+        <div>
+            <h3 class="borderTitle2">已讀@(ViewBag.contentTitle)訊息</h3>
+            <table class="edittable">
+                <tr>
+                    <th style="width: 6%">編號</th>
+                    <th style="width: 40%">主題</th>
+                    <th style="width: 15%">發佈人</th>
+                    <th>回覆數</th>
+                    <th style="width: 15%">發佈日</th>
+                    <th>內容</th>
+                </tr>
+                @{
+                    var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
+                }
+                @if (Model.msgPrivateList2 != null)
+                {
+                    var i = 0;
+                    foreach (MsgModel md in Model.msgPrivateList2)
+                    {
+                        <tr class="active">
+                            <td>@((++i) + prevCounts2)</td>
+                            <td class="alignleft">
+                                @md.msg_title
+                            </td>
+                            <td>
+                                @md.company
+                            </td>
+                            <td>
+                                @md.rpy_cnt
+                            </td>
+                            <td>
+                                @md.create_time.ToString("yyyy/MM/dd")
+                            </td>
+                            <td>
+                                <div class="centerbox">
+                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"],1)
+        </div>
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");

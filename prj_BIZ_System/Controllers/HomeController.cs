@@ -265,9 +265,9 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("user_id", model.user_id);
                 cookie.Values.Add("company", HttpUtility.UrlEncode(model.company));
                 cookie.Values.Add("company_en", HttpUtility.UrlEncode(model.company_en));
-                cookie.Values.Add("website", model.website);
-                cookie.Values.Add("info", HttpUtility.UrlEncode(model.info));
-                cookie.Values.Add("info_en", model.info_en);
+//                cookie.Values.Add("website", model.website);
+//                cookie.Values.Add("info", HttpUtility.UrlEncode(model.info));
+//                cookie.Values.Add("info_en", model.info_en);
                 cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
                 Response.AppendCookie(cookie);
 

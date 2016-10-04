@@ -210,7 +210,7 @@
                                         </div>
                                     </li>
                                 }
-                                @Html.PagesList((PageList<ProductListModel>)TempData["PageList"]);
+                                @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"]);
                             }
                             else
                             {
