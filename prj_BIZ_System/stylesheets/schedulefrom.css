@@ -1,0 +1,11 @@
+.edittable {
+  display: block;
+  width: auto;
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  clear: both;
+  margin-top: 5px;
+}
+
+/*# sourceMappingURL=schedulefrom.css.map */
