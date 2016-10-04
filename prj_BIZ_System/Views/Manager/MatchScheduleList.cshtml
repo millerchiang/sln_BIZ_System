@@ -11,6 +11,7 @@
 
 @{
     <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/schedulefrom.css" rel="stylesheet" />
 }
 
 <div class="article_col1">
@@ -184,15 +185,6 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
-        /*儲存媒合資料*/
-        $("#saveMatchData").click(function () {
-            $("#form").submit();
-        });
-
-        /*下拉式選單媒合資料初始化*/
-        initMarchData();
-    });
 
     var sellerCompanys = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerCompany));
     var sellerIds      = @Html.Raw(Json.Encode(Model.matchMakingScheduleSellerId));
@@ -200,22 +192,27 @@
     var sellerCounts   = @Model.matchMakingScheduleSellerCompany.Count();
     var periodCounts   = @Model.schedulePeriodSetList.Count();
     var buyerCounts    = @Model.buyerinfoList.Count();
+    var allSellerId;
+    var allSellerCompany;
+    var activity_id = $("input[name='activity_id']").val();
 
+    $(function () {
+        /*儲存媒合資料*/
+        $("#saveMatchData").click(function () {
+            if(sellerCounts != 0){
+                $("#form").submit();
+            }else{
+                return false;
+            }
+        });
+
+    });
 
     function GetBeforeSellerValue(sellerIdCount){
         var selectedSellerValue = $("#seller_id"+sellerIdCount + " option:selected").val();
         notChangedBeforeSellerValue = selectedSellerValue;
     }
-    var allSellerId;
-    var allSellerCompany;
-    var activity_id = $("input[name='activity_id']").val();
-
-
-    function initMarchData(){
-
-    }
-
-
+    
     /*下拉式選單後橫排及豎排不能複選功能*/
     function PullDownMenus(sellerIdCount) {
         var selectedSellerText = $("#seller_id" + sellerIdCount + " option:selected").text();
@@ -262,7 +259,6 @@
                 }
             }
         });
-
     }
 
 </script>

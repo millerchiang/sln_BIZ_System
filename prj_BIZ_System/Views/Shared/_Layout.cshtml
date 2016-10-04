@@ -21,56 +21,56 @@
         <div class="headerbox">
             <ul class="head_langBu">
 
-@if (ViewBag.Form != "Manager")
-{
-    if (Request.Cookies["UserInfo"] != null)
-    {
-        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Home")</li>
-    }
-        if (ViewBag.Title != "Index")
-        {
-        <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_backhome, "Index", "Home")</li>
-        }
+                @if (ViewBag.Form != "Manager")
+                {
+                    if (Request.Cookies["UserInfo"] != null)
+                    {
+                        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Home")</li>
+                    }
+                    if (ViewBag.Title != "Index")
+                    {
+                        <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_backhome, "Index", "Home")</li>
+                    }
 
-    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
-    {
-        <li><span class="active">中文</span></li>
-        <li>@Html.ActionLink("English", "SetCulture", "Home", new { Culture = "en-US", returnUrl = this.Request.RawUrl }, null)</li>
-    }
-    else
-    {
-        <li>@Html.ActionLink("中文", "SetCulture", "Home", new { Culture = "zh-TW", returnUrl = this.Request.RawUrl }, null)</li>
-        <li><span class="active">English</span></li>
-    }
+                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                    {
+                        <li><span class="active">中文</span></li>
+                        <li>@Html.ActionLink("English", "SetCulture", "Home", new { Culture = "en-US", returnUrl = this.Request.RawUrl }, null)</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("中文", "SetCulture", "Home", new { Culture = "zh-TW", returnUrl = this.Request.RawUrl }, null)</li>
+                        <li><span class="active">English</span></li>
+                    }
 
-}
-else
-{
-    if (ViewBag.Title != "Login")
-    {
+                }
+                else
+                {
+                    if (ViewBag.Title != "Login")
+                    {
 
-        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Manager")</li>
-    }
-}
+                        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Manager")</li>
+                    }
+                }
             </ul>
             <h1 class="head_logo">
-@if (ViewBag.Form != "Manager")
-{
-    <a href="~/Home/Index">Matchmaking System</a>
-}
-else
-{
-    <a href="~/Manager/Index">Matchmaking System</a>
-}
+                @if (ViewBag.Form != "Manager")
+                {
+                    <a href="~/Home/Index">Matchmaking System</a>
+                }
+                else
+                {
+                    <a href="~/Manager/Index">Matchmaking System</a>
+                }
             </h1>
             <nav class="head_nav">
                 <ul>
                     @if (ViewBag.Form != "Manager")
-{
+                    {
 
 
-                            <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_company, "Company", "Home")</li>
-                            <li>
+                        <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_company, "Company", "Home")</li>
+                        <li>
                             <a href="/Home/News">@prj_BIZ_System.LanguageResource.User.lb_latest_activitynews</a>
                             <ul>
                                 <li><a href="/Home/News?type=1">@prj_BIZ_System.LanguageResource.User.lb_news</a></li>
@@ -87,15 +87,15 @@ else
                                     <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
                                     <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
                                     @*<li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
-                                    <li>
-                                        <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
-                                        <ul>
-                                            <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
-                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
-                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
-                                            <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
-                                        </ul>
-                                    </li>*@
+                                        <li>
+                                            <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
+                                            <ul>
+                                                <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
+                                                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
+                                                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
+                                                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
+                                            </ul>
+                                        </li>*@
                                 </ul>
                             </li>
                             <li>
@@ -103,68 +103,68 @@ else
                                 <ul>
                                     <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_private</a></li>
                                     @*<li><a href="/Message/MessageCompanyList">@prj_BIZ_System.LanguageResource.User.lb_msg_company</a></li>
-                                    <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</a></li>*@
+                                        <li><a href="/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</a></li>*@
                                 </ul>
                             </li>
                         }
-}
+                    }
                     else
                     {
                         if (ViewBag.Title != "Login")
                         {
                             if (Request.Cookies["ManagerInfo"]["manager"] != "0")
                             {
-                            <li>
-                                <a href="javascript:void(0)">管理者權限</a>
-                                <ul>
-                                    <li><a href="/Manager/ManagerInfo">管理者帳號</a></li>
-                                    <li><a href="/Manager/SalesInfo">業務會員帳號查詢</a></li>
-                                    <li><a href="/Manager/Group">群組權限設定</a></li>
-                                    <li><a href="/Manager/EditPasswd">管理者密碼修改</a></li>
-                                </ul>
-                            </li>
+                                <li>
+                                    <a href="javascript:void(0)">管理者權限</a>
+                                    <ul>
+                                        <li><a href="/Manager/ManagerInfo">管理者帳號</a></li>
+                                        <li><a href="/Manager/SalesInfo">業務會員帳號查詢</a></li>
+                                        <li><a href="/Manager/Group">群組權限設定</a></li>
+                                        <li><a href="/Manager/EditPasswd">管理者密碼修改</a></li>
+                                    </ul>
+                                </li>
                             }
                             if (Request.Cookies["ManagerInfo"]["push"] != "0")
                             {
-                            <li>
-                                <a href="javascript:void(0)">推播管理</a>
-                                <ul>
-                                    <li><a href="/Push/SearchPushList">自訂推播列表</a></li>
-                                    <li><a href="/Push/EditPushSample">範本管理</a></li>
-                                </ul>
-                            </li>
+                                <li>
+                                    <a href="javascript:void(0)">推播管理</a>
+                                    <ul>
+                                        <li><a href="/Push/SearchPushList">自訂推播列表</a></li>
+                                        <li><a href="/Push/EditPushSample">範本管理</a></li>
+                                    </ul>
+                                </li>
                             }
                             if (Request.Cookies["ManagerInfo"]["news"] != "0")
                             {
-                            <li>
-                                <a href="javascript:void(0)">新聞管理</a>
-                                <ul>
-                                    <li><a href="/Manager/B_NewsList?news_type=1">一般新聞</a></li>
-                                    <li><a href="/Manager/B_NewsList?news_type=0">活動新聞</a></li>
-                                </ul>
-                            </li>
+                                <li>
+                                    <a href="javascript:void(0)">新聞管理</a>
+                                    <ul>
+                                        <li><a href="/Manager/B_NewsList?news_type=1">一般新聞</a></li>
+                                        <li><a href="/Manager/B_NewsList?news_type=0">活動新聞</a></li>
+                                    </ul>
+                                </li>
                             }
                             if (Request.Cookies["ManagerInfo"]["activity"] != "0")
                             {
-                            <li>
-                                <a href="javascript:void(0)">活動管理</a>
-                                <ul>
-                                    <li><a href="/Manager/EditActivity">新建活動</a></li>
-                                    <li><a href="/Manager/ActivityList">活動列表</a></li>
-                                    <li><a href="/Manager/BuyerInfoList">買主資訊</a></li>
-                                    <li><a href="/Manager/ActivityRegisterCheck">活動報名審核</a></li>
-                                </ul>
-                            </li>
+                                <li>
+                                    <a href="javascript:void(0)">活動管理</a>
+                                    <ul>
+                                        <li><a href="/Manager/EditActivity">新建活動</a></li>
+                                        <li><a href="/Manager/ActivityList">活動列表</a></li>
+                                        <li><a href="/Manager/BuyerInfoList">買主資訊</a></li>
+                                        <li><a href="/Manager/ActivityRegisterCheck">活動報名審核</a></li>
+                                    </ul>
+                                </li>
                             }
                             if (Request.Cookies["ManagerInfo"]["user"] != "0")
                             {
-                            <li>
-                                <a href="javascript:void(0)">產業會員管理</a>
-                                <ul>
-                                    <li><a href="/Manager/UserList">會員帳號管理</a></li>
-                                    <li><a href="/Manager/UserInfoImport">匯入產業會員</a></li>
-                                </ul>
-                            </li>
+                                <li>
+                                    <a href="javascript:void(0)">產業會員管理</a>
+                                    <ul>
+                                        <li><a href="/Manager/UserList">會員帳號管理</a></li>
+                                        <li><a href="/Manager/UserInfoImport">匯入產業會員</a></li>
+                                    </ul>
+                                </li>
                             }
                             @*<li>@Html.ActionLink("登出", "Logout", "Manager")</li>*@
 
@@ -176,10 +176,23 @@ else
             </nav>
         </div>
     </header>
-    <main>
+    @{
+        var mainclass = "";
+        if (Request.Cookies["mainclass"] !=null && Request.Cookies["mainclass"].Value != null)
+        {
+            mainclass = Request.Cookies["mainclass"].Value;
+        }
+
+    }
+    <main class="@mainclass">
         @RenderBody()
     </main>
-
+    @{
+        if (Request.Cookies["mainclass"]!=null)
+        {
+            Request.Cookies["mainclass"].Value = null;
+        }
+    }
     <footer>
         <div class="footerbox">
             <nav>
@@ -213,13 +226,15 @@ else
         </div>
     </footer>
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-81493318-1', 'auto');
-  ga('send', 'pageview');
+        ga('create', 'UA-81493318-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
 </body>
