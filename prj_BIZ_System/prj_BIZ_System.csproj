@@ -881,6 +881,9 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
+    <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

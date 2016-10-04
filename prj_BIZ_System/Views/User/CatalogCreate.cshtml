@@ -5,6 +5,7 @@
 }
 
 @section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
     <link href="/stylesheets/registerd.css" rel="stylesheet" />
 }
 
@@ -17,13 +18,15 @@
 				<label for="catalog_name">型錄名稱:</label>
 				<input type="text" id="catalog_name" name="catalog_name">
 			</div>		
-            <div class="uploadlist">
-                <label class="choose_file" id="upload" for="cover_file">上傳封面</label>
-                <input type="file" id="cover_file" name="cover_file">
+            <div class="magb30">
+                <label class="choose_file" id="upload" for="upexl">上傳封面</label>
+                <input type="file" id="upexl" name="cover_file">
+                <input type="text" id="upexl_name" name="cover_file_name">
             </div>
-            <div class="uploadlist">
+            <div class="magb30">
                 <label class="choose_file" id="upload" for="catalog_file">@prj_BIZ_System.LanguageResource.User.lb_pdfupload</label>
-                <input type="file" id="catalog_file" name="catalog_file">
+                <input type="file" id="catalog_file" style="display:none" name="catalog_file">
+                <input type="text" id="catalog_file_name" name="catalog_file_name">
             </div>
             <div class="centerbox">
                 <button type="submit" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_submit_sure</button>
@@ -41,6 +44,19 @@
     });
 
     function init() {
+
+        $("#upexl").on("change", function () {
+            var upval = $(this).val();
+            var upvalfilename = upval.replace("C:\\fakepath\\", "");
+            $("#upexl_name").val(upvalfilename);
+        });
+        
+        $("#catalog_file").on("change", function () {
+            var upval = $(this).val();
+            var upvalfilename = upval.replace("C:\\fakepath\\", "");
+            $("#catalog_file_name").val(upvalfilename);
+        });
+
         var re_for_pic = /\.(jpg|gif|png|JPG|GIF|PNG)$/i;
         var re_for_pdf = /\.(pdf|PDF)$/i;
         $("#form").submit(function () {
