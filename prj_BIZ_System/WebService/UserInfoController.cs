@@ -248,7 +248,17 @@ namespace prj_BIZ_System.WebService
                 string message = string.Format("user_id null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             }
-            var allProduct = userService.getAllProduct(user_id);
+            var allProduct = userService.getAllProduct(user_id).Select(
+                                            product =>
+                                            new
+                                            {
+                                                product.product_category,
+                                                product.product_name,
+                                                product.product_info,
+                                                product.model_no,
+
+                                            }
+                                        );
             return Request.CreateResponse(HttpStatusCode.OK, allProduct);
         }
 
@@ -260,7 +270,16 @@ namespace prj_BIZ_System.WebService
                 string message = string.Format("user_id null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
             }
-            var allCatalog = userService.getAllCatalog(user_id);
+            var allCatalog = userService.getAllCatalog(user_id).Select(
+                                            catalogListModel => 
+                                            new
+                                            {
+                                                catalogListModel.catalog_no,
+                                                catalogListModel.catalog_name,
+                                                catalogListModel.cover_file,
+                                                catalogListModel.catalog_file
+                                            }
+                                        );
             return Request.CreateResponse(HttpStatusCode.OK, allCatalog);
         }
 
