@@ -29,7 +29,7 @@
             <tr>
                 <td><a href="/User/UserInfo?user_id=@sellerInfoModel.user_id" target="_blank">@sellerInfoModel.user_id</a></td>
                 <td>@company</td>
-                <td><a href="ShowRegisterinfoForSeller?activity_id=@(ViewBag.activity_id)&user_id=@(sellerInfoModel.user_id)" target="_blank">報名資料</a></td>
+                <td><a href="ShowRegisterinfoForSeller?activity_id=@(ViewBag.activity_id)&user_id=@(sellerInfoModel.user_id)" target="_blank">@(prj_BIZ_System.LanguageResource.User.lb_registerinfo)</a></td>
             </tr>
         }
     </table>

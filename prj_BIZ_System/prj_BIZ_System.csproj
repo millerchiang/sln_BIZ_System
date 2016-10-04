@@ -876,6 +876,7 @@
     <Content Include="stylesheets\schedule.css" />
     <Content Include="stylesheets\schedulefrom.css" />
     <Content Include="stylesheets\screen.css" />
+    <Content Include="stylesheets\servicepolicy.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
     <Content Include="Views\Manager\ActivityRegisterCheck.cshtml" />
@@ -883,6 +884,9 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
+    <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -963,6 +967,9 @@
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\AppDownload.cshtml" />
     <Content Include="Views\Home\Errfile.cshtml" />
+    <Content Include="stylesheets\AccountManage.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
+    <Content Include="Views\Home\Servicepolicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

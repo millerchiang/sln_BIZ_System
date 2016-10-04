@@ -337,15 +337,27 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult AboutUs()
         {
+            docookie("mainclass", "main2");
             return View();
         }
 
         public ActionResult AppDownload()
         {
+            docookie("mainclass", "main2 appbox");
             return View();
         }
 
         public ActionResult Errfile()
+        {
+            return View();
+        }
+
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult Servicepolicy()
         {
             return View();
         }

@@ -154,6 +154,28 @@ namespace prj_BIZ_System.Services
             param.is_public = "0";
             return mapper.Insert("Message.InsertMsg", param);
         }
+        
+        public IList<MsgModel> SelectMsgClusterPublic(string cluster_no , string user_id, string kw)
+        {
+            var cluster_no_int = 0;
+            var param = new MsgModel();
+            if (Int32.TryParse(cluster_no, out cluster_no_int))
+            {
+                param = new MsgModel() { cluster_no = cluster_no_int , is_public ="1", msg_member = null , msg_title = kw , creater_id = user_id };
+            }
+            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
+        }
+
+        public IList<MsgModel> SelectMsgClusterPrivate(string cluster_no , string user_id, string kw)
+        {
+            var cluster_no_int = 0;
+            var param = new MsgModel();
+            if (Int32.TryParse(cluster_no, out cluster_no_int))
+            {
+                param = new MsgModel() { cluster_no = cluster_no_int , is_public = "0" , msg_title = kw , creater_id = user_id };
+            }
+            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
+        }
         #endregion
     }
 }

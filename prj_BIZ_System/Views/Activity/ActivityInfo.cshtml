@@ -114,7 +114,7 @@
 
 
 </div>
-<div id="dialog" title="註冊會員" style="display:none;">
+<div id="dialog" title=@(prj_BIZ_System.LanguageResource.User.lb_activityregister) style="display:none;">
     <p>
         <span class="instext"></span><br />
     </p>
@@ -132,13 +132,13 @@
             autoOpen: true,
             modal: true,
             buttons: {
-                "是": function () {
+                @(prj_BIZ_System.LanguageResource.User.lb_yes): function () {
                     window.location = "/Home/Index";
                     event.returnValue = false; //需要加上這行 Why??
                     //window.open(url); //如果是開窗就不用加 event.returnValue = false;
                     $(this).dialog("close");
                 },
-                "否": function () {
+                @(prj_BIZ_System.LanguageResource.User.lb_no): function () {
                     $(this).dialog("close");
                 }
             }

@@ -3,17 +3,17 @@
 
 
 @{
-    ViewBag.Title = "買主資訊列表";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_buyerinfo + @prj_BIZ_System.LanguageResource.User.lb_list;
 }
 <div class="article_col1">
 
     <article class="form_box article_col2">
-        <h2>買主資訊列表</h2>
+        <h2>@(prj_BIZ_System.LanguageResource.User.lb_buyerinfo + @prj_BIZ_System.LanguageResource.User.lb_list)</h2>
         <table class="edittable">
             <tr>
                 @*<th>買主帳號</th>*@
-                <th>公司名稱</th>
-                <th width="75%">買主媒合需求</th>
+                <th>@(prj_BIZ_System.LanguageResource.User.lb_companyname)</th>
+                <th width="75%">@(prj_BIZ_System.LanguageResource.User.lb_buyerneed)</th>
             </tr>
             @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
             {
