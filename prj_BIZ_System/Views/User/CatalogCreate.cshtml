@@ -15,11 +15,11 @@
         <h2>@prj_BIZ_System.LanguageResource.User.lb_catalogupload</h2>
         <form id="form" action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
 			<div class="uploadlist dmname">
-				<label for="catalog_name">型錄名稱:</label>
+				<label for="catalog_name">prj_BIZ_System.LanguageResource.User.lb_catalogname:</label>
 				<input type="text" id="catalog_name" name="catalog_name">
 			</div>		
             <div class="magb30">
-                <label class="choose_file" id="upload" for="upexl">上傳封面</label>
+                <label class="choose_file" id="upload" for="upexl">prj_BIZ_System.LanguageResource.User.lb_coverupload</label>
                 <input type="file" id="upexl" name="cover_file">
                 <input type="text" id="upexl_name" name="cover_file_name">
             </div>
@@ -50,7 +50,7 @@
             var upvalfilename = upval.replace("C:\\fakepath\\", "");
             $("#upexl_name").val(upvalfilename);
         });
-        
+
         $("#catalog_file").on("change", function () {
             var upval = $(this).val();
             var upvalfilename = upval.replace("C:\\fakepath\\", "");
@@ -85,7 +85,7 @@
     function checkValidationOk(catalog_name) {
         var errMsg = '';
         if (catalog_name == null || catalog_name == '') {
-            errMsg += '型錄名稱不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_catalog_is_empty \n';
         }
         return errMsg;
     }
