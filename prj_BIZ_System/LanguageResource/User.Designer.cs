@@ -232,6 +232,33 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 新北市ICT國際對接 的當地語系化字串。
+        /// </summary>
+        public static string lb_activity_photo1 {
+            get {
+                return ResourceManager.GetString("lb_activity_photo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 新北市4G而動-快速作業平臺 的當地語系化字串。
+        /// </summary>
+        public static string lb_activity_photo2 {
+            get {
+                return ResourceManager.GetString("lb_activity_photo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 新北市機械及金屬產業高值化拓展會 的當地語系化字串。
+        /// </summary>
+        public static string lb_activity_photo3 {
+            get {
+                return ResourceManager.GetString("lb_activity_photo3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 活動報名 的當地語系化字串。
         /// </summary>
         public static string lb_activity_register {
@@ -264,6 +291,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_activitylist {
             get {
                 return ResourceManager.GetString("lb_activitylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 活動照片 的當地語系化字串。
+        /// </summary>
+        public static string lb_activitypic {
+            get {
+                return ResourceManager.GetString("lb_activitypic", resourceCulture);
             }
         }
         
@@ -318,6 +354,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_amountofreply {
             get {
                 return ResourceManager.GetString("lb_amountofreply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 與會人數不可為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_amountparticipant_is_empty {
+            get {
+                return ResourceManager.GetString("lb_amountparticipant_is_empty", resourceCulture);
             }
         }
         
@@ -448,6 +493,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 手機號碼不可為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_celeno_is_empty {
+            get {
+                return ResourceManager.GetString("lb_celeno_is_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 修改密碼 的當地語系化字串。
         /// </summary>
         public static string lb_changepw {
@@ -534,6 +588,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_consult2seller {
             get {
                 return ResourceManager.GetString("lb_consult2seller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 主聯絡人不可為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_contact_is_empty {
+            get {
+                return ResourceManager.GetString("lb_contact_is_empty", resourceCulture);
             }
         }
         
@@ -826,6 +889,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 列表 的當地語系化字串。
+        /// </summary>
+        public static string lb_list {
+            get {
+                return ResourceManager.GetString("lb_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 會員登入 的當地語系化字串。
         /// </summary>
         public static string lb_login {
@@ -1051,6 +1123,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 與會人不可為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_participant_is_empty {
+            get {
+                return ResourceManager.GetString("lb_participant_is_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 密碼 的當地語系化字串。
         /// </summary>
         public static string lb_password {
@@ -1096,7 +1177,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 上傳小圖 的當地語系化字串。
+        ///   查詢類似 上傳封面 的當地語系化字串。
         /// </summary>
         public static string lb_photoupload {
             get {
@@ -1348,6 +1429,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 確認是否報名此活動? 的當地語系化字串。
+        /// </summary>
+        public static string lb_sureregister {
+            get {
+                return ResourceManager.GetString("lb_sureregister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 電話/分機 的當地語系化字串。
         /// </summary>
         public static string lb_tel {
@@ -1362,6 +1452,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_tel_contact {
             get {
                 return ResourceManager.GetString("lb_tel_contact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 電話/分機不可為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_telno_is_empty {
+            get {
+                return ResourceManager.GetString("lb_telno_is_empty", resourceCulture);
             }
         }
         
@@ -1488,6 +1587,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_zhtw_info {
             get {
                 return ResourceManager.GetString("lb_zhtw_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似  的當地語系化字串。
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

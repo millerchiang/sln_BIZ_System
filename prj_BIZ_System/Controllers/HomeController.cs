@@ -349,5 +349,15 @@ namespace prj_BIZ_System.Controllers
         {
             return View();
         }
+
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult Servicepolicy()
+        {
+            return View();
+        }
     }
 }
