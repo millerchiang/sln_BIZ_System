@@ -15,11 +15,11 @@
         <h2>@prj_BIZ_System.LanguageResource.User.lb_catalogupload</h2>
         <form id="form" action="@Url.Action("CatalogUpload","User")" class="uploaddm" method="post" enctype="multipart/form-data">
 			<div class="uploadlist dmname">
-				<label for="catalog_name">prj_BIZ_System.LanguageResource.User.lb_catalogname:</label>
+				<label for="catalog_name">@prj_BIZ_System.LanguageResource.User.lb_catalogname:</label>
 				<input type="text" id="catalog_name" name="catalog_name">
 			</div>		
             <div class="magb30">
-                <label class="choose_file" id="upload" for="upexl">prj_BIZ_System.LanguageResource.User.lb_coverupload</label>
+                <label class="choose_file" id="upload" for="upexl">@prj_BIZ_System.LanguageResource.User.lb_coverupload</label>
                 <input type="file" id="upexl" name="cover_file">
                 <input type="text" id="upexl_name" name="cover_file_name">
             </div>

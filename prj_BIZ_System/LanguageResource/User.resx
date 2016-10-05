@@ -736,4 +736,10 @@
   <data name="lb_seller" xml:space="preserve">
     <value>賣家</value>
   </data>
+  <data name="lb_msg" xml:space="preserve">
+    <value>訊息</value>
+  </data>
+  <data name="lb_ok" xml:space="preserve">
+    <value>確定</value>
+  </data>
 </root>

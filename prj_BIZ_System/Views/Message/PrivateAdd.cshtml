@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "新增"+ ViewBag.contentTitle + "訊息";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_add + ViewBag.contentTitle + prj_BIZ_System.LanguageResource.User.lb_msg;
 }
 
 @section pagestyle{
@@ -16,15 +16,15 @@
     <article class="article_col2">
 
             <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
-                <h2>新增@(ViewBag.contentTitle)訊息</h2>
-                <label for="" class="regis_col02L">對象</label>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_add@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
+                <label for="" class="regis_col02L">訊息對象</label>
                 <div class="regis_col02R tagsbox">
                     <ul id="taglist"></ul>
                     <input name="msg_member" id="tags" class="tagtext">
                 </div>
-                <label for="" class="regis_col02L">主題</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</label>
                 <input name="msg_title" type="text" class="regis_col02R">
-                <label for="" class="regis_col02L">內容</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
                 <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="三百字以內" maxlength="300"></textarea>
                 <label for="" class="regis_col02L">上傳附件</label>
                 <div class="regis_col02R">
@@ -33,8 +33,8 @@
                     <ul id="output"></ul>
                 </div>
                 <div class="centerbox">
-                    <button type="submit" class="buinfor">確定新增</button>
-                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle)訊息</a>
+                    <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
+                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
                 </div>
 
             </form>
@@ -72,7 +72,7 @@
 			    if ($("#output li").size() > 0) {
 			        $("#upload").text("重選檔案");
 			    } else {
-			        $("#upload").text("選擇檔案");
+			        $("#upload").text("選取檔案");
 			    }
 			});
 			

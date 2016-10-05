@@ -1123,6 +1123,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 訊息 的當地語系化字串。
+        /// </summary>
+        public static string lb_msg {
+            get {
+                return ResourceManager.GetString("lb_msg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 聚落訊息 的當地語系化字串。
         /// </summary>
         public static string lb_msg_cluster {
@@ -1272,6 +1281,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_nonefile {
             get {
                 return ResourceManager.GetString("lb_nonefile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 確定 的當地語系化字串。
+        /// </summary>
+        public static string lb_ok {
+            get {
+                return ResourceManager.GetString("lb_ok", resourceCulture);
             }
         }
         

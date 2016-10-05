@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Match_ViewModel
 
 @{
-    ViewBag.Title = "@prj_BIZ_System.LanguageResource.User.lb_matchmaking ( @prj_BIZ_System.LanguageResource.User.lb_buyer )";
+    ViewBag.Title = @prj_BIZ_System.LanguageResource.User.lb_matchmaking + "(" + @prj_BIZ_System.LanguageResource.User.lb_buyer + ")";
 }
 
 @Styles.Render("~/Content/jqueryUI")
