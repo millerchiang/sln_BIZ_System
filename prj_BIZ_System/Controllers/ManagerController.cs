@@ -1385,6 +1385,7 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 媒合時程大表條件限制
+        [HttpPost]
         public ActionResult MatchConstrains(string[] allSellerId, int activity_id)
         {
             string IsBothOrBuyer;
@@ -1483,7 +1484,7 @@ namespace prj_BIZ_System.Controllers
             }
 
             //var result = new { filteredSellerData = matchModel.matchSellerCompanyDatamergeList, selectedSellerData = allSellerCompany };
-            return Json(matchModel.matchSellerCompanyDatamergeList, JsonRequestBehavior.AllowGet);
+            return Json(matchModel.matchSellerCompanyDatamergeList);
         }
         #endregion
 
@@ -1569,14 +1570,43 @@ namespace prj_BIZ_System.Controllers
         //[HttpGet]
         //public ActionResult ExportExcelByNPOI()
         //{
+        //    if(Request.Cookies["ManagerInfo"] == null){
+        //        return Redirect("Login");
+        //    }
+
+        //    /*讀取樣板*/
+        //    //string ExcelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
+        //    string ExcelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
+        //    FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.ReadWrite);
+        //    IWorkbook workbook = new HSSFWorkbook(Template);
+        //    Template.Close();
+
+        //    //ISheet _sheet = workbook.GetSheetAt(0);
+        //    // 取得剛剛在Excel設定的字型 (第二列首欄)
+        //    //ICellStyle CellStyle = _sheet.GetRow(0).Cells[0].CellStyle;
+             
+
         //    string SavePath = @"D:/Download/matchmaking.xls";
         //    return File(SavePath, );
         //}
+
+        /// <summary>NPOI新增儲存格資料</summary>
+        /// <param name="Word">顯示文字</param>
+        /// <param name="ContentRow">NPOI IROW</param>
+        /// <param name="CellIndex">儲存格列數</param>
+        /// <param name="cellStyleBoder">ICellStyle樣式</param>
+        /// <returns></returns>
+        private static void CreatCell(string Word, IRow ContentRow, int CellIndex, ICellStyle cellStyleBoder)
+        {
+            ICell _cell = ContentRow.CreateCell(CellIndex);
+            _cell.SetCellValue(Word);
+            _cell.CellStyle = cellStyleBoder;
+        }
         #endregion
 
         #region 媒合大表匯出Excel舊版
         [HttpGet]
-        public ActionResult ExportExcelByNPOI()
+        public ActionResult ExportExcelByNPOI_old()
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
