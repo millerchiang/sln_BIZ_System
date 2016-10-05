@@ -153,7 +153,7 @@ namespace prj_BIZ_System.Models
         public IList<ClusterInfoModel> clusterInfoList { get; set; }
         public IList<ClusterFileModel> clusterFileList { get; set; }
         public IList<ClusterMemberModel> clusterMemberList { get; set; }
-        public IList<ClusterInfo> clusterWebServiceInfoList { get; set; }
+        public IList<ClusterDetailModel> clusterWebServiceInfoList { get; set; }
 
     }
 
