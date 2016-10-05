@@ -117,7 +117,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.coverDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCover;
                 ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
                 ViewBag.PageType = "CreateRegister";
-                ViewBag.SubmitName = "送出報名";
+                ViewBag.SubmitName = LanguageResource.User.lb_submit;
 
             }else {
                 ViewBag.Action = "EditActivityRegisterUpdate";
@@ -142,7 +142,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.catalogDir = UploadConfig.UploadRootPath + activityModel.activityregister.user_id + "/" + UploadConfig.subDirForCatalog;
 
                 ViewBag.PageType = "UpdateRegister";
-                ViewBag.SubmitName = "確認修改";
+                ViewBag.SubmitName = LanguageResource.User.lb_submit_sure;
             }
             return View(activityModel);
         }
