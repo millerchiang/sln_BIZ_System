@@ -1914,5 +1914,14 @@ namespace prj_BIZ_System.LanguageResource {
                 return ResourceManager.GetString("lb_zhtw_info", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查詢類似  的當地語系化字串。
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
     }
 }
