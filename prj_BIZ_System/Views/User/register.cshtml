@@ -86,7 +86,23 @@
 
  <div class="article_col1">
     <article class="form_box article_col2">
-        <h2>@prj_BIZ_System.LanguageResource.User.lb_profile</h2>
+        @if (ViewBag.PageType != "Create")
+        {
+            var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                if (company_en != null && company_en != "")
+                {
+                    company = company_en;
+                }
+            }
+            <h2>@company - @prj_BIZ_System.LanguageResource.User.lb_profile</h2>
+        }
+        else
+        {
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_profile</h2>
+        }
 
         @*@if (ViewBag.PageType != "Create")
         {
