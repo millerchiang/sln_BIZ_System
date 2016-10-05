@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Message_ViewModel
 
 @{
-    ViewBag.Title = ViewBag.contentTitle + "訊息內容";
+    ViewBag.Title = ViewBag.contentTitle + prj_BIZ_System.LanguageResource.User.lb_msg;
 }
 
 @section pagestyle{
@@ -16,7 +16,7 @@
     <article class="article_col2">
 
         <form id="form" action="@Url.Action("doPrivateDetailed")" class="form_box sys_searchbox">
-            <h2>@(ViewBag.contentTitle)訊息</h2>
+            <h2>@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
 
             <div class="regis_col02L">發佈人</div>
             <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
@@ -24,13 +24,13 @@
             <div class="regis_col02L">訊息對象</div>
             <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
 
-            <div class="regis_col02L">發佈日期</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_date</div>
             <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
 
-            <div class="regis_col02L">主題</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</div>
             <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
 
-            <div class="regis_col02L">內容</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</div>
             <p class="regis_col02R contentspan">
                 @Model.msgPrivate.msg_content
             </p>
@@ -69,7 +69,7 @@
             </div>
 
             <div class="centerbox">
-                <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)訊息</a>
+                <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
             </div>
 
         </form>

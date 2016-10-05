@@ -215,7 +215,7 @@
 
             <br /><br />
             
-            @if (Model.userinfo.enterprise_type == "0")
+            @if (Model.userinfo.enterprise_type==null || Model.userinfo.enterprise_type == "0")
             {
             <label id="lbcapital" for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
             <div class="regis_col02R" id="capital">

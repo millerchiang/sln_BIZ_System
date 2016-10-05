@@ -87,11 +87,11 @@ namespace prj_BIZ_System.Controllers
             if (buyerArray.Any())
             {
                 ViewBag.PageType = "Edit";
-                ViewBag.SubmitName = "修改";
+                ViewBag.SubmitName = LanguageResource.User.lb_edit;
             }
             else {
                 ViewBag.PageType = "Create";
-                ViewBag.SubmitName = "新增";
+                ViewBag.SubmitName = LanguageResource.User.lb_add;
             }
 
             return View(matchModel);
@@ -195,12 +195,12 @@ namespace prj_BIZ_System.Controllers
             if (sellerArray.Any())
             {
                 ViewBag.PageType = "Edit";
-                ViewBag.SubmitName = "修改";
+                ViewBag.SubmitName = LanguageResource.User.lb_edit;
             }
             else
             {
                 ViewBag.PageType = "Create";
-                ViewBag.SubmitName = "新增";
+                ViewBag.SubmitName = LanguageResource.User.lb_add;
             }
 
             return View(matchModel);

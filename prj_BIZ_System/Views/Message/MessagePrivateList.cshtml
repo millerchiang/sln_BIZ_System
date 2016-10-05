@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = ViewBag.contentTitle+"訊息列表";
+    ViewBag.Title = ViewBag.contentTitle+ prj_BIZ_System.LanguageResource.User.lb_msg;
 }
 
 @section pagestyle{
@@ -14,25 +14,25 @@
 
 <div class="article_col1">
     <article class="article_col2 form_box">
-        <h2>@(ViewBag.contentTitle)訊息</h2>
+        <h2>@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
         <div class="magb30">
             <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
                 <input type="text" name="keyword" placeholder="請輸入查詢條件" value="@ViewBag.keyword">
                 <a id="searchBtn" href="javascript:void(0)" class="addbublue magb10">查詢</a>
-                <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">新增</a>
+                <a href="@Url.Action(ViewBag.addUrl)" class="addbu rightbox">@prj_BIZ_System.LanguageResource.User.lb_add</a>
             </form>
         </div>
         <div class="magb30">
-            <h3 class="borderTitle2">未讀@(ViewBag.contentTitle)訊息</h3>
+            <h3 class="borderTitle2">未讀@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h3>
             
             <table class="edittable">
                 <tr>
-                    <th style="width: 6%">編號</th>
-                    <th style="width: 40%">主題</th>
+                    <th style="width: 6%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                    <th style="width: 40%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
                     <th style="width: 15%">發佈人</th>
-                    <th>回覆數</th>
-                    <th style="width: 15%">發佈日</th>
-                    <th>內容</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                    <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
                 </tr>
                 @{
                     var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
@@ -58,7 +58,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>
@@ -69,15 +69,15 @@
         </div>
 
         <div>
-            <h3 class="borderTitle2">已讀@(ViewBag.contentTitle)訊息</h3>
+            <h3 class="borderTitle2">已讀@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h3>
             <table class="edittable">
                 <tr>
-                    <th style="width: 6%">編號</th>
-                    <th style="width: 40%">主題</th>
+                    <th style="width: 6%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                    <th style="width: 40%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
                     <th style="width: 15%">發佈人</th>
-                    <th>回覆數</th>
-                    <th style="width: 15%">發佈日</th>
-                    <th>內容</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                    <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
                 </tr>
                 @{
                     var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
@@ -103,7 +103,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>

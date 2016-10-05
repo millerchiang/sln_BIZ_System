@@ -231,7 +231,7 @@
         console.log("allSellerCompany:"+allSellerCompany);
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "@Url.Action("MatchConstrains", "Manager")",
             data: {"allSellerId": allSellerId, "allSellerCompany": allSellerCompany, "activity_id":activity_id},
             traditional:true,

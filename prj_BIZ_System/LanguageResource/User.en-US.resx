@@ -734,4 +734,10 @@ To complete the registration of members, thank you!</value>
   <data name="lb_seller" xml:space="preserve">
     <value>Seller</value>
   </data>
+  <data name="lb_msg" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="lb_ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>
