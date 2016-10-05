@@ -343,7 +343,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult AppDownload()
         {
-            docookie("mainclass", "main appbox");
+            docookie("mainclass", "main2 appbox");
             return View();
         }
 

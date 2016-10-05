@@ -14,7 +14,7 @@
         Html.RenderAction("_NavSearchPartial");
     }
     <article class="article_col2 form_box">
-        <h2>上傳影音型錄</h2>
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_addvideo</h2>
         <form action="@Url.Action("VideoUpload","User")" class="uploaddm" method="post" >
 
             <div class="uploadlist">
@@ -70,7 +70,7 @@
     function checkValidationOk(catalog_name) {
         var errMsg = '';
         if (catalog_name == null || catalog_name == '') {
-            errMsg += '型錄名稱不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_catalog_is_empty \n';
         }
         return errMsg;
     }

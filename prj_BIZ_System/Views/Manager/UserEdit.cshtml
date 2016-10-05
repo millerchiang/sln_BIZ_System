@@ -334,10 +334,10 @@
         var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
         var errMsg = '';
         if (user_pw == null || user_pw == '') {
-            errMsg += '新密碼不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_newpw_is_empty \n';
         } else {
             if(!reg.test(user_pw)){
-                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+                errMsg += '@prj_BIZ_System.LanguageResource.User.lb_pwset8 \n';
             }
         }
         alert(user_pw);
@@ -360,7 +360,7 @@
     }
     function chkuser1() {
         var user_id = $("input[name='user_id']").val();
-        if (user_id != null && user_id != '') 
+        if (user_id != null && user_id != '')
         {
             $.ajax({
                 type: "get",
@@ -372,7 +372,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        $("input[name='user_id']").focus();                
+                        $("input[name='user_id']").focus();
                     } else {
 //                        clearchk();
 //                        $("input[name='company']").val(result.Company_Name);
@@ -395,7 +395,7 @@
     function chkuser() {
 
         var user_id = $("input[name='user_id']").val();
-        if (user_id != null && user_id != '') 
+        if (user_id != null && user_id != '')
         {
             $.ajax({
                 type: "get",
@@ -407,7 +407,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        $("input[name='user_id']").focus();                
+                        $("input[name='user_id']").focus();
                     } else {
                         clearchk();
                         $("input[name='company']").val(result.Company_Name);

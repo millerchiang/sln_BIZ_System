@@ -92,7 +92,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
+                ViewBag.userSortList = HttpUtility.UrlEncode(serializer.Serialize(userModel.usersortList));
                 ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
                 if (ViewBag.userSortList == null)
                 {

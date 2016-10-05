@@ -17,35 +17,35 @@
             <div class="magb30">
 
                 <span class="regis_col02L regis_col_bg2">
-                    類型:
+                    @prj_BIZ_System.LanguageResource.User.lb_p_category:
                 </span>
                 <span class="regis_col02R contentspan">
                     @Model.product_category
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
-                    產品名稱:
+                    @prj_BIZ_System.LanguageResource.User.lb_product_name:
                 </span>
                 <span class="regis_col02R contentspan">
                     @Model.product_name
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
-                    商品型號:
+                    @prj_BIZ_System.LanguageResource.User.lb_p_model:
                 </span>
                 <span class="regis_col02R contentspan">
                     @Model.model_no
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
-                    產品資料:
+                    @prj_BIZ_System.LanguageResource.User.lb_p_info:
                 </span>
                 <p class="regis_col02R contentspan">
                     @Model.product_info
                 </p>
 
                 <span class="regis_col02L regis_col_bg2">
-                    商品專利/得獎:
+                    @prj_BIZ_System.LanguageResource.User.lb_p_patent:
                 </span>
                 <p class="regis_col02R contentspan">
                     @Model.patent_or_winners
@@ -53,7 +53,7 @@
 
 
                 <span class="regis_col02L regis_col_bg2">
-                    商品規格或其它:
+                    @prj_BIZ_System.LanguageResource.User.lb_p_specification:
                 </span>
                 <p class="regis_col02R contentspan">
                     @Model.specifications_or_other
@@ -63,7 +63,7 @@
 
             </div>
             <div class="centerbox magb30">
-                <a href="../User/UserInfo?user_id=@(Model.user_id)#1" class="submitbu">回產品列表</a>
+                <a href="../User/UserInfo?user_id=@(Model.user_id)#1" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back_pdlist</a>
             </div>
         </section>
 

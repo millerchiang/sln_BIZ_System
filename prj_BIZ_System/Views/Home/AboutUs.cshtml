@@ -1,26 +1,16 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>生產力2.0</title>
-	<link rel="stylesheet" href="../../stylesheets/screen.css">
-	<link rel="stylesheet" href="../../stylesheets/aboutus.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-</head>
-<body>
-	<main class="main2">	
+﻿@using prj_BIZ_System.Models
+
+@{
+    ViewBag.Title = "AppDownload";
+}
+@section pagestyle{
+    <link href="~/stylesheets/aboutus.css" rel="stylesheet" />
+}
 		<article>
 			<section class="about_title">				
 				<h2>關於我們</h2>
 				<p>
-                    【BIZ】是新北市政府經濟發展局委託新北市電腦商業同業公會及
-                    昕傳科技股份有限公司於2016年成立的行動商務管理平台及APP，
-                    希望藉此強化產業供應鏈管理及策略性合作夥伴的關係，本平台整
-                    合商機拓展、市場開發、技術交流等服務，會員能有效率地運用產
-                    業及聚落的資源，協助業者突破組織既有封閉的疆界，以創新的商
-                    業模式促使產業升級。如有同業先進欲了解平台串接或系統合作事
-                    宜，請聯繫服務窗口，謝謝!
+                    【BIZ】是新北市政府經濟發展局委託新北市電腦商業同業公會及昕傳科技股份有限公司於2016年成立的行動商務管理平台及APP，希望藉此強化產業供應鏈管理及策略性合作夥伴的關係，本平台整合商機拓展、市場開發、技術交流等服務，會員能有效率地運用產業及聚落的資源，協助業者突破組織既有封閉的疆界，以創新的商業模式促使產業升級。如有同業先進欲了解平台串接或系統合作事宜，請聯繫服務窗口，謝謝!
 				</p>				
 			</section>
 			<div id="waveBox">
@@ -52,7 +42,3 @@
 			</div>
 			
 		</article>
-	</main>
-	<script src="js/regis.js"></script>
-</body>
-</html>

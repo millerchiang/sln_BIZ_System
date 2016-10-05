@@ -2,7 +2,7 @@
 @model prj_BIZ_System.Models.Match_ViewModel
 
 @{
-    ViewBag.Title = "商務對接(賣家)";
+    ViewBag.Title = "@prj_BIZ_System.LanguageResource.User.lb_matchmaking( @prj_BIZ_System.LanguageResource.User.lb_seller )";
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -17,13 +17,13 @@
     }
 
     <article class="form_box article_col2">
-        <h2>商務對接</h2>
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_matchmaking</h2>
         <form id="insertForm" action="@ViewBag.Action" method="post">
             <table class="edittable mg30">
                 <tr>
                     <th width="30%">公司名稱</th>
                     <th>商務媒合需求</th>
-                    <th style="width: 97px;">想與買主洽談</th>
+                    <th style="width: 97px;">@prj_BIZ_System.LanguageResource.User.lb_consult2buyer</th>
                 </tr>
                 @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                 {
@@ -65,9 +65,9 @@
     </article>
 </div>
 
-<div id="dialog" title="商務對接" style="display:none;">
+<div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_matchmaking" style="display:none;">
     <p>
-        <span>是否修改洽談對象</span>
+        <span>@prj_BIZ_System.LanguageResource.User.lb_changeselect</span>
     </p>
 </div>
 
