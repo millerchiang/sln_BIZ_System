@@ -627,7 +627,7 @@
   <data name="lb_telno_is_empty" xml:space="preserve">
     <value>電話/分機不可為空白</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="lb_ihaveagree" xml:space="preserve">
+    <value>我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</value>
   </data>
 </root>

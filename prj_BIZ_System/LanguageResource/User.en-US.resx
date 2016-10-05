@@ -625,4 +625,7 @@ Any further question, please contact adminstrator.</value>
   <data name="lb_telno_is_empty" xml:space="preserve">
     <value>Don't Forget To Enter the Tel number!</value>
   </data>
+  <data name="lb_ihaveagree" xml:space="preserve">
+    <value>I have read and agreed to the User Agreement and Privacy Policy, and consented to disclose the public information provided by your company.</value>
+  </data>
 </root>

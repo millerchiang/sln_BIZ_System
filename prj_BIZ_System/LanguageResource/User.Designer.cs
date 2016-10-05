@@ -817,6 +817,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。 的當地語系化字串。
+        /// </summary>
+        public static string lb_ihaveagree {
+            get {
+                return ResourceManager.GetString("lb_ihaveagree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 企業資料說明 的當地語系化字串。
         /// </summary>
         public static string lb_info {
@@ -1587,15 +1596,6 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_zhtw_info {
             get {
                 return ResourceManager.GetString("lb_zhtw_info", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似  的當地語系化字串。
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

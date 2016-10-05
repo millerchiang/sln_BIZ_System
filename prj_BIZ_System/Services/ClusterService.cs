@@ -1,5 +1,4 @@
 ﻿using prj_BIZ_System.Models;
-using prj_BIZ_System.WebService.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,16 +16,16 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
         }
 
-        public IList<ClusterInfo> GetClusterListByIdAndClusterEnable(string user_id, string cluster_enable)
+        public IList<ClusterDetailModel> GetClusterListByIdAndClusterEnable(string user_id, string cluster_enable)
         {
             ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable };
-            return mapper.QueryForList<ClusterInfo>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
         }
 
-        public ClusterInfo GetClusterDetailByNo(int cluster_no)
+        public ClusterDetailModel GetClusterDetailByNo(int cluster_no)
         {
             ClusterModel tempModel = new ClusterModel { cluster_no = cluster_no };
-            return mapper.QueryForObject<ClusterInfo>("Cluster.ClusterDetail", tempModel);
+            return mapper.QueryForObject<ClusterDetailModel>("Cluster.ClusterDetail", tempModel);
         }
 
         public IList<Hashtable> GetNotInClusterMember(int cluster_no)
