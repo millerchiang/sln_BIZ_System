@@ -148,22 +148,37 @@ namespace prj_BIZ_System.Controllers
             userModel.cataloglistList = userService.getAllCatalogTop(4);
             string sort_id = "";
             string kw = "";
+            string productname = "";
+            string catalogname = "";
             if (Request["companyName"]!= null)
                 kw = Request["companyName"];
             if (Request["sort_id"] != null)
                 sort_id = Request["sort_id"];
+            if (Request["productname"] != null)
+                productname = Request["productname"];
+            if (Request["catalogname"] != null)
+                catalogname = Request["catalogname"];
 
             if (sort_id != "")
             {
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
             }
-            else
+            else if (kw!="")
             {
                 userModel.userinfoList = userService.SelectUserKw(kw);
                 ViewBag.model = "userinfoList";
             }
-
+            else if (productname != "")
+            {
+                userModel.userinfoList = userService.SelectUserByProductName(productname);
+                ViewBag.model = "userinfoList";
+            }
+            else if (catalogname != "")
+            {
+                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
+                ViewBag.model = "catalogname";
+            }
 
             ViewBag.coverDir = UploadConfig.UploadRootPath;
 

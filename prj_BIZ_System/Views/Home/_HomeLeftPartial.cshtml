@@ -97,8 +97,12 @@
             <select name="searchbox" id="searchbox">
                 <option value="searchname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_companyname</option>
                 <option value="searchtype">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_scope</option>
+                <option value="searchpdname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_product_name </option>
+                <option value="searchclname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_catalogname</option>
             </select>
             <input type="text" id="searchname" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
+            <input type="text" id="searchpdname" name="productname" placeholder="@prj_BIZ_System.LanguageResource.User.lb_product_name" style="display:none">
+            <input type="text" id="searchclname" name="catalogname" placeholder="@prj_BIZ_System.LanguageResource.User.lb_catalogname" style="display:none">
             <select name="sort_id" id="searchtype" style="display:none">
                 <option value="">@prj_BIZ_System.LanguageResource.User.lb_scope</option>
 
@@ -176,13 +180,35 @@
                 $("#searchname").show();
                 $("#searchtype").hide();
                 $("#searchtype").val('');
-
+                $("#searchclname").hide();
+                $("#searchclname").val('');
+                $("#searchpdname").hide();
+                $("#searchpdname").val('');
             } else if (selects == 'searchtype') {
                 $("#searchname").hide();
                 $("#searchtype").show();
                 $("#searchname").val('');
+                $("#searchclname").hide();
+                $("#searchclname").val('');
+                $("#searchpdname").hide();
+                $("#searchpdname").val('');
+            } else if (selects == 'searchclname') {
+                $("#searchname").hide();
+                $("#searchname").val('');
+                $("#searchtype").hide();
+                $("#searchtype").val('');
+                $("#searchclname").show();
+                $("#searchpdname").hide();
+                $("#searchpdname").val('');
+            } else if (selects == 'searchpdname') {
+                $("#searchname").hide();
+                $("#searchname").val('');
+                $("#searchtype").hide();
+                $("#searchtype").val('');
+                $("#searchclname").hide();
+                $("#searchclname").val('');
+                $("#searchpdname").show();
             }
-
         });
 
         $("#tabA").on('click', 'a', function () {

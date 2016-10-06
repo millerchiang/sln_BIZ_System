@@ -10,56 +10,121 @@
 <div class="article_col1">
     <article class="article_col2">
         <section class="form_box w100 article_col1">
-            <h2>@Model.company</h2>
+            @{
+                var company = Model.company;
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    if (Model.company_en != null && Model.company_en != "")
+                    {
+                        company = Model.company_en;
+                    }
+                }
+            }
+
+            <h2>@company</h2>
             <div class="imgboxB">
                 <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?UploadHelper.defaultImgBig:ViewBag.productDir+Model.product_pic_site)" alt="">
             </div>
             <div class="magb30">
 
+                @{
+                    var product_name = Model.product_name;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.product_name_en != null && Model.product_name_en != "")
+                        {
+                            product_name = Model.product_name_en;
+                        }
+                    }
+                    var model_no = Model.model_no;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.model_no_en != null && Model.model_no_en != "")
+                        {
+                            model_no = Model.model_no_en;
+                        }
+                    }
+
+                    var product_category = Model.product_category;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.product_category_en != null && Model.product_category_en != "")
+                        {
+                            product_category = Model.product_category_en;
+                        }
+                    }
+
+                    var product_info = Model.product_info;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.product_info_en != null && Model.product_info_en != "")
+                        {
+                            product_info = Model.product_info_en;
+                        }
+                    }
+
+                    var patent_or_winners = Model.patent_or_winners;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.patent_or_winners_en != null && Model.patent_or_winners_en != "")
+                        {
+                            patent_or_winners = Model.patent_or_winners_en;
+                        }
+                    }
+
+                    var specifications_or_other = Model.specifications_or_other;
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (Model.specifications_or_other_en != null && Model.specifications_or_other_en != "")
+                        {
+                            specifications_or_other = Model.specifications_or_other_en;
+                        }
+                    }
+
+
+                }
+
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_p_category:
                 </span>
                 <span class="regis_col02R contentspan">
-                    @Model.product_category
+                    @product_category
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_product_name:
                 </span>
                 <span class="regis_col02R contentspan">
-                    @Model.product_name
+                    @product_name
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_p_model:
                 </span>
                 <span class="regis_col02R contentspan">
-                    @Model.model_no
+                    @model_no
                 </span>
 
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_p_info:
                 </span>
                 <p class="regis_col02R contentspan">
-                    @Model.product_info
+                    @product_info
                 </p>
 
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_p_patent:
                 </span>
                 <p class="regis_col02R contentspan">
-                    @Model.patent_or_winners
+                    @patent_or_winners
                 </p>
-
 
                 <span class="regis_col02L regis_col_bg2">
                     @prj_BIZ_System.LanguageResource.User.lb_p_specification:
                 </span>
                 <p class="regis_col02R contentspan">
-                    @Model.specifications_or_other
+                    @specifications_or_other
                 </p>
-
-
 
             </div>
             <div class="centerbox magb30">

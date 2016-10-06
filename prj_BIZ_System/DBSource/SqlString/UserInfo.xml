@@ -35,7 +35,24 @@
     <select id="SelectUserKw" resultMap="UserInfo-result">
       SELECT *
       FROM user_info
-      WHERE company like '%'||#company#||'%' or company_en like '%'||#company#||'%'
+      WHERE UPPER(company) like '%'||#company#||'%' or UPPER(company_en) like '%'||#company#||'%'
+      ORDER BY user_info.company;
+    </select>
+
+    <select id="SelectUserByProductName" parameterType= "string" resultMap="UserInfo-result">
+      select * from product_list
+      inner join user_info
+      ON product_list.user_id = user_info.user_id
+      WHERE UPPER(product_name) like '%'||#product_name#||'%' or UPPER(product_name_en) like '%'||#product_name#||'%' and deleted = '1'
+      ORDER BY user_info.company;
+    </select>
+
+    <select id="SelectUserByCatalogName" parameterType= "string" resultMap="UserInfo-result">
+      select * from catalog_list
+      inner join user_info
+      ON catalog_list.user_id = user_info.user_id
+      WHERE UPPER(catalog_name) like '%'||#catalog_name#||'%' and deleted = '1'
+      ORDER BY user_info.company;
     </select>
 
     <!-- 

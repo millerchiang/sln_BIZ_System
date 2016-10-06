@@ -112,8 +112,18 @@ namespace prj_BIZ_System.Services
 
         public IList<UserInfoModel> SelectUserKw(string kw)
         {
-            UserInfoModel param = new UserInfoModel() {company = kw };
+            UserInfoModel param = new UserInfoModel() {company = kw.ToUpper() };
             return mapper.QueryForList<UserInfoModel>("UserInfo.SelectUserKw", param);
+        }
+
+        public IList<UserInfoModel> SelectUserByProductName(string product_name)
+        {
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectUserByProductName", product_name.ToUpper());
+        }
+
+        public IList<UserInfoModel> SelectUserByCatalogName(string catalog_name)
+        {
+            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectUserByCatalogName", catalog_name.ToUpper());
         }
 
 
