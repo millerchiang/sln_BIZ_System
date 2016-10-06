@@ -31,6 +31,7 @@ namespace prj_BIZ_System.Controllers
         public Match_ViewModel matchModel;
         public MatchService matchService;
         private const long notFoundIndex = 99999999999999999;
+        private string IsBothOrBuyer; //判斷是雙方媒合意願或買方媒合意願的顏色
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
@@ -1168,7 +1169,7 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        string IsBothOrBuyer;
+        #region 媒合時程大表列表與匯出Excel共用的方法
         public Match_ViewModel MakeSchedule()
         {
             /*頁面端取得資訊*/
@@ -1290,12 +1291,11 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-
             return matchModel;
         }
+        #endregion
 
-
-        #region 媒合時程大表列表新版
+        #region 媒合時程大表列表
         [HttpGet]
         public ActionResult MatchScheduleList()
         {
@@ -1323,7 +1323,6 @@ namespace prj_BIZ_System.Controllers
                     matchService.MatchkingDataByActivityWithPeriodDelete(int.Parse(Request["activity_id"]), periodSn);
                 }
             }
-
 
             /*加這段是為了判斷刪除媒合大表資料後,資料要新的狀態*/
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(int.Parse(Request["activity_id"]));
@@ -1614,7 +1613,7 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        #region 媒合大表匯出Excel舊版
+        #region 媒合大表匯出Excel
         [HttpGet]
         public ActionResult ExportExcelByNPOI()
         {
@@ -1800,6 +1799,7 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+
         #region 密碼編輯
         // GET: Password
         public ActionResult EditPasswd()
@@ -1858,7 +1858,6 @@ namespace prj_BIZ_System.Controllers
             return Redirect("EditPasswd");
         }
         #endregion
-
 
         #region  業務資料管理
 
