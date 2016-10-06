@@ -1640,7 +1640,8 @@ namespace prj_BIZ_System.Controllers
             int CurrRow = 0; //起始列(跳過標題列)
             int CurrCol = 1; //起始列(跳過標題列)
             IRow MyRow = _sheet.CreateRow(CurrRow);
-            int CurrRowMax = 4; //起始列(跳過標題列)
+            int datecount = matchModel.schedulePeriodSetList.Count + 2 ;
+            int CurrRowMax = datecount; //起始列(跳過標題列)
             int tok = 0;
 
             CreateCell("時段\\買方名稱", MyRow, 0, CellStyle);
@@ -1652,11 +1653,11 @@ namespace prj_BIZ_System.Controllers
                 {
                     for (i = 0; i < matchModel.matchBothForbuyer_idList[CurrCol - 1].Count; i++)
                     {
-                        if (CurrRowMax < 4 + i)
-                            CurrRowMax = 4 + i;
-                        IRow MyRow1 = _sheet.GetRow(4 + i);
+                        if (CurrRowMax < datecount + i)
+                            CurrRowMax = datecount + i;
+                        IRow MyRow1 = _sheet.GetRow(datecount + i);
                         if (MyRow1 == null)
-                            MyRow1 = _sheet.CreateRow(4 + i);
+                            MyRow1 = _sheet.CreateRow(datecount + i);
                         if (i == 0 && tok == 0)
                         {
                             tok = 1;
@@ -1778,7 +1779,7 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-            string SavePath = @"E:/matchmaking.xls";
+            string SavePath = @"D:/Download/matchmaking.xls";
             FileStream file = new FileStream(SavePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
