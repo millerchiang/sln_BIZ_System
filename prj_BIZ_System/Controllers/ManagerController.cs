@@ -1305,7 +1305,7 @@ namespace prj_BIZ_System.Controllers
             }
 
             MakeSchedule();
-                
+
             /*刪除某時段，媒合大表中的相同時段資料刪除*/
             var schedulePeriodSn = matchModel.schedulePeriodSetList
                    .Select(time => time.period_sn);
@@ -1454,7 +1454,7 @@ namespace prj_BIZ_System.Controllers
             for (int i = 0; i < matchModel.schedulePeriodSetList.Count - 1; i++) //原先就加過一次
             {
                 var copyMergeData = matchModel.matchSellerCompanyDatamergeList.Select(copy => copy.ToList()).ToList();
-                var copyMergeDataRange =  copyMergeData.GetRange(0, matchModel.buyerinfoList.Count);
+                var copyMergeDataRange = copyMergeData.GetRange(0, matchModel.buyerinfoList.Count);
                 matchModel.matchSellerCompanyDatamergeList.AddRange(copyMergeDataRange);
                 copyMergeData.Clear();
                 copyMergeDataRange.Clear();
@@ -1576,41 +1576,185 @@ namespace prj_BIZ_System.Controllers
         #endregion
 
         #region 媒合大表匯出Excel新版
-        //[HttpGet]
-        //public ActionResult ExportExcelByNPOI()
-        //{
-        //    if(Request.Cookies["ManagerInfo"] == null){
-        //        return Redirect("Login");
-        //    }
-
-        //    /*讀取樣板*/
-        //    //string ExcelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
-        //    string ExcelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
-        //    FileStream Template = new FileStream(ExcelPath, FileMode.Open, FileAccess.ReadWrite);
-        //    IWorkbook workbook = new HSSFWorkbook(Template);
-        //    Template.Close();
-
-        //    //ISheet _sheet = workbook.GetSheetAt(0);
-        //    // 取得剛剛在Excel設定的字型 (第二列首欄)
-        //    //ICellStyle CellStyle = _sheet.GetRow(0).Cells[0].CellStyle;
-             
-
-        //    string SavePath = @"D:/Download/matchmaking.xls";
-        //    return File(SavePath, );
-        //}
-
-        /// <summary>NPOI新增儲存格資料</summary>
-        /// <param name="Word">顯示文字</param>
-        /// <param name="ContentRow">NPOI IROW</param>
-        /// <param name="CellIndex">儲存格列數</param>
-        /// <param name="cellStyleBoder">ICellStyle樣式</param>
-        /// <returns></returns>
-        private static void CreatCell(string Word, IRow ContentRow, int CellIndex, ICellStyle cellStyleBoder)
+        [HttpGet]
+        public ActionResult ExportExcelByNPOI_new()
         {
-            ICell _cell = ContentRow.CreateCell(CellIndex);
-            _cell.SetCellValue(Word);
-            _cell.CellStyle = cellStyleBoder;
+            if (Request.Cookies["ManagerInfo"] == null)
+            {
+                return Redirect("Login");
+            }
+
+            MakeSchedule();
+
+            /*讀取樣板*/
+            string excelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "mytest.xls");
+            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.ReadWrite);//樣板
+            IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
+            template.Close();
+
+            ISheet _sheet = workbook.GetSheetAt(0);//因第一頁有編輯 所有不用CreateSheet
+            ICellStyle cellStyleheader = _sheet.GetRow(0).Cells[0].CellStyle;//取第一行的第一個的style;
+            ICellStyle cellStyleTime = _sheet.GetRow(0).Cells[1].CellStyle;
+            ICellStyle cellStyleBoth = _sheet.GetRow(0).Cells[2].CellStyle;
+            ICellStyle cellStyleBuyer = _sheet.GetRow(0).Cells[3].CellStyle;
+            ICellStyle cellStyleSeller = _sheet.GetRow(0).Cells[4].CellStyle;
+            int column = 1; //填資料都從第二格開始
+            int colorColumn = 0;//填顏色資料從第一個開始
+
+            /* header部分*/
+            IRow headerRow = _sheet.CreateRow(0);//第一行
+            CreateCell("時段\\買方名稱", headerRow, 0, cellStyleheader);
+            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            {
+                CreateCell(buyerInfoModel.company, headerRow, column, cellStyleheader);
+                column++;
+            }
+
+            #region 時間與有輸入媒合的部分
+            /* 時間與有輸入媒合的部分*/
+            int rowCount = 1; //資料從二行開始
+            if (matchModel.schedulePeriodSetList.Count != 0)
+            {
+                column = 1;
+                for (int i = 0; i < matchModel.schedulePeriodSetList.Count; i++)
+                {
+                    IRow timeRow = _sheet.GetRow(rowCount);
+                    if (timeRow == null)
+                    {
+                        timeRow = _sheet.CreateRow(rowCount);
+                    }
+                    CreateCell(matchModel.schedulePeriodSetList[i].time_start.ToString("yyyy/MM/dd HH:mm") + "~" +
+                               matchModel.schedulePeriodSetList[i].time_end.ToString("yyyy/MM/dd HH:mm"),
+                               timeRow, 0, cellStyleTime);
+
+                    for (int j = 0; j < matchModel.buyerinfoList.Count; j++)
+                    {
+                        IRow matchRow = _sheet.GetRow(rowCount);
+                        CreateCell(matchModel.matchMakingScheduleSellerCompany[i * matchModel.buyerinfoList.Count + j],
+                            matchRow, column, cellStyleTime);
+                        column++;
+                    }
+                    column = 1;
+                    rowCount++;
+                }
+            }
+            #endregion
+
+            #region 雙方有媒合意願部分
+            /*雙方有媒合意願部分*/
+            rowCount = 1;
+            column = 1;
+            if (matchModel.schedulePeriodSetList.Count != 0)
+            {
+                rowCount += matchModel.schedulePeriodSetList.Count;
+            }
+
+            IRow bothRow = _sheet.GetRow(rowCount);
+            if (bothRow == null)
+            {
+                bothRow = _sheet.CreateRow(rowCount);
+            }
+
+            var bothmaximum = matchModel.matchBothForbuyer_idList.Select(data => data)
+                        .Aggregate((a, x) => (x.Count > a.Count) ? x : a);
+
+            for (int i = 0; i < bothmaximum.Count; i++)
+            {
+                for (int j = 0; j < matchModel.buyerinfoList.Count + 1; j++)
+                {
+                    bothRow = _sheet.GetRow(rowCount);
+                    if (bothRow == null)
+                    {
+                        bothRow = _sheet.CreateRow(rowCount);
+                    }
+                    CreateCell("", bothRow, colorColumn, cellStyleBoth);
+                    colorColumn++;
+                }
+                colorColumn = 0;
+                rowCount++;
+            }
+
+            if (matchModel.schedulePeriodSetList.Count != 0)
+            {
+                rowCount = 1;
+                rowCount += matchModel.schedulePeriodSetList.Count;
+            }
+            else
+            {
+                rowCount = 1;
+            }
+
+            bothRow = _sheet.GetRow(rowCount);
+            CreateCell("雙方有媒合意願", bothRow, 0, cellStyleBoth);
+
+            for (int i = 0; i < matchModel.matchBothForbuyer_idList.Count; i++)
+            {
+                bothRow = _sheet.GetRow(rowCount);
+                if (bothRow == null)
+                {
+                    bothRow = _sheet.CreateRow(rowCount);
+                }
+
+                for (int j = 0; j < bothmaximum.Count; j++)
+                {
+                    try
+                    {
+                        bothRow = _sheet.GetRow(rowCount);
+                        if (bothRow == null)
+                        {
+                            bothRow = _sheet.CreateRow(rowCount);
+                        }
+                        CreateCell(matchModel.matchBothForbuyer_idList[i][j].Item3,
+                                    bothRow, column, cellStyleBoth);
+                        rowCount++;
+                    }
+                    catch
+                    {
+
+                    }
+                }
+                rowCount = matchModel.schedulePeriodSetList.Count + 1;
+                column++;
+            }
+
+            #endregion
+
+            #region 買家有媒合意願部分
+            /*買家有媒合意願部分*/
+            int buyerRowCount = rowCount;
+            matchModel.matchBuyerForbuyer_idList = new List<string[]>();
+            foreach (BuyerInfoModel buyerInfoModel in matchModel.buyerinfoList)
+            {
+                var buyerNeedAllArray = matchModel.matchmakingBuyerList.Select(buyer => buyer.buyer_id).ToArray();
+
+                if (buyerNeedAllArray.Contains(buyerInfoModel.buyer_id))
+                {
+                    var bothallstr = matchModel.matchmakingBothList
+                               .Where(both => both.buyer_id == buyerInfoModel.buyer_id)
+                               .Select(both => both.company);
+
+
+                    var buyerallstr = matchModel.matchmakingBuyerList
+                                .Where(buyer => buyer.buyer_id == buyerInfoModel.buyer_id)
+                                .Select(buyer => buyer.company);
+
+                    var exceptStr = buyerallstr.Except(bothallstr).ToArray();//取差集後的公司名稱
+                    matchModel.matchBuyerForbuyer_idList.Add(exceptStr);
+                }
+            }
+            #endregion
+
+
+            /*賣家有媒合意願部分*/
+
+
+            string savePath = @"D:/Download/matchmaking.xls";
+            FileStream file = new FileStream(savePath, FileMode.Create);
+            workbook.Write(file);
+            file.Close();
+            return File(savePath, "application/ms-excel", "matchmaking.xls");
         }
+
         #endregion
 
         #region 媒合大表匯出Excel
@@ -1639,7 +1783,7 @@ namespace prj_BIZ_System.Controllers
             int CurrRow = 0; //起始列(跳過標題列)
             int CurrCol = 1; //起始列(跳過標題列)
             IRow MyRow = _sheet.CreateRow(CurrRow);
-            int datecount = matchModel.schedulePeriodSetList.Count + 2 ;
+            int datecount = matchModel.schedulePeriodSetList.Count + 2;
             int CurrRowMax = datecount; //起始列(跳過標題列)
             int tok = 0;
 
@@ -1682,19 +1826,20 @@ namespace prj_BIZ_System.Controllers
 
                 if (buyerNeedAllArray.Contains(buyerInfoModel.buyer_id))
                 {
-                    var bothAllStr = matchModel.matchmakingBothList
+                    var bothallstr = matchModel.matchmakingBothList
                                .Where(both => both.buyer_id == buyerInfoModel.buyer_id)
                                .Select(both => both.company);
 
 
-                    var buyerAllStr = matchModel.matchmakingBuyerList
+                    var buyerallstr = matchModel.matchmakingBuyerList
                                 .Where(buyer => buyer.buyer_id == buyerInfoModel.buyer_id)
                                 .Select(buyer => buyer.company);
 
-                    var exceptStr = buyerAllStr.Except(bothAllStr);//取差集後的公司名稱
+                    var exceptStr = buyerallstr.Except(bothallstr);//取差集後的公司名稱
 
                     i = 0;
-                    foreach (var str in exceptStr) {
+                    foreach (var str in exceptStr)
+                    {
                         k = CurrRowMax + 2 + i;
                         IRow MyRow1 = _sheet.GetRow(k);
                         if (MyRow1 == null)
