@@ -118,6 +118,7 @@ namespace prj_BIZ_System.Models
         public List<List<Tuple<string,string,string>>> matchBothForbuyer_idList { get; set; }
         public List<List<Tuple<string,string,string>>> matchSellerCompanyDatamergeList { get; set; }
         public List<string[]> matchBuyerForbuyer_idList { get; set; }
+        public List<string[]> matchSellerForbuyer_idList { get; set; }
     }
 
     public class Manager_ViewModel
