@@ -78,6 +78,7 @@ namespace prj_BIZ_System.WebService
                     buyerInfo.activity_id,
                     buyerInfo.buyer_id,
                     buyerInfo.company,
+                    buyerInfo.company_en,
                     buyerInfo.buyer_need
                 }
             ).ToList();
@@ -97,7 +98,8 @@ namespace prj_BIZ_System.WebService
                 {
                     activityRegisterModel.activity_id,
                     seller_id = activityRegisterModel.user_id,
-                    activityRegisterModel.company
+                    activityRegisterModel.company,
+                    activityRegisterModel.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, sellerForMatch);
@@ -119,14 +121,14 @@ namespace prj_BIZ_System.WebService
                                     }
                                 ).ToList();
             sellerNeed["schedule"] = new List<dynamic>();
-            //sellerNeed.schedule = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
-            //    matchmakingNeed =>
-            //    new Buyer
-            //    {
-            //        buyer_id = matchmakingNeed.buyer_id,
-            //        company = matchmakingNeed.company
-            //    }
-            //).ToList();
+            sellerNeed["schedule"] = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
+                matchmakingNeed =>
+                new 
+                {
+                    buyer_id = matchmakingNeed.buyer_id,
+                    company = matchmakingNeed.company
+                }
+            ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, sellerNeed);
         }
 
@@ -145,14 +147,14 @@ namespace prj_BIZ_System.WebService
                                     }
                                 ).ToList();
             buyerNeed["schedule"] = new List<dynamic>();
-            //buyerNeed.manager_schedule = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
-            //    matchmakingNeed =>
-            //    new Seller
-            //    {
-            //        seller_id = matchmakingNeed.buyer_id,
-            //        company = matchmakingNeed.company
-            //    }
-            //).ToList();
+            buyerNeed["schedule"] = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
+                matchmakingNeed =>
+                new 
+                {
+                    seller_id = matchmakingNeed.buyer_id,
+                    company = matchmakingNeed.company
+                }
+            ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerNeed);
         }
 
