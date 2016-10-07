@@ -18,10 +18,10 @@
         <form id="form" action="@Url.Action("doPrivateDetailed")" class="form_box sys_searchbox">
             <h2>@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
 
-            <div class="regis_col02L">發佈人</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
             <span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
 
-            <div class="regis_col02L">訊息對象</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</div>
             <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
 
             <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_date</div>
@@ -35,7 +35,7 @@
                 @Model.msgPrivate.msg_content
             </p>
 
-            <div class="regis_col02L">附件</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment</div>
             <div class="regis_col02R">
                 <ul class="col2 listlinks">
                     @if (Model.msgPrivateFileList != null)
@@ -47,7 +47,7 @@
                     }
                 </ul>
             </div>
-            <div class="regis_col02L">回覆</div>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_reply</div>
             <div class="regis_col02R">
                 @if (Model.msgPrivateReplyList != null)
                 {
@@ -62,9 +62,9 @@
                     }
                 }
                 <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
-                <textarea name="reply_content" id="reply_content" placeholder="三百字以內" maxlength="300"></textarea>
+                <textarea name="reply_content" id="reply_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
                 <div class="centerbox">
-                    <button type="submit" class="addbu">回覆</button>
+                    <button type="submit" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_reply</button>
                 </div>
             </div>
 
@@ -116,9 +116,9 @@
     function checkValidationOk(reply_content) {
         var errMsg = '';
         if (reply_content == null || reply_content == '') {
-            errMsg += "回覆內容不能為空白!!\n";
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_reply_empty!!\n";
         } else if (reply_content.length > 300) {
-            errMsg += "回覆內容不能超過三百字!!";
+            errMsg += ""@prj_BIZ_System.LanguageResource.User.lb_reply_300!!";
         }
         return errMsg;
     }

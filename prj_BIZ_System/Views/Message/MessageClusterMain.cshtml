@@ -24,14 +24,14 @@
             </ul>
 
             <div id="tabs-0">
-                <input name ="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
+                <input name ="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="@prj_BIZ_System.LanguageResource.User.lb_search_need">
                 <a href="" class="addbublue magb10">查詢</a>
                 <a href="~/Message/MessageClusterAddPublic" class="addbu rightbox">新增</a>
                 <table class="edittable">
                     <tr>
                         <th>編號</th>
                         <th style="width: 50%">主題</th>
-                        <th>發佈人</th>
+                        <th>@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
                         <th>發佈日</th>
                         <th>內容</th>
                     </tr>
@@ -126,7 +126,7 @@
                 </ul>
             </div>
             <div id="tabs-1">
-                <input type="text" placeholder="請輸入查詢條件">
+                <input type="text" placeholder="@prj_BIZ_System.LanguageResource.User.lb_search_need">
                 <a href="" name ="cluster_private_where" value="@ViewBag.cluster_private_where" class="addbublue magb10">查詢</a>
                 <a href="~/Message/MessageClusterAddPrivate" class="addbu rightbox">新增</a>
 
@@ -134,8 +134,8 @@
                     <tr>
                         <th>編號</th>
                         <th style="width: 50%">主題</th>
-                        <th>發佈人</th>
-                        <th>發佈日</th>
+                        <th>@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
+                        <th>@prj_BIZ_System.LanguageResource.User.lb_date</th>
                         <th>內容</th>
                     </tr>
                     <tr class="active">

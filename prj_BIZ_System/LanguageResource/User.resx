@@ -199,7 +199,7 @@
     <value>發布人</value>
   </data>
   <data name="lb_back" xml:space="preserve">
-    <value>回活動報名</value>
+    <value>返回</value>
   </data>
   <data name="lb_backhome" xml:space="preserve">
     <value>回首頁</value>
@@ -448,10 +448,10 @@
     <value>請選擇產業別</value>
   </data>
   <data name="lb_search" xml:space="preserve">
-    <value>搜尋</value>
+    <value>查詢</value>
   </data>
   <data name="lb_searchresult" xml:space="preserve">
-    <value>搜尋結果</value>
+    <value>查詢結果</value>
   </data>
   <data name="lb_signup" xml:space="preserve">
     <value>註冊</value>
@@ -741,5 +741,98 @@
   </data>
   <data name="lb_ok" xml:space="preserve">
     <value>確定</value>
+  </data>
+  <data name="lb_300less" xml:space="preserve">
+    <value>三百字以內</value>
+  </data>
+  <data name="lb_attachment" xml:space="preserve">
+    <value>附件</value>
+  </data>
+  <data name="lb_attachment_upload" xml:space="preserve">
+    <value>上傳附件</value>
+  </data>
+  <data name="lb_mm_notopen" xml:space="preserve">
+    <value>因廠商報名仍在進行，所以媒合功能尚未開放。廠商名單底定後系統將以email形式通知您進行媒合，謝謝!</value>
+  </data>
+  <data name="lb_upload_jpg" xml:space="preserve">
+    <value>*請上傳jpg、png、gif檔案</value>
+  </data>
+  <data name="lb_upload_pdf" xml:space="preserve">
+    <value>*請上傳pdf 檔案</value>
+  </data>
+  <data name="lb_account_activated" xml:space="preserve">
+    <value>您的會員帳號已成功開通，請於首頁登入使用，謝謝。</value>
+  </data>
+  <data name="lb_biz_requirement" xml:space="preserve">
+    <value>商務媒合需求</value>
+  </data>
+  <data name="lb_buyer_chosen" xml:space="preserve">
+    <value>您表達有意願洽談的買家</value>
+  </data>
+  <data name="lb_buyer_matched" xml:space="preserve">
+    <value>已排定洽談的買家</value>
+  </data>
+  <data name="lb_mm_result" xml:space="preserve">
+    <value>媒合結果</value>
+  </data>
+  <data name="lb_msg_300" xml:space="preserve">
+    <value>訊息不能超過三百字</value>
+  </data>
+  <data name="lb_msg_empty" xml:space="preserve">
+    <value>訊息內容不能為空白</value>
+  </data>
+  <data name="lb_msg_limit" xml:space="preserve">
+    <value>很抱歉!您沒有觀看這則訊息的權限</value>
+  </data>
+  <data name="lb_newpwemail" xml:space="preserve">
+    <value>新的密碼通知信已寄出，請至你註冊的信箱收取!!</value>
+  </data>
+  <data name="lb_object" xml:space="preserve">
+    <value>訊息對象</value>
+  </data>
+  <data name="lb_object_empty" xml:space="preserve">
+    <value>對象不能為空白</value>
+  </data>
+  <data name="lb_publisher" xml:space="preserve">
+    <value>發佈人</value>
+  </data>
+  <data name="lb_read" xml:space="preserve">
+    <value>已讀</value>
+  </data>
+  <data name="lb_reply" xml:space="preserve">
+    <value>回覆</value>
+  </data>
+  <data name="lb_reply_300" xml:space="preserve">
+    <value>回覆內容不能超過三百字</value>
+  </data>
+  <data name="lb_reply_empty" xml:space="preserve">
+    <value>回覆內容不能為空白</value>
+  </data>
+  <data name="lb_reselect" xml:space="preserve">
+    <value>重選檔案</value>
+  </data>
+  <data name="lb_search_need" xml:space="preserve">
+    <value>請輸入查詢條件</value>
+  </data>
+  <data name="lb_select" xml:space="preserve">
+    <value>選取檔案</value>
+  </data>
+  <data name="lb_seller_chosen" xml:space="preserve">
+    <value>您表達有意願洽談的賣家</value>
+  </data>
+  <data name="lb_seller_matched" xml:space="preserve">
+    <value>已排定洽談的賣家</value>
+  </data>
+  <data name="lb_subject_empty" xml:space="preserve">
+    <value>主題不能為空白</value>
+  </data>
+  <data name="lb_unread" xml:space="preserve">
+    <value>未讀</value>
+  </data>
+  <data name="lb_upload_fail" xml:space="preserve">
+    <value>上傳失敗</value>
+  </data>
+  <data name="lb_verifacationresent" xml:space="preserve">
+    <value>重發驗證信完成</value>
   </data>
 </root>

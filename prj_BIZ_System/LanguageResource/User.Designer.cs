@@ -106,6 +106,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 三百字以內 的當地語系化字串。
+        /// </summary>
+        public static string lb_300less {
+            get {
+                return ResourceManager.GetString("lb_300less", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 5000萬-1億 的當地語系化字串。
         /// </summary>
         public static string lb_50001k_100000k {
@@ -129,6 +138,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_aboutus {
             get {
                 return ResourceManager.GetString("lb_aboutus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 您的會員帳號已成功開通，請於首頁登入使用，謝謝。 的當地語系化字串。
+        /// </summary>
+        public static string lb_account_activated {
+            get {
+                return ResourceManager.GetString("lb_account_activated", resourceCulture);
             }
         }
         
@@ -403,6 +421,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 附件 的當地語系化字串。
+        /// </summary>
+        public static string lb_attachment {
+            get {
+                return ResourceManager.GetString("lb_attachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 上傳附件 的當地語系化字串。
+        /// </summary>
+        public static string lb_attachment_upload {
+            get {
+                return ResourceManager.GetString("lb_attachment_upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 已完成審核 的當地語系化字串。
         /// </summary>
         public static string lb_audited {
@@ -421,7 +457,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 回活動報名 的當地語系化字串。
+        ///   查詢類似 返回 的當地語系化字串。
         /// </summary>
         public static string lb_back {
             get {
@@ -444,6 +480,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_backhome {
             get {
                 return ResourceManager.GetString("lb_backhome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 商務媒合需求 的當地語系化字串。
+        /// </summary>
+        public static string lb_biz_requirement {
+            get {
+                return ResourceManager.GetString("lb_biz_requirement", resourceCulture);
             }
         }
         
@@ -471,6 +516,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_buyer {
             get {
                 return ResourceManager.GetString("lb_buyer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 您表達有意願洽談的買家 的當地語系化字串。
+        /// </summary>
+        public static string lb_buyer_chosen {
+            get {
+                return ResourceManager.GetString("lb_buyer_chosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 已排定洽談的買家 的當地語系化字串。
+        /// </summary>
+        public static string lb_buyer_matched {
+            get {
+                return ResourceManager.GetString("lb_buyer_matched", resourceCulture);
             }
         }
         
@@ -1114,6 +1177,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 因廠商報名仍在進行，所以媒合功能尚未開放。廠商名單底定後系統將以email形式通知您進行媒合，謝謝! 的當地語系化字串。
+        /// </summary>
+        public static string lb_mm_notopen {
+            get {
+                return ResourceManager.GetString("lb_mm_notopen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 媒合結果 的當地語系化字串。
+        /// </summary>
+        public static string lb_mm_result {
+            get {
+                return ResourceManager.GetString("lb_mm_result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 一億以上 的當地語系化字串。
         /// </summary>
         public static string lb_morethan100000k {
@@ -1132,6 +1213,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 訊息不能超過三百字 的當地語系化字串。
+        /// </summary>
+        public static string lb_msg_300 {
+            get {
+                return ResourceManager.GetString("lb_msg_300", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 聚落訊息 的當地語系化字串。
         /// </summary>
         public static string lb_msg_cluster {
@@ -1146,6 +1236,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_msg_company {
             get {
                 return ResourceManager.GetString("lb_msg_company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 訊息內容不能為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_msg_empty {
+            get {
+                return ResourceManager.GetString("lb_msg_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 很抱歉!您沒有觀看這則訊息的權限 的當地語系化字串。
+        /// </summary>
+        public static string lb_msg_limit {
+            get {
+                return ResourceManager.GetString("lb_msg_limit", resourceCulture);
             }
         }
         
@@ -1231,6 +1339,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 新的密碼通知信已寄出，請至你註冊的信箱收取!! 的當地語系化字串。
+        /// </summary>
+        public static string lb_newpwemail {
+            get {
+                return ResourceManager.GetString("lb_newpwemail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 新聞 的當地語系化字串。
         /// </summary>
         public static string lb_news {
@@ -1281,6 +1398,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_nonefile {
             get {
                 return ResourceManager.GetString("lb_nonefile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 訊息對象 的當地語系化字串。
+        /// </summary>
+        public static string lb_object {
+            get {
+                return ResourceManager.GetString("lb_object", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 對象不能為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_object_empty {
+            get {
+                return ResourceManager.GetString("lb_object_empty", resourceCulture);
             }
         }
         
@@ -1546,6 +1681,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 發佈人 的當地語系化字串。
+        /// </summary>
+        public static string lb_publisher {
+            get {
+                return ResourceManager.GetString("lb_publisher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 密碼不能為空白!! 的當地語系化字串。
         /// </summary>
         public static string lb_pw_is_empty {
@@ -1573,6 +1717,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 已讀 的當地語系化字串。
+        /// </summary>
+        public static string lb_read {
+            get {
+                return ResourceManager.GetString("lb_read", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 確認密碼錯誤,請重新確認密碼是否有誤!! 的當地語系化字串。
         /// </summary>
         public static string lb_reconfirmpw {
@@ -1596,6 +1749,42 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_registerinfo {
             get {
                 return ResourceManager.GetString("lb_registerinfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 回覆 的當地語系化字串。
+        /// </summary>
+        public static string lb_reply {
+            get {
+                return ResourceManager.GetString("lb_reply", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 回覆內容不能超過三百字 的當地語系化字串。
+        /// </summary>
+        public static string lb_reply_300 {
+            get {
+                return ResourceManager.GetString("lb_reply_300", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 回覆內容不能為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_reply_empty {
+            get {
+                return ResourceManager.GetString("lb_reply_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 重選檔案 的當地語系化字串。
+        /// </summary>
+        public static string lb_reselect {
+            get {
+                return ResourceManager.GetString("lb_reselect", resourceCulture);
             }
         }
         
@@ -1636,7 +1825,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 搜尋 的當地語系化字串。
+        ///   查詢類似 查詢 的當地語系化字串。
         /// </summary>
         public static string lb_search {
             get {
@@ -1645,11 +1834,29 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 搜尋結果 的當地語系化字串。
+        ///   查詢類似 請輸入查詢條件 的當地語系化字串。
+        /// </summary>
+        public static string lb_search_need {
+            get {
+                return ResourceManager.GetString("lb_search_need", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 查詢結果 的當地語系化字串。
         /// </summary>
         public static string lb_searchresult {
             get {
                 return ResourceManager.GetString("lb_searchresult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 選取檔案 的當地語系化字串。
+        /// </summary>
+        public static string lb_select {
+            get {
+                return ResourceManager.GetString("lb_select", resourceCulture);
             }
         }
         
@@ -1668,6 +1875,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_seller {
             get {
                 return ResourceManager.GetString("lb_seller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 您表達有意願洽談的賣家 的當地語系化字串。
+        /// </summary>
+        public static string lb_seller_chosen {
+            get {
+                return ResourceManager.GetString("lb_seller_chosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 已排定洽談的賣家 的當地語系化字串。
+        /// </summary>
+        public static string lb_seller_matched {
+            get {
+                return ResourceManager.GetString("lb_seller_matched", resourceCulture);
             }
         }
         
@@ -1722,6 +1947,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_subject {
             get {
                 return ResourceManager.GetString("lb_subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 主題不能為空白 的當地語系化字串。
+        /// </summary>
+        public static string lb_subject_empty {
+            get {
+                return ResourceManager.GetString("lb_subject_empty", resourceCulture);
             }
         }
         
@@ -1843,6 +2077,42 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 未讀 的當地語系化字串。
+        /// </summary>
+        public static string lb_unread {
+            get {
+                return ResourceManager.GetString("lb_unread", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 上傳失敗 的當地語系化字串。
+        /// </summary>
+        public static string lb_upload_fail {
+            get {
+                return ResourceManager.GetString("lb_upload_fail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 *請上傳jpg、png、gif檔案 的當地語系化字串。
+        /// </summary>
+        public static string lb_upload_jpg {
+            get {
+                return ResourceManager.GetString("lb_upload_jpg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 *請上傳pdf 檔案 的當地語系化字串。
+        /// </summary>
+        public static string lb_upload_pdf {
+            get {
+                return ResourceManager.GetString("lb_upload_pdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 帳號 的當地語系化字串。
         /// </summary>
         public static string lb_user_id {
@@ -1867,6 +2137,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_verifacationletter {
             get {
                 return ResourceManager.GetString("lb_verifacationletter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 重發驗證信完成 的當地語系化字串。
+        /// </summary>
+        public static string lb_verifacationresent {
+            get {
+                return ResourceManager.GetString("lb_verifacationresent", resourceCulture);
             }
         }
         
@@ -1930,15 +2209,6 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_zhtw_info {
             get {
                 return ResourceManager.GetString("lb_zhtw_info", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類似  的當地語系化字串。
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

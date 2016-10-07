@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "媒合時程安排(買主)";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_mm_result + "(" + prj_BIZ_System.LanguageResource.User.lb_buyer + ")";
 }
 
 @section pagestyle{
@@ -16,11 +16,11 @@
     }
     <article class="article_col2">
         <h2 class="borderTitle">
-            媒合時程安排
+            @prj_BIZ_System.LanguageResource.User.lb_mm_result
         </h2>
 
         <section class="form_box w55">
-            <h2>您表達有意願洽談的賣主</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_seller_chosen</h2>
             <ul class="comicon listlink">
                 @foreach (MatchmakingAllModel matchmakingAllModel in Model.matchmakingAllList)
                 {
@@ -39,7 +39,7 @@
             </ul>
         </section>
         <section class="form_box w45">
-            <h2>主辦方排定洽談的賣家</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_seller_matched</h2>
             <ul class="dmicon listlink">
                 @foreach (MatchmakingScheduleModel matchmakingScheduleModel in Model.matchmakingScheduleList)
                 {
