@@ -967,7 +967,6 @@
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\AppDownload.cshtml" />
     <Content Include="Views\Home\Errfile.cshtml" />
-    <Content Include="stylesheets\AccountManage.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Home\Servicepolicy.cshtml" />
   </ItemGroup>

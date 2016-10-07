@@ -241,7 +241,7 @@ namespace prj_BIZ_System.Controllers
                     }
                     else
                     {
-                        Console.WriteLine("上傳失敗");
+                        Console.WriteLine(LanguageResource.User.lb_upload_fail);
                     }
                 }
             }

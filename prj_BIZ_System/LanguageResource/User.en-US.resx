@@ -740,4 +740,98 @@ To complete the registration of members, thank you!</value>
   <data name="lb_ok" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="lb_300less" xml:space="preserve">
+    <value>300 words or less</value>
+  </data>
+  <data name="lb_account_activated" xml:space="preserve">
+    <value>Your account has been successfully activated, please login on the home page, thank you.</value>
+  </data>
+  <data name="lb_attachment" xml:space="preserve">
+    <value>Attachment</value>
+  </data>
+  <data name="lb_attachment_upload" xml:space="preserve">
+    <value>Upload Attachment</value>
+  </data>
+  <data name="lb_biz_requirement" xml:space="preserve">
+    <value>Business Requirements</value>
+  </data>
+  <data name="lb_buyer_chosen" xml:space="preserve">
+    <value>The buyers you have chosen</value>
+  </data>
+  <data name="lb_buyer_matched" xml:space="preserve">
+    <value>The buyers have matched</value>
+  </data>
+  <data name="lb_mm_notopen" xml:space="preserve">
+    <value>Because registration is still in progress,the matchmaking function is not yet open.
+ When the function is open, the system will inform you by email,Thank you!</value>
+  </data>
+  <data name="lb_mm_result" xml:space="preserve">
+    <value>Matchmaking Results</value>
+  </data>
+  <data name="lb_msg_300" xml:space="preserve">
+    <value>Message content can not be more than 300 words</value>
+  </data>
+  <data name="lb_msg_empty" xml:space="preserve">
+    <value>Message content can not be empty</value>
+  </data>
+  <data name="lb_msg_limit" xml:space="preserve">
+    <value>Sorry, you do not have permission to view this message.</value>
+  </data>
+  <data name="lb_newpwemail" xml:space="preserve">
+    <value>The new password notification has been sent, please go to your registered mailbox to checked !!</value>
+  </data>
+  <data name="lb_object" xml:space="preserve">
+    <value>Objects</value>
+  </data>
+  <data name="lb_object_empty" xml:space="preserve">
+    <value>Object can not be empty</value>
+  </data>
+  <data name="lb_publisher" xml:space="preserve">
+    <value>Publisher</value>
+  </data>
+  <data name="lb_read" xml:space="preserve">
+    <value>read</value>
+  </data>
+  <data name="lb_reply" xml:space="preserve">
+    <value>Reply</value>
+  </data>
+  <data name="lb_reply_300" xml:space="preserve">
+    <value>Reply content can not be more than 300 words</value>
+  </data>
+  <data name="lb_reply_empty" xml:space="preserve">
+    <value>Reply content can not be empty</value>
+  </data>
+  <data name="lb_reselect" xml:space="preserve">
+    <value>Re-select the file</value>
+  </data>
+  <data name="lb_search_need" xml:space="preserve">
+    <value>Please enter the search requirements</value>
+  </data>
+  <data name="lb_select" xml:space="preserve">
+    <value>select the file</value>
+  </data>
+  <data name="lb_seller_chosen" xml:space="preserve">
+    <value>The sellers you have chosen</value>
+  </data>
+  <data name="lb_seller_matched" xml:space="preserve">
+    <value>The sellers have matched</value>
+  </data>
+  <data name="lb_subject_empty" xml:space="preserve">
+    <value>The subject can not be empty</value>
+  </data>
+  <data name="lb_unread" xml:space="preserve">
+    <value>unread</value>
+  </data>
+  <data name="lb_upload_fail" xml:space="preserve">
+    <value>Upload Fail</value>
+  </data>
+  <data name="lb_upload_jpg" xml:space="preserve">
+    <value>* Please upload jpg, png, gif file</value>
+  </data>
+  <data name="lb_upload_pdf" xml:space="preserve">
+    <value>* Please upload PDF file</value>
+  </data>
+  <data name="lb_verifacationresent" xml:space="preserve">
+    <value>Resend Member Verification Mail is completed</value>
+  </data>
 </root>

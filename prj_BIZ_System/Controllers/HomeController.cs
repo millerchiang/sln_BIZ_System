@@ -248,7 +248,7 @@ namespace prj_BIZ_System.Controllers
             var id = userService.GeUserInfoOne(user_id).id;
             MailHelper.sendAccountMailValidate(id, user_id, email);
 
-            string remail_Msg = "重發驗證信完成!!";
+            string remail_Msg = LanguageResource.User.lb_verifacationresent;
             TempData["remail_Msg"] = remail_Msg;
 
             return Redirect("Verification?user_id=" + user_id + "&name=" + name + "&email=" + email);
@@ -324,7 +324,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult ReSetPassword(string user_id, string email)
         {
 
-            string errMsg = "新的註冊密碼通知信已寄出，請至你註冊填寫的信箱收取!!";
+            string errMsg = LanguageResource.User.lb_newpwemail;
             UserInfoModel md = passwordService.SelectOneByIdEmail(user_id, email);
             if (md != null)
             {
