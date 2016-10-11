@@ -94,7 +94,9 @@
                                 <ul>
                                     <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
                                     <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
-                                    @*<li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
+                                    @if (Request["_version"] != null && Request["_version"] != "2.0")
+                                    {
+                                        <li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
                                         <li>
                                             <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                             <ul>
@@ -103,7 +105,8 @@
                                                 <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
                                                 <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
                                             </ul>
-                                        </li>*@
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                             <li>

@@ -1,10 +1,6 @@
 ﻿@using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Index_ViewModel
 
-@{ 
-    var version = "2.0";
-}
-
 <aside>
     @{
         if (Request.Cookies["UserInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
@@ -13,7 +9,7 @@
         <div class="mg30 loginbox">
             <h3>@prj_BIZ_System.LanguageResource.User.lb_login</h3>
             <div class="login_idlist" id="tabA">
-                @if (version != "2.0")
+                @if (Request["_version"] != null && Request["_version"] != "2.0")
                 {
                 <a href="javascript:void(0)" title="@prj_BIZ_System.LanguageResource.User.lb_co_member" class="login_id login_id1 active">@prj_BIZ_System.LanguageResource.User.lb_co</a>
                 <a href="javascript:void(0)" title="@prj_BIZ_System.LanguageResource.User.lb_sa_member" class="login_id login_id2">@prj_BIZ_System.LanguageResource.User.lb_sa</a>
@@ -43,7 +39,7 @@
                     <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
                 </form>
             </div>
-            @if (version != "2.0")
+            @if (Request["_version"] != null && Request["_version"] != "2.0")
             {
             <a href="javascript:void(0)" class="login_info">
                 @prj_BIZ_System.LanguageResource.User.lb_explain
