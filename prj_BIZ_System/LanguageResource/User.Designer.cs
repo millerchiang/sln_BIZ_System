@@ -673,11 +673,38 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 請點擊右上按鈕選擇會員身份 的當地語系化字串。
+        /// </summary>
+        public static string lb_click_member {
+            get {
+                return ResourceManager.GetString("lb_click_member", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 產業聚落列表 的當地語系化字串。
         /// </summary>
         public static string lb_cluster_list {
             get {
                 return ResourceManager.GetString("lb_cluster_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 企 的當地語系化字串。
+        /// </summary>
+        public static string lb_co {
+            get {
+                return ResourceManager.GetString("lb_co", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 企業會員 的當地語系化字串。
+        /// </summary>
+        public static string lb_co_member {
+            get {
+                return ResourceManager.GetString("lb_co_member", resourceCulture);
             }
         }
         
@@ -1146,6 +1173,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_logout {
             get {
                 return ResourceManager.GetString("lb_logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 生 的當地語系化字串。
+        /// </summary>
+        public static string lb_manu {
+            get {
+                return ResourceManager.GetString("lb_manu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 生產會員 的當地語系化字串。
+        /// </summary>
+        public static string lb_manu_member {
+            get {
+                return ResourceManager.GetString("lb_manu_member", resourceCulture);
             }
         }
         
@@ -1785,6 +1830,24 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_reselect {
             get {
                 return ResourceManager.GetString("lb_reselect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 業 的當地語系化字串。
+        /// </summary>
+        public static string lb_sa {
+            get {
+                return ResourceManager.GetString("lb_sa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 業務會員 的當地語系化字串。
+        /// </summary>
+        public static string lb_sa_member {
+            get {
+                return ResourceManager.GetString("lb_sa_member", resourceCulture);
             }
         }
         
