@@ -834,4 +834,25 @@ To complete the registration of members, thank you!</value>
   <data name="lb_verifacationresent" xml:space="preserve">
     <value>Resend Member Verification Mail is completed</value>
   </data>
+  <data name="lb_click_member" xml:space="preserve">
+    <value>Please click the button to select the member sort.</value>
+  </data>
+  <data name="lb_co" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="lb_co_member" xml:space="preserve">
+    <value>Corporate member</value>
+  </data>
+  <data name="lb_manu" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="lb_manu_member" xml:space="preserve">
+    <value>Manufacture Member</value>
+  </data>
+  <data name="lb_sa" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="lb_sa_member" xml:space="preserve">
+    <value>Sales member</value>
+  </data>
 </root>
