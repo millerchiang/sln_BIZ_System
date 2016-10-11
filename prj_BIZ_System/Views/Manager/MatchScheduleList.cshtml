@@ -18,7 +18,7 @@
     <article>
         <form id="form" action="@ViewBag.Action" method="post">
             <h2 class="borderTitle2">媒合時程大表</h2>
-            <a href="@Url.Action("ExportExcelByNPOI", "Manager", new { activity_id = Model.schedulePeriodSet.activity_id })" class="addbublue rightbox">匯出Excel</a>
+            <a href="@Url.Action("ExportExcelByNPOI_old", "Manager", new { activity_id = Model.schedulePeriodSet.activity_id })" class="addbublue rightbox">匯出Excel</a>
             <a href="javascript:return false;" class="addbublue rightbox" id="saveMatchData">儲存</a>
             @*<a href="javascript:return false;" class="addbublue rightbox">排序</a>*@
             <table class="edittable">
