@@ -1587,8 +1587,9 @@ namespace prj_BIZ_System.Controllers
             MakeSchedule();
 
             /*讀取樣板*/
-            string excelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
-            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.ReadWrite);//樣板
+            //string excelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
+            string excelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
+            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.Read);//樣板
             IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
             template.Close();
 
