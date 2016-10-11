@@ -1929,11 +1929,21 @@ namespace prj_BIZ_System.Controllers
             }
             #endregion
 
+            #region 直接利用Memory匯出Excel
+            //var ms = new MemoryStream();
+            //workbook.Write(ms);
+            //Response.AddHeader("Content-Disposition", string.Format("attachment; filename=matchmaking.xls"));
+            //Response.BinaryWrite(ms.ToArray());
+            //ms.Close();
+            //ms.Dispose();
+            //Response.End();
+            #endregion 
+
             string savePath = @"D:/Download/matchmaking.xls";
             FileStream file = new FileStream(savePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
-            return File(savePath, "application/ms-excel", "matchmaking.xls");
+            return File(file, "application/ms-excel", "matchmaking.xls");
         }
 
         #endregion

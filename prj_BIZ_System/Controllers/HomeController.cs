@@ -376,5 +376,16 @@ namespace prj_BIZ_System.Controllers
         {
             return View();
         }
+
+        public ActionResult Support()
+        {
+            return View();
+        }
+
+        public ActionResult Faq()
+        {
+            return View();
+        }
+
     }
 }

@@ -117,7 +117,8 @@ namespace prj_BIZ_System.WebService
                                     new 
                                     {
                                         matchmakingNeed.buyer_id,
-                                        matchmakingNeed.company
+                                        matchmakingNeed.company,
+                                        matchmakingNeed.company_en
                                     }
                                 ).ToList();
             sellerNeed["schedule"] = new List<dynamic>();
@@ -125,8 +126,9 @@ namespace prj_BIZ_System.WebService
                 matchmakingNeed =>
                 new 
                 {
-                    buyer_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
+                    matchmakingNeed.buyer_id,
+                    matchmakingNeed.company,
+                    matchmakingNeed.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, sellerNeed);
@@ -144,6 +146,7 @@ namespace prj_BIZ_System.WebService
                                     {
                                         matchmakingNeed.seller_id,
                                         matchmakingNeed.company,
+                                        matchmakingNeed.company_en
                                     }
                                 ).ToList();
             buyerNeed["schedule"] = new List<dynamic>();
@@ -151,8 +154,9 @@ namespace prj_BIZ_System.WebService
                 matchmakingNeed =>
                 new 
                 {
-                    seller_id = matchmakingNeed.buyer_id,
-                    company = matchmakingNeed.company
+                    matchmakingNeed.seller_id,
+                    matchmakingNeed.company,
+                    matchmakingNeed.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerNeed);
