@@ -877,6 +877,7 @@
     <Content Include="stylesheets\schedulefrom.css" />
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\servicepolicy.css" />
+    <Content Include="stylesheets\support.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
     <Content Include="Views\Manager\ActivityRegisterCheck.cshtml" />
@@ -884,6 +885,8 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
     <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
     <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
