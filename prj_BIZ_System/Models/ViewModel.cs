@@ -117,6 +117,8 @@ namespace prj_BIZ_System.Models
 
         public List<List<Tuple<string,string,string>>> matchBothForbuyer_idList { get; set; }
         public List<List<Tuple<string,string,string>>> matchSellerCompanyDatamergeList { get; set; }
+        public List<string[]> matchBuyerForbuyer_idList { get; set; }
+        public List<string[]> matchSellerForbuyer_idList { get; set; }
     }
 
     public class Manager_ViewModel
@@ -154,7 +156,7 @@ namespace prj_BIZ_System.Models
         public IList<ClusterInfoModel> clusterInfoList { get; set; }
         public IList<ClusterFileModel> clusterFileList { get; set; }
         public IList<ClusterMemberModel> clusterMemberList { get; set; }
-        public IList<ClusterInfo> clusterWebServiceInfoList { get; set; }
+        public IList<ClusterDetailModel> clusterWebServiceInfoList { get; set; }
 
     }
 

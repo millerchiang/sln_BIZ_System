@@ -1,0 +1,126 @@
+.main2 {
+  padding: 0 0 120px 0;
+}
+
+.appbox {
+  background: url(../images/bg/app_bg.jpg) no-repeat center 0;
+  background-size: cover;
+  min-height: 540px;
+  text-align: center;
+}
+.appbox h2 {
+  font-size: 2em;
+  color: #ffffff;
+  padding: 40px 0 60px 0;
+  -webkit-animation: fadeInDown 2s ease;
+  -moz-animation: fadeInDown 2s ease;
+  -o-animation: fadeInDown 2s ease;
+  animation: fadeInDown 2s ease;
+  opacity: 1;
+}
+.appbox h2:after {
+  content: "";
+  border-bottom: 3px solid #ffffff;
+  width: 4em;
+  display: block;
+  margin: 0 auto;
+}
+.appbox .appdown_list li {
+  opacity: 0;
+  -webkit-animation: fadeInDown 1s ease;
+  -moz-animation: fadeInDown 1s ease;
+  -o-animation: fadeInDown 1s ease;
+  animation: fadeInDown 1s ease;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+.appbox .appdown_list li + li {
+  padding-top: 40px;
+}
+.appbox .appdown_list a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.125em;
+  padding: 20px 0 20px 30px;
+  border: 1px solid #ffffff;
+  display: inline-block;
+  width: 180px;
+  position: relative;
+  transition: background 0.2s;
+}
+.appbox .appdown_list a .font02 {
+  display: none;
+}
+.appbox .appdown_list a .font01 {
+  display: block;
+}
+.appbox .appdown_list a:hover, .appbox .appdown_list a:focus, .appbox .appdown_list a:active, .appbox .appdown_list a.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+.appbox .appdown_list a:hover .font02, .appbox .appdown_list a:focus .font02, .appbox .appdown_list a:active .font02, .appbox .appdown_list a.active .font02 {
+  display: block;
+}
+.appbox .appdown_list a:hover .font01, .appbox .appdown_list a:focus .font01, .appbox .appdown_list a:active .font01, .appbox .appdown_list a.active .font01 {
+  display: none;
+}
+.appbox .appdown_list a:after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 17px;
+  background: #ffffff;
+  top: 15px;
+  left: 30px;
+}
+.appbox .appdown_list a:before {
+  width: 10px;
+  height: 10px;
+  content: "";
+  position: absolute;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  left: 25px;
+  top: 21px;
+  transform: translateX(0) translateY(0) rotate(45deg);
+  -webkit-transform: translateX(0) translateY(0) rotate(45deg);
+}
+.appbox .appdown_list span:before {
+  width: 30px;
+  height: 15px;
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 26px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+}
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+/*# sourceMappingURL=support.css.map */

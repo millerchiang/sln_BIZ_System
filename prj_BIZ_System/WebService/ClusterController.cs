@@ -22,9 +22,9 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
 
-            IList<ClusterInfo> clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1");
+            IList<ClusterDetailModel> clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1");
 
-            IDictionary<string, Cluster[]> clusterDic = new Dictionary<string, Cluster[]>();
+            IDictionary<string, object[]> clusterDic = new Dictionary<string, object[]>();
             clusterDic["enableCluster"] = getClusterByEnable(clusterInfoList, "1");
             clusterDic["nonEnableCluster"] = getClusterByEnable(clusterInfoList, "0");
             return Request.CreateResponse(HttpStatusCode.OK, clusterDic);
@@ -33,14 +33,14 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetClusterInfo(int cluster_no)
         {
-            ClusterInfo clusterInfo = clusterService.GetClusterDetailByNo(cluster_no);
+            ClusterDetailModel clusterInfo = clusterService.GetClusterDetailByNo(cluster_no);
             if (clusterInfo == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is error.");
 
             return Request.CreateResponse(HttpStatusCode.OK, clusterInfo);
         }
 
         [HttpPost]
-        public object ModifyClusterInfo(ClusterInfo model)
+        public object ModifyClusterInfo(ClusterDetailModel model)
         {
             if(model.cluster_name.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster name is null.");
 
@@ -51,14 +51,14 @@ namespace prj_BIZ_System.WebService
             return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
         }
 
-        private Cluster[] getClusterByEnable(IList<ClusterInfo> clusterInfoList, string enable)
+        private object[] getClusterByEnable(IList<ClusterDetailModel> clusterInfoList, string enable)
         {
             return clusterInfoList
                             .Where(clusterInfoModel =>
                                 clusterInfoModel.enable == enable
                             )
                             .Select(clusterInfo =>
-                                new Cluster
+                                new 
                                 {
                                     cluster_no = clusterInfo.cluster_no,
                                     cluster_name = clusterInfo.cluster_name,
@@ -72,23 +72,23 @@ namespace prj_BIZ_System.WebService
         {
             if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
             IList<ClusterMemberModel> memberList = clusterService.GetClusterMemberList(cluster_no);
-            IDictionary<string, Dictionary<string, string>[]> members = new Dictionary<string, Dictionary<string, string>[]>();
+            IDictionary<string, object[]> members = new Dictionary<string, object[]>();
             members["enableMember"] = memberList
                                 .Where(clusterMember =>
                                     clusterMember.cluster_enable == "1"
                                 ).Select(clusterMember =>
-                                new Dictionary<string, string>() {
-                                        {"user_id", clusterMember.user_id},
-                                        {"company", clusterMember.company}
+                                new {
+                                        clusterMember.user_id,
+                                        clusterMember.company
                                     }
                                 ).ToArray();
             members["nonEnableMember"] = memberList
                                     .Where(clusterMember =>
                                         clusterMember.cluster_enable == "2"
                                     ).Select(clusterMember =>
-                                        new Dictionary<string, string>() {
-                                            {"user_id", clusterMember.user_id},
-                                            {"company", clusterMember.company}
+                                        new {
+                                            clusterMember.user_id,
+                                            clusterMember.company
                                         }
                                     ).ToArray();
             return Request.CreateResponse(HttpStatusCode.OK, members);
@@ -165,18 +165,17 @@ namespace prj_BIZ_System.WebService
         public object GetClusterInvite(string user_id)
         {
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
-            IList<Dictionary<string, object>> clusterInviteList;
-            clusterInviteList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2")
+            var clusterInviteList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2")
                                     .Select(clusterInfo =>
-                                        new Dictionary<string, object>() {
-                                            {"cluster_no", (int)clusterInfo.cluster_no},
-                                            {"cluster_name", (string)clusterInfo.cluster_name},
-                                            {"creator_name", (string)clusterInfo.creator_name},
-                                            {"cluster_info", (string)clusterInfo.cluster_info},
-                                            {"cluster_members", (string)clusterInfo.cluster_members},
-                                            {"cluster_create_time", (string)clusterInfo.cluster_create_time.ToString("yyyy-MM-dd HH:mm")},
-                                            {"member_invite_time", (string)clusterInfo.member_invite_time.ToString("yyyy-MM-dd HH:mm")},
-                                            {"enable", (string)clusterInfo.enable}
+                                        new {
+                                            clusterInfo.cluster_no,
+                                            clusterInfo.cluster_name,
+                                            clusterInfo.creator_name,
+                                            clusterInfo.cluster_info,
+                                            clusterInfo.cluster_members,
+                                            cluster_create_time = clusterInfo.cluster_create_time.ToString("yyyy-MM-dd HH:mm"),
+                                            member_invite_time = clusterInfo.member_invite_time.ToString("yyyy-MM-dd HH:mm"),
+                                            clusterInfo.enable
                                         }
                                     ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, clusterInviteList);

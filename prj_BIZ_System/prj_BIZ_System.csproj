@@ -873,8 +873,10 @@
     <Content Include="stylesheets\registerd.css" />
     <Content Include="stylesheets\reset.css" />
     <Content Include="stylesheets\schedule.css" />
+    <Content Include="stylesheets\schedulefrom.css" />
     <Content Include="stylesheets\screen.css" />
     <Content Include="stylesheets\servicepolicy.css" />
+    <Content Include="stylesheets\support.css" />
     <Content Include="stylesheets\sys.css" />
     <Content Include="stylesheets\verification.css" />
     <Content Include="Views\Manager\ActivityRegisterCheck.cshtml" />
@@ -882,6 +884,10 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
+    <Content Include="Views\Home\Faq.cshtml" />
+    <Content Include="Views\Home\Support.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
+    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
     <Content Include="Views\Message\MessageClusterAdd.cshtml" />
     <Content Include="Views\Message\MessageClusterDetail.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
@@ -923,7 +929,6 @@
     <Content Include="Views\Match\BuyerBusinessMatch.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeSeller.cshtml" />
     <Content Include="Views\Match\MatchTimeArrangeBuyer.cshtml" />
-    <Content Include="Views\Manager\MatchScheduleList123.cshtml" />
     <Content Include="Views\Manager\MatchScheduleTime.cshtml" />
     <Content Include="Views\Manager\ManagerInfo.cshtml" />
     <Content Include="Views\Manager\Group.cshtml" />
@@ -966,7 +971,6 @@
     <Content Include="Views\Home\AboutUs.cshtml" />
     <Content Include="Views\Home\AppDownload.cshtml" />
     <Content Include="Views\Home\Errfile.cshtml" />
-    <Content Include="stylesheets\AccountManage.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Home\Servicepolicy.cshtml" />
   </ItemGroup>

@@ -92,7 +92,7 @@ namespace prj_BIZ_System.Controllers
                         }
                         else
                         {
-                            Console.WriteLine("上傳失敗");
+                            Console.WriteLine(LanguageResource.User.lb_upload_fail);
                         }
                     }
                 }
@@ -127,7 +127,7 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    TempData["priDetailView_errmsg"] = "很抱歉!您沒有觀看這則訊息的權限";
+                    TempData["priDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
                     return Redirect(getLabelString(MessageCatalog.Private, "backUrl"));
                 }
             }
@@ -211,7 +211,7 @@ namespace prj_BIZ_System.Controllers
                         }
                         else
                         {
-                            Console.WriteLine("上傳失敗");
+                            Console.WriteLine(LanguageResource.User.lb_upload_fail);
                         }
                     }
                 }
@@ -242,7 +242,7 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    TempData["priDetailView_errmsg"] = "很抱歉!您沒有觀看這則訊息的權限";
+                    TempData["priDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
                     return Redirect(getLabelString(MessageCatalog.Company, "backUrl"));
                 }
             }
@@ -398,7 +398,7 @@ namespace prj_BIZ_System.Controllers
                 }
                 else
                 {
-                    TempData["priDetailView_errmsg"] = "很抱歉!您沒有觀看這則訊息的權限";
+                    TempData["priDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
                     return Redirect("MessagePrivateList");
                 }
             }

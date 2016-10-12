@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = "新增"+ ViewBag.contentTitle + "訊息";
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_add + ViewBag.contentTitle + prj_BIZ_System.LanguageResource.User.lb_msg;
 }
 
 @section pagestyle{
@@ -16,25 +16,25 @@
     <article class="article_col2">
 
             <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
-                <h2>新增@(ViewBag.contentTitle)訊息</h2>
-                <label for="" class="regis_col02L">對象</label>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_add@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</label>
                 <div class="regis_col02R tagsbox">
                     <ul id="taglist"></ul>
                     <input name="msg_member" id="tags" class="tagtext">
                 </div>
-                <label for="" class="regis_col02L">主題</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</label>
                 <input name="msg_title" type="text" class="regis_col02R">
-                <label for="" class="regis_col02L">內容</label>
-                <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="三百字以內" maxlength="300"></textarea>
-                <label for="" class="regis_col02L">上傳附件</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
+                <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment_upload</label>
                 <div class="regis_col02R">
-                    <label class="addbu" id="upload" for="upexls">選取檔案</label>
+                    <label class="addbu" id="upload" for="upexls">@prj_BIZ_System.LanguageResource.User.lb_select</label>
                     <input type="file" id="upexls" name="iupexls" multiple="multiple" />
                     <ul id="output"></ul>
                 </div>
                 <div class="centerbox">
-                    <button type="submit" class="buinfor">確定新增</button>
-                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle)訊息</a>
+                    <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
+                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
                 </div>
 
             </form>
@@ -70,9 +70,9 @@
 
 			     //g_temp_files = ele.files;
 			    if ($("#output li").size() > 0) {
-			        $("#upload").text("重選檔案");
+			        $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_reselect");
 			    } else {
-			        $("#upload").text("選擇檔案");
+			        $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_select");
 			    }
 			});
 			
@@ -153,17 +153,17 @@
 		  function checkValidationOk(msg_member,msg_title, msg_content) {
 		      var errMsg = '';
 		      if (msg_member == null || msg_member == '') {
-		          errMsg += "對象不能為空白\n";
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_object_empty\n";
 		      }
 		      
 		      if (msg_title == null || msg_title == '') {
-		          errMsg += "主題不能為空白\n";
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_subject_empty\n";
 		      }
 
 		      if (msg_content == null || msg_content == '') {
-		          errMsg += "訊息內容不能為空白!!\n";
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_empty\n";
 		      } else if ($("#msg_content").val().length > 300) {
-		          errMsg += "訊息不能超過三百字!!";
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_300 !!";
 		      }
 		      return errMsg ;
 		  }

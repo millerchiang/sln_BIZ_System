@@ -199,7 +199,7 @@
     <value>發布人</value>
   </data>
   <data name="lb_back" xml:space="preserve">
-    <value>回活動報名</value>
+    <value>返回</value>
   </data>
   <data name="lb_backhome" xml:space="preserve">
     <value>回首頁</value>
@@ -289,7 +289,7 @@
     <value>電子郵件</value>
   </data>
   <data name="lb_email_is_empty" xml:space="preserve">
-    <value>E-mail不可為空白</value>
+    <value>電子郵件不可為空白</value>
   </data>
   <data name="lb_en_info" xml:space="preserve">
     <value>英文資訊</value>
@@ -406,7 +406,7 @@
     <value>手機號碼</value>
   </data>
   <data name="lb_photoupload" xml:space="preserve">
-    <value>上傳封面</value>
+    <value>上傳圖片</value>
   </data>
   <data name="lb_pleaseuse_companyid" xml:space="preserve">
     <value>請用統一編號註冊</value>
@@ -448,10 +448,10 @@
     <value>請選擇產業別</value>
   </data>
   <data name="lb_search" xml:space="preserve">
-    <value>搜尋</value>
+    <value>查詢</value>
   </data>
   <data name="lb_searchresult" xml:space="preserve">
-    <value>搜尋結果</value>
+    <value>查詢結果</value>
   </data>
   <data name="lb_signup" xml:space="preserve">
     <value>註冊</value>
@@ -627,7 +627,233 @@
   <data name="lb_telno_is_empty" xml:space="preserve">
     <value>電話/分機不可為空白</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="lb_ihaveagree" xml:space="preserve">
+    <value>我已詳閱並同意服務條款及隱私政策內容，並同意平台公開貴司所提供之公示資訊。</value>
+  </data>
+  <data name="lb_addvideo" xml:space="preserve">
+    <value>上傳影音型錄</value>
+  </data>
+  <data name="lb_add_fail" xml:space="preserve">
+    <value>新增失敗</value>
+  </data>
+  <data name="lb_add_successful" xml:space="preserve">
+    <value>新增成功</value>
+  </data>
+  <data name="lb_buyerlist" xml:space="preserve">
+    <value>買主資訊列表</value>
+  </data>
+  <data name="lb_catalogname" xml:space="preserve">
+    <value>型錄名稱</value>
+  </data>
+  <data name="lb_catalog_is_empty" xml:space="preserve">
+    <value>型錄名稱不可為空白</value>
+  </data>
+  <data name="lb_check" xml:space="preserve">
+    <value>請勾選</value>
+  </data>
+  <data name="lb_confirmpw_is_empty" xml:space="preserve">
+    <value>請輸入確認密碼欄位!!</value>
+  </data>
+  <data name="lb_coverupload" xml:space="preserve">
+    <value>上傳封面</value>
+  </data>
+  <data name="lb_delete_fail" xml:space="preserve">
+    <value>刪除失敗</value>
+  </data>
+  <data name="lb_delete_successful" xml:space="preserve">
+    <value>刪除成功</value>
+  </data>
+  <data name="lb_hello" xml:space="preserve">
+    <value>您好，歡迎您成為會員!</value>
+  </data>
+  <data name="lb_iduse_companyid" xml:space="preserve">
+    <value>國內企業帳號請用統一編號註冊</value>
+  </data>
+  <data name="lb_id_alreadyexist" xml:space="preserve">
+    <value>該使用帳號已存在,請確認是否帳號有誤!!</value>
+  </data>
+  <data name="lb_memberok" xml:space="preserve">
+    <value>會員驗證</value>
+  </data>
+  <data name="lb_newpw_is_empty" xml:space="preserve">
+    <value>新密碼不可為空白</value>
+  </data>
+  <data name="lb_oldpw_is_empty" xml:space="preserve">
+    <value>舊密碼不可為空白</value>
+  </data>
+  <data name="lb_productbrife_en_is_empty" xml:space="preserve">
+    <value>請輸入產品英文說明</value>
+  </data>
+  <data name="lb_productbrife_tw_is_empty" xml:space="preserve">
+    <value>請輸入產品中文說明</value>
+  </data>
+  <data name="lb_product_en_is_empty" xml:space="preserve">
+    <value>請輸入產品英文名稱</value>
+  </data>
+  <data name="lb_product_tw_is_empty" xml:space="preserve">
+    <value>請輸入產品中文名稱</value>
+  </data>
+  <data name="lb_p_category" xml:space="preserve">
+    <value>產品類型</value>
+  </data>
+  <data name="lb_p_info" xml:space="preserve">
+    <value>產品資料</value>
+  </data>
+  <data name="lb_p_model" xml:space="preserve">
+    <value>產品型號</value>
+  </data>
+  <data name="lb_p_patent" xml:space="preserve">
+    <value>產品專利/得獎</value>
+  </data>
+  <data name="lb_p_specification" xml:space="preserve">
+    <value>產品規格及其他</value>
+  </data>
+  <data name="lb_reconfirmpw" xml:space="preserve">
+    <value>確認密碼錯誤,請重新確認密碼是否有誤!!</value>
+  </data>
+  <data name="lb_sendmail" xml:space="preserve">
+    <value>我們已寄發一封「會員驗證信」至您的註冊信箱</value>
+  </data>
+  <data name="lb_sum_is_empty" xml:space="preserve">
+    <value>請選取公司營業額</value>
+  </data>
+  <data name="lb_verifacationletter" xml:space="preserve">
+    <value>請您於三日內開啟信件，點選會員驗證連結，
+以完成會員註冊作業，謝謝!</value>
+  </data>
+  <data name="lb_back_pdlist" xml:space="preserve">
+    <value>回產品列表</value>
+  </data>
+  <data name="lb_buyer" xml:space="preserve">
+    <value>買家</value>
+  </data>
+  <data name="lb_changeselect" xml:space="preserve">
+    <value>是否修改洽談對象</value>
+  </data>
+  <data name="lb_pdname_is_empty" xml:space="preserve">
+    <value>產品名稱不可為空白</value>
+  </data>
+  <data name="lb_seller" xml:space="preserve">
+    <value>賣家</value>
+  </data>
+  <data name="lb_msg" xml:space="preserve">
+    <value>訊息</value>
+  </data>
+  <data name="lb_ok" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="lb_300less" xml:space="preserve">
+    <value>三百字以內</value>
+  </data>
+  <data name="lb_attachment" xml:space="preserve">
+    <value>附件</value>
+  </data>
+  <data name="lb_attachment_upload" xml:space="preserve">
+    <value>上傳附件</value>
+  </data>
+  <data name="lb_mm_notopen" xml:space="preserve">
+    <value>因廠商報名仍在進行，所以媒合功能尚未開放。廠商名單底定後系統將以email形式通知您進行媒合，謝謝!</value>
+  </data>
+  <data name="lb_upload_jpg" xml:space="preserve">
+    <value>*請上傳jpg、png、gif檔案</value>
+  </data>
+  <data name="lb_upload_pdf" xml:space="preserve">
+    <value>*請上傳pdf 檔案</value>
+  </data>
+  <data name="lb_account_activated" xml:space="preserve">
+    <value>您的會員帳號已成功開通，請於首頁登入使用，謝謝。</value>
+  </data>
+  <data name="lb_biz_requirement" xml:space="preserve">
+    <value>商務媒合需求</value>
+  </data>
+  <data name="lb_buyer_chosen" xml:space="preserve">
+    <value>您表達有意願洽談的買家</value>
+  </data>
+  <data name="lb_buyer_matched" xml:space="preserve">
+    <value>已排定洽談的買家</value>
+  </data>
+  <data name="lb_mm_result" xml:space="preserve">
+    <value>媒合結果</value>
+  </data>
+  <data name="lb_msg_300" xml:space="preserve">
+    <value>訊息不能超過三百字</value>
+  </data>
+  <data name="lb_msg_empty" xml:space="preserve">
+    <value>訊息內容不能為空白</value>
+  </data>
+  <data name="lb_msg_limit" xml:space="preserve">
+    <value>很抱歉!您沒有觀看這則訊息的權限</value>
+  </data>
+  <data name="lb_newpwemail" xml:space="preserve">
+    <value>新的密碼通知信已寄出，請至你註冊的信箱收取!!</value>
+  </data>
+  <data name="lb_object" xml:space="preserve">
+    <value>訊息對象</value>
+  </data>
+  <data name="lb_object_empty" xml:space="preserve">
+    <value>對象不能為空白</value>
+  </data>
+  <data name="lb_publisher" xml:space="preserve">
+    <value>發佈人</value>
+  </data>
+  <data name="lb_read" xml:space="preserve">
+    <value>已讀</value>
+  </data>
+  <data name="lb_reply" xml:space="preserve">
+    <value>回覆</value>
+  </data>
+  <data name="lb_reply_300" xml:space="preserve">
+    <value>回覆內容不能超過三百字</value>
+  </data>
+  <data name="lb_reply_empty" xml:space="preserve">
+    <value>回覆內容不能為空白</value>
+  </data>
+  <data name="lb_reselect" xml:space="preserve">
+    <value>重選檔案</value>
+  </data>
+  <data name="lb_search_need" xml:space="preserve">
+    <value>請輸入查詢條件</value>
+  </data>
+  <data name="lb_select" xml:space="preserve">
+    <value>選取檔案</value>
+  </data>
+  <data name="lb_seller_chosen" xml:space="preserve">
+    <value>您表達有意願洽談的賣家</value>
+  </data>
+  <data name="lb_seller_matched" xml:space="preserve">
+    <value>已排定洽談的賣家</value>
+  </data>
+  <data name="lb_subject_empty" xml:space="preserve">
+    <value>主題不能為空白</value>
+  </data>
+  <data name="lb_unread" xml:space="preserve">
+    <value>未讀</value>
+  </data>
+  <data name="lb_upload_fail" xml:space="preserve">
+    <value>上傳失敗</value>
+  </data>
+  <data name="lb_verifacationresent" xml:space="preserve">
+    <value>重發驗證信完成</value>
+  </data>
+  <data name="lb_click_member" xml:space="preserve">
+    <value>請點擊右上按鈕選擇會員身份</value>
+  </data>
+  <data name="lb_co" xml:space="preserve">
+    <value>企</value>
+  </data>
+  <data name="lb_co_member" xml:space="preserve">
+    <value>企業會員</value>
+  </data>
+  <data name="lb_manu" xml:space="preserve">
+    <value>生</value>
+  </data>
+  <data name="lb_manu_member" xml:space="preserve">
+    <value>生產會員</value>
+  </data>
+  <data name="lb_sa" xml:space="preserve">
+    <value>業</value>
+  </data>
+  <data name="lb_sa_member" xml:space="preserve">
+    <value>業務會員</value>
   </data>
 </root>

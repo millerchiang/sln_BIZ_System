@@ -9,7 +9,18 @@
 }
     <div class="article_col1">
         <article class="article_col2 form_box">
-            <h2>@ViewBag.company</h2>
+            @{
+                var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    if (company_en != null && company_en != "")
+                    {
+                        company = company_en;
+                    }
+                }
+            }
+            <h2>@company - @prj_BIZ_System.LanguageResource.User.lb_product_info</h2>
             <form id="form" action="@Url.Action("ProductDelete","User")" method="post">
                 <ul class="productlist">
                     @if (Model != null && Model.Count() > 0)
@@ -21,15 +32,36 @@
                                     <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
                                 </div>
                                 <div class="producttext productCheckT">
-                                    <h3>產品名稱: @md.product_name</h3>
-                                    <p>型號:@(md.model_no)</p>
+                                    @{ 
+                                        var product_name = md.product_name;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                        {
+                                            if (md.product_name_en != null && md.product_name_en != "")
+                                            {
+                                                product_name = md.product_name_en;
+                                            }
+                                        }
+                                        var model_no = md.model_no;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                        {
+                                            if (md.model_no_en != null && md.model_no_en != "")
+                                            {
+                                                model_no = md.model_no_en;
+                                            }
+                                        }
+                                    }
+
+                                    <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name</h3>
+                                    <p>@prj_BIZ_System.LanguageResource.User.lb_p_model:@(model_no)</p>
+
+
                                 </div>
                                 <div class="productCheck">
                                     <input name="del_prods" value="@md.product_id" type="checkbox" class="inputCheckbox" id="dm@(md.product_id)">
-                                    <label for="dm@(md.product_id)" class="labeltCheckbox">刪除</label>
+                                    <label for="dm@(md.product_id)" class="labeltCheckbox">@prj_BIZ_System.LanguageResource.User.lb_delete</label>
                                 </div>
                                 <div class="productbu">
-                                    <a href="@Url.Action("ProductDetailEdit","User",new { product_id = md.product_id} )" class="editsbu ">編輯產品</a>
+                                    <a href="@Url.Action("ProductDetailEdit","User",new { product_id = md.product_id} )" class="editsbu ">@prj_BIZ_System.LanguageResource.User.lb_edit</a>
                                 </div>
                             </li>
                         }
@@ -42,8 +74,8 @@
             </form>
             @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"])
             <div class="centerbox">
-                <a href="@Url.Action("ProductDetailEdit","User")" class="addbu">新增</a>
-                <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>
+                <a href="@Url.Action("ProductDetailEdit","User")" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_add</a>
+                <a href="javascript:void(0)" class="deleteSbu" id="deleteP">@prj_BIZ_System.LanguageResource.User.lb_delete</a>
             </div>
         </article>
         @{
@@ -56,7 +88,7 @@
         });
         function init() {
             $("#deleteP").click(function () {
-                if(confirm("確定要刪除嗎?")){
+                if (confirm("@prj_BIZ_System.LanguageResource.User.lb_deleteornot ?")) {
                     $("#form").submit();
                 }
             });

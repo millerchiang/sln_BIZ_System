@@ -201,12 +201,32 @@
                                             <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
                                         </div>
                                         <div class="producttext">
-                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @md.product_name </h3>
-                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @md.model_no </p>
+                                            @{
+                                                var product_name = md.product_name;
+                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                                {
+                                                    if (md.product_name_en != null && md.product_name_en != "")
+                                                    {
+                                                        product_name = md.product_name_en;
+                                                    }
+                                                }
+                                                var model_no = md.model_no;
+                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                                {
+                                                    if (md.model_no_en != null && md.model_no_en != "")
+                                                    {
+                                                        model_no = md.model_no_en;
+                                                    }
+                                                }
+                                            }
+
+
+                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
+                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
                                         </div>
                                         <div class="productbu">
 
-                                            <a href='@Url.Action("ProductDetail","User",new { product_id = md.product_id })' class="deleteSbu">詳細內容</a>
+                                            <a href='@Url.Action("ProductDetail","User",new { product_id = md.product_id })' class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                         </div>
                                     </li>
                                 }

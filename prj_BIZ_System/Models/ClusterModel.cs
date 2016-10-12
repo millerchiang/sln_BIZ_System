@@ -30,6 +30,32 @@ namespace prj_BIZ_System.Models
 
     }
 
+    public class ClusterDetailModel
+    {
+        public ClusterDetailModel()
+        {
+
+        }
+
+        public ClusterDetailModel(ClusterInfoModel clusterInfoModel)
+        {
+            cluster_no = clusterInfoModel.cluster_no;
+            cluster_name = clusterInfoModel.cluster_name;
+            cluster_info = clusterInfoModel.cluster_info;
+            enable = clusterInfoModel.enable;
+        }
+
+        public int? cluster_no { get; set; }        /*聚落編號*/
+        public string creator_name { get; set; }      /*建立者公司*/
+        public string creator_name_en { get; set; }      /*建立者公司*/
+        public string cluster_name { get; set; }        /*聚落名稱*/
+        public string cluster_members { get; set; }   /*聚落成員*/
+        public string cluster_members_en { get; set; }   /*聚落成員*/
+        public string cluster_info { get; set; }        /*聚落簡介*/
+        public DateTime cluster_create_time { get; set; }        /*聚落成立時間*/
+        public DateTime member_invite_time { get; set; }        /*聚落成員邀請時間*/
+        public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
+    }
 
     public class ClusterFileModel
     {

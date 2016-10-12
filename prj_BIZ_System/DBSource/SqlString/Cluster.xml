@@ -222,7 +222,7 @@
       <result property="limit" column="limit"></result>
     </resultMap>
 
-    <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.WebService.Model.ClusterInfo">
+    <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.Models.ClusterDetailModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
       <result property="creator_name" column="creator_name"></result>

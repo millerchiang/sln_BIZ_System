@@ -12,8 +12,16 @@
     @*<script src="../Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>*@
     <script>jQuery.browser={};(function(){jQuery.browser.msie=false; jQuery.browser.version=0;if(navigator.userAgent.match(/MSIE ([0-9]+)./)){ jQuery.browser.msie=true;jQuery.browser.version=RegExp.$1;}})();</script>
 </head>
+    @{
+        var lang = "";
+        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+        {
+            lang = "en";
+        }
+    }
 
-<body>
+<body lang="@lang">
+
     <div id="loaderdiv" class="loaderbox" style="display:none">
         <div class="loader">Loading...</div>
     </div>
@@ -86,7 +94,9 @@
                                 <ul>
                                     <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
                                     <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
-                                    @**@<li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
+                                    @if (Request["_version"] != null && Request["_version"] != "2.0")
+                                    {
+                                        <li><a href="/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
                                         <li>
                                             <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                             <ul>
@@ -95,7 +105,8 @@
                                                 <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
                                                 <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
                                             </ul>
-                                        </li>@**@
+                                        </li>
+                                    }
                                 </ul>
                             </li>
                             <li>
@@ -198,7 +209,7 @@
             <nav>
                 <ul class="footernav">
                     <li><a href="/Home/AboutUs"> @prj_BIZ_System.LanguageResource.User.lb_aboutus </a></li>
-                    <li><a href="/Home/Errfile"> @prj_BIZ_System.LanguageResource.User.lb_manual </a></li>
+                    <li><a href="/Home/Support"> @prj_BIZ_System.LanguageResource.User.lb_manual </a></li>
                     <li><a href="/Home/Servicepolicy"> @prj_BIZ_System.LanguageResource.User.lb_useragreement </a></li>
                     <li><a href="/Home/Privacy"> @prj_BIZ_System.LanguageResource.User.lb_privacypolicy </a></li>
                     <li><a href="/Home/Errfile"> @prj_BIZ_System.LanguageResource.User.lb_faqs </a></li>

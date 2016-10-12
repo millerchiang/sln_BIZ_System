@@ -71,17 +71,17 @@
         var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
         var errMsg = '';
         if (old_pw == null || old_pw == '') {
-            errMsg += '舊密碼不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_oldpw_is_empty \n';
         }
         if (new_pw == null || new_pw == '') {
-            errMsg += '新密碼不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_newpw_is_empty \n';
         } else {
             if(!reg.test(new_pw)){
-                errMsg += '新密碼至少英數各一個,長度為8~12位\n';
+                errMsg += '@prj_BIZ_System.LanguageResource.User.lb_pwset8 \n';
             }
         }
         if (re_new_pw == null || re_new_pw == '') {
-            errMsg += '確認新密碼不可為空白\n';
+            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_confirmpw_is_empty \n';
         }
 
         return errMsg;

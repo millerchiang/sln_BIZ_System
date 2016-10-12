@@ -92,7 +92,7 @@ namespace prj_BIZ_System.Controllers
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
-                ViewBag.userSortList = serializer.Serialize(userModel.usersortList);
+                ViewBag.userSortList = HttpUtility.UrlEncode(serializer.Serialize(userModel.usersortList));
                 ViewBag.logoDir = UploadHelper.getPictureDirPath(userModel.userinfo.user_id, "logo");
                 if (ViewBag.userSortList == null)
                 {
@@ -167,10 +167,10 @@ namespace prj_BIZ_System.Controllers
             string[] datas = link.Split(new string[]{ "+" }, StringSplitOptions.RemoveEmptyEntries);
 
             const int expired_limit_days = 3; //期限
-            const string status_success     = "您的會員帳號已成功開通，請於首頁登入使用，謝謝。";
-            const string status_expired     = "您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。";
-            const string status_beValidated = "您已驗證過本會員帳號，請於首頁登入使用，謝謝。";
-            const string status_fail        = "您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。";
+            string status_success     = LanguageResource.User.lb_account_activated;
+            string status_expired     = "您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。";
+            string status_beValidated = "您已驗證過本會員帳號，請於首頁登入使用，謝謝。";
+            string status_fail        = "您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。";
 
             UserInfoModel dbUser = userService.GeUserInfoOne(datas[1]);
             string result ;
