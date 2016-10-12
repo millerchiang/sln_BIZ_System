@@ -128,7 +128,9 @@
 
             </div>
             <div class="centerbox magb30">
-                <a href="../User/UserInfo?user_id=@(Model.user_id)#1" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back_pdlist</a>
+                @*<a href="../User/UserInfo?user_id=@(Model.user_id)#1" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back_pdlist</a>*@
+                <button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>
+
             </div>
         </section>
 

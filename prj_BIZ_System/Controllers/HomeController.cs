@@ -148,7 +148,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CompanyList()
         {
-            userModel.cataloglistList = userService.getAllCatalogTop(4);
+//            userModel.cataloglistList = userService.getAllCatalogTop(4);
             string sort_id = "";
             string kw = "";
             string productname = "";
@@ -166,24 +166,30 @@ namespace prj_BIZ_System.Controllers
             {
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
+                ViewBag.keyword = sort_id;
             }
             else if (kw!="")
             {
                 userModel.userinfoList = userService.SelectUserKw(kw);
                 ViewBag.model = "userinfoList";
+                ViewBag.keyword = kw;
             }
             else if (productname != "")
             {
-                userModel.userinfoList = userService.SelectUserByProductName(productname);
-                ViewBag.model = "userinfoList";
+//                userModel.userinfoList = userService.SelectUserByProductName(productname);
+                userModel.productsortList = userService.getProductListByKw(productname).Pages<ProductListModel>(Request, this, 10);
+                ViewBag.model = "productList";
+                ViewBag.keyword = productname;
             }
             else if (catalogname != "")
             {
-                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
-                ViewBag.model = "catalogname";
+//                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
+                userModel.cataloglistList = userService.getCatalogListByKw(catalogname);
+                ViewBag.model = "catalogList";
+                ViewBag.keyword = catalogname;
             }
 
-            ViewBag.coverDir = UploadConfig.UploadRootPath;
+            ViewBag.UploadRootPath = UploadConfig.UploadRootPath;
 
             docookie("_mainmenu", "CompanyList");
             return View(userModel);
