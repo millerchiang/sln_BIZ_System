@@ -141,6 +141,7 @@ namespace prj_BIZ_System.Models
         public IList<MsgModel> msgPrivateList2 { get; set; }
         public IList<MsgFileModel> msgPrivateFileList { get; set; }
         public IList<MsgReplyModel> msgPrivateReplyList { get; set; }
+        public IList<IList<MsgModel>> msgLists { get; set; }
     }
 
     public class Cluster_ViewModel

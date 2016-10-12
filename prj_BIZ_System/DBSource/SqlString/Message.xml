@@ -20,7 +20,7 @@
         and ( company like '%'||#company#||'%' or company_en like '%'||#company#||'%')
       ]]>
       </select>
-
+    
     <!--查尋使用者(手機)-->
     <select id="SelectUserKwForMobile" resultMap="UserInfo-result">
       <![CDATA[
@@ -31,12 +31,38 @@
       ]]>
     </select>
     
-    <!--查看權限-->
+    <!--查看私人訊息權限-->
     <select id="isOwnViewPower"  resultClass="int" parameterClass="Msg">
       SELECT count(msg_no) from message.msg
       where msg_no = $msg_no$ 
         and ( creater_id = #creater_id# 
         or msg_member like '% '||#creater_id#||',%' )
+    </select>
+
+    <!--查看公司訊息權限-->
+    <select id="isOwnViewPowerForCompany"  resultClass="int" parameterClass="Msg">
+      SELECT count(msg_no) from message.msg
+      where msg_no = $msg_no$
+      and ( creater_id = #creater_id#
+      or msg_member like '% '||#creater_id#||',%'
+      or user_id = #creater_id#
+      )
+
+    </select>
+
+    <!--查看聚落訊息權限-->
+    <select id="isOwnViewPowerForCluster"  resultClass="int" parameterClass="Msg">
+      SELECT count(msg_no) from message.msg
+      where msg_no = $msg_no$
+      and ( creater_id = #creater_id# 
+      or (
+        #creater_id# in (select user_id from public.cluster_member cm where cm.cluster_no = $cluster_no$ )
+        <dynamic prepend="">
+          <isEqual prepend="and" property="is_public" compareValue="0">
+            (  msg_member like '% '||#creater_id#||',%' )
+          </isEqual>
+        </dynamic>
+      )
     </select>
     
     <!--私訊列表-->
@@ -46,7 +72,7 @@
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
-      where mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
+      where mp.cluster_no = 0 and ( mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%' )
       ) as mp2
       LEFT JOIN message.msg_reply as mpr2 on mp2.msg_no = mpr2.msg_no
       <dynamic prepend="where">
@@ -68,7 +94,7 @@
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
       LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
-      where mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%'
+      where mp.cluster_no = 0 and ( mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%' )
       ) as mp2
       LEFT JOIN message.msg_reply as mpr2 on mp2.msg_no = mpr2.msg_no
       <dynamic prepend="where">
@@ -87,7 +113,7 @@
 
     <!--聚落列表-->
     <select id="SelectClusterMsg" resultMap="SelectMsg-result" parameterClass="Msg">
-      SELECT mp2.*, message.is_msg_read(mp2.msg_no, #cluster_user#) as is_read  from (
+      SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read  from (
       SELECT mp.*, ui.company , mpr.rpy_cnt
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
@@ -98,12 +124,15 @@
         <isNotEmpty prepend="and" property="msg_title">
           ( mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%' )
         </isNotEmpty>
-        <isNotNull prepend="and" property="cluster_no">
-          mp2.cluster_no = $cluster_no$
-          and ( mp2.creater_id = #cluster_user# or #cluster_user# in (select user_id from public.cluster_member cm where cm.cluster_no = mp2.cluster_no) )
-          <!--<isEqual prepend="and" property="is_public" compareValue="1"></isEqual>-->
+        <isNotNull prepend="and" property="is_public">
+          <![CDATA[
+            mp2.cluster_no <> 0
+          ]]>
+          and mp2.is_public = #is_public#
+          and mp2.cluster_no = $cluster_no$
+          and ( mp2.creater_id = #creater_id# or #creater_id# in (select user_id from public.cluster_member cm where cm.cluster_no = $cluster_no$ ) )
           <isEqual prepend="and" property="is_public" compareValue="0">
-            (  mp2.msg_member like '% '||#cluster_user#||',%' )
+            (  mp2.creater_id = #creater_id# or mp2.msg_member like '% '||#creater_id#||',%' )
           </isEqual>
         </isNotNull>
       </dynamic>
@@ -117,8 +146,8 @@
         SELECT currval('message.msg_msg_no_seq')
       </selectKey>
       INSERT INTO message.msg(
-      creater_id, msg_title, msg_content, is_public ,user_id , msg_member )
-      VALUES (#creater_id#, #msg_title#, #msg_content# , #is_public# , #user_id# , #msg_member# );
+      creater_id, msg_title, msg_content, cluster_no , is_public ,user_id , msg_member )
+      VALUES (#creater_id#, #msg_title#,  #msg_content# , $cluster_no$ , #is_public# , #user_id# , #msg_member# );
     </insert>
 
     <!--查詢單一私訊-->
@@ -185,6 +214,25 @@
         and ( sales_name like '%'||#sales_name#||'%')
       ]]>
     </select>
+
+    <!--查尋公司By業務-->
+    <select id="SelectUserUserBySalesId" resultMap="UserInfo-result">
+      SELECT *
+      FROM public.user_info ui join sales.sales_info si ON ui.user_id = si.user_id
+      WHERE ui.id_enable='1'
+      and si.sales_id = #sales_id#
+      and ( company like '%'||#sales_name#||'%' or company_en like '%'||#sales_name#||'%')
+    </select>
+    
+    <!--查詢聚落By訊息-->
+    <select id="SelectClusterByMsg_no" resultMap="ClusterInfo-result">
+      SELECT ui.*
+      FROM message.msg ms join public.user_info ui on ms.user_id = ui.user_id
+      <![CDATA[
+        where ms.msg_no = $msg_no$
+      ]]>
+    </select>
+
   </statements>
 
   <resultMaps>
@@ -250,8 +298,10 @@
       <result property="msg_reply" column="msg_reply"></result>
       <result property="reply_content" column="reply_content"></result>
       <result property="create_time" column="create_time"></result>
-    <!--UerInfo 公司名稱(中文)-->
+      <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
+      <!--logo_img 公司logo圖-->
+      <result property="logo_img" column="logo_img"></result>
     </resultMap>
 
     <resultMap id="SalesInfo-result" class="prj_BIZ_System.Models.SalesInfoModel">
@@ -268,6 +318,17 @@
       <result property="update_time" column="update_time"/>
     </resultMap>
 
+
+    <resultMap id="ClusterInfo-result" class="prj_BIZ_System.Models.ClusterInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="create_time" column="create_time"></result>
+      <result property="update_time" column="update_time"></result>
+      <result property="enable" column="enable"></result>
+    </resultMap>
   </resultMaps>
 
 </sqlMap>

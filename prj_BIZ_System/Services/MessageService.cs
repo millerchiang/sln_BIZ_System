@@ -28,6 +28,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("Message.SelectUserKwForMobile", param);
         }
 
+        public IList<UserInfoModel> SelectUserUserBySalesId(string sales_id, string term)
+        {
+            SalesInfoModel param = new SalesInfoModel() { sales_id = sales_id , sales_name = term }; //term是公司name的條件
+            return mapper.QueryForList<UserInfoModel>("Message.SelectUserUserBySalesId", param);
+        }
+
         public IList<SalesInfoModel> SelectSalesKw(string user_id, string kw)
         {
             SalesInfoModel param = new SalesInfoModel() { user_id = user_id, sales_name = kw };
@@ -51,12 +57,31 @@ namespace prj_BIZ_System.Services
             var param = new MsgModel { msg_no = msg_no, creater_id = user_id };
             return (int)(mapper.QueryForObject("Message.isOwnViewPower", param)) > 0;
         }
-        
+
+        public bool isOwnViewPowerForCompany(int msg_no, string user_id, string sales_id)
+        {
+            var target_id = string.IsNullOrEmpty(sales_id) ? user_id : sales_id;
+            var param = new MsgModel { msg_no = msg_no, creater_id = user_id };
+            return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCompany", param)) > 0;
+        }
+
+        public bool isOwnViewPowerForCluster(int msg_no, int cluster_no , string user_id)
+        {
+            var param = new MsgModel { msg_no = msg_no, creater_id = user_id , cluster_no = cluster_no };
+            return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCluster", param)) > 0;
+        }
 
         public object InsertMsgPrivate(MsgModel param)
         {
             param.msg_member = " " + param.msg_member;
             param.is_public = "0";
+            param.user_id = "0";
+            return mapper.Insert("Message.InsertMsg", param);
+        }
+
+        public object InsertMsgCluster(MsgModel param)
+        {
+            param.msg_member = " " + param.msg_member;
             param.user_id = "0";
             return mapper.Insert("Message.InsertMsg", param);
         }
@@ -163,7 +188,7 @@ namespace prj_BIZ_System.Services
             {
                 param = new MsgModel() { cluster_no = cluster_no_int , is_public ="1", msg_member = null , msg_title = kw , creater_id = user_id };
             }
-            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
+            return mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
         }
 
         public IList<MsgModel> SelectMsgClusterPrivate(string cluster_no , string user_id, string kw)
@@ -174,8 +199,16 @@ namespace prj_BIZ_System.Services
             {
                 param = new MsgModel() { cluster_no = cluster_no_int , is_public = "0" , msg_title = kw , creater_id = user_id };
             }
-            return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
+            var result =  mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
+            return result;
         }
+
+        public IList<ClusterInfoModel> SelectClusterByMsg_no(int msg_no)
+        {
+            MsgReplyModel param = new MsgReplyModel() { msg_no = msg_no };
+            return mapper.QueryForList<ClusterInfoModel>("Message.SelectClusterByMsg_no", param);
+        }
+
         #endregion
     }
 }

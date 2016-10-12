@@ -1,7 +1,7 @@
 ﻿@using prj_BIZ_System.Models
-@model prj_BIZ_System.Models.Cluster_ViewModel
+@model prj_BIZ_System.Models.Message_ViewModel
 @{
-    ViewBag.Title = "MessageClusterAddPublic";
+    ViewBag.Title = "MessageClusterMain";
 }
 
 @section pagestyle{
@@ -15,7 +15,7 @@
         Html.RenderAction("_ClusterMenuPartial", "Cluster");
     }
     <article class="article_col2">
-        <h2 class="borderTitle2">聚落A</h2>
+        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name)</h2>
 
         <div id="tabs">
             <ul>
@@ -23,218 +23,218 @@
                 <li><a href="#tabs-1">私人訊息</a></li>
             </ul>
 
-            <div id="tabs-0">
-                <input name ="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
-                <a href="" class="addbublue magb10">查詢</a>
-                <a href="~/Message/MessageClusterAddPublic" class="addbu rightbox">新增</a>
-                <table class="edittable">
-                    <tr>
-                        <th>編號</th>
-                        <th style="width: 50%">主題</th>
-                        <th>發佈人</th>
-                        <th>發佈日</th>
-                        <th>內容</th>
-                    </tr>
-                    <tr class="active">
-                        <td>1</td>
-                        <td class="alignleft">
-                            新北市電腦公會
-                        </td>
-                        <td>
-                            昕傳科技A
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td class="alignleft">
-                            新北市電腦公會
-                        </td>
-                        <td>
-                            昕傳科技B
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td class="alignleft">
-                            新北市電腦公會
-                        </td>
-                        <td>
-                            昕傳科技C
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="active">
-                        <td>4</td>
-                        <td class="alignleft">
-                            新北市電腦公會
-                        </td>
-                        <td>
-                            昕傳科技D
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
 
-                </table>
-                <p style="margin-top:10px">
-                    總共4筆
-                </p>
-                <ul class="pagelist">
-                    <li><a href="">&lt;</a></li>
-
-                    <li><a href="">1</a></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">6</a></li>
-                    <li><a href="">7</a></li>
-                    <li><a href="">8</a></li>
-                    <li><a href="">9</a></li>
-                    <li><a href="">10</a></li>
-
-                    <li><a href="">&gt;</a></li>
-                </ul>
-            </div>
-            <div id="tabs-1">
-                <input type="text" placeholder="請輸入查詢條件">
-                <a href="" name ="cluster_private_where" value="@ViewBag.cluster_private_where" class="addbublue magb10">查詢</a>
-                <a href="~/Message/MessageClusterAddPrivate" class="addbu rightbox">新增</a>
-
-                <table class="edittable">
-                    <tr>
-                        <th>編號</th>
-                        <th style="width: 50%">主題</th>
-                        <th>發佈人</th>
-                        <th>發佈日</th>
-                        <th>內容</th>
-                    </tr>
-                    <tr class="active">
-                        <td>1</td>
-                        <td class="alignleft">
-                            關於報價
-                        </td>
-                        <td>
-                            欣欣紡織
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                    <form id="form" action="~/Message/MessageClusterMain" method="GET">
+                    <div id="tabs-0">
+                        <div class="magb30">
+                            <input type="hidden" name="is_public" value="0" />
+                            <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
+                            <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">查詢</a>
+                            <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">新增</a>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td class="alignleft">
-                            關於報價
-                        </td>
-                        <td>
-                            方方電子
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            <div class="magb30">
+                                <h3 class="borderTitle2">未讀公告訊息</h3>
+                                <table class="edittable">
+                                    <tr>
+                                        <th style="width: 8%">編號</th>
+                                        <th style="width: 36%">主題</th>
+                                        <th style="width: 15%">發佈人</th>
+                                        <th>回覆數</th>
+                                        <th style="width: 15%">發佈日</th>
+                                        <th>內容</th>
+                                    </tr>
+                                    @{
+                                        var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
+                                    }
+                                    @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                                    {
+                                        var i = 0;
+                                        foreach (var md in Model.msgLists[0])
+                                        {
+                                            <tr class="active">
+                                                <td>@((++i) + prevCounts)</td>
+                                                <td class="alignleft">
+                                                    @md.msg_title
+                                                </td>
+                                                <td>
+                                                    @md.company
+                                                </td>
+                                                <td>
+                                                    @md.rpy_cnt
+                                                </td>
+                                                <td>
+                                                    @md.create_time.ToString("yyyy/MM/dd")
+                                                </td>
+                                                <td>
+                                                    <div class="centerbox">
+                                                        <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                                    }
+                                </table>
+                                @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"])
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td class="alignleft">
-                            關於報價
-                        </td>
-                        <td>
-                            方方電子
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
+                            <div class="magb30">
+                                <h3 class="borderTitle2">已讀公告訊息</h3>
+                                <table class="edittable">
+                                    <tr>
+                                        <th style="width: 8%">編號</th>
+                                        <th style="width: 36%">主題</th>
+                                        <th style="width: 15%">發佈人</th>
+                                        <th>回覆數</th>
+                                        <th style="width: 15%">發佈日</th>
+                                        <th>內容</th>
+                                    </tr>
+                                    @{
+                                        var prevCounts1 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
+                                    }
+                                    @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                                    {
+                                        var i = 0;
+                                        foreach (var md in Model.msgLists[1])
+                                        {
+                                            <tr class="active">
+                                                <td>@((++i) + prevCounts1)</td>
+                                                <td class="alignleft">
+                                                    @md.msg_title
+                                                </td>
+                                                <td>
+                                                    @md.company
+                                                </td>
+                                                <td>
+                                                    @md.rpy_cnt
+                                                </td>
+                                                <td>
+                                                    @md.create_time.ToString("yyyy/MM/dd")
+                                                </td>
+                                                <td>
+                                                    <div class="centerbox">
+                                                        <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                                    }
+                                </table>
+                                @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 1)
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td class="alignleft">
-                            關於報價
-                        </td>
-                        <td>
-                            方方電子
-                        </td>
-                        <td>
-                            2016/01/20
-                        </td>
-                        <td>
-                            <div class="centerbox">
-                                <a href="group_msg_detailed.html" class="editbu">內容</a>
-                            </div>
-                        </td>
-                    </tr>
-
-                </table>
-                <p style="margin-top:10px">
-                    總共4筆
-                </p>
-                <ul class="pagelist">
-                    <li><a href="">&lt;</a></li>
-
-                    <li><a href="">1</a></li>
-                    <li><a href="">2</a></li>
-                    <li><a href="">3</a></li>
-                    <li><a href="">4</a></li>
-                    <li><a href="">5</a></li>
-                    <li><a href="">6</a></li>
-                    <li><a href="">7</a></li>
-                    <li><a href="">8</a></li>
-                    <li><a href="">9</a></li>
-                    <li><a href="">10</a></li>
-
-                    <li><a href="">&gt;</a></li>
-                </ul>
-            </div>
+                            <!--</form>-->
+                        </div>
+                <div id="tabs-1">
+                  @*<form id="form2" action="~/Message/MessageClusterMain" method="GET">*@
+                        <div class="magb30">
+                        <input type="text"  name="cluster_private_where" value="@ViewBag.cluster_private_where" placeholder="請輸入查詢條件">
+                        <a href="javascript:void(0)" onclick="query(0)" class="addbublue magb10">查詢</a>
+                        <a href="~/Message/MessageClusterAdd?is_public=0" class="addbu rightbox">新增</a>
+                        </div>
+                        <div class="magb30">
+                            <h3 class="borderTitle2">未讀私人訊息</h3>
+                            <table class="edittable">
+                                <tr>
+                                    <th style="width: 8%">編號</th>
+                                    <th style="width: 36%">主題</th>
+                                    <th style="width: 15%">發佈人</th>
+                                    <th>回覆數</th>
+                                    <th style="width: 15%">發佈日</th>
+                                    <th>內容</th>
+                                </tr>
+                                @{
+                                    var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[2].prevCounts;
+                                }
+                                @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                                {
+                                    var i = 0;
+                                    foreach (var md in Model.msgLists[2])
+                                    {
+                                        <tr class="active">
+                                            <td>@((++i) + prevCounts2)</td>
+                                            <td class="alignleft">
+                                                @md.msg_title
+                                            </td>
+                                            <td>
+                                                @md.company
+                                            </td>
+                                            <td>
+                                                @md.rpy_cnt
+                                            </td>
+                                            <td>
+                                                @md.create_time.ToString("yyyy/MM/dd")
+                                            </td>
+                                            <td>
+                                                <div class="centerbox">
+                                                    <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 2)
+                        </div>
+                        <div class="magb30">
+                            <h3 class="borderTitle2">已讀私人訊息</h3>
+                            <table class="edittable">
+                                <tr>
+                                    <th style="width: 8%">編號</th>
+                                    <th style="width: 36%">主題</th>
+                                    <th style="width: 15%">發佈人</th>
+                                    <th>回覆數</th>
+                                    <th style="width: 15%">發佈日</th>
+                                    <th>內容</th>
+                                </tr>
+                                @{
+                                    var prevCounts3 = ((List<PageList<MsgModel>>)ViewData["PageList"])[3].prevCounts;
+                                }
+                                @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                                {
+                                    var i = 0;
+                                    foreach (var md in Model.msgLists[3])
+                                    {
+                                        <tr class="active">
+                                            <td>@((++i) + prevCounts3)</td>
+                                            <td class="alignleft">
+                                                @md.msg_title
+                                            </td>
+                                            <td>
+                                                @md.company
+                                            </td>
+                                            <td>
+                                                @md.rpy_cnt
+                                            </td>
+                                            <td>
+                                                @md.create_time.ToString("yyyy/MM/dd")
+                                            </td>
+                                            <td>
+                                                <div class="centerbox">
+                                                    <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 3)
+                        </div>
+                    </div>
+                </form>
         </div>
     </article>
 </div>
 @Scripts.Render("~/bundles/jqueryUI")
 <script>
-	  $(function() {
-	    $( "#tabs" ).tabs();
+	 $(function() {
+
+	    $("#tabs").tabs({active:@("0".Equals(ViewBag.is_public.ToString())?1:0)});
 
 	  	$( ".floor" ).click(function() {
 		  	 $( ".floor2" ).toggleClass('open');
@@ -242,4 +242,9 @@
 		});
 
 	  });
+
+    function query(is_public) {
+          $("input[name='is_public']").val(is_public);
+	      $("#form").submit();
+	  }
 </script>

@@ -1,0 +1,124 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Message_ViewModel
+
+
+@{
+    ViewBag.Title = "MessageClusterAddPrivate";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+<div class="article_col1">
+    @{
+        Html.RenderAction("_ClusterMenuPartial", "Cluster");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name)</h2>
+        <form id="form" action="@Url.Action("DoClusterAdd","Message")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="is_public" value="@ViewBag.is_public" />
+            <h2>@(ViewBag.is_public_text)訊息</h2>
+            @if ("0".Equals(ViewBag.is_public.ToString()))
+            {
+                <label for="" class="regis_col02L">對象</label>
+                <div class="regis_col02R verticalslist">
+                    @if (ViewBag.AllMember != null)
+                    {
+                        var i = 0;
+                        foreach (var member in (IList<ClusterMemberModel>)ViewBag.AllMember)
+                        {
+                            <input type="checkbox" name="msg_members" value="@member.user_id" class="inputCheckbox" id="busid@(i)">
+                            <label for="busid@(i)">@member.company</label>
+                            i++;
+                        }
+                    }
+                </div>
+            }
+            <label for="" class="regis_col02L">主題</label>
+            <input name="msg_title" type="text" class="regis_col02R">
+            <label for="" class="regis_col02L">內容</label>
+                <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="三百字以內" maxlength="300"></textarea>
+            <label for="" class="regis_col02L">上傳附件</label>
+            <div class="regis_col02R">
+                <label class="addbu" id="upload" for="upexls">選取檔案</label>
+                <input type="file" id="upexls" name="iupexls" multiple="multiple" />
+                <!--<input type="text" id="upexl_name" name="upexl_name">-->
+                <ul id="output"></ul>
+            </div>
+            <div class="centerbox">
+                <button type="submit" class="buinfor">確定新增</button>
+                <a href="/Message/MessageClusterMain?is_public=@ViewBag.is_public" class="submitbu">返回訊息管理</a>
+            </div>
+
+        </form>
+    </article>
+</div>
+@Scripts.Render("~/bundles/jqueryUI")
+<script>
+    $(function () {
+        $("input#upexls").change(function () {
+            var ele = document.getElementById($(this).attr('id'));
+            var result = ele.files;
+
+            $("#output").html("");
+            for (var x = 0; x < result.length; x++) {
+                var fle = result[x];
+                //$("#output").append("<li class='removeup'>" + fle.name + "</li>");
+                $("#output").append("<li>" + fle.name + "</li>");
+            }
+
+            //g_temp_files = ele.files;
+            if ($("#output li").size() > 0) {
+                $("#upload").text("重選檔案");
+            } else {
+                $("#upload").text("選擇檔案");
+            }
+        });
+
+        $("#msg_content").keydown(function (e) {
+            if ($(this).val().length > 300) {
+                if (e.keyCode != 8) {
+                    return false;
+                }
+            }
+        })
+
+        $("#form").submit(function () {
+            var msg_member = $('input[name="msg_members"]:checked').val();
+            var msg_title = $('input[name="msg_title"]').val();
+            var msg_content = $("#msg_content").val();
+
+            var errMsg = checkValidationOk(msg_member, msg_title, msg_content)
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+
+        });
+    })
+
+    function checkValidationOk(msg_member, msg_title, msg_content) {
+        var errMsg = '';
+        @if("0".Equals(ViewBag.is_public)){
+            <text>
+            if (msg_member == null || msg_member == '') {
+                errMsg += "對象不能為空白\n";
+            }
+            </text>
+        }
+
+        if (msg_title == null || msg_title == '') {
+            errMsg += "主題不能為空白\n";
+        }
+
+        if (msg_content == null || msg_content == '') {
+            errMsg += "訊息內容不能為空白!!\n";
+        } else if ($("#msg_content").val().length > 300) {
+            errMsg += "訊息不能超過三百字!!";
+        }
+        return errMsg;
+    }
+</script>

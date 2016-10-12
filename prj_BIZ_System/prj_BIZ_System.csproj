@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -883,8 +882,8 @@
     <Content Include="Views\Activity\ActivityRegister.cshtml" />
     <Content Include="Views\Activity\BuyerInfoActivity.cshtml" />
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
+    <Content Include="Views\Message\MessageClusterAdd.cshtml" />
+    <Content Include="Views\Message\MessageClusterDetail.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

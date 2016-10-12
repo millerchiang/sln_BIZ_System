@@ -1,0 +1,149 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Message_ViewModel
+@{
+    ViewBag.Title = "MessageClusterMain";
+}
+
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+<div class="article_col1">
+    @{
+        Html.RenderAction("_ClusterMenuPartial", "Cluster");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name)</h2>
+
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-0">公告訊息</a></li>
+                <li><a href="#tabs-1">私人訊息</a></li>
+            </ul>
+
+
+                    <form id="form" action="~/Message/MessageClusterMain" method="GET">
+                    <div id="tabs-0">
+                        <input type="hidden" name="is_public" value="0"/>
+                        <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
+                        <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">查詢</a>
+                        <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">新增</a>
+                        <table class="edittable">
+                            <tr>
+                                <th>編號</th>
+                                <th style="width: 50%">主題</th>
+                                <th>發佈人</th>
+                                <th>回覆數</th>
+                                <th>發佈日</th>
+                                <th>內容</th>
+                            </tr>
+                            @{
+                                var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
+                            }
+                            @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                            {
+                                var i = 0;
+                                foreach (var md in Model.msgLists[0])
+                                {
+                                    <tr class="active">
+                                        <td>@((++i) + prevCounts)</td>
+                                        <td class="alignleft">
+                                            @md.msg_title
+                                        </td>
+                                        <td>
+                                            @md.company
+                                        </td>
+                                        <td>
+                                            @md.rpy_cnt
+                                        </td>
+                                        <td>
+                                            @md.create_time.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            <div class="centerbox">
+                                                <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                            }
+                        </table>
+                        @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"])
+                        <!--</form>-->
+                </div>
+                <div id="tabs-1">
+                  @*<form id="form2" action="~/Message/MessageClusterMain" method="GET">*@
+                    <input type="text" value="@ViewBag.cluster_private_where" placeholder="請輸入查詢條件">
+                    <a href="javascript:void(0)" name="cluster_private_where" onclick="query(0)" class="addbublue magb10">查詢</a>
+                    <a href="~/Message/MessageClusterAdd?is_public=0" class="addbu rightbox">新增</a>
+
+                    <table class="edittable">
+                        <tr>
+                            <th>編號</th>
+                            <th style="width: 50%">主題</th>
+                            <th>發佈人</th>
+                            <th>回覆數</th>
+                            <th>發佈日</th>
+                            <th>內容</th>
+                        </tr>
+                        @{
+                            var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
+                        }
+                        @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                        {
+                            var i = 0;
+                            foreach (var md in Model.msgLists[1])
+                            {
+                                <tr class="active">
+                                    <td>@((++i) + prevCounts2)</td>
+                                    <td class="alignleft">
+                                        @md.msg_title
+                                    </td>
+                                    <td>
+                                        @md.company
+                                    </td>
+                                    <td>
+                                        @md.rpy_cnt
+                                    </td>
+                                    <td>
+                                        @md.create_time.ToString("yyyy/MM/dd")
+                                    </td>
+                                    <td>
+                                        <div class="centerbox">
+                                            <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">內容</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 1)
+                </div>
+                </form>
+        </div>
+    </article>
+</div>
+@Scripts.Render("~/bundles/jqueryUI")
+<script>
+	 $(function() {
+
+	    $("#tabs").tabs({active:@("0".Equals(ViewBag.is_public.ToString())?1:0)});
+
+	  	$( ".floor" ).click(function() {
+		  	 $( ".floor2" ).toggleClass('open');
+			 $(this).toggleClass('active');
+		});
+
+	  });
+
+    function query(is_public) {
+          $("input[name='is_public']").val(is_public);
+	      $("#form").submit();
+	  }
+</script>
