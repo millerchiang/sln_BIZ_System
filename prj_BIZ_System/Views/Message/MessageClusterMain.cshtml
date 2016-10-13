@@ -15,7 +15,10 @@
         Html.RenderAction("_ClusterMenuPartial", "Cluster");
     }
     <article class="article_col2">
-        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name)</h2>
+        @{
+            var l_cluster_name = ((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name;
+        }
+        <h2 class="borderTitle2">@(l_cluster_name)</h2>
 
         <div id="tabs">
             <ul>
@@ -24,227 +27,241 @@
             </ul>
 
 
-                    <form id="form" action="~/Message/MessageClusterMain" method="GET">
-                    <div id="tabs-0">
-                        <div class="magb30">
-                            <input type="hidden" name="is_public" value="0" />
-                            <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
-                            <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">查詢</a>
-                            <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">新增</a>
-                            </div>
-                            <div class="magb30">
-                                <h3 class="borderTitle2">未讀公告訊息</h3>
-                                <table class="edittable">
-                                    <tr>
-                                        <th style="width: 8%">編號</th>
-                                        <th style="width: 36%">主題</th>
-                                        <th style="width: 15%">發佈人</th>
-                                        <th>回覆數</th>
-                                        <th style="width: 15%">發佈日</th>
-                                        <th>內容</th>
+            <form id="form" action="~/Message/MessageClusterMain" method="GET">
+                <div id="tabs-0">
+                    <div class="magb30">
+                        <input type="hidden" name="is_public" value="0" />
+                        <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
+                        <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">查詢</a>
+                        <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">新增</a>
+                    </div>
+                    <div class="magb30">
+                        <h3 class="borderTitle2">未讀公告訊息</h3>
+                        <table class="edittable">
+                            <tr>
+                                <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                                <th style="width: 36%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
+                            </tr>
+                            @{
+                                var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
+                            }
+                            @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                            {
+                                var i = 0;
+                                foreach (var md in Model.msgLists[0])
+                                {
+                                    <tr class="active">
+                                        <td>@((++i) + prevCounts)</td>
+                                        <td class="alignleft">
+                                            @md.msg_title
+                                        </td>
+                                        <td>
+                                            @md.company
+                                        </td>
+                                        <td>
+                                            @md.rpy_cnt
+                                        </td>
+                                        <td>
+                                            @md.create_time.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            <div class="centerbox">
+                                                <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    @{
-                                        var prevCounts = ((List<PageList<MsgModel>>)ViewData["PageList"])[0].prevCounts;
-                                    }
-                                    @if (Model.msgLists != null && Model.msgLists.Count > 0)
-                                    {
-                                        var i = 0;
-                                        foreach (var md in Model.msgLists[0])
-                                        {
-                                            <tr class="active">
-                                                <td>@((++i) + prevCounts)</td>
-                                                <td class="alignleft">
-                                                    @md.msg_title
-                                                </td>
-                                                <td>
-                                                    @md.company
-                                                </td>
-                                                <td>
-                                                    @md.rpy_cnt
-                                                </td>
-                                                <td>
-                                                    @md.create_time.ToString("yyyy/MM/dd")
-                                                </td>
-                                                <td>
-                                                    <div class="centerbox">
-                                                        <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">內容</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
-                                    }
-                                </table>
-                                @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"])
-                            </div>
-                            <div class="magb30">
-                                <h3 class="borderTitle2">已讀公告訊息</h3>
-                                <table class="edittable">
-                                    <tr>
-                                        <th style="width: 8%">編號</th>
-                                        <th style="width: 36%">主題</th>
-                                        <th style="width: 15%">發佈人</th>
-                                        <th>回覆數</th>
-                                        <th style="width: 15%">發佈日</th>
-                                        <th>內容</th>
+                                }
+                            }
+                            else
+                            {
+                                <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                            }
+                        </table>
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } })
+                    </div>
+                    <div class="magb30">
+                        <h3 class="borderTitle2">已讀公告訊息</h3>
+                        <table class="edittable">
+                            <tr>
+                                <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                                <th style="width: 36%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
+                            </tr>
+                            @{
+                                var prevCounts1 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
+                            }
+                            @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                            {
+                                var i = 0;
+                                foreach (var md in Model.msgLists[1])
+                                {
+                                    <tr class="active">
+                                        <td>@((++i) + prevCounts1)</td>
+                                        <td class="alignleft">
+                                            @md.msg_title
+                                        </td>
+                                        <td>
+                                            @md.company
+                                        </td>
+                                        <td>
+                                            @md.rpy_cnt
+                                        </td>
+                                        <td>
+                                            @md.create_time.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            <div class="centerbox">
+                                                <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                            </div>
+                                        </td>
                                     </tr>
-                                    @{
-                                        var prevCounts1 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
-                                    }
-                                    @if (Model.msgLists != null && Model.msgLists.Count > 0)
-                                    {
-                                        var i = 0;
-                                        foreach (var md in Model.msgLists[1])
-                                        {
-                                            <tr class="active">
-                                                <td>@((++i) + prevCounts1)</td>
-                                                <td class="alignleft">
-                                                    @md.msg_title
-                                                </td>
-                                                <td>
-                                                    @md.company
-                                                </td>
-                                                <td>
-                                                    @md.rpy_cnt
-                                                </td>
-                                                <td>
-                                                    @md.create_time.ToString("yyyy/MM/dd")
-                                                </td>
-                                                <td>
-                                                    <div class="centerbox">
-                                                        <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">內容</a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
-                                    }
-                                </table>
-                                @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 1)
-                            </div>
-                            <!--</form>-->
-                        </div>
+                                }
+                            }
+                            else
+                            {
+                                <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                            }
+                        </table>
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } }, 1)
+                    </div>
+                    <!--</form>-->
+                </div>
                 <div id="tabs-1">
-                  @*<form id="form2" action="~/Message/MessageClusterMain" method="GET">*@
-                        <div class="magb30">
-                        <input type="text"  name="cluster_private_where" value="@ViewBag.cluster_private_where" placeholder="請輸入查詢條件">
+                    @*<form id="form2" action="~/Message/MessageClusterMain" method="GET">*@
+                    <div class="magb30">
+                        <input type="text" name="cluster_private_where" value="@ViewBag.cluster_private_where" placeholder="請輸入查詢條件">
                         <a href="javascript:void(0)" onclick="query(0)" class="addbublue magb10">查詢</a>
                         <a href="~/Message/MessageClusterAdd?is_public=0" class="addbu rightbox">新增</a>
-                        </div>
-                        <div class="magb30">
-                            <h3 class="borderTitle2">未讀私人訊息</h3>
-                            <table class="edittable">
-                                <tr>
-                                    <th style="width: 8%">編號</th>
-                                    <th style="width: 36%">主題</th>
-                                    <th style="width: 15%">發佈人</th>
-                                    <th>回覆數</th>
-                                    <th style="width: 15%">發佈日</th>
-                                    <th>內容</th>
-                                </tr>
-                                @{
-                                    var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[2].prevCounts;
-                                }
-                                @if (Model.msgLists != null && Model.msgLists.Count > 0)
-                                {
-                                    var i = 0;
-                                    foreach (var md in Model.msgLists[2])
-                                    {
-                                        <tr class="active">
-                                            <td>@((++i) + prevCounts2)</td>
-                                            <td class="alignleft">
-                                                @md.msg_title
-                                            </td>
-                                            <td>
-                                                @md.company
-                                            </td>
-                                            <td>
-                                                @md.rpy_cnt
-                                            </td>
-                                            <td>
-                                                @md.create_time.ToString("yyyy/MM/dd")
-                                            </td>
-                                            <td>
-                                                <div class="centerbox">
-                                                    <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">內容</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </table>
-                            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 2)
-                        </div>
-                        <div class="magb30">
-                            <h3 class="borderTitle2">已讀私人訊息</h3>
-                            <table class="edittable">
-                                <tr>
-                                    <th style="width: 8%">編號</th>
-                                    <th style="width: 36%">主題</th>
-                                    <th style="width: 15%">發佈人</th>
-                                    <th>回覆數</th>
-                                    <th style="width: 15%">發佈日</th>
-                                    <th>內容</th>
-                                </tr>
-                                @{
-                                    var prevCounts3 = ((List<PageList<MsgModel>>)ViewData["PageList"])[3].prevCounts;
-                                }
-                                @if (Model.msgLists != null && Model.msgLists.Count > 0)
-                                {
-                                    var i = 0;
-                                    foreach (var md in Model.msgLists[3])
-                                    {
-                                        <tr class="active">
-                                            <td>@((++i) + prevCounts3)</td>
-                                            <td class="alignleft">
-                                                @md.msg_title
-                                            </td>
-                                            <td>
-                                                @md.company
-                                            </td>
-                                            <td>
-                                                @md.rpy_cnt
-                                            </td>
-                                            <td>
-                                                @md.create_time.ToString("yyyy/MM/dd")
-                                            </td>
-                                            <td>
-                                                <div class="centerbox">
-                                                    <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">內容</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </table>
-                            @Html.PagesList((List<PageList<MsgModel>>)ViewData["PageList"], 3)
-                        </div>
                     </div>
-                </form>
+                    <div class="magb30">
+                        <h3 class="borderTitle2">未讀私人訊息</h3>
+                        <table class="edittable">
+                            <tr>
+                                <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                                <th style="width: 36%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
+                            </tr>
+                            @{
+                                var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[2].prevCounts;
+                            }
+                            @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                            {
+                                var i = 0;
+                                foreach (var md in Model.msgLists[2])
+                                {
+                                    <tr class="active">
+                                        <td>@((++i) + prevCounts2)</td>
+                                        <td class="alignleft">
+                                            @md.msg_title
+                                        </td>
+                                        <td>
+                                            @md.company
+                                        </td>
+                                        <td>
+                                            @md.rpy_cnt
+                                        </td>
+                                        <td>
+                                            @md.create_time.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            <div class="centerbox">
+                                                <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "0" } }, 2)
+                    </div>
+                    <div class="magb30">
+                        <h3 class="borderTitle2">已讀私人訊息</h3>
+                        <table class="edittable">
+                            <tr>
+                                <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                                <th style="width: 36%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
+                                <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
+                                <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
+                            </tr>
+                            @{
+                                var prevCounts3 = ((List<PageList<MsgModel>>)ViewData["PageList"])[3].prevCounts;
+                            }
+                            @if (Model.msgLists != null && Model.msgLists.Count > 0)
+                            {
+                                var i = 0;
+                                foreach (var md in Model.msgLists[3])
+                                {
+                                    <tr class="active">
+                                        <td>@((++i) + prevCounts3)</td>
+                                        <td class="alignleft">
+                                            @md.msg_title
+                                        </td>
+                                        <td>
+                                            @md.company
+                                        </td>
+                                        <td>
+                                            @md.rpy_cnt
+                                        </td>
+                                        <td>
+                                            @md.create_time.ToString("yyyy/MM/dd")
+                                        </td>
+                                        <td>
+                                            <div class="centerbox">
+                                                <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "0" } }, 3)
+                    </div>
+                </div>
+            </form>
         </div>
     </article>
+
 </div>
 @Scripts.Render("~/bundles/jqueryUI")
 <script>
-	 $(function() {
+    $(function() {
+        @if (!string.IsNullOrEmpty((string)TempData["clusterDetailView_errmsg"]))
+	         {
+                <text>
+                function check() {
+                    var pw_errMsg = '@TempData["clusterDetailView_errmsg"]';
+                    if (pw_errMsg != '')
+                    {
+                        alert(pw_errMsg);
+                    }
+                }
+                check();
+                </text>
+	         }
 
-	    $("#tabs").tabs({active:@("0".Equals(ViewBag.is_public.ToString())?1:0)});
+        $("#tabs").tabs({active:@("0".Equals(ViewBag.is_public.ToString())?1:0)});
 
-	  	$( ".floor" ).click(function() {
-		  	 $( ".floor2" ).toggleClass('open');
-			 $(this).toggleClass('active');
-		});
+        $( ".floor" ).click(function() {
+            $( ".floor2" ).toggleClass('open');
+            $(this).toggleClass('active');
+        });
 
-	  });
+    });
 
     function query(is_public) {
-          $("input[name='is_public']").val(is_public);
-	      $("#form").submit();
-	  }
+        $("input[name='is_public']").val(is_public);
+        $("#form").submit();
+    }
 </script>

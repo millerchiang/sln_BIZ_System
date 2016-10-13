@@ -56,12 +56,20 @@
       where msg_no = $msg_no$
       and ( creater_id = #creater_id# 
       or (
-        #creater_id# in (select user_id from public.cluster_member cm where cm.cluster_no = $cluster_no$ )
         <dynamic prepend="">
-          <isEqual prepend="and" property="is_public" compareValue="0">
-            (  msg_member like '% '||#creater_id#||',%' )
-          </isEqual>
+          <isNotNull prepend="" property="is_public">
+            <![CDATA[
+              cluster_no <> 0
+            ]]>
+            and is_public = #is_public#
+            and cluster_no = $cluster_no$
+            and ( creater_id = #creater_id# or #creater_id# in (select user_id from public.cluster_member cm where cm.cluster_no = $cluster_no$ ) )
+            <isEqual prepend="and" property="is_public" compareValue="0">
+              (  creater_id = #creater_id# or msg_member like '% '||#creater_id#||',%' )
+            </isEqual>
+          </isNotNull>
         </dynamic>
+        )
       )
     </select>
     

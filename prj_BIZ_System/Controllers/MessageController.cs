@@ -28,13 +28,12 @@ namespace prj_BIZ_System.Controllers
         public MessageService messageService;
         public ClusterService clusterService;
         public Message_ViewModel messageViewModel;
-        //public Cluster_ViewModel clusterViewModel;
+
         public MessageController()
         {
             messageService = new MessageService();
             clusterService = new ClusterService();
             messageViewModel = new Message_ViewModel();
-            //clusterViewModel = new Cluster_ViewModel();
         }
 
         #region --私人訊息--
@@ -366,60 +365,20 @@ namespace prj_BIZ_System.Controllers
             messageViewModel.msgPrivateList = result;
             return View(messageViewModel);
         }
-
-        /*
-        public ActionResult MessageClusterAdd()
-        {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-
-            return View();
-        }
         
-
-        public ActionResult MessageClusterDetailed(int msg_no)
-        {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-
-            string current_user_id = Request.Cookies["UserInfo"]["user_id"];
-            if (msg_no != 0)
-            {
-                if (isOwnViewPower(msg_no, MessageType.CompanyPublic)) //檢查權限
-                {
-                    
-                    //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
-
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Cluster);
-                    messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
-                    messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
-                    return View(messageViewModel);
-                }
-                else
-                {
-                    TempData["priDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
-                    return Redirect("MessagePrivateList");
-                }
-            }
-            else
-            {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
-                return Redirect("MessagePrivateList");
-            }
-        }
-        */
         [HttpGet]
         public ActionResult MessageClusterDetail(int msg_no , string is_public)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             ViewBag.is_public = is_public;
-
             var current_user_id = Request.Cookies["UserInfo"]["user_id"];
+            var cluster_no = int.Parse(Request["cluster_no"]);
+            ViewBag.cluster_info = clusterService.GetClusterInfo(cluster_no,null,null);
             if (msg_no != 0)
             {
-                //if (isOwnViewPower(msg_no, MessageType.Person)) //檢查權限
+                var type = "0".Equals(is_public) ? MessageType.ClusterPrivate : MessageType.ClusterPublic ;
+                if (isOwnViewPower(msg_no, type, cluster_no)) //檢查權限
                 {
                     messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, current_user_id);
                     ViewBag.is_public = string.IsNullOrEmpty(is_public) ? "1" : is_public;
@@ -428,6 +387,11 @@ namespace prj_BIZ_System.Controllers
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
                     ViewBag.clusterInfo = messageService.SelectClusterByMsg_no(msg_no);
                     return View(messageViewModel);
+                }
+                else
+                {
+                    TempData["clusterDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
+                    return Redirect("/Message/MessageClusterMain?is_public="+ is_public);
                 }
             }
 
@@ -448,7 +412,7 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        private bool isOwnViewPower(int msg_no, MessageType mtype)
+        private bool isOwnViewPower(int msg_no, MessageType mtype , int cluster_no = 0)
         {
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             switch (mtype)
@@ -461,7 +425,9 @@ namespace prj_BIZ_System.Controllers
                     return messageService.isOwnViewPower(msg_no, user_id);
 
                 case MessageType.ClusterPublic:
-                case MessageType.ClusterPrivate: 
+                    return messageService.isOwnViewPowerForClusterPublic(msg_no, cluster_no, user_id);
+                case MessageType.ClusterPrivate:
+                    return messageService.isOwnViewPowerForClusterPrivate(msg_no, cluster_no, user_id);
 
                 default:
                     return false;

@@ -65,9 +65,15 @@ namespace prj_BIZ_System.Services
             return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCompany", param)) > 0;
         }
 
-        public bool isOwnViewPowerForCluster(int msg_no, int cluster_no , string user_id)
+        public bool isOwnViewPowerForClusterPublic(int msg_no, int cluster_no , string user_id)
         {
-            var param = new MsgModel { msg_no = msg_no, creater_id = user_id , cluster_no = cluster_no };
+            var param = new MsgModel { msg_no = msg_no, creater_id = user_id , cluster_no = cluster_no, is_public = "1" };
+            return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCluster", param)) > 0;
+        }
+
+        public bool isOwnViewPowerForClusterPrivate(int msg_no, int cluster_no, string user_id)
+        {
+            var param = new MsgModel { msg_no = msg_no, creater_id = user_id, cluster_no = cluster_no ,is_public="0" };
             return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCluster", param)) > 0;
         }
 

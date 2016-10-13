@@ -15,7 +15,7 @@
         Html.RenderAction("_ClusterMenuPartial", "Cluster");
     }
     <article class="article_col2">
-        <h2 class="borderTitle2">聚落A</h2>
+        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.cluster_info).cluster_name)</h2>
         <form action="/Message/DoMessageClusterDetail" class="form_box sys_searchbox" method="post">
             <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
             <h2>聚落訊息</h2>
@@ -58,7 +58,10 @@
                         {
                             <li>
                                 <div class="dialog_img">
-                                    <img src="@(UploadHelper.getPictureDirPath(r_md.msg_reply, "logo")+r_md.logo_img)" alt="" class="">
+                                    @{
+                                        var imgsrc = string.IsNullOrEmpty(r_md.logo_img) ? UploadHelper.defaultImgSmall : UploadHelper.getPictureDirPath(r_md.msg_reply, "logo") + r_md.logo_img;
+                                    }
+                                    <img src="@imgsrc" alt="" class="">
                                 </div>
                                 <div class="dialogbox">
                                     <h6>@r_md.company</h6>
@@ -68,34 +71,34 @@
                                     </p>
                                 </div>
                             </li>
-                        }
-                    }
+                                            }
+                                        }
                     <!--
-                <li>
-                    <div class="dialog_img">
-                        <img src="../../images/index_pic.jpg" alt="" class="">
-                    </div>
-                    <div class="dialogbox">
-                        <h6>傳傳紡織</h6>
-                        <span>2016/02/22 14:30</span>
-                        <p>
-                            太好了太好了
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div class="dialog_img">
-                        <img src="../../images/index_pic.jpg" alt="" class="">
-                    </div>
-                    <div class="dialogbox">
-                        <h6>傳傳紡織</h6>
-                        <span>2016/02/22 14:30</span>
-                        <p>
-                            太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了
-                        </p>
-                    </div>
-                </li>
-                -->
+        <li>
+            <div class="dialog_img">
+                <img src="../../images/index_pic.jpg" alt="" class="">
+            </div>
+            <div class="dialogbox">
+                <h6>傳傳紡織</h6>
+                <span>2016/02/22 14:30</span>
+                <p>
+                    太好了太好了
+                </p>
+            </div>
+        </li>
+        <li>
+            <div class="dialog_img">
+                <img src="../../images/index_pic.jpg" alt="" class="">
+            </div>
+            <div class="dialogbox">
+                <h6>傳傳紡織</h6>
+                <span>2016/02/22 14:30</span>
+                <p>
+                    太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了太好了
+                </p>
+            </div>
+        </li>
+        -->
                 </ul>
                 <textarea name="reply_content" id="reply_content" placeholder="三百字以內" maxlength="300"></textarea>
                 <div class="centerbox">

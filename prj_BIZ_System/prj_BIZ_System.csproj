@@ -886,8 +886,6 @@
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Support.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
     <Content Include="Views\Message\MessageClusterAdd.cshtml" />
     <Content Include="Views\Message\MessageClusterDetail.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
