@@ -855,4 +855,22 @@ To complete the registration of members, thank you!</value>
   <data name="lb_sa_member" xml:space="preserve">
     <value>Sales member</value>
   </data>
+  <data name="lb_click_correct" xml:space="preserve">
+    <value>Sorry, please click the correct link.</value>
+  </data>
+  <data name="lb_data_wrong" xml:space="preserve">
+    <value>The data is not correct, please re-type !</value>
+  </data>
+  <data name="lb_member_verified" xml:space="preserve">
+    <value>You have already verified this member account, please login on the homepage, thank you.</value>
+  </data>
+  <data name="lb_parameter_wrong" xml:space="preserve">
+    <value>Your member verifed parameters are wrong. Please re-send the verification email or contact our customer service. Thank you.</value>
+  </data>
+  <data name="lb_pwmailfail" xml:space="preserve">
+    <value>New password notification update failed, please re-operate !</value>
+  </data>
+  <data name="lb_verify_expired" xml:space="preserve">
+    <value>Your membership verification has expired. Please resend the verification mail or re-register. Thank you.</value>
+  </data>
 </root>

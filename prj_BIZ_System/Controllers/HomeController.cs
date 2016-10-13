@@ -164,9 +164,17 @@ namespace prj_BIZ_System.Controllers
 
             if (sort_id != "")
             {
+                EnterpriseSortListModel scope = userService.GetSortById(int.Parse(sort_id));
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
-                ViewBag.keyword = sort_id;
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    ViewBag.keyword = scope.enterprise_sort_name_en;
+                }
+                else
+                {
+                    ViewBag.keyword = scope.enterprise_sort_name;
+                }
             }
             else if (kw!="")
             {
@@ -342,14 +350,14 @@ namespace prj_BIZ_System.Controllers
                 bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, securityPassword);
                 if (!isUpdateSuccess)
                 {
-                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    errMsg = LanguageResource.User.lb_pwmailfail;
                     TempData["fp_errMsg"] = errMsg;
                     return Redirect("ForgetPassword");
                 }
             }
             else
             {
-                errMsg = "輸入的資料不正確，請重新操作!!";
+                errMsg = LanguageResource.User.lb_data_wrong;
                 TempData["fp_errMsg"] = errMsg;
                 return Redirect("ForgetPassword");
             }

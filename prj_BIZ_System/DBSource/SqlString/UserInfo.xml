@@ -21,6 +21,12 @@
       ORDER BY enterprise_sort_list.sort_id;
     </select>
 
+    <!--查詢單筆產業別-->
+    <select id="SelectSortById" parameterType= "int" resultMap="Enterprise_sort-result">
+      SELECT *
+      FROM enterprise_sort_list
+      where sort_id = $sort_id$  
+    </select>
 
 
     <select id="SelectUserSortBySortId" parameterClass="CompanySortModel" resultMap="CompanySort-result">

@@ -856,4 +856,22 @@
   <data name="lb_sa_member" xml:space="preserve">
     <value>業務會員</value>
   </data>
+  <data name="lb_click_correct" xml:space="preserve">
+    <value>很抱歉!請點選正確的訊息連結</value>
+  </data>
+  <data name="lb_data_wrong" xml:space="preserve">
+    <value>輸入的資料不正確，請重新操作!!</value>
+  </data>
+  <data name="lb_member_verified" xml:space="preserve">
+    <value>您已驗證過本會員帳號，請於首頁登入使用，謝謝。</value>
+  </data>
+  <data name="lb_parameter_wrong" xml:space="preserve">
+    <value>您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。</value>
+  </data>
+  <data name="lb_pwmailfail" xml:space="preserve">
+    <value>新的註冊密碼通知信更新失敗，請重新操作!!</value>
+  </data>
+  <data name="lb_verify_expired" xml:space="preserve">
+    <value>您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。</value>
+  </data>
 </root>
