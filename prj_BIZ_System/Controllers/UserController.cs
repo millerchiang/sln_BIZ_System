@@ -168,9 +168,9 @@ namespace prj_BIZ_System.Controllers
 
             const int expired_limit_days = 3; //期限
             string status_success     = LanguageResource.User.lb_account_activated;
-            string status_expired     = "您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。";
-            string status_beValidated = "您已驗證過本會員帳號，請於首頁登入使用，謝謝。";
-            string status_fail        = "您的會員驗證參數錯誤，請重發驗證信或聯絡客服人員，謝謝。";
+            string status_expired     = LanguageResource.User.lb_verify_expired;
+            string status_beValidated = LanguageResource.User.lb_member_verified;
+            string status_fail        = LanguageResource.User.lb_parameter_wrong;
 
             UserInfoModel dbUser = userService.GeUserInfoOne(datas[1]);
             string result ;

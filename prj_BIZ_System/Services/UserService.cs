@@ -101,6 +101,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<EnterpriseSortListModel>("UserInfo.SelectAll_sort", null);
         }
 
+        public EnterpriseSortListModel GetSortById(int sort_id)
+        {
+            return (EnterpriseSortListModel)mapper.QueryForObject("UserInfo.SelectSortById", sort_id);
+        }
+
         //CompanySortModel******************************************************************************//
 
         public IList<CompanySortModel> SelectUserSortBySortId(int sort_id,string kw)

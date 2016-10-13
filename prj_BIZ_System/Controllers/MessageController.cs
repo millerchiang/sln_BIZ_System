@@ -128,7 +128,7 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
+                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
                 return Redirect(getLabelString(MessageCatalog.Private, "backUrl"));
             }
         }
@@ -243,7 +243,7 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
+                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
                 return Redirect(getLabelString(MessageCatalog.Company, "backUrl"));
             }
         }
@@ -330,7 +330,7 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
+                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
                 return Redirect("MessagePrivateList");
             }
         }

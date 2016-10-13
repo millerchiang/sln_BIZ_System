@@ -36,7 +36,7 @@
         <h2 class="borderTitle">
             @prj_BIZ_System.LanguageResource.User.lb_company
         </h2>
-        <p class="magb30">@prj_BIZ_System.LanguageResource.User.lb_search @searchitem:<span class="fontRed">@ViewBag.keyword</span></p>
+        <p class="magb30">@prj_BIZ_System.LanguageResource.User.lb_search @searchitem: <span class="fontRed"> @ViewBag.keyword</span></p>
         <section class="form_box">
             <h2>@prj_BIZ_System.LanguageResource.User.lb_searchresult</h2>
             
@@ -87,7 +87,7 @@
                                 <div class="imgbox">
                                     <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.UploadRootPath + md.user_id + "/Product/" + md.product_pic_site)" alt="">
                                 </div>
-                                <div class="producttext">
+                                <div class="producttext comicon">
                                     @{
                                         var company = md.company;
                                         if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
@@ -118,8 +118,8 @@
 
 
                                         <h3><a href="/User/UserInfo?user_id=@md.user_id">@prj_BIZ_System.LanguageResource.User.lb_companyname: @company</a></h3>
-                                        <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
-                                        <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
+                                        <h3> - @prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
+                                        <p> - @prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
                                 </div>
                                 <div class="productbu">
 
