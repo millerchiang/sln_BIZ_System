@@ -214,6 +214,12 @@ namespace prj_BIZ_System.Services
             return (ActivityRegisterModel)mapper.QueryForObject("ActivityInfo.SelectActivityRegisterOne", param);
         }
 
+        public IList<ActivityRegisterModel> GetActivityRegisterList(int activity_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityRegisterList", param);
+        }
+
         public ActivityRegisterModel GetActivityRegisterSelectOne(int activity_id,string user_id)
         {
             ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id, user_id = user_id };

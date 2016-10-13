@@ -180,6 +180,14 @@
         WHERE ar.register_id = #register_id#
       </select>
 
+    <!--查詢活動報名-->
+    <select id="SelectActivityRegisterList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+      SELECT ar.* , ui.company , ui.company_en
+      FROM activity_register ar
+      LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+      WHERE ar.activity_id = $activity_id$
+    </select>
+
     <!--查詢活動報名單筆 by activity and user-->
     <select id="SelectActivityRegisterSelectOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
       SELECT *
