@@ -19,6 +19,8 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
+  font-size: 0.875em;
 }
 
 .regis_col01R_input {
@@ -26,6 +28,8 @@
   display: inline-block;
   vertical-align: top;
   margin: 0 0 15px 0;
+  line-height: 29px;
+  float: left;
 }
 
 .regis_col02L {
@@ -35,6 +39,8 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
+  font-size: 0.938em;
 }
 
 .regis_col02R {
@@ -44,6 +50,7 @@
   margin: 0 0 15px 0;
   box-sizing: border-box;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col03L {
@@ -52,6 +59,8 @@
   vertical-align: top;
   margin: 0 0 15px 1%;
   float: left;
+  line-height: 29px;
+  font-size: 0.938em;
 }
 
 .regis_col03R {
@@ -60,6 +69,7 @@
   vertical-align: top;
   margin: 0 0 15px 0;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col06R {
@@ -68,6 +78,7 @@
   vertical-align: top;
   margin: 0 0 15px 1%;
   float: left;
+  line-height: 29px;
 }
 
 .regis_col06L {
@@ -77,6 +88,7 @@
   margin: 0 0 15px 0;
   float: left;
   clear: left;
+  line-height: 29px;
 }
 
 .regis_col02R .radioinput + label {
@@ -86,11 +98,79 @@
   float: left;
 }
 
+.regis_col_bg {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  font-size: 0.875em;
+}
+.regis_col_bg:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: -5px;
+  height: 15px;
+  top: 7px;
+}
+
+.regis_col_bg2 {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  background: #f4f4f4;
+  border-right: 10px solid #ffffff;
+  font-size: 0.875em;
+}
+.regis_col_bg2:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: -5px;
+  height: 15px;
+  top: 7px;
+}
+
+.regis_col_bg3 {
+  padding-left: 5px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 5px 0;
+  line-height: 29px;
+  display: block;
+  font-size: 0.875em;
+  padding-left: 15px;
+}
+.regis_col_bg3:before {
+  content: "";
+  border-left: 3px solid #f48f13;
+  position: absolute;
+  left: 5px;
+  height: 15px;
+  top: 7px;
+}
+
+.bgbox {
+  background: #f4f4f4;
+  margin: 0 0 15px 0;
+  display: inline-block;
+  padding: 10px 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bgbox2 {
+  background: #FFFFE1;
+}
+
 .verticalslist .inputCheckbox + label {
   width: 50%;
-  padding-bottom: 10px;
+  padding-bottom: 16px;
   box-sizing: border-box;
   float: left;
+}
+
+.verticalslist label:nth-of-type(odd) {
+  clear: left;
 }
 
 .label01 {
@@ -98,10 +178,8 @@
   width: 100%;
 }
 
-.addbu {
-  margin: 5px 0;
-}
-
+/*.addbu
+ * margin: 5px 0 */
 textarea {
   width: 100%;
   height: 90px;
@@ -115,6 +193,7 @@ textarea {
 .regis_table th {
   background: #f4f4f4;
   padding: 10px 0;
+  font-size: 0.938em;
 }
 .regis_table th + th {
   padding-left: 16px;
@@ -128,34 +207,13 @@ textarea {
 .regis_table td {
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 0.875em;
 }
-
-.datalist {
-  border: 1px solid #cccccc;
-  padding: 15px 0;
+.regis_table input + input {
+  margin-top: 10px;
 }
-.datalist h3 {
-  color: #2e7ed1;
-  position: relative;
-  padding: 5px 15px 15px 45px;
-  border-bottom: 1px solid #cccccc;
-}
-.datalist h3:before {
-  content: "";
-  width: 27px;
-  height: 27px;
-  background-image: url(../images/icon-s3235817286.png);
-  background-repeat: no-repeat;
-  background-position: 0 -34px;
-  position: absolute;
-  left: 15px;
-  top: 0;
-}
-.datalist ul {
-  padding: 15px;
-}
-.datalist ul a {
-  font-size: 0.813em;
+.regis_table tr:nth-child(odd) {
+  background: #fffff3;
 }
 
 .datalist2 {
@@ -205,16 +263,6 @@ textarea {
 .inforlist li ul {
   padding: 0;
 }
-.inforlist span {
-  margin-top: 10px;
-  display: block;
-  line-height: 1.5em;
-  font-size: 0.938em;
-  font-weight: bold;
-  background: #fffcf0;
-  text-align: center;
-  padding: 5px;
-}
 
 .inforlistactive {
   background: #FFFCF0;
@@ -222,9 +270,6 @@ textarea {
 
 @media only screen and (max-width: 768px) {
   .regis_col01L {
-    width: 100%;
-    display: inline-block;
-    vertical-align: top;
     margin: 0 0 30px 0;
   }
 

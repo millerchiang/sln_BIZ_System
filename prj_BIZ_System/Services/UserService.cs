@@ -310,6 +310,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ProductListModel>("UserInfo.SelectProductListByUserId", param);
         }
 
+        public IList<ProductListModel> getProductListByKw(string kw)
+        {
+            ProductListModel param = new ProductListModel() { product_name = kw.ToUpper() };
+            return mapper.QueryForList<ProductListModel>("UserInfo.SelectProductListByKw", param);
+        }
+
         public ProductListModel getProductOne(int? product_id)
         {
             ProductListModel param = new ProductListModel() { product_id = product_id };
@@ -367,6 +373,13 @@ namespace prj_BIZ_System.Services
             CatalogListModel param = new CatalogListModel() { user_id = user_id };
             return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByUserId", param);
         }
+
+        public IList<CatalogListModel> getCatalogListByKw(string kw)
+        {
+            CatalogListModel param = new CatalogListModel() { catalog_name = kw.ToUpper() };
+            return mapper.QueryForList<CatalogListModel>("UserInfo.SelectCatalogListByKw", param);
+        }
+
 
         public IList<CatalogListModel> getAllCatalogTop(int limit)
         {

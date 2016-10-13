@@ -832,6 +832,10 @@ a:hover, a:focus, a:active, a.active {
   color: #00bcd5;
 }
 
+#enterprise_type02 + label:lang(en) {
+  display: block;
+}
+
 .radioinput + label:before {
   content: " ";
   width: 12px;
@@ -1204,6 +1208,9 @@ a:hover, a:focus, a:active, a.active {
 .col2 li {
   float: left;
   width: 50%;
+}
+.col2 li:nth-of-type(odd) {
+  clear: left;
 }
 
 .w100 {

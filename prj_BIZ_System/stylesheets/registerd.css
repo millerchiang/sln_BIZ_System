@@ -342,6 +342,10 @@ textarea {
   line-height: 1;
 }
 
+.choose_file:lang(en) {
+  max-width: 120px;
+}
+
 #result {
   width: 180px;
   height: 180px;
@@ -589,6 +593,42 @@ textarea {
   }
   .databu.active:before {
     background-position: 0% 0%;
+  }
+  .databu:lang(en):link, .databu:lang(en):visited {
+    font-size: 0.875em;
+    padding-left: 30px;
+    padding-right: 5px;
+  }
+  .databu:lang(en):before {
+    content: "";
+    background-image: url(../images/icon/myinfor_s.png);
+    width: 30px;
+    height: 25px;
+    position: absolute;
+    top: 12px;
+    left: 0;
+  }
+  .databu:lang(en).databu02:before, .databu:lang(en).databu02.active:before {
+    background-position: -30px 0%;
+  }
+  .databu:lang(en).databu03:before, .databu:lang(en).databu03.active:before {
+    background-position: -60px 0%;
+  }
+  .databu:lang(en).databu04:before, .databu:lang(en).databu04.active:before {
+    background-position: -90px 0%;
+  }
+  .databu:lang(en).databu05:before, .databu:lang(en).databu05.active:before {
+    background-position: 0 0%;
+  }
+  .databu:lang(en):hover, .databu:lang(en):focus, .databu:lang(en):active, .databu:lang(en).active {
+    color: #03a9f5;
+  }
+  .databu:lang(en):hover:before, .databu:lang(en):focus:before, .databu:lang(en):active:before, .databu:lang(en).active:before {
+    background-position-y: 100%;
+  }
+  .databu:lang(en).active {
+    background-color: #f4f4f4;
+    color: #000000;
   }
 }
 @media only screen and (max-width: 599px) {
