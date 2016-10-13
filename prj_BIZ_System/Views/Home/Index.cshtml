@@ -61,14 +61,23 @@
 
                     @foreach (var catalogList in Model.cataloglistList)
                     {
+                        var company = catalogList.company;
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (catalogList.company_en != null && catalogList.company_en != "")
+                            {
+                                company = catalogList.company_en;
+                            }
+                        }
+
                         <li>
                             <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
                                 <span>@(catalogList.catalog_name)</span>
                                 <div class="regisimg">
                                     <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
                                 </div>
-                                <p class="conpany_name">@(catalogList.company)</p>
                             </a>
+                            <a href="/User/UserInfo?user_id=@catalogList.user_id">@company </a>
 
                         </li>
                     }
