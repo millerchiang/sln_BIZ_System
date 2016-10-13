@@ -1196,7 +1196,9 @@ namespace prj_BIZ_System.Controllers
             setupActivityFormData(workbook, sellerNeedPOIDatas, 2);
             setupActivityFormData(workbook, buyerNeedPOIDatas, 3);
 
-            return getExcelFile(workbook, activityFormFileName);
+            exportExcelFileByMemorySpace(workbook, activityFormFileName);
+            return null;
+            //return exportExcelFile(workbook, activityFormFileName);
         }
 
         private void setupActivityFormData(IWorkbook workbook, IList<string[]> datas, int sheetNum)
@@ -2041,8 +2043,9 @@ namespace prj_BIZ_System.Controllers
             //ms.Dispose();
             //Response.End();
             #endregion 
-
-            return getExcelFile(workbook, "matchmaking.xls");
+            exportExcelFileByMemorySpace(workbook, "matchmaking.xls");
+            return null;
+            //return exportExcelFile(workbook, "matchmaking.xls");
         }
 
         #endregion
@@ -2062,13 +2065,25 @@ namespace prj_BIZ_System.Controllers
 
         #region 產生Excel檔
         //refactoring by. Rong 2016/10/13
-        private FileResult getExcelFile(IWorkbook workbook, string filename)
+        private FileResult exportExcelFile(IWorkbook workbook, string filename)
         {
             string savePath = @"D:/Download/" + filename;
             FileStream file = new FileStream(savePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
             return File(savePath, "application/ms-excel", filename);
+        }
+
+
+        private void exportExcelFileByMemorySpace(IWorkbook workbook, string filename)
+        {
+            var ms = new MemoryStream();
+            workbook.Write(ms);
+            Response.AddHeader("Content-Disposition", string.Format("attachment; filename=" + filename));
+            Response.BinaryWrite(ms.ToArray());
+            ms.Close();
+            ms.Dispose();
+            Response.End();
         }
         #endregion
 
