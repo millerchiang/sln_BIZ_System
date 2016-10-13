@@ -220,6 +220,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityRegisterList", param);
         }
 
+        public IList<ActivityRegisterModel> GetARCheckPassList(int activity_id)
+        {
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id };
+            return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectARCheckPassList", param);
+        }
+
         public ActivityRegisterModel GetActivityRegisterSelectOne(int activity_id,string user_id)
         {
             ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id, user_id = user_id };

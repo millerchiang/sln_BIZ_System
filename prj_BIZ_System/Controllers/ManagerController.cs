@@ -1116,9 +1116,10 @@ namespace prj_BIZ_System.Controllers
 
         #region 匯出活動買家和賣家表單
         [HttpGet]
-        public ActionResult ExportActivityFormExcel(int activity_id)
+        public ActionResult ExportActivityFormExcel(int activity_id, string activity_name)
         {
-            string activityFormFileName = "activity_form.xls";
+            string activityFormTemplateFileName = "activity_form.xls";
+            string activityFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
             var sellerNeedList = matchService.GetSellerNeedWithCompany(activity_id);
             var sellerNeedIds = sellerNeedList.GetFieldList(sn => sn["seller_id"]);
             var sellerNeedPOIDatas = sellerNeedList.Select( sn => 
@@ -1148,11 +1149,11 @@ namespace prj_BIZ_System.Controllers
                                                             }
                                                          ).ToList();
             var activityRegisterPOIDatas = activityService
-                                            .GetActivityRegisterList(activity_id)
+                                            .GetARCheckPassList(activity_id)
                                             .Select( ar =>
                                                 new string[]
                                                 {
-                                                    ar.activity_id.ToString(),
+                                                    ar.register_id.ToString(),
                                                     ar.create_time.ToString("yyyy-MM-dd HH:mm"),
                                                     sellerNeedIds.IndexOf(ar.user_id) != -1  ? "是" : "否",
                                                     ar.user_id,
@@ -1166,10 +1167,10 @@ namespace prj_BIZ_System.Controllers
                                                     ar.telephone,
                                                     ar.phone,
                                                     ar.email,
-                                                    string.Join(",", userService.getAllCatalog(ar.user_id)
+                                                    string.Join(",", activityService.GetActivityCatalogSelectList(ar.user_id, ar.activity_id)
                                                                         .Select( cl => cl.catalog_name )
                                                                         .ToArray()),
-                                                    string.Join(",", userService.getAllProduct(ar.user_id)
+                                                    string.Join(",", activityService.GetActivityProductSelectList(ar.user_id, ar.activity_id)
                                                                         .Select(cl => cl.product_name)
                                                                         .ToArray()),
                                                     ar.user_info,
@@ -1190,7 +1191,7 @@ namespace prj_BIZ_System.Controllers
                                                     }
                                                    ).ToList();
 
-            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + activityFormFileName);
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + activityFormTemplateFileName);
             setupActivityFormData(workbook, activityRegisterPOIDatas, 0);
             setupActivityFormData(workbook, buyerListPOIDatas, 1);
             setupActivityFormData(workbook, sellerNeedPOIDatas, 2);
