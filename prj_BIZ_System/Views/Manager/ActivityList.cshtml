@@ -39,7 +39,7 @@
             <td>@newInfo.matchmaking_select</td>
             <td>
                 <div class="centerbox">
-                    <a href="" class="addbured">匯出</a>
+                    <a href="@Url.Action("ExportActivityFormExcel","Manager",new {activity_id = @newInfo.activity_id, activity_name = @newInfo.activity_name})" class="addbured">匯出</a>
                 </div>
             </td>
             <td>

@@ -21,6 +21,12 @@
       ORDER BY enterprise_sort_list.sort_id;
     </select>
 
+    <!--查詢單筆產業別-->
+    <select id="SelectSortById" parameterType= "int" resultMap="Enterprise_sort-result">
+      SELECT *
+      FROM enterprise_sort_list
+      where sort_id = $sort_id$  
+    </select>
 
 
     <select id="SelectUserSortBySortId" parameterClass="CompanySortModel" resultMap="CompanySort-result">
@@ -101,16 +107,23 @@
     -->
     <!--查詢型錄全部-->
     <select id="SelectCatalogListByUserId" parameterClass="CatalogListModel" resultMap="CatalogList-result">
-      SELECT c.*, u.company
+      SELECT c.*, u.company,u.company_en
       FROM catalog_list c
       JOIN user_info u on c.user_id = u.user_id
       WHERE c.user_id = #user_id#
     </select>
 
+    <!--關鍵字查詢型錄公司-->
+    <select id="SelectCatalogListByKw" parameterClass="CatalogListModel" resultMap="CatalogList-result">
+      SELECT c.*, u.company,u.company_en
+      FROM catalog_list c
+      JOIN user_info u on c.user_id = u.user_id
+      WHERE UPPER(c.catalog_name) like '%'||#catalog_name#||'%' and c.deleted = '1'
+    </select>
     
     <!--查詢型錄全部-->
     <select id="SelectCatalogListTop" parameterType= "int" resultMap="CatalogList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company,u.company_en
       FROM catalog_list c
       JOIN user_info u on c.user_id = u.user_id
       Order By catalog_no Desc Limit $limit$
@@ -120,7 +133,7 @@
 
     <!--查詢型錄部份-->
     <select id="SelectCatalogListByCatalogNo" parameterClass="CatalogListModel" resultMap="CatalogList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company,u.company_en
       FROM catalog_list c
       JOIN user_info u on c.user_id = u.user_id
       WHERE c.user_id = #user_id# and c.catalog_no = #catalog_no#
@@ -214,6 +227,15 @@
       FROM product_list p
       LEFT JOIN user_info u ON p.user_id = u.user_id
       WHERE product_id = #product_id#
+    </select>
+
+    <!--關鍵字查詢產品公司-->
+    <select id="SelectProductListByKw" parameterClass="ProductListModel" resultMap="ProductList-UserInfo-result">
+      select * from product_list
+      inner join user_info
+      ON product_list.user_id = user_info.user_id
+      WHERE UPPER(product_name) like '%'||#product_name#||'%' or UPPER(product_name_en) like '%'||#product_name#||'%' and deleted = '1'
+      ORDER BY user_info.company;
     </select>
 
     <!--刪除產品-->
@@ -450,6 +472,7 @@
       <result property="catalog_file" column="catalog_file" />
       <result property="deleted" column="deleted" />
       <result property="company" column="company" />
+      <result property="company_en" column="company_en" />
     </resultMap>
 
     <resultMap id="VideoList-result" class="prj_BIZ_System.Models.VideoListModel">

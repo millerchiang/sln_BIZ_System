@@ -119,7 +119,6 @@ namespace prj_BIZ_System.Controllers
                     messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
 
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Private);
-                    ViewBag.is_public=
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
                     return View(messageViewModel);
@@ -132,7 +131,7 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
+                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
                 return Redirect(getLabelString(MessageCatalog.Private, "backUrl"));
             }
         }
@@ -247,7 +246,7 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                TempData["priDetailView_errmsg"] = "很抱歉!請點選正確的訊息連結";
+                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
                 return Redirect(getLabelString(MessageCatalog.Company, "backUrl"));
             }
         }

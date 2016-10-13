@@ -331,9 +331,48 @@
       ON ms.seller_id = ui.user_id
       WHERE ms.activity_id = #activity_id#
     </select>
-    
-    
-    
+
+    <!--後台_查詢買家有媒合意願的清單(買家公司名稱)-->
+    <select id="SelectMSneedByBuyerCompany" resultMap="UserForActivityMatchUser" parameterClass="MatchmakingAllModel">
+      SELECT *
+      FROM matchmaking_buyerneed ms
+      INNER JOIN user_info ui
+      ON ms.buyer_id = ui.user_id
+      WHERE ms.activity_id = #activity_id#
+    </select>
+
+
+    <!--後台_查詢賣家有媒合意願的清單(包含雙方公司名稱)-->
+    <select id="SelectSellerNeedWithCompany" resultClass="Hashtable" parameterClass="MatchmakingAllModel">
+      SELECT ms.seller_id,
+      sc.company seller_company,
+      sc.company_en seller_company_en,
+      ms.buyer_id,
+      bc.company buyer_company,
+      bc.company_en buyer_company_en
+      FROM matchmaking_sellerneed ms,
+      get_company_and_en_by_user_id(ms.seller_id) sc,
+      get_company_and_en_by_user_id(ms.buyer_id) bc
+      WHERE ms.activity_id = #activity_id#
+      order by ms.seller_id
+    </select>
+
+    <!--後台_查詢買家有媒合意願的清單(包含雙方公司名稱)-->
+    <select id="SelectBuyerNeedWithCompany" resultClass="Hashtable" parameterClass="MatchmakingAllModel">
+      SELECT ms.buyer_id,
+      bc.company buyer_company,
+      bc.company_en buyer_company_en,
+      ms.seller_id,
+      sc.company seller_company,
+      sc.company_en seller_company_en
+      FROM matchmaking_buyerneed ms,
+      get_company_and_en_by_user_id(ms.seller_id) sc,
+      get_company_and_en_by_user_id(ms.buyer_id) bc
+      WHERE ms.activity_id = #activity_id#
+      order by ms.buyer_id
+    </select>
+
+
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
@@ -639,6 +678,15 @@
       <!-- ActivityInfo 的 activity_name-->
       <result property="activity_name" column="activity_name"/>
       <result property="starttime" column="starttime"/>
+    </resultMap>
+
+    <resultMap id="MatchBothResult"  class="Hashtable">
+      <result column="buyer_id" property="buyer_id" type="string" />
+      <result column="buyer_company" property="buyer_company" type="string" />
+      <result column="buyer_company_en" property="buyer_company_en" type="string" />
+      <result column="seller_id" property="seller_id" type="string" />
+      <result column="seller_company" property="seller_company" type="string" />
+      <result column="seller_company_en" property="seller_company_en" type="string" />
     </resultMap>
    
   </resultMaps>

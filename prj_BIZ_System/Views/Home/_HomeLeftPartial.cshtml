@@ -106,7 +106,7 @@
                 <option value="searchpdname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_product_name </option>
                 <option value="searchclname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_catalogname</option>
             </select>
-            <input type="text" id="searchname" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname">
+            <input type="text" id="searchname" name="companyName" placeholder="@prj_BIZ_System.LanguageResource.User.lb_companyname" required>
             <input type="text" id="searchpdname" name="productname" placeholder="@prj_BIZ_System.LanguageResource.User.lb_product_name" style="display:none">
             <input type="text" id="searchclname" name="catalogname" placeholder="@prj_BIZ_System.LanguageResource.User.lb_catalogname" style="display:none">
             <select name="sort_id" id="searchtype" style="display:none">
@@ -184,36 +184,52 @@
             var selects = $("select option:selected").val();
             if (selects == 'searchname') {
                 $("#searchname").show();
+                $("#searchname").attr('required','');
                 $("#searchtype").hide();
                 $("#searchtype").val('');
+                $("#searchtype").removeAttr('required');
                 $("#searchclname").hide();
                 $("#searchclname").val('');
+                $("#searchclname").removeAttr('required');
                 $("#searchpdname").hide();
                 $("#searchpdname").val('');
+                $("#searchpdname").removeAttr('required');
             } else if (selects == 'searchtype') {
                 $("#searchname").hide();
                 $("#searchtype").show();
+                $("#searchtype").attr('required', '');
                 $("#searchname").val('');
+                $("#searchname").removeAttr('required');
                 $("#searchclname").hide();
                 $("#searchclname").val('');
+                $("#searchclname").removeAttr('required');
                 $("#searchpdname").hide();
                 $("#searchpdname").val('');
+                $("#searchpdname").removeAttr('required');
             } else if (selects == 'searchclname') {
                 $("#searchname").hide();
                 $("#searchname").val('');
+                $("#searchname").removeAttr('required');
                 $("#searchtype").hide();
                 $("#searchtype").val('');
+                $("#searchtype").removeAttr('required');
                 $("#searchclname").show();
+                $("#searchclname").attr('required', '');
                 $("#searchpdname").hide();
                 $("#searchpdname").val('');
+                $("#searchpdname").removeAttr('required');
             } else if (selects == 'searchpdname') {
                 $("#searchname").hide();
                 $("#searchname").val('');
+                $("#searchname").removeAttr('required');
                 $("#searchtype").hide();
                 $("#searchtype").val('');
+                $("#searchtype").removeAttr('required');
                 $("#searchclname").hide();
                 $("#searchclname").val('');
+                $("#searchclname").removeAttr('required');
                 $("#searchpdname").show();
+                $("#searchpdname").attr('required', '');
             }
         });
 

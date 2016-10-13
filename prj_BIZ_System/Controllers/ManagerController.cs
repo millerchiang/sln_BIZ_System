@@ -32,6 +32,7 @@ namespace prj_BIZ_System.Controllers
         public MatchService matchService;
         private const long notFoundIndex = 99999999999999999;
         private string IsBothOrBuyer; //判斷是雙方媒合意願或買方媒合意願的顏色
+        private string excelTemplatePath = "~/Content/Template/Import/";
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
@@ -1113,8 +1114,116 @@ namespace prj_BIZ_System.Controllers
 
         #endregion
 
-        ////媒合大表
-        #region 媒合時程表時間設定新增與刪除
+        #region 匯出活動買家和賣家表單
+        [HttpGet]
+        public ActionResult ExportActivityFormExcel(int activity_id, string activity_name)
+        {
+            string activityFormTemplateFileName = "activity_form.xls";
+            string activityFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
+            var sellerNeedList = matchService.GetSellerNeedWithCompany(activity_id);
+            var sellerNeedIds = sellerNeedList.GetFieldList(sn => sn["seller_id"]);
+            var sellerNeedPOIDatas = sellerNeedList.Select( sn => 
+                                                            new string[]
+                                                            {
+                                                                (string)sn["seller_id"],
+                                                                (string)sn["seller_company"],
+                                                                (string)sn["seller_company_en"],
+                                                                (string)sn["buyer_id"],
+                                                                (string)sn["buyer_company"],
+                                                                (string)sn["buyer_company_en"]
+                                                            }
+                                                         ).ToList();
+
+            var buyerNeedList = matchService.GetBuyerNeedWithCompany(activity_id);
+            var buyerNeedIds = buyerNeedList.GetFieldList(bn => bn["buyer_id"]);
+            var buyerNeedPOIDatas = buyerNeedList.Select(sn =>
+                                                           new string[]
+                                                           {
+                                                                (string)sn["buyer_id"],
+                                                                (string)sn["buyer_company"],
+                                                                (string)sn["buyer_company_en"],
+                                                                (string)sn["seller_id"],
+                                                                (string)sn["seller_company"],
+                                                                (string)sn["seller_company_en"]
+
+                                                            }
+                                                         ).ToList();
+            var activityRegisterPOIDatas = activityService
+                                            .GetARCheckPassList(activity_id)
+                                            .Select( ar =>
+                                                new string[]
+                                                {
+                                                    ar.register_id.ToString(),
+                                                    ar.create_time.ToString("yyyy-MM-dd HH:mm"),
+                                                    sellerNeedIds.IndexOf(ar.user_id) != -1  ? "是" : "否",
+                                                    ar.user_id,
+                                                    ar.company,
+                                                    ar.company_en,
+                                                    ar.quantity.ToString(),
+                                                    ar.name_a,
+                                                    ar.title_a,
+                                                    ar.name_b,
+                                                    ar.title_b,
+                                                    ar.telephone,
+                                                    ar.phone,
+                                                    ar.email,
+                                                    string.Join(",", activityService.GetActivityCatalogSelectList(ar.user_id, ar.activity_id)
+                                                                        .Select( cl => cl.catalog_name )
+                                                                        .ToArray()),
+                                                    string.Join(",", activityService.GetActivityProductSelectList(ar.user_id, ar.activity_id)
+                                                                        .Select(cl => cl.product_name)
+                                                                        .ToArray()),
+                                                    ar.user_info,
+                                                    ar.user_info_en
+                                                }
+                                            ).ToList();
+            
+            var buyerListPOIDatas = activityService.GetBuyerInfoActivity(activity_id)
+                                                   .Select(ba => 
+                                                    new string[] 
+                                                    {
+                                                        ba.serial_no.ToString(),
+                                                        ba.buyer_id,
+                                                        ba.company,
+                                                        ba.company_en,
+                                                        ba.buyer_need,
+                                                        buyerNeedIds.IndexOf(ba.buyer_id) != -1 ? "是" : "否"
+                                                    }
+                                                   ).ToList();
+
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + activityFormTemplateFileName);
+            setupActivityFormData(workbook, activityRegisterPOIDatas, 0);
+            setupActivityFormData(workbook, buyerListPOIDatas, 1);
+            setupActivityFormData(workbook, sellerNeedPOIDatas, 2);
+            setupActivityFormData(workbook, buyerNeedPOIDatas, 3);
+
+            exportExcelFileByMemorySpace(workbook, activityFormFileName);
+            return null;
+            //return exportExcelFile(workbook, activityFormFileName);
+        }
+
+        private void setupActivityFormData(IWorkbook workbook, IList<string[]> datas, int sheetNum)
+        {
+            ISheet _sheet = workbook.GetSheetAt(sheetNum);//因第一頁有編輯 所有不用CreateSheet
+            for(int i=0; i<datas.Count; i++)
+            {
+                IRow row = _sheet.GetRow(i+1);
+                if (row == null)
+                {
+                    row = _sheet.CreateRow(i+1);
+                }
+                string[] columns = datas[i];
+                for (int j = 0; j<columns.Length; j++)
+                {
+                    ICell _cell = row.CreateCell(j);
+                    _cell.SetCellValue(columns[j]);
+                }
+            }
+        }
+        #endregion
+
+            ////媒合大表
+            #region 媒合時程表時間設定新增與刪除
         [HttpGet]
         public ActionResult MatchScheduleTime()
         {
@@ -1588,10 +1697,7 @@ namespace prj_BIZ_System.Controllers
 
             /*讀取樣板*/
             //string excelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
-            string excelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
-            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.Read);//樣板
-            IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
-            template.Close();
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + "tmpmatchmaking.xls");
 
             ISheet _sheet = workbook.GetSheetAt(0);//因第一頁有編輯 所有不用CreateSheet
             ICellStyle cellStyleheader = _sheet.GetRow(0).Cells[0].CellStyle;//取第一行的第一個的style;
@@ -1938,14 +2044,48 @@ namespace prj_BIZ_System.Controllers
             //ms.Dispose();
             //Response.End();
             #endregion 
+            exportExcelFileByMemorySpace(workbook, "matchmaking.xls");
+            return null;
+            //return exportExcelFile(workbook, "matchmaking.xls");
+        }
 
-            string savePath = @"D:/Download/matchmaking.xls";
+        #endregion
+
+        #region 讀取Excel樣板
+        //refactoring by. Rong 2016/10/13
+        private IWorkbook loadExcelTemplate(string path)
+        {
+            /*讀取樣板*/
+            string excelPath = Server.MapPath(path);
+            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.Read);//樣板
+            IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
+            template.Close();
+            return workbook;
+        }
+        #endregion
+
+        #region 產生Excel檔
+        //refactoring by. Rong 2016/10/13
+        private FileResult exportExcelFile(IWorkbook workbook, string filename)
+        {
+            string savePath = @"D:/Download/" + filename;
             FileStream file = new FileStream(savePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
-            return File(file, "application/ms-excel", "matchmaking.xls");
+            return File(savePath, "application/ms-excel", filename);
         }
 
+
+        private void exportExcelFileByMemorySpace(IWorkbook workbook, string filename)
+        {
+            var ms = new MemoryStream();
+            workbook.Write(ms);
+            Response.AddHeader("Content-Disposition", string.Format("attachment; filename=" + filename));
+            Response.BinaryWrite(ms.ToArray());
+            ms.Close();
+            ms.Dispose();
+            Response.End();
+        }
         #endregion
 
         #region 媒合大表匯出Excel

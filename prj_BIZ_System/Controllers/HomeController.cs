@@ -102,7 +102,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "3.0");
+            docookie("_version", "2.0");
 
             return View(indexModel);
         }
@@ -148,7 +148,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CompanyList()
         {
-            userModel.cataloglistList = userService.getAllCatalogTop(4);
+//            userModel.cataloglistList = userService.getAllCatalogTop(4);
             string sort_id = "";
             string kw = "";
             string productname = "";
@@ -164,26 +164,40 @@ namespace prj_BIZ_System.Controllers
 
             if (sort_id != "")
             {
+                EnterpriseSortListModel scope = userService.GetSortById(int.Parse(sort_id));
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    ViewBag.keyword = scope.enterprise_sort_name_en;
+                }
+                else
+                {
+                    ViewBag.keyword = scope.enterprise_sort_name;
+                }
             }
             else if (kw!="")
             {
                 userModel.userinfoList = userService.SelectUserKw(kw);
                 ViewBag.model = "userinfoList";
+                ViewBag.keyword = kw;
             }
             else if (productname != "")
             {
-                userModel.userinfoList = userService.SelectUserByProductName(productname);
-                ViewBag.model = "userinfoList";
+//                userModel.userinfoList = userService.SelectUserByProductName(productname);
+                userModel.productsortList = userService.getProductListByKw(productname).Pages<ProductListModel>(Request, this, 10);
+                ViewBag.model = "productList";
+                ViewBag.keyword = productname;
             }
             else if (catalogname != "")
             {
-                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
-                ViewBag.model = "catalogname";
+//                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
+                userModel.cataloglistList = userService.getCatalogListByKw(catalogname);
+                ViewBag.model = "catalogList";
+                ViewBag.keyword = catalogname;
             }
 
-            ViewBag.coverDir = UploadConfig.UploadRootPath;
+            ViewBag.UploadRootPath = UploadConfig.UploadRootPath;
 
             docookie("_mainmenu", "CompanyList");
             return View(userModel);
@@ -336,14 +350,14 @@ namespace prj_BIZ_System.Controllers
                 bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, securityPassword);
                 if (!isUpdateSuccess)
                 {
-                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    errMsg = LanguageResource.User.lb_pwmailfail;
                     TempData["fp_errMsg"] = errMsg;
                     return Redirect("ForgetPassword");
                 }
             }
             else
             {
-                errMsg = "輸入的資料不正確，請重新操作!!";
+                errMsg = LanguageResource.User.lb_data_wrong;
                 TempData["fp_errMsg"] = errMsg;
                 return Redirect("ForgetPassword");
             }

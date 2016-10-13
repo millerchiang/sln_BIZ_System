@@ -140,7 +140,7 @@ namespace prj_BIZ_System.Models
         public string user_id { get; set; }//使用者帳號
         public int activity_id { get; set; }//活動編號
         public int catalog_no { get; set; }//型錄編號
-
+        public string catalog_name { get; set; }//型錄編號
         public string cover_file { get; set; } //CatalogListModel 的 公司型錄封面位置
         public string catalog_file { get; set; } //CatalogListModel 的 公司型錄檔案位置
     }

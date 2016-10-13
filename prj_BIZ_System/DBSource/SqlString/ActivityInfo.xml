@@ -180,6 +180,23 @@
         WHERE ar.register_id = #register_id#
       </select>
 
+    <!--查詢活動報名-->
+    <select id="SelectActivityRegisterList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+      SELECT ar.* , ui.company , ui.company_en
+      FROM activity_register ar
+      LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+      WHERE ar.activity_id = $activity_id$
+    </select>
+
+    <!--查詢活動報名已通過審核-->
+    <select id="SelectARCheckPassList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+      SELECT ar.* , ui.company , ui.company_en
+      FROM activity_register ar
+      LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+      WHERE ar.activity_id = $activity_id$
+      and ar.manager_check = '1'
+    </select>
+
     <!--查詢活動報名單筆 by activity and user-->
     <select id="SelectActivityRegisterSelectOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
       SELECT *
@@ -803,6 +820,7 @@
       <result property="user_id" column="user_id"/>
       <result property="activity_id" column="activity_id"/>
       <result property="catalog_no" column="catalog_no"/>
+      <result property="catalog_name" column="catalog_name"/>
       <!--cataloglist 的 cover_file, catalog_file-->
       <result property="cover_file" column="cover_file"/>
       <result property="catalog_file" column="catalog_file"/>

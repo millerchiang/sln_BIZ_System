@@ -6,7 +6,29 @@
 }
 @section pagestyle{
     <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
+}
+
+@{
+    var searchitem = "";
+    if (ViewBag.model == "companysortList")
+    {
+        searchitem = prj_BIZ_System.LanguageResource.User.lb_scope;
+    }
+    else if (ViewBag.model == "userinfoList")
+    {
+        searchitem = prj_BIZ_System.LanguageResource.User.lb_companyname;
+    }
+    else if (ViewBag.model == "productList")
+    {
+        searchitem = prj_BIZ_System.LanguageResource.User.lb_product_name;
+    }
+    else if (ViewBag.model == "catalogList")
+    {
+        searchitem = prj_BIZ_System.LanguageResource.User.lb_catalogname;
+    }
+
 }
 
 <div class="article_col1">
@@ -14,14 +36,32 @@
         <h2 class="borderTitle">
             @prj_BIZ_System.LanguageResource.User.lb_company
         </h2>
+        <p class="magb30">@prj_BIZ_System.LanguageResource.User.lb_search @searchitem: <span class="fontRed"> @ViewBag.keyword</span></p>
         <section class="form_box">
             <h2>@prj_BIZ_System.LanguageResource.User.lb_searchresult</h2>
-            <ul class="listlink col2 comicon article_col1">
-
+            
                 @if (ViewBag.model == "companysortList")
                 {
+                    <ul class="listlink col2 comicon article_col1">
 
-                    foreach (var sortList in Model.companysortList)
+                        @foreach (var sortList in Model.companysortList)
+                        {
+                            var company = sortList.company;
+                            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                            {
+                                if (sortList.company_en != null && sortList.company_en != "")
+                                {
+                                    company = sortList.company_en;
+                                }
+                            }
+                            <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
+                        }
+                    </ul>
+                }
+                else if (ViewBag.model == "userinfoList")
+                {
+                    <ul class="listlink col2 comicon article_col1">
+                    @foreach (var sortList in Model.userinfoList)
                     {
                         var company = sortList.company;
                         if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
@@ -31,49 +71,118 @@
                                 company = sortList.company_en;
                             }
                         }
-
                         <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
-
                     }
+                    </ul>
                 }
-                else
+                else if (ViewBag.model == "productList")
                 {
-                    foreach (var sortList in Model.userinfoList)
+
+                    <ul class="productlist listlink">
+                    @if (Model.productsortList != null && Model.productsortList.Count() > 0)
                     {
-                        var company = sortList.company;
+                        foreach (ProductListModel md in Model.productsortList)
+                        {
+                            <li>
+                                <div class="imgbox">
+                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.UploadRootPath + md.user_id + "/Product/" + md.product_pic_site)" alt="">
+                                </div>
+                                <div class="producttext comicon">
+                                    @{
+                                        var company = md.company;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                        {
+                                            if (md.company_en != null && md.company_en != "")
+                                            {
+                                                company = md.company_en;
+                                            }
+                                        }
+
+                                        var product_name = md.product_name;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                        {
+                                            if (md.product_name_en != null && md.product_name_en != "")
+                                            {
+                                                product_name = md.product_name_en;
+                                            }
+                                        }
+                                        var model_no = md.model_no;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                        {
+                                            if (md.model_no_en != null && md.model_no_en != "")
+                                            {
+                                                model_no = md.model_no_en;
+                                            }
+                                        }
+                                    }
+
+
+                                        <h3><a href="/User/UserInfo?user_id=@md.user_id">@prj_BIZ_System.LanguageResource.User.lb_companyname: @company</a></h3>
+                                        <h3> - @prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
+                                        <p> - @prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
+                                </div>
+                                <div class="productbu">
+
+                                    <a href='@Url.Action("ProductDetail","User",new { product_id = md.product_id })' class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+                                </div>
+                            </li>
+                        }
+                        @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"]);
+                    }
+                    else
+                    {
+                        <span>@prj_BIZ_System.LanguageResource.User.lb_nodata</span>
+                    }
+                </ul>
+
+                }
+                else if (ViewBag.model == "catalogList")
+                {
+                    <ul class="regis_dmlist magb30">
+
+                    @foreach (var catalogList in Model.cataloglistList)
+                    {
+                        var company = catalogList.company;
                         if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                         {
-                            if (sortList.company_en != null && sortList.company_en != "")
+                            if (catalogList.company_en != null && catalogList.company_en != "")
                             {
-                                company = sortList.company_en;
+                                company = catalogList.company_en;
                             }
                         }
 
-                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
+                        <li>
+                            <a href="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                                <span>@catalogList.catalog_name</span>
+                                <div class="regisimg">
+                                    <img src="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+                                </div>
+                            </a>
+                            <a href="/User/UserInfo?user_id=@catalogList.user_id">@company </a>
+                        </li>
                     }
-
+                    </ul>
                 }
 
-            </ul>
         </section>
-        <section class="form_box">
-            <h2>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h2>
-            <ul class="regis_dmlist">
+        @*<section class="form_box">
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h2>
+        <ul class="regis_dmlist">
 
-                @foreach (var catalogList in Model.cataloglistList)
-                {
-                    <li>
-                        <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
-                            <span>@catalogList.catalog_name</span>
-                            <div class="regisimg">
-                                <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
-                            </div>    
-                            <p class="conpany_name">@catalogList.company</p>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </section>
+            @foreach (var catalogList in Model.cataloglistList)
+            {
+                <li>
+                    <a href="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                        <span>@catalogList.catalog_name</span>
+                        <div class="regisimg">
+                            <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+                        </div>
+                        <p class="conpany_name">@catalogList.company</p>
+                    </a>
+                </li>
+            }
+        </ul>
+    </section>*@
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");

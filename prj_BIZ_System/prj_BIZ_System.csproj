@@ -405,6 +405,7 @@
     <Content Include="images\icon\icon_fpw.png" />
     <Content Include="images\icon\indexicon.png" />
     <Content Include="images\icon\myinfor.png" />
+    <Content Include="images\icon\myinfor_s.png" />
     <Content Include="images\index_pic.jpg" />
     <Content Include="images\index_sample_pic01.jpg" />
     <Content Include="images\index_sample_pic02.JPG" />
@@ -454,6 +455,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Template\Import\tmpmatchmaking.xls" />
+    <Content Include="Content\Template\Import\activity_form.xls" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

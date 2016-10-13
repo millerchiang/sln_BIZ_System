@@ -264,7 +264,7 @@
                     </section>
                     <section id="section4" style="display:none">
                         <ul class="regis_dmlist3">
-                            @if (Model.videolistList != null)
+                            @if (Model.videolistList != null && Model.videolistList.Count != 0)
                             {
                                 foreach (var mo in Model.videolistList)
                                 {
