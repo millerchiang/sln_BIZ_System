@@ -195,6 +195,7 @@
       LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
       WHERE ar.activity_id = $activity_id$
       and ar.manager_check = '1'
+      order by ar.register_id
     </select>
 
     <!--查詢活動報名單筆 by activity and user-->
@@ -399,6 +400,7 @@
         INNER JOIN user_info ui
         ON bl.buyer_id = ui.user_id
         Where activity_id =#activity_id#
+        order by bl.serial_no
       </select>
 
       <!--查詢買主資訊單筆-->
