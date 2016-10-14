@@ -26,6 +26,7 @@ namespace prj_BIZ_System.Models
         public string is_read { get; set; }     // 0 :未讀 , 1:已讀
 
         public string cluster_user { get; set; } //聚落使用者的id
+        public string[] msg_members { get; set; }       //成員陣列
     }
 
     /*
@@ -62,6 +63,8 @@ namespace prj_BIZ_System.Models
 
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
+        //logo_img  公司logo圖
+        public string logo_img { get; set; }
     }
 
     

@@ -26,10 +26,13 @@ namespace prj_BIZ_System.Controllers
     public class MessageController : _BaseController
     {
         public MessageService messageService;
+        public ClusterService clusterService;
         public Message_ViewModel messageViewModel;
+
         public MessageController()
         {
             messageService = new MessageService();
+            clusterService = new ClusterService();
             messageViewModel = new Message_ViewModel();
         }
 
@@ -250,9 +253,22 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult jsonMsgMemberForCompany(string term)
         {
+            if (Request.Cookies["SalesInfo"] == null && Request.Cookies["UserInfo"] == null) {
+                return Json( new { } , JsonRequestBehavior.AllowGet);
+            }
             var user_id = Request.Cookies["UserInfo"]["user_id"];
+            var sales_id = Request.Cookies["SalesInfo"]["sales_id"];
             //var sales_id = Request.Cookies["UserInfo"]["user_id"];
-            IList<SalesInfoModel> result = messageService.SelectSalesKw(user_id, term);
+
+            IList<SalesInfoModel> result = new List<SalesInfoModel>() ;
+            result = messageService.SelectSalesKw(user_id, term);
+            
+            if(user_id == null && sales_id != null) //業務帳號登入
+            {
+                IList<UserInfoModel> users = messageService.SelectUserUserBySalesId(sales_id, term);
+                ((List<SalesInfoModel>)result).AddRange(((List<UserInfoModel>)users).Select(user => new SalesInfoModel { sales_id = user.user_id , sales_name = user.company}).ToList());
+            }
+
             return Json(
                 result.Select(salesInfo => new { value = salesInfo.sales_id, label = salesInfo.sales_name }).ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -261,26 +277,80 @@ namespace prj_BIZ_System.Controllers
 
         #region --聚落訊息--
 
-        public ActionResult MessageClusterMain(string cluster_public_where , string cluster_private_where)
+        public ActionResult MessageClusterMain(string cluster_public_where , string cluster_private_where , string is_public)
         {
             if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
                 return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
+            IList<IList<MsgModel>> msgLists = new List<IList<MsgModel>>();
             ViewBag.cluster_public_where = cluster_public_where;
             ViewBag.cluster_private_where = cluster_private_where;
-            IList<MsgModel> result_public  = messageService.SelectMsgClusterPublic(Request["cluster_no"], user_id , cluster_public_where);
-            IList<MsgModel> result_private = messageService.SelectMsgClusterPrivate(Request["cluster_no"], user_id, cluster_private_where);
+            var public_result = messageService.SelectMsgClusterPublic(Request["cluster_no"], user_id, cluster_public_where);
+            var private_result = messageService.SelectMsgClusterPrivate(Request["cluster_no"], user_id, cluster_private_where);
+            IList<MsgModel> result_public   = public_result.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request,this,10);
+            IList<MsgModel> result_public2  = public_result.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request,this,10);
+            IList<MsgModel> result_private  = private_result.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request, this, 10);
+            IList<MsgModel> result_private2 = private_result.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request, this, 10);
+            msgLists.Add(result_public);
+            msgLists.Add(result_public2);
+            msgLists.Add(result_private);
+            msgLists.Add(result_private2);
+            ViewBag.is_public = string.IsNullOrEmpty(is_public) ? "1" : is_public;
+            ViewBag.ClusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]),null,null);
+            messageViewModel.msgLists = msgLists;
+            return View(messageViewModel);
+        }
+
+        public ActionResult MessageClusterAdd(int is_public)
+        {
+            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
+                return Redirect("~/Home/Index");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            IList<ClusterMemberModel> allMemberAtEnable1 = new List<ClusterMemberModel>();
+            if (is_public == 0) {
+                allMemberAtEnable1 = clusterService.GetClusterMemberListWithEnable1(int.Parse(Request["cluster_no"]));
+            }
+            ViewBag.AllMember = allMemberAtEnable1 ;
+            ViewBag.ClusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+            ViewBag.is_public = Convert.ToString(is_public);
+            ViewBag.is_public_text = "0".Equals(ViewBag.is_public.ToString()) ? "私人" : "公告";
             return View();
         }
 
-        public ActionResult MessageClusterAddPrivate()
+        public ActionResult DoClusterAdd(MsgModel model, List<HttpPostedFileBase> iupexls , string is_public)
         {
-            return View();
-        }
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
 
-        public ActionResult MessageClusterAddPublic()
-        {
-            return View();
+            model.creater_id = Request.Cookies["UserInfo"]["user_id"];
+            model.is_public = is_public ;
+            model.cluster_no = int.Parse(Request["cluster_no"]);
+            model.msg_member = model.msg_members == null ? "" :string.Join(", ", model.msg_members);
+            model.msg_no = (long)messageService.InsertMsgCluster(model);
+
+            #region 上傳訊息附件
+            if (iupexls != null && model.msg_no != 0)
+            {
+                foreach (HttpPostedFileBase file in iupexls)
+                {
+                    if (file != null && file.ContentLength > 0 && !string.IsNullOrEmpty(model.creater_id))
+                    {
+                        Dictionary<string, string> uploadResult = null;
+                        uploadResult = UploadHelper.doUploadFile(file, UploadConfig.subDirForMessageFile + model.msg_no, UploadConfig.AdminManagerDirName);
+                        if ("success".Equals(uploadResult["result"]))
+                        {
+                            messageService.InsertMsgPrivateFile(model.msg_no, file.FileName);//uploadResult["relativFilepath"]
+                        }
+                        else
+                        {
+                            Console.WriteLine("上傳失敗");
+                        }
+                    }
+                }
+            }
+            #endregion
+            return Redirect("~/Message/MessageClusterMain" + "?is_public=" + is_public);
         }
 
         public ActionResult MessageClusterList(string keyword)
@@ -294,49 +364,54 @@ namespace prj_BIZ_System.Controllers
             messageViewModel.msgPrivateList = result;
             return View(messageViewModel);
         }
-
-        public ActionResult MessageClusterAdd()
+        
+        [HttpGet]
+        public ActionResult MessageClusterDetail(int msg_no , string is_public)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
-
-            return View();
-        }
-
-        public ActionResult MessageClusterDetailed(int msg_no)
-        {
-            if (Request.Cookies["UserInfo"] == null)
-                return Redirect("~/Home/Index");
-
-            string current_user_id = Request.Cookies["UserInfo"]["user_id"];
+            ViewBag.is_public = is_public;
+            var current_user_id = Request.Cookies["UserInfo"]["user_id"];
+            var cluster_no = int.Parse(Request["cluster_no"]);
+            ViewBag.cluster_info = clusterService.GetClusterInfo(cluster_no,null,null);
             if (msg_no != 0)
             {
-                if (isOwnViewPower(msg_no, MessageType.CompanyPublic)) //檢查權限
+                var type = "0".Equals(is_public) ? MessageType.ClusterPrivate : MessageType.ClusterPublic ;
+                if (isOwnViewPower(msg_no, type, cluster_no)) //檢查權限
                 {
-                    
-                    //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
-
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Cluster);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, current_user_id);
+                    ViewBag.is_public = string.IsNullOrEmpty(is_public) ? "1" : is_public;
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
+                    ViewBag.clusterInfo = messageService.SelectClusterByMsg_no(msg_no);
                     return View(messageViewModel);
                 }
                 else
                 {
-                    TempData["priDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
-                    return Redirect("MessagePrivateList");
+                    TempData["clusterDetailView_errmsg"] = LanguageResource.User.lb_msg_limit;
+                    return Redirect("/Message/MessageClusterMain?is_public="+ is_public);
                 }
             }
-            else
-            {
-                TempData["priDetailView_errmsg"] = LanguageResource.User.lb_click_correct;
-                return Redirect("MessagePrivateList");
-            }
+
+
+                    return View(new Message_ViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult DoMessageClusterDetail(MsgReplyModel model , string is_public)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+            ViewBag.is_public = is_public;
+
+            model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
+            messageService.InsertMsgPrivateReply(model);
+            return Redirect("~/Message/MessageClusterDetail" + "?is_public="+ is_public + "&msg_no=" + model.msg_no);
         }
         #endregion
 
-        private bool isOwnViewPower(int msg_no, MessageType mtype)
+        private bool isOwnViewPower(int msg_no, MessageType mtype , int cluster_no = 0)
         {
             var user_id = Request.Cookies["UserInfo"]["user_id"];
             switch (mtype)
@@ -349,7 +424,9 @@ namespace prj_BIZ_System.Controllers
                     return messageService.isOwnViewPower(msg_no, user_id);
 
                 case MessageType.ClusterPublic:
-                case MessageType.ClusterPrivate: 
+                    return messageService.isOwnViewPowerForClusterPublic(msg_no, cluster_no, user_id);
+                case MessageType.ClusterPrivate:
+                    return messageService.isOwnViewPowerForClusterPrivate(msg_no, cluster_no, user_id);
 
                 default:
                     return false;

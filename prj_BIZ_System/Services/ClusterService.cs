@@ -57,6 +57,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectClusterMemberList", tempModel);
         }
 
+        public IList<ClusterMemberModel> GetClusterMemberListWithEnable1(int? cluster_no)
+        {
+            ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
+            return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectClusterMemberListWithEnable1", tempModel);
+        }
+
         public ClusterMemberModel GetClusterMember(int? cluster_no, string user_id)
         {
             ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no,user_id= user_id };

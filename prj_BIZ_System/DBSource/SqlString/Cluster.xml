@@ -139,6 +139,14 @@
       ORDER BY cluster_enable
     </select>
 
+    <select id="SelectClusterMemberListWithEnable1" resultMap="ClusterMember-result" parameterClass="ClusterMember">
+      SELECT *
+      FROM public.cluster_member
+      INNER JOIN user_info
+      ON cluster_member.user_id = user_info.user_id
+      where cluster_enable = '1' and cluster_no = $cluster_no$
+    </select>
+
     <!--查詢非聚落成員-->
     <select id="SelectNotInClusterMember" resultClass="HashTable" parameterClass="int">
       select user_id, company, company_en
