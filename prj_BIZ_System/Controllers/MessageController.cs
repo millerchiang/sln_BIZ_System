@@ -298,6 +298,7 @@ namespace prj_BIZ_System.Controllers
             ViewBag.is_public = string.IsNullOrEmpty(is_public) ? "1" : is_public;
             ViewBag.ClusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]),null,null);
             messageViewModel.msgLists = msgLists;
+            docookie("_menu", "MessageClusterMain");
             return View(messageViewModel);
         }
 
