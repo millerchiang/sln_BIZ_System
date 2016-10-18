@@ -154,9 +154,9 @@
                             @foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
                             {
                                 <li>
-                                    <a href="@(ViewBag.catalogDir + activityCatalogSelectModel.catalog_file)" target="_blank" class="fancybox">
+                                    <a href="@Url.Content(ViewBag.catalogDir + activityCatalogSelectModel.catalog_file)" target="_blank" class="fancybox">
                                         <div class="regisimg">
-                                            <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)"  alt=""/>
+                                            <img src="@Url.Content(ViewBag.coverDir + activityCatalogSelectModel.cover_file)"  alt=""/>
                                         </div>
                                     </a>
                                 </li>
@@ -168,7 +168,7 @@
 
 
         <div class="centerbox">
-            <a href="/Activity/ActivityInfo?Id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_back</a>
+            <a href="~/Activity/ActivityInfo?Id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_back</a>
         </div>
 
     </article>

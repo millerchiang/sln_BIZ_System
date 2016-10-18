@@ -12,7 +12,7 @@ namespace prj_BIZ_System.Extensions
                 action(item);
         }
 
-        public static List<TResult> GetFieldList<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        public static List<TResult> GetSelectList<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
             return source.Select(selector).ToList();
         }

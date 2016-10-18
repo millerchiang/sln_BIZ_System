@@ -414,6 +414,7 @@
     <Content Include="images\logopic.jpg" />
     <Content Include="images\msgbox.png" />
     <Content Include="images\productpic.jpg" />
+    <Content Include="images\wait_app.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -466,6 +467,8 @@
     <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Properties\PublishProfiles\BIZSystem-develop - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BIZSystem_Develop  - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Biz_develop_new.pubxml" />
+    <None Include="Properties\PublishProfiles\Biz_test.pubxml" />
     <None Include="Properties\PublishProfiles\local_biz_web.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />

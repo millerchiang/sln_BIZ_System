@@ -5,8 +5,8 @@
     ViewBag.Title = "CompanyList";
 }
 @section pagestyle{
-    <link href="/stylesheets/company_info.css" rel="stylesheet" />
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -54,7 +54,7 @@
                                     company = sortList.company_en;
                                 }
                             }
-                            <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
+                            <li><a href="~/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
                         }
                     </ul>
                 }
@@ -71,7 +71,7 @@
                                 company = sortList.company_en;
                             }
                         }
-                        <li><a href="/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
+                        <li><a href="~/User/UserInfo?user_id=@sortList.user_id">@company </a></li>
                     }
                     </ul>
                 }
@@ -117,7 +117,7 @@
                                     }
 
 
-                                        <h3><a href="/User/UserInfo?user_id=@md.user_id">@prj_BIZ_System.LanguageResource.User.lb_companyname: @company</a></h3>
+                                        <h3><a href="~/User/UserInfo?user_id=@md.user_id">@prj_BIZ_System.LanguageResource.User.lb_companyname: @company</a></h3>
                                         <h3> - @prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
                                         <p> - @prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
                                 </div>
@@ -152,13 +152,13 @@
                         }
 
                         <li>
-                            <a href="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                            <a href="@Url.Content(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
                                 <span>@catalogList.catalog_name</span>
                                 <div class="regisimg">
-                                    <img src="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+                                    <img src="@Url.Content(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
                                 </div>
                             </a>
-                            <a href="/User/UserInfo?user_id=@catalogList.user_id">@company </a>
+                            <a href="~/User/UserInfo?user_id=@catalogList.user_id">@company </a>
                         </li>
                     }
                     </ul>
@@ -172,10 +172,10 @@
             @foreach (var catalogList in Model.cataloglistList)
             {
                 <li>
-                    <a href="@(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                    <a href="@Url.Content(ViewBag.UploadRootPath + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
                         <span>@catalogList.catalog_name</span>
                         <div class="regisimg">
-                            <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
+                            <img src="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="">
                         </div>
                         <p class="conpany_name">@catalogList.company</p>
                     </a>

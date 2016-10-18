@@ -191,9 +191,9 @@
                                 @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.catalogDir + catalogListModel.catalog_file)" target="_blank" class="fancybox">
+                                        <a href="@Url.Content(ViewBag.catalogDir + catalogListModel.catalog_file)" target="_blank" class="fancybox">
                                             <div class="regisimg">
-                                                <img src="@(ViewBag.coverDir + catalogListModel.cover_file)"   alt=""/>
+                                                <img src="@Url.Content(ViewBag.coverDir + catalogListModel.cover_file)"   alt=""/>
                                             </div>
                                         </a>
                                         <input type="checkbox" name="catalog_no" class="inputCheckbox"
@@ -208,8 +208,8 @@
                                 foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
-                                            <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                        <a href="@Url.Content(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
+                                            <img src="@Url.Content(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
                                         </a>
                                     </li>
                                 }
@@ -234,7 +234,7 @@
 
 
     <script type="text/javascript"
-            src="/Scripts/jquery-ui-1.10.2.min.js">
+            src="~/Scripts/jquery-ui-1.10.2.min.js">
     </script>
 @Scripts.Render("~/bundles/fancybox")
 

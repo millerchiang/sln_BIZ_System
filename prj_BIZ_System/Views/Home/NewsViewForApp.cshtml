@@ -5,7 +5,7 @@
     ViewBag.Title = "NewsView";
 }
 @*@section pagestyle{
-        <link href="/stylesheets/news.css" rel="stylesheet" />
+        <link href="~/stylesheets/news.css" rel="stylesheet" />
     }*@
 @{
     Layout = null;
@@ -15,7 +15,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link rel="stylesheet" href="/stylesheets/app.css">
+    <link rel="stylesheet" href="~/stylesheets/app.css">
 </head>
 <body>
 
@@ -34,8 +34,8 @@
                 {
                     @*
                     <div class="centerbox">
-                        <a href="/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">報名資訊</a>
-                        <a href="/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">買主資訊</a>
+                        <a href="~/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">報名資訊</a>
+                        <a href="~/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">買主資訊</a>
                     </div>
                     *@
                 }

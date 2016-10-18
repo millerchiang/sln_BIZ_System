@@ -5,7 +5,7 @@
     ViewBag.Title = "NewsView";
 }
 @section pagestyle{
-    <link href="/stylesheets/news.css" rel="stylesheet" />
+    <link href="~/stylesheets/news.css" rel="stylesheet" />
 }
 
 <div class="article_col1">
@@ -26,9 +26,9 @@
                 <div class="centerbox">
                     @if(new TimeSpan(Model.news.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
                     {
-                        <a href="/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
+                        <a href="~/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
                     }
-                    <a href="/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
+                    <a href="~/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
                 </div>
 
             }

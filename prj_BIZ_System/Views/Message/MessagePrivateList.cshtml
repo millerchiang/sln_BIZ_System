@@ -7,7 +7,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -58,7 +58,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                    <a href="~/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>
@@ -103,7 +103,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                    <a href="~/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>

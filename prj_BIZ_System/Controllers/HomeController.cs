@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -209,7 +210,7 @@ namespace prj_BIZ_System.Controllers
             if (Request["Id"] !=null)
             {
                 doNewsView();
-
+                
                 docookie("_mainmenu", "NewsView");
                 return View(indexModel);
             }
@@ -222,6 +223,8 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+            XDocument doc = XDocument.Parse(indexModel.news.content);
+
         }
 
         public ActionResult NewsViewForApp(string nvkey)

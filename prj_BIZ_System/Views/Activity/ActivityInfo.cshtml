@@ -5,8 +5,8 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/news.css" rel="stylesheet" />
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/news.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
@@ -88,7 +88,7 @@
                 {
                     if (Request.Cookies["UserInfo"] != null)
                     {
-                        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
+                        <a href="~/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
                     }
                     else
                     {
@@ -98,14 +98,14 @@
             }
             else if (Model.activityregister.manager_check == "0")
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
-                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
+                <a href="~/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
+                <a href="~/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
             }
             else
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_audited</a>
+                <a href="~/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_audited</a>
             }
-            <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
+            <a href="~/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
          </div>
     </article>
     @{
@@ -121,7 +121,7 @@
 </div>
 
 <script type="text/javascript"
-        src="/Scripts/jquery-ui-1.10.2.min.js">
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
 
 <script type="text/javascript" language="javascript">
