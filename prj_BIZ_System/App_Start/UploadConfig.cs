@@ -60,7 +60,7 @@ namespace prj_BIZ_System.App_Start
 
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
-            UploadRootPath = "/" + rootPath;
+            UploadRootPath = "~/" + rootPath;
             UploadRootDir = realRootDir;
 
             #region 型錄顯示 和 存檔位置
@@ -78,8 +78,8 @@ namespace prj_BIZ_System.App_Start
 
     public class UploadHelper
     {
-        public static string defaultImgSmall = "/images/logopic.jpg";
-        public static string defaultImgBig = "/images/productpic.jpg";
+        public static string defaultImgSmall = "~/images/logopic.jpg";
+        public static string defaultImgBig = "~/images/productpic.jpg";
         public static string[] sniff = { "jpg", "gif", "png", "pdf", "txt" };
         /// <summary>
         /// 取得私訊附件資料夾路徑(使用者id)

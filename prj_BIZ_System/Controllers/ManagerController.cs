@@ -1121,7 +1121,7 @@ namespace prj_BIZ_System.Controllers
             string activityFormTemplateFileName = "activity_form.xls";
             string activityFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
             var sellerNeedList = matchService.GetSellerNeedWithCompany(activity_id);
-            var sellerNeedIds = sellerNeedList.GetFieldList(sn => sn["seller_id"]);
+            var sellerNeedIds = sellerNeedList.GetSelectList(sn => sn["seller_id"]);
             var sellerNeedPOIDatas = sellerNeedList.Select( sn => 
                                                             new string[]
                                                             {
@@ -1135,7 +1135,7 @@ namespace prj_BIZ_System.Controllers
                                                          ).ToList();
 
             var buyerNeedList = matchService.GetBuyerNeedWithCompany(activity_id);
-            var buyerNeedIds = buyerNeedList.GetFieldList(bn => bn["buyer_id"]);
+            var buyerNeedIds = buyerNeedList.GetSelectList(bn => bn["buyer_id"]);
             var buyerNeedPOIDatas = buyerNeedList.Select(sn =>
                                                            new string[]
                                                            {

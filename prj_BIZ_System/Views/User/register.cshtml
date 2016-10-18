@@ -6,7 +6,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
 @{
@@ -106,9 +106,9 @@
 
         @*@if (ViewBag.PageType != "Create")
         {
-            <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
-                <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
-                <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
+            <a href="~/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+                <a href="~/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
+                <a href="~/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
                 <br /><br />
         }*@
         <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
@@ -117,11 +117,11 @@
                 <div id="result">
                     @if (Model.userinfo.logo_img != null)
                     {
-                        <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                        <img src="@Url.Content(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
                     }
                     else
                     {
-                        <img src="/images/logopic.jpg" alt="">
+                        <img src="~/images/logopic.jpg" alt="">
                     }
                 </div>
                 <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_logoupload</label>

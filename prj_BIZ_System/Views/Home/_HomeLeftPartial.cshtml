@@ -24,7 +24,7 @@
                     <input type="password" name="user_pw" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
 
                     <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
-                    <a href="/User/Register?user_id=new" class="loginbox_newid">@prj_BIZ_System.LanguageResource.User.lb_newid </a>
+                    <a href="~/User/Register?user_id=new" class="loginbox_newid">@prj_BIZ_System.LanguageResource.User.lb_newid </a>
                 </form>
 
                 <form id="form2" action="/Home/IdentifyUser" style="display:none">
@@ -51,7 +51,7 @@
                 <li><span class="login_id login_id3 active">@prj_BIZ_System.LanguageResource.User.lb_manu</span>@prj_BIZ_System.LanguageResource.User.lb_manu_member</li>
             </ul>
             }
-            <a href="/Home/ForgetPassword" class="loginbox_fpw">@prj_BIZ_System.LanguageResource.User.lb_forget_pw</a>
+            <a href="~/Home/ForgetPassword" class="loginbox_fpw">@prj_BIZ_System.LanguageResource.User.lb_forget_pw</a>
         </div>
             <!--login-->
 
@@ -62,7 +62,7 @@
             @if (HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]) != "")
             {
                 <div class="userimg">
-                    <img src="@(ViewBag.logoDir + HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]))" alt="">
+                    <img src="@Url.Content(ViewBag.logoDir + HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["logo_img"]))" alt="">
                 </div>
             }
 
@@ -79,17 +79,17 @@
                 }
             <h2> @company</h2>
             <ul class="userfn">
-                <li><a href="/User/Register">@prj_BIZ_System.LanguageResource.User.lb_profile</a></li>
-                <li><a href="/User/ProductListEdit">@prj_BIZ_System.LanguageResource.User.lb_product_info</a></li>
-                <li><a href="/User/CatalogList">@prj_BIZ_System.LanguageResource.User.lb_pdf</a></li>
-                <li><a href="/User/VideoList">@prj_BIZ_System.LanguageResource.User.lb_video</a></li>
+                <li><a href="~/User/Register">@prj_BIZ_System.LanguageResource.User.lb_profile</a></li>
+                <li><a href="~/User/ProductListEdit">@prj_BIZ_System.LanguageResource.User.lb_product_info</a></li>
+                <li><a href="~/User/CatalogList">@prj_BIZ_System.LanguageResource.User.lb_pdf</a></li>
+                <li><a href="~/User/VideoList">@prj_BIZ_System.LanguageResource.User.lb_video</a></li>
                 <li>
-                    <a href="/Message/MessagePrivateList">
+                    <a href="~/Message/MessagePrivateList">
                         @prj_BIZ_System.LanguageResource.User.lb_msg_private
                         @*<span class="userfnmsg">100</span>*@
                     </a>
                 </li>
-                <li><a href="/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
+                <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
             </ul>
         </div>
         }
@@ -131,7 +131,7 @@
     <div class="newsbox mg30">
         <div class="newsboxTitle2">
             <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activity</h3>
-            <a href="/Home/Activity">More</a>
+            <a href="~/Home/Activity">More</a>
         </div>
         <ul class="newsboxList01 listlink dmicon">
             @{
@@ -149,7 +149,7 @@
                     }
 
                     <li>
-                        <a href="/Activity/ActivityInfo?Id=@activityList.activity_id">
+                        <a href="~/Activity/ActivityInfo?Id=@activityList.activity_id">
                             <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
                             @activity_name
                         </a>

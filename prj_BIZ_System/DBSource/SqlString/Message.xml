@@ -109,7 +109,7 @@
         <isNotNull prepend="and" property="user_id">
           mp2.user_id = #user_id#
         </isNotNull>
-        <isNotNull prepend="and" property="user_id">
+        <isNotNull prepend="and" property="create_time">
           <![CDATA[ mp2.create_time <= #create_time# ]]>
         </isNotNull>
       </dynamic>
@@ -117,7 +117,6 @@
       order by mp2.create_time desc
       limit 10
     </select>
-
 
     <!--聚落列表-->
     <select id="SelectClusterMsg" resultMap="SelectMsg-result" parameterClass="Msg">
