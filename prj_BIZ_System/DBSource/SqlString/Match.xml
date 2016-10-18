@@ -354,7 +354,7 @@
       get_company_and_en_by_user_id(ms.seller_id) sc,
       get_company_and_en_by_user_id(ms.buyer_id) bc
       WHERE ms.activity_id = #activity_id#
-      order by ms.seller_id
+      order by ms.serial_no
     </select>
 
     <!--後台_查詢買家有媒合意願的清單(包含雙方公司名稱)-->
@@ -369,7 +369,7 @@
       get_company_and_en_by_user_id(ms.seller_id) sc,
       get_company_and_en_by_user_id(ms.buyer_id) bc
       WHERE ms.activity_id = #activity_id#
-      order by ms.buyer_id
+      order by ms.serial_no
     </select>
 
 

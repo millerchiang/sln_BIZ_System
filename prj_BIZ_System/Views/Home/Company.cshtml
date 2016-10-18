@@ -5,7 +5,7 @@
     ViewBag.Title = "Company";
 }
 @section pagestyle{
-    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="~/stylesheets/company_info.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -48,13 +48,13 @@
                     }
 
                     <li>
-                        <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                        <a href="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
                             <span>@(catalogList.catalog_name)</span>
                             <div class="regisimg">
-                                <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
+                                <img src="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
                             </div>
                         </a>
-                        <a href="/User/UserInfo?user_id=@catalogList.user_id">@company </a>
+                        <a href="~/User/UserInfo?user_id=@catalogList.user_id">@company </a>
 
                     </li>
                 }

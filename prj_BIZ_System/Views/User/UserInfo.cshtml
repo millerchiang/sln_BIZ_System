@@ -7,8 +7,8 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
-    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/company_info.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -84,11 +84,11 @@
                             <div id="result">
                                 @if (Model.userinfo.logo_img != null)
                                 {
-                                    <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                                    <img src="@Url.Content(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
                                 }
                                 else
                                 {
-                                    <img src="/images/logopic.jpg" alt="">
+                                    <img src="~/images/logopic.jpg" alt="">
                                 }
                             </div>
 
@@ -246,10 +246,10 @@
                         foreach (var mo in Model.cataloglistList)
                             {
                                 <li>
-                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                    <a href="@Url.Content(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
                                         <span>@(mo.catalog_name)</span>
                                         <div class="regisimg">
-                                            <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                            <img src="@Url.Content(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
                                         </div>
 
                                     </a>

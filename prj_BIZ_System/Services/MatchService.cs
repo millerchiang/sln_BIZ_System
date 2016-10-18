@@ -86,14 +86,14 @@ namespace prj_BIZ_System.Services
         //}
 
         //MatchmakingAllModel
-        public object MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        public int MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
+            return (int)mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
         }
 
-        public object MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        public int MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
+            return (int)mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
         }
 
         public IList<MatchmakingAllModel> GetMatchmakingSellerneedList(int activity_id, string seller_id)
