@@ -11,6 +11,7 @@
     <typeAlias alias="EnterpriseSortAndListModel" type="prj_BIZ_System.Models.EnterpriseSortAndListModel"/>
     <typeAlias alias="ActivityProductSelectModel" type="prj_BIZ_System.Models.ActivityProductSelectModel"/>
     <typeAlias alias="ActivityCatalogSelectModel" type="prj_BIZ_System.Models.ActivityCatalogSelectModel"/>
+    <typeAlias alias="ActivityPhotoModel" type="prj_BIZ_System.Models.ActivityPhotoModel"/>
   </alias>
   
   <statements>
@@ -553,7 +554,56 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-  
+
+    <!--查詢活動照片全部-->
+    <select id="SelectPhotoListByManagerId" parameterClass="ActivityPhotoModel" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE deleted = '1' and manager_id = #manager_id#
+    </select>
+    <!--查詢活動照片單筆-->
+    <select id="SelectPhotoByPhotoId" parameterClass="ActivityPhotoModel" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE photo_id = #photo_id#
+    </select>
+    <!--假刪除活動照片-->
+    <delete id="DeletePhotoListByProductIdFake" parameterClass="ActivityPhotoModel">
+      UPDATE activity_photo
+      SET deleted = '0'
+      WHERE photo_id = #photo_id#
+    </delete>
+
+    <!--新增活動照片-->
+    <insert id="InsertPhotoList" parameterClass="ActivityPhotoModel">
+      <selectKey resultClass="int" property="photo_id" type="post">
+        SELECT currval('activity_photo_seq')
+      </selectKey>
+      INSERT INTO public.activity_photo(
+      manager_id, photo_time, photo_brief, photo_brief_en,
+      photo_info, photo_info_en, photo_pic_site, active,
+      deleted)
+      VALUES (#manager_id#,#photo_time#,#photo_brief#,#photo_brief_en#
+      ,#photo_info#, #photo_info_en#, #photo_pic_site#, #active#
+      , #deleted#
+      )
+    </insert>
+
+    <!--更新活動照片-->
+    <update id="UpdatePhotoList" parameterClass="ActivityPhotoModel">
+      UPDATE public.activity_photo
+      SET manager_id=#manager_id#, photo_time=#photo_time#, photo_brief=#photo_brief#,
+      photo_brief_en=#photo_brief_en#, photo_info=#photo_info#, photo_info_en=#photo_info_en#
+      <dynamic prepend="">
+        <isNotNull prepend="," property="photo_pic_site">
+          photo_pic_site=#photo_pic_site#
+        </isNotNull>
+      </dynamic>
+      , active=#active#, deleted=#deleted#
+      WHERE photo_id=#photo_id#
+    </update>
+
+
   </statements>
 
   <resultMaps>
@@ -827,7 +877,21 @@
       <result property="cover_file" column="cover_file"/>
       <result property="catalog_file" column="catalog_file"/>
     </resultMap>
-    
+
+    <resultMap id="PhotoList-result" class="ActivityPhotoModel">
+      <result property="photo_id" column="photo_id"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="photo_time" column="photo_time"/>
+      <result property="photo_brief" column="photo_brief"/>
+      <result property="photo_brief_en" column="photo_brief_en"/>
+      <result property="photo_info" column="photo_info"/>
+      <result property="photo_info_en" column="photo_info_en"/>
+      <result property="photo_pic_site" column="photo_pic_site"/>
+      <result property="active" column="active"/>
+      <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
   </resultMaps>
   
 </sqlMap>

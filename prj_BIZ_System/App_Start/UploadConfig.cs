@@ -58,6 +58,11 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string subDirForProduct { get; set; }
 
+        /// <summary>
+        /// 活動圖片儲存路徑
+        /// </summary>
+        public static string subDirForActivity { get; set; }
+
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
             UploadRootPath = "/" + rootPath;
@@ -71,6 +76,7 @@ namespace prj_BIZ_System.App_Start
             subDirForMessageFile = "Pri_Message/";
             subDirForCluster = "Cluster/";
             subDirForProduct = "Product/";
+            subDirForActivity = "Activity/";
             #endregion
         }
     }
@@ -144,7 +150,11 @@ namespace prj_BIZ_System.App_Start
                     folder_name = UploadConfig.subDirForProduct;
                     break;
 
-                default : 
+                case "activity":
+                    folder_name = UploadConfig.subDirForActivity;
+                    break;
+
+                default: 
                     folder_name = dir_type;
                     break;
             }
@@ -245,9 +255,9 @@ namespace prj_BIZ_System.App_Start
             {
                 string targetDirPath = getPictureDirLocation(user_id, dir_type);
                 string file_path = Path.Combine(targetDirPath, file_name);
-                if (File.Exists(file_name))
+                if (File.Exists(file_path))
                 {
-                    File.Delete(file_name);
+                    File.Delete(file_path);
                 }
             }
         }

@@ -2350,5 +2350,89 @@ namespace prj_BIZ_System.Controllers
 
         #endregion
 
+
+        #region 活動照片管理
+        [HttpPost]
+        public ActionResult doPhotoInsertOrUpdate(ActivityPhotoModel model, HttpPostedFileBase photo_img)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (model.photo_id == null)
+            {
+
+                if (photo_img != null && photo_img.ContentLength > 0)
+                {
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForActivity, model.manager_id, model.photo_pic_site);
+                }
+                int photo_id = (int)activityService.insertPhotoList(model);
+
+            }
+            else
+            {
+                if (photo_img != null && photo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.manager_id))
+                {
+                    var old_photo_model = activityService.getPhotoOne(model.photo_id);
+                    UploadHelper.deleteUploadFile(old_photo_model.photo_pic_site, "activity", model.manager_id);
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForActivity, model.manager_id, model.photo_pic_site);
+                }
+            }
+
+
+            int updateCount = (int)activityService.updatePhotoList(model);
+
+            return Redirect("PhotoListEdit");
+        }
+
+        [HttpPost]
+        public ActionResult PhotoDelete(int[] del_photos)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            bool isDelSuccess = activityService.PhotoListDeleteFake(del_photos); //假刪
+            return Redirect("PhotoListEdit");
+
+        }
+
+        public ActionResult PhotoListEdit()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            IList<ActivityPhotoModel> photoLists = activityService.getAllPhoto(manager_id).Pages<ActivityPhotoModel>(Request, this, 10);
+//            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+//            ViewBag.company = userInfoModel == null ? "" : userInfoModel.company;
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(manager_id, "activity");
+//            docookie("_mainmenu", "ProductListEdit");
+            return View(photoLists);
+        }
+
+        public ActionResult PhotoDetail(int? photo_id)
+        {
+            ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "activity");
+//            docookie("_mainmenu", "ProductDetail");
+            return View(result);
+        }
+
+        public ActionResult PhotoDetailEdit(int? photo_id)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
+            ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "activity") : "";
+
+//            docookie("_mainmenu", "ProductDetailEdit");
+            return result == null ? View(new ActivityPhotoModel() {photo_time= DateTime.Now}) : View(result);
+        }
+        #endregion
+
+
     }
 }

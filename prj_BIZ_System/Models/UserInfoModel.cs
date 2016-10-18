@@ -121,4 +121,5 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }         //公司名稱
     }
+
 }

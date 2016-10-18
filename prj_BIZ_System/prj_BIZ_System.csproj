@@ -890,6 +890,8 @@
     <Content Include="Views\Home\Support.cshtml" />
     <Content Include="Views\Message\MessageClusterAdd.cshtml" />
     <Content Include="Views\Message\MessageClusterDetail.cshtml" />
+    <Content Include="Views\Manager\PhotoDetailEdit.cshtml" />
+    <Content Include="Views\Manager\PhotoListEdit.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

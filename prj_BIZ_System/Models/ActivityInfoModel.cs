@@ -145,4 +145,18 @@ namespace prj_BIZ_System.Models
         public string catalog_file { get; set; } //CatalogListModel 的 公司型錄檔案位置
     }
 
+    public class ActivityPhotoModel
+    {
+        public int? photo_id { get; set; } //流水號
+        public string manager_id { get; set; } //管理者帳號
+        public DateTime photo_time { get; set; }//照片顯示時間
+        public string photo_brief { get; set; } //照片簡介(中文)
+        public string photo_brief_en { get; set; } //照片簡介(英文)
+        public string photo_info { get; set; } //照片說明(中文)
+        public string photo_info_en { get; set; } //照片說明(英文)
+        public string photo_pic_site { get; set; } //活動圖片位置
+        public string active { get; set; } //顯示於網頁(0：不顯示；1：顯示)
+        public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
+    }
+
 }

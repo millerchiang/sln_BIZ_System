@@ -1,0 +1,72 @@
+﻿@using prj_BIZ_System.Models
+@model IEnumerable<prj_BIZ_System.Models.ActivityPhotoModel >
+
+@{
+    ViewBag.Title = "ActivityPhotoList";
+}
+@section pagestyle{
+    <link href="/stylesheets/sys.css" rel="stylesheet" />
+}
+    <div class="article_col1">
+        <article class="article_col2 form_box">
+            <h2>活動照片管理</h2>
+            <form id="form" action="@Url.Action("PhotoDelete","Manager")" method="post">
+                <ul class="productlist">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (ActivityPhotoModel md in Model)
+                        {
+                            <li>
+                                <div class="imgbox">
+                                    <img src="@(string.IsNullOrEmpty(md.photo_pic_site)?UploadHelper.defaultImgSmall:ViewBag.photoDir+md.photo_pic_site )" alt="">
+                                </div>
+                                <div class="producttext productCheckT">
+                                    <h3>照片顯示日期: @md.photo_time.ToString("yyyy-MM-dd")</h3>
+                                    <h3>照片標題(中): @md.photo_brief</h3>
+                                    <h3>照片標題(英): @md.photo_brief_en</h3>
+                                    @{ 
+                                        string active = "否";
+                                        if (md.active=="1")
+                                        {
+                                            active = "是";
+                                        }
+
+                                    }
+                                    <h3>顯示於網頁: @active</h3>
+                                </div>
+                                <div class="productCheck">
+                                    <input name="del_photos" value="@md.photo_id" type="checkbox" class="inputCheckbox" id="dm@(md.photo_id)">
+                                    <label for="dm@(md.photo_id)" class="labeltCheckbox">刪除</label>
+                                </div>
+                                <div class="productbu">
+                                    <a href="@Url.Action("PhotoDetailEdit","Manager",new { photo_id = md.photo_id} )" class="editsbu ">修改</a>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                </ul>
+            </form>
+            @Html.PagesList((List<PageList<ActivityPhotoModel>>)ViewData["PageList"])
+            <div class="centerbox">
+                <a href="@Url.Action("PhotoDetailEdit","Manager")" class="addbu">新增</a>
+                <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>
+            </div>
+        </article>
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+        function init() {
+            $("#deleteP").click(function () {
+                if (confirm("@prj_BIZ_System.LanguageResource.User.lb_deleteornot ?")) {
+                    $("#form").submit();
+                }
+            });
+
+        }
+    </script>

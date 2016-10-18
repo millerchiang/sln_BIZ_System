@@ -300,6 +300,48 @@ namespace prj_BIZ_System.Services
             ActivityCatalogSelectModel param = new ActivityCatalogSelectModel() { user_id = user_id, activity_id = activity_id };
             return mapper.QueryForList<ActivityCatalogSelectModel>("ActivityInfo.SelectActivityCatalogByCondition", param);
         }
+
+        /*顯示所有的活動照片*/
+        public IList<ActivityPhotoModel> getAllPhoto(string manager_id)
+        {
+            ActivityPhotoModel param = new ActivityPhotoModel() { manager_id = manager_id };
+            return mapper.QueryForList<ActivityPhotoModel>("ActivityInfo.SelectPhotoListByManagerId", param);
+        }
+        public ActivityPhotoModel getPhotoOne(int? photo_id)
+        {
+            ActivityPhotoModel param = new ActivityPhotoModel() { photo_id = photo_id };
+            return mapper.QueryForObject<ActivityPhotoModel>("ActivityInfo.SelectPhotoByPhotoId", param);
+        }
+
+        /*假刪除活動照片*/
+        public bool PhotoListDeleteFake(int[] del_photos)
+        {
+            if (del_photos != null)
+            {
+                foreach (int del_photo in del_photos)
+                {
+                    var tempModel = new ActivityPhotoModel { photo_id = del_photo };
+                    mapper.Update("ActivityInfo.DeletePhotoListByProductIdFake", tempModel);
+                }
+            }
+            return true;
+        }
+        /*新增活動照片*/
+        public object insertPhotoList(ActivityPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Insert("ActivityInfo.InsertPhotoList", param);
+        }
+        /*修改活動照片*/
+        public int updatePhotoList(ActivityPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Update("ActivityInfo.UpdatePhotoList", param);
+        }
+
+
     }
 
 }
