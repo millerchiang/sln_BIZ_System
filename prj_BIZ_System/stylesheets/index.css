@@ -125,6 +125,7 @@
 }
 .newsphoto li + li {
   margin-left: 2%;
+  margin-bottom: 20px;
 }
 .newsphoto li span {
   font-size: 0.75em;
@@ -132,6 +133,10 @@
 }
 .newsphoto li p {
   font-size: 0.938em;
+}
+.newsphoto li:nth-of-type(3n+1) {
+  clear: left;
+  margin-left: 0;
 }
 .newsphoto .photoimg {
   position: relative;

@@ -89,7 +89,28 @@
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_activitypic</h3>
                 </div>
                 <ul class="newsphoto">
-                    <li>
+
+                    @foreach (var photoList in Model.activityphotoList)
+                    {
+                        var brief = photoList.photo_brief;
+                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                        {
+                            if (photoList.photo_brief_en != null && photoList.photo_brief_en != "")
+                            {
+                                brief = photoList.photo_brief_en;
+                            }
+                        }
+                        <li>
+                            <div class="photoimg">
+                                @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
+                                <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
+                            </div>
+                            <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
+                            <p>@brief</p>
+                        </li>
+                    }
+
+                    @*<li>
                         <div class="photoimg">
                             <img src="~/images/index_sample_pic01.jpg" alt="">
                         </div>
@@ -109,7 +130,7 @@
                         </div>
                         <span>2014-12-06</span>
                         <p>@prj_BIZ_System.LanguageResource.User.lb_activity_photo3</p>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
         </article>

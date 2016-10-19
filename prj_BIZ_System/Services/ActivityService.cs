@@ -307,6 +307,12 @@ namespace prj_BIZ_System.Services
             ActivityPhotoModel param = new ActivityPhotoModel() { manager_id = manager_id };
             return mapper.QueryForList<ActivityPhotoModel>("ActivityInfo.SelectPhotoListByManagerId", param);
         }
+        /*顯示所有的活動照片*/
+        public IList<ActivityPhotoModel> getActivityViewPhoto()
+        {
+//            ActivityPhotoModel param = new ActivityPhotoModel() {};
+            return mapper.QueryForList<ActivityPhotoModel>("ActivityInfo.SelectActivityViewPhotoList", null);
+        }
         public ActivityPhotoModel getPhotoOne(int? photo_id)
         {
             ActivityPhotoModel param = new ActivityPhotoModel() { photo_id = photo_id };
