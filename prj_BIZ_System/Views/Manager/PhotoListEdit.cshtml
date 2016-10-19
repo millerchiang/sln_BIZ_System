@@ -5,7 +5,7 @@
     ViewBag.Title = "ActivityPhotoList";
 }
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
     <div class="article_col1">
         <article class="article_col2 form_box">
@@ -18,7 +18,7 @@
                         {
                             <li>
                                 <div class="imgbox">
-                                    <img src="@(string.IsNullOrEmpty(md.photo_pic_site)?UploadHelper.defaultImgSmall:ViewBag.photoDir+md.photo_pic_site )" alt="">
+                                    <img src="@(Url.Content(string.IsNullOrEmpty(md.photo_pic_site)?UploadHelper.defaultImgSmall:ViewBag.photoDir) + md.photo_pic_site )" alt="">
                                 </div>
                                 <div class="producttext productCheckT">
                                     <h3>照片顯示日期: @md.photo_time.ToString("yyyy-MM-dd")</h3>

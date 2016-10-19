@@ -85,7 +85,7 @@
                         {
                             <li>
                                 <div class="imgbox">
-                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.UploadRootPath + md.user_id + "/Product/" + md.product_pic_site)" alt="">
+                                    <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.UploadRootPath) + md.user_id + "/Product/" + md.product_pic_site)" alt="">
                                 </div>
                                 <div class="producttext comicon">
                                     @{

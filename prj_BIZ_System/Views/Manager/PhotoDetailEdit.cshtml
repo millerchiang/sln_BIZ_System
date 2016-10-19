@@ -19,7 +19,7 @@
 
 }
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
     <div class="article_col1">
         <article class="article_col2 form_box">
@@ -27,7 +27,7 @@
             <form id="form" action="@Url.Action("doPhotoInsertOrUpdate", "Manager")" method="post" enctype="multipart/form-data">
                 <div class="magb30 centerbox2">
                     <div class="imgboxB" id="resultB">
-                        <img src="@(string.IsNullOrEmpty(Model.photo_pic_site)?UploadHelper.defaultImgBig:ViewBag.photoDir+Model.photo_pic_site)" alt="">
+                        <img src="@(Url.Content(string.IsNullOrEmpty(Model.photo_pic_site)?UploadHelper.defaultImgBig:ViewBag.photoDir) + Model.photo_pic_site)" alt="">
                     </div>
                     <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_photoupload</label>
                     <input type="file" id="id_image_large" name="photo_img">
