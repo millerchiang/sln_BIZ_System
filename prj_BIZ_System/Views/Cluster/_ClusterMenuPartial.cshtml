@@ -30,9 +30,16 @@
             {
                 <li><a href="~/Cluster/Cluster_Files">文件管理</a></li>
             }
-
+            
             <li><a href="~/Cluster/group_order_manager.html">聚落訂單管理</a></li>
-            <li><a href="~/Message/MessageClusterMain">訊息管理</a></li>
+            @if (Request.Cookies["_menu"].Value == "MessageClusterMain")
+            {
+                <li class="inforactive"><span>訊息管理</span></li>
+            }
+            else
+            {
+                <li><a href="~/Message/MessageClusterMain">訊息管理</a></li>
+            }
             <li><a href="~/Cluster/group_sales_set.html">業務權限設定</a></li>
             @*<li>
                 <a href="javascript:void(0)" class="floor active">聚落明細</a>

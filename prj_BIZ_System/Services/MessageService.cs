@@ -82,6 +82,7 @@ namespace prj_BIZ_System.Services
             param.msg_member = " " + param.msg_member;
             param.is_public = "0";
             param.user_id = "0";
+            param.cluster_no = 0;
             return mapper.Insert("Message.InsertMsg", param);
         }
 

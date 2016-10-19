@@ -81,7 +81,7 @@
                                 <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
                             }
                         </table>
-                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } })
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } }, 0)
                     </div>
                     <div class="magb30">
                         <h3 class="borderTitle2">已讀公告訊息</h3>
