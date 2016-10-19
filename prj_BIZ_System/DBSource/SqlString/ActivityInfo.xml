@@ -561,6 +561,12 @@
       FROM activity_photo
       WHERE deleted = '1' and manager_id = #manager_id#
     </select>
+    <!--查詢網頁顯示活動照片-->
+    <select id="SelectActivityViewPhotoList" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE deleted = '1' and active = '1'
+    </select>
     <!--查詢活動照片單筆-->
     <select id="SelectPhotoByPhotoId" parameterClass="ActivityPhotoModel" resultMap="PhotoList-result">
       SELECT *

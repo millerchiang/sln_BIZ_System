@@ -94,8 +94,11 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
+            indexModel.activityphotoList = activityService.getActivityViewPhoto();
             indexModel.newsList = activityService.GetNewsLimit(6);
             indexModel.cataloglistList = userService.getAllCatalogTop(4);
+
+
             ViewBag.coverDir = UploadConfig.UploadRootPath;
 
             foreach (NewsModel newsModel in indexModel.newsList)
