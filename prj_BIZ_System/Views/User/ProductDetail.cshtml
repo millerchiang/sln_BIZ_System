@@ -23,7 +23,7 @@
 
             <h2>@company</h2>
             <div class="imgboxB">
-                <img src="@(string.IsNullOrEmpty(Model.product_pic_site)?UploadHelper.defaultImgBig:Url.Content(ViewBag.productDir)+Model.product_pic_site)" alt="">
+                <img src="@(Url.Content(string.IsNullOrEmpty(Model.product_pic_site)?UploadHelper.defaultImgBig:ViewBag.productDir) + Model.product_pic_site)" alt="">
             </div>
             <div class="magb30">
 

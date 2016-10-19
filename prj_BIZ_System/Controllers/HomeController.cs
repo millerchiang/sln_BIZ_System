@@ -6,9 +6,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -106,7 +108,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "3.0");
+            docookie("_version", "2.0");
 
             return View(indexModel);
         }
@@ -226,8 +228,17 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
-            XDocument doc = XDocument.Parse(indexModel.news.content);
+            replaceImgSrcParamToUrlContent();
+        }
 
+        private void replaceImgSrcParamToUrlContent()
+        {
+            var replacePattern = "src=[\"'](.+?)[\"'].*?";
+            string matchString = Regex.Match(indexModel.news.content, replacePattern, RegexOptions.IgnoreCase).Groups[1].Value;
+            if (!matchString.IsNullOrEmpty())
+            {
+                indexModel.news.content = Regex.Replace(indexModel.news.content, replacePattern, "src=\"" + Url.Content("~/" + matchString) + "\"");
+            }
         }
 
         public ActionResult NewsViewForApp(string nvkey)
