@@ -1,0 +1,70 @@
+﻿@using prj_BIZ_System.App_Start
+@model IList<prj_BIZ_System.Models.VideoListModel>
+
+@{
+    ViewBag.Title = "VideoList";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
+}
+
+<div class="article_col1">
+    <article class="article_col1 form_box">
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_video</h2>
+
+        <form action="@Url.Action("VideoActive","Manager")" method="post">
+            <ul class="regis_dmlist3">
+                @if (Model != null)
+                {
+                    foreach (var mo in Model)
+                    {
+                        <li>
+                            @{
+                                string checktxt = "";
+                                string video_no_txt = "," + mo.video_no.ToString() + ",";
+                                if (ViewBag.active.IndexOf(video_no_txt,0)>=0)
+                                {
+                                    checktxt = "checked";
+                                }
+                            }
+                            <input type="radio" class="radioinput" id="@(mo.video_no)" name="video_no" value="@(mo.video_no)" @checktxt>
+                            <label for="@(mo.video_no)">設定為推薦影音</label>
+                            <p>標    題:@(mo.video_name)</p>
+                            <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+                            <p>上傳公司:@(mo.company)</p>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                }
+            </ul>
+            <div class="centerbox">
+                <button class="buinfor" type="submit">確定</button>
+            </div>
+        </form>
+        @Html.PagesList((List<PageList<VideoListModel>>)ViewData["PageList"])
+
+
+    </article>
+
+    </div>
+
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+    }
+</script>

@@ -170,6 +170,21 @@
       WHERE c.user_id = #user_id#
     </select>
 
+    <select id="SelectVideoListAll" resultMap="VideoList-result">
+      SELECT c.* , u.company
+      FROM video_list c
+      JOIN user_info u on c.user_id = u.user_id
+      Order By video_no Desc
+    </select>
+
+    <select id="SelectVideoListActive" resultMap="VideoList-result">
+      SELECT c.* , u.company
+      FROM video_list c
+      INNER JOIN video_active v
+      ON c.video_no = v.video_no
+      JOIN user_info u on c.user_id = u.user_id
+      Order By video_no Desc
+    </select>
 
     <!--查詢影音型錄全部-->
     <select id="SelectVideoListTop" parameterType= "int" resultMap="VideoList-result">
@@ -204,6 +219,24 @@
       user_id, video_name, youtube_site)
       VALUES (#user_id#, #video_name#, #youtube_site#)
     </insert>
+
+    <!--更新推薦影音型錄-->
+    <insert id="InsertActiveVideo" parameterType= "int">
+      INSERT INTO video_active(
+      video_no)
+      VALUES ($video_no$)
+    </insert>
+
+    <delete id="DeleteActiveVideo">
+      DELETE FROM video_active
+    </delete>
+
+    <select id="SelectActiveVideoAll" resultMap="ActiveVideoList-result">
+      SELECT *
+      FROM video_active
+    </select>
+    
+
 
     <!--
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -482,6 +515,11 @@
       <result property="youtube_site" column="youtube_site" />
       <result property="company" column="company" />
     </resultMap>
+
+    <resultMap id="ActiveVideoList-result" class="prj_BIZ_System.Models.ActiveVideoModel">
+      <result property="video_no" column="video_no" />
+    </resultMap>
+
 
     <resultMap id="ProductList-result" class="prj_BIZ_System.Models.ProductListModel">
       <result property="product_id" column="product_id"/>
