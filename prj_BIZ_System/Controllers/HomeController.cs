@@ -68,7 +68,8 @@ namespace prj_BIZ_System.Controllers
             indexModel.enterprisesortList = userService.GetSortList();
             indexModel.userinfoList = userService.GetUserInfoList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
-            indexModel.videolistList = userService.getAllVideoTop(1);
+
+            indexModel.videolistList = userService.getVideoListActive();// getAllVideoTop(1);
 
             var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
             if (isCacheON)

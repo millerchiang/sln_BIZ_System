@@ -2433,6 +2433,32 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        public ActionResult VideoListEdit()
+        {
+
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            IList<VideoListModel> videoLists = userService.getVideoListAll().Pages(Request, this, 10);
+            IList<ActiveVideoModel> activevideoLists = userService.SelectActiveVideo();
+            ViewBag.active = "";
+            foreach (ActiveVideoModel model in activevideoLists)
+            {
+                ViewBag.active = ViewBag.active + model.video_no.ToString() + ",";
+            }
+            ViewBag.active = "," + ViewBag.active;
+
+            return View(videoLists);
+        }
+
+        [HttpPost]
+        public ActionResult VideoActive(int video_no)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            userService.ActiveVideo(video_no);
+            return Redirect("VideoListEdit");
+        }
+
 
     }
 }

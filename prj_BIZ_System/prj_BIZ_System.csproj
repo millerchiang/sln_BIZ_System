@@ -893,6 +893,8 @@
     <Content Include="Views\Message\MessageClusterDetail.cshtml" />
     <Content Include="Views\Manager\PhotoDetailEdit.cshtml" />
     <Content Include="Views\Manager\PhotoListEdit.cshtml" />
+    <Content Include="Views\Manager\VideoListEdit.cshtml" />
+    <Content Include="Views\Home\ActivityPhotoView.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

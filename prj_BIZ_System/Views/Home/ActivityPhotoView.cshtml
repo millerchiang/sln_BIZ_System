@@ -1,0 +1,50 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
+    ViewBag.Title = "ActivityPhotoView";
+}
+@section pagestyle{
+    <link href="~/stylesheets/news.css" rel="stylesheet" />
+}
+
+<div class="article_col1">
+    <article class="article_col2">
+@{ 
+    var brief = Model.activityphoto.photo_brief;
+    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+    {
+        if (Model.activityphoto.photo_brief_en != null && Model.activityphoto.photo_brief_en != "")
+        {
+            brief = Model.activityphoto.photo_brief_en;
+        }
+    }
+}
+        <h2 class="borderTitle">@brief</h2>
+        <p class="news_content">
+            @prj_BIZ_System.LanguageResource.User.lb_date: @Model.news.news_date.ToString("yyyy/MM/dd tt hh:mm")<br />
+            @Html.Raw(@Model.news.content)
+            <br />
+            @if (Model.news.news_type == "1")
+            {
+                @:<h>@prj_BIZ_System.LanguageResource.User.lb_link:</h>
+                string prefix = Model.news.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0 ? "" : "http://";
+                <a href="@prefix@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
+            }
+            else
+            {
+                <div class="centerbox">
+                    @if(new TimeSpan(Model.news.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+                    {
+                        <a href="~/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
+                    }
+                    <a href="~/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
+                </div>
+
+            }
+        </p>
+</article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+</div>

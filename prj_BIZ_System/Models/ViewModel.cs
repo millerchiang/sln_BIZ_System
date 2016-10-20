@@ -79,6 +79,7 @@ namespace prj_BIZ_System.Models
         public IList<NewsModel> newsList { get; set; }
         public IList<ActivityPhotoModel> activityphotoList { get; set; }
         public NewsModel news { get; set; }
+        public ActivityPhotoModel activityphoto { get; set; }
 
     }
 
