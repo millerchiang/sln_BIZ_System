@@ -88,7 +88,7 @@
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_activitypic</h3>
                 </div>
-                <ul class="newsphoto">
+                <ul class="newsphoto listlink">
 
                     @foreach (var photoList in Model.activityphotoList)
                     {
@@ -101,12 +101,14 @@
                             }
                         }
                         <li>
-                            <div class="photoimg">
-                                @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
-                                <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
-                            </div>
-                            <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
-                            <p>@brief</p>
+                            <a href="~/Home/ActivityPhotoView?Id=@photoList.photo_id" target="_blank" class="fancybox">
+                                <div class="photoimg">
+                                    @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
+                                    <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
+                                </div>
+                                <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
+                                <p>@brief</p>
+                            </a>
                         </li>
                     }
 

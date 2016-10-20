@@ -210,7 +210,19 @@ namespace prj_BIZ_System.Controllers
             return View(userModel);
         }
 
-        
+        public ActionResult ActivityPhotoView()
+        {
+            if (Request["Id"] != null)
+            {
+                indexModel.activityphoto = activityService.getPhotoOne(int.Parse(Request["Id"]));
+                ViewBag.photoDir = UploadHelper.getPictureDirPath(indexModel.activityphoto.manager_id, "activity");
+                docookie("_mainmenu", "ActivityPhotoView");
+                return View(indexModel);
+            }
+            else
+                return Redirect("Index");
+        }
+
         public ActionResult NewsView()
         {
             if (Request["Id"] !=null)
