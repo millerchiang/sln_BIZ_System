@@ -38,7 +38,9 @@ namespace prj_BIZ_System.Controllers
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"])
                                                           .Where(act => ((TimeSpan)(act.starttime - dateNow)).Hours > 24)
                                                           .ToList();
-            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"]);
+            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).Hours > 24)
+                                                          .ToList();
 
             return View(matchModel);
         }

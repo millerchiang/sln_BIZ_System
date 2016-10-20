@@ -80,6 +80,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }//修改時間
 
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string activity_name_en { get; set; }
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string addr { get; set; }//ActivityInfoModel 活動地點)
         public DateTime starttime { get; set; }//ActivityInfoModel 的 活動開始時間
