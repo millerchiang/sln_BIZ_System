@@ -22,27 +22,7 @@
     <main>
     <div class="article_col1">
         <article class="article_col2">
-            @{
-                var brief = Model.activityphoto.photo_brief;
-                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                {
-                    if (Model.activityphoto.photo_brief_en != null && Model.activityphoto.photo_brief_en != "")
-                    {
-                        brief = Model.activityphoto.photo_brief_en;
-                    }
-                }
-
-                var photo_info = Model.activityphoto.photo_info;
-                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                {
-                    if (Model.activityphoto.photo_info_en != null && Model.activityphoto.photo_info_en != "")
-                    {
-                        photo_info = Model.activityphoto.photo_info_en;
-                    }
-                }
-
-            }
-            <h2 class="borderTitle">@brief</h2>
+            <h2 class="borderTitle">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityphoto, "photo_brief")</h2>
 
             <div class="magb30 centerbox2">
                 <div class="imgboxB" id="resultB">
@@ -52,7 +32,7 @@
 
             <p class="news_content">
                 @prj_BIZ_System.LanguageResource.User.lb_date: @Model.activityphoto.photo_time.ToString("yyyy/MM/dd")<br />
-                @Html.Raw(@photo_info)
+                @Html.Raw(@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityphoto, "photo_info"))
                 <br />
             </p>
         </article>

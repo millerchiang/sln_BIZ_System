@@ -135,23 +135,12 @@
         </div>
         <ul class="newsboxList01 listlink dmicon">
             @{
-                var activity_name = "";
                 foreach (var activityList in Model.activityinfoList)
                 {
-                    activity_name = activityList.activity_name;
-
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (activityList.activity_name_en != null && activityList.activity_name_en != "")
-                        {
-                            activity_name = activityList.activity_name_en;
-                        }
-                    }
-
                     <li>
                         <a href="~/Activity/ActivityInfo?Id=@activityList.activity_id">
                             <span>@activityList.starttime.ToString("yyyy-MM-dd")</span>
-                            @activity_name
+                            @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], activityList, "activity_name")
                         </a>
                     </li>
                 }

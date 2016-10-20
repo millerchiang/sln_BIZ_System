@@ -47,25 +47,10 @@
                 matchmaking_select_chk = @prj_BIZ_System.LanguageResource.User.lb_yes;
             }
 
-            activity_name = Model.activityinfo.activity_name;
-            addr = Model.activityinfo.addr;
-            organizer = Model.activityinfo.organizer;
+            activity_name = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "activity_name");
+            addr = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "addr");
+            organizer = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "organizer");
 
-            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-            {
-                if (Model.activityinfo.activity_name_en != null && Model.activityinfo.activity_name_en != "")
-                {
-                    activity_name = Model.activityinfo.activity_name_en;
-                }
-                if (Model.activityinfo.addr_en != null && Model.activityinfo.addr_en != "")
-                {
-                    addr = Model.activityinfo.addr_en;
-                }
-                if (Model.activityinfo.organizer_en != null && Model.activityinfo.organizer_en != "")
-                {
-                    organizer = Model.activityinfo.organizer_en;
-                }
-            }
         }
 
          <ul class="news_content_list">

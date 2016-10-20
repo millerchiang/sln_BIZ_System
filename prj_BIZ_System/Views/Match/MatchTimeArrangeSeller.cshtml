@@ -24,17 +24,8 @@
             <ul class="comicon listlink">
                 @foreach (MatchmakingAllModel matchmakingAllModel in Model.matchmakingAllList)
                 {
-                    var company = matchmakingAllModel.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (matchmakingAllModel.company_en != null && matchmakingAllModel.company_en != "")
-                        {
-                            company = matchmakingAllModel.company_en;
-                        }
-                    }
-
                     <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingAllModel.buyer_id})">@company</a>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingAllModel.buyer_id})">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], matchmakingAllModel, "company")</a>
                     </li>
                 }
             </ul>
@@ -44,18 +35,8 @@
             <ul class="dmicon listlink">
                 @foreach (MatchmakingScheduleModel matchmakingScheduleModel in Model.matchmakingScheduleList)
                 {
-                    var company = matchmakingScheduleModel.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (matchmakingScheduleModel.company_en != null && matchmakingScheduleModel.company_en != "")
-                        {
-                            company = matchmakingScheduleModel.company_en;
-                        }
-                    }
-
-
                     <li>
-                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingScheduleModel.buyer_id})">@company</a>
+                        <a href="@Url.Action("UserInfo","User",new {user_id = matchmakingScheduleModel.buyer_id})">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], matchmakingScheduleModel, "company")</a>
                     </li>
                 }
             </ul>

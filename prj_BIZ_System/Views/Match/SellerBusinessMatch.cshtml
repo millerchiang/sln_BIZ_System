@@ -27,16 +27,8 @@
                 </tr>
                 @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                 {
-                    var company = buyerInfoModel.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (buyerInfoModel.company_en != null && buyerInfoModel.company_en != "")
-                        {
-                            company = buyerInfoModel.company_en;
-                        }
-                    }
                     <tr>
-                        <td><a href="@Url.Action("UserInfo","User", new { user_id = buyerInfoModel.buyer_id})" class="linkb" target="_blank" >@company</a></td>
+                        <td><a href="@Url.Action("UserInfo","User", new { user_id = buyerInfoModel.buyer_id})" class="linkb" target="_blank" >@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</a></td>
                         <td>@buyerInfoModel.buyer_need</td>
                         <td>
                             

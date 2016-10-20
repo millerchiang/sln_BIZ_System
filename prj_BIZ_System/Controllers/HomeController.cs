@@ -174,14 +174,7 @@ namespace prj_BIZ_System.Controllers
                 EnterpriseSortListModel scope = userService.GetSortById(int.Parse(sort_id));
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
-                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                {
-                    ViewBag.keyword = scope.enterprise_sort_name_en;
-                }
-                else
-                {
-                    ViewBag.keyword = scope.enterprise_sort_name;
-                }
+                ViewBag.keyword = LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], scope, "enterprise_sort_name");
             }
             else if (kw!="")
             {
