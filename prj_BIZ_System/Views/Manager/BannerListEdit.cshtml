@@ -1,0 +1,79 @@
+﻿@using prj_BIZ_System.Models
+@model IEnumerable<prj_BIZ_System.Models.BannerPhotoModel >
+
+@{
+    ViewBag.Title = "BannerPhotoList";
+}
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+    <div class="article_col1">
+        <article class="article_col2 form_box">
+            <h2>Banner照片管理</h2>
+            <form id="form" action="@Url.Action("BannerViewDelete","Manager")" method="post">
+                <ul class="productlist">
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (BannerPhotoModel md in Model)
+                        {
+                            <li>
+                                <div class="imgbox">
+                                    <img src="@Url.Content(string.IsNullOrEmpty(md.photo_pic_site)?UploadHelper.defaultImgSmall:ViewBag.photoDir+md.photo_pic_site)" alt="">
+                                </div>
+                                <div class="producttext productCheckT">
+                                    @{ 
+                                        var active = "否";
+                                        if (md.active=="1")
+                                        {
+                                            active = "是";
+                                        }
+
+                                    }
+                                    @*<h3>顯示於網頁: @active</h3>*@
+
+                                </div>
+                                <div class="productCheck">
+                                    @*<input name="view_photos" value="@md.photo_id" type="checkbox" class="inputCheckbox" id="vm@(md.photo_id)" @active>
+                                      <label for="vm@(md.photo_id)" class="labeltCheckbox">顯示於網頁</label>*@
+                                    <h3>顯示於網頁: @active</h3>
+                                    <p>
+                                        <input name="del_photos" value="@md.photo_id" type="checkbox" class="inputCheckbox" id="dm@(md.photo_id)">
+                                        <label for="dm@(md.photo_id)" class="labeltCheckbox">刪除</label>
+                                    </p>
+                                </div>
+                                <div class="productbu">
+                                    <a href="@Url.Action("BannerDetailEdit","Manager",new { photo_id = md.photo_id} )" class="editsbu ">修改</a>
+                                </div>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                </ul>
+            </form>
+            @Html.PagesList((List<PageList<BannerPhotoModel>>)ViewData["PageList"])
+            <div class="centerbox">
+                <a href="@Url.Action("BannerDetailEdit","Manager")" class="addbu">新增</a>
+                @*<a href="javascript:void(0)" class="deleteSbu" id="viewP">顯示於網頁</a>*@
+                <a href="javascript:void(0)" class="deleteSbu" id="deleteP">刪除</a>
+            </div>
+        </article>
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+        function init() {
+            $("#deleteP").click(function () {
+                if (confirm("@prj_BIZ_System.LanguageResource.User.lb_deleteornot ?")) {
+                    $("#form").submit();
+                }
+            });
+            //$("#viewP").click(function () {
+            //    $("#form").submit();
+            //});
+
+        }
+    </script>

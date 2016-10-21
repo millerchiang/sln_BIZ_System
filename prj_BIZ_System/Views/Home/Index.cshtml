@@ -16,9 +16,20 @@
         <article class="article_col2">
             <div class="boxtest mg30">
                 <ul class="bxslider">
-                    <li><img src="~/images/banner01-min.jpg" /></li>
-                    <li><img src="~/images/banner02-min.jpg" /></li>
-                    <li><img src="~/images/banner03-min.jpg" /></li>
+
+                     @if (Model.bannerphotoList == null || Model.bannerphotoList.Count==0)
+                     {
+                        <li><img src="~/images/banner01-min.jpg" /></li>
+                        <li><img src="~/images/banner02-min.jpg" /></li>
+                        <li><img src="~/images/banner03-min.jpg" /></li>
+                     }
+                     else
+                     {
+                         foreach (var bannerList in Model.bannerphotoList)
+                         {
+                            <li><img src="@(string.IsNullOrEmpty(bannerList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + bannerList.manager_id + "/Banner/" + bannerList.photo_pic_site))" /></li>
+                         }
+                     }
                 </ul>
             </div>
 
@@ -30,15 +41,15 @@
 
                 <ul class="newsboxList02">
                     @foreach (var newsList in Model.newsList)
-                    {
-                        string aa = "news_newspage";
-                        string bb = prj_BIZ_System.LanguageResource.User.lb_news;
+                             {
+                                 string aa = "news_newspage";
+                                 string bb = prj_BIZ_System.LanguageResource.User.lb_news;
 
-                        if (newsList.news_type == "0")
-                        {
-                            aa = "news_activity";
-                            bb = prj_BIZ_System.LanguageResource.User.lb_activities;
-                        }
+                                 if (newsList.news_type == "0")
+                                 {
+                                     aa = "news_activity";
+                                     bb = prj_BIZ_System.LanguageResource.User.lb_activities;
+                                 }
 
                         <li>
                             <a href="~/Home/NewsView?Id=@newsList.news_no" class=@aa>
@@ -60,7 +71,7 @@
                 <ul class="regis_dmlist">
 
                     @foreach (var catalogList in Model.cataloglistList)
-                    {
+                         {
 
                         <li>
                             <a href="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
@@ -83,8 +94,9 @@
                 <ul class="newsphoto listlink">
 
                     @foreach (var photoList in Model.activityphotoList)
-                    {
-                        
+                     {
+
+
                         <li>
                             <a href="~/Home/ActivityPhotoView?Id=@photoList.photo_id" target="_blank" class="fancybox">
                                 <div class="photoimg">

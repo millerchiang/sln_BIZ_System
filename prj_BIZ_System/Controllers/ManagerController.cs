@@ -2433,6 +2433,97 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
+        #region Banner照片管理
+        [HttpPost]
+        public ActionResult doBannerInsertOrUpdate(BannerPhotoModel model, HttpPostedFileBase photo_img)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (model.photo_id == null)
+            {
+
+                if (photo_img != null && photo_img.ContentLength > 0)
+                {
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForBanner, model.manager_id, model.photo_pic_site);
+                }
+                int photo_id = (int)activityService.insertBannerList(model);
+
+            }
+            else
+            {
+                if (photo_img != null && photo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.manager_id))
+                {
+                    var old_photo_model = activityService.getBannerOne(model.photo_id);
+                    UploadHelper.deleteUploadFile(old_photo_model.photo_pic_site, "banner", model.manager_id);
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForBanner, model.manager_id, model.photo_pic_site);
+                }
+            }
+
+
+            int updateCount = (int)activityService.updateBannerList(model);
+
+            return Redirect("BannerListEdit");
+        }
+
+        [HttpPost]
+        public ActionResult BannerViewDelete(int[] del_photos, int[] view_photos)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (del_photos!=null && del_photos.Count()>0)
+            {
+                bool isDelSuccess = activityService.BannerListDeleteFake(del_photos); //假刪
+            }
+            if (view_photos!=null && view_photos.Count() > 0)
+            {
+                bool isDelSuccess = activityService.BannerListUpdateActive(view_photos); 
+            }
+            return Redirect("BannerListEdit");
+
+        }
+
+        public ActionResult BannerListEdit()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            IList<BannerPhotoModel> photoLists = activityService.getAllBanner(manager_id).Pages<BannerPhotoModel>(Request, this, 10);
+            //            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+            //            ViewBag.company = userInfoModel == null ? "" : userInfoModel.company;
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(manager_id, "banner");
+            //            docookie("_mainmenu", "ProductListEdit");
+            return View(photoLists);
+        }
+
+        public ActionResult BannerDetail(int? photo_id)
+        {
+            BannerPhotoModel result = activityService.getBannerOne(photo_id);
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "banner");
+            //            docookie("_mainmenu", "ProductDetail");
+            return View(result);
+        }
+
+        public ActionResult BannerDetailEdit(int? photo_id)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            BannerPhotoModel result = activityService.getBannerOne(photo_id);
+            ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "banner") : "";
+
+            //            docookie("_mainmenu", "ProductDetailEdit");
+            return result == null ? View(new BannerPhotoModel{}) : View(result);
+        }
+        #endregion
+
+
+
         public ActionResult VideoListEdit()
         {
 

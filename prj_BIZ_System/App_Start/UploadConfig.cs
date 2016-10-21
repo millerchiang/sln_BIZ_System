@@ -63,6 +63,11 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string subDirForActivity { get; set; }
 
+        /// <summary>
+        /// Banner圖片儲存路徑
+        /// </summary>
+        public static string subDirForBanner { get; set; }
+
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
             UploadRootPath = "~/" + rootPath;
@@ -77,6 +82,7 @@ namespace prj_BIZ_System.App_Start
             subDirForCluster = "Cluster/";
             subDirForProduct = "Product/";
             subDirForActivity = "Activity/";
+            subDirForBanner = "Banner/";
             #endregion
         }
     }
@@ -149,9 +155,11 @@ namespace prj_BIZ_System.App_Start
                 case "product":
                     folder_name = UploadConfig.subDirForProduct;
                     break;
-
                 case "activity":
                     folder_name = UploadConfig.subDirForActivity;
+                    break;
+                case "banner":
+                    folder_name = UploadConfig.subDirForBanner;
                     break;
 
                 default: 

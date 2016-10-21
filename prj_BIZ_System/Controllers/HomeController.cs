@@ -96,6 +96,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult Index()
         {
             indexModel.activityphotoList = activityService.getActivityViewPhoto();
+            indexModel.bannerphotoList = activityService.getBannerViewPhoto();
             indexModel.newsList = activityService.GetNewsLimit(6);
             indexModel.cataloglistList = userService.getAllCatalogTop(4);
 

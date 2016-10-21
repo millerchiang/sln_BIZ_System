@@ -160,4 +160,13 @@ namespace prj_BIZ_System.Models
         public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
     }
 
+    public class BannerPhotoModel
+    {
+        public int? photo_id { get; set; } //流水號
+        public string manager_id { get; set; } //管理者帳號
+        public string photo_pic_site { get; set; } //Banner圖片位置
+        public string active { get; set; } //顯示於網頁(0：不顯示；1：顯示)
+        public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
+    }
+
 }

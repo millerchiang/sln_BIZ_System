@@ -12,6 +12,7 @@
     <typeAlias alias="ActivityProductSelectModel" type="prj_BIZ_System.Models.ActivityProductSelectModel"/>
     <typeAlias alias="ActivityCatalogSelectModel" type="prj_BIZ_System.Models.ActivityCatalogSelectModel"/>
     <typeAlias alias="ActivityPhotoModel" type="prj_BIZ_System.Models.ActivityPhotoModel"/>
+    <typeAlias alias="BannerPhotoModel" type="prj_BIZ_System.Models.BannerPhotoModel"/>
   </alias>
   
   <statements>
@@ -574,7 +575,7 @@
       WHERE photo_id = #photo_id#
     </select>
     <!--假刪除活動照片-->
-    <delete id="DeletePhotoListByProductIdFake" parameterClass="ActivityPhotoModel">
+    <delete id="DeletePhotoListByPhotoIdFake" parameterClass="ActivityPhotoModel">
       UPDATE activity_photo
       SET deleted = '0'
       WHERE photo_id = #photo_id#
@@ -595,6 +596,7 @@
       )
     </insert>
 
+
     <!--更新活動照片-->
     <update id="UpdatePhotoList" parameterClass="ActivityPhotoModel">
       UPDATE public.activity_photo
@@ -609,6 +611,66 @@
       WHERE photo_id=#photo_id#
     </update>
 
+
+    <!--更新活動照片-->
+    <update id="UpdateBannerList" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET manager_id=#manager_id#
+      <dynamic prepend="">
+        <isNotNull prepend="," property="photo_pic_site">
+          photo_pic_site=#photo_pic_site#
+        </isNotNull>
+      </dynamic>
+      , active=#active#, deleted=#deleted#
+      WHERE photo_id=#photo_id#
+    </update>
+
+
+    <!--查詢Banner照片全部-->
+    <select id="SelectBannerListByManagerId" parameterClass="BannerPhotoModel" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE deleted = '1' and manager_id = #manager_id# ORDER By photo_id DESC
+    </select>
+    <!--查詢網頁顯示Banner照片-->
+    <select id="SelectBannerViewPhotoList" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE deleted = '1' and active = '1'
+    </select>
+    <!--查詢活動照片單筆-->
+    <select id="SelectBannerByPhotoId" parameterClass="BannerPhotoModel" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE photo_id = #photo_id#
+    </select>
+
+    <!--新增Banner照片-->
+    <insert id="InsertBannerList" parameterClass="BannerPhotoModel">
+      <selectKey resultClass="int" property="photo_id" type="post">
+        SELECT currval('banner_photo_seq')
+      </selectKey>
+      INSERT INTO public.banner_photo(
+      manager_id, photo_pic_site, active,
+      deleted)
+      VALUES (#manager_id#, #photo_pic_site#, #active#
+      , #deleted#
+      )
+    </insert>
+
+    <!--假刪除Banner照片-->
+    <delete id="DeleteBannerListByPhotoIdFake" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET deleted = '0'
+      WHERE photo_id = #photo_id#
+    </delete>
+
+    
+    <update id="UpdateBannerActiveByPhotoId" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET active = '1'
+      WHERE photo_id = #photo_id#
+    </update>
 
   </statements>
 
@@ -897,6 +959,13 @@
       <result property="deleted" column="deleted"/>
     </resultMap>
 
+    <resultMap id="BannerList-result" class="BannerPhotoModel">
+      <result property="photo_id" column="photo_id"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="photo_pic_site" column="photo_pic_site"/>
+      <result property="active" column="active"/>
+      <result property="deleted" column="deleted"/>
+    </resultMap>
 
   </resultMaps>
   
