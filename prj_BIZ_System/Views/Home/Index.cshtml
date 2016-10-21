@@ -61,14 +61,6 @@
 
                     @foreach (var catalogList in Model.cataloglistList)
                     {
-                        var company = catalogList.company;
-                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                        {
-                            if (catalogList.company_en != null && catalogList.company_en != "")
-                            {
-                                company = catalogList.company_en;
-                            }
-                        }
 
                         <li>
                             <a href="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
@@ -77,7 +69,7 @@
                                     <img src="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
                                 </div>
                             </a>
-                            <a href="~/User/UserInfo?user_id=@catalogList.user_id">@company </a>
+                            <a href="~/User/UserInfo?user_id=@catalogList.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], catalogList, "company")</a>
 
                         </li>
                     }
@@ -88,25 +80,20 @@
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_activitypic</h3>
                 </div>
-                <ul class="newsphoto">
+                <ul class="newsphoto listlink">
 
                     @foreach (var photoList in Model.activityphotoList)
                     {
-                        var brief = photoList.photo_brief;
-                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                        {
-                            if (photoList.photo_brief_en != null && photoList.photo_brief_en != "")
-                            {
-                                brief = photoList.photo_brief_en;
-                            }
-                        }
+                        
                         <li>
-                            <div class="photoimg">
-                                @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
-                                <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
-                            </div>
-                            <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
-                            <p>@brief</p>
+                            <a href="~/Home/ActivityPhotoView?Id=@photoList.photo_id" target="_blank" class="fancybox">
+                                <div class="photoimg">
+                                    @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
+                                    <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
+                                </div>
+                                <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
+                                <p>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], photoList, "photo_brief")</p>
+                            </a>
                         </li>
                     }
 

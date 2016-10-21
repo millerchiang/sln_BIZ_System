@@ -33,22 +33,8 @@
                                 </div>
                                 <div class="producttext productCheckT">
                                     @{ 
-                                        var product_name = md.product_name;
-                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                        {
-                                            if (md.product_name_en != null && md.product_name_en != "")
-                                            {
-                                                product_name = md.product_name_en;
-                                            }
-                                        }
-                                        var model_no = md.model_no;
-                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                        {
-                                            if (md.model_no_en != null && md.model_no_en != "")
-                                            {
-                                                model_no = md.model_no_en;
-                                            }
-                                        }
+                                        var product_name = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "product_name");
+                                        var model_no = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "model_no");
                                     }
 
                                     <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name</h3>
