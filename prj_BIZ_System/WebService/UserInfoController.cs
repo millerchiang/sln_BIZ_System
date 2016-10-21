@@ -293,7 +293,7 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetAllVideo(string user_id)
         {
-            if (user_id == null)
+            if (user_id.IsNullOrEmpty())
             {
                 string message = string.Format("user_id null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
@@ -315,7 +315,7 @@ namespace prj_BIZ_System.WebService
         {
             int[] video_nos = new[] { video_no };
 
-            if (user_id == null || video_no == null)
+            if (user_id.IsNullOrEmpty() || video_no == null)
             {
                 string message = string.Format("user_id or video_no null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);

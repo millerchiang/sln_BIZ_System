@@ -23,26 +23,28 @@ namespace prj_BIZ_System.WebService
             if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
 
             var accountActivitys = matchService.GetSellerAccountPassActivity(user_id).Select(
-                activityRegister =>
+                ar =>
                 new 
                 {
-                    activityRegister.activity_id,
-                    activityRegister.activity_name,
+                    ar.activity_id,
+                    ar.activity_name,
+                    ar.activity_name_en,
                     is_buyer = "0",
-                    activityRegister.seller_select,
-                    activityRegister.matchmaking_select
+                    ar.seller_select,
+                    ar.matchmaking_select
                 }
             ).ToList();
 
             accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id).Select(
-                buyerInfo =>
+                bi =>
                 new 
                 {
-                    buyerInfo.activity_id,
-                    buyerInfo.activity_name,
+                    bi.activity_id,
+                    bi.activity_name,
+                    bi.activity_name_en,
                     is_buyer = "1",
-                    buyerInfo.seller_select,
-                    buyerInfo.matchmaking_select
+                    bi.seller_select,
+                    bi.matchmaking_select
                 }
             ).ToList());
             return Request.CreateResponse(HttpStatusCode.OK, accountActivitys);
@@ -54,11 +56,12 @@ namespace prj_BIZ_System.WebService
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
 
             var recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id).Select(
-                activityInfo =>
+                ai =>
                 new 
                 {
-                    activityInfo.activity_id,
-                    activityInfo.activity_name,
+                    ai.activity_id,
+                    ai.activity_name,
+                    ai.activity_name_en,
                     is_buyer = "0"
                 }
             ).ToList();
@@ -72,14 +75,14 @@ namespace prj_BIZ_System.WebService
             if (activity_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
             var buyerForMatch = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id)
                 .Select(
-                buyerInfo => 
+                bi => 
                 new
                 {
-                    buyerInfo.activity_id,
-                    buyerInfo.buyer_id,
-                    buyerInfo.company,
-                    buyerInfo.company_en,
-                    buyerInfo.buyer_need
+                    bi.activity_id,
+                    bi.buyer_id,
+                    bi.company,
+                    bi.company_en,
+                    bi.buyer_need
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerForMatch);
@@ -113,22 +116,22 @@ namespace prj_BIZ_System.WebService
             Dictionary<string, dynamic> sellerNeed = new Dictionary<string, dynamic>();
             sellerNeed["check"] = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, user_id)
                                 .Select(
-                                    matchmakingNeed =>
+                                    mn =>
                                     new 
                                     {
-                                        matchmakingNeed.buyer_id,
-                                        matchmakingNeed.company,
-                                        matchmakingNeed.company_en
+                                        mn.buyer_id,
+                                        mn.company,
+                                        mn.company_en
                                     }
                                 ).ToList();
             sellerNeed["schedule"] = new List<dynamic>();
             sellerNeed["schedule"] = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
+                mn =>
                 new 
                 {
-                    matchmakingNeed.buyer_id,
-                    matchmakingNeed.company,
-                    matchmakingNeed.company_en
+                    mn.buyer_id,
+                    mn.company,
+                    mn.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, sellerNeed);
@@ -141,22 +144,22 @@ namespace prj_BIZ_System.WebService
             Dictionary<string, dynamic> buyerNeed = new Dictionary<string, dynamic>();
             buyerNeed["check"] = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, user_id)
                                 .Select(
-                                    matchmakingNeed =>
+                                    mn =>
                                     new 
                                     {
-                                        matchmakingNeed.seller_id,
-                                        matchmakingNeed.company,
-                                        matchmakingNeed.company_en
+                                        mn.seller_id,
+                                        mn.company,
+                                        mn.company_en
                                     }
                                 ).ToList();
             buyerNeed["schedule"] = new List<dynamic>();
             buyerNeed["schedule"] = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
+                mn =>
                 new 
                 {
-                    matchmakingNeed.seller_id,
-                    matchmakingNeed.company,
-                    matchmakingNeed.company_en
+                    mn.seller_id,
+                    mn.company,
+                    mn.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerNeed);
