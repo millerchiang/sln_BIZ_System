@@ -300,6 +300,114 @@ namespace prj_BIZ_System.Services
             ActivityCatalogSelectModel param = new ActivityCatalogSelectModel() { user_id = user_id, activity_id = activity_id };
             return mapper.QueryForList<ActivityCatalogSelectModel>("ActivityInfo.SelectActivityCatalogByCondition", param);
         }
+
+        /*顯示所有的活動照片*/
+        public IList<ActivityPhotoModel> getAllPhoto(string manager_id)
+        {
+            ActivityPhotoModel param = new ActivityPhotoModel() { manager_id = manager_id };
+            return mapper.QueryForList<ActivityPhotoModel>("ActivityInfo.SelectPhotoListByManagerId", param);
+        }
+        /*顯示所有的活動照片*/
+        public IList<ActivityPhotoModel> getActivityViewPhoto()
+        {
+//            ActivityPhotoModel param = new ActivityPhotoModel() {};
+            return mapper.QueryForList<ActivityPhotoModel>("ActivityInfo.SelectActivityViewPhotoList", null);
+        }
+        public ActivityPhotoModel getPhotoOne(int? photo_id)
+        {
+            ActivityPhotoModel param = new ActivityPhotoModel() { photo_id = photo_id };
+            return mapper.QueryForObject<ActivityPhotoModel>("ActivityInfo.SelectPhotoByPhotoId", param);
+        }
+
+        /*假刪除活動照片*/
+        public bool PhotoListDeleteFake(int[] del_photos)
+        {
+            if (del_photos != null)
+            {
+                foreach (int del_photo in del_photos)
+                {
+                    var tempModel = new ActivityPhotoModel { photo_id = del_photo };
+                    mapper.Update("ActivityInfo.DeletePhotoListByPhotoIdFake", tempModel);
+                }
+            }
+            return true;
+        }
+        /*新增活動照片*/
+        public object insertPhotoList(ActivityPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Insert("ActivityInfo.InsertPhotoList", param);
+        }
+        /*修改活動照片*/
+        public int updatePhotoList(ActivityPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Update("ActivityInfo.UpdatePhotoList", param);
+        }
+
+
+        /*顯示所有的Banner照片*/
+        public IList<BannerPhotoModel> getAllBanner(string manager_id)
+        {
+            BannerPhotoModel param = new BannerPhotoModel() { manager_id = manager_id };
+            return mapper.QueryForList<BannerPhotoModel>("ActivityInfo.SelectBannerListByManagerId", param);
+        }
+        /*顯示所有的Banner照片*/
+        public IList<BannerPhotoModel> getBannerViewPhoto()
+        {
+            //            ActivityPhotoModel param = new ActivityPhotoModel() {};
+            return mapper.QueryForList<BannerPhotoModel>("ActivityInfo.SelectBannerViewPhotoList", null);
+        }
+        public BannerPhotoModel getBannerOne(int? photo_id)
+        {
+            BannerPhotoModel param = new BannerPhotoModel() { photo_id = photo_id };
+            return mapper.QueryForObject<BannerPhotoModel>("ActivityInfo.SelectBannerByPhotoId", param);
+        }
+
+        /*新增Banner照片*/
+        public object insertBannerList(BannerPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Insert("ActivityInfo.InsertBannerList", param);
+        }
+        /*修改Banner照片*/
+        public int updateBannerList(BannerPhotoModel param)
+        {
+            //param.user_id = user_id;
+            param.deleted = "1";
+            return mapper.Update("ActivityInfo.UpdateBannerList", param);
+        }
+
+        /*假刪除Banner照片*/
+        public bool BannerListDeleteFake(int[] del_photos)
+        {
+            if (del_photos != null)
+            {
+                foreach (int del_photo in del_photos)
+                {
+                    var tempModel = new BannerPhotoModel { photo_id = del_photo };
+                    mapper.Update("ActivityInfo.DeleteBannerListByPhotoIdFake", tempModel);
+                }
+            }
+            return true;
+        }
+
+        public bool BannerListUpdateActive(int[] view_photos)
+        {
+            if (view_photos != null)
+            {
+                foreach (int view_photo in view_photos)
+                {
+                    var tempModel = new BannerPhotoModel { photo_id = view_photo };
+                    mapper.Update("ActivityInfo.UpdateBannerActiveByPhotoId", tempModel);
+                }
+            }
+            return true;
+        }
+
     }
 
 }

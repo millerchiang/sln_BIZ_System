@@ -7,8 +7,8 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
-    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/company_info.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -58,16 +58,6 @@
 
     <div class="article_col1">
         <article class="article_col2">
-                @{
-                    var company = Model.userinfo.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (Model.userinfo.company_en != null && Model.userinfo.company_en != "")
-                        {
-                            company = Model.userinfo.company_en;
-                        }
-                    }
-                }
 
             <section class="form_box w100 article_col1">
                 <div class="databubox" id="tabA">
@@ -78,17 +68,17 @@
                 </div>
 
                 <div id="tabbox">
-                    <h2>@company</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.userinfo, "company")</h2>
                     <section id="section">
                         <div class="regis_col01L">
                             <div id="result">
                                 @if (Model.userinfo.logo_img != null)
                                 {
-                                    <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                                    <img src="@Url.Content(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
                                 }
                                 else
                                 {
-                                    <img src="/images/logopic.jpg" alt="">
+                                    <img src="~/images/logopic.jpg" alt="">
                                 }
                             </div>
 
@@ -198,31 +188,12 @@
                                 {
                                     <li>
                                         <div class="imgbox">
-                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
+                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.productDir) + md.product_pic_site)" alt="">
                                         </div>
                                         <div class="producttext">
-                                            @{
-                                                var product_name = md.product_name;
-                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                                {
-                                                    if (md.product_name_en != null && md.product_name_en != "")
-                                                    {
-                                                        product_name = md.product_name_en;
-                                                    }
-                                                }
-                                                var model_no = md.model_no;
-                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                                {
-                                                    if (md.model_no_en != null && md.model_no_en != "")
-                                                    {
-                                                        model_no = md.model_no_en;
-                                                    }
-                                                }
-                                            }
 
-
-                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
-                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
+                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "product_name") </h3>
+                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "model_no") </p>
                                         </div>
                                         <div class="productbu">
 
@@ -246,10 +217,10 @@
                         foreach (var mo in Model.cataloglistList)
                             {
                                 <li>
-                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                    <a href="@Url.Content(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
                                         <span>@(mo.catalog_name)</span>
                                         <div class="regisimg">
-                                            <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                            <img src="@Url.Content(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
                                         </div>
 
                                     </a>

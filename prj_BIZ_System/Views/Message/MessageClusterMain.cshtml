@@ -5,7 +5,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
@@ -70,7 +70,7 @@
                                         </td>
                                         <td>
                                             <div class="centerbox">
-                                                <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                                <a href="~/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -81,7 +81,7 @@
                                 <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
                             }
                         </table>
-                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } })
+                        @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } }, 0)
                     </div>
                     <div class="magb30">
                         <h3 class="borderTitle2">已讀公告訊息</h3>
@@ -118,7 +118,7 @@
                                         </td>
                                         <td>
                                             <div class="centerbox">
-                                                <a href="/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                                <a href="~/Message/MessageClusterDetail?is_public=1&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -175,7 +175,7 @@
                                         </td>
                                         <td>
                                             <div class="centerbox">
-                                                <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                                <a href="~/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -219,7 +219,7 @@
                                         </td>
                                         <td>
                                             <div class="centerbox">
-                                                <a href="/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                                <a href="~/Message/MessageClusterDetail?is_public=0&msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                             </div>
                                         </td>
                                     </tr>

@@ -6,7 +6,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
 @{
@@ -107,11 +107,11 @@
             <div id="result">
                 @if (Model.userinfo.logo_img != null)
                 {
-                    <img src="@(ViewBag.logoDir + Model.userinfo.logo_img)" alt="">
+                    <img src="@Url.Content(ViewBag.logoDir + Model.userinfo.logo_img)" alt="">
                 }
                 else
                 {
-                    <img src="/images/logopic.jpg" alt="">
+                    <img src="~/images/logopic.jpg" alt="">
                 }
             </div>
             <label class="choose_file" id="upload" for="id_image_large">上傳LOGO圖</label>

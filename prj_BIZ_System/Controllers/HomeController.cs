@@ -6,8 +6,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -65,7 +68,8 @@ namespace prj_BIZ_System.Controllers
             indexModel.enterprisesortList = userService.GetSortList();
             indexModel.userinfoList = userService.GetUserInfoList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
-            indexModel.videolistList = userService.getAllVideoTop(1);
+
+            indexModel.videolistList = userService.getVideoListActive();// getAllVideoTop(1);
 
             var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
             if (isCacheON)
@@ -91,8 +95,12 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
+            indexModel.activityphotoList = activityService.getActivityViewPhoto();
+            indexModel.bannerphotoList = activityService.getBannerViewPhoto();
             indexModel.newsList = activityService.GetNewsLimit(6);
             indexModel.cataloglistList = userService.getAllCatalogTop(4);
+
+
             ViewBag.coverDir = UploadConfig.UploadRootPath;
 
             foreach (NewsModel newsModel in indexModel.newsList)
@@ -167,14 +175,7 @@ namespace prj_BIZ_System.Controllers
                 EnterpriseSortListModel scope = userService.GetSortById(int.Parse(sort_id));
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
-                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                {
-                    ViewBag.keyword = scope.enterprise_sort_name_en;
-                }
-                else
-                {
-                    ViewBag.keyword = scope.enterprise_sort_name;
-                }
+                ViewBag.keyword = LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], scope, "enterprise_sort_name");
             }
             else if (kw!="")
             {
@@ -203,13 +204,25 @@ namespace prj_BIZ_System.Controllers
             return View(userModel);
         }
 
-        
+        public ActionResult ActivityPhotoView()
+        {
+            if (Request["Id"] != null)
+            {
+                indexModel.activityphoto = activityService.getPhotoOne(int.Parse(Request["Id"]));
+                ViewBag.photoDir = UploadHelper.getPictureDirPath(indexModel.activityphoto.manager_id, "activity");
+                docookie("_mainmenu", "ActivityPhotoView");
+                return View(indexModel);
+            }
+            else
+                return Redirect("Index");
+        }
+
         public ActionResult NewsView()
         {
             if (Request["Id"] !=null)
             {
                 doNewsView();
-
+                
                 docookie("_mainmenu", "NewsView");
                 return View(indexModel);
             }
@@ -222,6 +235,17 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+            replaceImgSrcParamToUrlContent();
+        }
+
+        private void replaceImgSrcParamToUrlContent()
+        {
+            var replacePattern = "src=[\"'](.+?)[\"'].*?";
+            string matchString = Regex.Match(indexModel.news.content, replacePattern, RegexOptions.IgnoreCase).Groups[1].Value;
+            if (!matchString.IsNullOrEmpty())
+            {
+                indexModel.news.content = Regex.Replace(indexModel.news.content, replacePattern, "src=\"" + Url.Content("~/" + matchString) + "\"");
+            }
         }
 
         public ActionResult NewsViewForApp(string nvkey)

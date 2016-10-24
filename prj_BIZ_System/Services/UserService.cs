@@ -453,6 +453,16 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<VideoListModel>("UserInfo.SelectVideoListTop", limit);
         }
 
+        public IList<VideoListModel> getVideoListActive()
+        {
+            return mapper.QueryForList<VideoListModel>("UserInfo.SelectVideoListActive", null);
+        }
+
+        public IList<VideoListModel> getVideoListAll()
+        {
+            return mapper.QueryForList<VideoListModel>("UserInfo.SelectVideoListAll", null);
+        }
+
         /*新增影音型錄*/
         public object VideoListInsert(string user_id, string video_name, string youtube_site)
         {
@@ -499,6 +509,19 @@ namespace prj_BIZ_System.Services
             }
 
             return 0;
+        }
+
+        public bool ActiveVideo(int video_no)
+        {
+            mapper.Delete("UserInfo.DeleteActiveVideo", null);
+            var param = new ActiveVideoModel() { video_no = video_no };
+            mapper.Insert("UserInfo.InsertActiveVideo", param);
+            return true;
+        }
+
+        public IList<ActiveVideoModel> SelectActiveVideo()
+        {
+            return mapper.QueryForList<ActiveVideoModel>("UserInfo.SelectActiveVideoAll", null);
         }
         #endregion
     }

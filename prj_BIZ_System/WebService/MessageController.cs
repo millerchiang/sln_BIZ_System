@@ -18,9 +18,9 @@ namespace prj_BIZ_System.WebService
         private MessageService messageService = new MessageService();
         
         [HttpGet]
-        public IList<MsgPrivate> GetMessagePrivateList(string user_id, string date)
+        public object GetMessagePrivateList(string user_id, string date)
         {
-           if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return null;
+           if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");
 
             DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(
@@ -34,14 +34,14 @@ namespace prj_BIZ_System.WebService
                     is_read = msgModel.is_read
                 }
             ).ToList();
-
-            return msgPrivates;
+            
+            return Request.CreateResponse(HttpStatusCode.OK, msgPrivates);
         }
 
         [HttpGet]
-        public MessageContent GetMessageContent(int msg_no)
+        public object GetMessageContent(int msg_no)
         {
-            if (msg_no == 0) return null;
+            if (msg_no == 0) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "msg_no is null");
             MessageContent messageContent = new MessageContent();
             MsgModel msgModel = messageService.SelectMsgPrivateOne(msg_no);
             messageContent.msgPrivate = new MsgPrivate {
@@ -66,13 +66,14 @@ namespace prj_BIZ_System.WebService
                     create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
                 }
             ).ToList();
-            return messageContent;
+            
+            return Request.CreateResponse(HttpStatusCode.OK, messageContent);
         }
 
         [HttpGet]
-        public MessageContent GetMessageContentAndRead(int msg_no, string user_id)
+        public object GetMessageContentAndRead(int msg_no, string user_id)
         {
-            if (msg_no == 0) return null;
+            if (msg_no == 0 || user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");
             MessageContent messageContent = new MessageContent();
             MsgModel msgModel = messageService.SelectMsgPrivateOneAndRead(msg_no, user_id);
             messageContent.msgPrivate = new MsgPrivate
@@ -98,7 +99,8 @@ namespace prj_BIZ_System.WebService
                     create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
                 }
             ).ToList();
-            return messageContent;
+            
+            return Request.CreateResponse(HttpStatusCode.OK, messageContent);
         }
 
         [HttpPost]
@@ -116,11 +118,11 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public IList<CompanySortModel> GetCompanySort(string user_id)
+        public object GetCompanySort(string user_id)
         {
-            if (user_id.IsNullOrEmpty()) return null;
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user_id is null");
 
-            return messageService.SelectUserKwForMobile(user_id).Select(
+            var companySort = messageService.SelectUserKwForMobile(user_id).Select(
                 userInfoModel =>
                 new CompanySortModel
                 {
@@ -129,6 +131,23 @@ namespace prj_BIZ_System.WebService
                     company_en = userInfoModel.company_en,
                 }
             ).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, companySort);
+        }
+
+        [HttpGet]
+        public object GetMsgClusterPublic(string cluster_no, string user_id, string kw)
+        {
+            if (cluster_no.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster_no is null");
+            var publicResult = messageService.SelectMsgClusterPublic(cluster_no, user_id, kw);
+            return Request.CreateResponse(HttpStatusCode.OK, publicResult);
+        }
+
+        [HttpGet]
+        public object GetMsgClusterPrivate(string cluster_no, string user_id, string kw)
+        {
+            if (cluster_no.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster_no is null");
+            var publicResult = messageService.SelectMsgClusterPrivate(cluster_no, user_id, kw);
+            return Request.CreateResponse(HttpStatusCode.OK, publicResult);
         }
     }
 }

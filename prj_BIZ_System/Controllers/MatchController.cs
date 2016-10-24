@@ -31,9 +31,16 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"]);
-            matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"]);
-            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"]);
+            DateTime dateNow = DateTime.Now;
+            matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).Hours > 24 )
+                                                          .ToList();
+            matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).Hours > 24)
+                                                          .ToList();
+            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).Hours > 24)
+                                                          .ToList();
 
             return View(matchModel);
         }

@@ -80,6 +80,7 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; }//修改時間
 
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)
+        public string activity_name_en { get; set; }
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string addr { get; set; }//ActivityInfoModel 活動地點)
         public DateTime starttime { get; set; }//ActivityInfoModel 的 活動開始時間
@@ -143,6 +144,29 @@ namespace prj_BIZ_System.Models
         public string catalog_name { get; set; }//型錄編號
         public string cover_file { get; set; } //CatalogListModel 的 公司型錄封面位置
         public string catalog_file { get; set; } //CatalogListModel 的 公司型錄檔案位置
+    }
+
+    public class ActivityPhotoModel
+    {
+        public int? photo_id { get; set; } //流水號
+        public string manager_id { get; set; } //管理者帳號
+        public DateTime photo_time { get; set; }//照片顯示時間
+        public string photo_brief { get; set; } //照片簡介(中文)
+        public string photo_brief_en { get; set; } //照片簡介(英文)
+        public string photo_info { get; set; } //照片說明(中文)
+        public string photo_info_en { get; set; } //照片說明(英文)
+        public string photo_pic_site { get; set; } //活動圖片位置
+        public string active { get; set; } //顯示於網頁(0：不顯示；1：顯示)
+        public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
+    }
+
+    public class BannerPhotoModel
+    {
+        public int? photo_id { get; set; } //流水號
+        public string manager_id { get; set; } //管理者帳號
+        public string photo_pic_site { get; set; } //Banner圖片位置
+        public string active { get; set; } //顯示於網頁(0：不顯示；1：顯示)
+        public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
     }
 
 }

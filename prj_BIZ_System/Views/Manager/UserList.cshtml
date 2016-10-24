@@ -34,7 +34,7 @@
     
         <article>
             <h2 class="borderTitle2">查詢結果</h2>
-            <a href="/Manager/UserEdit" class="buinfor rightbox">新增廠商</a>
+            <a href="~/Manager/UserEdit" class="buinfor rightbox">新增廠商</a>
             <br></br>
             <table class="edittable">
                 @if (Model.userinfoList.Count > 0)
@@ -71,8 +71,8 @@
                         <td>@newInfo.company</td>
                         <td>@newInfo.phone</td>
                         <td>
-                            <a href="/Manager/UserEdit?user_id=@newInfo.user_id" class="editbu">詳細資料</a>
-<!--                            <a href="/Password/EditPasswd?user_id=@newInfo.user_id" class="deletebu">重設密碼</a>-->
+                            <a href="~/Manager/UserEdit?user_id=@newInfo.user_id" class="editbu">詳細資料</a>
+<!--                            <a href="~/Password/EditPasswd?user_id=@newInfo.user_id" class="deletebu">重設密碼</a>-->
                         </td>
                     </tr>
                 }

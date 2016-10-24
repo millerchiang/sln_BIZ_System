@@ -58,9 +58,19 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string subDirForProduct { get; set; }
 
+        /// <summary>
+        /// 活動圖片儲存路徑
+        /// </summary>
+        public static string subDirForActivity { get; set; }
+
+        /// <summary>
+        /// Banner圖片儲存路徑
+        /// </summary>
+        public static string subDirForBanner { get; set; }
+
         public static void RegisterCustomSetting(string rootPath, string realRootDir)
         {
-            UploadRootPath = "/" + rootPath;
+            UploadRootPath = "~/" + rootPath;
             UploadRootDir = realRootDir;
 
             #region 型錄顯示 和 存檔位置
@@ -71,6 +81,8 @@ namespace prj_BIZ_System.App_Start
             subDirForMessageFile = "Pri_Message/";
             subDirForCluster = "Cluster/";
             subDirForProduct = "Product/";
+            subDirForActivity = "Activity/";
+            subDirForBanner = "Banner/";
             #endregion
         }
     }
@@ -78,8 +90,8 @@ namespace prj_BIZ_System.App_Start
 
     public class UploadHelper
     {
-        public static string defaultImgSmall = "/images/logopic.jpg";
-        public static string defaultImgBig = "/images/productpic.jpg";
+        public static string defaultImgSmall = "~/images/logopic.jpg";
+        public static string defaultImgBig = "~/images/productpic.jpg";
         public static string[] sniff = { "jpg", "gif", "png", "pdf", "txt" };
         /// <summary>
         /// 取得私訊附件資料夾路徑(使用者id)
@@ -143,8 +155,14 @@ namespace prj_BIZ_System.App_Start
                 case "product":
                     folder_name = UploadConfig.subDirForProduct;
                     break;
+                case "activity":
+                    folder_name = UploadConfig.subDirForActivity;
+                    break;
+                case "banner":
+                    folder_name = UploadConfig.subDirForBanner;
+                    break;
 
-                default : 
+                default: 
                     folder_name = dir_type;
                     break;
             }
@@ -245,9 +263,9 @@ namespace prj_BIZ_System.App_Start
             {
                 string targetDirPath = getPictureDirLocation(user_id, dir_type);
                 string file_path = Path.Combine(targetDirPath, file_name);
-                if (File.Exists(file_name))
+                if (File.Exists(file_path))
                 {
-                    File.Delete(file_name);
+                    File.Delete(file_path);
                 }
             }
         }

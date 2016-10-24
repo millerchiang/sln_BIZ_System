@@ -106,6 +106,11 @@ namespace prj_BIZ_System.Models
         public string company { get; set; } // userInfo表內 的 公司名稱(中文)
     }
 
+    public class ActiveVideoModel
+    {
+        public int video_no { get; set; } //影音編號
+    }
+
     public class SalesInfoModel
     {
         public string sales_id { get; set; }        //業務帳號
@@ -121,4 +126,5 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }         //公司名稱
     }
+
 }

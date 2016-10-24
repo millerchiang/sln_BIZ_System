@@ -23,26 +23,28 @@ namespace prj_BIZ_System.WebService
             if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
 
             var accountActivitys = matchService.GetSellerAccountPassActivity(user_id).Select(
-                activityRegister =>
+                ar =>
                 new 
                 {
-                    activityRegister.activity_id,
-                    activityRegister.activity_name,
+                    ar.activity_id,
+                    ar.activity_name,
+                    ar.activity_name_en,
                     is_buyer = "0",
-                    activityRegister.seller_select,
-                    activityRegister.matchmaking_select
+                    ar.seller_select,
+                    ar.matchmaking_select
                 }
             ).ToList();
 
             accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id).Select(
-                buyerInfo =>
+                bi =>
                 new 
                 {
-                    buyerInfo.activity_id,
-                    buyerInfo.activity_name,
+                    bi.activity_id,
+                    bi.activity_name,
+                    bi.activity_name_en,
                     is_buyer = "1",
-                    buyerInfo.seller_select,
-                    buyerInfo.matchmaking_select
+                    bi.seller_select,
+                    bi.matchmaking_select
                 }
             ).ToList());
             return Request.CreateResponse(HttpStatusCode.OK, accountActivitys);
@@ -54,11 +56,12 @@ namespace prj_BIZ_System.WebService
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
 
             var recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id).Select(
-                activityInfo =>
+                ai =>
                 new 
                 {
-                    activityInfo.activity_id,
-                    activityInfo.activity_name,
+                    ai.activity_id,
+                    ai.activity_name,
+                    ai.activity_name_en,
                     is_buyer = "0"
                 }
             ).ToList();
@@ -72,14 +75,14 @@ namespace prj_BIZ_System.WebService
             if (activity_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
             var buyerForMatch = matchService.GetSellerMatchToBuyerNameAndNeedList(activity_id)
                 .Select(
-                buyerInfo => 
+                bi => 
                 new
                 {
-                    buyerInfo.activity_id,
-                    buyerInfo.buyer_id,
-                    buyerInfo.company,
-                    buyerInfo.company_en,
-                    buyerInfo.buyer_need
+                    bi.activity_id,
+                    bi.buyer_id,
+                    bi.company,
+                    bi.company_en,
+                    bi.buyer_need
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerForMatch);
@@ -113,22 +116,22 @@ namespace prj_BIZ_System.WebService
             Dictionary<string, dynamic> sellerNeed = new Dictionary<string, dynamic>();
             sellerNeed["check"] = matchService.GetCertainActivitySellerCheckBuyerList(activity_id, user_id)
                                 .Select(
-                                    matchmakingNeed =>
+                                    mn =>
                                     new 
                                     {
-                                        matchmakingNeed.buyer_id,
-                                        matchmakingNeed.company,
-                                        matchmakingNeed.company_en
+                                        mn.buyer_id,
+                                        mn.company,
+                                        mn.company_en
                                     }
                                 ).ToList();
             sellerNeed["schedule"] = new List<dynamic>();
             sellerNeed["schedule"] = matchService.GetWhenUserIsSellerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
+                mn =>
                 new 
                 {
-                    matchmakingNeed.buyer_id,
-                    matchmakingNeed.company,
-                    matchmakingNeed.company_en
+                    mn.buyer_id,
+                    mn.company,
+                    mn.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, sellerNeed);
@@ -141,22 +144,22 @@ namespace prj_BIZ_System.WebService
             Dictionary<string, dynamic> buyerNeed = new Dictionary<string, dynamic>();
             buyerNeed["check"] = matchService.GetCertainActivityBuyerCheckSellerList(activity_id, user_id)
                                 .Select(
-                                    matchmakingNeed =>
+                                    mn =>
                                     new 
                                     {
-                                        matchmakingNeed.seller_id,
-                                        matchmakingNeed.company,
-                                        matchmakingNeed.company_en
+                                        mn.seller_id,
+                                        mn.company,
+                                        mn.company_en
                                     }
                                 ).ToList();
             buyerNeed["schedule"] = new List<dynamic>();
             buyerNeed["schedule"] = matchService.GetWhenUserIsBuyerMatchMakingDataList(activity_id, user_id).Select(
-                matchmakingNeed =>
+                mn =>
                 new 
                 {
-                    matchmakingNeed.seller_id,
-                    matchmakingNeed.company,
-                    matchmakingNeed.company_en
+                    mn.seller_id,
+                    mn.company,
+                    mn.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerNeed);
@@ -168,23 +171,28 @@ namespace prj_BIZ_System.WebService
             if (activity_id == null || seller_id.IsNullOrEmpty())
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "id is null");
 
-            object matchmakingNeedId = null;
-
             string[] buyer_ids = buyer_id != null ? buyer_id.Split(',') : new string[] { "" };
             var oldSellerneedList = matchService.GetMatchmakingSellerneedList(activity_id, seller_id)
-                                                .Select(model => new { model.serial_no, model.buyer_id })
-                                                .ToList();
+                                                .GetSelectList(model => new { model.serial_no, model.buyer_id });
 
             MatchmakingAllModel matchmakingAllModel = new MatchmakingAllModel();
             matchmakingAllModel.activity_id = activity_id;
             matchmakingAllModel.seller_id = seller_id;
 
-            if (oldSellerneedList.Count == 0)
+            int matchmakingNeedId = 0;
+            if (oldSellerneedList.Count == 0 && buyer_ids[0] != "")
             {
                 foreach (string id in buyer_ids)
                 {
                     matchmakingAllModel.buyer_id = id;
-                    matchmakingNeedId = matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                    try
+                    {
+                        matchmakingNeedId = matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "insert fail");
+                    }
                 }
             }
             else
@@ -198,14 +206,21 @@ namespace prj_BIZ_System.WebService
                 });
                 var oldBuyerId = oldSellerneedList.Select(oldSellerneed => oldSellerneed.buyer_id)
                                                   .ToArray();
-                var buyerExcept = buyer_ids.Except(oldBuyerId);
-                if(!buyerExcept.Contains(""))
+                var buyerExcept = buyer_ids.Except(oldBuyerId).ToList();
+                if(buyerExcept.Any() && buyerExcept[0] != "")
                 {
-                    buyerExcept.ForEach(buyerId =>
+                    foreach(string buyerId in buyerExcept)
                     {
                         matchmakingAllModel.buyer_id = buyerId;
-                        matchmakingNeedId = matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
-                    });
+                        try
+                        {
+                            matchmakingNeedId = matchService.MatchmakingSellerneedInsertOne(matchmakingAllModel);
+                        }
+                        catch (Exception ex)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "insert fail");
+                        }
+                    }
                 }
             }
             return Request.CreateResponse(HttpStatusCode.OK, matchmakingNeedId);
@@ -219,20 +234,26 @@ namespace prj_BIZ_System.WebService
 
             string[] seller_ids = seller_id != null ? seller_id.Split(',') : new string[] { "" };
             var oldBuyerneedList = matchService.GetMatchmakingBuyerneedList(activity_id, buyer_id)
-                                                .Select(model => new { model.serial_no, model.seller_id })
-                                                .ToList();
+                                                .GetSelectList(model => new { model.serial_no, model.seller_id });
 
             MatchmakingAllModel matchmakingAllModel = new MatchmakingAllModel();
             matchmakingAllModel.activity_id = activity_id;
             matchmakingAllModel.buyer_id = buyer_id;
 
-            object matchmakingNeedId = null;
-            if (oldBuyerneedList.Count == 0)
+            int matchmakingNeedId = 0;
+            if (oldBuyerneedList.Count == 0 && seller_ids[0] != "")
             {
                 foreach (string id in seller_ids)
                 {
                     matchmakingAllModel.seller_id = id;
-                    matchmakingNeedId = matchService.MatchmakingBuyerneedInsertOne(matchmakingAllModel);
+                    try
+                    {
+                        matchmakingNeedId = matchService.MatchmakingBuyerneedInsertOne(matchmakingAllModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "insert fail");
+                    }
                 }
             }
             else
@@ -246,14 +267,21 @@ namespace prj_BIZ_System.WebService
                 });
                 var oldSellerId = oldBuyerneedList.Select(oldSellerneed => oldSellerneed.seller_id)
                                                   .ToArray();
-                var sellerExcept = seller_ids.Except(oldSellerId);
-                if (!sellerExcept.Contains(""))
+                var sellerExcept = seller_ids.Except(oldSellerId).ToList();
+                if (sellerExcept.Any() && sellerExcept[0] != "")
                 {
-                    sellerExcept.ForEach(sellerId =>
+                    foreach(string sellerId in sellerExcept)
                     {
                         matchmakingAllModel.seller_id = sellerId;
-                        matchmakingNeedId = matchService.MatchmakingBuyerneedInsertOne(matchmakingAllModel);
-                    });
+                        try
+                        {
+                            matchmakingNeedId = matchService.MatchmakingBuyerneedInsertOne(matchmakingAllModel);
+                        }
+                        catch (Exception ex)
+                        {
+                            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "insert fail");
+                        }
+                    }
                 }
             }
             return Request.CreateResponse(HttpStatusCode.OK, matchmakingNeedId);

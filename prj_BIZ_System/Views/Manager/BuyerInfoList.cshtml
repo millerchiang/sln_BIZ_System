@@ -8,7 +8,7 @@
 <article class="form_box article_col1">
     <h2 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_buyerlist</h2>
 
-    <a href="/Manager/EditBuyerInfo" class="submitbu rightbox">新增買主</a>
+    <a href="~/Manager/EditBuyerInfo" class="submitbu rightbox">新增買主</a>
     <br>
     </br> 
     <table class="edittable">
@@ -27,8 +27,8 @@
                 <td>@buyerInfoModel.company</td>
                 <td>@buyerInfoModel.buyer_need</td>
                 <td>
-                    <a href="/Manager/EditBuyerInfo?Id=@buyerInfoModel.serial_no&buyer_id=@buyerInfoModel.buyer_id&company=@buyerInfoModel.company" class="editbu">修改</a>
-                    <a href="/Manager/EditBuyerInfoDelete?Id=@buyerInfoModel.serial_no" class="deletebu">刪除</a>
+                    <a href="~/Manager/EditBuyerInfo?Id=@buyerInfoModel.serial_no&buyer_id=@buyerInfoModel.buyer_id&company=@buyerInfoModel.company" class="editbu">修改</a>
+                    <a href="~/Manager/EditBuyerInfoDelete?Id=@buyerInfoModel.serial_no" class="deletebu">刪除</a>
                 </td>
             </tr>
         }
