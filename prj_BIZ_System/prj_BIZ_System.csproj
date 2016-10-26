@@ -897,6 +897,8 @@
     <Content Include="Views\Home\ActivityPhotoView.cshtml" />
     <Content Include="Views\Manager\BannerListEdit.cshtml" />
     <Content Include="Views\Manager\BannerDetailEdit.cshtml" />
+    <Content Include="Views\Home\LatestVideoList.cshtml" />
+    <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

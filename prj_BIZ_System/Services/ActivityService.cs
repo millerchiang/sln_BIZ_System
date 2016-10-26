@@ -63,7 +63,7 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", param);
         }
 
-        public IList<NewsModel> GetNewsLimit(int limit)
+        public IList<NewsModel> GetNewsLimit(int limit )
         {
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsLimit", limit);
         }
@@ -77,11 +77,31 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNews1Limit", limit);
         }
 
-
-        public IList<NewsModel> GetNewsType(string news_type,int? grp_id)
+        public IList<NewsModel> GetNewsLimit_e(int limit)
         {
-            NewsModel param = new NewsModel() { news_type = news_type, grp_id = grp_id };
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsLimit_e", limit);
+        }
+
+        public IList<NewsModel> GetNews0Limit_e(int limit)
+        {
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNews0Limit_e", limit);
+        }
+        public IList<NewsModel> GetNews1Limit_e(int limit)
+        {
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNews1Limit_e", limit);
+        }
+
+
+        public IList<NewsModel> GetNewsType(string news_type,int? grp_id,string news_style)
+        {
+            NewsModel param = new NewsModel() { news_type = news_type, grp_id = grp_id, news_style= news_style };
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsType", param);
+        }
+
+        public IList<NewsModel> GetNewsTypeView(string news_type, int? grp_id, string news_style)
+        {
+            NewsModel param = new NewsModel() { news_type = news_type, grp_id = grp_id, news_style = news_style };
+            return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsTypeView", param);
         }
 
         public NewsModel GetNewsOne(int news_no)

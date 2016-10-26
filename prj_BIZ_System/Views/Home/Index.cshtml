@@ -66,7 +66,12 @@
             <div class="mg30">
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h3>
-                    <!--<a href="">More</a>-->
+                    
+                    @if (Model.cataloglistList.Count()>4)
+                    {
+                    <a href="~/Home/LatestCatalogList">More</a>
+                    }
+
                 </div>
                 <ul class="regis_dmlist">
 

@@ -104,6 +104,7 @@ namespace prj_BIZ_System.Models
         public string youtube_site { get; set; } //youtube影音網址
 
         public string company { get; set; } // userInfo表內 的 公司名稱(中文)
+        public string company_en { get; set; } // userInfo表內 的 公司名稱(中文)
     }
 
     public class ActiveVideoModel

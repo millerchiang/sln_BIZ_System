@@ -1,0 +1,56 @@
+﻿@using prj_BIZ_System.App_Start
+@model IList<prj_BIZ_System.Models.VideoListModel>
+
+@{
+    ViewBag.Title = "Latest Video List";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    @Styles.Render("~/Scripts/css/fancybox")
+}
+
+<div class="article_col1">
+    <article class="article_col2 form_box">
+        <h2>@prj_BIZ_System.LanguageResource.User.lb_latest_video</h2>
+
+            <ul class="regis_dmlist3">
+                @if (Model != null)
+                {
+                    foreach (var mo in Model)
+                    {
+                        <li>
+                            <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
+							<p>@(mo.video_name)</p>
+                            <a href="~/User/UserInfo?user_id=@mo.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], mo, "company")</a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <text>@prj_BIZ_System.LanguageResource.User.lb_nodata</text>
+                }
+            </ul>
+        @Html.PagesList((List<PageList<VideoListModel>>)ViewData["PageList"])
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
+    </div>
+
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        init();
+    })
+
+    function init() {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+    }
+</script>

@@ -263,18 +263,21 @@ namespace prj_BIZ_System.Controllers
         ////News
         #region 新聞列表*/
         [HttpGet]
-        public ActionResult B_NewsList()
+        public ActionResult B_NewsList(string news_style,string news_type)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
             string manager_id = null;
             int? grp_id = null;
+            ViewBag.news_style = news_style;
+            ViewBag.news_type = news_type;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.newsList = activityService.GetNewsType(Request["news_type"], grp_id).Pages(Request, this, 10);
+            if (news_style == "3") news_style = null;
+            activityModel.newsList = activityService.GetNewsTypeView(news_type, grp_id, news_style).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
