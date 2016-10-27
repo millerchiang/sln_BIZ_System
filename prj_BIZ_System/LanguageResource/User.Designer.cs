@@ -484,6 +484,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 您好，請先登入會員再報名活動，是否回首頁登入? 的當地語系化字串。
+        /// </summary>
+        public static string lb_backlogin_a {
+            get {
+                return ResourceManager.GetString("lb_backlogin_a", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 您好，請先登入會員再傳送訊息，是否回首頁登入? 的當地語系化字串。
+        /// </summary>
+        public static string lb_backlogin_m {
+            get {
+                return ResourceManager.GetString("lb_backlogin_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 商務媒合需求 的當地語系化字串。
         /// </summary>
         public static string lb_biz_requirement {
@@ -2028,6 +2046,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_sendmail {
             get {
                 return ResourceManager.GetString("lb_sendmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 發送訊息 的當地語系化字串。
+        /// </summary>
+        public static string lb_sendmsg {
+            get {
+                return ResourceManager.GetString("lb_sendmsg", resourceCulture);
             }
         }
         

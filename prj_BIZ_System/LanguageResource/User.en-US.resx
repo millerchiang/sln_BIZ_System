@@ -873,4 +873,13 @@ To complete the registration of members, thank you!</value>
   <data name="lb_verify_expired" xml:space="preserve">
     <value>Your membership verification has expired. Please resend the verification mail or re-register. Thank you.</value>
   </data>
+  <data name="lb_sendmsg" xml:space="preserve">
+    <value>Send a message</value>
+  </data>
+  <data name="lb_backlogin_a" xml:space="preserve">
+    <value>Hello, before register the activity, you have to login the member, Do you want to back the home page to login?</value>
+  </data>
+  <data name="lb_backlogin_m" xml:space="preserve">
+    <value>Hello, before sent the message, you have to login the member, Do you want to back the home page to login?</value>
+  </data>
 </root>
