@@ -288,23 +288,44 @@
     <select id="SelectNewsLimit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
+      Where news_style ='1' or news_style ='3'
       ORDER BY news_date DESC Limit $limit$
     </select>
 
     <select id="SelectNews0Limit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
-      Where news_type = '0'
+      Where news_type = '0' and (news_style ='1' or news_style ='3')
       ORDER BY news_date DESC Limit $limit$
     </select>
 
     <select id="SelectNews1Limit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
-      Where news_type = '1'
+      Where news_type = '1' and (news_style ='1' or news_style ='3')
       ORDER BY news_date DESC Limit $limit$
     </select>
 
+    <select id="SelectNewsLimit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_style ='2' or news_style ='3'
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews0Limit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '0' and (news_style ='2' or news_style ='3')
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews1Limit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '1' and (news_style ='2' or news_style ='3')
+      ORDER BY news_date DESC Limit $limit$
+    </select>
 
     <!--查詢某新聞型態清單-->
     <select id="SelectNewsType" resultMap="News1">
@@ -318,6 +339,9 @@
         <isNotEmpty prepend="and" property="news_type">
           news_type = #news_type#
         </isNotEmpty>
+        <isNotEmpty prepend="and" property="news_style">
+          news_style = #news_style#
+        </isNotEmpty>
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
         </isNotEmpty>
@@ -325,6 +349,27 @@
       Order by bl.update_time Desc
     </select>
 
+    <!--查詢某新聞清單-->
+    <select id="SelectNewsTypeView" resultMap="News1">
+      SELECT *
+      FROM news bl
+      LEFT JOIN activity_info ai
+      ON bl.activity_id = ai.activity_id
+      LEFT JOIN manager.manager_info m
+      ON bl.manager_id = m.manager_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="news_type">
+          news_type = #news_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="news_style">
+          (news_style = #news_style# or news_style = '3')
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
+        </isNotEmpty>
+      </dynamic>
+      Order by bl.update_time Desc
+    </select>
 
     <!--查詢單筆-->
       <select id="SelectNewsOne" resultMap="NewsWithActivity">
@@ -338,11 +383,11 @@
         INSERT INTO news (
         manager_id, news_title, news_date,
         news_type, activity_id,
-        website, content
+        website, content, news_style
         ) VALUES (
         #manager_id#, #news_title#, #news_date#,
         #news_type#, #activity_id#,
-        #website#, #content#
+        #website#, #content#, #news_style#
         )
       </insert>
 
@@ -362,6 +407,7 @@
         activity_id = #activity_id#,
         website = #website#,
         content = #content#,
+        news_style = #news_style#,
         update_time = now()
         WHERE news_no = #news_no#
       </update>
@@ -834,6 +880,7 @@
       <result property="content" column="content"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+      <result property="news_style" column="news_style"/>
       <!--活動開始時間-->
       <result property="starttime" column="starttime"/>
     </resultMap>
@@ -850,6 +897,7 @@
       <result property="content" column="content"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+      <result property="news_style" column="news_style"/>
     </resultMap>
 
     <resultMap id="News1" class="NewsModel">
@@ -866,6 +914,7 @@
       <result property="update_time" column="update_time"/>
       <result property="activity_name" column="activity_name"/>
       <result property="grp_id" column="grp_id"/>
+      <result property="news_style" column="news_style"/>
     </resultMap>
 
 

@@ -110,7 +110,12 @@
       SELECT c.*, u.company,u.company_en
       FROM catalog_list c
       JOIN user_info u on c.user_id = u.user_id
-      WHERE c.user_id = #user_id#
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="user_id">
+          c.user_id = #user_id#
+        </isNotEmpty>
+      </dynamic>
+      Order By catalog_no Desc
     </select>
 
     <!--關鍵字查詢型錄公司-->
@@ -164,21 +169,21 @@
     -->
     <!--查詢影音型錄全部-->
     <select id="SelectVideoListByUserId" parameterClass="VideoListModel" resultMap="VideoList-result">
-      SELECT c.*, u.company
+      SELECT c.*, u.company, u.company_en
       FROM video_list c
       JOIN user_info u on c.user_id = u.user_id
       WHERE c.user_id = #user_id#
     </select>
 
     <select id="SelectVideoListAll" resultMap="VideoList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company, u.company_en
       FROM video_list c
       JOIN user_info u on c.user_id = u.user_id
       Order By video_no Desc
     </select>
 
     <select id="SelectVideoListActive" resultMap="VideoList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company, u.company_en
       FROM video_list c
       INNER JOIN video_active v
       ON c.video_no = v.video_no
@@ -188,7 +193,7 @@
 
     <!--查詢影音型錄全部-->
     <select id="SelectVideoListTop" parameterType= "int" resultMap="VideoList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company, u.company_en
       FROM video_list c
       JOIN user_info u on c.user_id = u.user_id
       Order By video_no Desc Limit $limit$
@@ -198,7 +203,7 @@
 
     <!--查詢影音型錄部份-->
     <select id="SelectVideoListByVideoNo" parameterClass="VideoListModel" resultMap="VideoList-result">
-      SELECT c.* , u.company
+      SELECT c.* , u.company, u.company_en
       FROM video_list c
       JOIN user_info u on c.user_id = u.user_id
       WHERE c.user_id = #user_id# and c.video_no = #video_no#
@@ -514,6 +519,7 @@
       <result property="video_name" column="video_name" />
       <result property="youtube_site" column="youtube_site" />
       <result property="company" column="company" />
+      <result property="company_en" column="company_en" />
     </resultMap>
 
     <resultMap id="ActiveVideoList-result" class="prj_BIZ_System.Models.ActiveVideoModel">

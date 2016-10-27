@@ -54,4 +54,10 @@
   padding-bottom: 30px;
 }
 
+.article_col2 img {
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+}
+
 /*# sourceMappingURL=news.css.map */

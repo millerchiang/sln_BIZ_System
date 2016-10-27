@@ -22,14 +22,39 @@
         Model.news_type = "";
         Model.website = "";
         Model.content = "";
+        Model.news_style = "3";
     }
-
+    var news_style01 = "";
+    var news_style02 = "";
+    var news_style03 = "";
+    var news_style04 = "";
+    if (Model.news_style == "0")
+    { news_style01 = "checked"; }
+    else if (Model.news_style == "1")
+    { news_style02 = "checked"; }
+    else if (Model.news_style == "2")
+    { news_style03 = "checked"; }
+    else if (Model.news_style == "3")
+    { news_style04 = "checked"; }
 }
 
 <article class="form_box article_col1">
     <h2>新增新聞訊息</h2>
     <form action=@ViewBag.Action method="post">
         <input type="hidden" name="news_no" value="@Model.news_no" />
+
+        <label for="news_style" class="regis_col02L spanRed">顯示頁面</label>
+        <div class="regis_col01R_input">
+            <input type="radio" class="radioinput" id="news_style01" name="news_style" value="0" @news_style01>
+            <label for="news_style01">均不顯示</label>
+            <input type="radio" class="radioinput" id="news_style02" name="news_style" value="1" @news_style02>
+            <label for="news_style02">中文</label>
+            <input type="radio" class="radioinput" id="news_style03" name="news_style" value="2" @news_style03>
+            <label for="news_style03">英文</label>
+            <input type="radio" class="radioinput" id="news_style04" name="news_style" value="3" @news_style04>
+            <label for="news_style04">均顯示</label>
+        </div>
+
 
         <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
         <input type="text" name="news_title" value="@Model.news_title" class="regis_col02R" />

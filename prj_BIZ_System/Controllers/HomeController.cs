@@ -97,8 +97,16 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.activityphotoList = activityService.getActivityViewPhoto();
             indexModel.bannerphotoList = activityService.getBannerViewPhoto();
-            indexModel.newsList = activityService.GetNewsLimit(6);
             indexModel.cataloglistList = userService.getAllCatalogTop(4);
+
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                indexModel.newsList = activityService.GetNewsLimit_e(6);
+            }
+            else
+            {
+                indexModel.newsList = activityService.GetNewsLimit(6);
+            }
 
 
             ViewBag.coverDir = UploadConfig.UploadRootPath;
@@ -130,7 +138,12 @@ namespace prj_BIZ_System.Controllers
                 else
                     ViewBag.tname = LanguageResource.User.lb_latest_news;
 
-                indexModel.newsList = activityService.GetNewsType(Request["Type"], null).Pages(Request, this, 10);
+                string news_style = "1";
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    news_style = "2";
+                }
+                indexModel.newsList = activityService.GetNewsTypeView(Request["Type"], null,news_style).Pages(Request, this, 10);
             }
             docookie("_mainmenu", "News");
             return View(indexModel);
@@ -242,7 +255,7 @@ namespace prj_BIZ_System.Controllers
         {
             var replacePattern = "src=[\"'](.+?)[\"'].*?";
             string matchString = Regex.Match(indexModel.news.content, replacePattern, RegexOptions.IgnoreCase).Groups[1].Value;
-            if (!matchString.IsNullOrEmpty())
+            if (!matchString.IsNullOrEmpty() && matchString[0]=='/')
             {
                 indexModel.news.content = Regex.Replace(indexModel.news.content, replacePattern, "src=\"" + Url.Content("~/" + matchString) + "\"");
             }
@@ -427,6 +440,23 @@ namespace prj_BIZ_System.Controllers
         {
             return View();
         }
+
+        public ActionResult LatestVideoList()
+        {
+
+            IList<VideoListModel> videoLists = userService.getVideoListAll().Pages(Request, this, 10);
+            docookie("_mainmenu", "LatestVideoList");
+            return View(videoLists);
+        }
+        public ActionResult LatestCatalogList()
+        {
+
+            IList<CatalogListModel> catalogLists = userService.getAllCatalog(null).Pages(Request, this, 10);
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
+            docookie("_mainmenu", "LatestCatalogList");
+            return View(catalogLists);
+        }
+
 
     }
 }

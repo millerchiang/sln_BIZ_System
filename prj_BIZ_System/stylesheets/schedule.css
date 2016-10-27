@@ -8,4 +8,13 @@
   margin-top: 5px;
 }
 
+.comicon {
+  display: inline-block;
+}
+.comicon li {
+  font-size: 0.938em;
+  line-height: 2em;
+  text-align: left;
+}
+
 /*# sourceMappingURL=schedule.css.map */
