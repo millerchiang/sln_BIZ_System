@@ -192,7 +192,7 @@
 
     <!--查詢活動報名已通過審核-->
     <select id="SelectARCheckPassList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
-      SELECT ar.* , ui.company , ui.company_en
+      SELECT ar.* , ui.company , ui.company_en, ui.addr, ui.addr_en
       FROM activity_register ar
       LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
       WHERE ar.activity_id = $activity_id$
@@ -737,6 +737,8 @@
       <result property="update_time" column="update_time"/>
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
+      <result property="addr" column="addr"/>
+      <result property="addr_en" column="addr_en"/>
     </resultMap>
 
     <resultMap id="SellerInfo" class="ActivityRegisterModel">

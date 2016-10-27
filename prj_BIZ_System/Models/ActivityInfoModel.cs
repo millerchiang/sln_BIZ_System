@@ -83,6 +83,7 @@ namespace prj_BIZ_System.Models
         public string activity_name_en { get; set; }
         public string manager_id { get; set; }//ActivityInfoModel 建立者帳號)
         public string addr { get; set; }//ActivityInfoModel 活動地點)
+        public string addr_en { get; set; }//ActivityInfoModel 活動地點)
         public DateTime starttime { get; set; }//ActivityInfoModel 的 活動開始時間
         public DateTime endtime { get; set; }//ActivityInfoModel 的 活動結束時間
         public string seller_select { get; set; }//ActivityInfoModel 的 是否顯示商務對接  (0：否；1：是)

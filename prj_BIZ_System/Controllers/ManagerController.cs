@@ -1167,11 +1167,16 @@ namespace prj_BIZ_System.Controllers
                                                     ar.telephone,
                                                     ar.phone,
                                                     ar.email,
+                                                    ar.addr,
+                                                    ar.addr_en,
                                                     string.Join(",", activityService.GetActivityCatalogSelectList(ar.user_id, ar.activity_id)
                                                                         .Select( cl => cl.catalog_name )
                                                                         .ToArray()),
                                                     string.Join(",", activityService.GetActivityProductSelectList(ar.user_id, ar.activity_id)
                                                                         .Select(cl => cl.product_name)
+                                                                        .ToArray()),
+                                                    string.Join(",", userService.SelectUserSortByUserId(ar.user_id)
+                                                                        .Select(us => us.enterprise_sort_name)
                                                                         .ToArray()),
                                                     ar.user_info,
                                                     ar.user_info_en
