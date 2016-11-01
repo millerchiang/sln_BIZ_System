@@ -874,4 +874,13 @@
   <data name="lb_verify_expired" xml:space="preserve">
     <value>您的會員驗證已過期，請重發驗證信或重新註冊，謝謝。</value>
   </data>
+  <data name="lb_sendmsg" xml:space="preserve">
+    <value>發送訊息</value>
+  </data>
+  <data name="lb_backlogin_a" xml:space="preserve">
+    <value>您好，請先登入會員再報名活動，是否回首頁登入?</value>
+  </data>
+  <data name="lb_backlogin_m" xml:space="preserve">
+    <value>您好，請先登入會員再傳送訊息，是否回首頁登入?</value>
+  </data>
 </root>

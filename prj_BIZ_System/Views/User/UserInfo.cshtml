@@ -9,6 +9,8 @@
 @section pagestyle{
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
     <link href="~/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -66,9 +68,21 @@
                     <a href="javascript:void(0)" class="databu databu03">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
                     <a href="javascript:void(0)" class="databu databu04">@prj_BIZ_System.LanguageResource.User.lb_video</a>
                 </div>
-
+                @{ 
+                    var company = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.userinfo, "company");
+                }
                 <div id="tabbox">
-                    <h2>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.userinfo, "company")</h2>
+                    <h2>@company</h2>
+                    <div class="message_add">
+                        @if (Request.Cookies["UserInfo"] != null)
+                        {
+                            <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@Model.userinfo.user_id" target="_blank"><i></i></a>
+                        }
+                        else
+                        {
+                            <a id="checkmember" title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="javascript:void(0)"><i></i></a>
+                        }
+                    </div>
                     <section id="section">
                         <div class="regis_col01L">
                             <div id="result">
@@ -262,6 +276,17 @@
 
     </div>
 
+<div id="dialog" title=@(prj_BIZ_System.LanguageResource.User.lb_sendmsg) style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+    </p>
+</div>
+
+<script type="text/javascript"
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+
 @Scripts.Render("~/bundles/fancybox")
 
 <script>
@@ -295,6 +320,28 @@
             $("#tabbox").find($("#tabbox section")[sectionIndex]).show();
         }
     })
+
+
+    $("#checkmember").click(function (e) {
+        //       alert("報名必須註冊會員，如果是會員請至首頁<<會員登入>>，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!");
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                @(prj_BIZ_System.LanguageResource.User.lb_yes): function () {
+                    window.location = "/Home/Index";
+                    event.returnValue = false; //需要加上這行 Why??
+                    //window.open(url); //如果是開窗就不用加 event.returnValue = false;
+                    $(this).dialog("close");
+                },
+                @(prj_BIZ_System.LanguageResource.User.lb_no): function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_backlogin_m");
+
+    });
 
 
 </script>

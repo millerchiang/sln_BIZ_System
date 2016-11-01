@@ -17,9 +17,12 @@
             <br />
             @if (Model.news.news_type == "1")
             {
+                if (Model.news.website != null && Model.news.website != "")
+                {
                 @:<h>@prj_BIZ_System.LanguageResource.User.lb_link:</h>
                 string prefix = Model.news.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0 ? "" : "http://";
                 <a href="@prefix@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
+                }
             }
             else
             {

@@ -57,14 +57,14 @@
 
 
         <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
-        <input type="text" name="news_title" value="@Model.news_title" class="regis_col02R" />
+        <input type="text" name="news_title" value="@Model.news_title" class="regis_col02R" required />
 
         <label for="news_date" class="regis_col02L spanRed">發布日期</label>
-        <input type="text" name="news_date" value="@Model.news_date" class="regis_col02R" />
+        <input type="text" name="news_date" value="@Model.news_date" class="regis_col02R" required />
 
         <input type="hidden" name="news_type" value="1" />
 
-        <label for="website" class="regis_col02L spanRed">報名網址</label>
+        <label for="website" class="regis_col02L">相關資訊連結</label>
         <input type="text" name="website" value="@Model.website" class="regis_col02R" />
 <!--
         <label for="manager_id" class="regis_col02L spanRed">建立帳號:</label>
