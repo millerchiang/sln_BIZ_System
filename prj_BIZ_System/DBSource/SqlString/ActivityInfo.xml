@@ -176,7 +176,7 @@
        
       <!--查詢活動報名單筆-->
       <select id="SelectActivityRegisterOne" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
-        SELECT ar.* , ui.company , ui.company_en
+        SELECT ar.* , ui.company , ui.company_en, ui.addr, ui.addr_en
         FROM activity_register ar
         LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
         WHERE ar.register_id = #register_id#
