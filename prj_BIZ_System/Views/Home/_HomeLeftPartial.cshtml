@@ -27,13 +27,13 @@
                     <a href="~/User/Register?user_id=new" class="loginbox_newid">@prj_BIZ_System.LanguageResource.User.lb_newid </a>
                 </form>
 
-                <form id="form2" action="/Home/IdentifyUser" style="display:none">
+                <form id="form2" action="~/Home/IdentifyUser" style="display:none">
                     <input type="text" name="user_id1" placeholder="@prj_BIZ_System.LanguageResource.User.lb_user_id" required>
                     <input type="password" name="user_pw1" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
                     <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
                 </form>
 
-                <form id="form3" action="/Home/IdentifyUser" style="display:none">
+                <form id="form3" action="~/Home/IdentifyUser" style="display:none">
                     <input type="text" name="user_id2" placeholder="@prj_BIZ_System.LanguageResource.User.lb_user_id" required>
                     <input type="password" name="user_pw2" placeholder="@prj_BIZ_System.LanguageResource.User.lb_password" required>
                     <button class="loginbox_submit" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_login </button>
@@ -99,7 +99,7 @@
         <div class="newsboxTitle2">
             <h3>@prj_BIZ_System.LanguageResource.User.lb_company @prj_BIZ_System.LanguageResource.User.lb_search</h3>
         </div>
-        <form action="/Home/CompanyList" class="indexsearch">
+        <form action="~/Home/CompanyList" class="indexsearch">
             <select name="searchbox" id="searchbox">
                 <option value="searchname">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_companyname</option>
                 <option value="searchtype">@prj_BIZ_System.LanguageResource.User.lb_search:@prj_BIZ_System.LanguageResource.User.lb_scope</option>

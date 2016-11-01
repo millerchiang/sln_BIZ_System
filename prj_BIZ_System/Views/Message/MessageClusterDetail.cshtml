@@ -16,7 +16,7 @@
     }
     <article class="article_col2">
         <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.cluster_info).cluster_name)</h2>
-        <form action="/Message/DoMessageClusterDetail" class="form_box sys_searchbox" method="post">
+        <form action="~/Message/DoMessageClusterDetail" class="form_box sys_searchbox" method="post">
             <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
             <h2>聚落訊息</h2>
 

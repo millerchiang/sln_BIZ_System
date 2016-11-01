@@ -256,7 +256,10 @@
                                     <li>
                                         <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
                                         <p>@(mo.video_name)</p>
-                                        <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
+                                        @if (Model.userinfo.user_id == Request.Cookies["UserInfo"]["user_id"])
+                                        {
+                                            <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
+                                        }
                                     </li>
                                 }
                             }
