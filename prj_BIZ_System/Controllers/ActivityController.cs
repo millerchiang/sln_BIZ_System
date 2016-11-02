@@ -41,6 +41,7 @@ namespace prj_BIZ_System.Controllers
                 activityModel.activityregister = activityService.GetActivityRegisterSelectOne
                     (int.Parse(Request["Id"]), Request.Cookies["UserInfo"]["user_id"]);
             }
+            docookie("_mainmenu", "ActivityInfo");
             return View(activityModel);
         }
         #endregion
