@@ -196,7 +196,7 @@
     <select id="SelectMsgReplyFileByMsg_no" resultMap="MsgRpyFile-result" parameterClass="Msg">
       SELECT rpyf.*
       FROM message.msg_reply_file  rpyf
-      join message.msg_reply join rpy on rpyf.msg_reply_no = rpy.msg_reply_no
+      join message.msg_reply rpy on rpyf.msg_reply_no = rpy.msg_reply_no
       join message.msg msg on rpy.msg_no = msg.msg_no
       WHERE msg.msg_no=#msg_no#
     </select>
@@ -315,7 +315,7 @@
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
-    <resultMap id="MsgRpyFile-result" class="MsgFile">
+    <resultMap id="MsgRpyFile-result" class="MsgReplyFile">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_reply_file_no" column="msg_file_no"></result>
       <result property="msg_reply_no" column="msg_no"></result>
