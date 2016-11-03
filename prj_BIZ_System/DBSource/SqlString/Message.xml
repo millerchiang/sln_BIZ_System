@@ -6,6 +6,7 @@
     <typeAlias alias="Msg"       type="prj_BIZ_System.Models.MsgModel"/>
     <typeAlias alias="MsgFile"   type="prj_BIZ_System.Models.MsgFileModel"/>
     <typeAlias alias="MsgReply"  type="prj_BIZ_System.Models.MsgReplyModel"/>
+    <typeAlias alias="MsgReplyFile"  type="prj_BIZ_System.Models.MsgReplyFileModel"/>
   </alias>
 
   <statements>
@@ -190,7 +191,23 @@
       msg_no, msg_file_site)
       VALUES ($msg_no$ , #msg_file_site#);
     </insert>
-    
+
+    <!--查詢訊息回應附件-->
+    <select id="SelectMsgReplyFileByMsg_no" resultMap="MsgRpyFile-result" parameterClass="Msg">
+      SELECT rpyf.*
+      FROM message.msg_reply_file  rpyf
+      join message.msg_reply join rpy on rpyf.msg_reply_no = rpy.msg_reply_no
+      join message.msg msg on rpy.msg_no = msg.msg_no
+      WHERE msg.msg_no=#msg_no#
+    </select>
+
+    <!--新增訊息回應附件-->
+    <insert id="InsertMsgReplyFile" parameterClass="MsgReplyFile">
+      INSERT INTO message.msg_reply_file(
+      msg_reply_no, msg_reply_file_site)
+      VALUES ($msg_reply_no$ , #msg_reply_file_site#);
+    </insert>
+
     <!--查詢私訊回應-->
     <select id="SelectMsgReplyMsg_no" resultMap="MsgReply-result" parameterClass="Msg">
       SELECT *
@@ -295,6 +312,14 @@
       <result property="msg_file_no" column="msg_file_no"></result>
       <result property="msg_no" column="msg_no"></result>
       <result property="msg_file_site" column="msg_file_site"></result>
+      <result property="create_time" column="create_time"></result>
+    </resultMap>
+
+    <resultMap id="MsgRpyFile-result" class="MsgFile">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="msg_reply_file_no" column="msg_file_no"></result>
+      <result property="msg_reply_no" column="msg_no"></result>
+      <result property="msg_reply_file_site" column="msg_file_site"></result>
       <result property="create_time" column="create_time"></result>
     </resultMap>
 

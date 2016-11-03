@@ -121,6 +121,12 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
+                    IList<MsgReplyFileModel> replyFileList = messageService.SelectMsgReplyFileByMsg_no(msg_no);
+                    ((List<MsgReplyModel>)messageViewModel.msgPrivateReplyList).ForEach(reply => {
+                        reply.msg_reply_file = replyFileList.Where(
+                                replyFile => replyFile.msg_reply_no == reply.msg_reply_no
+                            ).ToList();
+                    });
                     return View(messageViewModel);
                 }
                 else
@@ -136,13 +142,22 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
-        public ActionResult doPrivateDetailed(MsgReplyModel model)
+        public ActionResult doInsertMsgPrivateReply(MsgReplyModel model)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
-            messageService.InsertMsgPrivateReply(model);
+            var insertResult = messageService.InsertMsgPrivateReply(model);
+            if (insertResult!=null) {
+                //TODO 上傳回應的附件檔案
+                /* 多個上傳檔案逐一新增
+                for ()
+                {
+                    messageService.InsertMsgReplyFile(insertResult, filepath);
+                }
+                */
+            }
             return Redirect(getLabelString(MessageCatalog.Private, "detailUrl")+"?msg_no=" +model.msg_no);
         }
 

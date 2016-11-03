@@ -65,7 +65,16 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }
         //logo_img  公司logo圖
         public string logo_img { get; set; }
+
+        public List<MsgReplyFileModel> msg_reply_file { get; set; } //回覆時的附件
     }
 
-    
+    public partial class MsgReplyFileModel
+    {
+        public long msg_reply_file_no { get; set; }        //訊息回覆附件編號
+        public long msg_reply_no { get; set; }             //訊息回覆編號
+        public string msg_reply_file_site { get; set; }    //訊息回覆附件檔案位置
+        public DateTime create_time { get; set; }    //建立時間
+    }
+
 }

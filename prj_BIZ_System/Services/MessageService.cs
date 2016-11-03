@@ -148,11 +148,17 @@ namespace prj_BIZ_System.Services
             }
             return result;
         }
-
+        
         public void InsertMsgPrivateFile(long msg_no , string filepath)
         {
             var param = new MsgFileModel { msg_no = msg_no , msg_file_site = filepath };
             mapper.Insert("Message.InsertMsgFile", param);
+        }
+
+        public void InsertMsgReplyFile(long msg_reply_no, string filepath)
+        {
+            var param = new MsgReplyFileModel { msg_reply_no = msg_reply_no, msg_reply_file_site = filepath };
+            mapper.Insert("Message.InsertMsgReplyFile", param);
         }
 
         public IList<MsgFileModel> SelectMsgPrivateFileByMsg_no(int msg_no)
@@ -165,6 +171,12 @@ namespace prj_BIZ_System.Services
         {
             MsgReplyModel param = new MsgReplyModel() { msg_no = msg_no };
             return mapper.QueryForList<MsgReplyModel>("Message.SelectMsgReplyMsg_no", param);
+        }
+
+        public IList<MsgReplyFileModel> SelectMsgReplyFileByMsg_no(int msg_no)
+        {
+            MsgFileModel param = new MsgFileModel() { msg_no = msg_no };
+            return mapper.QueryForList<MsgReplyFileModel>("Message.SelectMsgReplyFileByMsg_no", param);
         }
 
         public object InsertMsgPrivateReply(MsgReplyModel param)
