@@ -22,7 +22,10 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
 
-            var accountActivitys = matchService.GetSellerAccountPassActivity(user_id).Select(
+            DateTime dateNow = DateTime.Now;
+            var accountActivitys = matchService.GetSellerAccountPassActivity(user_id)
+                .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                .Select(
                 ar =>
                 new 
                 {
@@ -35,7 +38,9 @@ namespace prj_BIZ_System.WebService
                 }
             ).ToList();
 
-            accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id).Select(
+            accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id)
+                .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                .Select(
                 bi =>
                 new 
                 {
@@ -55,7 +60,10 @@ namespace prj_BIZ_System.WebService
         {
             if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "activity id is null");
 
-            var recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id).Select(
+            DateTime dateNow = DateTime.Now;
+            var recommedActivitys = matchService.GetAccountNotRegisterActivity(user_id)
+                .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                .Select(
                 ai =>
                 new 
                 {

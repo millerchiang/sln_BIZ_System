@@ -6,10 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
-using System.Web.Script.Serialization;
+using prj_BIZ_System.Controllers;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.App_Start;
-using System.Web;
 using prj_BIZ_System.WebService.Model;
 using prj_BIZ_System.Extensions;
 
@@ -39,6 +38,32 @@ namespace prj_BIZ_System.WebService
             UserInfo userInfo = new UserInfo(userInfoModel);
             userInfo.activity_id_buyer = activityIdBuyer;
             return userInfo;
+        }
+
+        [HttpGet] 
+        public object getCompanyDataFromWeb(string user_id)
+        {
+            ManagerController.CompanyData data = ManagerController.GetDataFromWeb(user_id);
+            var enterprise_sort_ids = new HashSet<string>(data.Business_Item);
+            var enterprise_sorts = userService.GetSortList()
+                                              .Where( sort => enterprise_sort_ids.Contains(sort.enterprise_sort_id))
+                                              .Select( sort =>
+                                                sort.enterprise_sort_id + " " +
+                                                sort.enterprise_sort_name
+                                              ).ToList();
+            if (data == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no user data");
+            }
+
+            var companyOpenData = new
+            {
+                company = data.Company_Name,
+                addr = data.Company_Location,
+                capital = data.Capital_Stock_Amount,
+                enterprise_sort = string.Join(",", enterprise_sorts),
+            };
+            return Request.CreateResponse(HttpStatusCode.OK, companyOpenData);
         }
 
         [HttpPost]
