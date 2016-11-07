@@ -18,28 +18,45 @@ namespace prj_BIZ_System.WebService
         ActivityService activityService = new ActivityService();
 
         [HttpGet]
-        public IList<News> GetNewsInfo()
+        public object GetNewsInfo()
         {
-            IList <News> allNews = 
-                activityService.GetNewsAll(null).Select(
-                news =>
-                new News
-                {
-                    news_no = news.news_no,
-                    news_type = news.news_type,
-                    news_title = news.news_title,
-                    activity_id = news.activity_id
-                }
-            ).ToArray();
+            IList<News> allNews = getAllNews();
+            return Request.CreateResponse(HttpStatusCode.OK, allNews);
+        }
 
-            var activityDics = 
+        [HttpGet]
+        public object GetNewsInfoByLocale(string locale)
+        {
+            IList<News> allNews = getAllNews(news => locale == "en" ?
+                                                     news.news_style != "1" :
+                                                     news.news_style != "2");
+
+            return Request.CreateResponse(HttpStatusCode.OK, allNews);
+        }
+
+        private IList<News> getAllNews(Func<NewsModel, bool> predicate = null)
+        {
+            predicate = predicate ?? (x => true);
+            IList<News> allNews = activityService.GetNewsAll(null)
+                                                .Where(predicate)
+                                                .Select(
+                                                    news =>
+                                                    new News
+                                                    {
+                                                        news_no = news.news_no,
+                                                        news_type = news.news_type,
+                                                        news_title = news.news_title,
+                                                        activity_id = news.activity_id                                                    }
+                                                ).ToArray();
+
+            var activityDics =
                 activityService.GetActivityInfoList(null).ToDictionary(
                 activityInfo => activityInfo.activity_id,
                 activityInfo => activityInfo.starttime.ToString("yyyy-MM-dd HH:mm"));
 
             foreach (News news in allNews)
             {
-                if(activityDics.ContainsKey(news.activity_id))
+                if (activityDics.ContainsKey(news.activity_id))
                 {
                     news.starttime = activityDics[news.activity_id];
                 }
@@ -48,6 +65,7 @@ namespace prj_BIZ_System.WebService
                     news.starttime = "";
                 }
             }
+
             return allNews;
         }
 
