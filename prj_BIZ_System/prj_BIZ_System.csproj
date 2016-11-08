@@ -900,6 +900,7 @@
     <Content Include="Views\Manager\BannerDetailEdit.cshtml" />
     <Content Include="Views\Home\LatestVideoList.cshtml" />
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
+    <Content Include="Views\Cluster\ClusterListAll.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

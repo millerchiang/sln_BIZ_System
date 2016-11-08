@@ -35,6 +35,16 @@ namespace prj_BIZ_System.Controllers
 
         }
 
+        public ActionResult ClusterListAll()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnableAll(null, "1", "1").Pages(Request, this, 3);
+            return View(clusterViewModel);
+
+        }
+
         public ActionResult ClusterInvited()
         {
             if (Request.Cookies["UserInfo"] == null)
@@ -129,6 +139,12 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
+            ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+            double clusterMaxFileSize = clusterInfo.file_limit;
+            double clusterFileSize = clusterService.GetClusterFileSize(int.Parse(Request["cluster_no"]));
+            int capital = (int)(clusterFileSize / clusterMaxFileSize * 100);
+            ViewBag.fs = capital;
+            ViewBag.path = UploadConfig.UploadRootPath + UploadConfig.AdminManagerDirName + "/" + UploadConfig.subDirForCluster + Request["cluster_no"]+"/";
             clusterViewModel.clusterFileList = clusterService.GetClusterFileListkw(int.Parse(Request["cluster_no"])).Pages(Request, this, 10); 
             docookie("_menu", "Cluster_Files");
             return View(clusterViewModel);
@@ -237,6 +253,7 @@ namespace prj_BIZ_System.Controllers
                         filemodel.user_id = Request.Cookies["UserInfo"]["user_id"];
                         filemodel.cluster_file_site = upexl.FileName;
                         filemodel.deleted = "1";
+                        filemodel.file_size = (Double)upexl.ContentLength/1024.0;
                         clusterService.ClusterFileInsertOne(filemodel);
                     }
                     else

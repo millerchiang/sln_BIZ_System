@@ -21,7 +21,7 @@ namespace prj_BIZ_System.WebService
         public IList<News> GetNewsInfo()
         {
             IList <News> allNews = 
-                activityService.GetNewsAll(null).Select(
+                activityService.GetNewsAll(null,null).Select(
                 news =>
                 new News
                 {

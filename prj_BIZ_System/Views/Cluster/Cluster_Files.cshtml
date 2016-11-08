@@ -22,12 +22,13 @@
         <div class="form_box">
             <h2>文件管理</h2>
             <div class="regis_col02R">
+
                 <div class="regis_completebox">
-                    <div class="regis_complete" style="width:70%">
-                        目前使用量 70%
-                    </div>
-                </div>
+                    <span>目前使用量 @ViewBag.fs%</span>
+                    <div class="regis_complete" style="width:@ViewBag.fs%"></div>
+                </div>	
             </div>
+
 
             <a href="Cluster_UploadFiles" class="addbu rightbox">上傳文件</a>
             <table class="edittable">
@@ -52,10 +53,11 @@
                         <td>
                             @mo.create_time
                         </td>
-                        <td>20M</td>
+                        <td>@String.Format("{0:#,###,###.##}", mo.file_size) KB
+                        </td>
                         <td>
                             <div class="centerbox">
-                                <a href="#" class="editbu">下載</a>
+                                <a href="@Url.Content(ViewBag.path+mo.cluster_file_site)" class="editbu">下載</a>
                                 @if (Request.Cookies["UserInfo"]["user_id"] == mo.user_id)
                                 {
                                     <br /><br /><a href="javascript:void(0)" class="deletebu quit">刪除</a>

@@ -46,8 +46,18 @@
         </isNotEmpty>
       </dynamic>
     </select>
-    
-      
+
+    <select id="SelectClusterFileSize" resultClass="double" parameterClass="ClusterFile">
+      SELECT sum(file_size)
+      FROM public.cluster_file
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="cluster_no">
+          cluster_no = #cluster_no#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+
+
     <select id="SelectClusterList" resultMap="Cluster-result" parameterClass="Cluster">
       SELECT *
       FROM public.cluster_member
@@ -90,6 +100,45 @@
       and cm.user_id = #user_id#
     </select>
 
+    <select id="ClusterListByIdAndClusterEnableAll" resultMap="ClusterInfoMobileAll-result" parameterClass="Cluster">
+      SELECT ci.cluster_no,
+      array_to_string(array_agg(cm.user_id), ',') as cluster_members_id,
+      cmen.cluster_members,
+      cmen.cluster_members_en,
+      cnen.company as creator_name,
+      cnen.company_en as creator_name_en,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.enable,
+      ci.create_time as cict
+      FROM cluster_member as cm,
+      cluster_info as ci,
+      get_cluster_member_and_en_by_no_and_enable(ci.cluster_no,'1') as cmen,
+      get_company_and_en_by_user_id(ci.user_id) as cnen
+      where cm.cluster_no = ci.cluster_no
+      <dynamic prepend="">
+        <isNotEmpty prepend="and" property="cluster_enable">
+          cluster_enable = #cluster_enable#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="user_id">
+          cm.user_id = #user_id#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="is_public">
+          ci.is_public = #is_public#
+        </isNotEmpty>
+      </dynamic>
+      group by ci.cluster_no,
+      cmen.cluster_members,
+      cmen.cluster_members_en,
+      creator_name,
+      creator_name_en,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.enable,
+      cict
+      order by cict desc
+    </select>
+    
     <!--查詢聚落詳細資訊(手機)-->
     <select id="ClusterDetail" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
@@ -201,8 +250,8 @@
         SELECT currval('cluster_file_cluster_file_no_seq')
       </selectKey>
       INSERT INTO public.cluster_file(
-      cluster_no, user_id, cluster_file_site, deleted )
-      VALUES ($cluster_no$,#user_id#,#cluster_file_site#,#deleted#)
+      cluster_no, user_id, cluster_file_site, deleted, file_size )
+      VALUES ($cluster_no$,#user_id#,#cluster_file_site#,#deleted#,$file_size$)
     </insert>
 
 
@@ -236,6 +285,20 @@
       <result property="enable" column="enable"></result>
     </resultMap>
 
+    <resultMap id="ClusterInfoMobileAll-result" class="prj_BIZ_System.Models.ClusterDetailModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="creator_name" column="creator_name"></result>
+      <result property="creator_name_en" column="creator_name_en"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_members" column="cluster_members"></result>
+      <result property="cluster_members_en" column="cluster_members_en"></result>
+      <result property="cluster_members_id" column="cluster_members_id"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="cluster_create_time" column="cict"></result>
+      <result property="enable" column="enable"></result>
+    </resultMap>
+    
     <resultMap id="ClusterInfo-result" class="prj_BIZ_System.Models.ClusterInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
@@ -245,6 +308,8 @@
       <result property="create_time" column="create_time"></result>
       <result property="update_time" column="update_time"></result>
       <result property="enable" column="enable"></result>
+      <result property="is_public" column="is_public"></result>
+      <result property="file_limit" column="file_limit"></result>
     </resultMap>
 
     <resultMap id="ClusterFile-result" class="prj_BIZ_System.Models.ClusterFileModel">
@@ -253,6 +318,7 @@
       <result property="cluster_no" column="cluster_no"></result>
       <result property="user_id" column="user_id"></result>
       <result property="cluster_file_site" column="cluster_file_site"></result>
+      <result property="file_size" column="file_size"></result>
       <result property="create_time" column="create_time"></result>
     </resultMap>
     

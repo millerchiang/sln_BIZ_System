@@ -676,6 +676,57 @@ namespace prj_BIZ_System.Controllers
             public string Sus_End_Date { get; set; }
         }
 
+        public static string GetNewSortId(string QldSortId)
+        {
+            string NewSortId = "";
+            //New sort_id------------
+            if (QldSortId == "C1" || QldSortId == "C2")
+                NewSortId = "A";
+            else if (QldSortId == "C3"
+                || QldSortId == "CI" || QldSortId == "CJ"
+                || QldSortId == "CK" || QldSortId == "CL"
+                || QldSortId == "C4")
+                NewSortId = "B";
+            else if (QldSortId == "C8" || QldSortId == "C9"
+                || QldSortId == "CA" || QldSortId == "CB"
+                || QldSortId == "CC" || QldSortId == "CD"
+                || QldSortId == "CE" || QldSortId == "CF"
+                || QldSortId == "CG")
+                NewSortId = "C";
+            else if (QldSortId == "C5" || QldSortId == "C6"
+                || QldSortId == "CH" || QldSortId == "CM"
+                || QldSortId == "CN" || QldSortId == "CO"
+                || QldSortId == "C7")
+                NewSortId = "D";
+            else if (QldSortId == "CP" || QldSortId == "CQ"
+                || QldSortId == "CR"
+                || QldSortId == "CZ")
+                NewSortId = "E";
+            else if (QldSortId == "G1" || QldSortId == "G2"
+                || QldSortId == "G3" || QldSortId == "G4"
+                || QldSortId == "G5" || QldSortId == "G6"
+                || QldSortId == "G7")
+                NewSortId = "F";
+            else if (QldSortId == "G8" || QldSortId == "G9"
+                || QldSortId == "IE"
+                || QldSortId == "GA")
+                NewSortId = "G";
+            else if (QldSortId == "I1" || QldSortId == "I3"
+                || QldSortId == "I4" || QldSortId == "IC"
+                || QldSortId == "ID" || QldSortId == "IF"
+                || QldSortId == "IG" || QldSortId == "IZ"
+                || QldSortId == "I5")
+                NewSortId = "H";
+            else if (QldSortId == "I7" || QldSortId == "I8"
+                || QldSortId == "I9"
+                || QldSortId == "IB")
+                NewSortId = "I";
+            else
+                NewSortId = "J";
+            //-------------------------------
+            return NewSortId;
+        }
+
 
         public static CompanyData GetDataFromWeb(string user_id)
         {
@@ -718,7 +769,7 @@ namespace prj_BIZ_System.Controllers
                     companydata.Business_Item_Count = jarray[0].Cmp_Business.Count();
                     for (int i = 0; i < companydata.Business_Item_Count; i++)
                     {
-                        companydata.Business_Item.Add(jarray[0].Cmp_Business[i].Business_Item.Substring(0, 2));
+                        companydata.Business_Item.Add(GetNewSortId(jarray[0].Cmp_Business[i].Business_Item.Substring(0, 2)));
                     }
                 }
                 ////////////////////////////////////

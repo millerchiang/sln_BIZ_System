@@ -314,14 +314,21 @@ textarea {
   width: 100%;
   display: block;
   margin: 0 0 20px 0;
-  line-height: 25px;
+  height: 25px;
   box-sizing: border-box;
+  position: relative;
+}
+.regis_completebox span {
+  position: absolute;
+  font-size: 0.75em;
+  line-height: 25px;
+  left: 5px;
+  color: #cccccc;
 }
 
 .regis_complete {
   background: #00bcd5;
-  font-size: 0.75em;
-  text-align: center;
+  height: 100%;
 }
 
 .choose_file {

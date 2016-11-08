@@ -1,0 +1,67 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+    @{
+        ViewBag.Title = "Cluster List";
+    }
+
+    @section pagestyle{
+        <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    }
+
+    @Styles.Render("~/Content/jqueryUI")
+
+    <div class="article_col1s">
+
+    <article>
+        <h2 class="borderTitle2">產業聚落列表</h2>
+        @*<a href="ClusterInvited" class="addbu2 rightbox">受邀聚落清單</a>*@
+        @foreach (var newInfo in Model.clusterWebServiceInfoList)
+        {
+            string a = "1";
+            string b = "," + newInfo.cluster_members_id + ",";
+            string c = "";
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                c = "," + Request.Cookies["UserInfo"]["user_id"] + ",";
+                if (b.IndexOf(c) >= 0)
+                {
+                    a = "0";
+                }
+            }
+            <div class="form_box">
+                <h2>@newInfo.cluster_name</h2>
+                <label for="" class="regis_col02L">成立日期</label>
+                <span class="regis_col02R contentspan">@newInfo.cluster_create_time.ToString("yyyy/MM/dd tt hh:mm")</span>
+                <label for="" class="regis_col02L">管理者</label>
+                <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                <label for="" class="regis_col02L">成員</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_members
+                </p>
+
+                <label for="" class="regis_col02L">簡介</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_info
+                </p>
+
+                <div class="centerbox">
+                    @if (a == "0")
+                    {
+                        if (newInfo.enable == "1")
+                        {
+                            <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
+                        }
+                    }
+                    else
+                    {
+                        <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbu">聚落申請</a>
+                    }                    
+
+                </div>
+            </div>
+        }
+        @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
+    </article>
+</div>
+
