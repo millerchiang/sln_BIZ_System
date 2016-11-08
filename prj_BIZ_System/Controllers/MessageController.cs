@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.App_Start;
+﻿using BizTimer.Config;
+using prj_BIZ_System.App_Start;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -121,6 +122,12 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
+                    IList<MsgReplyFileModel> replyFileList = messageService.SelectMsgReplyFileByMsg_no(msg_no);
+                    ((List<MsgReplyModel>)messageViewModel.msgPrivateReplyList).ForEach(reply => {
+                        reply.msg_reply_file = replyFileList.Where(
+                                replyFile => replyFile.msg_reply_no == reply.msg_reply_no
+                            ).ToList();
+                    });
                     return View(messageViewModel);
                 }
                 else
@@ -136,13 +143,26 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
-        public ActionResult doPrivateDetailed(MsgReplyModel model)
+        public ActionResult doInsertMsgPrivateReply(MsgReplyModel model)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
-            messageService.InsertMsgPrivateReply(model);
+            var insertResult = messageService.InsertMsgPrivateReply(model);
+            if (insertResult!=null) {
+                model.msg_reply_no = (long)insertResult;
+                MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+                IList<MsgPushModel> pushMd = messageService.generatePushModels(model, msgMd);
+                try
+                {
+                    PushHelper.doPush(pushMd);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
+            }
             return Redirect(getLabelString(MessageCatalog.Private, "detailUrl")+"?msg_no=" +model.msg_no);
         }
 

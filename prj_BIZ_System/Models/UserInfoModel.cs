@@ -33,6 +33,10 @@ namespace prj_BIZ_System.Models
         public string contact_en { get; set; }//聯絡人姓名(英文)
         public string info_en { get; set; }//企業簡介(英文)
 
+        //額外加的
+        public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
+        public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
+
     }
 
     public class EnterpriseSortListModel //enterprise_sort_list

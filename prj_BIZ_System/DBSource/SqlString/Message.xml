@@ -6,6 +6,8 @@
     <typeAlias alias="Msg"       type="prj_BIZ_System.Models.MsgModel"/>
     <typeAlias alias="MsgFile"   type="prj_BIZ_System.Models.MsgFileModel"/>
     <typeAlias alias="MsgReply"  type="prj_BIZ_System.Models.MsgReplyModel"/>
+    <typeAlias alias="MsgReplyFile"  type="prj_BIZ_System.Models.MsgReplyFileModel"/>
+    <typeAlias alias="MsgPush"  type="prj_BIZ_System.Models.MsgPushModel"/>
   </alias>
 
   <statements>
@@ -190,7 +192,23 @@
       msg_no, msg_file_site)
       VALUES ($msg_no$ , #msg_file_site#);
     </insert>
-    
+
+    <!--查詢訊息回應附件-->
+    <select id="SelectMsgReplyFileByMsg_no" resultMap="MsgRpyFile-result" parameterClass="Msg">
+      SELECT rpyf.*
+      FROM message.msg_reply_file  rpyf
+      join message.msg_reply rpy on rpyf.msg_reply_no = rpy.msg_reply_no
+      join message.msg msg on rpy.msg_no = msg.msg_no
+      WHERE msg.msg_no=#msg_no#
+    </select>
+
+    <!--新增訊息回應附件-->
+    <insert id="InsertMsgReplyFile" parameterClass="MsgReplyFile">
+      INSERT INTO message.msg_reply_file(
+      msg_reply_no, msg_reply_file_site)
+      VALUES ($msg_reply_no$ , #msg_reply_file_site#);
+    </insert>
+
     <!--查詢私訊回應-->
     <select id="SelectMsgReplyMsg_no" resultMap="MsgReply-result" parameterClass="Msg">
       SELECT *
@@ -222,6 +240,21 @@
       ]]>
     </select>
 
+    <!-- [查詢訊息成員裝置]-->
+    <select id="SelectMsgMembers" resultMap="UserInfoForPush-result">
+      SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
+      FROM public.user_info ui
+      join manager.mobile_device_info mb on ui.user_id = mb.user_id
+      WHERE ui.user_id = #user_ids#
+    </select>
+    
+    <select id="SelectMsgMembersByLeft" resultMap="UserInfoForPush-result">
+      SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
+      FROM public.user_info ui
+      left join manager.mobile_device_info mb on ui.user_id = mb.user_id
+      WHERE ui.user_id = #user_ids#
+    </select>
+    
     <!--查尋公司By業務-->
     <select id="SelectUserUserBySalesId" resultMap="UserInfo-result">
       SELECT *
@@ -252,6 +285,15 @@
       <result property="company" column="company"/>
     </resultMap>
 
+    <resultMap id="UserInfoForPush-result" class="prj_BIZ_System.Models.UserInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="user_id" column="user_id"/>
+      <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
+      <result property="device_id" column="device_id"/>
+      <result property="device_os" column="device_os"/>
+    </resultMap>
+    
     <resultMap id="SelectMsg-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="msg_no" column="msg_no"></result>
@@ -295,6 +337,14 @@
       <result property="msg_file_no" column="msg_file_no"></result>
       <result property="msg_no" column="msg_no"></result>
       <result property="msg_file_site" column="msg_file_site"></result>
+      <result property="create_time" column="create_time"></result>
+    </resultMap>
+
+    <resultMap id="MsgRpyFile-result" class="MsgReplyFile">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="msg_reply_file_no" column="msg_file_no"></result>
+      <result property="msg_reply_no" column="msg_no"></result>
+      <result property="msg_reply_file_site" column="msg_file_site"></result>
       <result property="create_time" column="create_time"></result>
     </resultMap>
 
