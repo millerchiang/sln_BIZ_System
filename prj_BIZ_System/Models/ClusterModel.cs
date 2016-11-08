@@ -15,6 +15,7 @@ namespace prj_BIZ_System.Models
         public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
         public string cluster_enable { get; set; }        /*是否接受邀請 0：不接受；1：接受*/
         public string limit { get; set; }        /*業務會員權限 ps.業務會員權限以逗點分隔*/
+        public string is_public { get; set; }      /*是否公開*/
     }
 
 
@@ -28,6 +29,8 @@ namespace prj_BIZ_System.Models
         public DateTime update_time { get; set; } /*更新日期*/
         public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
 
+        public string is_public { get; set; }      /*是否公開*/
+        public double file_limit { get; set; }      /*文件總量限制*/
     }
 
     public class ClusterDetailModel
@@ -51,6 +54,7 @@ namespace prj_BIZ_System.Models
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_members { get; set; }   /*聚落成員*/
         public string cluster_members_en { get; set; }   /*聚落成員*/
+        public string cluster_members_id { get; set; }   /*聚落成員*/
         public string cluster_info { get; set; }        /*聚落簡介*/
         public DateTime cluster_create_time { get; set; }        /*聚落成立時間*/
         public DateTime member_invite_time { get; set; }        /*聚落成員邀請時間*/
@@ -65,6 +69,7 @@ namespace prj_BIZ_System.Models
         public string cluster_file_site { get; set; }        /*附件檔案位置*/
         public DateTime create_time { get; set; } /*建立日期*/
         public string deleted { get; set; }        /*是否刪除 0：刪除；1：未刪除*/
+        public double file_size { get; set; }        /*檔案大小*/
 
     }
 

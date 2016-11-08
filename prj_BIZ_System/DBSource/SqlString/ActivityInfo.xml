@@ -281,6 +281,9 @@
           <isNotEmpty prepend="and" property="manager_id">
             manager_id = #manager_id#
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="news_style">
+          (news_style = #news_style# or news_style = '3')
+          </isNotEmpty>
         </dynamic>
         ORDER BY news_date DESC
       </select>

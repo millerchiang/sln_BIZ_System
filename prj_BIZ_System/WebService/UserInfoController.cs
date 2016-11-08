@@ -6,10 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
-using System.Web.Script.Serialization;
+using prj_BIZ_System.Controllers;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.App_Start;
-using System.Web;
 using prj_BIZ_System.WebService.Model;
 using prj_BIZ_System.Extensions;
 
@@ -39,6 +38,39 @@ namespace prj_BIZ_System.WebService
             UserInfo userInfo = new UserInfo(userInfoModel);
             userInfo.activity_id_buyer = activityIdBuyer;
             return userInfo;
+        }
+
+        [HttpGet] 
+        public object GetCompanyOpenDataFromWeb(string user_id)
+        {
+            if(user_id.Length < 8)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id incomplete");
+            }
+            ManagerController.CompanyData data = ManagerController.GetDataFromWeb(user_id);
+
+            if (data == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no user data");
+            }
+            var enterprise_sort_ids = new HashSet<string>(data.Business_Item);
+            var enterpriseSortList = userService.GetSortList()
+                                                .Where(sort => enterprise_sort_ids.Contains(sort.enterprise_sort_id))
+                                                .ToList();
+            var sort_ids = enterpriseSortList.GetSelectList(sort => sort.sort_id);
+            var enterprise_sorts = enterpriseSortList.GetSelectList(sort =>
+                                                       sort.enterprise_sort_id + " " +
+                                                       sort.enterprise_sort_name
+                                                     );
+            var companyOpenData = new
+            {
+                company = data.Company_Name,
+                addr = data.Company_Location,
+                capital = data.Capital_Stock_Amount,
+                sort_id = string.Join(",", sort_ids),
+                enterprise_sort = string.Join(",", enterprise_sorts)
+            };
+            return Request.CreateResponse(HttpStatusCode.OK, companyOpenData);
         }
 
         [HttpPost]

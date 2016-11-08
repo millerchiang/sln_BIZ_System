@@ -125,11 +125,16 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult News()
         {
+            string news_style = "1";
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                news_style = "2";
+            }
 
             if (Request["Type"] == null)
             {
                 ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
-                indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
+                indexModel.newsList = activityService.GetNewsAll(null, news_style).Pages(Request, this, 10);
             }
             else
             {
@@ -138,11 +143,6 @@ namespace prj_BIZ_System.Controllers
                 else
                     ViewBag.tname = LanguageResource.User.lb_latest_news;
 
-                string news_style = "1";
-                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                {
-                    news_style = "2";
-                }
                 indexModel.newsList = activityService.GetNewsTypeView(Request["Type"], null,news_style).Pages(Request, this, 10);
             }
             docookie("_mainmenu", "News");

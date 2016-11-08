@@ -56,10 +56,10 @@ namespace prj_BIZ_System.Services
         }
 
         //NewsModel******************************************************************************//
-        public IList<NewsModel> GetNewsAll(string manager_id)
+        public IList<NewsModel> GetNewsAll(string manager_id, string news_style)
         {
 
-            NewsModel param = new NewsModel() { manager_id = manager_id };
+            NewsModel param = new NewsModel() { manager_id = manager_id, news_style= news_style };
             return mapper.QueryForList<NewsModel>("ActivityInfo.SelectNewsAll", param);
         }
 

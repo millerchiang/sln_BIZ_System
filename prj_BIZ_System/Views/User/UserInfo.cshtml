@@ -350,5 +350,12 @@
 
     });
 
-
+    $(window).scroll(function() {            
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            var Fh = $("footer").height()+10;
+            $(".message_add").animate({ bottom: Fh }, "slow"  );
+        }else {
+            $(".message_add").css({ bottom: '10px' } );                 
+        }
+    });
 </script>

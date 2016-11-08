@@ -22,6 +22,13 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
         }
 
+        public IList<ClusterDetailModel> GetClusterListByIdAndClusterEnableAll(string user_id, string cluster_enable, string is_public)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable, is_public = is_public };
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByIdAndClusterEnableAll", tempModel);
+        }
+
+
         public ClusterDetailModel GetClusterDetailByNo(int cluster_no)
         {
             ClusterModel tempModel = new ClusterModel { cluster_no = cluster_no };
@@ -50,6 +57,13 @@ namespace prj_BIZ_System.Services
             ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
             return mapper.QueryForList<ClusterFileModel>("Cluster.SelectClusterFileList", tempModel);
         }
+
+        public double GetClusterFileSize(int cluster_no)
+        {
+            ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
+            return mapper.QueryForObject<double>("Cluster.SelectClusterFileSize", tempModel);
+        }
+
 
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)
         {

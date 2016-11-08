@@ -68,7 +68,6 @@ namespace prj_BIZ_System.WebService.Model
         public string news_title { get; set; }//新聞標題
         public int activity_id { get; set; }//活動編號
         public string starttime { get; set; }//ActivityInfoModel 的 活動開始時間
-        public string news_style { get; set; }//新聞語系
     }
 
     public class ActivityInfo

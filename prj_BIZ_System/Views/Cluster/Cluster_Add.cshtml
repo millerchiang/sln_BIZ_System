@@ -17,6 +17,7 @@
     Model.clusterInfo.cluster_name = "";
     Model.clusterInfo.cluster_info = "";
     Model.clusterInfo.enable = "0";
+    Model.clusterInfo.is_public = "1";
     //    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
     Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
 }
@@ -38,10 +39,31 @@
             <input type="hidden" name="cluster_name_old" value="@Model.clusterInfo.cluster_name">
             <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" onblur="chkname()" required>
 
-            <label for="" class="regis_col02L">建立者帳號</label>
+            <label for="" class="regis_col02L">管理者帳號</label>
 
             <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
+
+            @{
+                var a = "";
+                var b = "";
+                if (Model.clusterInfo.is_public == "0")
+                {
+                    a = "checked";
+                }
+                else if (Model.clusterInfo.is_public == "1")
+                {
+                    b = "checked";
+                }
+            }
+
+            <label for="is_public" class="regis_col02L spanRed">是否公開</label>
+            <div class="regis_col01R_input">
+                <input type="radio" class="radioinput" id="is_public01" name="is_public" value="0" @a>
+                <label for="is_public01">不公開</label>
+                <input type="radio" class="radioinput" id="is_public02" name="is_public" value="1" @b>
+                <label for="is_public02">公開</label>
+            </div>
 
             <label for="" class="regis_col02L spanRed">聚落商家</label>
             <div class="regis_col02R">
