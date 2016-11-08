@@ -187,6 +187,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 已結束的活動 的當地語系化字串。
+        /// </summary>
+        public static string lb_acted {
+            get {
+                return ResourceManager.GetString("lb_acted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 進行中的活動 的當地語系化字串。
+        /// </summary>
+        public static string lb_acting {
+            get {
+                return ResourceManager.GetString("lb_acting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 活動 的當地語系化字串。
         /// </summary>
         public static string lb_activities {
@@ -2073,6 +2091,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_signup_me {
             get {
                 return ResourceManager.GetString("lb_signup_me", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 新創團隊 的當地語系化字串。
+        /// </summary>
+        public static string lb_startup {
+            get {
+                return ResourceManager.GetString("lb_startup", resourceCulture);
             }
         }
         

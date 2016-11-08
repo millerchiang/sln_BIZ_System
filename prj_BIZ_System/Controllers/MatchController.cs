@@ -33,13 +33,16 @@ namespace prj_BIZ_System.Controllers
 
             DateTime dateNow = DateTime.Now;
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"])
-                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24 )
+                                                          .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours > 0 )
                                                           .ToList();
             matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"])
                                                           .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
                                                           .ToList();
             matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
                                                           .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                                                          .ToList();
+            matchModel.activityregisterList_2 = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours <= 0)
                                                           .ToList();
 
             return View(matchModel);

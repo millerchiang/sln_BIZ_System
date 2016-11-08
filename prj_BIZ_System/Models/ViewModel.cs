@@ -98,6 +98,7 @@ namespace prj_BIZ_System.Models
         public SchedulePeriodSetModel schedulePeriodSet { get; set; }
         public MatchmakingScheduleModel matchmakingSchedule { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
+        public IList<ActivityRegisterModel> activityregisterList_2 { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         //public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }

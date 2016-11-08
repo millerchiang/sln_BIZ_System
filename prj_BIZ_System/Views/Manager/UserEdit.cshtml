@@ -12,6 +12,7 @@
 @{
     string enterprise_type01 = "checked";
     string enterprise_type02 = "";
+    string enterprise_type03 = "";
     string id_enable01 = "checked";
     string id_enable02 = "";
 
@@ -22,6 +23,9 @@
     string revenue04 = "";
     string revenue05 = "";
     string revenue06 = "";
+
+    string capital = "";
+
     if (ViewBag.PageType == "Create")
     {
 
@@ -50,10 +54,15 @@
         {
             enterprise_type01 = "checked";
         }
-        else
+        else if (Model.userinfo.enterprise_type == "1")
         {
             enterprise_type02 = "checked";
         }
+        else
+        {
+            enterprise_type03 = "checked";
+        }
+
         if (Model.userinfo.id_enable == "0")
         {
             id_enable01 = "checked";
@@ -94,6 +103,10 @@
 
     }
 
+    if (Model.userinfo.capital > 0)
+    {
+        capital = Model.userinfo.capital.ToString();
+    }
 }
 
 
@@ -140,6 +153,8 @@
                 <label for="enterprise_type01">國內企業</label>
                 <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
                 <label for="enterprise_type02">外國企業</label>
+                <input type="radio" class="radioinput" id="enterprise_type03" name="enterprise_type" value="2" @enterprise_type03 onclick="tipstring('2')">
+                <label for="enterprise_type03">新創團隊</label>
             </div>
             <label for="" class="regis_col01R_label spanRed">
                 帳號
@@ -158,16 +173,16 @@
 
             }
 
-            <label for="" class="regis_col01R_label spanRed">
-                密碼
-            </label>
             @if (ViewBag.PageType == "Create")
             {
+                <label for="" class="regis_col01R_label spanRed">
+                    密碼
+                </label>
                 <input type="text" name="user_pw" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
             }
             else
             {
-                <input type="password" name="user_pw" value="@Model.userinfo.user_pw" readonly class="regis_col01R_input" placeholder="密碼請設8個字元的英文及數字組合" required>
+                <input type="hidden" name="user_pw" value="@Model.userinfo.user_pw">
             }
             <label for="name" class="regis_col01R_label spanRed">電話/分機</label>
             <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
@@ -213,11 +228,11 @@
         </div>
 
         <br /><br />
-        <label for="capital" class="regis_col02L spanRed">資本額</label>
+        <label for="capital" class="regis_col02L spanRed">資本額($NTD)</label>
         <div class="regis_col02R">
-            <input type="text" name="capital" value="@Model.userinfo.capital"> 千元
+            <input type="text" name="capital" value="@capital"> 千元
         </div>
-        <label for="revenue" class="regis_col02L spanRed">營業額</label>
+        <label for="revenue" class="regis_col02L spanRed">營業額($USD)</label>
         <div class="regis_col02R">
             <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
             <label for="revenue00">500萬以下</label>

@@ -599,6 +599,7 @@
       <result property="activity_name_en" column="activity_name_en"/>
 
       <result property="starttime" column="starttime"/>
+      <result property="endtime" column="endtime"/>
       <result property="seller_select" column="seller_select"/>
       <result property="matchmaking_select" column="matchmaking_select"/>
     </resultMap>
