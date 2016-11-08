@@ -41,27 +41,34 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet] 
-        public object getCompanyDataFromWeb(string user_id)
+        public object GetCompanyOpenDataFromWeb(string user_id)
         {
+            if(user_id.Length < 8)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id incomplete");
+            }
             ManagerController.CompanyData data = ManagerController.GetDataFromWeb(user_id);
-            var enterprise_sort_ids = new HashSet<string>(data.Business_Item);
-            var enterprise_sorts = userService.GetSortList()
-                                              .Where( sort => enterprise_sort_ids.Contains(sort.enterprise_sort_id))
-                                              .Select( sort =>
-                                                sort.enterprise_sort_id + " " +
-                                                sort.enterprise_sort_name
-                                              ).ToList();
+
             if (data == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no user data");
             }
-
+            var enterprise_sort_ids = new HashSet<string>(data.Business_Item);
+            var enterpriseSortList = userService.GetSortList()
+                                                .Where(sort => enterprise_sort_ids.Contains(sort.enterprise_sort_id))
+                                                .ToList();
+            var sort_ids = enterpriseSortList.GetSelectList(sort => sort.sort_id);
+            var enterprise_sorts = enterpriseSortList.GetSelectList(sort =>
+                                                       sort.enterprise_sort_id + " " +
+                                                       sort.enterprise_sort_name
+                                                     );
             var companyOpenData = new
             {
                 company = data.Company_Name,
                 addr = data.Company_Location,
                 capital = data.Capital_Stock_Amount,
-                enterprise_sort = string.Join(",", enterprise_sorts),
+                sort_id = string.Join(",", sort_ids),
+                enterprise_sort = string.Join(",", enterprise_sorts)
             };
             return Request.CreateResponse(HttpStatusCode.OK, companyOpenData);
         }
