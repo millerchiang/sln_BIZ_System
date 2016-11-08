@@ -37,7 +37,7 @@ namespace prj_BIZ_System.WebService
         private IList<News> getAllNews(Func<NewsModel, bool> predicate = null)
         {
             predicate = predicate ?? (x => true);
-            IList<News> allNews = activityService.GetNewsAll(null)
+            IList<News> allNews = activityService.GetNewsAll(null,null)
                                                 .Where(predicate)
                                                 .Select(
                 news =>
