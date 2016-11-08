@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.App_Start;
+﻿using BizTimer.Config;
+using prj_BIZ_System.App_Start;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -150,13 +151,17 @@ namespace prj_BIZ_System.Controllers
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
             var insertResult = messageService.InsertMsgPrivateReply(model);
             if (insertResult!=null) {
-                //TODO 上傳回應的附件檔案
-                /* 多個上傳檔案逐一新增
-                for ()
+                model.msg_reply_no = (long)insertResult;
+                MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+                IList<MsgPushModel> pushMd = messageService.generatePushModels(model, msgMd);
+                try
                 {
-                    messageService.InsertMsgReplyFile(insertResult, filepath);
+                    PushHelper.doPush(pushMd);
                 }
-                */
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
             }
             return Redirect(getLabelString(MessageCatalog.Private, "detailUrl")+"?msg_no=" +model.msg_no);
         }

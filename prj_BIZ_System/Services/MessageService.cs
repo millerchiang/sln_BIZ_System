@@ -1,6 +1,7 @@
 ﻿using prj_BIZ_System.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace prj_BIZ_System.Services
@@ -93,7 +94,7 @@ namespace prj_BIZ_System.Services
             return mapper.Insert("Message.InsertMsg", param);
         }
 
-        public MsgModel SelectMsgPrivateOne(int msg_no)
+        public MsgModel SelectMsgPrivateOne(long msg_no)
         {
             MsgModel param = new MsgModel() { msg_no = msg_no };
             return mapper.QueryForObject<MsgModel>("Message.SelectMsgOne", param);
@@ -153,6 +154,45 @@ namespace prj_BIZ_System.Services
         {
             var param = new MsgFileModel { msg_no = msg_no , msg_file_site = filepath };
             mapper.Insert("Message.InsertMsgFile", param);
+        }
+
+        public IList<MsgPushModel> generatePushModels(MsgReplyModel rpyMd , MsgModel msgMd)
+        {
+            IList<MsgPushModel> result = new List<MsgPushModel>();
+            if (msgMd!=null && !string.IsNullOrEmpty(msgMd.msg_member))
+            {
+                string[] msg_member_arr = msgMd.msg_member.Split(',');
+                ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
+                msg_member_set.Add(msgMd.creater_id);
+                List<UserInfoModel> temp_result = new List<UserInfoModel>();
+                foreach (string user_ids in msg_member_set)
+                {
+                    var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                    if (temp!=null && temp.Count>0)
+                    {
+                        temp_result.AddRange(temp);
+                    }
+                }
+                if (result != null)
+                {
+                    var replyInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", rpyMd.msg_reply);
+                    result = temp_result
+                        .Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
+                        .Select(userMd => new MsgPushModel()
+                        {
+                            msg_no = msgMd.msg_no
+                            , msg_content = msgMd.msg_content
+                            , reply_user_id = rpyMd.msg_reply
+                            , company = replyInfo.company
+                            , company_en = replyInfo.company_en
+                            , msg_reply_no = rpyMd.msg_reply_no
+                            , reply_content = rpyMd.reply_content
+                            , device_id = userMd.device_id
+                            , device_os = userMd.device_os
+                        }).ToList();
+                }
+            }
+            return result;
         }
 
         public void InsertMsgReplyFile(long msg_reply_no, string filepath)

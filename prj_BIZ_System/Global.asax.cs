@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using prj_BIZ_System.Controllers;
+using BizTimer.Config;
 
 namespace prj_BIZ_System
 {
@@ -27,6 +28,7 @@ namespace prj_BIZ_System
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             MailConfig.RegisterCustomSetting(Server.MapPath("~/"+ mailBaseDir));
+            PushConfig.RegisterCustomSetting(Server.MapPath("~/" + mailBaseDir));
             SecurityHelper.RegisterCustomSetting(Server.MapPath("~/"+ keyBaseDir));
 
             UploadConfig.RegisterCustomSetting(uploadFileBaseDir,Server.MapPath("~/"+ uploadFileBaseDir));

@@ -69,7 +69,7 @@ namespace prj_BIZ_System.Models
         public List<MsgReplyFileModel> msg_reply_file { get; set; } //回覆時的附件
     }
 
-    public partial class MsgReplyFileModel
+    public class MsgReplyFileModel
     {
         public long msg_reply_file_no { get; set; }        //訊息回覆附件編號
         public long msg_reply_no { get; set; }             //訊息回覆編號
@@ -77,4 +77,19 @@ namespace prj_BIZ_System.Models
         public DateTime create_time { get; set; }    //建立時間
     }
 
+
+
+    public class MsgPushModel
+    {
+        public long   msg_no { get; set; }           //私人訊息編號
+        public string msg_content { get; set; }      /*訊息主題*/
+        public string reply_user_id { get; set; }    //回覆者id
+        public string company { get; set; }          //回覆者名稱
+        public string company_en { get; set; }       //回覆者英文名稱
+        //public string company_send { get; set; }     //發送訊息時的名稱
+        public long   msg_reply_no { get; set; }     //私人訊息回覆編號
+        public string reply_content { get; set; }    /*訊息回覆的內容*/
+        public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
+        public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
+    }
 }
