@@ -171,6 +171,19 @@ namespace prj_BIZ_System.Services
 
         public bool BuyerInfoUpdateOne(BuyerInfoModel buyerInfoModel)
         {
+            if (buyerInfoModel.annual_turnover_1y_ago == null)
+                buyerInfoModel.annual_turnover_1y_ago = 0;
+            if (buyerInfoModel.annual_turnover_2y_ago == null)
+                buyerInfoModel.annual_turnover_2y_ago = 0;
+            if (buyerInfoModel.annual_turnover_3y_ago == null)
+                buyerInfoModel.annual_turnover_3y_ago = 0;
+            if (buyerInfoModel.estimated_purchasing_now == null)
+                buyerInfoModel.estimated_purchasing_now = 0;
+            if (buyerInfoModel.estimated_purchasing_1y_ago == null)
+                buyerInfoModel.estimated_purchasing_1y_ago = 0;
+            if (buyerInfoModel.estimated_purchasing_2y_ago == null)
+                buyerInfoModel.estimated_purchasing_2y_ago = 0;
+
             return mapper.Update("ActivityInfo.UpdateBuyerInfoOne", buyerInfoModel) >0;
         }
 

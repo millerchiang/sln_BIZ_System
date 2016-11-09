@@ -35,6 +35,19 @@ namespace prj_BIZ_System.Models
         public int activity_id { get; set; }//活動編號
         public string buyer_id { get; set; }//買主帳號
         public string buyer_need { get; set; }//買主媒合需求
+        public string buyer_need_en { get; set; }//買主媒合需求(英)
+        public int? annual_turnover_3y_ago { get; set; }//年營業額(前三年)
+        public int? annual_turnover_2y_ago { get; set; }//年營業額(前二年)
+        public int? annual_turnover_1y_ago { get; set; }//年營業額(前一年)
+        public int? estimated_purchasing_2y_ago { get; set; }//預估採購金額(前兩年)
+        public int? estimated_purchasing_1y_ago { get; set; }//預估採購金額(前一年)
+        public int? estimated_purchasing_now { get; set; }//預估採購金額(今年)
+        public string distribution { get; set; }//採購範圍
+        public string distribution_en { get; set; }//採購範圍(英)
+        public string items { get; set; }//採購項目
+        public string items_en { get; set; }//採購項目(英)
+        public DateTime create_time { get; set; }//建立時間
+        public DateTime update_time { get; set; }//修改時間
 
         public string company { get; set; }//UserInfoModel 的 公司名稱(中文)
         public string activity_name { get; set; }//ActivityInfoModel 的 活動名稱(中文)

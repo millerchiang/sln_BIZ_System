@@ -28,7 +28,7 @@
         @if (Model.buyerinfo.serial_no == 0)
         {
             <label for="insert_id_cp" class="regis_col02L spanRed">輸入會員帳號或公司名稱:</label>
-            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" />
+            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" required />
         }
         <label for="buyer_id" class="regis_col02L">帳號 : </label>
         <input id="buyer_id" type="text" readonly name="buyer_id" value="@Request["buyer_id"]" class="regis_col02R" />
@@ -37,7 +37,7 @@
         <input id="buyer_cp" type="text" readonly name="buyer_cp" value="@Request["company"]" class="regis_col02R" />
 
         <label for="activity_id" class="regis_col02L spanRed">活動名稱</label>
-        <select name="activity_id" class="regis_col02R">
+        <select name="activity_id" class="regis_col02R" required>
             <option value="">--請選擇--</option>
             @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
             {
@@ -52,8 +52,64 @@
             }
         </select>
 
-        <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
-        <input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" />
+        <div class="form_box w100">
+            <h2>中文資訊</h2>
+            <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
+            <input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" required />
+            <label for="distribution" class="regis_col02L">採購範圍</label>
+            <input type="text" name="distribution" value="@Model.buyerinfo.distribution" class="regis_col02R" />
+            <label for="items" class="regis_col02L">採購項目</label>
+            <input type="text" name="items" value="@Model.buyerinfo.items" class="regis_col02R" />
+        </div>
+
+        <div class="form_box w100">
+            <h2>英文資訊</h2>
+            <label for="buyer_need_en" class="regis_col02L">買主媒合需求(英)</label>
+            <input type="text" name="buyer_need_en" value="@Model.buyerinfo.buyer_need_en" class="regis_col02R" />
+            <label for="distribution_en" class="regis_col02L">採購範圍(英)</label>
+            <input type="text" name="distribution_en" value="@Model.buyerinfo.distribution_en" class="regis_col02R" />
+            <label for="items_en" class="regis_col02L">採購項目(英)</label>
+            <input type="text" name="items_en" value="@Model.buyerinfo.items_en" class="regis_col02R" />
+        </div>
+
+        <div class="form_box w100">
+            <h2>其他</h2>
+@{ 
+    string annual_turnover_1y_ago = Model.buyerinfo.annual_turnover_1y_ago.ToString();
+    string annual_turnover_2y_ago = Model.buyerinfo.annual_turnover_2y_ago.ToString();
+    string annual_turnover_3y_ago = Model.buyerinfo.annual_turnover_3y_ago.ToString();
+    string estimated_purchasing_now = Model.buyerinfo.estimated_purchasing_now.ToString();
+    string estimated_purchasing_1y_ago = Model.buyerinfo.estimated_purchasing_1y_ago.ToString();
+    string estimated_purchasing_2y_ago = Model.buyerinfo.estimated_purchasing_2y_ago.ToString();
+
+    if (Model.buyerinfo.annual_turnover_1y_ago == 0)
+    { annual_turnover_1y_ago = ""; }
+    if (Model.buyerinfo.annual_turnover_2y_ago == 0)
+    { annual_turnover_2y_ago = ""; }
+    if (Model.buyerinfo.annual_turnover_3y_ago == 0)
+    { annual_turnover_3y_ago = ""; }
+    if (Model.buyerinfo.estimated_purchasing_now == 0)
+    { estimated_purchasing_now = ""; }
+    if (Model.buyerinfo.estimated_purchasing_1y_ago == 0)
+    { estimated_purchasing_1y_ago = ""; }
+    if (Model.buyerinfo.estimated_purchasing_2y_ago == 0)
+    { estimated_purchasing_2y_ago = ""; }
+}
+
+
+            <label for="annual_turnover_3y_ago" class="regis_col02L">年營業額(前三年)($USD)</label>
+            <input type="text" name="annual_turnover_3y_ago" value="@annual_turnover_3y_ago" class="regis_col02R" />
+            <label for="annual_turnover_2y_ago" class="regis_col02L">年營業額(前兩年)($USD)</label>
+            <input type="text" name="annual_turnover_2y_ago" value="@annual_turnover_2y_ago" class="regis_col02R" />
+            <label for="annual_turnover_1y_ago" class="regis_col02L">年營業額(前一年)($USD)</label>
+            <input type="text" name="annual_turnover_1y_ago" value="@annual_turnover_1y_ago" class="regis_col02R" />
+            <label for="estimated_purchasing_2y_ago" class="regis_col02L">預估採購金額(前兩年)($USD)</label>
+            <input type="text" name="estimated_purchasing_2y_ago" value="@estimated_purchasing_2y_ago" class="regis_col02R" />
+            <label for="estimated_purchasing_1y_ago" class="regis_col02L">預估採購金額(前一年)($USD)</label>
+            <input type="text" name="estimated_purchasing_1y_ago" value="@estimated_purchasing_1y_ago" class="regis_col02R" />
+            <label for="estimated_purchasing_now" class="regis_col02L">預估採購金額(今年)($USD)</label>
+            <input type="text" name="estimated_purchasing_now" value="@estimated_purchasing_now" class="regis_col02R" />
+        </div>
 
         <div class="centerbox">
             <button type="submit" class="submitbu">@ViewBag.SubmitName</button>

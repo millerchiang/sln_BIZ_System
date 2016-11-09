@@ -447,7 +447,7 @@
             ai.endtime >= #endtime#
           </isNotEmpty>
         </dynamic>
-       Order by ai.starttime  
+       Order by ai.starttime desc 
       </select>
 
       <!--查詢某活動買主資訊-->
@@ -482,11 +482,84 @@
         </selectKey>
         INSERT INTO buyer_list (
         activity_id, buyer_id, buyer_need
+        <dynamic prepend="">
+          <isNotEmpty prepend="," property="buyer_need_en">
+            buyer_need_en
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_3y_ago">
+            annual_turnover_3y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_2y_ago">
+            annual_turnover_2y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_1y_ago">
+            annual_turnover_1y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_2y_ago">
+            estimated_purchasing_2y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_1y_ago">
+            estimated_purchasing_1y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_now">
+            estimated_purchasing_now
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution">
+            distribution
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution_en">
+            distribution_en
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items">
+            items
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items_en">
+            items_en
+          </isNotEmpty>
+        </dynamic>
         ) VALUES (
         #activity_id#, #buyer_id#, #buyer_need#
+        <dynamic prepend="">
+          <isNotEmpty prepend="," property="buyer_need_en">
+            #buyer_need_en#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_3y_ago">
+            $annual_turnover_3y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_2y_ago">
+            $annual_turnover_2y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_1y_ago">
+            $annual_turnover_1y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_2y_ago">
+            $estimated_purchasing_2y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_1y_ago">
+            $estimated_purchasing_1y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_now">
+            $estimated_purchasing_now$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution">
+            #distribution#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution_en">
+            #distribution_en#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items">
+            #items#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items_en">
+            #items_en#
+          </isNotEmpty>
+        </dynamic>
         )
       </insert>
 
+
+    
+      
       <!--刪除買主資訊單筆-->
       <delete id="DeleteBuyerInfoOne" parameterClass="BuyerInfoModel">
         DELETE FROM buyer_list
@@ -499,6 +572,18 @@
         activity_id = #activity_id#,
         buyer_id = #buyer_id#,
         buyer_need = #buyer_need#
+        ,buyer_need_en=#buyer_need_en#
+        ,annual_turnover_3y_ago=$annual_turnover_3y_ago$
+        ,annual_turnover_2y_ago=$annual_turnover_2y_ago$
+        ,annual_turnover_1y_ago=$annual_turnover_1y_ago$
+        ,estimated_purchasing_2y_ago=$estimated_purchasing_2y_ago$
+        ,estimated_purchasing_1y_ago=$estimated_purchasing_1y_ago$
+        ,estimated_purchasing_now=$estimated_purchasing_now$
+        ,distribution=#distribution#
+        ,distribution_en=#distribution_en#
+        ,items=#items#
+        ,items_en=#items_en#
+        ,update_time=now()
         WHERE serial_no = #serial_no#
       </update>
     <!--
@@ -933,6 +1018,18 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
     </resultMap>
 
     <resultMap id="BuyerInfo1" class="BuyerInfoModel">
@@ -941,6 +1038,19 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
+      
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
     </resultMap>
@@ -951,6 +1061,19 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+      
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
+      
       <result property="activity_name" column="activity_name"/>
       <result property="company" column="company"/>
       <result property="activity_name_en" column="activity_name_en"/>
