@@ -184,7 +184,7 @@
     <value>Company Address</value>
   </data>
   <data name="lb_amountofcapital" xml:space="preserve">
-    <value>Amount Of Capital</value>
+    <value>Capital</value>
   </data>
   <data name="lb_amountofreply" xml:space="preserve">
     <value>Amount Of Replies</value>
@@ -307,7 +307,7 @@
     <value>Forgot Password?</value>
   </data>
   <data name="lb_good_activities" xml:space="preserve">
-    <value>Recommended Activities</value>
+    <value>Recommendation</value>
   </data>
   <data name="lb_home" xml:space="preserve">
     <value>Homepage</value>
@@ -467,7 +467,7 @@ Any further question, please contact adminstrator.</value>
     <value>Submit</value>
   </data>
   <data name="lb_sumofbiz" xml:space="preserve">
-    <value>Sum Of Business</value>
+    <value>Revenue</value>
   </data>
   <data name="lb_tel" xml:space="preserve">
     <value>Tel</value>
@@ -881,5 +881,14 @@ To complete the registration of members, thank you!</value>
   </data>
   <data name="lb_backlogin_m" xml:space="preserve">
     <value>Hello, before sent the message, you have to login the member, Do you want to back the home page to login?</value>
+  </data>
+  <data name="lb_startup" xml:space="preserve">
+    <value>Start-up</value>
+  </data>
+  <data name="lb_acted" xml:space="preserve">
+    <value>Prior Activity</value>
+  </data>
+  <data name="lb_acting" xml:space="preserve">
+    <value>Upcoming Activity</value>
   </data>
 </root>

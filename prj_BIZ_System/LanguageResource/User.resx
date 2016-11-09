@@ -883,4 +883,13 @@
   <data name="lb_backlogin_m" xml:space="preserve">
     <value>您好，請先登入會員再傳送訊息，是否回首頁登入?</value>
   </data>
+  <data name="lb_startup" xml:space="preserve">
+    <value>新創團隊</value>
+  </data>
+  <data name="lb_acted" xml:space="preserve">
+    <value>已結束的活動</value>
+  </data>
+  <data name="lb_acting" xml:space="preserve">
+    <value>進行中的活動</value>
+  </data>
 </root>

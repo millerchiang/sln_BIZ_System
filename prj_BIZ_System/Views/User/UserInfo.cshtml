@@ -182,11 +182,11 @@
                             {
                                 if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
                                 {
-                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id - @usersortList.enterprise_sort_name</span>
                                 }
                                 else
                                 {
-                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name_en</span>
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id - @usersortList.enterprise_sort_name_en</span>
                                 }
                             }
                         </div>
