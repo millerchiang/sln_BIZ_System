@@ -76,7 +76,18 @@ namespace prj_BIZ_System.Controllers
 
             model.creater_id = Request.Cookies["UserInfo"]["user_id"];
             model.msg_no = (long)messageService.InsertMsgPrivate(model);
-
+            if (model.msg_no > 0)
+            {
+                try
+                {
+                    IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
+                    PushHelper.doPush(pushMd);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
+            }
             #region 上傳訊息附件
             if (iupexls != null && model.msg_no != 0)
             {
@@ -149,13 +160,13 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
-            var insertResult = messageService.InsertMsgPrivateReply(model);
-            if (insertResult!=null) {
-                model.msg_reply_no = (long)insertResult;
+            long insertResult = (long)(messageService.InsertMsgPrivateReply(model));
+            if (insertResult > 0) {
+                model.msg_reply_no = insertResult;
                 MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
-                IList<MsgPushModel> pushMd = messageService.generatePushModels(model, msgMd);
                 try
                 {
+                    IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
                     PushHelper.doPush(pushMd);
                 }
                 catch (Exception e)

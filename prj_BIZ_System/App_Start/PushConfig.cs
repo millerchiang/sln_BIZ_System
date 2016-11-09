@@ -122,7 +122,7 @@ namespace BizTimer.Config
                 List<string> tempList = new List<string> { md.device_id };
                 GcmNotification notification = new GcmNotification {
                     RegistrationIds = tempList,
-                    Data = JObject.Parse("{\"title\":\"" + md.msg_content + "\",\"message\":\"" + md.reply_content + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}")
+                    Data = JObject.Parse("{\"msg_title\":\"" + md.msg_title + "\",\"msg_content\":\"" + md.msg_content + "\",\"reply_content\":\"" + md.reply_content + "\",\"msg_no\":\"" + md.msg_no + "\",\"msg_reply_no\":\"" + md.msg_reply_no + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}")
                 };
                 gcmBroker.QueueNotification(notification);
             }
@@ -186,7 +186,8 @@ namespace BizTimer.Config
                 apnsBroker.QueueNotification(new ApnsNotification
                 {
                     DeviceToken = md.device_id.Replace(" ", ""), //deviceToken
-                    Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"alert\":{\"title\":\"" + md.msg_content + "\",\"body\":\"" + md.company+" - "+md.reply_content + "\"}}}")
+                    //Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"alert\":{\"title\":\"" + md.msg_content + "\",\"body\":\"" + md.company+" - "+md.reply_content + "\"}}}")
+                    Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"msg_title\":\"" + md.msg_title + "\",\"msg_content\":\"" + md.msg_content + "\",\"reply_content\":\"" + md.reply_content + "\",\"msg_no\":\"" + md.msg_no + "\",\"msg_reply_no\":\"" + md.msg_reply_no + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}}")
                 });
             }
             apnsBroker.Stop();
