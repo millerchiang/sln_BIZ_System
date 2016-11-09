@@ -31,6 +31,9 @@
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
         </isNotEmpty>
+        <isNotEmpty prepend="and" property="endtime">
+          a.endtime > #endtime#
+        </isNotEmpty>
       </dynamic>
       ORDER BY starttime DESC
     </select>
@@ -160,6 +163,9 @@
           <isNotEmpty prepend="and" property="manager_id">
             a.manager_id = #manager_id#
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="manager_check">
+            r.manager_check = #manager_check#
+          </isNotEmpty>
           <isNotEmpty prepend="and" property="starttime">
             <![CDATA[starttime >= #starttime# ]]>            
           </isNotEmpty>
@@ -171,7 +177,7 @@
           </isNotEmpty>
         
       </dynamic>
-        ORDER BY r.create_time
+        ORDER BY r.create_time desc
       </select>
        
       <!--查詢活動報名單筆-->
