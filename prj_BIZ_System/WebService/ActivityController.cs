@@ -50,7 +50,7 @@ namespace prj_BIZ_System.WebService
             ).ToArray();
 
             var activityDics = 
-                activityService.GetActivityInfoList(null).ToDictionary(
+                activityService.GetActivityInfoList(null,null).ToDictionary(
                 activityInfo => activityInfo.activity_id,
                 activityInfo => activityInfo.starttime.ToString("yyyy-MM-dd HH:mm"));
 

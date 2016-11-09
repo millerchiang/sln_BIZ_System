@@ -295,7 +295,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null);
             ViewBag.Action = "EditNewsActivityInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -476,7 +476,7 @@ namespace prj_BIZ_System.Controllers
             }
 
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
@@ -484,20 +484,24 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名審核
 
         [HttpGet]
-        public ActionResult ActivityRegisterCheck(int? selectActivityId, string selectCompany, string startDate, string endDate)
+        public ActionResult ActivityRegisterCheck(int? selectActivityId, string selectCompany, string startDate, string endDate,string selectYesNoId)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
 
             string manager_id = null;
             int? grp_id = null;
+
+            if (selectYesNoId == "")
+                selectYesNoId = null;
+
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id, selectYesNoId).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null);
             ViewBag.Where_ActivityId = selectActivityId;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
@@ -937,7 +941,7 @@ namespace prj_BIZ_System.Controllers
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,DateTime.Now);
             ViewBag.Action = "EditBuyerInfoInsertUpdate";
             if (Request["Id"] == null)
             {

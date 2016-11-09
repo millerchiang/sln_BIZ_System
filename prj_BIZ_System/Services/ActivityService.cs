@@ -14,9 +14,14 @@ namespace prj_BIZ_System.Services
 
         //ActivityInfoModel******************************************************************************//
 
-        public IList<ActivityInfoModel> GetActivityInfoList(int? grp_id)
+        public IList<ActivityInfoModel> GetActivityInfoList(int? grp_id, DateTime? endtime)
         {
-            ActivityInfoModel param = new ActivityInfoModel() { grp_id = grp_id };
+            ActivityInfoModel param = new ActivityInfoModel();
+            param.grp_id = grp_id;
+            if (endtime!=null)
+            {
+                param.endtime = (DateTime)endtime;
+            }
             return mapper.QueryForList<ActivityInfoModel>("ActivityInfo.SelectActivityAll", param);
         }
 
@@ -212,7 +217,7 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
         }
 
-        public IList<ActivityRegisterModel> GetActivityCheckAllByConditionWithId(int? activity_id, string company, string starttime, string endtime, int? grp_id)
+        public IList<ActivityRegisterModel> GetActivityCheckAllByConditionWithId(int? activity_id, string company, string starttime, string endtime, int? grp_id, string manager_check)
         {
             DateTime startDate;
             DateTime endDate;
@@ -224,7 +229,7 @@ namespace prj_BIZ_System.Services
                 endtime = "9999/12/30";
             endDate = Convert.ToDateTime(endtime);
             int activity_id_for_reg = (activity_id == null) ? 0 : (int)activity_id;
-            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id_for_reg, company = company, starttime = startDate, endtime = endDate, grp_id = grp_id };
+            ActivityRegisterModel param = new ActivityRegisterModel { activity_id = activity_id_for_reg, company = company, starttime = startDate, endtime = endDate, grp_id = grp_id, manager_check= manager_check};
             return mapper.QueryForList<ActivityRegisterModel>("ActivityInfo.SelectActivityCheckAll", param);
         }
 

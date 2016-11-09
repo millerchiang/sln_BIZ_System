@@ -90,7 +90,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(null);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(null,null);
             activityModel.userinfo = userService.GeUserInfoOne(Request.Cookies["UserInfo"]["user_id"]);
             //activityModel.userinfo = new UserInfoModel();
             //activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
@@ -153,7 +153,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(null);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(null,null);
             activityModel.userinfo = userService.GeUserInfoOne(Request.Cookies["UserInfo"]["user_id"]);
             //activityModel.userinfo = new UserInfoModel();
             //activityModel.userinfo.company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);

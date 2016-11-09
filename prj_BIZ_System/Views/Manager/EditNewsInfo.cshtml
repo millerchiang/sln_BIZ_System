@@ -11,6 +11,7 @@
 @section pagestyle{
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
+@Styles.Render("~/Content/jqueryUI")
 
 @{
     if (ViewBag.PageType == "Create")
@@ -80,6 +81,9 @@
     </form>
 </article>
 
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/datetimepicker")
+
 <script type="text/javascript" language="javascript">
     var editor = CKEDITOR.editor.replace('content',
         {
@@ -89,4 +93,15 @@
             filebrowserImageUploadUrl: '/Manager/NewsInfoUpload'
             //filebrowserImageBrowseUrl: 'xxxxxx' 
         });
+
+
+    $(function () {
+        var news_date_val = $("input[name='news_date']").val();
+        $('input[name="news_date"]').datetimepicker({
+            beforeShow: function () {
+            }
+        }).datetimepicker('setDate', news_date_val);
+
+    });
+
 </script>

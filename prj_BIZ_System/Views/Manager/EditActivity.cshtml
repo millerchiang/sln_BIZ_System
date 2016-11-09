@@ -23,6 +23,9 @@
 
     if (ViewBag.PageType == "Create")
     {
+        activity_type_chk0 = "checked";
+        seller_select_chk0 = "checked";
+        matchmaking_select_chk0 = "checked";
 
         Model.activity_id = 0;
         Model.manager_id = "";
@@ -87,25 +90,25 @@
                 <label for="revenue02">拓銷會</label>
             </div>
             <label for="name" class="regis_col02L spanRed">活動名稱(中文):</label>
-            <input type="text" name="activity_name" class="regis_col02R" value="@Model.activity_name">
+            <input type="text" name="activity_name" class="regis_col02R" value="@Model.activity_name" required>
             <label for="leader" class="regis_col02L spanRed">活動時間(起):</label>
 
-            <input type="text" id="starttime" name="starttime" value="@Model.starttime" class="regis_col02R" maxDate="endtime">
+            <input type="text" id="starttime" name="starttime" value="@Model.starttime" class="regis_col02R" required> @*maxDate="endtime">*@
 
             <label for="leader" class="regis_col02L spanRed">活動時間(迄):</label>
-            <input type="text" id="endtime" name="endtime" value="@Model.endtime" class="regis_col02R" minDate="starttime">
+            <input type="text" id="endtime" name="endtime" value="@Model.endtime" class="regis_col02R" minDate="starttime" required>
 
             <label for="leader" class="regis_col02L spanRed">活動地點(中文):</label>
-            <input type="text" name="addr" value="@Model.addr" class="regis_col02R">
+            <input type="text" name="addr" value="@Model.addr" class="regis_col02R" required>
 
             <label for="leader" class="regis_col02L spanRed">主辦單位(中文):</label>
-            <input type="text" name="organizer" value="@Model.organizer" class="regis_col02R">
+            <input type="text" name="organizer" value="@Model.organizer" class="regis_col02R" required>
             <label for="leader" class="regis_col02L spanRed">主要聯絡人:</label>
-            <input type="text" name="name" value="@Model.name" class="regis_col02R">
+            <input type="text" name="name" value="@Model.name" class="regis_col02R" required>
             <label for="leader" class="regis_col02L spanRed">手機號碼:</label>
-            <input type="text" name="phone" value="@Model.phone" class="regis_col02R">
+            <input type="text" name="phone" value="@Model.phone" class="regis_col02R" required>
             <label for="leader" class="regis_col02L spanRed">電子郵件:</label>
-            <input type="text" name="email" value="@Model.email" class="regis_col02R">
+            <input type="text" name="email" value="@Model.email" class="regis_col02R" required>
 
 
             <label for="activity_type_l" class="regis_col02L spanRed">是否顯示商務對接:</label>
