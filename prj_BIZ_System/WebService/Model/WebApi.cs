@@ -112,6 +112,7 @@ namespace prj_BIZ_System.WebService.Model
         public long msg_no { get; set; }             //私人訊息編號
         public string msg_title { get; set; }        //訊息標題
         public string msg_member { get; set; }       //成員
+        public string msg_member_en { get; set; }       //成員
         public string msg_content { get; set; }      //訊息內容
         public string msg_file { get; set; }         //訊息附件
         public string create_time { get; set; }      //建立時間
