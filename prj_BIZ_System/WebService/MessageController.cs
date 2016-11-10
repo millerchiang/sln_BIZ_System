@@ -30,6 +30,7 @@ namespace prj_BIZ_System.WebService
                     msg_no = msgModel.msg_no,
                     msg_title = msgModel.msg_title,
                     company = msgModel.company,
+                    company_en = msgModel.company_en,
                     create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff"),
                     is_read = msgModel.is_read
                 }
@@ -82,6 +83,7 @@ namespace prj_BIZ_System.WebService
                 msg_title = msgModel.msg_title,
                 msg_content = msgModel.msg_content,
                 company = msgModel.company,
+                company_en = msgModel.company_en,
                 create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
             };
             messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgModel.msg_member, prj_BIZ_System.Controllers.MessageCatalog.Private);
@@ -95,6 +97,7 @@ namespace prj_BIZ_System.WebService
                 new MsgPrivateReply
                 {
                     company = msgPrivateReplyModel.company,
+                    company_en = msgPrivateReplyModel.company_en,
                     reply_content = msgPrivateReplyModel.reply_content,
                     create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
                 }

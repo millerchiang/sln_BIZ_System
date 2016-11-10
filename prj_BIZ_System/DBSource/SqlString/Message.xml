@@ -304,6 +304,7 @@
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
+      <result property="company_en" column="company_en"></result>
       <result property="rpy_cnt" column="rpy_cnt"></result>
       <result property="is_read" column="is_read"></result>
 
@@ -357,6 +358,7 @@
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
+      <result property="company_en" column="company_en"></result>
       <!--logo_img 公司logo圖-->
       <result property="logo_img" column="logo_img"></result>
     </resultMap>
