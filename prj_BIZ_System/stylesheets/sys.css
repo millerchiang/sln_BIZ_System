@@ -117,7 +117,7 @@
   padding-left: 5px;
   position: relative;
   box-sizing: border-box;
-  background: #f4f4f4;
+  background: #f5f5f5;
   border-right: 10px solid #ffffff;
   font-size: 0.875em;
 }
@@ -150,7 +150,7 @@
 }
 
 .bgbox {
-  background: #f4f4f4;
+  background: #f5f5f5;
   margin: 0 0 15px 0;
   display: inline-block;
   padding: 10px 5px;
@@ -191,7 +191,7 @@ textarea {
   width: 100%;
 }
 .regis_table th {
-  background: #f4f4f4;
+  background: #f5f5f5;
   padding: 10px 0;
   font-size: 0.938em;
 }
@@ -433,7 +433,7 @@ textarea {
   margin: 10px 0;
 }
 .productlist li:hover {
-  background: #f4f4f4;
+  background: #f5f5f5;
 }
 .productlist li.activeBg {
   background: #e9e8e8;
@@ -595,7 +595,7 @@ textarea {
     background-position-y: 100%;
   }
   .databu.active {
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     color: #000000;
   }
   .databu.active:before {
@@ -634,7 +634,7 @@ textarea {
     background-position-y: 100%;
   }
   .databu:lang(en).active {
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     color: #000000;
   }
 }
@@ -986,6 +986,7 @@ tfoot p {
 .dialoglist {
   padding: 30px 0;
   border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
   margin-bottom: 15px;
 }
 .dialoglist li {
@@ -1060,12 +1061,21 @@ tfoot p {
   line-height: 1.6;
 }
 .dialoglist .attachment {
-  text-align: right;
+  font-size: 0.75em;
+  padding: 10px;
+  background: #ffffff;
+  margin-top: 10px;
+}
+.dialoglist .attachment ul {
+  padding: 15px 15px 0 15px;
+}
+.dialoglist .attachment ul li + li {
+  margin-top: 15px;
 }
 .dialoglist .attachment a:link, .dialoglist .attachment a:visited {
   text-decoration: none;
   font-size: 0.813em;
-  color: #9e9e9e;
+  color: #818181;
   position: relative;
 }
 .dialoglist .attachment a:before {
@@ -1095,18 +1105,9 @@ tfoot p {
 }
 
 .replybox {
-  background: #f5f5f5;
   padding: 15px;
   margin-bottom: 30px;
   position: relative;
-}
-.replybox:before {
-  content: ",,";
-  position: absolute;
-  top: -82px;
-  left: -21px;
-  font-size: 6em;
-  color: #ddd;
 }
 
 .multipletable {
@@ -1144,6 +1145,39 @@ tfoot p {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.invchecklist dt {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+.invchecklist dd {
+  padding: 20px;
+}
+.invchecklist li + li {
+  padding-top: 10px;
+}
+.invchecklist .setBox {
+  display: inline-block;
+  width: 100%;
+  padding: 20px 0 10px 30px;
+}
+
+.borderbottom {
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  font-size: 0.938em;
+  color: #cccccc;
+}
+
+.radioinput:checked + label + .borderbottom {
+  border-bottom: 1px solid #00bcd5;
+  color: #000000;
+}
+
+.radioinput.setdisabled + label {
+  color: #cccccc;
 }
 
 @media only screen and (max-width: 520px) {

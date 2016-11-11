@@ -88,8 +88,8 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }          //回覆者名稱           (必傳)
         public string company_en { get; set; }       //回覆者英文名稱       (必傳)
         //public string company_send { get; set; }     //發送訊息時的名稱
-        public long   msg_reply_no { get; set; }     //私人訊息回覆編號     (必傳)
-        public string reply_content { get; set; }    //訊息回覆的內容       (必傳)
+        public long   msg_reply_no { get; set; }     //私人訊息回覆編號     (必傳) //手機端判斷依據
+        public string reply_content { get; set; }    //訊息回覆的內容       (必傳) //手機端判斷依據
         public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
         public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
     }

@@ -154,7 +154,7 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
-        public ActionResult doInsertMsgPrivateReply(MsgReplyModel model)
+        public ActionResult doInsertMsgPrivateReply(MsgReplyModel model, List<HttpPostedFileBase> iupexls)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
@@ -174,6 +174,28 @@ namespace prj_BIZ_System.Controllers
                     logger.Error(e.Message);
                 }
             }
+            #region 上傳訊息附件
+            if (iupexls != null && model.msg_no != 0)
+            {
+                foreach (HttpPostedFileBase file in iupexls)
+                {
+                    if (file != null && file.ContentLength > 0 )
+                    {
+                        Dictionary<string, string> uploadResult = null;
+                        uploadResult = UploadHelper.doUploadFile(file, UploadConfig.subDirForMessageFile + model.msg_no +"/"+model.msg_reply_no, UploadConfig.AdminManagerDirName);
+                        if ("success".Equals(uploadResult["result"]))
+                        {
+                            messageService.InsertMsgPrivateFile(model.msg_no, file.FileName);//uploadResult["relativFilepath"]
+                        }
+                        else
+                        {
+                            Console.WriteLine(LanguageResource.User.lb_upload_fail);
+                        }
+                    }
+                }
+            }
+            #endregion
+
             return Redirect(getLabelString(MessageCatalog.Private, "detailUrl")+"?msg_no=" +model.msg_no);
         }
 
