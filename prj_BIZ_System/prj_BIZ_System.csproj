@@ -931,6 +931,7 @@
     <Content Include="Views\Home\LatestVideoList.cshtml" />
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <Content Include="Views\Cluster\ClusterListAll.cshtml" />
+    <Content Include="Views\Cluster\ClusterListContent.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1034,7 +1035,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LanguageResource\User.en-US.resx" />
+    <EmbeddedResource Include="LanguageResource\User.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="LanguageResource\User.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>

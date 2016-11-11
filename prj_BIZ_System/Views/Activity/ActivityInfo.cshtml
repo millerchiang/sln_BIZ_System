@@ -69,7 +69,8 @@
         <div class="centerbox">
             @if (Model.activityregister == null)
             {
-                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+//                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.endtime.Ticks - DateTime.Now.Ticks).TotalHours > 0)
                 {
                     if (Request.Cookies["UserInfo"] != null)
                     {
