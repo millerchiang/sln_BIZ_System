@@ -22,6 +22,8 @@ namespace prj_BIZ_System.Models
 
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
+        public string company_en { get; set; }
+
         public int rpy_cnt { get; set; } //回覆數
         public string is_read { get; set; }     // 0 :未讀 , 1:已讀
 
@@ -63,6 +65,7 @@ namespace prj_BIZ_System.Models
 
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
+        public string company_en { get; set; }
         //logo_img  公司logo圖
         public string logo_img { get; set; }
 

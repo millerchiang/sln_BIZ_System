@@ -149,7 +149,40 @@ namespace prj_BIZ_System.Services
             }
             return result;
         }
-        
+
+        public Tuple<string, string> transferMsg_member2Msg_company_AndEn(string msg_member)
+        {
+            string result = "";
+            string result_en = "";
+            StringBuilder sb = new StringBuilder();
+            StringBuilder sb_en = new StringBuilder();
+            if (!string.IsNullOrEmpty(msg_member))
+            {
+                string[] msg_member_arr = msg_member.Split(',');
+                const string separate = " , ";
+                for (int i = 0; i < msg_member_arr.Length; i++)
+                {
+                    UserInfoModel userInfoModel = userService.GeUserInfoOne(msg_member_arr[i].Trim());
+                    if (userInfoModel != null)
+                    {
+                        sb.Append(separate);
+                        sb.Append(userInfoModel.company);
+                        sb_en.Append(separate);
+                        string company_en = string.IsNullOrEmpty(userInfoModel.company_en) ? 
+                                            userInfoModel.company : 
+                                            userInfoModel.company_en;
+                        sb_en.Append(company_en);
+                    }
+                }
+                if (msg_member_arr.Length > 0 && sb.ToString().Length > separate.Length)
+                {
+                    result = sb.ToString().Substring(separate.Length);
+                    result_en = sb_en.ToString().Substring(separate.Length);
+                }
+            }
+            return new Tuple<string, string>(result, result_en);
+        }
+
         public void InsertMsgPrivateFile(long msg_no , string filepath)
         {
             var param = new MsgFileModel { msg_no = msg_no , msg_file_site = filepath };
