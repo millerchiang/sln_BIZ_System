@@ -150,7 +150,9 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static void sendAccountMailValidate(object id, string user_id , string email)
         {
-            const string validateActionName = "AccountMailValidate";
+            //const string validateActionName = "AccountMailValidate";
+            string validateActionName = VirtualPathUtility.ToAbsolute("~/User/AccountMailValidate");
+
             string ip = HttpContext.Current.Request.Url.Host;
             int port = HttpContext.Current.Request.Url.Port;
             string link = id + "+" + user_id + "+" + DateTime.Now.ToString("yyyy-MM-dd");
@@ -158,7 +160,7 @@ namespace prj_BIZ_System.App_Start
             //檢查用
             string check_link = SecurityHelper.Decrypt(validate_linkX);
 
-            var param = MailHelper.fillAccountMailValidte(user_id, "http://" + ip + ":" + port.ToString() + "/User/" + validateActionName + "?validate_linkX=" + validate_linkX);
+            var param = MailHelper.fillAccountMailValidte(user_id, "http://" + ip + ":" + port.ToString() + validateActionName + "?validate_linkX=" + validate_linkX);
             if (!string.IsNullOrEmpty(email))
             {
                 MailHelper.doSendMail(email, param, MailType.AccountMailValidate);
