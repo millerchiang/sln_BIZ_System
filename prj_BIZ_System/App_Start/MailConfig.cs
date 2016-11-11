@@ -315,7 +315,7 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static bool checkMailValidate(string mailAddress)
         {
-            return (!string.IsNullOrEmpty(mailAddress)) && new Regex("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$").IsMatch(mailAddress);
+            return (!string.IsNullOrEmpty(mailAddress)) && new Regex("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$").IsMatch(mailAddress);
         }
 
         private static string getMailServer(string strEmail)

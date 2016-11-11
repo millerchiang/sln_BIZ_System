@@ -208,7 +208,7 @@ namespace prj_BIZ_System.Services
 
                         
 
-                        if (checkIsImportDataValidate(tempRecord))
+                        if (checkIsImportDataValidate(tempRecord, r))
                         {
                             failUserInfos.Add(r-1, tempRecord);
                             allStatusUserInfos.Add(new List<object>() {"fail", tempRecord });
@@ -229,7 +229,7 @@ namespace prj_BIZ_System.Services
                                 md.addr_en          = tempRecord["addr_en"];
                                 md.contact          = tempRecord["contact"];
                                 md.phone            = tempRecord["phone"];
-                                md.email            = tempRecord["email"];
+                                md.email            = tempRecord["email"].Trim();
                                 md.capital          = Convert.ToInt64(tempRecord["capital"]);
                                 md.revenue          = tempRecord["revenue"];
                                 md.website          = tempRecord["website"];
@@ -261,6 +261,8 @@ namespace prj_BIZ_System.Services
                                     failUserInfos.Add(r-1, tempRecord);
                                     allStatusUserInfos.Add(new List<object>() { "fail", tempRecord });
                                 }
+                                logger.Error("No."+r+" rows is insert fail");
+                                logger.Error(errMsg);
                             }
                         }
                     }
@@ -291,20 +293,68 @@ namespace prj_BIZ_System.Services
             return result; 
         }
 
-        private bool checkIsImportDataValidate(Dictionary<string,string> tempRecord)
+        private bool checkIsImportDataValidate(Dictionary<string,string> tempRecord,int r)
         {
             int capital = -1;
-            return string.IsNullOrEmpty(tempRecord["user_id"])         //帳號*(國內:請用統編；國外: 自訂)
-                    || string.IsNullOrEmpty(tempRecord["user_pw"])         //密碼*(8 - 12字，英數混合，不含特殊字元)
-                    || !MailHelper.IsPasswordOK(tempRecord["user_pw"])     //格式合法性
-                    || string.IsNullOrEmpty(tempRecord["enterprise_type"]) //企業類型*(0:國內企業；1:國外企業)
-                    || string.IsNullOrEmpty(tempRecord["company"])         //公司名稱*(中文)
-                    || string.IsNullOrEmpty(tempRecord["phone"])           //電話號碼*
-                    || string.IsNullOrEmpty(tempRecord["email"])           //電子郵件*
-                    || !MailHelper.checkMailValidate(tempRecord["email"])  //格式合法性
-                    || string.IsNullOrEmpty(tempRecord["revenue"])         //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
-                    || string.IsNullOrEmpty(tempRecord["capital"])         // md.capital == -1 ; 
-                    || !int.TryParse(tempRecord["capital"].Replace(",", ""), out capital);         // md.capital == -1 ; 
+            bool result = false;
+
+            if (string.IsNullOrEmpty(tempRecord["user_id"])) //帳號*(國內:請用統編；國外: 自訂)
+            {
+                logger.Warn("第{0}列資料的帳號名稱(user_id)={1}為空值!!", r + 1, tempRecord["user_id"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["user_pw"])) //密碼*(8 - 12字，英數混合，不含特殊字元)
+            {
+                logger.Warn("第{0}列資料的密碼(user_pw)={1}為空值!!", r + 1, tempRecord["user_pw"]);
+                result = true;
+            }
+            else if (!MailHelper.IsPasswordOK(tempRecord["user_pw"])) //格式合法性
+            {
+                logger.Warn("第{0}列資料的密碼(user_pw)={1}格式不合法!!", r + 1, tempRecord["user_pw"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["enterprise_type"])) //企業類型*(0:國內企業；1:國外企業)
+            {
+                logger.Warn("第{0}列資料的企業類型(enterprise_type)={1}為空值!!", r + 1, tempRecord["enterprise_type"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["company"])) //公司名稱*(中文)
+            {
+                logger.Warn("第{0}列資料的公司名稱(company)={1}為空值!!", r + 1, tempRecord["company"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["phone"])) //電話號碼*
+            {
+                logger.Warn("第{0}列資料的電話號碼(phone)={1}為空值!!", r + 1, tempRecord["phone"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["email"])) //電子郵件*
+            {
+                logger.Warn("第{0}列資料的電子郵件(email)={1}為空值!!", r + 1, tempRecord["email"]);
+                result = true;
+            }
+            else if (!MailHelper.checkMailValidate(tempRecord["email"].Trim())) //格式合法性
+            {
+                logger.Warn("第{0}列資料的電子郵件(email)={1}格式不合法!!", r + 1, tempRecord["email"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["revenue"])) //營業額*(1:500萬以下；2:501 - 1000萬；3:1501 - 3000萬；4:3001 - 5000萬；5:5000萬 - 1億；6:一億以上)
+            {
+                logger.Warn("第{0}列資料的營業額(revenue)={1}為空值!!", r + 1, tempRecord["revenue"]);
+                result = true;
+            }
+            else if (string.IsNullOrEmpty(tempRecord["capital"])) // md.capital == -1
+            {
+                logger.Warn("第{0}列資料的資本額(capital)={1}為空值!!", r + 1, tempRecord["capital"]);
+                result = true;
+            }
+            else if (!int.TryParse(tempRecord["capital"].Replace(",", ""), out capital))// md.capital == -1
+            {
+                logger.Warn("第{0}列資料的資本額(capital)={1}不是數值!!", r + 1, tempRecord["capital"]);
+                result = true;
+            }
+
+            return result;
         }
 
         #region 產品說明
