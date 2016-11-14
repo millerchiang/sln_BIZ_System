@@ -1,4 +1,5 @@
-﻿using prj_BIZ_System.Models;
+﻿using prj_BIZ_System.Controllers;
+using prj_BIZ_System.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -201,6 +202,7 @@ namespace prj_BIZ_System.Services
             if (msgMd != null && !string.IsNullOrEmpty(msgMd.msg_member))
             {
                 string[] msg_member_arr = msgMd.msg_member.Split(',');
+                msg_member_arr = msg_member_arr.Select(msg_member => msg_member.Trim()).ToArray();
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 //msg_member_set.Add(msgMd.creater_id);
                 List<UserInfoModel> temp_result = new List<UserInfoModel>();
@@ -218,7 +220,8 @@ namespace prj_BIZ_System.Services
                     //.Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
                     .Select(userMd => new MsgPushModel()
                     {
-                          msg_no = msgMd.msg_no
+                          msg_type = getMsgType(msgMd)
+                        , msg_no = msgMd.msg_no
                         , msg_title = msgMd.msg_title
                         , msg_content = msgMd.msg_content
                         //, reply_user_id = rpyMd.msg_reply
@@ -239,6 +242,7 @@ namespace prj_BIZ_System.Services
             if (msgMd!=null && !string.IsNullOrEmpty(msgMd.msg_member))
             {
                 string[] msg_member_arr = msgMd.msg_member.Split(',');
+                msg_member_arr = msg_member_arr.Select(msg_member => msg_member.Trim()).ToArray();
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 msg_member_set.Add(msgMd.creater_id);
                 List<UserInfoModel> temp_result = new List<UserInfoModel>();
@@ -256,7 +260,8 @@ namespace prj_BIZ_System.Services
                     .Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
                     .Select(userMd => new MsgPushModel()
                     {
-                          msg_no = msgMd.msg_no
+                          msg_type = getMsgType(msgMd)
+                        , msg_no = msgMd.msg_no
                         , msg_title = msgMd.msg_title
                         , msg_content = msgMd.msg_content
                         //, reply_user_id = rpyMd.msg_reply
@@ -269,6 +274,50 @@ namespace prj_BIZ_System.Services
                     }).ToList();
                 
             }
+            return result;
+        }
+
+        private int getMsgType(MsgModel msgMd)
+        {
+            int cluster_no = (int)(msgMd.cluster_no);
+            string user_id = msgMd.user_id;
+            string is_public = msgMd.is_public;
+            int result = 0;
+
+            MessageType msg_type;
+            try
+            {
+
+                if (string.IsNullOrEmpty(user_id) || user_id.Equals("0"))
+                {
+                    if (cluster_no == 0) {
+                        msg_type = MessageType.Person;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(is_public)||is_public.Equals("0"))
+                        {
+                            msg_type = MessageType.ClusterPrivate;
+                        }
+                        else
+                        {
+                            msg_type = MessageType.ClusterPublic;
+                        }
+                    }
+                }
+                else
+                {
+                    msg_type = MessageType.CompanyPrivate;
+                }
+
+                result = (int)msg_type;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                result = 0;
+            }
+
             return result;
         }
 

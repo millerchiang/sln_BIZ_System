@@ -87,6 +87,10 @@ namespace prj_BIZ_System.Models
 
     public class MsgPushModel
     {
+        /// <summary>
+        /// 訊息類別 0:私人 1:公司公開 2:公司私人 3:聚落公開 4:聚落私人
+        /// </summary>
+        public int    msg_type { get; set; }         //訊息種類
         public long   msg_no { get; set; }           //私人訊息編號         (必傳)
         public string msg_title { get; set; }        //訊息主題             (必傳)
         public string msg_content { get; set; }      //訊息內文             (必傳)

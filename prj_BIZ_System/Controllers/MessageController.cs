@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace prj_BIZ_System.Controllers
 {
-    enum MessageType
+    public enum MessageType
     {
         Person,
         CompanyPublic , CompanyPrivate,
