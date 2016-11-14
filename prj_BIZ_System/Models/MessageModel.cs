@@ -78,12 +78,19 @@ namespace prj_BIZ_System.Models
         public long msg_reply_no { get; set; }             //訊息回覆編號
         public string msg_reply_file_site { get; set; }    //訊息回覆附件檔案位置
         public DateTime create_time { get; set; }    //建立時間
+
+
+        public long msg_no { get; set; }        //訊息主題編號
     }
 
 
 
     public class MsgPushModel
     {
+        /// <summary>
+        /// 訊息類別 0:私人 1:公司公開 2:公司私人 3:聚落公開 4:聚落私人
+        /// </summary>
+        public int    msg_type { get; set; }         //訊息種類
         public long   msg_no { get; set; }           //私人訊息編號         (必傳)
         public string msg_title { get; set; }        //訊息主題             (必傳)
         public string msg_content { get; set; }      //訊息內文             (必傳)
@@ -91,8 +98,8 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }          //回覆者名稱           (必傳)
         public string company_en { get; set; }       //回覆者英文名稱       (必傳)
         //public string company_send { get; set; }     //發送訊息時的名稱
-        public long   msg_reply_no { get; set; }     //私人訊息回覆編號     (必傳)
-        public string reply_content { get; set; }    //訊息回覆的內容       (必傳)
+        public long   msg_reply_no { get; set; }     //私人訊息回覆編號     (必傳) //手機端判斷依據
+        public string reply_content { get; set; }    //訊息回覆的內容       (必傳) //手機端判斷依據
         public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
         public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
     }
