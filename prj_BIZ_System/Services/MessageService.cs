@@ -189,6 +189,12 @@ namespace prj_BIZ_System.Services
             mapper.Insert("Message.InsertMsgFile", param);
         }
 
+        public void InsertMsgPrivateReplyFile(long msg_reply_no, string filepath)
+        {
+            var param = new MsgReplyFileModel { msg_reply_no = msg_reply_no, msg_reply_file_site = filepath };
+            mapper.Insert("Message.InsertMsgReplyFile", param);
+        }
+
         public IList<MsgPushModel> getPushMdFromCreateMsg(MsgModel msgMd)
         {
             IList<MsgPushModel> result = new List<MsgPushModel>();

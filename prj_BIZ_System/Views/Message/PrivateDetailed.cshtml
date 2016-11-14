@@ -15,7 +15,7 @@
 <div class="article_col1">
     <article class="article_col2">
 			
-			<form id="form" action="@Url.Action("doInsertMsgPrivateReply")" class="form_box sys_searchbox">
+			<form id="form" action="@Url.Action("doInsertMsgPrivateReply")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
 				<h2>@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
 
 				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
@@ -74,7 +74,7 @@
                                                 <ul>
                                                     @foreach(MsgReplyFileModel rf_md in r_md.msg_reply_file)
                                                     {
-                                                        <li><a href="">傳傳紡織報價單</a></li>
+                                                        <li><a href="@Url.Content((UploadHelper.getMessageFileDirPath(rf_md.msg_no)))/@(rf_md.msg_reply_no)/@(rf_md.msg_reply_file_site)" target="_blank">@rf_md.msg_reply_file_site</a></li>
                                                     }
 
                                                 </ul>
@@ -125,9 +125,25 @@
             type: 'iframe'
         });
 
-        $("#upexl").on('change', function () {
-            $("#upexl_name").val($(this).val());
+        $("input#upexls").change(function() {
+            var ele = document.getElementById($(this).attr('id'));
+            var result = ele.files;
+
+            $("#output").html("");
+            for(var x = 0;x< result.length;x++){
+                var fle = result[x];
+                $("#output").append("<li>" + fle.name + "</li>");
+            }
+
+            //g_temp_files = ele.files;
+            if ($("#output li").size() > 0) {
+                $("#upload").text("重選檔案");
+            } else {
+                $("#upload").text("選取檔案");
+            }
         });
+        
+     
 
         $("#form").submit(function () {
             var reply_content = $("#reply_content").val();
@@ -153,7 +169,7 @@
         if (reply_content == null || reply_content == '') {
             errMsg += "@prj_BIZ_System.LanguageResource.User.lb_reply_empty!!\n";
         } else if (reply_content.length > 300) {
-            errMsg += ""@prj_BIZ_System.LanguageResource.User.lb_reply_300!!";
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_reply_300!!";
         }
         return errMsg;
     }

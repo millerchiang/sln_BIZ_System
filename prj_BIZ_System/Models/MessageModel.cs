@@ -78,6 +78,9 @@ namespace prj_BIZ_System.Models
         public long msg_reply_no { get; set; }             //訊息回覆編號
         public string msg_reply_file_site { get; set; }    //訊息回覆附件檔案位置
         public DateTime create_time { get; set; }    //建立時間
+
+
+        public long msg_no { get; set; }        //訊息主題編號
     }
 
 

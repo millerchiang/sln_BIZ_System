@@ -154,6 +154,7 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult doInsertMsgPrivateReply(MsgReplyModel model, List<HttpPostedFileBase> iupexls)
         {
             if (Request.Cookies["UserInfo"] == null)
@@ -185,7 +186,7 @@ namespace prj_BIZ_System.Controllers
                         uploadResult = UploadHelper.doUploadFile(file, UploadConfig.subDirForMessageFile + model.msg_no +"/"+model.msg_reply_no, UploadConfig.AdminManagerDirName);
                         if ("success".Equals(uploadResult["result"]))
                         {
-                            messageService.InsertMsgPrivateFile(model.msg_no, file.FileName);//uploadResult["relativFilepath"]
+                            messageService.InsertMsgPrivateReplyFile(model.msg_reply_no, file.FileName);//uploadResult["relativFilepath"]
                         }
                         else
                         {

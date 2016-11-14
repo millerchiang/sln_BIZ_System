@@ -195,11 +195,11 @@
 
     <!--查詢訊息回應附件-->
     <select id="SelectMsgReplyFileByMsg_no" resultMap="MsgRpyFile-result" parameterClass="Msg">
-      SELECT rpyf.*
+      SELECT rpyf.* , msg.msg_no
       FROM message.msg_reply_file  rpyf
       join message.msg_reply rpy on rpyf.msg_reply_no = rpy.msg_reply_no
       join message.msg msg on rpy.msg_no = msg.msg_no
-      WHERE msg.msg_no=#msg_no#
+      WHERE msg.msg_no=$msg_no$
     </select>
 
     <!--新增訊息回應附件-->
@@ -343,10 +343,12 @@
 
     <resultMap id="MsgRpyFile-result" class="MsgReplyFile">
       <!--property是Model屬性,column是資料庫欄位名稱-->
-      <result property="msg_reply_file_no" column="msg_file_no"></result>
-      <result property="msg_reply_no" column="msg_no"></result>
-      <result property="msg_reply_file_site" column="msg_file_site"></result>
+      <result property="msg_reply_file_no" column="msg_reply_file_no"></result>
+      <result property="msg_reply_no" column="msg_reply_no"></result>
+      <result property="msg_reply_file_site" column="msg_reply_file_site"></result>
       <result property="create_time" column="create_time"></result>
+      <!--訊息序號-->
+      <result property="msg_no" column="msg_no"></result>
     </resultMap>
 
     <resultMap id="MsgReply-result" class="MsgReply">
@@ -356,6 +358,8 @@
       <result property="msg_reply" column="msg_reply"></result>
       <result property="reply_content" column="reply_content"></result>
       <result property="create_time" column="create_time"></result>
+      <!--訊題主題-->
+      <result property="msg_no" column="msg_no"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
       <result property="company_en" column="company_en"></result>
