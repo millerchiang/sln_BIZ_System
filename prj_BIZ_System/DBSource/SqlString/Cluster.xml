@@ -100,6 +100,17 @@
       and cm.user_id = #user_id#
     </select>
 
+    <select id="ClusterListByApply" resultMap="ClusterList-result" parameterClass="Cluster">
+      select * from get_all_cluster_member_and_en_by_userid() 
+      where cluster_members_id not 
+      like '%'||#user_id#||'%'      
+    </select>
+
+    <select id="ClusterListByApplyAll" resultMap="ClusterList-result">
+      select * from get_all_cluster_member_and_en_by_userid() 
+    </select>
+    
+      
     <select id="ClusterListByIdAndClusterEnableAll" resultMap="ClusterInfoMobileAll-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
       array_to_string(array_agg(cm.user_id), ',') as cluster_members_id,
@@ -271,6 +282,18 @@
       <result property="limit" column="limit"></result>
     </resultMap>
 
+    <resultMap id="ClusterList-result" class="prj_BIZ_System.Models.ClusterDetailModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="creator_name" column="creator_name"></result>
+      <result property="creator_name_en" column="creator_name_en"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+      <result property="cluster_members" column="cluster_members"></result>
+      <result property="cluster_members_en" column="cluster_members_en"></result>
+      <result property="cluster_info" column="cluster_info"></result>
+      <result property="cluster_create_time" column="create_time"></result>
+    </resultMap>
+      
     <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.Models.ClusterDetailModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>

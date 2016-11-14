@@ -56,7 +56,7 @@
     <select id="SelectActivityLimit" parameterType= "int" resultMap="ActivityInfo">
       SELECT *
       FROM activity_info
-      WHERE starttime > now()
+      WHERE endtime >= now()
       ORDER BY starttime DESC Limit $limit$
     </select>
 
