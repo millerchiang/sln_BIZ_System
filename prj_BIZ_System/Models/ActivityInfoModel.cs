@@ -72,6 +72,23 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }//公司名稱
     }
 
+    public class QuestionnaireModel
+    {
+        public int activity_id { get; set; }//活動編號
+        public string buyer_id { get; set; }//買主帳號
+        public string seller_id { get; set; }//賣家帳號
+        public string question_1 { get; set; }//問題一選項回覆
+        public string question_1_1 { get; set; }//訂單成交金額
+        public string question_1_2 { get; set; }//訂單預估成交金額
+        public string question_1_2_other { get; set; }//訂單預估成交金額_其他
+        public string question_1_4 { get; set; }//其他
+        public string question_2 { get; set; }//問題二回覆
+        public DateTime create_time { get; set; }//建立時間
+        public DateTime update_time { get; set; }//修改時間
+    }
+
+
+
     public class ActivityRegisterModel
     {
         public int register_id { get; set; }//報名編號流水號

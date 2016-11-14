@@ -200,6 +200,7 @@
                     //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
                     if (!idexist(user_id)) {
 //                        $("#addgroup").show();
+                        
                         chkexist(user_id);
                     }
                     else {
@@ -344,6 +345,10 @@
                 }
             });
         }
+        else
+        {
+            $("#addgroup").show();
+        }
     }
 
     $("#form").submit(function () {
@@ -355,7 +360,7 @@
             id=$(el).find('td').eq(0).find("input[name='user_id']").val();
             if (id != null) {
                 members = members + "," + id;
-                alert(id);
+//                alert(id);
             }
         });
 

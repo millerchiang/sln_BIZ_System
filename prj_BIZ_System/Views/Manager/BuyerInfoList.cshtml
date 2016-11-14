@@ -14,10 +14,11 @@
     <table class="edittable">
         <tr>
             <th>活動名稱</th>
-            <th>買主帳號</th>
+            <th style="width:6em">買主帳號</th>
             <th>買主名稱</th>
-            <th>買主媒合需求</th>
-            <th></th>
+            <th style="width:4em">買主媒合需求</th>
+            <th style="width:4em">商機調查</th>
+            <th style="width:4em"></th>
         </tr>
         @foreach(BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
         {
@@ -25,9 +26,13 @@
                 <td><a href="ActivityInfo?Id=@buyerInfoModel.activity_id">@buyerInfoModel.activity_name</a></td>
                 <td>@buyerInfoModel.buyer_id</td>
                 <td>@buyerInfoModel.company</td>
-                <td>@buyerInfoModel.buyer_need</td>
                 <td>
                     <a href="~/Manager/EditBuyerInfo?Id=@buyerInfoModel.serial_no&buyer_id=@buyerInfoModel.buyer_id&company=@buyerInfoModel.company" class="editbu">修改</a>
+                </td>
+                <td>
+                    <a href="~/Manager/Questionnaire?activity_id=@buyerInfoModel.activity_id&buyer_id=@buyerInfoModel.buyer_id&company=@buyerInfoModel.company" class="editbu">修改</a>
+                </td>
+                <td>
                     <a href="~/Manager/EditBuyerInfoDelete?Id=@buyerInfoModel.serial_no" class="deletebu">刪除</a>
                 </td>
             </tr>

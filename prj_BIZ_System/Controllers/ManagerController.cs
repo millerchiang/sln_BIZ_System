@@ -128,6 +128,20 @@ namespace prj_BIZ_System.Controllers
             return View();
         }
 
+        public ActionResult Questionnaire()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            activityModel.activityregisterList = activityService.GetSellerInfoActivity(activity_id);
+            ViewBag.activity_id = activity_id;
+            ViewBag.buyer_id = Request["buyer_id"];
+            ViewBag.company = Request["company"];
+            return View(activityModel);
+
+        }
+        
 
         #region ManagerInfo 帳號管理
 
