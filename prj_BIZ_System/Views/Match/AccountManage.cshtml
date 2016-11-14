@@ -19,12 +19,12 @@
             @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0)
             {
                 <section class="form_box">
-                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_acting-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
                     <ul>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
                             <li>
-                                <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>
+                                <a href="~/Activity/ActivityInfo?Id=@buyerInfoModel.activity_id" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>
                                     @Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "activity_name")
                                 </a>
                                 <div class="bubox">
@@ -50,7 +50,7 @@
                         @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                         {
                             <li>
-                                <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>
+                                <a href="~/Activity/ActivityInfo?Id=@activityRegisterModel.activity_id" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>
                                 @Localization.getPropValue(Request.Cookies["_culture"], activityRegisterModel, "activity_name")
                                 </a>
                                 <div class="bubox">
@@ -101,6 +101,35 @@
             }
         </section>
 
+        @if (Model.buyerinfoList_2 != null && Model.buyerinfoList_2.Count > 0)
+            {
+            <section class="form_box">
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_acted-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
+                <ul>
+                    @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList_2)
+                    {
+                        <li>
+                            <a href="~/Activity/ActivityInfo?Id=@buyerInfoModel.activity_id" class="iconlink">
+                                <span>@buyerInfoModel.starttime.ToShortDateString()</span>
+                                @Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "activity_name")
+                            </a>
+                            <div class="bubox">
+                                <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_sellerlist</a>
+                                @if (buyerInfoModel.seller_select.Equals("0") && buyerInfoModel.matchmaking_select.Equals("0"))
+                                {
+                                    <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("WhetherMetchSeller", "Match", new { activity_id = buyerInfoModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+
         @if (Model.activityregisterList_2 != null && Model.activityregisterList_2.Count > 0)
             {
             <section class="form_box">
@@ -109,7 +138,7 @@
                     @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList_2)
                     {
                         <li>
-                            <a href="news_activity.html" class="iconlink">
+                            <a href="~/Activity/ActivityInfo?Id=@activityRegisterModel.activity_id" class="iconlink">
                                 <span>@activityRegisterModel.starttime.ToShortDateString()</span>
                                 @Localization.getPropValue(Request.Cookies["_culture"], activityRegisterModel, "activity_name")
                             </a>

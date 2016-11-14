@@ -32,18 +32,26 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             DateTime dateNow = DateTime.Now;
+            //賣方
             matchModel.activityregisterList = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"])
                                                           .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours > 0 )
-                                                          .ToList();
-            matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"])
-                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
-                                                          .ToList();
-            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
-                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
                                                           .ToList();
             matchModel.activityregisterList_2 = matchService.GetSellerAccountPassActivity(Request.Cookies["UserInfo"]["user_id"])
                                                           .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours <= 0)
                                                           .ToList();
+
+            matchModel.activityinfoList = matchService.GetAccountNotRegisterActivity(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                                                          .ToList();
+
+            //買方
+            matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                                                          .ToList();
+            matchModel.buyerinfoList_2 = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
+                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours <= 0)
+                                                          .ToList();
+
 
             return View(matchModel);
         }
