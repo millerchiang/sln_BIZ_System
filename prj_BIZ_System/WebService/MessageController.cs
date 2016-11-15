@@ -112,7 +112,19 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object MessageReply(MsgReplyModel model)
         {
-           return messageService.InsertMsgPrivateReply(model);
+            long insertResult = (long)messageService.InsertMsgPrivateReply(model);
+            model.msg_reply_no = insertResult;
+            MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+            try
+            {
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
+                PushHelper.doPush(pushMd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, insertResult);
         }
 
         [HttpPost]
@@ -129,7 +141,7 @@ namespace prj_BIZ_System.WebService
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return result;
         }

@@ -187,7 +187,7 @@ namespace BizTimer.Config
                 {
                     DeviceToken = md.device_id.Replace(" ", ""), //deviceToken
                     //Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"alert\":{\"title\":\"" + md.msg_content + "\",\"body\":\"" + md.company+" - "+md.reply_content + "\"}}}")
-                    Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"msg_title\":\"" + md.msg_title + "\",\"msg_content\":\"" + md.msg_content + "\",\"reply_content\":\"" + md.reply_content + "\",\"msg_no\":\"" + md.msg_no + "\",\"msg_reply_no\":\"" + md.msg_reply_no + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}}")
+                    Payload = JObject.Parse("{\"aps\":{\"badge\":0,\"content-available\":1,"+"\"alert\":{\"title\":\"" + md.company + "\",\"body\":\"" + md.msg_title + "\"}"+",\"msg_type\":" + md.msg_type + ",\"msg_no\":" + md.msg_no + ",\"msg_reply_no\":" + md.msg_reply_no + "}}")
                 });
             }
             apnsBroker.Stop();
@@ -211,8 +211,8 @@ namespace BizTimer.Config
             if (File.Exists(PushConfig.apns_dev_certificate))
             {
                 var config = new ApnsConfiguration(
-                    //ApnsConfiguration.ApnsServerEnvironment.Sandbox
-                    ApnsConfiguration.ApnsServerEnvironment.Production
+                    ApnsConfiguration.ApnsServerEnvironment.Sandbox
+                    //ApnsConfiguration.ApnsServerEnvironment.Production
                     , PushConfig.apns_dev_certificate
                     , PushConfig.apns_dev_passwd); //"push-cert.p12" "push-cert-pwd"
                 apnsBroker = new ApnsServiceBroker(config);

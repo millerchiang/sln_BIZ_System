@@ -85,6 +85,12 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public object MobileDeviceDeleteOne(MobileDeviceInfoModel model)
+        {
+            object result = mapper.Delete("Push.DeleteMobileDeviceInfo", model);
+            return result;
+        }
+
         public MobileDeviceInfoModel getMobileDeviceInfo(MobileDeviceInfoModel model)
         {
             var param = new MobileDeviceInfoModel { device_id = model.device_id };
