@@ -1,22 +1,21 @@
 ﻿
 @using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Cluster_ViewModel
-    @{
-        ViewBag.Title = "Cluster List";
-    }
+@{
+    ViewBag.Title = "Cluster List";
+}
 
-    @section pagestyle{
-        <link href="~/stylesheets/sys.css" rel="stylesheet" />
-    }
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
 
-    @Styles.Render("~/Content/jqueryUI")
+@Styles.Render("~/Content/jqueryUI")
 
-    <div class="article_col1s">
-
-    <article>
+<div class="article_col1">
+    <article class="article_col2">
         <h2 class="borderTitle2">產業聚落列表</h2>
         @foreach (var newInfo in Model.clusterWebServiceInfoList)
-        {
+            {
             <div class="form_box">
                 <h2>@newInfo.cluster_name</h2>
                 <label for="" class="regis_col02L">成立日期</label>
@@ -34,12 +33,15 @@
                 </p>
 
                 <div class="centerbox">
-                <a id="checkmember" href="javascript:void(0)" class="submitbu">申請加入聚落</a>
+                    <a id="checkmember" href="javascript:void(0)" class="submitbu">申請加入聚落</a>
                 </div>
             </div>
         }
         @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
     </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 <div id="dialog" title="聚落申請" style="display:none;">

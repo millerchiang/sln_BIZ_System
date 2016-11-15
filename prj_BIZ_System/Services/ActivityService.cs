@@ -131,6 +131,24 @@ namespace prj_BIZ_System.Services
             mapper.Delete("ActivityInfo.DeleteNewsOne", param);
         }
 
+        //--------------問卷----------------------------------------------------
+        public QuestionnaireModel GetQuestionnaireOne(int activity_id,string buyer_id,string seller_id)
+        {
+            QuestionnaireModel param = new QuestionnaireModel() { activity_id = activity_id,buyer_id=buyer_id,seller_id=seller_id };
+            return (QuestionnaireModel)mapper.QueryForObject("ActivityInfo.SelectQuestionnaire", param);
+        }
+
+        public void QuestionnaireInsertOne(QuestionnaireModel questionnaireModel)
+        {
+            mapper.Insert("ActivityInfo.InsertQuestionnaire", questionnaireModel);
+        }
+
+        public void QuestionnaireUpdateOne(QuestionnaireModel questionnaireModel)
+        {
+            mapper.Update("ActivityInfo.UpdateQuestionnaire", questionnaireModel);
+        }
+
+
         //UserInfoToIdAndCpModel******************************************************************************//
         /*搜尋出user_id和company*/
         public IList<UserInfoToIdAndCpModel> GetUserInfoToIdandCp()
