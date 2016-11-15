@@ -821,6 +821,13 @@
       WHERE activity_id = $activity_id$ and buyer_id = #buyer_id# and seller_id = #seller_id#
     </select>
 
+    <!--查詢問卷多筆-->
+    <select id="SelectQuestionnaireList" resultMap="Questionnaire" parameterClass="QuestionnaireModel">
+      SELECT *
+      FROM questionnaire
+      WHERE activity_id = $activity_id$ and buyer_id = #buyer_id#
+    </select>
+
     <!--新增單筆-->
     <insert id="InsertQuestionnaire" parameterClass="QuestionnaireModel">
       INSERT INTO questionnaire (
@@ -842,10 +849,7 @@
 
     <!--修改單筆-->
     <update id="UpdateQuestionnaire" parameterClass="QuestionnaireModel">
-      UPDATE news SET
-      activity_id = $activity_id$,
-      buyer_id = #buyer_id#,
-      seller_id = #seller_id#,
+      UPDATE questionnaire SET
       question_1 = #question_1#,
       question_1_1 = #question_1_1#,
       question_1_2 = #question_1_2#,

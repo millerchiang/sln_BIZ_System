@@ -138,9 +138,21 @@ namespace prj_BIZ_System.Services
             return (QuestionnaireModel)mapper.QueryForObject("ActivityInfo.SelectQuestionnaire", param);
         }
 
+        public IList<QuestionnaireModel> GetQuestionnaireList(int activity_id, string buyer_id)
+        {
+            QuestionnaireModel param = new QuestionnaireModel() { activity_id = activity_id, buyer_id = buyer_id };
+            return mapper.QueryForList<QuestionnaireModel>("ActivityInfo.SelectQuestionnaireList", param);
+        }
+
         public void QuestionnaireInsertOne(QuestionnaireModel questionnaireModel)
         {
             mapper.Insert("ActivityInfo.InsertQuestionnaire", questionnaireModel);
+        }
+
+        public void QuestionnaireDeleteOne(int activity_id, string buyer_id, string seller_id)
+        {
+            QuestionnaireModel param = new QuestionnaireModel() { activity_id = activity_id, buyer_id = buyer_id, seller_id = seller_id };
+            mapper.Delete("ActivityInfo.DeleteQuestionnaire", param);
         }
 
         public void QuestionnaireUpdateOne(QuestionnaireModel questionnaireModel)

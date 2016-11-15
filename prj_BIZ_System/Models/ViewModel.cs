@@ -24,6 +24,7 @@ namespace prj_BIZ_System.Models
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
         public QuestionnaireModel questionnaire { get; set; }
+        public IList<QuestionnaireModel> questionnaireList { get; set; }
     }
 
     public class Activity_ViewModel

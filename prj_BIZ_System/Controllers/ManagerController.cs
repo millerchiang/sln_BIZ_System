@@ -138,10 +138,108 @@ namespace prj_BIZ_System.Controllers
             ViewBag.activity_id = activity_id;
             ViewBag.buyer_id = Request["buyer_id"];
             ViewBag.company = Request["company"];
-            return View(activityModel);
 
+            return View(activityModel);
         }
-        
+
+        public ActionResult QuestionnaireList()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            string buyer_id = Request["buyer_id"];
+            activityModel.questionnaireList = activityService.GetQuestionnaireList(activity_id, buyer_id).Pages(Request, this, 10);
+            ViewBag.activity_id = activity_id;
+            ViewBag.buyer_id = buyer_id;
+            ViewBag.company = Request["company"];
+            return View(activityModel);
+        }
+
+        public ActionResult QuestionnaireDelete()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            string buyer_id = Request["buyer_id"];
+            string seller_id = Request["seller_id"];
+            activityService.QuestionnaireDeleteOne(activity_id, buyer_id, seller_id);
+            //ViewBag.activity_id = activity_id;
+            //ViewBag.buyer_id = buyer_id;
+            //ViewBag.company = Request["company"];
+            return Redirect("QuestionnaireList?activity_id=" + activity_id + "&buyer_id=" + buyer_id + "&company=" + Request["company"]);
+        }
+
+
+
+        public ActionResult QuestionnaireEdit(int activity_id,string buyer_id, string seller_id,
+            string question_1, string question_1_1, string set02, string question_1_2_other,
+            string question_1_4, string question_2, string qedit,string company)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            //ViewBag.activity_id = activity_id;
+            //ViewBag.buyer_id = buyer_id;
+            //ViewBag.company = company;
+
+            QuestionnaireModel qmodel = new QuestionnaireModel();
+
+            qmodel.activity_id = activity_id;
+            qmodel.buyer_id = buyer_id;
+            qmodel.seller_id = seller_id;
+            qmodel.question_1 = question_1;
+            //qmodel.question_1_1 = "";
+            //qmodel.question_1_2 = "";
+            //qmodel.question_1_2_other = "";
+            //qmodel.question_1_4 = "";
+            //qmodel.question_2 = "";
+
+            if (qmodel.question_1=="0")
+            {
+                qmodel.question_1_1 = question_1_1;
+            }
+            else if (qmodel.question_1 == "1")
+            {
+                qmodel.question_1_2 = set02;
+                if (qmodel.question_1_2=="4")
+                {
+                    qmodel.question_1_2_other = question_1_2_other;
+                }
+            }
+            else if (qmodel.question_1 == "3")
+            {
+                qmodel.question_1_4 = question_1_4;
+            }
+            qmodel.question_2 = question_2;
+
+            if (qedit=="New")
+            {
+                activityService.QuestionnaireInsertOne(qmodel);
+            }
+            else
+            {
+                activityService.QuestionnaireUpdateOne(qmodel);
+            }
+            return Redirect("QuestionnaireList?activity_id=" + activity_id + "&buyer_id=" + buyer_id + "&company=" + company);
+        }
+
+        [HttpGet]
+        public ActionResult CheckQuestionnaire(int activity_id, string buyer_id, string seller_id)
+        {
+            //            bool Huser = true;
+            activityModel.questionnaire = activityService.GetQuestionnaireOne(activity_id, buyer_id,seller_id);
+            if (activityModel.questionnaire != null)
+            {
+                return Json(activityModel.questionnaire, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         #region ManagerInfo 帳號管理
 
