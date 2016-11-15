@@ -128,17 +128,12 @@ namespace prj_BIZ_System.Controllers
                 if (isOwnViewPower(msg_no,MessageType.Person)) //檢查權限
                 {
                     //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no , current_user_id);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, current_user_id);
 
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Private);
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
-                    IList<MsgReplyFileModel> replyFileList = messageService.SelectMsgReplyFileByMsg_no(msg_no);
-                    ((List<MsgReplyModel>)messageViewModel.msgPrivateReplyList).ForEach(reply => {
-                        reply.msg_reply_file = replyFileList.Where(
-                                replyFile => replyFile.msg_reply_no == reply.msg_reply_no
-                            ).ToList();
-                    });
+                    getReplyFileListAll(msg_no);
                     return View(messageViewModel);
                 }
                 else
@@ -154,6 +149,20 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        /// <summary>
+        /// 訊息回覆附件
+        /// </summary>
+        private void getReplyFileListAll(int msg_no)
+        {
+            IList<MsgReplyFileModel> replyFileList = messageService.SelectMsgReplyFileByMsg_no(msg_no);
+            ((List<MsgReplyModel>)messageViewModel.msgPrivateReplyList).ForEach(reply =>
+            {
+                reply.msg_reply_file = replyFileList.Where(
+                        replyFile => replyFile.msg_reply_no == reply.msg_reply_no
+                    ).ToList();
+            });
+        }
+
         [HttpPost]
         public ActionResult doInsertMsgPrivateReply(MsgReplyModel model, List<HttpPostedFileBase> iupexls)
         {
@@ -162,7 +171,8 @@ namespace prj_BIZ_System.Controllers
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
             long insertResult = (long)(messageService.InsertMsgPrivateReply(model));
-            if (insertResult > 0) {
+            if (insertResult > 0)
+            {
                 model.msg_reply_no = insertResult;
                 MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
                 try
@@ -175,15 +185,24 @@ namespace prj_BIZ_System.Controllers
                     logger.Error(e.Message);
                 }
             }
-            #region 上傳訊息附件
+            uploadFileByReply(model, iupexls);
+
+            return Redirect(getLabelString(MessageCatalog.Private, "detailUrl") + "?msg_no=" + model.msg_no);
+        }
+
+        /// <summary>
+        /// 上傳訊息回覆附件
+        /// </summary>
+        private void uploadFileByReply(MsgReplyModel model, List<HttpPostedFileBase> iupexls)
+        {
             if (iupexls != null && model.msg_no != 0)
             {
                 foreach (HttpPostedFileBase file in iupexls)
                 {
-                    if (file != null && file.ContentLength > 0 )
+                    if (file != null && file.ContentLength > 0)
                     {
                         Dictionary<string, string> uploadResult = null;
-                        uploadResult = UploadHelper.doUploadFile(file, UploadConfig.subDirForMessageFile + model.msg_no +"/"+model.msg_reply_no, UploadConfig.AdminManagerDirName);
+                        uploadResult = UploadHelper.doUploadFile(file, UploadConfig.subDirForMessageFile + model.msg_no + "/" + model.msg_reply_no, UploadConfig.AdminManagerDirName);
                         if ("success".Equals(uploadResult["result"]))
                         {
                             messageService.InsertMsgPrivateReplyFile(model.msg_reply_no, file.FileName);//uploadResult["relativFilepath"]
@@ -195,12 +214,8 @@ namespace prj_BIZ_System.Controllers
                     }
                 }
             }
-            #endregion
-
-            return Redirect(getLabelString(MessageCatalog.Private, "detailUrl")+"?msg_no=" +model.msg_no);
         }
 
-        
         public ActionResult jsonMsgMemberForPrivate(string term)
         {
             var user_id = Request.Cookies["UserInfo"]["user_id"];
@@ -439,6 +454,7 @@ namespace prj_BIZ_System.Controllers
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
+                    getReplyFileListAll(msg_no);
                     ViewBag.clusterInfo = messageService.SelectClusterByMsg_no(msg_no);
                     return View(messageViewModel);
                 }
@@ -454,7 +470,7 @@ namespace prj_BIZ_System.Controllers
         }
 
         [HttpPost]
-        public ActionResult DoMessageClusterDetail(MsgReplyModel model , string is_public)
+        public ActionResult DoMessageClusterDetail(MsgReplyModel model , string is_public, List<HttpPostedFileBase> iupexls)
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
@@ -462,6 +478,8 @@ namespace prj_BIZ_System.Controllers
 
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
             messageService.InsertMsgPrivateReply(model);
+            uploadFileByReply(model, iupexls);
+
             return Redirect("~/Message/MessageClusterDetail" + "?is_public="+ is_public + "&msg_no=" + model.msg_no);
         }
         #endregion

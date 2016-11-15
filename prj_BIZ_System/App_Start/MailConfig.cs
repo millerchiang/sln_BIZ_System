@@ -260,7 +260,7 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static int checkEmail(string mailAddress, out string errorInfo)
         {
-            Regex reg = new Regex("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$");
+            Regex reg = new Regex("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$");
             if (!reg.IsMatch(mailAddress))
             {
                 errorInfo = "Email Format error!";

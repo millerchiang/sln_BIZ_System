@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.Extensions;
+using BizTimer.Config;
 
 namespace prj_BIZ_System.WebService
 {
@@ -111,7 +112,19 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object MessageReply(MsgReplyModel model)
         {
-           return messageService.InsertMsgPrivateReply(model);
+            long insertResult = (long)messageService.InsertMsgPrivateReply(model);
+            model.msg_reply_no = insertResult;
+            MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+            try
+            {
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
+                PushHelper.doPush(pushMd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, insertResult);
         }
 
         [HttpPost]
@@ -119,7 +132,18 @@ namespace prj_BIZ_System.WebService
         {
             model.msg_member = model.msg_member.Replace(",", ", ") + ",";
             model.is_public = "0";
-            return (long)messageService.InsertMsgPrivate(model);
+            var result = (long)messageService.InsertMsgPrivate(model);
+            model.msg_member = model.msg_member.Trim(' ');
+            try
+            {
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
+                PushHelper.doPush(pushMd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return result;
         }
 
         [HttpGet]

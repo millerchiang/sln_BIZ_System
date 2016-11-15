@@ -131,6 +131,12 @@
       VALUES (#device_id#, #device_os#, #user_id#);
     </insert>
 
+    <delete id="DeleteMobileDeviceInfo" parameterClass="MobileDeviceInfo">
+      DELETE FROM manager.mobile_device_info
+      WHERE device_id=#device_id#
+      and user_id=#user_id#
+    </delete>
+    
     <select id="SelectMobileDeviceInfo" parameterClass="MobileDeviceInfo" resultMap="MobileDeviceInfo-result">
       SELECT *
       FROM manager.mobile_device_info
