@@ -1,0 +1,110 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+
+@{
+    ViewBag.Title = "Questionnaire";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/screen.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+<main>
+    <article class="form_box article_col1">
+        <h2>商機調查 - 買主: @ViewBag.company</h2>
+        <form action="EditBuyerInfoInsertUpdate" method="post">
+
+            <div class="sys_searchbox magb30">
+                賣家名稱
+                <select name="" id="">
+                @foreach (ActivityRegisterModel sellerInfoModel in Model.activityregisterList)
+                {
+                    <option value="@sellerInfoModel.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sellerInfoModel, "company")</option>
+                }
+                </select>
+            </div>
+            <dl class="invchecklist ">
+                <dt>  1. What are the results of the showroom visiting/meetings ? </dt>
+                <dd>
+                    <ul>
+                        <li>
+                            <input type="radio" name="question01" class="radioinput" value="0" id="set01" checked="">
+                            <label for="set01">Order already placed at an approx. value of US$</label>
+                            <input type="text" class="borderbottom">
+                        </li>
+                        <li>
+                            <input type="radio" name="question01" class="radioinput setBoxCheck" value="0" id="set02">
+                            <label for="set02">
+                                Contact established, high possibility for placing order: in approx. value of
+                            </label>
+                            <ul class="setBox col2">
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_1" disabled="disabled">
+                                    <label for="set02_1">Under USD 500,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_2" disabled="disabled">
+                                    <label for="set02_2">USD 510,000 ~ USD 1,000,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_3" disabled="disabled">
+                                    <label for="set02_3">USD 1,010,000 ~ USD 1,500,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_4" disabled="disabled">
+                                    <label for="set02_4">USD 1,510,000 ~ USD 2,000,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_5" disabled="disabled">
+                                    <label for="set02_5">Other</label>
+                                    <input type="text" class="borderbottom">
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <input type="radio" name="question01" class="radioinput" value="0" id="set03">
+                            <label for="set03">Contact established, no possibility for placing the order immediately</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="question01" class="radioinput" value="0" id="set04">
+                            <label for="set04">Others:</label>
+                            <input type="text" class="borderbottom">
+                        </li>
+                    </ul>
+                </dd>
+                <dt> 2. We welcome all comments and suggestions to a more successful business meetings.</dt>
+                <dd>
+                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                </dd>
+            </dl>
+            <div class="centerbox">
+                <button type="submit" class="submitbu">儲存</button>
+            </div>
+        </form>
+
+
+    </article>
+
+</main>
+<script>
+
+
+        $(function () {
+            $("input[type='radio']").on('click',function(){
+                    var set =  $(".setBoxCheck");
+                    var setboxinput = $(this).attr("id");
+                    var setdisinput = $('input[name='+setboxinput+']');
+                    if(set.prop( "checked" )){
+                          setdisinput.prop( "disabled", false ).removeClass('setdisabled');
+                    }else{
+                         $(".setBox input[type='radio']").prop( "disabled", true ).addClass('setdisabled').attr('checked',false);
+
+                    };
+               });
+
+            });
+
+
+</script>

@@ -26,6 +26,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
+            docookie("_mainmenu", "ClusterList");
             return View();
         }
 
@@ -42,25 +43,25 @@ namespace prj_BIZ_System.Controllers
             {
                 //------可申請的聚落
                 user_id = user_id + ",";
-                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApply(user_id).Pages(Request, this, 3);
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApply(user_id).Pages(Request, this, 5);
                 //------------------
             }
             else if (Request["list"] == "2")
             {
                 //------申請中
-                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "4").Pages(Request, this, 3);
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "4").Pages(Request, this, 5);
                 //------------------
             }
             else if (Request["list"] == "3")
             {
                 //------已加入
-                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1").Pages(Request, this, 3);
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1").Pages(Request, this, 5);
                 //------------------
             }
             else if (Request["list"] == "4")
             {
                 //------受邀請中
-                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 3);
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
                 //------------------
             }
             return View(clusterViewModel);
@@ -68,7 +69,8 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ClusterListAll()
         {
-            clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApplyAll().Pages(Request, this, 3);
+            clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApplyAll().Pages(Request, this, 5);
+            docookie("_mainmenu", "ClusterListAll");
             return View(clusterViewModel);
         }
 
@@ -78,7 +80,7 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
 
-            clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 3);
+            clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
             return View(clusterViewModel);
         }
 
@@ -190,7 +192,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
             string user_id = Request.Cookies["UserInfo"]["user_id"];
-            if (Request["cluster_no"] != null)
+            if (Request.QueryString["cluster_no"] != null)
             {
                 clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]),null,null);
                 clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));

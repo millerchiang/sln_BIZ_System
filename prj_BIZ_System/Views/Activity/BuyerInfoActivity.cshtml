@@ -1,30 +1,44 @@
 ﻿@using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Activity_ViewModel
-
-
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+@Styles.Render("~/Content/jqueryUI")
 @{
     ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_buyerinfo + @prj_BIZ_System.LanguageResource.User.lb_list;
 }
 <div class="article_col1">
+    <article class="article_col2">
+        <h2 class="borderTitle2">@(prj_BIZ_System.LanguageResource.User.lb_buyerinfo + @prj_BIZ_System.LanguageResource.User.lb_list)</h2>
 
-    <article class="form_box article_col2">
-        <h2>@(prj_BIZ_System.LanguageResource.User.lb_buyerinfo + @prj_BIZ_System.LanguageResource.User.lb_list)</h2>
-        <table class="edittable">
-            <tr>
-                @*<th>買主帳號</th>*@
-                <th>@(prj_BIZ_System.LanguageResource.User.lb_companyname)</th>
-                <th width="75%">@(prj_BIZ_System.LanguageResource.User.lb_buyerneed)</th>
-            </tr>
-            @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
-            {
+        @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
+        {
+            <div class="form_box">
+                @*<h2><a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</a></h2>*@
+                <h2>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</h2>
+                <label for="" class="regis_col02L">預估採購金額</label>
+                <span class="regis_col02R contentspan">@buyerInfoModel.estimated_purchasing_now</span>
 
-                <tr>
-                    @*<td><a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@buyerInfoModel.buyer_id</a></td>*@
-                    <td><a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</a></td>
-                    <td>@buyerInfoModel.buyer_need</td>
-                </tr>
-            }
-        </table>
+                <label for="" class="regis_col02L">@(prj_BIZ_System.LanguageResource.User.lb_buyerneed)</label>
+                @*<span class="regis_col02R contentspan">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "buyer_need")</span>*@
+                <p class="regis_col02R contentspan">
+                    @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "buyer_need")
+                </p>
+                <label for="" class="regis_col02L">採購範圍</label>
+                <p class="regis_col02R contentspan">
+                    @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "distribution")
+                </p>
+                <label for="" class="regis_col02L">採購項目</label>
+                <p class="regis_col02R contentspan">
+                    @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "items")
+                </p>
+                <div class="centerbox">
+                    <a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_companybrief </a>
+                </div>
+
+            </div>
+        }
+        @Html.PagesList((List<PageList<prj_BIZ_System.Models.BuyerInfoModel>>)ViewData["PageList"])
 
     </article>
     @{

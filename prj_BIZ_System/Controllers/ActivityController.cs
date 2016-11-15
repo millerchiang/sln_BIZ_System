@@ -55,7 +55,7 @@ namespace prj_BIZ_System.Controllers
 //            if (Request.Cookies["UserInfo"] == null)
 //                return Redirect("~/Home/Index");
 
-            activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"]));
+            activityModel.buyerinfoList = activityService.GetBuyerInfoActivity(int.Parse(Request["Id"])).Pages(Request, this, 5); ;
             docookie("_mainmenu", "BuyerInfoActivity");
             return View(activityModel);
 
