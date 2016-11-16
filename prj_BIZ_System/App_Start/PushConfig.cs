@@ -187,7 +187,7 @@ namespace BizTimer.Config
                 {
                     DeviceToken = md.device_id.Replace(" ", ""), //deviceToken
                     //Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"alert\":{\"title\":\"" + md.msg_content + "\",\"body\":\"" + md.company+" - "+md.reply_content + "\"}}}")
-                    Payload = JObject.Parse("{\"aps\":{\"badge\":0,\"content-available\":1,"+"\"alert\":{\"title\":\"" + md.company + "\",\"body\":\"" + md.msg_title + "\"}"+",\"msg_type\":" + md.msg_type + ",\"msg_no\":" + md.msg_no + ",\"msg_reply_no\":" + md.msg_reply_no + "}}")
+                    Payload = JObject.Parse("{\"aps\":{\"content-available\":1,\"sound\":\"default\","+"\"alert\":{\"title\":\"" + md.company + "\",\"body\":\"" + (md.msg_reply_no != 0 ? md.reply_content : md.msg_title) + "\"}"+",\"msg_type\":" + md.msg_type + ",\"msg_no\":" + md.msg_no + ",\"msg_reply_no\":" + md.msg_reply_no + "}}")
                 });
             }
             apnsBroker.Stop();
