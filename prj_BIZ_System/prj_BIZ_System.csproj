@@ -491,6 +491,7 @@
     <Content Include="App_Start\Key\IOS_certificate\Biz.p12" />
     <Content Include="App_Start\Key\IOS_certificate\Biz_voip.p12" />
     <Content Include="App_Start\Key\IOS_certificate\Biz_develop.p12" />
+    <Content Include="Content\Template\Import\questionnaire.xls" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
