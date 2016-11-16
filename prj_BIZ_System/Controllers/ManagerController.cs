@@ -138,6 +138,7 @@ namespace prj_BIZ_System.Controllers
             ViewBag.activity_id = activity_id;
             ViewBag.buyer_id = Request["buyer_id"];
             ViewBag.company = Request["company"];
+            ViewBag.activity_name = Request["activity_name"];
 
             return View(activityModel);
         }
@@ -151,6 +152,7 @@ namespace prj_BIZ_System.Controllers
             string buyer_id = Request["buyer_id"];
             activityModel.questionnaireList = activityService.GetQuestionnaireList(activity_id, buyer_id).Pages(Request, this, 10);
             ViewBag.activity_id = activity_id;
+            ViewBag.activity_name = Request["activity_name"];
             ViewBag.buyer_id = buyer_id;
             ViewBag.company = Request["company"];
             return View(activityModel);
@@ -239,6 +241,115 @@ namespace prj_BIZ_System.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
         }
+
+        #region 匯出問卷結果
+        [HttpGet]
+        public ActionResult ExportQuestionnaireFormExcel(int activity_id, string activity_name,string buyer_id)
+        {
+            string questionnaireFormTemplateFileName = "questionnaire.xls";
+            string questionnaireFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
+
+            var questionnairePOIDatas = activityService.GetQuestionnaireList(activity_id, buyer_id)
+                                            .Select(ar =>
+                                               new string[]
+                                               {
+                                                    ar.buyer_id,
+                                                    ar.buyer_name,
+                                                    ar.buyer_name_en,
+                                                    ar.seller_id,
+                                                    ar.seller_name,
+                                                    ar.seller_name_en,
+                                                    ar.question_1+","+ar.question_1_1+","+ar.question_1_2+","+ar.question_1_2_other+","+ar.question_1_4,
+                                                    ar.question_2
+                                               }
+                                            ).ToList();
+
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + questionnaireFormTemplateFileName);
+            setupQuestionnaireFormData(workbook, questionnairePOIDatas, 0);
+
+            exportExcelFileByMemorySpace(workbook, questionnaireFormFileName);
+            return null;
+            //return exportExcelFile(workbook, activityFormFileName);
+        }
+
+        private void setupQuestionnaireFormData(IWorkbook workbook, IList<string[]> datas, int sheetNum)
+        {
+            ISheet _sheet = workbook.GetSheetAt(sheetNum);//因第一頁有編輯 所有不用CreateSheet
+            for (int i = 0; i < datas.Count; i++)
+            {
+                IRow row = _sheet.GetRow(i + 1);
+                if (row == null)
+                {
+                    row = _sheet.CreateRow(i + 1);
+                }
+                string[] columns = datas[i];
+                for (int j = 0; j < columns.Length; j++)
+                {
+                    ICell _cell = row.CreateCell(j);
+                    if (j==6)
+                    {
+                        string[] result = columns[j].Split(',');
+                        string r = "";
+                        if (result[0] == "0")
+                        {
+                            r = "1：訂單已成立";
+                            if (result[1] != "")
+                            {
+                                r = r + "(訂單成交金額:US$ " + result[1] + ")";
+                            }
+                        }
+                        else if (result[0] == "1")
+                        {
+                            r = "2：訂單成立可能性高";
+                            if (result[2] != "")
+                            {
+                                string m = "";
+                                if (result[2] == "0"){
+                                    m = "Under USD 500,000";
+                                }else if (result[2] == "1")
+                                {
+                                    m = "USD 510,000 ~ USD 1,000,000";
+                                }
+                                else if (result[2] == "2")
+                                {
+                                    m = "USD 1,010,000 ~ USD 1,500,000";
+                                }
+                                else if (result[2] == "3")
+                                {
+                                    m = "USD 1,510,000 ~ USD 2,000,000";
+                                }
+                                else if (result[2] == "4")
+                                {
+                                    m = "Other";
+                                    if (result[3] != "")
+                                    {
+                                        m=m+" [USD "+ result[3] + "]";
+                                    }
+                                }
+
+                                r = r + "(訂單預估成交金額:" + m + ")";
+                            }
+                        }
+                        else if (result[0] == "2")
+                        {
+                            r = "3：不考慮立即下單";
+                        }
+                        else if (result[0] == "3")
+                        {
+                            r = "4：其他";
+                            if (result[4] != "")
+                            {
+                                r = r + "  說明:" + result[4];
+                            }
+                        }
+                        columns[j] = r;
+                    }
+                    _cell.SetCellValue(columns[j]);
+                }
+            }
+        }
+
+        #endregion
 
 
         #region ManagerInfo 帳號管理
@@ -1019,7 +1130,7 @@ namespace prj_BIZ_System.Controllers
 
         #region 買主資訊列表
         [HttpGet]
-        public ActionResult BuyerInfoList()
+        public ActionResult BuyerInfoList(string activity_name, string company)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -1032,7 +1143,12 @@ namespace prj_BIZ_System.Controllers
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
 
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, DateTime.Now).Pages(Request, this, 10);
+            if (activity_name == "") activity_name = null;
+            if (company == "") company = null;
+            //            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, DateTime.Now).Pages(Request, this, 10);
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, null, activity_name, company).Pages(Request, this, 10);
+            ViewBag.activity_name = activity_name;
+            ViewBag.company = company;
             return View(activityModel);
 
         }

@@ -16,6 +16,7 @@
         <th>商務對接</th>
         <th>媒合公開</th>
         <th>匯出名單</th>
+        <th>匯出問卷</th>
         <th>媒合大表</th>
         <th></th>
     </tr>
@@ -40,6 +41,11 @@
             <td>
                 <div class="centerbox">
                     <a href="@Url.Action("ExportActivityFormExcel","Manager",new {activity_id = @newInfo.activity_id, activity_name = @newInfo.activity_name})" class="addbured">匯出</a>
+                </div>
+            </td>
+            <td>
+                <div class="centerbox">
+                    <a href="@Url.Action("ExportQuestionnaireFormExcel","Manager",new {activity_id = @newInfo.activity_id, activity_name = @newInfo.activity_name})" class="addbured">匯出</a>
                 </div>
             </td>
             <td>

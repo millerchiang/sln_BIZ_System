@@ -76,7 +76,11 @@ namespace prj_BIZ_System.Models
     {
         public int activity_id { get; set; }//活動編號
         public string buyer_id { get; set; }//買主帳號
+        public string buyer_name { get; set; }//買主名稱中文
+        public string buyer_name_en { get; set; }//買主名稱英文
         public string seller_id { get; set; }//賣家帳號
+        public string seller_name { get; set; }//賣家名稱中文
+        public string seller_name_en { get; set; }//賣家名稱英文
         public string question_1 { get; set; }//問題一選項回覆
         public string question_1_1 { get; set; }//訂單成交金額
         public string question_1_2 { get; set; }//訂單預估成交金額

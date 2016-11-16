@@ -13,11 +13,12 @@
 }
 
     <article class="form_box article_col1">
-        <h2>商機調查 - 買主: @ViewBag.company</h2>
+        <h2>商機調查[@ViewBag.activity_name] - 買主: @ViewBag.company</h2>
         <form action="QuestionnaireEdit" method="post">
             <input type="hidden" name="qedit" value="New">
             <input type="hidden" name="buyer_id" value="@ViewBag.buyer_id">
             <input type="hidden" name="activity_id" value="@ViewBag.activity_id">
+            <input type="hidden" name="activity_name" value="@ViewBag.activity_name">
             <input type="hidden" name="company" value="@ViewBag.company">
 
             <div class="sys_searchbox magb30">
