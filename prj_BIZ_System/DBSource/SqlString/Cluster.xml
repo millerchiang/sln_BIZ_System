@@ -52,7 +52,7 @@
       FROM public.cluster_file
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="cluster_no">
-          cluster_no = #cluster_no#
+          cluster_no = $cluster_no$
         </isNotEmpty>
       </dynamic>
     </select>

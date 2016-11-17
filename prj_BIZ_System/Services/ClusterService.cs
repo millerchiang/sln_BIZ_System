@@ -73,7 +73,12 @@ namespace prj_BIZ_System.Services
         public double GetClusterFileSize(int cluster_no)
         {
             ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
-            return mapper.QueryForObject<double>("Cluster.SelectClusterFileSize", tempModel);
+            double? size = 0;
+            size = mapper.QueryForObject<double?>("Cluster.SelectClusterFileSize", tempModel);
+            if (size == null)
+                size = 0;
+
+            return (double)size;
         }
 
 

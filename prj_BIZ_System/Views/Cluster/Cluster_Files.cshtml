@@ -57,7 +57,8 @@
                         </td>
                         <td>
                             <div class="centerbox">
-                                <a href="@Url.Content(ViewBag.path+mo.cluster_file_site)" class="editbu">下載</a>
+                                @*<a href="@Url.Content(ViewBag.path+mo.cluster_file_site)" class="editbu">下載</a>*@
+                                <a href="javascript:download(@Url.Content(ViewBag.path+mo.cluster_file_site))">下載</a>
                                 @if (Request.Cookies["UserInfo"]["user_id"] == mo.user_id)
                                 {
                                     <br /><br /><a href="javascript:void(0)" class="deletebu quit">刪除</a>
@@ -77,3 +78,25 @@
 <div id="dialog" title="刪除文件" style="display:none;">
     <p>確定要刪除文件?</p>
 </div>
+
+<script>
+
+    function download(f) {
+        window.location.href = f;
+    }
+
+    @*$(function () {
+        $("#exportButton").click(exportMyForm);
+    });
+
+    function exportMyForm() {
+        var $form = $("form");
+
+        // Changed the line below (see @comments)
+        // var result = decodeURIComponent($.param($form.serializeFormJSON())); 
+        var result = $form.serialize();
+
+        window.location.href = "@Url.Action("MyController", "MyExportAction")?" + result;
+    }*@
+
+</script>
