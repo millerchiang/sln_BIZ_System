@@ -1943,7 +1943,7 @@ namespace prj_BIZ_System.Controllers
             FileStream file = new FileStream(savePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
-            return File(file, "application/ms-excel", "matchmaking.xls");
+            return File(savePath, "application/ms-excel", "matchmaking.xls");
         }
 
         #endregion
