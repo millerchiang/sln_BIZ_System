@@ -57,12 +57,12 @@
                         </td>
                         <td>
                             <div class="centerbox">
-                                @*<a href="@Url.Content(ViewBag.path+mo.cluster_file_site)" class="editbu">下載</a>*@
-                                <a href="javascript:download(@Url.Content(ViewBag.path+mo.cluster_file_site))">下載</a>
+                                <a href="@Url.Action("DownloadFile","Cluster",new {filepath = @ViewBag.path, filename = @mo.cluster_file_site})" class="editbu">下載</a>
                                 @if (Request.Cookies["UserInfo"]["user_id"] == mo.user_id)
                                 {
-                                    <br /><br /><a href="javascript:void(0)" class="deletebu quit">刪除</a>
+                                    <br /><br /><a id="@mo.cluster_file_no" href="javascript:void(0)" class="deletebu quit">刪除</a>
                                 }
+
                             </div>
                         </td>
                     </tr>
@@ -71,32 +71,38 @@
             </table>
             @Html.PagesList((List<PageList<ClusterFileModel>>)ViewData["PageList"])
 
+            <div id="dialog" title="刪除文件">
+                <p>確定要刪除文件?</p>
+            </div>
         </div>
     </article>
 </div>
 
-<div id="dialog" title="刪除文件" style="display:none;">
-    <p>確定要刪除文件?</p>
-</div>
+@Scripts.Render("~/bundles/jqueryUI")
 
 <script>
+    var fileid;
+	$(function() {
+		$( "#dialog" ).dialog({
+			autoOpen: false,
+			buttons: {
+			    "是": function () {
+			        var url = '@Url.Action("DeleteFile", "Cluster", new { cluster_file_no = "__fileid__" })';
+			        window.location.href = url.replace('__fileid__', encodeURIComponent(fileid));
+			        $(this).dialog("close");
 
-    function download(f) {
-        window.location.href = f;
-    }
+			},
+			"否": function() {
+			    $( this ).dialog( "close" );
+			}
+			}
+		});
+	$( ".quit" ).click(function() {
+	    $("#dialog").dialog("open");
+	    fileid = this.id;
+	    alert(fileid);
+	});
 
-    @*$(function () {
-        $("#exportButton").click(exportMyForm);
-    });
 
-    function exportMyForm() {
-        var $form = $("form");
-
-        // Changed the line below (see @comments)
-        // var result = decodeURIComponent($.param($form.serializeFormJSON())); 
-        var result = $form.serialize();
-
-        window.location.href = "@Url.Action("MyController", "MyExportAction")?" + result;
-    }*@
-
+	});
 </script>

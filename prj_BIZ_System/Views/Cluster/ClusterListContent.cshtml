@@ -21,10 +21,13 @@
                     <div class="form_box">
                         <h2>@newInfo.cluster_name</h2>
                         <label for="" class="regis_col02L"></label>
-                        @if (Request["list"] == "3")
+                        @if (Request["list"] == "4")
                         {
                         <span class="regis_col02R contentspan"><a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit rightbox">退出聚落</a></span>
                         }
+
+                        @if (Request["list"] == "4")
+                        {
                         <label for="" class="regis_col02L">邀請時間</label>
                         <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
                         <label for="" class="regis_col02L">建立者</label>
@@ -33,6 +36,15 @@
                         <p class="regis_col02R contentspan">
                             @newInfo.cluster_members
                         </p>
+
+                        }
+                        else
+                        {
+                            <label for="" class="regis_col02L">申請時間</label>
+                            <span class="regis_col02R contentspan">@newInfo.cluster_create_time</span>
+                            <label for="" class="regis_col02L">申請者</label>
+                            <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                        }
 
                         <label for="" class="regis_col02L">簡介</label>
                         <p class="regis_col02R contentspan">
@@ -53,6 +65,13 @@
                         }
                         else if (Request["list"] == "3")
                         {
+                            //------申請審核
+                            <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="addbu">接受申請</a>
+                            <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="deleteSbu">婉拒申請</a>
+                            //------------------
+                        }
+                        else if (Request["list"] == "4")
+                        {
                             //------已加入
                             <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbu">聚落邀請</a>
 
@@ -62,7 +81,7 @@
                             }
                             //------------------
                         }
-                        else if (Request["list"] == "4")
+                        else if (Request["list"] == "5")
                         {
                             //------受邀請中
                             <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbu">加入</a>
