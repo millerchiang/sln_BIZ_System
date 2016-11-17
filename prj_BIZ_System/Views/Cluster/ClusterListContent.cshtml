@@ -26,7 +26,7 @@
                         <span class="regis_col02R contentspan"><a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit rightbox">退出聚落</a></span>
                         }
 
-                        @if (Request["list"] == "4")
+                        @if (Request["list"] != "3")
                         {
                         <label for="" class="regis_col02L">邀請時間</label>
                         <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
