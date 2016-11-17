@@ -1,101 +1,20 @@
-.iconlink:link, .iconlink:visited, .iconlink:hover, .iconlink:focus, .iconlink:active, .iconlink2:link, .iconlink2:visited, .iconlink2:hover, .iconlink2:focus, .iconlink2:active {
-  text-decoration: none;
-  color: #000000;
-  font-size: 0.813em;
+.edittable {
   display: block;
-  padding: 10px 0 10px 10px;
-}
-.iconlink:hover, .iconlink:focus, .iconlink:active, .iconlink.active, .iconlink2:hover, .iconlink2:focus, .iconlink2:active, .iconlink2.active {
-  color: #03a9f5;
-}
-
-.iconlink + .centerbox, .iconlink2 + .centerbox {
-  padding-bottom: 10px;
-  padding-top: 10px;
+  width: auto;
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  clear: both;
+  margin-top: 5px;
 }
 
-.form_box {
-  box-sizing: border-box;
+.comicon {
+  display: inline-block;
 }
-.form_box li {
-  border-bottom: 1px dotted #cccccc;
+.comicon li {
+  font-size: 0.938em;
+  line-height: 2em;
   text-align: left;
-  line-height: 1.6;
-}
-
-.w55 {
-  width: 54%;
-  float: left;
-  margin-top: 15px;
-}
-
-.w45 {
-  width: 44%;
-  float: right;
-  clear: right;
-  margin-top: 15px;
-}
-
-.iconlink {
-  position: relative;
-}
-.iconlink:before {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  left: 0;
-  top: 15px;
-  border-style: solid;
-  border-width: 4px 0 4px 6px;
-  border-color: transparent transparent transparent #ff9000;
-}
-.iconlink:hover:before {
-  border-color: transparent transparent transparent #f46813;
-}
-.iconlink span {
-  padding-right: 5px;
-  color: #9e9e9e;
-}
-
-.iconlink2 {
-  position: relative;
-}
-.iconlink2:before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  position: absolute;
-  left: 0;
-  top: 14px;
-  background: #f2451d;
-}
-.iconlink2:hover:before {
-  background: #c13717;
-}
-.iconlink2 span {
-  padding-right: 5px;
-  color: #9e9e9e;
-}
-
-@media only screen and (max-width: 520px) {
-  .w55, .w45 {
-    width: 100%;
-  }
-}
-.centerbox {
-  padding-top: 30px;
-}
-
-.listlink li {
-  padding: 10px 0;
-}
-.listlink a {
-  font-size: 0.813em;
-}
-
-label {
-  float: right;
 }
 
 /*# sourceMappingURL=schedule.css.map */

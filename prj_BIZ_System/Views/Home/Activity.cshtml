@@ -5,7 +5,7 @@
     ViewBag.Title = "Activity";
 }
 @section pagestyle{
-    <link href="/stylesheets/news.css" rel="stylesheet" />
+    <link href="~/stylesheets/news.css" rel="stylesheet" />
 }
 
 <div class="article_col1">
@@ -16,7 +16,7 @@
             @foreach (var activityList in Model.activityinfoList)
             {
             <li>
-                <a href="/Activity/ActivityInfo?Id=@activityList.activity_id" class=news_activity>
+                <a href="~/Activity/ActivityInfo?Id=@activityList.activity_id" class=news_activity>
                     <span>@activityList.starttime.ToShortDateString()</span>
                     @activityList.activity_name
                 </a>

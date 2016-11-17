@@ -11,8 +11,9 @@
 
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
+@Styles.Render("~/Content/jqueryUI")
 
 @{  
     if(ViewBag.PageType == "Create")
@@ -25,7 +26,20 @@
         Model.news.activity_id = 0;
         Model.news.website = "";
         Model.news.content = "";
+        Model.news.news_style = "3";
     }
+    var news_style01 = "";
+    var news_style02 = "";
+    var news_style03 = "";
+    var news_style04 = "";
+    if (Model.news.news_style == "0")
+    { news_style01 = "checked"; }
+    else if (Model.news.news_style == "1")
+    { news_style02 = "checked"; }
+    else if (Model.news.news_style == "2")
+    { news_style03 = "checked"; }
+    else if (Model.news.news_style == "3")
+    { news_style04 = "checked"; }
 
 }
 
@@ -33,6 +47,17 @@
     <h2>新增活動訊息</h2>
     <form action=@ViewBag.Action method="post">
         <input type="hidden" name="news_no" value="@Model.news.news_no" />
+        <label for="news_style" class="regis_col02L spanRed">顯示頁面</label>
+        <div class="regis_col01R_input">
+            <input type="radio" class="radioinput" id="news_style01" name="news_style" value="0" @news_style01>
+            <label for="news_style01">均不顯示</label>
+            <input type="radio" class="radioinput" id="news_style02" name="news_style" value="1" @news_style02>
+            <label for="news_style02">中文</label>
+            <input type="radio" class="radioinput" id="news_style03" name="news_style" value="2" @news_style03>
+            <label for="news_style03">英文</label>
+            <input type="radio" class="radioinput" id="news_style04" name="news_style" value="3" @news_style04>
+            <label for="news_style04">均顯示</label>
+        </div>
 
         <label for="news_title" class="regis_col02L spanRed">新聞標題</label>
         <input type="text" name="news_title" value="@Model.news.news_title" class="regis_col02R" />
@@ -74,6 +99,9 @@
     </form>
 </article>
 
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/datetimepicker")
+
 <script type="text/javascript">
     var editor = CKEDITOR.editor.replace("content",
         {
@@ -82,5 +110,15 @@
             height: "500px",
             filebrowserImageUploadUrl: "/Manager/NewsInfoUpload"
         });
+
+    $(function () {
+        var news_date_val = $("input[name='news_date']").val();
+        $('input[name="news_date"]').datetimepicker({
+            beforeShow: function () {
+            }
+        }).datetimepicker('setDate', news_date_val);
+
+    });
+
 </script>
 

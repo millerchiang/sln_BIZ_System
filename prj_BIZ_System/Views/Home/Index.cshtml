@@ -5,8 +5,8 @@
     ViewBag.Title = "Index";
 }
 @section pagestyle{
-    <link href="/stylesheets/index.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/Scripts/bxslider/jquery.bxslider.css">
+    <link href="~/stylesheets/index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Scripts/bxslider/jquery.bxslider.css">
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
     @Styles.Render("~/Scripts/css/fancybox")
 }
@@ -16,32 +16,43 @@
         <article class="article_col2">
             <div class="boxtest mg30">
                 <ul class="bxslider">
-                    <li><img src="/images/banner01-min.jpg" /></li>
-                    <li><img src="/images/banner02-min.jpg" /></li>
-                    <li><img src="/images/banner03-min.jpg" /></li>
+
+                     @if (Model.bannerphotoList == null || Model.bannerphotoList.Count==0)
+                     {
+                        <li><img src="~/images/banner01-min.jpg" /></li>
+                        <li><img src="~/images/banner02-min.jpg" /></li>
+                        <li><img src="~/images/banner03-min.jpg" /></li>
+                     }
+                     else
+                     {
+                         foreach (var bannerList in Model.bannerphotoList)
+                         {
+                            <li><img src="@(string.IsNullOrEmpty(bannerList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + bannerList.manager_id + "/Banner/" + bannerList.photo_pic_site))" /></li>
+                         }
+                     }
                 </ul>
             </div>
 
             <div class="newsbox mg30">
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_latest_activitynews</h3>
-                    <a href="/Home/News">More</a>
+                    <a href="~/Home/News">More</a>
                 </div>
 
                 <ul class="newsboxList02">
                     @foreach (var newsList in Model.newsList)
-                    {
-                        string aa = "news_newspage";
-                        string bb = prj_BIZ_System.LanguageResource.User.lb_news;
+                             {
+                                 string aa = "news_newspage";
+                                 string bb = prj_BIZ_System.LanguageResource.User.lb_news;
 
-                        if (newsList.news_type == "0")
-                        {
-                            aa = "news_activity";
-                            bb = prj_BIZ_System.LanguageResource.User.lb_activities;
-                        }
+                                 if (newsList.news_type == "0")
+                                 {
+                                     aa = "news_activity";
+                                     bb = prj_BIZ_System.LanguageResource.User.lb_activities;
+                                 }
 
                         <li>
-                            <a href="/Home/NewsView?Id=@newsList.news_no" class=@aa>
+                            <a href="~/Home/NewsView?Id=@newsList.news_no" class=@aa>
                                 <span>@bb</span>
                                 @newsList.news_title
                             </a>
@@ -55,20 +66,26 @@
             <div class="mg30">
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_latestcatalog</h3>
-                    <a href="">More</a>
+                    
+                    @if (Model.cataloglistList.Count()>=4)
+                    {
+                    <a href="~/Home/LatestCatalogList">More</a>
+                    }
+
                 </div>
                 <ul class="regis_dmlist">
 
                     @foreach (var catalogList in Model.cataloglistList)
-                    {
+                         {
+
                         <li>
-                            <a href="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
-                                <span>@(catalogList.catalog_name)</span>
+                            <a href="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/catalog_file/" + catalogList.catalog_file)" target="_blank" class="fancybox">
+                                <!--<span>@(catalogList.catalog_name)</span>-->
                                 <div class="regisimg">
-                                    <img src="@(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
+                                    <img src="@Url.Content(ViewBag.coverDir + catalogList.user_id + "/Catalog/cover_file/" + catalogList.cover_file)" alt="@(catalogList.catalog_name)">
                                 </div>
-                                <p class="conpany_name">@(catalogList.company)</p>
                             </a>
+                            <a href="~/User/UserInfo?user_id=@catalogList.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], catalogList, "company")</a>
 
                         </li>
                     }
@@ -79,28 +96,24 @@
                 <div class="newsboxTitle">
                     <h3>@prj_BIZ_System.LanguageResource.User.lb_activitypic</h3>
                 </div>
-                <ul class="newsphoto">
-                    <li>
-                        <div class="photoimg">
-                            <img src="../../images/index_sample_pic01.jpg" alt="">
-                        </div>
-                        <span>2015-11-06</span>
-                        <p>@prj_BIZ_System.LanguageResource.User.lb_activity_photo1</p>
-                    </li>
-                    <li>
-                        <div class="photoimg">
-                            <img src="../../images/index_sample_pic02.JPG" alt="">
-                        </div>
-                        <span>2015-03-06</span>
-                        <p>@prj_BIZ_System.LanguageResource.User.lb_activity_photo2</p>
-                    </li>
-                    <li>
-                        <div class="photoimg">
-                            <img src="../../images/index_sample_pic03.JPG" alt="">
-                        </div>
-                        <span>2014-12-06</span>
-                        <p>@prj_BIZ_System.LanguageResource.User.lb_activity_photo3</p>
-                    </li>
+                <ul class="newsphoto listlink">
+
+                    @foreach (var photoList in Model.activityphotoList)
+                     {
+
+
+                        <li>
+                            <a href="~/Home/ActivityPhotoView?Id=@photoList.photo_id" target="_blank" class="fancybox">
+                                <div class="photoimg">
+                                    @*<img src="~/images/index_sample_pic01.jpg" alt="">*@
+                                    <img src="@(string.IsNullOrEmpty(photoList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + photoList.manager_id + "/Activity/" + photoList.photo_pic_site))" alt="">
+                                </div>
+                                <span>@photoList.photo_time.ToString("yyyy-MM-dd") </span>
+                                <p>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], photoList, "photo_brief")</p>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </article>
@@ -117,10 +130,10 @@
 
 @Scripts.Render("~/bundles/fancybox")
 
-<script type="text/javascript" src="/Scripts/regis.js"></script>
-<script type="text/javascript" src="/Scripts/bxslider/jquery.bxslider.min.js"></script>
+<script type="text/javascript" src="~/Scripts/regis.js"></script>
+<script type="text/javascript" src="~/Scripts/bxslider/jquery.bxslider.min.js"></script>
 <script type="text/javascript"
-        src="/Scripts/jquery-ui-1.10.2.min.js">
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
 
 <script type="text/javascript" language="javascript">

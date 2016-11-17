@@ -6,10 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
-using System.Web.Script.Serialization;
+using prj_BIZ_System.Controllers;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.App_Start;
-using System.Web;
 using prj_BIZ_System.WebService.Model;
 using prj_BIZ_System.Extensions;
 
@@ -41,6 +40,39 @@ namespace prj_BIZ_System.WebService
             return userInfo;
         }
 
+        [HttpGet] 
+        public object GetCompanyOpenDataFromWeb(string user_id)
+        {
+            if(user_id.Length < 8)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id incomplete");
+            }
+            ManagerController.CompanyData data = ManagerController.GetDataFromWeb(user_id);
+
+            if (data == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no user data");
+            }
+            var enterprise_sort_ids = new HashSet<string>(data.Business_Item);
+            var enterpriseSortList = userService.GetSortList()
+                                                .Where(sort => enterprise_sort_ids.Contains(sort.enterprise_sort_id))
+                                                .ToList();
+            var sort_ids = enterpriseSortList.GetSelectList(sort => sort.sort_id);
+            var enterprise_sorts = enterpriseSortList.GetSelectList(sort =>
+                                                       sort.enterprise_sort_id + " " +
+                                                       sort.enterprise_sort_name
+                                                     );
+            var companyOpenData = new
+            {
+                company = data.Company_Name,
+                addr = data.Company_Location,
+                capital = data.Capital_Stock_Amount,
+                sort_id = string.Join(",", sort_ids),
+                enterprise_sort = string.Join(",", enterprise_sorts)
+            };
+            return Request.CreateResponse(HttpStatusCode.OK, companyOpenData);
+        }
+
         [HttpPost]
         public int ModifyUserInfo(UserInfoModel userInfoModel, string sort_id)
         {
@@ -57,12 +89,14 @@ namespace prj_BIZ_System.WebService
             string[] enterprise_type = new string[]
             {
                 "國內企業",
-                "國外企業"
+                "國外企業",
+                "新創團隊"
             };
             string[] enterprise_type_en = new string[]
             {
                 "Domestic",
-                "Foreign"
+                "Foreign",
+                "Startup"
             };
             string[] revenue = new string[] 
             {
@@ -263,7 +297,8 @@ namespace prj_BIZ_System.WebService
                                                 product.product_info_en,
                                                 product.model_no_en,
                                                 product.patent_or_winners_en,
-                                                product.product_pic_site
+                                                product.product_pic_site,
+                                                product.specifications_or_other_en
                                             }
                                         );
             return Request.CreateResponse(HttpStatusCode.OK, allProduct);
@@ -293,7 +328,7 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetAllVideo(string user_id)
         {
-            if (user_id == null)
+            if (user_id.IsNullOrEmpty())
             {
                 string message = string.Format("user_id null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);
@@ -315,7 +350,7 @@ namespace prj_BIZ_System.WebService
         {
             int[] video_nos = new[] { video_no };
 
-            if (user_id == null || video_no == null)
+            if (user_id.IsNullOrEmpty() || video_no == null)
             {
                 string message = string.Format("user_id or video_no null.");
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message);

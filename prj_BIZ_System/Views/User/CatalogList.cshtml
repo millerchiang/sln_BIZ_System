@@ -6,7 +6,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -24,9 +24,9 @@
             }
         }
         <h2>@company - @prj_BIZ_System.LanguageResource.User.lb_pdf</h2>
-        @*<a href="/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
-        <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
-        <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
+        @*<a href="~/User/Register" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_myinfo</a>
+        <a href="~/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+        <a href="~/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
         <br />*@
 
         <form id="deleteForm" action="@Url.Action("CatalogDelete","User")" method="post">
@@ -36,10 +36,10 @@
                     foreach (var mo in Model)
                     {
                         <li>
-                            <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                            <a href="@Url.Content(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
                                 <span>@(mo.catalog_name)</span>
                                 <div class="regisimg">
-                                    <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                    <img src="@Url.Content(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
                                 </div>
                             </a>
                             <input type="checkbox" class="inputCheckbox" name="catalog_no" id="@(mo.catalog_no)" value="@(mo.catalog_no)"><label for="@(mo.catalog_no)"></label>

@@ -11,5 +11,10 @@ namespace prj_BIZ_System.Extensions
             foreach (T item in source)
                 action(item);
         }
+
+        public static List<TResult> GetSelectList<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
+        {
+            return source.Select(selector).ToList();
+        }
     }
 }

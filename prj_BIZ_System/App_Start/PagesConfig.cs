@@ -156,6 +156,112 @@ namespace prj_BIZ_System.App_Start
             return MvcHtmlString.Create(sb.ToString());
         }
 
+
+        public static MvcHtmlString PagesListX<T>(this HtmlHelper htmlHelper, List<PageList<T>> pagesList, Dictionary<string, string> customSetting , int index = 0) where T : class
+        {
+            HttpRequest req = HttpContext.Current.Request;
+            string[] urls = req.RawUrl.Split('?');
+            string url = urls[0];
+            StringBuilder paramStr = new StringBuilder("?");
+            StringBuilder otherCurrStr = new StringBuilder("");
+            int i_temp = 0;
+            PageList<T> pages = pagesList[index];
+            int totalSeq = pagesList.Count;
+
+            Dictionary<int, int> otherPages = new Dictionary<int, int>();
+
+            Dictionary<string,string> customeParam = customSetting;
+
+            if (pages.paramDict != null)
+            {
+                foreach (KeyValuePair<string, object> kvp in pages.paramDict.Where(kvpp => !kvpp.Key.Equals("currentPage" + index)))
+                {
+                    if (kvp.Key.Contains("currentPage"))
+                    {
+                        otherCurrStr.Append(kvp.Key + "=" + (customeParam!=null && customeParam.ContainsKey(kvp.Key)? customeParam[kvp.Key] :kvp.Value) + "&");
+                    }
+                    else
+                    {
+                        if (i_temp > 0)
+                        {
+                            paramStr.Append("&");
+                        }
+                        paramStr.Append(kvp.Key + "=" + (customeParam != null && customeParam.ContainsKey(kvp.Key) ? customeParam[kvp.Key] : kvp.Value));
+                        i_temp++;
+                    }
+                }
+            }
+
+            if (otherCurrStr.Length == 0)
+            {
+                for (int c = 0; c < totalSeq; c++)
+                {
+                    if (c != index)
+                    {
+                        otherCurrStr.Append("currentPage" + c + "=1" + "&");
+                    }
+                }
+            }
+
+            if (i_temp == 0 && customeParam !=null)
+            {
+                foreach(KeyValuePair<string, string> kvp in customeParam)
+                {
+                    if (i_temp > 0)
+                    {
+                        paramStr.Append("&");
+                    }
+                    paramStr.Append(kvp.Key + "=" +  kvp.Value);
+                    i_temp++;
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("<p style='padding: 10px 0'>");
+            if (pages.maxCount > 0)
+            {
+                sb.Append(LanguageResource.User.lb_total_results + pages.maxCount);
+            }
+            else
+            {
+                sb.Append(LanguageResource.User.lb_nodata);
+            }
+            sb.Append("</p>");
+
+            if (pages.maxPage > 1)
+            {
+                sb.Append("<ul class='pagelist'>");
+                if (pages.currentPage > 1)
+                {
+                    string prevPage = Math.Max(0, pages.currentPage - 1).ToString();
+                    string paramS1 = paramStr + ((i_temp > 0) ? "&" : "");
+                    string partCurrent = "currentPage" + index + "=" + prevPage;
+                    sb.Append("<li><a href = '" + (url + paramS1 + otherCurrStr + partCurrent) + "' > &lt;</a></li>");
+                }
+
+                int start = Math.Max(0, (pages.currentPage - 1) - 5);
+                int end = Math.Min(pages.maxPage, (pages.currentPage - 1) + 5);
+
+                for (var i = start; i < end; i++)
+                {
+                    string somePage = (i + 1).ToString();
+                    string paramS2 = paramStr + ((i_temp > 0) ? "&" : "");
+                    string partCurrent = "currentPage" + index + "=" + somePage;
+                    sb.Append("<li><a " + (i == (pages.currentPage - 1) ? "class='active'" : "") + " href = '" + (url + paramS2 + otherCurrStr + partCurrent) + "' >" + (i + 1) + "</a></li>");
+                }
+                if (pages.maxPage > 1 && pages.currentPage != pages.maxPage)
+                {
+                    string nextPage = Math.Min(pages.maxPage, pages.currentPage + 1).ToString();
+                    string paramS3 = paramStr + ((i_temp > 0) ? "&" : "");
+                    string partCurrent = "currentPage" + index + "=" + nextPage;
+                    sb.Append("<li><a href = '" + (url + paramS3 + otherCurrStr + partCurrent) + "' > &gt;</a></li>");
+                }
+                sb.Append("</ul>");
+            }
+
+            return MvcHtmlString.Create(sb.ToString());
+        }
     }
 
     public class PageList<T>

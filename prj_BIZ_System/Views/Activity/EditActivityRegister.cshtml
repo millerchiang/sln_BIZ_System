@@ -24,54 +24,21 @@
                 <input type="hidden" name="activity_id" value="@Model.activityinfo.activity_id">
                 <label for="activity_id" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_activity_name</label>
 
-                @{ 
-                    var activity_name = Model.activityinfo.activity_name;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (Model.activityinfo.activity_name_en != null && Model.activityinfo.activity_name_en != "")
-                        {
-                            activity_name = Model.activityinfo.activity_name_en;
-                        }
-                    }
-                }
-
-                <p class="regis_col03R">@activity_name</p>
-
+                <p class="regis_col03R">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "activity_name")</p>
 
                 <label for="leader" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_user_id</label>
                 <p class="regis_col03R">@Model.activityregister.user_id</p>
 
                 <label for="leader" class="regis_col03L">@prj_BIZ_System.LanguageResource.User.lb_companyname</label>
-                @{ 
-                    var company = Model.activityregister.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (Model.activityregister.company_en != null && Model.activityregister.company_en != "")
-                        {
-                            company = Model.activityregister.company_en;
-                        }
-                    }
-                }
-                <p class="regis_col03R">@company</p>
+                <p class="regis_col03R">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityregister, "company")</p>
                 <label for="starttime" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_period</label>
                 <p id="starttime" class="regis_col03R">@Model.activityinfo.starttime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
                 <label for="endtime" class="regis_col03L "> ~ </label>
                 <p id="endtime" class="regis_col03R">@Model.activityinfo.endtime.ToString("yyyy/MM/dd tt hh:mm")</p>
 
-                @{
-                    var addr = Model.activityinfo.addr;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (Model.activityinfo.addr_en != null && Model.activityinfo.addr_en != "")
-                        {
-                            addr = Model.activityinfo.addr_en;
-                        }
-                    }
-                }
-
                 <label for="activityAddr" class="regis_col02L ">@prj_BIZ_System.LanguageResource.User.lb_activity_site</label>
-                <p id="activityAddr" class="regis_col02R">@addr</p>
+                <p id="activityAddr" class="regis_col02R">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "addr")</p>
 
                 <label for="quantity" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_activity_amount</label>
                 <input type="text" name="quantity" value="@Model.activityregister.quantity" class="regis_col03R"><br />
@@ -191,9 +158,9 @@
                                 @foreach (CatalogListModel catalogListModel in Model.cataloglistList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.catalogDir + catalogListModel.catalog_file)" target="_blank" class="fancybox">
+                                        <a href="@Url.Content(ViewBag.catalogDir + catalogListModel.catalog_file)" target="_blank" class="fancybox">
                                             <div class="regisimg">
-                                                <img src="@(ViewBag.coverDir + catalogListModel.cover_file)"   alt=""/>
+                                                <img src="@Url.Content(ViewBag.coverDir + catalogListModel.cover_file)"   alt=""/>
                                             </div>
                                         </a>
                                         <input type="checkbox" name="catalog_no" class="inputCheckbox"
@@ -208,8 +175,8 @@
                                 foreach (ActivityCatalogSelectModel activityCatalogSelectModel in Model.activitycatalogselectList)
                                 {
                                     <li>
-                                        <a href="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
-                                            <img src="@(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
+                                        <a href="@Url.Content(ViewBag.coverDir + activityCatalogSelectModel.cover_file)">
+                                            <img src="@Url.Content(ViewBag.coverDir + activityCatalogSelectModel.cover_file)" />
                                         </a>
                                     </li>
                                 }
@@ -234,7 +201,7 @@
 
 
     <script type="text/javascript"
-            src="/Scripts/jquery-ui-1.10.2.min.js">
+            src="~/Scripts/jquery-ui-1.10.2.min.js">
     </script>
 @Scripts.Render("~/bundles/fancybox")
 

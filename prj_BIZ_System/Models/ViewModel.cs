@@ -23,6 +23,8 @@ namespace prj_BIZ_System.Models
         public IList<EnterpriseSortModel> usersortList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
         public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
+        public QuestionnaireModel questionnaire { get; set; }
+        public IList<QuestionnaireModel> questionnaireList { get; set; }
     }
 
     public class Activity_ViewModel
@@ -77,7 +79,10 @@ namespace prj_BIZ_System.Models
         public IList<EnterpriseSortListModel> enterprisesortList { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<NewsModel> newsList { get; set; }
+        public IList<ActivityPhotoModel> activityphotoList { get; set; }
+        public IList<BannerPhotoModel> bannerphotoList { get; set; }
         public NewsModel news { get; set; }
+        public ActivityPhotoModel activityphoto { get; set; }
 
     }
 
@@ -95,8 +100,10 @@ namespace prj_BIZ_System.Models
         public SchedulePeriodSetModel schedulePeriodSet { get; set; }
         public MatchmakingScheduleModel matchmakingSchedule { get; set; }
         public IList<ActivityRegisterModel> activityregisterList { get; set; }
+        public IList<ActivityRegisterModel> activityregisterList_2 { get; set; }
         public IList<ActivityInfoModel> activityinfoList { get; set; }
         public IList<BuyerInfoModel> buyerinfoList { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList_2 { get; set; }
         //public IList<MatchmakingNeedModel> matchmakingNeedList { get; set; }
         public IList<MatchmakingAllModel> matchmakingAllList { get; set; }
         public IList<SchedulePeriodSetModel> schedulePeriodSetList { get; set; }
@@ -139,10 +146,13 @@ namespace prj_BIZ_System.Models
         public MsgModel msgPrivate { get; set; }
         public MsgFileModel msgPrivateFile { get; set; }
         public MsgReplyModel msgPrivateReply { get; set; }
+        public MsgReplyFileModel msgReplyFile { get; set; }
         public IList<MsgModel> msgPrivateList { get; set; }
         public IList<MsgModel> msgPrivateList2 { get; set; }
         public IList<MsgFileModel> msgPrivateFileList { get; set; }
         public IList<MsgReplyModel> msgPrivateReplyList { get; set; }
+        public IList<MsgReplyFileModel> msgReplyFileList { get; set; }
+        public IList<IList<MsgModel>> msgLists { get; set; }
     }
 
     public class Cluster_ViewModel

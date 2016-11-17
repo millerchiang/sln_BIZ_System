@@ -6,87 +6,133 @@
 }
 
 <article class="form_box article_col1">
-@if (Request["news_type"] == "0")
-{
-    <h2 class="borderTitle2">活動新聞列表</h2>
-}
-else
-{
-    <h2 class="borderTitle2">一般新聞列表</h2>
-}
-        @if (Request["news_type"] == "0")
-        {
-            <a href="/Manager/EditNewsActivity"  class="submitbu rightbox">新增活動新聞</a>
-        }
-        else
-        {
-            <a href="/Manager/EditNewsInfo" class="submitbu rightbox">新增一般新聞</a>
-        }
-    <br></br>
-    <table class="edittable">
-        <tr>
-            <th>新聞編號</th>
-            <th>建立帳號</th>
-            <th>新聞標題</th>
-            <th>發布日期</th>
-<!--            <th>新聞類型</th>-->
+    @if (Request["news_type"] == "0")
+    {
+        <h2 class="borderTitle2">活動新聞列表</h2>
+    }
+    else
+    {
+        <h2 class="borderTitle2">一般新聞列表</h2>
+    }
+
+    <form class="form_box sys_searchbox" action="~/Manager/B_NewsList">
+        <div class="sys_searchboxcol01L">
+            <input type="hidden" name="news_type" value="@ViewBag.news_type">
+            <label for="" class="regis_col02L">資料篩選:</label>
+            <select name="news_style" id="" class="regis_col02R">
+                @{
+                    var a = "";
+                    var b = "";
+                    var c = "";
+                    if (ViewBag.news_style == "1")
+                    {
+                        b = "selected";
+                    }
+                    else if (ViewBag.news_style == "2")
+                    {
+                        c = "selected";
+                    }
+                    else
+                    {
+                        a = "selected";
+                    }
+                }
+                <option value="3" @a>全部資料</option>
+                <option value="1" @b>中文資料</option>
+                <option value="2" @c>英文資料</option>
+            </select>
+            <button type="submit" class="buinfor">查詢</button>
             @if (Request["news_type"] == "0")
             {
-            <th>活動名稱</th>
+                <a href="~/Manager/EditNewsActivity" class="submitbu rightbox">新增活動新聞</a>
             }
             else
             {
-            <th>活動連結</th>
+                <a href="~/Manager/EditNewsInfo" class="submitbu rightbox">新增一般新聞</a>
             }
-<!--            <th>內容</th>-->
-            <th></th>
-        </tr>
-        @foreach (NewsModel newsModel in Model.newsList)
-        {
+        </div>
+    </form>
+
+        <br></br>
+        <table class="edittable">
             <tr>
-                <td>@newsModel.news_no</td>
-                <td>@newsModel.manager_id</td>
-                <td>@newsModel.news_title</td>
-                <td>@newsModel.news_date</td>
-<!--                <td>@newsModel.news_type</td>-->
+                <th>顯示頁面</th>
+                <th>建立帳號</th>
+                <th>新聞標題</th>
+                <th>發布日期</th>
+                <!--            <th>新聞類型</th>-->
                 @if (Request["news_type"] == "0")
                 {
-                    <td><a href="ActivityInfo?Id=@newsModel.activity_id">@newsModel.activity_name</a></td>
-                    
+                    <th>活動名稱</th>
                 }
                 else
                 {
-                    if (newsModel.website == null)
-                    {
-                        <td>@newsModel.website</td>
-                    }
-                    else {
-                        <td>
-                            @if (newsModel.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0)
-                            {
-                            <a href="@(newsModel.website)" target="_blank">@(newsModel.website)</a>
-                            }
-                            else {
-                            <a href="http://@(newsModel.website)" target="_blank">@(newsModel.website)</a>
-                            }
-                        </td>
-                    }
+                    <th>相關資訊連結</th>
+                }
+                <!--            <th>內容</th>-->
+                <th></th>
+            </tr>
+            @foreach (NewsModel newsModel in Model.newsList)
+            {
+                var viewpage = "中文頁面";
+                if (newsModel.news_style=="0")
+                {
+                    viewpage = "均不顯示";
+                }
+                else if (newsModel.news_style == "2")
+                {
+                    viewpage = "英文頁面";
+                }
+                else if (newsModel.news_style == "3")
+                {
+                    viewpage = "中英頁面均顯示";
                 }
 
-                <td>
-                    @if (newsModel.news_type == "0")
+                <tr>
+                    <td>@viewpage</td>
+                    <td>@newsModel.manager_id</td>
+                    <td>@newsModel.news_title</td>
+                    <td>@newsModel.news_date</td>
+                    <!--                <td>@newsModel.news_type</td>-->
+                    @if (Request["news_type"] == "0")
                     {
-                        <a href="/Manager/EditNewsActivity?Id=@newsModel.news_no" class="editbu">修改</a>
-                         <a href="/Manager/EditNewsActivityDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        <td><a href="ActivityInfo?Id=@newsModel.activity_id">@newsModel.activity_name</a></td>
+
                     }
-                    else 
+                    else
                     {
-                        <a href="/Manager/EditNewsInfo?Id=@newsModel.news_no" class="editbu">修改</a>
-                        <a href="/Manager/EditNewsInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        if (newsModel.website == null)
+                        {
+                            <td>@newsModel.website</td>
+                        }
+                        else {
+                            <td>
+                                @if (newsModel.website.IndexOf("http", StringComparison.OrdinalIgnoreCase) >= 0)
+                                {
+                                    <a href="@(newsModel.website)" target="_blank">@(newsModel.website)</a>
+                                }
+                                else {
+                                    <a href="http://@(newsModel.website)" target="_blank">@(newsModel.website)</a>
+                                }
+                            </td>
+                        }
                     }
-                </td>
-            </tr>
-        }
-    </table>
-    @Html.PagesList((List<PageList<NewsModel>>)ViewData["PageList"])
-</article>
+
+                    <td>
+                        @if (newsModel.news_type == "0")
+                        {
+                            <a href="~/Manager/EditNewsActivity?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="~/Manager/EditNewsActivityDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        }
+                        else
+                        {
+                            <a href="~/Manager/EditNewsInfo?Id=@newsModel.news_no" class="editbu">修改</a>
+                            <a href="~/Manager/EditNewsInfoDelete?Id=@newsModel.news_no" class="deletebu">刪除</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+        @Html.PagesList((List<PageList<NewsModel>>)ViewData["PageList"])
+    </article>
+

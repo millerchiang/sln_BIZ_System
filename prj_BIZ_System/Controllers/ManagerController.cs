@@ -32,6 +32,7 @@ namespace prj_BIZ_System.Controllers
         public MatchService matchService;
         private const long notFoundIndex = 99999999999999999;
         private string IsBothOrBuyer; //判斷是雙方媒合意願或買方媒合意願的顏色
+        private string excelTemplatePath = "~/Content/Template/Import/";
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
@@ -126,6 +127,229 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
             return View();
         }
+
+        public ActionResult Questionnaire()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            activityModel.activityregisterList = activityService.GetSellerInfoActivity(activity_id);
+            ViewBag.activity_id = activity_id;
+            ViewBag.buyer_id = Request["buyer_id"];
+            ViewBag.company = Request["company"];
+            ViewBag.activity_name = Request["activity_name"];
+
+            return View(activityModel);
+        }
+
+        public ActionResult QuestionnaireList()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            string buyer_id = Request["buyer_id"];
+            activityModel.questionnaireList = activityService.GetQuestionnaireList(activity_id, buyer_id).Pages(Request, this, 10);
+            ViewBag.activity_id = activity_id;
+            ViewBag.activity_name = Request["activity_name"];
+            ViewBag.buyer_id = buyer_id;
+            ViewBag.company = Request["company"];
+            return View(activityModel);
+        }
+
+        public ActionResult QuestionnaireDelete()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            int activity_id = int.Parse(Request["activity_id"]);
+            string buyer_id = Request["buyer_id"];
+            string seller_id = Request["seller_id"];
+            activityService.QuestionnaireDeleteOne(activity_id, buyer_id, seller_id);
+            //ViewBag.activity_id = activity_id;
+            //ViewBag.buyer_id = buyer_id;
+            //ViewBag.company = Request["company"];
+            return Redirect("QuestionnaireList?activity_id=" + activity_id + "&buyer_id=" + buyer_id + "&company=" + Request["company"]);
+        }
+
+
+
+        public ActionResult QuestionnaireEdit(int activity_id,string buyer_id, string seller_id,
+            string question_1, string question_1_1, string set02, string question_1_2_other,
+            string question_1_4, string question_2, string qedit,string company)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+
+            //ViewBag.activity_id = activity_id;
+            //ViewBag.buyer_id = buyer_id;
+            //ViewBag.company = company;
+
+            QuestionnaireModel qmodel = new QuestionnaireModel();
+
+            qmodel.activity_id = activity_id;
+            qmodel.buyer_id = buyer_id;
+            qmodel.seller_id = seller_id;
+            qmodel.question_1 = question_1;
+            //qmodel.question_1_1 = "";
+            //qmodel.question_1_2 = "";
+            //qmodel.question_1_2_other = "";
+            //qmodel.question_1_4 = "";
+            //qmodel.question_2 = "";
+
+            if (qmodel.question_1=="0")
+            {
+                qmodel.question_1_1 = question_1_1;
+            }
+            else if (qmodel.question_1 == "1")
+            {
+                qmodel.question_1_2 = set02;
+                if (qmodel.question_1_2=="4")
+                {
+                    qmodel.question_1_2_other = question_1_2_other;
+                }
+            }
+            else if (qmodel.question_1 == "3")
+            {
+                qmodel.question_1_4 = question_1_4;
+            }
+            qmodel.question_2 = question_2;
+
+            if (qedit=="New")
+            {
+                activityService.QuestionnaireInsertOne(qmodel);
+            }
+            else
+            {
+                activityService.QuestionnaireUpdateOne(qmodel);
+            }
+            return Redirect("QuestionnaireList?activity_id=" + activity_id + "&buyer_id=" + buyer_id + "&company=" + company);
+        }
+
+        [HttpGet]
+        public ActionResult CheckQuestionnaire(int activity_id, string buyer_id, string seller_id)
+        {
+            //            bool Huser = true;
+            activityModel.questionnaire = activityService.GetQuestionnaireOne(activity_id, buyer_id,seller_id);
+            if (activityModel.questionnaire != null)
+            {
+                return Json(activityModel.questionnaire, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        #region 匯出問卷結果
+        [HttpGet]
+        public ActionResult ExportQuestionnaireFormExcel(int activity_id, string activity_name,string buyer_id)
+        {
+            string questionnaireFormTemplateFileName = "questionnaire.xls";
+            string questionnaireFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
+
+            var questionnairePOIDatas = activityService.GetQuestionnaireList(activity_id, buyer_id)
+                                            .Select(ar =>
+                                               new string[]
+                                               {
+                                                    ar.buyer_id,
+                                                    ar.buyer_name,
+                                                    ar.buyer_name_en,
+                                                    ar.seller_id,
+                                                    ar.seller_name,
+                                                    ar.seller_name_en,
+                                                    ar.question_1+","+ar.question_1_1+","+ar.question_1_2+","+ar.question_1_2_other+","+ar.question_1_4,
+                                                    ar.question_2
+                                               }
+                                            ).ToList();
+
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + questionnaireFormTemplateFileName);
+            setupQuestionnaireFormData(workbook, questionnairePOIDatas, 0);
+
+            exportExcelFileByMemorySpace(workbook, questionnaireFormFileName);
+            return null;
+            //return exportExcelFile(workbook, activityFormFileName);
+        }
+
+        private void setupQuestionnaireFormData(IWorkbook workbook, IList<string[]> datas, int sheetNum)
+        {
+            ISheet _sheet = workbook.GetSheetAt(sheetNum);//因第一頁有編輯 所有不用CreateSheet
+            for (int i = 0; i < datas.Count; i++)
+            {
+                IRow row = _sheet.GetRow(i + 1);
+                if (row == null)
+                {
+                    row = _sheet.CreateRow(i + 1);
+                }
+                string[] columns = datas[i];
+                for (int j = 0; j < columns.Length; j++)
+                {
+                    ICell _cell = row.CreateCell(j);
+                    if (j==6)
+                    {
+                        string[] result = columns[j].Split(',');
+                        string r = "";
+                        if (result[0] == "0")
+                        {
+                            r = "1：訂單已成立";
+                            if (result[1] != "")
+                            {
+                                r = r + "(訂單成交金額:US$ " + result[1] + ")";
+                            }
+                        }
+                        else if (result[0] == "1")
+                        {
+                            r = "2：訂單成立可能性高";
+                            if (result[2] != "")
+                            {
+                                string m = "";
+                                if (result[2] == "0"){
+                                    m = "Under USD 500,000";
+                                }else if (result[2] == "1")
+                                {
+                                    m = "USD 510,000 ~ USD 1,000,000";
+                                }
+                                else if (result[2] == "2")
+                                {
+                                    m = "USD 1,010,000 ~ USD 1,500,000";
+                                }
+                                else if (result[2] == "3")
+                                {
+                                    m = "USD 1,510,000 ~ USD 2,000,000";
+                                }
+                                else if (result[2] == "4")
+                                {
+                                    m = "Other";
+                                    if (result[3] != "")
+                                    {
+                                        m=m+" [USD "+ result[3] + "]";
+                                    }
+                                }
+
+                                r = r + "(訂單預估成交金額:" + m + ")";
+                            }
+                        }
+                        else if (result[0] == "2")
+                        {
+                            r = "3：不考慮立即下單";
+                        }
+                        else if (result[0] == "3")
+                        {
+                            r = "4：其他";
+                            if (result[4] != "")
+                            {
+                                r = r + "  說明:" + result[4];
+                            }
+                        }
+                        columns[j] = r;
+                    }
+                    _cell.SetCellValue(columns[j]);
+                }
+            }
+        }
+
+        #endregion
 
 
         #region ManagerInfo 帳號管理
@@ -262,18 +486,21 @@ namespace prj_BIZ_System.Controllers
         ////News
         #region 新聞列表*/
         [HttpGet]
-        public ActionResult B_NewsList()
+        public ActionResult B_NewsList(string news_style,string news_type)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
             string manager_id = null;
             int? grp_id = null;
+            ViewBag.news_style = news_style;
+            ViewBag.news_type = news_type;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.newsList = activityService.GetNewsType(Request["news_type"], grp_id).Pages(Request, this, 10);
+            if (news_style == "3") news_style = null;
+            activityModel.newsList = activityService.GetNewsTypeView(news_type, grp_id, news_style).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
@@ -291,7 +518,7 @@ namespace prj_BIZ_System.Controllers
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null);
             ViewBag.Action = "EditNewsActivityInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -472,7 +699,7 @@ namespace prj_BIZ_System.Controllers
             }
 
 
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null).Pages(Request, this, 10);
             return View(activityModel);
         }
         #endregion
@@ -480,20 +707,24 @@ namespace prj_BIZ_System.Controllers
         #region 活動報名審核
 
         [HttpGet]
-        public ActionResult ActivityRegisterCheck(int? selectActivityId, string selectCompany, string startDate, string endDate)
+        public ActionResult ActivityRegisterCheck(int? selectActivityId, string selectCompany, string startDate, string endDate,string selectYesNoId)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
 
             string manager_id = null;
             int? grp_id = null;
+
+            if (selectYesNoId == "")
+                selectYesNoId = null;
+
             if (Request.Cookies["ManagerInfo"]["activity"] == "2")
             {
                 manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
-            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id).Pages(Request, this, 10);
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityregisterList = activityService.GetActivityCheckAllByConditionWithId(selectActivityId, selectCompany, startDate, endDate, grp_id, selectYesNoId).Pages(Request, this, 10);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,null);
             ViewBag.Where_ActivityId = selectActivityId;
             ViewBag.Where_Company = selectCompany;
             return View(activityModel);
@@ -672,6 +903,57 @@ namespace prj_BIZ_System.Controllers
             public string Sus_End_Date { get; set; }
         }
 
+        public static string GetNewSortId(string QldSortId)
+        {
+            string NewSortId = "";
+            //New sort_id------------
+            if (QldSortId == "C1" || QldSortId == "C2")
+                NewSortId = "A";
+            else if (QldSortId == "C3"
+                || QldSortId == "CI" || QldSortId == "CJ"
+                || QldSortId == "CK" || QldSortId == "CL"
+                || QldSortId == "C4")
+                NewSortId = "B";
+            else if (QldSortId == "C8" || QldSortId == "C9"
+                || QldSortId == "CA" || QldSortId == "CB"
+                || QldSortId == "CC" || QldSortId == "CD"
+                || QldSortId == "CE" || QldSortId == "CF"
+                || QldSortId == "CG")
+                NewSortId = "C";
+            else if (QldSortId == "C5" || QldSortId == "C6"
+                || QldSortId == "CH" || QldSortId == "CM"
+                || QldSortId == "CN" || QldSortId == "CO"
+                || QldSortId == "C7")
+                NewSortId = "D";
+            else if (QldSortId == "CP" || QldSortId == "CQ"
+                || QldSortId == "CR"
+                || QldSortId == "CZ")
+                NewSortId = "E";
+            else if (QldSortId == "G1" || QldSortId == "G2"
+                || QldSortId == "G3" || QldSortId == "G4"
+                || QldSortId == "G5" || QldSortId == "G6"
+                || QldSortId == "G7")
+                NewSortId = "F";
+            else if (QldSortId == "G8" || QldSortId == "G9"
+                || QldSortId == "IE"
+                || QldSortId == "GA")
+                NewSortId = "G";
+            else if (QldSortId == "I1" || QldSortId == "I3"
+                || QldSortId == "I4" || QldSortId == "IC"
+                || QldSortId == "ID" || QldSortId == "IF"
+                || QldSortId == "IG" || QldSortId == "IZ"
+                || QldSortId == "I5")
+                NewSortId = "H";
+            else if (QldSortId == "I7" || QldSortId == "I8"
+                || QldSortId == "I9"
+                || QldSortId == "IB")
+                NewSortId = "I";
+            else
+                NewSortId = "J";
+            //-------------------------------
+            return NewSortId;
+        }
+
 
         public static CompanyData GetDataFromWeb(string user_id)
         {
@@ -714,7 +996,7 @@ namespace prj_BIZ_System.Controllers
                     companydata.Business_Item_Count = jarray[0].Cmp_Business.Count();
                     for (int i = 0; i < companydata.Business_Item_Count; i++)
                     {
-                        companydata.Business_Item.Add(jarray[0].Cmp_Business[i].Business_Item.Substring(0, 2));
+                        companydata.Business_Item.Add(GetNewSortId(jarray[0].Cmp_Business[i].Business_Item.Substring(0, 2)));
                     }
                 }
                 ////////////////////////////////////
@@ -848,7 +1130,7 @@ namespace prj_BIZ_System.Controllers
 
         #region 買主資訊列表
         [HttpGet]
-        public ActionResult BuyerInfoList()
+        public ActionResult BuyerInfoList(string activity_name, string company)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
@@ -861,7 +1143,12 @@ namespace prj_BIZ_System.Controllers
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
 
-            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, DateTime.Now).Pages(Request, this, 10);
+            if (activity_name == "") activity_name = null;
+            if (company == "") company = null;
+            //            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, DateTime.Now).Pages(Request, this, 10);
+            activityModel.buyerinfoList = activityService.GetBuyerInfoAll(grp_id, null, activity_name, company).Pages(Request, this, 10);
+            ViewBag.activity_name = activity_name;
+            ViewBag.company = company;
             return View(activityModel);
 
         }
@@ -882,7 +1169,7 @@ namespace prj_BIZ_System.Controllers
                 grp_id = managerService.getManagerGroup(Request.Cookies["ManagerInfo"]["manager_id"]);
             }
             activityModel.userinfotoidandcpList = activityService.GetUserInfoToIdandCp();
-            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id);
+            activityModel.activityinfoList = activityService.GetActivityInfoList(grp_id,DateTime.Now);
             ViewBag.Action = "EditBuyerInfoInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -1113,8 +1400,121 @@ namespace prj_BIZ_System.Controllers
 
         #endregion
 
-        ////媒合大表
-        #region 媒合時程表時間設定新增與刪除
+        #region 匯出活動買家和賣家表單
+        [HttpGet]
+        public ActionResult ExportActivityFormExcel(int activity_id, string activity_name)
+        {
+            string activityFormTemplateFileName = "activity_form.xls";
+            string activityFormFileName = activity_id.ToString() + "_" + activity_name + "_" + DateTime.Now.ToString("yyyy-MM-dd HH:mm") + ".xls";
+            var sellerNeedList = matchService.GetSellerNeedWithCompany(activity_id);
+            var sellerNeedIds = sellerNeedList.GetSelectList(sn => sn["seller_id"]);
+            var sellerNeedPOIDatas = sellerNeedList.Select( sn => 
+                                                            new string[]
+                                                            {
+                                                                (string)sn["seller_id"],
+                                                                (string)sn["seller_company"],
+                                                                (string)sn["seller_company_en"],
+                                                                (string)sn["buyer_id"],
+                                                                (string)sn["buyer_company"],
+                                                                (string)sn["buyer_company_en"]
+                                                            }
+                                                         ).ToList();
+
+            var buyerNeedList = matchService.GetBuyerNeedWithCompany(activity_id);
+            var buyerNeedIds = buyerNeedList.GetSelectList(bn => bn["buyer_id"]);
+            var buyerNeedPOIDatas = buyerNeedList.Select(sn =>
+                                                           new string[]
+                                                           {
+                                                                (string)sn["buyer_id"],
+                                                                (string)sn["buyer_company"],
+                                                                (string)sn["buyer_company_en"],
+                                                                (string)sn["seller_id"],
+                                                                (string)sn["seller_company"],
+                                                                (string)sn["seller_company_en"]
+
+                                                            }
+                                                         ).ToList();
+            var activityRegisterPOIDatas = activityService
+                                            .GetARCheckPassList(activity_id)
+                                            .Select( ar =>
+                                                new string[]
+                                                {
+                                                    ar.register_id.ToString(),
+                                                    ar.create_time.ToString("yyyy-MM-dd HH:mm"),
+                                                    sellerNeedIds.IndexOf(ar.user_id) != -1  ? "是" : "否",
+                                                    ar.user_id,
+                                                    ar.company,
+                                                    ar.company_en,
+                                                    ar.quantity.ToString(),
+                                                    ar.name_a,
+                                                    ar.title_a,
+                                                    ar.name_b,
+                                                    ar.title_b,
+                                                    ar.telephone,
+                                                    ar.phone,
+                                                    ar.email,
+                                                    ar.addr,
+                                                    ar.addr_en,
+                                                    string.Join(",", activityService.GetActivityCatalogSelectList(ar.user_id, ar.activity_id)
+                                                                        .Select( cl => cl.catalog_name )
+                                                                        .ToArray()),
+                                                    string.Join(",", activityService.GetActivityProductSelectList(ar.user_id, ar.activity_id)
+                                                                        .Select(cl => cl.product_name)
+                                                                        .ToArray()),
+                                                    string.Join(",", userService.SelectUserSortByUserId(ar.user_id)
+                                                                        .Select(us => us.enterprise_sort_name)
+                                                                        .ToArray()),
+                                                    ar.user_info,
+                                                    ar.user_info_en
+                                                }
+                                            ).ToList();
+            
+            var buyerListPOIDatas = activityService.GetBuyerInfoActivity(activity_id)
+                                                   .Select(ba => 
+                                                    new string[] 
+                                                    {
+                                                        ba.serial_no.ToString(),
+                                                        ba.buyer_id,
+                                                        ba.company,
+                                                        ba.company_en,
+                                                        ba.buyer_need,
+                                                        buyerNeedIds.IndexOf(ba.buyer_id) != -1 ? "是" : "否"
+                                                    }
+                                                   ).ToList();
+
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + activityFormTemplateFileName);
+            setupActivityFormData(workbook, activityRegisterPOIDatas, 0);
+            setupActivityFormData(workbook, buyerListPOIDatas, 1);
+            setupActivityFormData(workbook, sellerNeedPOIDatas, 2);
+            setupActivityFormData(workbook, buyerNeedPOIDatas, 3);
+
+            exportExcelFileByMemorySpace(workbook, activityFormFileName);
+            return null;
+            //return exportExcelFile(workbook, activityFormFileName);
+        }
+
+        private void setupActivityFormData(IWorkbook workbook, IList<string[]> datas, int sheetNum)
+        {
+            ISheet _sheet = workbook.GetSheetAt(sheetNum);//因第一頁有編輯 所有不用CreateSheet
+            for(int i=0; i<datas.Count; i++)
+            {
+                IRow row = _sheet.GetRow(i+1);
+                if (row == null)
+                {
+                    row = _sheet.CreateRow(i+1);
+                }
+                string[] columns = datas[i];
+                for (int j = 0; j<columns.Length; j++)
+                {
+                    ICell _cell = row.CreateCell(j);
+                    _cell.SetCellValue(columns[j]);
+                }
+            }
+        }
+        #endregion
+
+            ////媒合大表
+            #region 媒合時程表時間設定新增與刪除
         [HttpGet]
         public ActionResult MatchScheduleTime()
         {
@@ -1588,10 +1988,7 @@ namespace prj_BIZ_System.Controllers
 
             /*讀取樣板*/
             //string excelPath = Path.Combine(Server.MapPath("~/Content/Template/Import"), "tmpmatchmaking.xls");
-            string excelPath = Server.MapPath("~/Content/Template/Import/tmpmatchmaking.xls");
-            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.Read);//樣板
-            IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
-            template.Close();
+            IWorkbook workbook = loadExcelTemplate(excelTemplatePath + "tmpmatchmaking.xls");
 
             ISheet _sheet = workbook.GetSheetAt(0);//因第一頁有編輯 所有不用CreateSheet
             ICellStyle cellStyleheader = _sheet.GetRow(0).Cells[0].CellStyle;//取第一行的第一個的style;
@@ -1938,14 +2335,48 @@ namespace prj_BIZ_System.Controllers
             //ms.Dispose();
             //Response.End();
             #endregion 
+            exportExcelFileByMemorySpace(workbook, "matchmaking.xls");
+            return null;
+            //return exportExcelFile(workbook, "matchmaking.xls");
+        }
 
-            string savePath = @"D:/Download/matchmaking.xls";
+        #endregion
+
+        #region 讀取Excel樣板
+        //refactoring by. Rong 2016/10/13
+        private IWorkbook loadExcelTemplate(string path)
+        {
+            /*讀取樣板*/
+            string excelPath = Server.MapPath(path);
+            FileStream template = new FileStream(excelPath, FileMode.Open, FileAccess.Read);//樣板
+            IWorkbook workbook = new HSSFWorkbook(template);//建立excel版本,放入指定樣板
+            template.Close();
+            return workbook;
+        }
+        #endregion
+
+        #region 產生Excel檔
+        //refactoring by. Rong 2016/10/13
+        private FileResult exportExcelFile(IWorkbook workbook, string filename)
+        {
+            string savePath = @"D:/Download/" + filename;
             FileStream file = new FileStream(savePath, FileMode.Create);
             workbook.Write(file);
             file.Close();
-            return File(savePath, "application/ms-excel", "matchmaking.xls");
+            return File(savePath, "application/ms-excel", filename);
         }
 
+
+        private void exportExcelFileByMemorySpace(IWorkbook workbook, string filename)
+        {
+            var ms = new MemoryStream();
+            workbook.Write(ms);
+            Response.AddHeader("Content-Disposition", string.Format("attachment; filename=" + filename));
+            Response.BinaryWrite(ms.ToArray());
+            ms.Close();
+            ms.Dispose();
+            Response.End();
+        }
         #endregion
 
         #region 媒合大表匯出Excel
@@ -2209,6 +2640,207 @@ namespace prj_BIZ_System.Controllers
         }
 
         #endregion
+
+
+        #region 活動照片管理
+        [HttpPost]
+        public ActionResult doPhotoInsertOrUpdate(ActivityPhotoModel model, HttpPostedFileBase photo_img)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (model.photo_id == null)
+            {
+
+                if (photo_img != null && photo_img.ContentLength > 0)
+                {
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForActivity, model.manager_id, model.photo_pic_site);
+                }
+                int photo_id = (int)activityService.insertPhotoList(model);
+
+            }
+            else
+            {
+                if (photo_img != null && photo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.manager_id))
+                {
+                    var old_photo_model = activityService.getPhotoOne(model.photo_id);
+                    UploadHelper.deleteUploadFile(old_photo_model.photo_pic_site, "activity", model.manager_id);
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForActivity, model.manager_id, model.photo_pic_site);
+                }
+            }
+
+
+            int updateCount = (int)activityService.updatePhotoList(model);
+
+            return Redirect("PhotoListEdit");
+        }
+
+        [HttpPost]
+        public ActionResult PhotoDelete(int[] del_photos)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            bool isDelSuccess = activityService.PhotoListDeleteFake(del_photos); //假刪
+            return Redirect("PhotoListEdit");
+
+        }
+
+        public ActionResult PhotoListEdit()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            IList<ActivityPhotoModel> photoLists = activityService.getAllPhoto(manager_id).Pages<ActivityPhotoModel>(Request, this, 10);
+//            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+//            ViewBag.company = userInfoModel == null ? "" : userInfoModel.company;
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(manager_id, "activity");
+//            docookie("_mainmenu", "ProductListEdit");
+            return View(photoLists);
+        }
+
+        public ActionResult PhotoDetail(int? photo_id)
+        {
+            ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "activity");
+//            docookie("_mainmenu", "ProductDetail");
+            return View(result);
+        }
+
+        public ActionResult PhotoDetailEdit(int? photo_id)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
+            ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "activity") : "";
+
+//            docookie("_mainmenu", "ProductDetailEdit");
+            return result == null ? View(new ActivityPhotoModel() {photo_time= DateTime.Now}) : View(result);
+        }
+        #endregion
+
+        #region Banner照片管理
+        [HttpPost]
+        public ActionResult doBannerInsertOrUpdate(BannerPhotoModel model, HttpPostedFileBase photo_img)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (model.photo_id == null)
+            {
+
+                if (photo_img != null && photo_img.ContentLength > 0)
+                {
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForBanner, model.manager_id, model.photo_pic_site);
+                }
+                int photo_id = (int)activityService.insertBannerList(model);
+
+            }
+            else
+            {
+                if (photo_img != null && photo_img.ContentLength > 0 && !string.IsNullOrEmpty(model.manager_id))
+                {
+                    var old_photo_model = activityService.getBannerOne(model.photo_id);
+                    UploadHelper.deleteUploadFile(old_photo_model.photo_pic_site, "banner", model.manager_id);
+                    model.photo_pic_site = photo_img.FileName.Replace(".", "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".");
+                    UploadHelper.doUploadFilePlus(photo_img, UploadConfig.subDirForBanner, model.manager_id, model.photo_pic_site);
+                }
+            }
+
+
+            int updateCount = (int)activityService.updateBannerList(model);
+
+            return Redirect("BannerListEdit");
+        }
+
+        [HttpPost]
+        public ActionResult BannerViewDelete(int[] del_photos, int[] view_photos)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            if (del_photos!=null && del_photos.Count()>0)
+            {
+                bool isDelSuccess = activityService.BannerListDeleteFake(del_photos); //假刪
+            }
+            if (view_photos!=null && view_photos.Count() > 0)
+            {
+                bool isDelSuccess = activityService.BannerListUpdateActive(view_photos); 
+            }
+            return Redirect("BannerListEdit");
+
+        }
+
+        public ActionResult BannerListEdit()
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+
+            string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
+            IList<BannerPhotoModel> photoLists = activityService.getAllBanner(manager_id).Pages<BannerPhotoModel>(Request, this, 10);
+            //            UserInfoModel userInfoModel = userService.GeUserInfoOne(user_id);
+            //            ViewBag.company = userInfoModel == null ? "" : userInfoModel.company;
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(manager_id, "banner");
+            //            docookie("_mainmenu", "ProductListEdit");
+            return View(photoLists);
+        }
+
+        public ActionResult BannerDetail(int? photo_id)
+        {
+            BannerPhotoModel result = activityService.getBannerOne(photo_id);
+            ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "banner");
+            //            docookie("_mainmenu", "ProductDetail");
+            return View(result);
+        }
+
+        public ActionResult BannerDetailEdit(int? photo_id)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            BannerPhotoModel result = activityService.getBannerOne(photo_id);
+            ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "banner") : "";
+
+            //            docookie("_mainmenu", "ProductDetailEdit");
+            return result == null ? View(new BannerPhotoModel{}) : View(result);
+        }
+        #endregion
+
+
+
+        public ActionResult VideoListEdit()
+        {
+
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            IList<VideoListModel> videoLists = userService.getVideoListAll().Pages(Request, this, 10);
+            IList<ActiveVideoModel> activevideoLists = userService.SelectActiveVideo();
+            ViewBag.active = "";
+            foreach (ActiveVideoModel model in activevideoLists)
+            {
+                ViewBag.active = ViewBag.active + model.video_no.ToString() + ",";
+            }
+            ViewBag.active = "," + ViewBag.active;
+
+            return View(videoLists);
+        }
+
+        [HttpPost]
+        public ActionResult VideoActive(int video_no)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            userService.ActiveVideo(video_no);
+            return Redirect("VideoListEdit");
+        }
+
 
     }
 }

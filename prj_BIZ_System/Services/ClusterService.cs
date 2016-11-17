@@ -16,11 +16,30 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterModel>("Cluster.SelectClusterList", tempModel);
         }
 
+        public IList<ClusterDetailModel> GetClusterListByApply(string user_id)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id };
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByApply", tempModel);
+        }
+
+        public IList<ClusterDetailModel> GetClusterListByApplyAll()
+        {
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByApplyAll", null);
+        }
+
+
         public IList<ClusterDetailModel> GetClusterListByIdAndClusterEnable(string user_id, string cluster_enable)
         {
             ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable };
             return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByIdAndClusterEnable", tempModel);
         }
+
+        public IList<ClusterDetailModel> GetClusterListByIdAndClusterEnableAll(string user_id, string cluster_enable, string is_public)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id, cluster_enable = cluster_enable, is_public = is_public };
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByIdAndClusterEnableAll", tempModel);
+        }
+
 
         public ClusterDetailModel GetClusterDetailByNo(int cluster_no)
         {
@@ -51,10 +70,28 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterFileModel>("Cluster.SelectClusterFileList", tempModel);
         }
 
+        public double GetClusterFileSize(int cluster_no)
+        {
+            ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
+            double? size = 0;
+            size = mapper.QueryForObject<double?>("Cluster.SelectClusterFileSize", tempModel);
+            if (size == null)
+                size = 0;
+
+            return (double)size;
+        }
+
+
         public IList<ClusterMemberModel> GetClusterMemberList(int? cluster_no)
         {
             ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
             return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectClusterMemberList", tempModel);
+        }
+
+        public IList<ClusterMemberModel> GetClusterMemberListWithEnable1(int? cluster_no)
+        {
+            ClusterMemberModel tempModel = new ClusterMemberModel { cluster_no = cluster_no };
+            return mapper.QueryForList<ClusterMemberModel>("Cluster.SelectClusterMemberListWithEnable1", tempModel);
         }
 
         public ClusterMemberModel GetClusterMember(int? cluster_no, string user_id)

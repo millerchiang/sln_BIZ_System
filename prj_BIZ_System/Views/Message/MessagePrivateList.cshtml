@@ -7,7 +7,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -27,8 +27,8 @@
             
             <table class="edittable">
                 <tr>
-                    <th style="width: 6%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
-                    <th style="width: 40%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
+                    <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                    <th style="width: 36%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
                     <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
                     <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
                     <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
@@ -58,7 +58,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                    <a href="~/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>
@@ -72,12 +72,12 @@
             <h3 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_read@(" ")@prj_BIZ_System.LanguageResource.User.lb_msg</h3>
             <table class="edittable">
                 <tr>
-                    <th style="width: 6%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
-                    <th style="width: 40%">@prj_BIZ_System.LanguageResource.User.lb_subject</th>
-                    <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_publisher</th>
-                    <th>@prj_BIZ_System.LanguageResource.User.lb_amountofreply</th>
-                    <th style="width: 15%">@prj_BIZ_System.LanguageResource.User.lb_date</th>
-                    <th>@prj_BIZ_System.LanguageResource.User.lb_detail</th>
+                    <th style="width: 8%">編號</th>
+                    <th style="width: 36%">主題</th>
+                    <th style="width: 15%">發佈人</th>
+                    <th>回覆數</th>
+                    <th style="width: 15%">發佈日</th>
+                    <th>內容</th>
                 </tr>
                 @{
                     var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
@@ -103,7 +103,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                    <a href="~/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>

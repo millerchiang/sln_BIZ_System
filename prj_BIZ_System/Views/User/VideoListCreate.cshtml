@@ -5,14 +5,11 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
 
 <div class="article_col1">
-    @{
-        Html.RenderAction("_NavSearchPartial");
-    }
     <article class="article_col2 form_box">
         <h2>@prj_BIZ_System.LanguageResource.User.lb_addvideo</h2>
         <form action="@Url.Action("VideoUpload","User")" class="uploaddm" method="post" >
@@ -33,6 +30,9 @@
             </div>
         </form>
     </article>	
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
 </div>
 
 <script>

@@ -10,25 +10,17 @@
     <h2>@prj_BIZ_System.LanguageResource.User.lb_sellerlist</h2>
     <table class="edittable">
         <tr>
-            <th>@prj_BIZ_System.LanguageResource.User.lb_sellerid</th>
+            <!--<th>@prj_BIZ_System.LanguageResource.User.lb_sellerid</th>-->
             <th>@prj_BIZ_System.LanguageResource.User.lb_companyname</th>
             <th>@prj_BIZ_System.LanguageResource.User.lb_registerinfo</th>
             <!--<th>買主媒合需求</th>-->
         </tr>
         @foreach (ActivityRegisterModel sellerInfoModel in Model.activityregisterList)
         {
-            var company = sellerInfoModel.company;
-            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-            {
-                if (sellerInfoModel.company_en != null && sellerInfoModel.company_en != "")
-                {
-                    company = sellerInfoModel.company_en;
-                }
-            }
-
+            
             <tr>
-                <td><a href="/User/UserInfo?user_id=@sellerInfoModel.user_id" target="_blank">@sellerInfoModel.user_id</a></td>
-                <td>@company</td>
+                <!--<td><a href="~/User/UserInfo?user_id=@sellerInfoModel.user_id" target="_blank">@sellerInfoModel.user_id</a></td>-->
+                <td>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sellerInfoModel, "company")</td>
                 <td><a href="ShowRegisterinfoForSeller?activity_id=@(ViewBag.activity_id)&user_id=@(sellerInfoModel.user_id)" target="_blank">@(prj_BIZ_System.LanguageResource.User.lb_registerinfo)</a></td>
             </tr>
         }

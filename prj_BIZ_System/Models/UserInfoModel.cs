@@ -33,6 +33,10 @@ namespace prj_BIZ_System.Models
         public string contact_en { get; set; }//聯絡人姓名(英文)
         public string info_en { get; set; }//企業簡介(英文)
 
+        //額外加的
+        public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
+        public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
+
     }
 
     public class EnterpriseSortListModel //enterprise_sort_list
@@ -93,6 +97,7 @@ namespace prj_BIZ_System.Models
         public string deleted { get; set; } //是否刪除(0：刪除；1：未刪除)
 
         public string company { get; set; } // userInfo表內 的 公司名稱(中文)
+        public string company_en { get; set; } // userInfo表內 的 公司名稱(中文)
     }
 
     public class VideoListModel
@@ -103,6 +108,12 @@ namespace prj_BIZ_System.Models
         public string youtube_site { get; set; } //youtube影音網址
 
         public string company { get; set; } // userInfo表內 的 公司名稱(中文)
+        public string company_en { get; set; } // userInfo表內 的 公司名稱(中文)
+    }
+
+    public class ActiveVideoModel
+    {
+        public int video_no { get; set; } //影音編號
     }
 
     public class SalesInfoModel
@@ -120,4 +131,5 @@ namespace prj_BIZ_System.Models
 
         public string company { get; set; }         //公司名稱
     }
+
 }

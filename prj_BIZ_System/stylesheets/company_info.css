@@ -11,4 +11,75 @@
   text-align: left;
 }
 
+.dmicon li {
+  line-height: 2em;
+  text-align: left;
+}
+
+.message_add {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 99;
+}
+.message_add a:link, .message_add a:visited {
+  width: 60px;
+  height: 60px;
+  background: #03a9f5;
+  border-radius: 50%;
+  display: block;
+}
+.message_add a:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 6px 4px 0 4px;
+  border-color: #ffffff transparent transparent transparent;
+  position: absolute;
+  left: 24px;
+  bottom: 11px;
+}
+.message_add a i {
+  width: 35px;
+  height: 26px;
+  background: #ffffff;
+  border-radius: 8px;
+  display: block;
+  position: absolute;
+  left: 13px;
+  top: 17px;
+}
+.message_add a i:before {
+  content: "";
+  height: 9px;
+  width: 20px;
+  display: block;
+  border-top: 2px solid #03a9f5;
+  border-bottom: 2px solid #03a9f5;
+  position: absolute;
+  left: 8px;
+  top: 8px;
+}
+.message_add a i:after {
+  content: "";
+  height: 2px;
+  width: 15px;
+  display: block;
+  background: #03a9f5;
+  position: absolute;
+  left: 8px;
+  top: 13px;
+}
+.message_add:hover {
+  opacity: 0.6;
+}
+
+@media only screen and (min-width: 1200px) {
+  .message_add {
+    right: 50%;
+    margin-right: -550px;
+  }
+}
+
 /*# sourceMappingURL=company_info.css.map */

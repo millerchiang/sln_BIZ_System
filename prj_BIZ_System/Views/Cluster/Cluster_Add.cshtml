@@ -1,13 +1,13 @@
-﻿
-@using prj_BIZ_System.Models
+﻿@using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Cluster_ViewModel
 @{
     ViewBag.Title = "Cluster_Add";
+//    Layout = null;
 }
 
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
-    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+<link href="~/stylesheets/sys.css" rel="stylesheet" />
+<link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -17,11 +17,13 @@
     Model.clusterInfo.cluster_name = "";
     Model.clusterInfo.cluster_info = "";
     Model.clusterInfo.enable = "0";
+    Model.clusterInfo.is_public = "1";
     //    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
     Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
 }
 
-    <div class="article_col1s">
+<div class="article_col1">
+    <article class="article_col2">
         <form id="form" class="form_box sys_searchbox" action="@Url.Action("EditCluster", "Cluster")" method="post">
             <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
             <input type="hidden" name="members" value="">
@@ -38,10 +40,31 @@
             <input type="hidden" name="cluster_name_old" value="@Model.clusterInfo.cluster_name">
             <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" onblur="chkname()" required>
 
-            <label for="" class="regis_col02L">建立者帳號</label>
+            <label for="" class="regis_col02L">管理者帳號</label>
 
             <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
+
+            @{
+                var a = "";
+                var b = "";
+                if (Model.clusterInfo.is_public == "0")
+                {
+                    a = "checked";
+                }
+                else if (Model.clusterInfo.is_public == "1")
+                {
+                    b = "checked";
+                }
+            }
+
+            <label for="is_public" class="regis_col02L spanRed">是否公開</label>
+            <div class="regis_col01R_input">
+                <input type="radio" class="radioinput" id="is_public01" name="is_public" value="0" @a>
+                <label for="is_public01">不公開</label>
+                <input type="radio" class="radioinput" id="is_public02" name="is_public" value="1" @b>
+                <label for="is_public02">公開</label>
+            </div>
 
             <label for="" class="regis_col02L spanRed">聚落商家</label>
             <div class="regis_col02R">
@@ -78,7 +101,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-@*                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@Request.Cookies["UserInfo"]["user_id"],@Request["cluster_no"])">退出</a>*@
+                                    @*                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@Request.Cookies["UserInfo"]["user_id"],@Request["cluster_no"])">退出</a>*@
                                 </div>
                             </td>
                         </tr>
@@ -109,12 +132,12 @@
                                     </td>
                                     <td>
 
-                                    <div class="centerbox">
-                                        @if (md.cluster_enable == "2")
-                                        {
-                                                <a href = "javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_no)">取消</a>
-                                        }
-                                    </div>
+                                        <div class="centerbox">
+                                            @if (md.cluster_enable == "2")
+                                            {
+                                                <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_no)">取消</a>
+                                            }
+                                        </div>
 
                                     </td>
                                 </tr>
@@ -124,9 +147,9 @@
 
 
                     @*<tr>
-                            <td>
-                                2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
-                            </td>
+                        <td>
+                        2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
+                        </td>
                         </tr>*@
                 </table>
 
@@ -146,10 +169,16 @@
         <div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_delete" style="display:none;">
             <p>@prj_BIZ_System.LanguageResource.User.lb_delete<span class="salesid"></span>?</p>
         </div>
-    </div>
+    </article>
+@{
+    Html.RenderAction("_HomeLeftPartial", "Home");
+}
+
+</div>
+
 
 <script type="text/javascript"
-        src="/Scripts/jquery-ui-1.10.2.min.js">
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
 
 <script type="text/javascript" language="javascript">
@@ -171,6 +200,7 @@
                     //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
                     if (!idexist(user_id)) {
 //                        $("#addgroup").show();
+                        
                         chkexist(user_id);
                     }
                     else {
@@ -315,6 +345,10 @@
                 }
             });
         }
+        else
+        {
+            $("#addgroup").show();
+        }
     }
 
     $("#form").submit(function () {
@@ -326,7 +360,7 @@
             id=$(el).find('td').eq(0).find("input[name='user_id']").val();
             if (id != null) {
                 members = members + "," + id;
-                alert(id);
+//                alert(id);
             }
         });
 

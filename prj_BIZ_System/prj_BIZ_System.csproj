@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44361</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -108,8 +107,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -134,6 +133,34 @@
     </Reference>
     <Reference Include="NPOI.OpenXmlFormats, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Amazon, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Amazon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Apple, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Apple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Blackberry, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Blackberry.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Core, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Firefox, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Firefox.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Google, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Windows, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Windows.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RazorEngine, Version=2.1.4113.149, Culture=neutral, PublicKeyToken=1f722ed313f51831, processorArchitecture=MSIL">
@@ -228,6 +255,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\PagesConfig.cs" />
     <Compile Include="App_Start\MailConfig.cs" />
+    <Compile Include="App_Start\PushConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\UploadConfig.cs" />
@@ -248,6 +276,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="LanguageResource\Localization.cs" />
     <Compile Include="LanguageResource\User.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -382,6 +411,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\site.css" />
+    <Content Include="images\androidqr.png" />
     <Content Include="images\banner01-min.jpg" />
     <Content Include="images\banner02-min.jpg" />
     <Content Include="images\banner03-min.jpg" />
@@ -406,6 +436,7 @@
     <Content Include="images\icon\icon_fpw.png" />
     <Content Include="images\icon\indexicon.png" />
     <Content Include="images\icon\myinfor.png" />
+    <Content Include="images\icon\myinfor_s.png" />
     <Content Include="images\index_pic.jpg" />
     <Content Include="images\index_sample_pic01.jpg" />
     <Content Include="images\index_sample_pic02.JPG" />
@@ -414,6 +445,7 @@
     <Content Include="images\logopic.jpg" />
     <Content Include="images\msgbox.png" />
     <Content Include="images\productpic.jpg" />
+    <Content Include="images\wait_app.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -455,16 +487,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Template\Import\tmpmatchmaking.xls" />
+    <Content Include="Content\Template\Import\activity_form.xls" />
+    <Content Include="App_Start\Key\IOS_certificate\Biz.p12" />
+    <Content Include="App_Start\Key\IOS_certificate\Biz_voip.p12" />
+    <Content Include="App_Start\Key\IOS_certificate\Biz_develop.p12" />
+    <Content Include="Content\Template\Import\questionnaire.xls" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\ %282%29.pubxml" />
     <Content Include="App_Start\Properties\cache.txt" />
-    <None Include="Properties\PublishProfiles\ %284%29.pubxml" />
-    <None Include="Properties\PublishProfiles\.pubxml" />
     <None Include="Properties\PublishProfiles\biz.pubxml" />
     <None Include="Properties\PublishProfiles\BIZSystem-develop - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BIZSystem_Develop  - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Biz_develop_new.pubxml" />
+    <None Include="Properties\PublishProfiles\Biz_new.pubxml" />
     <None Include="Properties\PublishProfiles\local_biz_web.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
@@ -887,8 +923,20 @@
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Support.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPrivate.cshtml" />
-    <None Include="Views\Message\MessageClusterAddPublic.cshtml" />
+    <Content Include="Views\Message\MessageClusterAdd.cshtml" />
+    <Content Include="Views\Message\MessageClusterDetail.cshtml" />
+    <Content Include="Views\Manager\PhotoDetailEdit.cshtml" />
+    <Content Include="Views\Manager\PhotoListEdit.cshtml" />
+    <Content Include="Views\Manager\VideoListEdit.cshtml" />
+    <Content Include="Views\Home\ActivityPhotoView.cshtml" />
+    <Content Include="Views\Manager\BannerListEdit.cshtml" />
+    <Content Include="Views\Manager\BannerDetailEdit.cshtml" />
+    <Content Include="Views\Home\LatestVideoList.cshtml" />
+    <Content Include="Views\Home\LatestCatalogList.cshtml" />
+    <Content Include="Views\Cluster\ClusterListAll.cshtml" />
+    <Content Include="Views\Cluster\ClusterListContent.cshtml" />
+    <Content Include="Views\Manager\Questionnaire.cshtml" />
+    <Content Include="Views\Manager\QuestionnaireList.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -978,6 +1026,7 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\catalog_file\" />
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
+    <Folder Include="Key\" />
     <Folder Include="Scripts\fancybox\helpers\" />
     <Folder Include="Views\File\" />
     <Folder Include="Views\_Base\" />
@@ -991,7 +1040,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LanguageResource\User.en-US.resx" />
+    <EmbeddedResource Include="LanguageResource\User.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="LanguageResource\User.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>User.Designer.cs</LastGenOutput>

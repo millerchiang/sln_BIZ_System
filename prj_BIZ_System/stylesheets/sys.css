@@ -117,7 +117,7 @@
   padding-left: 5px;
   position: relative;
   box-sizing: border-box;
-  background: #f4f4f4;
+  background: #f5f5f5;
   border-right: 10px solid #ffffff;
   font-size: 0.875em;
 }
@@ -150,7 +150,7 @@
 }
 
 .bgbox {
-  background: #f4f4f4;
+  background: #f5f5f5;
   margin: 0 0 15px 0;
   display: inline-block;
   padding: 10px 5px;
@@ -191,7 +191,7 @@ textarea {
   width: 100%;
 }
 .regis_table th {
-  background: #f4f4f4;
+  background: #f5f5f5;
   padding: 10px 0;
   font-size: 0.938em;
 }
@@ -314,14 +314,21 @@ textarea {
   width: 100%;
   display: block;
   margin: 0 0 20px 0;
-  line-height: 25px;
+  height: 25px;
   box-sizing: border-box;
+  position: relative;
+}
+.regis_completebox span {
+  position: absolute;
+  font-size: 0.75em;
+  line-height: 25px;
+  left: 5px;
+  color: #cccccc;
 }
 
 .regis_complete {
   background: #00bcd5;
-  font-size: 0.75em;
-  text-align: center;
+  height: 100%;
 }
 
 .choose_file {
@@ -340,6 +347,10 @@ textarea {
   text-decoration: none;
   font-size: 0.813em;
   line-height: 1;
+}
+
+.choose_file:lang(en) {
+  max-width: 120px;
 }
 
 #result {
@@ -422,7 +433,7 @@ textarea {
   margin: 10px 0;
 }
 .productlist li:hover {
-  background: #f4f4f4;
+  background: #f5f5f5;
 }
 .productlist li.activeBg {
   background: #e9e8e8;
@@ -584,11 +595,47 @@ textarea {
     background-position-y: 100%;
   }
   .databu.active {
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
     color: #000000;
   }
   .databu.active:before {
     background-position: 0% 0%;
+  }
+  .databu:lang(en):link, .databu:lang(en):visited {
+    font-size: 0.875em;
+    padding-left: 30px;
+    padding-right: 5px;
+  }
+  .databu:lang(en):before {
+    content: "";
+    background-image: url(../images/icon/myinfor_s.png);
+    width: 30px;
+    height: 25px;
+    position: absolute;
+    top: 12px;
+    left: 0;
+  }
+  .databu:lang(en).databu02:before, .databu:lang(en).databu02.active:before {
+    background-position: -30px 0%;
+  }
+  .databu:lang(en).databu03:before, .databu:lang(en).databu03.active:before {
+    background-position: -60px 0%;
+  }
+  .databu:lang(en).databu04:before, .databu:lang(en).databu04.active:before {
+    background-position: -90px 0%;
+  }
+  .databu:lang(en).databu05:before, .databu:lang(en).databu05.active:before {
+    background-position: 0 0%;
+  }
+  .databu:lang(en):hover, .databu:lang(en):focus, .databu:lang(en):active, .databu:lang(en).active {
+    color: #03a9f5;
+  }
+  .databu:lang(en):hover:before, .databu:lang(en):focus:before, .databu:lang(en):active:before, .databu:lang(en).active:before {
+    background-position-y: 100%;
+  }
+  .databu:lang(en).active {
+    background-color: #f5f5f5;
+    color: #000000;
   }
 }
 @media only screen and (max-width: 599px) {
@@ -904,8 +951,43 @@ tfoot p {
   padding: 10px 15px 20px 15px;
 }
 
+.downloadbox li {
+  padding: 5px;
+  box-sizing: border-box;
+}
+.downloadbox a:link, .downloadbox a:visited {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 0 5px;
+  text-decoration: none;
+  color: #9e9e9e;
+  font-size: 0.75em;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 0 8px 0 0;
+  position: relative;
+}
+.downloadbox a:hover, .downloadbox a:focus, .downloadbox a:active, .downloadbox a.active {
+  background: #eeeeee;
+  color: #03a9f5;
+}
+.downloadbox a:before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 0 8px;
+  border-color: transparent transparent transparent #ddd;
+}
+
 .dialoglist {
-  padding-bottom: 20px;
+  padding: 30px 0;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 15px;
 }
 .dialoglist li {
   clear: both;
@@ -934,12 +1016,24 @@ tfoot p {
 }
 .dialoglist .dialogbox {
   margin-left: 60px;
-  background: #f8f8f8;
+  background: #f5f5f5;
   padding: 10px;
   border-radius: 10px;
   position: relative;
+  border: 1px solid #ddd;
 }
 .dialoglist .dialogbox:before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 6px 5px 0;
+  border-color: transparent #ddd transparent transparent;
+}
+.dialoglist .dialogbox:after {
   content: "";
   position: absolute;
   top: 14px;
@@ -948,7 +1042,7 @@ tfoot p {
   height: 0;
   border-style: solid;
   border-width: 5px 6px 5px 0;
-  border-color: transparent #f8f8f8 transparent transparent;
+  border-color: transparent #f5f5f5 transparent transparent;
 }
 .dialoglist h6 {
   float: left;
@@ -965,6 +1059,55 @@ tfoot p {
   color: #9e9e9e;
   padding-top: 5px;
   line-height: 1.6;
+}
+.dialoglist .attachment {
+  font-size: 0.75em;
+  padding: 10px;
+  background: #ffffff;
+  margin-top: 10px;
+}
+.dialoglist .attachment ul {
+  padding: 15px 15px 0 15px;
+}
+.dialoglist .attachment ul li + li {
+  margin-top: 15px;
+}
+.dialoglist .attachment a:link, .dialoglist .attachment a:visited {
+  text-decoration: none;
+  font-size: 0.813em;
+  color: #818181;
+  position: relative;
+}
+.dialoglist .attachment a:before {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 12px;
+  left: -13px;
+  top: 0;
+  border-radius: 0 5px 0 0;
+  background: #cccccc;
+}
+.dialoglist .attachment a:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 0 5px;
+  border-color: transparent transparent transparent #03a9f5;
+  left: -9px;
+  top: 0;
+}
+.dialoglist .attachment a:hover, .dialoglist .attachment a:focus, .dialoglist .attachment a:active, .dialoglist .attachment a.active {
+  border-bottom: 1px dotted #03a9f5;
+  color: #03a9f5;
+}
+
+.replybox {
+  padding: 15px;
+  margin-bottom: 30px;
+  position: relative;
 }
 
 .multipletable {
@@ -1002,6 +1145,39 @@ tfoot p {
   text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.invchecklist dt {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+.invchecklist dd {
+  padding: 20px;
+}
+.invchecklist li + li {
+  padding-top: 10px;
+}
+.invchecklist .setBox {
+  display: inline-block;
+  width: 100%;
+  padding: 20px 0 10px 30px;
+}
+
+.borderbottom {
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  font-size: 0.938em;
+  color: #cccccc;
+}
+
+.radioinput:checked + label + .borderbottom {
+  border-bottom: 1px solid #00bcd5;
+  color: #000000;
+}
+
+.radioinput.setdisabled + label {
+  color: #cccccc;
 }
 
 @media only screen and (max-width: 520px) {

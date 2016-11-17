@@ -10,11 +10,13 @@
   display: inline-block;
   padding: 7px 0;
   max-width: 80px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .deleteSbu:hover, a.deleteSbu:hover {
   background: #5e5d5d;
@@ -28,31 +30,35 @@
   display: inline-block;
   padding: 13px 0;
   max-width: 120px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .submitbu:hover, a.submitbu:hover {
   background: #03a9f5;
   color: #ffffff;
 }
 
-.submitbuRed, a.buinfor {
+.submitbuRed, a.submitbuRed {
   background: #f2451d;
   color: #ffffff;
   border-radius: 5px;
   display: inline-block;
   padding: 13px 0;
   max-width: 120px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
-.submitbuRed:hover, a.buinfor:hover {
+.submitbuRed:hover, a.submitbuRed:hover {
   background: #c13717;
 }
 
@@ -63,11 +69,13 @@
   display: inline-block;
   padding: 13px 0;
   max-width: 120px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .buinfor:hover, a.buinfor:hover {
   background: #1184b9;
@@ -80,14 +88,35 @@
   display: inline-block;
   padding: 7px 0;
   max-width: 80px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
-.addbu:hover, a.addbu:hover {
+.addbu:hover, .addbu.active, a.addbu:hover, a.addbu.active {
   background: #f46813;
+}
+
+.editsbu, a.editsbu {
+  background: #00bcd5;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 7px 0;
+  max-width: 80px;
+  min-width: 50px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.813em;
+  line-height: 1;
+}
+.editsbu:hover, a.editsbu:hover {
+  background: #189bac;
 }
 
 .submitbuOr, a.submitbuOr {
@@ -97,11 +126,13 @@
   display: inline-block;
   padding: 13px 0;
   max-width: 120px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .submitbuOr:hover, a.submitbuOr:hover {
   background: #f46813;
@@ -114,11 +145,13 @@
   display: inline-block;
   padding: 7px 0;
   max-width: 80px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbublue:hover, a.addbublue:hover {
   background: #1184b9;
@@ -131,11 +164,13 @@
   display: inline-block;
   padding: 13px 0;
   max-width: 120px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .disabled:hover, a.disabled:hover {
   background: #03a9f5;
@@ -149,11 +184,13 @@
   display: inline-block;
   padding: 7px 0;
   max-width: 80px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbured:hover, a.addbured:hover {
   background: #c13717;
@@ -173,11 +210,13 @@
   display: inline-block;
   padding: 7px 0;
   max-width: 100px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
   font-size: 0.813em;
+  line-height: 1;
 }
 .addbu2:hover, a.addbu2:hover {
   background: #f46813;

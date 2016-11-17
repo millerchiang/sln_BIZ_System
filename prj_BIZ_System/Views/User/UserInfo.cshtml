@@ -7,8 +7,10 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
-    <link href="/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/company_info.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+
     @Styles.Render("~/Scripts/css/fancybox")
 }
 
@@ -58,16 +60,6 @@
 
     <div class="article_col1">
         <article class="article_col2">
-                @{
-                    var company = Model.userinfo.company;
-                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                    {
-                        if (Model.userinfo.company_en != null && Model.userinfo.company_en != "")
-                        {
-                            company = Model.userinfo.company_en;
-                        }
-                    }
-                }
 
             <section class="form_box w100 article_col1">
                 <div class="databubox" id="tabA">
@@ -76,19 +68,31 @@
                     <a href="javascript:void(0)" class="databu databu03">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
                     <a href="javascript:void(0)" class="databu databu04">@prj_BIZ_System.LanguageResource.User.lb_video</a>
                 </div>
-
+                @{ 
+                    var company = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.userinfo, "company");
+                }
                 <div id="tabbox">
                     <h2>@company</h2>
+                    <div class="message_add">
+                        @if (Request.Cookies["UserInfo"] != null)
+                        {
+                            <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@Model.userinfo.user_id" target="_blank"><i></i></a>
+                        }
+                        else
+                        {
+                            <a id="checkmember" title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="javascript:void(0)"><i></i></a>
+                        }
+                    </div>
                     <section id="section">
                         <div class="regis_col01L">
                             <div id="result">
                                 @if (Model.userinfo.logo_img != null)
                                 {
-                                    <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                                    <img src="@Url.Content(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
                                 }
                                 else
                                 {
-                                    <img src="/images/logopic.jpg" alt="">
+                                    <img src="~/images/logopic.jpg" alt="">
                                 }
                             </div>
 
@@ -178,11 +182,11 @@
                             {
                                 if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
                                 {
-                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name</span>
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id - @usersortList.enterprise_sort_name</span>
                                 }
                                 else
                                 {
-                                    <span class="regis_col02R">@usersortList.enterprise_sort_id@usersortList.enterprise_sort_name_en</span>
+                                    <span class="regis_col02R">@usersortList.enterprise_sort_id - @usersortList.enterprise_sort_name_en</span>
                                 }
                             }
                         </div>
@@ -198,31 +202,12 @@
                                 {
                                     <li>
                                         <div class="imgbox">
-                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:ViewBag.productDir+md.product_pic_site)" alt="">
+                                            <img src="@(string.IsNullOrEmpty(md.product_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.productDir) + md.product_pic_site)" alt="">
                                         </div>
                                         <div class="producttext">
-                                            @{
-                                                var product_name = md.product_name;
-                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                                {
-                                                    if (md.product_name_en != null && md.product_name_en != "")
-                                                    {
-                                                        product_name = md.product_name_en;
-                                                    }
-                                                }
-                                                var model_no = md.model_no;
-                                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                                                {
-                                                    if (md.model_no_en != null && md.model_no_en != "")
-                                                    {
-                                                        model_no = md.model_no_en;
-                                                    }
-                                                }
-                                            }
 
-
-                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @product_name </h3>
-                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @model_no </p>
+                                            <h3>@prj_BIZ_System.LanguageResource.User.lb_product_name: @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "product_name") </h3>
+                                            <p>@prj_BIZ_System.LanguageResource.User.lb_prod_model_no: @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "model_no") </p>
                                         </div>
                                         <div class="productbu">
 
@@ -246,10 +231,10 @@
                         foreach (var mo in Model.cataloglistList)
                             {
                                 <li>
-                                    <a href="@(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
+                                    <a href="@Url.Content(ViewBag.catalogDir+mo.catalog_file)" target="_blank" class="fancybox">
                                         <span>@(mo.catalog_name)</span>
                                         <div class="regisimg">
-                                            <img src="@(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
+                                            <img src="@Url.Content(ViewBag.coverDir+mo.cover_file)" alt="@(mo.catalog_name)">
                                         </div>
 
                                     </a>
@@ -264,14 +249,21 @@
                     </section>
                     <section id="section4" style="display:none">
                         <ul class="regis_dmlist3">
-                            @if (Model.videolistList != null)
+                            @if (Model.videolistList != null && Model.videolistList.Count != 0)
                             {
                                 foreach (var mo in Model.videolistList)
                                 {
                                     <li>
                                         <iframe src="https://www.youtube.com/embed/@(mo.youtube_site)" frameborder="0" allowfullscreen></iframe>
                                         <p>@(mo.video_name)</p>
-                                        <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
+                                        @{
+                                                var userInfo = Request.Cookies["UserInfo"];
+                                                if (userInfo != null && Model.userinfo.user_id == userInfo["user_id"])
+                                                {
+                                                    <input type="checkbox" class="inputCheckbox" name="video_no" id="@(mo.video_no)" value="@(mo.video_no)"><label for="@(mo.video_no)"></label>
+                                                }
+                                        }
+
                                     </li>
                                 }
                             }
@@ -290,6 +282,17 @@
         }
 
     </div>
+
+<div id="dialog" title=@(prj_BIZ_System.LanguageResource.User.lb_sendmsg) style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+    </p>
+</div>
+
+<script type="text/javascript"
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
 
 @Scripts.Render("~/bundles/fancybox")
 
@@ -326,4 +329,33 @@
     })
 
 
+    $("#checkmember").click(function (e) {
+        //       alert("報名必須註冊會員，如果是會員請至首頁<<會員登入>>，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!");
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                @(prj_BIZ_System.LanguageResource.User.lb_yes): function () {
+                    window.location = "/Home/Index";
+                    event.returnValue = false; //需要加上這行 Why??
+                    //window.open(url); //如果是開窗就不用加 event.returnValue = false;
+                    $(this).dialog("close");
+                },
+                @(prj_BIZ_System.LanguageResource.User.lb_no): function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_backlogin_m");
+
+    });
+
+    $(window).scroll(function() {            
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            var Fh = $("footer").height()+10;
+            $(".message_add").animate({ bottom: Fh }, "slow"  );
+        }else {
+            $(".message_add").css({ bottom: '10px' } );                 
+        }
+    });
 </script>

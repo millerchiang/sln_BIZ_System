@@ -1,5 +1,6 @@
 ﻿using prj_BIZ_System.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -85,14 +86,14 @@ namespace prj_BIZ_System.Services
         //}
 
         //MatchmakingAllModel
-        public object MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        public int MatchmakingSellerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
+            return (int)mapper.Insert("Match.InsertMatchmakingSellerneedOne", matchmakingAllModel);
         }
 
-        public object MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
+        public int MatchmakingBuyerneedInsertOne(MatchmakingAllModel matchmakingAllModel)
         {
-            return mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
+            return (int)mapper.Insert("Match.InsertMatchmakingbuyerneedOne", matchmakingAllModel);
         }
 
         public IList<MatchmakingAllModel> GetMatchmakingSellerneedList(int activity_id, string seller_id)
@@ -156,9 +157,23 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMSneedBySellerCompany", param);
         }
 
+        public IList<MatchmakingAllModel> GetMSneedByBuyerCompanyList(int activity_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id };
+            return mapper.QueryForList<MatchmakingAllModel>("Match.SelectMSneedByBuyerCompany", param);
+        }
 
+        public IList<Hashtable> GetSellerNeedWithCompany(int activity_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id };
+            return mapper.QueryForList<Hashtable>("Match.SelectSellerNeedWithCompany", param);
+        }
 
-
+        public IList<Hashtable> GetBuyerNeedWithCompany(int activity_id)
+        {
+            MatchmakingAllModel param = new MatchmakingAllModel() { activity_id = activity_id };
+            return mapper.QueryForList<Hashtable>("Match.SelectBuyerNeedWithCompany", param);
+        }
         /*媒合大表的*/
         //public IList<MatchmakingNeedModel> GetCertainActivityWithBuyerReplyAllList(int activity_id, string buyer_reply)
         //{

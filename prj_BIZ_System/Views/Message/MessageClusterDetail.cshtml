@@ -1,0 +1,185 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Message_ViewModel
+@{
+    ViewBag.Title = "MessageClusterDetail";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+<div class="article_col1">
+    @{
+        Html.RenderAction("_ClusterMenuPartial", "Cluster");
+    }
+    <article class="article_col2">
+        <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.cluster_info).cluster_name)</h2>
+        <form action="~/Message/DoMessageClusterDetail" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
+            <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
+            <h2>聚落訊息</h2>
+
+				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
+				<span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
+
+				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</div>
+            <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
+
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_date</div>
+            <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
+
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</div>
+            <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
+
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</div>
+            <p class="regis_col02R contentspan">
+                @Model.msgPrivate.msg_content
+            </p>
+
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment</div>
+            <div class="regis_col02R">
+					<ul class="col2 downloadbox">
+                    @if (Model.msgPrivateFileList != null)
+                    {
+                        foreach (MsgFileModel mpf in Model.msgPrivateFileList)
+                        {
+                            <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="w100">
+
+                <ul class="dialoglist">
+                    @if (Model.msgPrivateReplyList != null)
+                    {
+                        foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
+                        {
+                            <li>
+                                <div class="dialog_img">
+                                    @{
+                                                var imgsrc = Url.Content(string.IsNullOrEmpty(r_md.logo_img) ? UploadHelper.defaultImgSmall : UploadHelper.getPictureDirPath(r_md.msg_reply, "logo") + r_md.logo_img);
+                                    }
+                                    <img src="@imgsrc" alt="" class="">
+                                </div>
+                                <div class="dialogbox">
+                                    <h6>@r_md.company</h6>
+                                    <span>@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span>
+                                    <p>
+                                        @r_md.reply_content
+                                    </p>
+                                            @if(r_md.msg_reply_file!=null&& r_md.msg_reply_file.Count>0)
+                                            {
+                                            <div class="attachment">
+                                                附件:
+                                                <ul>
+                                                    @foreach(MsgReplyFileModel rf_md in r_md.msg_reply_file)
+                                                    {
+                                                        <li><a href="@Url.Content((UploadHelper.getMessageFileDirPath(rf_md.msg_no)))/@(rf_md.msg_reply_no)/@(rf_md.msg_reply_file_site)" target="_blank">@rf_md.msg_reply_file_site</a></li>
+                                                    }
+
+                                                </ul>
+                                </div>
+                                            }
+                                        </div>
+                            </li>
+                                            }
+                                        }
+                   
+                </ul>
+					<div class="replybox">
+						<div class="regis_col02L">回覆內容</div>
+						<div class="regis_col02R">
+							<input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
+							<textarea name="reply_content" id="reply_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
+						</div>
+						<div class="regis_col02L">上傳附件</div>
+						<div class="regis_col02R">
+							<label class="editsbu" id="upload" for="upexls">選取檔案</label>
+							<input type="file" id="upexls" name="iupexls" multiple="multiple" />
+					<ul id="output"></ul>
+						</div>	
+                <div class="centerbox">
+                    <button type="submit" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_reply</button>
+                </div>
+            </div>
+            <div class="centerbox">
+                <a href="@Url.Content("~/Message/MessageClusterMain")?is_public=@ViewBag.is_public" class="submitbu rightbox">返回訊息管理</a>
+            </div>
+
+        </form>
+    </article>
+</div>
+@Scripts.Render("~/bundles/jqueryUI")
+@Scripts.Render("~/bundles/fancybox")
+
+<script>
+    $(function () {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+
+        $("input#upexls").change(function() {
+            var ele = document.getElementById($(this).attr('id'));
+            var result = ele.files;
+
+            $("#output").html("");
+            for(var x = 0;x< result.length;x++){
+                var fle = result[x];
+                $("#output").append("<li>" + fle.name + "</li>");
+            }
+
+            //g_temp_files = ele.files;
+            if ($("#output li").size() > 0) {
+                $("#upload").text("重選檔案");
+            } else {
+                $("#upload").text("選取檔案");
+            }
+        });
+
+        $("#form").submit(function () {
+            var reply_content = $("#reply_content").val();
+            var errMsg = checkValidationOk(reply_content)
+            if (errMsg != '') {
+                alert(errMsg);
+                return false;
+            }
+        });
+
+        $("#reply_content").keydown(function (e) {
+            if ($(this).val().length > 300) {
+                if (e.keyCode != 8) {
+                    return false;
+                }
+            }
+        })
+
+    });
+
+    function checkValidationOk(reply_content) {
+        var errMsg = '';
+        if (reply_content == null || reply_content == '') {
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_reply_empty!!\n";
+        } else if (reply_content.length > 300) {
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_reply_300!!";
+        }
+        return errMsg;
+    }
+
+    //暫時放著
+    /*
+		  var re_for_xls = /\.(xls)$/i;
+		  $("#form").submit(function () {
+
+		      var iupexl = $("input[name='iupexl']").val();
+		      if (!re_for_xls.test(iupexl)) {
+		          alert("上傳檔案副檔名 必須為 xls");
+		          return false;
+		      }
+		      $("#loaderdiv").css("display", "block");
+		  });
+    */
+</script>

@@ -1,0 +1,82 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+@{
+    ViewBag.Title = "Cluster List";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+@Styles.Render("~/Content/jqueryUI")
+
+<div class="article_col1">
+    <article class="article_col2">
+        <h2 class="borderTitle2">產業聚落列表</h2>
+        @foreach (var newInfo in Model.clusterWebServiceInfoList)
+            {
+            <div class="form_box">
+                <h2>@newInfo.cluster_name</h2>
+                <label for="" class="regis_col02L">成立日期</label>
+                <span class="regis_col02R contentspan">@newInfo.cluster_create_time.ToString("yyyy/MM/dd tt hh:mm")</span>
+                <label for="" class="regis_col02L">管理者</label>
+                <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                <label for="" class="regis_col02L">成員</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_members
+                </p>
+
+                <label for="" class="regis_col02L">簡介</label>
+                <p class="regis_col02R contentspan">
+                    @newInfo.cluster_info
+                </p>
+
+                <div class="centerbox">
+                    <a id="checkmember" href="javascript:void(0)" class="submitbu">申請加入聚落</a>
+                </div>
+            </div>
+        }
+        @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+</div>
+
+<div id="dialog" title="聚落申請" style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+    </p>
+</div>
+
+<script type="text/javascript"
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
+</script>
+
+<script type="text/javascript" language="javascript">
+
+    $("#checkmember").click(function (e) {
+        //       alert("報名必須註冊會員，如果是會員請至首頁<<會員登入>>，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!");
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                @(prj_BIZ_System.LanguageResource.User.lb_yes): function () {
+                    window.location = "/Home/Index";
+                    event.returnValue = false; //需要加上這行 Why??
+                    //window.open(url); //如果是開窗就不用加 event.returnValue = false;
+                    $(this).dialog("close");
+                },
+                @(prj_BIZ_System.LanguageResource.User.lb_no): function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".instext").text("您好，請先登入會員再申請加入聚落，是否回首頁登入?");
+
+    });
+
+
+
+</script>

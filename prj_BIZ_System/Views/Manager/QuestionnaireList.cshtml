@@ -1,0 +1,79 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+
+@{
+    ViewBag.Title = "QuestionnaireList";
+}
+    <article class="form_box article_col1">
+        <h2 class="borderTitle2">商機調查[@ViewBag.activity_name] - 買主: @ViewBag.company</h2>
+
+        <a href="~/Manager/Questionnaire?activity_id=@ViewBag.activity_id&activity_name=@ViewBag.activity_name&buyer_id=@ViewBag.buyer_id&company=@ViewBag.company" class="addbu rightbox">新增賣家</a>
+        <a href="@Url.Action("ExportQuestionnaireFormExcel","Manager",new {activity_id = @ViewBag.activity_id, activity_name = @ViewBag.activity_name, buyer_id = @ViewBag.buyer_id})" class="addbublue rightbox">匯出</a>
+
+        <br>
+        <br>
+
+        <table class="edittable">
+            <tbody>
+                <tr>
+                    @*<th style="width:2em">編號</th>*@
+                    <th style="width:6em">賣家帳號</th>
+                    <th>商機調查結果</th>
+                    <th style="width:4em">編輯</th>
+                    <th style="width:4em">刪除</th>
+
+                </tr>
+
+                @foreach (QuestionnaireModel qModel in Model.questionnaireList)
+                {
+                <tr>
+                    @*<td>1</td>*@
+                    <td>@qModel.seller_id</td>
+                    @{ 
+                        var r = "";
+                        if (qModel.question_1 == "0")
+                        {
+                            r = "1：訂單已成立";
+                        }
+                        else if (qModel.question_1 == "1")
+                        {
+                            r = "2：訂單成立可能性高";
+                        }
+                        else if (qModel.question_1 == "2")
+                        {
+                            r = "3：不考慮立即下單";
+                        }
+                        else if (qModel.question_1 == "3")
+                        {
+                            r = "4：其他";
+                        }
+                    }
+
+
+                    <td>@r</td>
+                    <td class="centerbox"><a href="~/Manager/Questionnaire?activity_id=@ViewBag.activity_id&buyer_id=@ViewBag.buyer_id&company=@ViewBag.company&seller_id=@qModel.seller_id" class="editbu">修改</a></td>
+                    <td class="centerbox"><a href="~/Manager/QuestionnaireDelete?activity_id=@ViewBag.activity_id&buyer_id=@ViewBag.buyer_id&company=@ViewBag.company&seller_id=@qModel.seller_id" class="deletebu">刪除</a></td>
+                </tr>
+                        }
+            </tbody>
+        </table>
+        @Html.PagesList((List<PageList<QuestionnaireModel>>)ViewData["PageList"])
+    </article>
+
+<script>
+    $(function () {
+        @if (!string.IsNullOrEmpty((string)TempData["buyer_errMsg"]))
+        {
+            <text>
+        function check() {
+            var pw_errMsg = '@TempData["buyer_errMsg"]';
+            if (pw_errMsg != '') {
+                alert(pw_errMsg);
+            }
+        }
+        check();
+        </text>
+    }
+    });
+</script>

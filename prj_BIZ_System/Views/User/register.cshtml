@@ -6,12 +6,13 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/registerd.css" rel="stylesheet" />
+    <link href="~/stylesheets/registerd.css" rel="stylesheet" />
 }
 
 @{
     string enterprise_type01 = "checked";
     string enterprise_type02 = "";
+    string enterprise_type03 = "";
     string revenue00 = "";
     string revenue01 = "";
     string revenue02 = "";
@@ -19,6 +20,7 @@
     string revenue04 = "";
     string revenue05 = "";
     string revenue06 = "";
+    string capital = "";
     if (ViewBag.PageType == "Create")
     {
 
@@ -39,7 +41,6 @@
         Model.userinfo.info = "";
         Model.userinfo.info_en = "";
         Model.userinfo.id_enable = "0";
-
     }
     else {
 
@@ -47,10 +48,15 @@
         {
             enterprise_type01 = "checked";
         }
-        else
+        else if (Model.userinfo.enterprise_type == "1")
         {
             enterprise_type02 = "checked";
         }
+        else
+        {
+            enterprise_type03 = "checked";
+        }
+
         if (Model.userinfo.revenue == "0")
         {
             revenue00 = "checked";
@@ -82,6 +88,10 @@
 
     }
 
+    if (Model.userinfo.capital>0)
+    {
+        capital = Model.userinfo.capital.ToString();
+    }
 }
 
  <div class="article_col1">
@@ -106,9 +116,9 @@
 
         @*@if (ViewBag.PageType != "Create")
         {
-            <a href="/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
-                <a href="/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
-                <a href="/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
+            <a href="~/User/ProductList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_product_info</a>
+                <a href="~/User/CatalogList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_pdf</a>
+                <a href="~/User/VideoList" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_video</a>
                 <br /><br />
         }*@
         <form id="form" action="@ViewBag.Action" method="post" enctype="multipart/form-data">
@@ -117,11 +127,11 @@
                 <div id="result">
                     @if (Model.userinfo.logo_img != null)
                     {
-                        <img src="@(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
+                        <img src="@Url.Content(ViewBag.logoDir+Model.userinfo.logo_img)" alt="">
                     }
                     else
                     {
-                        <img src="/images/logopic.jpg" alt="">
+                        <img src="~/images/logopic.jpg" alt="">
                     }
                 </div>
                 <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_logoupload</label>
@@ -145,10 +155,13 @@
                     <label for="enterprise_type01">@prj_BIZ_System.LanguageResource.User.lb_domestic</label>
                     <input type="radio" class="radioinput" id="enterprise_type02" name="enterprise_type" value="1" @enterprise_type02 onclick="tipstring('1')">
                     <label for="enterprise_type02">@prj_BIZ_System.LanguageResource.User.lb_foreign</label>
+                    <input type="radio" class="radioinput" id="enterprise_type03" name="enterprise_type" value="2" @enterprise_type03 onclick="tipstring('2')">
+                    <label for="enterprise_type03">@prj_BIZ_System.LanguageResource.User.lb_startup</label>
                 </div>
                 <label for="" class="regis_col01R_label spanRed">
                     @prj_BIZ_System.LanguageResource.User.lb_account_info
                 </label>
+                <span class="fontRed" id="msg1"></span>
                 @if (ViewBag.PageType == "Create")
                 {
                     <input type="text" name="user_id" value="@Model.userinfo.user_id" class="regis_col01R_input spanRed" placeholder=" @prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid " onblur="chkuser()" required>
@@ -168,11 +181,12 @@
                     <label for="" class="regis_col01R_label spanRed">
                         @prj_BIZ_System.LanguageResource.User.lb_password
                     </label>
-                            <input name="user_pw" type="password" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_pwset8 required>
-                            <label for="" class="regis_col01R_label spanRed">
-                                @prj_BIZ_System.LanguageResource.User.lb_checknewpw
-                            </label>
-                            <input name="user_pw1" type="password" value="" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_reenterpw onblur="chkpw()" required>
+                    <input name="user_pw" type="password" value="@Model.userinfo.user_pw" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_pwset8 required>
+                    <label for="" class="regis_col01R_label spanRed">
+                        @prj_BIZ_System.LanguageResource.User.lb_checknewpw
+                    </label>
+                    <span class="fontRed" id="msg2"></span>
+                    <input name="user_pw1" type="password" value="" class="regis_col01R_input" placeholder=@prj_BIZ_System.LanguageResource.User.lb_reenterpw onblur="chkpw()" required>
 
                 }
                 else
@@ -181,327 +195,333 @@
                         @prj_BIZ_System.LanguageResource.User.lb_changepw
                     </label>
                             <div class="regis_col01R_input">
-                                <input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw" required>
+                                @*<input type="password" name="user_pw" style="width:150px;" readonly value="@Model.userinfo.user_pw" required>*@
+                                <input type="hidden" name="user_pw" value="@Model.userinfo.user_pw">
                                 <a class="addbu" href="EditPasswd">@prj_BIZ_System.LanguageResource.User.lb_changepw</a>
                             </div>
-                }
+                    }
 
-                <label for="name" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
-                <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
-                <label for="email" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_email</label>
-                <input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
+                    <label for="name" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_tel</label>
+                    <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
+                    <label for="email" class="regis_col01R_label spanRed">@prj_BIZ_System.LanguageResource.User.lb_email</label>
+                    <input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
 
-            </div>
-
-            <div class="form_box w100">
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
-                <label for="" class="regis_col02L spanRed">
-                    @prj_BIZ_System.LanguageResource.User.lb_companyname
-                </label>
-                <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R" required>
-                <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-                <input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
-                <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-                <input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
-                <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-                <input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
-                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-                <div class="regis_col02R">
-                    <textarea rows="4" name="info">@Model.userinfo.info</textarea>
                 </div>
-            </div>
 
-            <div class="form_box w100">
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
-                <label for="" class="regis_col02L spanRed">
-                    @prj_BIZ_System.LanguageResource.User.lb_companyname
-                </label>
-                <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R" required>
-                <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
-                <input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
-                <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
-                <input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
-                <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
-                <input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
-                <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
-                <div class="regis_col02R">
-                    <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
+                <div class="form_box w100">
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_zhtw_info</h2>
+                    <label for="" class="regis_col02L spanRed">
+                        @prj_BIZ_System.LanguageResource.User.lb_companyname
+                    </label>
+                    <input type="text" name="company" value="@Model.userinfo.company" class="regis_col02R" required>
+                    <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                    <input type="text" name="leader" value="@Model.userinfo.leader" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                    <input type="text" name="addr" value="@Model.userinfo.addr" class="regis_col02R">
+                    <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                    <input type="text" name="contact" value="@Model.userinfo.contact" class="regis_col02R">
+                    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info">@Model.userinfo.info</textarea>
+                    </div>
                 </div>
-            </div>
 
-            <br /><br />
-            
-            @if (Model.userinfo.enterprise_type==null || Model.userinfo.enterprise_type == "0")
-            {
-            <label id="lbcapital" for="capital" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
-            <div class="regis_col02R" id="capital">
-                <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
-            </div>
-            }
-            else
-            {
-                <label id="lbcapital" for="capital" class="regis_col02L spanRed" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
-                <div class="regis_col02R" id="capital" style="display:none">
-                    <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                <div class="form_box w100">
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_en_info</h2>
+                    <label for="" class="regis_col02L spanRed">
+                        @prj_BIZ_System.LanguageResource.User.lb_companyname
+                    </label>
+                    <input type="text" name="company_en" value="@Model.userinfo.company_en" class="regis_col02R" required>
+                    <label for="leader" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_boss</label>
+                    <input type="text" name="leader_en" value="@Model.userinfo.leader_en" class="regis_col02R">
+                    <label for="addr" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_addr</label>
+                    <input type="text" name="addr_en" value="@Model.userinfo.addr_en" class="regis_col02R">
+                    <label for="name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_contactname</label>
+                    <input type="text" name="contact_en" value="@Model.userinfo.contact_en" class="regis_col02R">
+                    <label class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_companybrief</label>
+                    <div class="regis_col02R">
+                        <textarea rows="4" name="info_en">@Model.userinfo.info_en</textarea>
+                    </div>
                 </div>
-            }
-            <label for="revenue" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz</label>
-            <div class="regis_col02R">
-                <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
-                <label for="revenue00">@prj_BIZ_System.LanguageResource.User.lb_0_5000k</label>
-                <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
-                <label for="revenue01">@prj_BIZ_System.LanguageResource.User.lb_5001k_10000k</label>
-                <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02>
-                <label for="revenue02">@prj_BIZ_System.LanguageResource.User.lb_10001_15000k</label>
-                <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
-                <label for="revenue03">@prj_BIZ_System.LanguageResource.User.lb_15001k_30000k</label>
-                <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
-                <label for="revenue04">@prj_BIZ_System.LanguageResource.User.lb_30001k_50000k</label>
-                <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
-                <label for="revenue05">@prj_BIZ_System.LanguageResource.User.lb_50001k_100000k</label>
-                <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
-                <label for="revenue06">@prj_BIZ_System.LanguageResource.User.lb_morethan100000k</label>
-            </div>
-            <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_scope (@prj_BIZ_System.LanguageResource.User.lb_multiple)</label>
-            <div class="regis_col02R verticalslist">
 
-                @foreach (var sortList in Model.enterprisesortList)
+                <br /><br />
+
+                @*@if (Model.userinfo.enterprise_type==null || Model.userinfo.enterprise_type == "0")
+                {*@
+                <label id="lbcapital" for="capital" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital ($NTD)</label>
+                <div class="regis_col02R" id="capital">
+                    <input type="text" name="capital" value="@capital"> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                </div>
+                @*}
+                else
                 {
-                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
-                    {
-                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
-                    }
-                    else
-                    {
-                        <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</label>
-                    }
+                    <label id="lbcapital" for="capital" class="regis_col02L spanRed" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_amountofcapital</label>
+                    <div class="regis_col02R" id="capital" style="display:none">
+                        <input type="text" name="capital" value="@Model.userinfo.capital" required> @prj_BIZ_System.LanguageResource.User.lb_1000dollars
+                    </div>
+                }*@
+                <label for="revenue" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_sumofbiz ($USD)</label>
+                <div class="regis_col02R">
+                    <input type="radio" name="revenue" class="radioinput" value="0" id="revenue00" @revenue00>
+                    <label for="revenue00">@prj_BIZ_System.LanguageResource.User.lb_0_5000k</label>
+                    <input type="radio" name="revenue" value="1" class="radioinput" id="revenue01" @revenue01>
+                    <label for="revenue01">@prj_BIZ_System.LanguageResource.User.lb_5001k_10000k</label>
+                    <input type="radio" name="revenue" value="2" class="radioinput" id="revenue02" @revenue02>
+                    <label for="revenue02">@prj_BIZ_System.LanguageResource.User.lb_10001_15000k</label>
+                    <input type="radio" name="revenue" value="3" class="radioinput" id="revenue03" @revenue03>
+                    <label for="revenue03">@prj_BIZ_System.LanguageResource.User.lb_15001k_30000k</label>
+                    <input type="radio" name="revenue" value="4" class="radioinput" id="revenue04" @revenue04>
+                    <label for="revenue04">@prj_BIZ_System.LanguageResource.User.lb_30001k_50000k</label>
+                    <input type="radio" name="revenue" value="5" class="radioinput" id="revenue05" @revenue05>
+                    <label for="revenue05">@prj_BIZ_System.LanguageResource.User.lb_50001k_100000k</label>
+                    <input type="radio" name="revenue" value="6" class="radioinput" id="revenue06" @revenue06>
+                    <label for="revenue06">@prj_BIZ_System.LanguageResource.User.lb_morethan100000k</label>
+                </div>
+                <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_scope (@prj_BIZ_System.LanguageResource.User.lb_multiple)</label>
+                <div class="regis_col02R verticalslist">
 
+                    @foreach (var sortList in Model.enterprisesortList)
+                    {
+                        if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+                        {
+                            <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</label>
+                        }
+
+                    }
+                </div>
+                <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
+                <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
+
+                @if (ViewBag.PageType == "Create")
+                {
+                    <div class="centerbox" style="padding-bottom:30px">
+                        <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree">
+                        <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
+                    </div>
                 }
-            </div>
-            <label for="website" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_website</label>
-            <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
-
-            @if (ViewBag.PageType == "Create")
-            {
-                <div class="centerbox" style="padding-bottom:30px">
-                    <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree">
-                    <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
-                </div>
-            }
-            else
-            {
-                <div class="centerbox" style="display:none">
-                    <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree" checked>
-                    <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
-                </div>
-            }
-
-            <div class="centerbox">
-                <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
-            </div>
-
-        </form>
-    </article>
-    @{
-        Html.RenderAction("_HomeLeftPartial", "Home");
-    }
-</div>
-
-
-
-
-
-<script>
-    $(function () {
-        init();
-        render();
-    });
-
-    function init() {
-        $(function()
-        {
-            $("#id_image_large").change(function(){
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        $('#result img').attr('src', e.target.result);
-                    }
-
-                    reader.readAsDataURL(this.files[0]);
+                else
+                {
+                    <div class="centerbox" style="display:none">
+                        <input type="checkbox" class="inputCheckbox" id="ihaveagree" name="ihaveagree" checked>
+                        <label for="ihaveagree" class="fontRed">@prj_BIZ_System.LanguageResource.User.lb_ihaveagree</label>
+                    </div>
                 }
 
-                alert("@prj_BIZ_System.LanguageResource.User.lb_select_successful");
-            });
-        }) ;
+                <div class="centerbox">
+                    <button type="submit" class="submitbu">@ViewBag.SubmitName</button>
+                </div>
 
-    }
-
-    function render(){
-
-        @if(ViewBag.Action.Equals("UserInsertUpdate")){
-            <text>
-                var UpdateRender = function(){
-                    $.each(userSortList,function(index,el){
-                        $("input[name='sort_id'][value='"+el.sort_id+"']").prop("checked",true);
-                    });
-                };
-                var userSortList = @Html.Raw(HttpUtility.UrlDecode(ViewBag.userSortList));
-                UpdateRender();
-            </text>
+            </form>
+        </article>
+        @{
+            Html.RenderAction("_HomeLeftPartial", "Home");
         }
-    }
+    </div>
 
-    $(function () {
 
-        @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
-        {
-            <text>
+
+
+
+    <script>
+        $(function () {
+            init();
+            render();
+        });
+
+        function init() {
+            $(function()
+            {
+                $("#id_image_large").change(function(){
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('#result img').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(this.files[0]);
+                    }
+
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_select_successful");
+                });
+            }) ;
+
+        }
+
+        function render(){
+
+            @if(ViewBag.Action.Equals("UserInsertUpdate")){
+                <text>
+            var UpdateRender = function(){
+                $.each(userSortList,function(index,el){
+                    $("input[name='sort_id'][value='"+el.sort_id+"']").prop("checked",true);
+                });
+            };
+            var userSortList = @Html.Raw(HttpUtility.UrlDecode(ViewBag.userSortList));
+            UpdateRender();
+            </text>
+            }
+        }
+
+        $(function () {
+
+            @if (!string.IsNullOrEmpty((string)TempData["pw_errMsg"]))
+            {
+                <text>
             function check() {
                 var pw_errMsg = '@TempData["pw_errMsg"]';
                 if (pw_errMsg != '')
-        {
+                {
                     alert(pw_errMsg);
-        }
-        }
+                }
+            }
             check();
-        </text>
-    }
+            </text>
+        }
 
-        $("#form").submit(function () {
-            var user_pw = $("input[name='user_pw']").val();
-            var submitName = '@(ViewBag.SubmitName)';
-            var errMsg = '';
-            if (submitName != '@(prj_BIZ_System.LanguageResource.User.lb_edit)') {
-                errMsg = checkValidationOk(user_pw);
-            }
+            $("#form").submit(function () {
+                var user_pw = $("input[name='user_pw']").val();
+                var submitName = '@(ViewBag.SubmitName)';
+                var errMsg = '';
+                if (submitName != '@(prj_BIZ_System.LanguageResource.User.lb_edit)') {
+                    errMsg = checkValidationOk(user_pw);
+                }
 
-            if (errMsg != '') {
-                alert(errMsg);
-                return false;
-            }
-
-            var revenue = $("input[name='revenue']:checked").val();
-            if (revenue==null || revenue==''){
-                alert("@prj_BIZ_System.LanguageResource.User.lb_sum_is_empty!!");
-                return false;
-            }
-            var sort_id = $("input[name='sort_id']:checked").val();
-            if (sort_id==null || sort_id==''){
-                alert("@prj_BIZ_System.LanguageResource.User.lb_scope_sel!!");
-                return false;
-            }
-
-            var revenue = $("input[name='ihaveagree']:checked").val();
-            if (revenue==null || revenue==''){
-                alert("@prj_BIZ_System.LanguageResource.User.lb_check [@prj_BIZ_System.LanguageResource.User.lb_ihaveagree]");
-                return false;
-            }
-
-            if($("input[name='enterprise_type']:checked").val()==0){
-                var reg = /\D/;
-                var user_id = $("input[name='user_id']").val();
-                if(reg.test(user_id)||user_id==null||user_id.length!=8){
-                    alert("@prj_BIZ_System.LanguageResource.User.lb_iduse_companyid!!");
+                if (errMsg != '') {
+                    alert(errMsg);
                     return false;
                 }
-            }
 
-        });
-    });
+                @*var revenue = $("input[name='revenue']:checked").val();
+                if (revenue==null || revenue==''){
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_sum_is_empty!!");
+                    return false;
+                }*@
+                var sort_id = $("input[name='sort_id']:checked").val();
+                if (sort_id==null || sort_id==''){
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_scope_sel!!");
+                    return false;
+                }
 
+                var revenue = $("input[name='ihaveagree']:checked").val();
+                if (revenue==null || revenue==''){
+                    alert("@prj_BIZ_System.LanguageResource.User.lb_check [@prj_BIZ_System.LanguageResource.User.lb_ihaveagree]");
+                    return false;
+                }
 
-
-    function checkValidationOk(user_pw) {
-        var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
-        var errMsg = '';
-        if (user_pw == null || user_pw == '') {
-            errMsg += '@prj_BIZ_System.LanguageResource.User.lb_newpw_is_empty \n';
-        } else {
-            if(!reg.test(user_pw)){
-                errMsg += '@prj_BIZ_System.LanguageResource.User.lb_pwset8 \n';
-            }
-        }
-        return errMsg;
-    }
-
-    function tipstring(id) {
-        if (id=="0")
-        {
-            $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid");
-            $("#lbcapital").show();
-            $("#capital").show();
-        }
-        else
-        {
-            $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_create_account");
-            $("#lbcapital").hide();
-            $("#capital").hide();
-        }
-    }
-
-
-    function chkpw() {
-        var user_pw = $("input[name='user_pw']").val();
-        var user_pw1 = $("input[name='user_pw1']").val();
-        if (user_pw != null && user_pw != '')
-        {
-            if (user_pw1 =='')
-            {
-                alert("@prj_BIZ_System.LanguageResource.User.lb_confirmpw_is_empty");
-                $("input[name='user_pw1']").focus();
-            }
-            else if (user_pw != user_pw1)
-            {
-                alert("@prj_BIZ_System.LanguageResource.User.lb_reconfirmpw");
-                $("input[name='user_pw1']").focus();
-            }
-        }
-    }
-
-    function clearchk() {
-        var i=0;
-        for (i=1;i<53;i++)
-        {
-            $("input[name='sort_id'][id='"+i+"']").prop("checked",false);
-        }
-
-    }
-
-    function chkuser() {
-
-        var user_id = $("input[name='user_id']").val();
-        if (user_id != null && user_id != '')
-        {
-            $.ajax({
-                type: "get",
-                url: "@Url.Action("CheckUser", "Manager")",
-                cache: false,
-            data: { "user_id": user_id },
-            dataType: "json"
-        }).done(function (result) {
-            if (result != null) {
-                var Huser = result;
-                if (Huser == true) {
-                    alert("@prj_BIZ_System.LanguageResource.User.lb_id_alreadyexist");
-                    $("input[name='user_id']").focus();
-                } else {
-                    clearchk();
-                    $("input[name='company']").val(result.Company_Name);
-                    $("input[name='addr']").val(result.Company_Location);
-                    $("input[name='capital']").val(result.Capital_Stock_Amount/1000);
-                    var i=0;
-                    for (i=0;i<result.Business_Item_Count;i++)
-                    {
-                        $("input[name='sort_id'][id2='"+result.Business_Item[i]+"']").prop("checked",true);
+                if($("input[name='enterprise_type']:checked").val()==0){
+                    var reg = /\D/;
+                    var user_id = $("input[name='user_id']").val();
+                    if(reg.test(user_id)||user_id==null||user_id.length!=8){
+                        alert("@prj_BIZ_System.LanguageResource.User.lb_iduse_companyid!!");
+                        return false;
                     }
+                }
 
+            });
+        });
+
+
+
+        function checkValidationOk(user_pw) {
+            var reg = /^(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
+            var errMsg = '';
+            if (user_pw == null || user_pw == '') {
+                errMsg += '@prj_BIZ_System.LanguageResource.User.lb_newpw_is_empty \n';
+            } else {
+                if(!reg.test(user_pw)){
+                    errMsg += '@prj_BIZ_System.LanguageResource.User.lb_pwset8 \n';
                 }
             }
-            else {
-            }
-        });
-    }
-    }
+            return errMsg;
+        }
 
-</script>
+        function tipstring(id) {
+            if (id=="0")
+            {
+                $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_pleaseuse_companyid");
+                //            $("#lbcapital").show();
+                //            $("#capital").show();
+            }
+            else
+            {
+                $("input[name='user_id']").attr("placeholder","@prj_BIZ_System.LanguageResource.User.lb_create_account");
+                //            $("#lbcapital").hide();
+                //            $("#capital").hide();
+            }
+        }
+
+
+        function chkpw() {
+            $("#msg2").html("");
+            var user_pw = $("input[name='user_pw']").val();
+            var user_pw1 = $("input[name='user_pw1']").val();
+            if (user_pw != null && user_pw != '' && user_pw1 != null && user_pw1 != '')
+            {
+                @*if (user_pw1 =='')
+                {
+                    $("#msg2").html("@prj_BIZ_System.LanguageResource.User.lb_confirmpw_is_empty");
+                    $("input[name='user_pw1']").focus();
+                }
+                else*@
+                if (user_pw != user_pw1)
+                {
+                    $("#msg2").html("@prj_BIZ_System.LanguageResource.User.lb_reconfirmpw");
+                    @*alert("@prj_BIZ_System.LanguageResource.User.lb_reconfirmpw");*@
+                    $("input[name='user_pw1']").focus();
+                }
+            }
+        }
+
+        function clearchk() {
+            var i=0;
+            for (i=1;i<53;i++)
+            {
+                $("input[name='sort_id'][id='"+i+"']").prop("checked",false);
+            }
+
+        }
+
+        function chkuser() {
+
+            var user_id = $("input[name='user_id']").val();
+            $("#msg1").html("");
+            if (user_id != null && user_id != '')
+            {
+                $.ajax({
+                    type: "get",
+                    url: "@Url.Action("CheckUser", "Manager")",
+                    cache: false,
+                    data: { "user_id": user_id },
+                    dataType: "json"
+                }).done(function (result) {
+                    if (result != null) {
+                        var Huser = result;
+                        if (Huser == true) {
+                            @*alert("@prj_BIZ_System.LanguageResource.User.lb_id_alreadyexist");*@
+                            $("#msg1").html("@prj_BIZ_System.LanguageResource.User.lb_id_alreadyexist");
+                            $("input[name='user_id']").focus();
+                        } else {
+                            clearchk();
+                            $("input[name='company']").val(result.Company_Name);
+                            $("input[name='addr']").val(result.Company_Location);
+                            $("input[name='capital']").val(result.Capital_Stock_Amount/1000);
+                            var i=0;
+                            for (i=0;i<result.Business_Item_Count;i++)
+                            {
+                                $("input[name='sort_id'][id2='"+result.Business_Item[i]+"']").prop("checked",true);
+                            }
+
+                        }
+                    }
+                    else {
+                    }
+                });
+            }
+        }
+
+    </script>

@@ -1,4 +1,5 @@
 ﻿@using prj_BIZ_System.Models
+@using prj_BIZ_System.LanguageResource
 @model prj_BIZ_System.Models.Match_ViewModel
 
 
@@ -18,12 +19,14 @@
             @if (Model.buyerinfoList != null && Model.buyerinfoList.Count > 0)
             {
                 <section class="form_box">
-                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_acting-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
                     <ul>
                         @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList)
                         {
                             <li>
-                                <a href="news_activity.html" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>@buyerInfoModel.activity_name</a>
+                                <a href="~/Activity/ActivityInfo?Id=@buyerInfoModel.activity_id" class="iconlink"><span>@buyerInfoModel.starttime.ToShortDateString()</span>
+                                    @Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "activity_name")
+                                </a>
                                 <div class="bubox">
                                     <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_sellerlist</a>
                                     @if(buyerInfoModel.seller_select.Equals("0") && buyerInfoModel.matchmaking_select.Equals("0"))
@@ -42,12 +45,14 @@
             @if (Model.activityregisterList != null && Model.activityregisterList.Count > 0)
             {
                 <section class="form_box">
-                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_acting</h2>
                     <ul>
                         @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList)
                         {
                             <li>
-                                <a href="news_activity.html" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>@activityRegisterModel.activity_name</a>
+                                <a href="~/Activity/ActivityInfo?Id=@activityRegisterModel.activity_id" class="iconlink"><span>@activityRegisterModel.starttime.ToShortDateString()</span>
+                                @Localization.getPropValue(Request.Cookies["_culture"], activityRegisterModel, "activity_name")
+                                </a>
                                 <div class="bubox">
                                     <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
                                     @if (activityRegisterModel.seller_select.Equals("0") && activityRegisterModel.matchmaking_select.Equals("0"))
@@ -66,11 +71,11 @@
             @if (
             (Model.buyerinfoList == null || Model.buyerinfoList.Count == 0) &&
             (Model.activityregisterList == null || Model.activityregisterList.Count == 0)
-        )
+            )
             {
                
                  <section class="form_box">
-                    <h2>@prj_BIZ_System.LanguageResource.User.lb_activitylist</h2>
+                    <h2>@prj_BIZ_System.LanguageResource.User.lb_acting</h2>
                     <span>@prj_BIZ_System.LanguageResource.User.lb_no_register</span>
                 </section>
             }
@@ -83,16 +88,9 @@
                     @foreach (ActivityInfoModel activityInfoModel in Model.activityinfoList)
                     {
                         var activity_name = activityInfoModel.activity_name;
-                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                        {
-                            if (activityInfoModel.activity_name_en != null && activityInfoModel.activity_name_en != "")
-                            {
-                                activity_name = activityInfoModel.activity_name_en;
-                            }
-                        }
-
+                        activity_name = Localization.getPropValue(Request.Cookies["_culture"], activityInfoModel, "activity_name");
                         <li>
-                            <a href="/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink"><span>@activityInfoModel.starttime.ToShortDateString()</span>@activity_name</a>
+                            <a href="~/Activity/ActivityInfo?Id=@activityInfoModel.activity_id" class="iconlink"><span>@activityInfoModel.starttime.ToShortDateString()</span>@activity_name</a>
                         </li>
                     }
                 </ul>
@@ -102,6 +100,68 @@
                 <span>@prj_BIZ_System.LanguageResource.User.lb_no_recommended</span>
             }
         </section>
+
+        @if (Model.buyerinfoList_2 != null && Model.buyerinfoList_2.Count > 0)
+            {
+            <section class="form_box">
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_acted-@prj_BIZ_System.LanguageResource.User.lb_buyerarea</h2>
+                <ul>
+                    @foreach (BuyerInfoModel buyerInfoModel in Model.buyerinfoList_2)
+                    {
+                        <li>
+                            <a href="~/Activity/ActivityInfo?Id=@buyerInfoModel.activity_id" class="iconlink">
+                                <span>@buyerInfoModel.starttime.ToShortDateString()</span>
+                                @Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "activity_name")
+                            </a>
+                            <div class="bubox">
+                                <a href="@Url.Action("SellerInfoActivity","Activity", new { activity_id = buyerInfoModel.activity_id })" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_sellerlist</a>
+                                @if (buyerInfoModel.seller_select.Equals("0") && buyerInfoModel.matchmaking_select.Equals("0"))
+                                {
+                                    <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("WhetherMetchSeller", "Match", new { activity_id = buyerInfoModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+
+        @if (Model.activityregisterList_2 != null && Model.activityregisterList_2.Count > 0)
+            {
+            <section class="form_box">
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_acted</h2>
+                <ul>
+                    @foreach (ActivityRegisterModel activityRegisterModel in Model.activityregisterList_2)
+                    {
+                        <li>
+                            <a href="~/Activity/ActivityInfo?Id=@activityRegisterModel.activity_id" class="iconlink">
+                                <span>@activityRegisterModel.starttime.ToShortDateString()</span>
+                                @Localization.getPropValue(Request.Cookies["_culture"], activityRegisterModel, "activity_name")
+                            </a>
+                            <div class="bubox">
+                                <a href="@Url.Action("ActivityRegister","Activity",new { register_id = activityRegisterModel.register_id, activity_id = activityRegisterModel.activity_id})" class="deleteSbu">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
+                                @if (activityRegisterModel.seller_select.Equals("0") && activityRegisterModel.matchmaking_select.Equals("0"))
+                                {
+                                    <a onclick="doOpenDialog()" href="javascript:return false;" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                                else {
+                                    <a href="@Url.Action("WhetherMetchBuyer", "Match", new { activity_id = activityRegisterModel.activity_id})" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a>
+                                }
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+
+
+
+
+
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");

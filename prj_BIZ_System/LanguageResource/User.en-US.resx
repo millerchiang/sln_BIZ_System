@@ -184,7 +184,7 @@
     <value>Company Address</value>
   </data>
   <data name="lb_amountofcapital" xml:space="preserve">
-    <value>Amount Of Capital</value>
+    <value>Capital</value>
   </data>
   <data name="lb_amountofreply" xml:space="preserve">
     <value>Amount Of Replies</value>
@@ -307,7 +307,7 @@
     <value>Forgot Password?</value>
   </data>
   <data name="lb_good_activities" xml:space="preserve">
-    <value>Recommended Activities</value>
+    <value>Recommendation</value>
   </data>
   <data name="lb_home" xml:space="preserve">
     <value>Homepage</value>
@@ -467,7 +467,7 @@ Any further question, please contact adminstrator.</value>
     <value>Submit</value>
   </data>
   <data name="lb_sumofbiz" xml:space="preserve">
-    <value>Sum Of Business</value>
+    <value>Revenue</value>
   </data>
   <data name="lb_tel" xml:space="preserve">
     <value>Tel</value>
@@ -854,5 +854,50 @@ To complete the registration of members, thank you!</value>
   </data>
   <data name="lb_sa_member" xml:space="preserve">
     <value>Sales member</value>
+  </data>
+  <data name="lb_click_correct" xml:space="preserve">
+    <value>Sorry, please click the correct link.</value>
+  </data>
+  <data name="lb_data_wrong" xml:space="preserve">
+    <value>The data is not correct, please re-type !</value>
+  </data>
+  <data name="lb_member_verified" xml:space="preserve">
+    <value>You have already verified this member account, please login on the homepage, thank you.</value>
+  </data>
+  <data name="lb_parameter_wrong" xml:space="preserve">
+    <value>Your member verifed parameters are wrong. Please re-send the verification email or contact our customer service. Thank you.</value>
+  </data>
+  <data name="lb_pwmailfail" xml:space="preserve">
+    <value>New password notification update failed, please re-operate !</value>
+  </data>
+  <data name="lb_verify_expired" xml:space="preserve">
+    <value>Your membership verification has expired. Please resend the verification mail or re-register. Thank you.</value>
+  </data>
+  <data name="lb_sendmsg" xml:space="preserve">
+    <value>Send a message</value>
+  </data>
+  <data name="lb_backlogin_a" xml:space="preserve">
+    <value>Hello, before register the activity, you have to login the member, Do you want to back the home page to login?</value>
+  </data>
+  <data name="lb_backlogin_m" xml:space="preserve">
+    <value>Hello, before sent the message, you have to login the member, Do you want to back the home page to login?</value>
+  </data>
+  <data name="lb_startup" xml:space="preserve">
+    <value>Start-up</value>
+  </data>
+  <data name="lb_acted" xml:space="preserve">
+    <value>Prior Activity</value>
+  </data>
+  <data name="lb_acting" xml:space="preserve">
+    <value>Upcoming Activity</value>
+  </data>
+  <data name="lb_coverage" xml:space="preserve">
+    <value>Distribution Coverage</value>
+  </data>
+  <data name="lb_estimated_amount" xml:space="preserve">
+    <value>Estimated Purchasing Amount from TW (US$)</value>
+  </data>
+  <data name="lb_items" xml:space="preserve">
+    <value>Purchase Items</value>
   </data>
 </root>

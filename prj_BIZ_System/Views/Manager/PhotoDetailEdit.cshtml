@@ -1,0 +1,95 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.ActivityPhotoModel
+
+@{
+    //ViewBag.Title = "ActivityPhoto";
+    string active01 = "checked";
+    string active02 = "";
+    if (Model.active != null)
+    {
+        if (Model.active == "0")
+        {
+            active01 = "checked";
+        }
+        else
+        {
+            active02 = "checked";
+        }
+    }
+
+}
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+    <div class="article_col1">
+        <article class="article_col2 form_box">
+            <h2>活動照片管理</h2>
+            <form id="form" action="@Url.Action("doPhotoInsertOrUpdate", "Manager")" method="post" enctype="multipart/form-data">
+                <div class="magb30 centerbox2">
+                    <div class="imgboxB" id="resultB">
+                        <img src="@Url.Content(string.IsNullOrEmpty(Model.photo_pic_site)?UploadHelper.defaultImgBig:ViewBag.photoDir+Model.photo_pic_site)" alt="">
+                    </div>
+                    <label class="choose_file" id="upload" for="id_image_large">@prj_BIZ_System.LanguageResource.User.lb_photoupload</label>
+                    <input type="file" id="id_image_large" name="photo_img">
+                </div>
+                <div class="magb30">
+                    <div class="form_box w100">
+                        <h2>相關資訊</h2>
+                        <input type="hidden" name="photo_id" value="@Model.photo_id" class="regis_col02R" />
+
+                        <span class="regis_col02L regis_col_bg">顯示於網頁:</span>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="active01" name="active" value="0" @active01>
+                            <label for="active01">不顯示</label>
+                            <input type="radio" class="radioinput" id="active02" name="active" value="1" @active02>
+                            <label for="active02">顯示</label>
+                        </div>
+
+                        <span class="regis_col02L regis_col_bg">照片顯示日期:</span>
+                        <input type="text" id="photo_time" name="photo_time" value="@Model.photo_time.ToString("yyyy-MM-dd")" class="regis_col02R">
+
+                        <span class="regis_col02L regis_col_bg spanRed">照片標題(中文):</span>
+                        <input name="photo_brief" required value="@Model.photo_brief" class="regis_col02R" />
+                        <span class="regis_col02L regis_col_bg spanRed">照片標題(英文):</span>
+                        <input name="photo_brief_en" required value="@Model.photo_brief_en" class="regis_col02R" />
+
+                        <span class="regis_col02L regis_col_bg">照片說明(中文):</span>
+                        <textarea name="photo_info" class="regis_col02R">@Model.photo_info</textarea>
+                        <span class="regis_col02L regis_col_bg">照片說明(英文):</span>
+                        <textarea name="photo_info_en" class="regis_col02R">@Model.photo_info_en</textarea>
+
+                    </div>
+                </div>
+                <div class="centerbox">
+                    <button class="buinfor" type="submit"> @prj_BIZ_System.LanguageResource.User.lb_save </button>
+@*                    <a href="javascript:void(0)" class="addbublue" onclick="doSubmit()">@prj_BIZ_System.LanguageResource.User.lb_save</a>*@
+                </div>
+
+            </form>
+        </article>
+    </div>
+    <script>
+        $(function () {
+            init();
+        });
+
+        function init() { }
+        function doSubmit() {
+            //var errmsg = checkEmpty();
+            //if ( errmsg != '') {
+            //    alert(errmsg);
+            //    return false;
+            //} else {
+                $("#form").submit();
+            //}
+        }
+
+        @*function checkEmpty() {
+            var errmsg = '';
+            var product_name = $("input[name='product_name']").val();
+            if (product_name == null || product_name == '') {
+                errmsg += "@prj_BIZ_System.LanguageResource.User.lb_pdname_is_empty";
+            }
+            return errmsg;
+        }*@
+    </script>

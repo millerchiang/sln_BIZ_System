@@ -6,8 +6,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using prj_BIZ_System.Extensions;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -65,7 +68,8 @@ namespace prj_BIZ_System.Controllers
             indexModel.enterprisesortList = userService.GetSortList();
             indexModel.userinfoList = userService.GetUserInfoList();
             indexModel.activityinfoList = activityService.GetActivityInfoListLimit(6);
-            indexModel.videolistList = userService.getAllVideoTop(1);
+
+            indexModel.videolistList = userService.getVideoListActive();// getAllVideoTop(1);
 
             var isCacheON = CacheConfig._NavSearchPartial_load_cache_isOn;
             if (isCacheON)
@@ -91,8 +95,20 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Index()
         {
-            indexModel.newsList = activityService.GetNewsLimit(6);
+            indexModel.activityphotoList = activityService.getActivityViewPhoto();
+            indexModel.bannerphotoList = activityService.getBannerViewPhoto();
             indexModel.cataloglistList = userService.getAllCatalogTop(4);
+
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                indexModel.newsList = activityService.GetNewsLimit_e(6);
+            }
+            else
+            {
+                indexModel.newsList = activityService.GetNewsLimit(6);
+            }
+
+
             ViewBag.coverDir = UploadConfig.UploadRootPath;
 
             foreach (NewsModel newsModel in indexModel.newsList)
@@ -109,11 +125,16 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult News()
         {
+            string news_style = "1";
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                news_style = "2";
+            }
 
             if (Request["Type"] == null)
             {
                 ViewBag.tname = LanguageResource.User.lb_latest_activitynews;
-                indexModel.newsList = activityService.GetNewsAll(null).Pages(Request, this, 10);
+                indexModel.newsList = activityService.GetNewsAll(null, news_style).Pages(Request, this, 10);
             }
             else
             {
@@ -122,7 +143,7 @@ namespace prj_BIZ_System.Controllers
                 else
                     ViewBag.tname = LanguageResource.User.lb_latest_news;
 
-                indexModel.newsList = activityService.GetNewsType(Request["Type"], null).Pages(Request, this, 10);
+                indexModel.newsList = activityService.GetNewsTypeView(Request["Type"], null,news_style).Pages(Request, this, 10);
             }
             docookie("_mainmenu", "News");
             return View(indexModel);
@@ -148,7 +169,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult CompanyList()
         {
-            userModel.cataloglistList = userService.getAllCatalogTop(4);
+//            userModel.cataloglistList = userService.getAllCatalogTop(4);
             string sort_id = "";
             string kw = "";
             string productname = "";
@@ -164,38 +185,57 @@ namespace prj_BIZ_System.Controllers
 
             if (sort_id != "")
             {
+                EnterpriseSortListModel scope = userService.GetSortById(int.Parse(sort_id));
                 userModel.companysortList = userService.SelectUserSortBySortId(int.Parse(sort_id), kw);
                 ViewBag.model = "companysortList";
+                ViewBag.keyword = LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], scope, "enterprise_sort_name");
             }
             else if (kw!="")
             {
                 userModel.userinfoList = userService.SelectUserKw(kw);
                 ViewBag.model = "userinfoList";
+                ViewBag.keyword = kw;
             }
             else if (productname != "")
             {
-                userModel.userinfoList = userService.SelectUserByProductName(productname);
-                ViewBag.model = "userinfoList";
+//                userModel.userinfoList = userService.SelectUserByProductName(productname);
+                userModel.productsortList = userService.getProductListByKw(productname).Pages<ProductListModel>(Request, this, 10);
+                ViewBag.model = "productList";
+                ViewBag.keyword = productname;
             }
             else if (catalogname != "")
             {
-                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
-                ViewBag.model = "catalogname";
+//                userModel.userinfoList = userService.SelectUserByCatalogName(catalogname);
+                userModel.cataloglistList = userService.getCatalogListByKw(catalogname);
+                ViewBag.model = "catalogList";
+                ViewBag.keyword = catalogname;
             }
 
-            ViewBag.coverDir = UploadConfig.UploadRootPath;
+            ViewBag.UploadRootPath = UploadConfig.UploadRootPath;
 
             docookie("_mainmenu", "CompanyList");
             return View(userModel);
         }
 
-        
+        public ActionResult ActivityPhotoView()
+        {
+            if (Request["Id"] != null)
+            {
+                indexModel.activityphoto = activityService.getPhotoOne(int.Parse(Request["Id"]));
+                ViewBag.photoDir = UploadHelper.getPictureDirPath(indexModel.activityphoto.manager_id, "activity");
+                docookie("_mainmenu", "ActivityPhotoView");
+                return View(indexModel);
+            }
+            else
+                return Redirect("Index");
+        }
+
         public ActionResult NewsView()
         {
             if (Request["Id"] !=null)
             {
                 doNewsView();
-
+                
                 docookie("_mainmenu", "NewsView");
                 return View(indexModel);
             }
@@ -208,6 +248,17 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
+            replaceImgSrcParamToUrlContent();
+        }
+
+        private void replaceImgSrcParamToUrlContent()
+        {
+            var replacePattern = "src=[\"'](.+?)[\"'].*?";
+            string matchString = Regex.Match(indexModel.news.content, replacePattern, RegexOptions.IgnoreCase).Groups[1].Value;
+            if (!matchString.IsNullOrEmpty() && matchString[0]=='/')
+            {
+                indexModel.news.content = Regex.Replace(indexModel.news.content, replacePattern, "src=\"" + Url.Content("~/" + matchString) + "\"");
+            }
         }
 
         public ActionResult NewsViewForApp(string nvkey)
@@ -336,14 +387,14 @@ namespace prj_BIZ_System.Controllers
                 bool isUpdateSuccess = passwordService.UpdateUserPassword(md.user_id, securityPassword);
                 if (!isUpdateSuccess)
                 {
-                    errMsg = "新的註冊密碼通知信更新失敗，請重新操作!!";
+                    errMsg = LanguageResource.User.lb_pwmailfail;
                     TempData["fp_errMsg"] = errMsg;
                     return Redirect("ForgetPassword");
                 }
             }
             else
             {
-                errMsg = "輸入的資料不正確，請重新操作!!";
+                errMsg = LanguageResource.User.lb_data_wrong;
                 TempData["fp_errMsg"] = errMsg;
                 return Redirect("ForgetPassword");
             }
@@ -389,6 +440,23 @@ namespace prj_BIZ_System.Controllers
         {
             return View();
         }
+
+        public ActionResult LatestVideoList()
+        {
+
+            IList<VideoListModel> videoLists = userService.getVideoListAll().Pages(Request, this, 10);
+            docookie("_mainmenu", "LatestVideoList");
+            return View(videoLists);
+        }
+        public ActionResult LatestCatalogList()
+        {
+
+            IList<CatalogListModel> catalogLists = userService.getAllCatalog(null).Pages(Request, this, 10);
+            ViewBag.coverDir = UploadConfig.UploadRootPath;
+            docookie("_mainmenu", "LatestCatalogList");
+            return View(catalogLists);
+        }
+
 
     }
 }

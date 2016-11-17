@@ -5,8 +5,8 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/news.css" rel="stylesheet" />
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/news.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
@@ -47,25 +47,10 @@
                 matchmaking_select_chk = @prj_BIZ_System.LanguageResource.User.lb_yes;
             }
 
-            activity_name = Model.activityinfo.activity_name;
-            addr = Model.activityinfo.addr;
-            organizer = Model.activityinfo.organizer;
+            activity_name = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "activity_name");
+            addr = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "addr");
+            organizer = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.activityinfo, "organizer");
 
-            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-            {
-                if (Model.activityinfo.activity_name_en != null && Model.activityinfo.activity_name_en != "")
-                {
-                    activity_name = Model.activityinfo.activity_name_en;
-                }
-                if (Model.activityinfo.addr_en != null && Model.activityinfo.addr_en != "")
-                {
-                    addr = Model.activityinfo.addr_en;
-                }
-                if (Model.activityinfo.organizer_en != null && Model.activityinfo.organizer_en != "")
-                {
-                    organizer = Model.activityinfo.organizer_en;
-                }
-            }
         }
 
          <ul class="news_content_list">
@@ -84,11 +69,12 @@
         <div class="centerbox">
             @if (Model.activityregister == null)
             {
-                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+//                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.starttime.Ticks - DateTime.Now.Ticks).TotalHours > 24)
+                if (Model.buyerinfo == null && new TimeSpan(Model.activityinfo.endtime.Ticks - DateTime.Now.Ticks).TotalHours > 0)
                 {
                     if (Request.Cookies["UserInfo"] != null)
                     {
-                        <a href="/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
+                        <a href="~/Activity/EditActivityRegister?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_signup_me</a>
                     }
                     else
                     {
@@ -98,14 +84,14 @@
             }
             else if (Model.activityregister.manager_check == "0")
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
-                <a href="/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
+                <a href="~/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_underreview</a>
+                <a href="~/Activity/EditActivityRegisterDelete?activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_cancel</a>
             }
             else
             {
-                <a href="/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_audited</a>
+                <a href="~/Activity/EditActivityRegister?register_id=@Model.activityregister.register_id&activity_id=@Model.activityinfo.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_audited</a>
             }
-            <a href="/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
+            <a href="~/Activity/BuyerInfoActivity?Id=@Model.activityinfo.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
          </div>
     </article>
     @{
@@ -121,7 +107,7 @@
 </div>
 
 <script type="text/javascript"
-        src="/Scripts/jquery-ui-1.10.2.min.js">
+        src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
 
 <script type="text/javascript" language="javascript">
@@ -143,8 +129,7 @@
                 }
             }
         });
-        $(".instext").text("報名必須註冊會員，如果是會員請至首頁<<會員登入>>" +
-            "，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!是否進入會員登入頁?");
+        $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_backlogin_a");
 
     });
 

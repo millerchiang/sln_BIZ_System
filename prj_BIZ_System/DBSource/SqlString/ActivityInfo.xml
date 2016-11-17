@@ -7,10 +7,13 @@
     <typeAlias alias="NewsModel" type="prj_BIZ_System.Models.NewsModel"/>
     <typeAlias alias="UserInfoToIdAndCpModel" type="prj_BIZ_System.Models.UserInfoToIdAndCpModel"/>
     <typeAlias alias="ActivityRegisterModel" type="prj_BIZ_System.Models.ActivityRegisterModel"/>
+    <typeAlias alias="QuestionnaireModel" type="prj_BIZ_System.Models.QuestionnaireModel"/>
     <typeAlias alias="BuyerInfoModel" type="prj_BIZ_System.Models.BuyerInfoModel"/>
     <typeAlias alias="EnterpriseSortAndListModel" type="prj_BIZ_System.Models.EnterpriseSortAndListModel"/>
     <typeAlias alias="ActivityProductSelectModel" type="prj_BIZ_System.Models.ActivityProductSelectModel"/>
     <typeAlias alias="ActivityCatalogSelectModel" type="prj_BIZ_System.Models.ActivityCatalogSelectModel"/>
+    <typeAlias alias="ActivityPhotoModel" type="prj_BIZ_System.Models.ActivityPhotoModel"/>
+    <typeAlias alias="BannerPhotoModel" type="prj_BIZ_System.Models.BannerPhotoModel"/>
   </alias>
   
   <statements>
@@ -28,6 +31,9 @@
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="endtime">
+          a.endtime > #endtime#
         </isNotEmpty>
       </dynamic>
       ORDER BY starttime DESC
@@ -51,7 +57,7 @@
     <select id="SelectActivityLimit" parameterType= "int" resultMap="ActivityInfo">
       SELECT *
       FROM activity_info
-      WHERE starttime > now()
+      WHERE endtime >= now()
       ORDER BY starttime DESC Limit $limit$
     </select>
 
@@ -158,6 +164,9 @@
           <isNotEmpty prepend="and" property="manager_id">
             a.manager_id = #manager_id#
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="manager_check">
+            r.manager_check = #manager_check#
+          </isNotEmpty>
           <isNotEmpty prepend="and" property="starttime">
             <![CDATA[starttime >= #starttime# ]]>            
           </isNotEmpty>
@@ -169,16 +178,34 @@
           </isNotEmpty>
         
       </dynamic>
-        ORDER BY r.create_time
+        ORDER BY r.create_time desc
       </select>
        
       <!--查詢活動報名單筆-->
       <select id="SelectActivityRegisterOne" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
-        SELECT ar.* , ui.company , ui.company_en
+        SELECT ar.* , ui.company , ui.company_en, ui.addr, ui.addr_en
         FROM activity_register ar
         LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
         WHERE ar.register_id = #register_id#
       </select>
+
+    <!--查詢活動報名-->
+    <select id="SelectActivityRegisterList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+      SELECT ar.* , ui.company , ui.company_en
+      FROM activity_register ar
+      LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+      WHERE ar.activity_id = $activity_id$
+    </select>
+
+    <!--查詢活動報名已通過審核-->
+    <select id="SelectARCheckPassList" resultMap="ActivityRegisterWithUser" parameterClass="ActivityRegisterModel">
+      SELECT ar.* , ui.company , ui.company_en, ui.addr, ui.addr_en
+      FROM activity_register ar
+      LEFT JOIN  user_info ui ON ar.user_id = ui.user_id
+      WHERE ar.activity_id = $activity_id$
+      and ar.manager_check = '1'
+      order by ar.register_id
+    </select>
 
     <!--查詢活動報名單筆 by activity and user-->
     <select id="SelectActivityRegisterSelectOne" resultMap="ActivityRegister" parameterClass="ActivityRegisterModel">
@@ -261,6 +288,9 @@
           <isNotEmpty prepend="and" property="manager_id">
             manager_id = #manager_id#
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="news_style">
+          (news_style = #news_style# or news_style = '3')
+          </isNotEmpty>
         </dynamic>
         ORDER BY news_date DESC
       </select>
@@ -268,23 +298,44 @@
     <select id="SelectNewsLimit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
+      Where news_style ='1' or news_style ='3'
       ORDER BY news_date DESC Limit $limit$
     </select>
 
     <select id="SelectNews0Limit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
-      Where news_type = '0'
+      Where news_type = '0' and (news_style ='1' or news_style ='3')
       ORDER BY news_date DESC Limit $limit$
     </select>
 
     <select id="SelectNews1Limit" parameterType= "int" resultMap="News">
       SELECT *
       FROM news
-      Where news_type = '1'
+      Where news_type = '1' and (news_style ='1' or news_style ='3')
       ORDER BY news_date DESC Limit $limit$
     </select>
 
+    <select id="SelectNewsLimit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_style ='2' or news_style ='3'
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews0Limit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '0' and (news_style ='2' or news_style ='3')
+      ORDER BY news_date DESC Limit $limit$
+    </select>
+
+    <select id="SelectNews1Limit_e" parameterType= "int" resultMap="News">
+      SELECT *
+      FROM news
+      Where news_type = '1' and (news_style ='2' or news_style ='3')
+      ORDER BY news_date DESC Limit $limit$
+    </select>
 
     <!--查詢某新聞型態清單-->
     <select id="SelectNewsType" resultMap="News1">
@@ -298,6 +349,9 @@
         <isNotEmpty prepend="and" property="news_type">
           news_type = #news_type#
         </isNotEmpty>
+        <isNotEmpty prepend="and" property="news_style">
+          news_style = #news_style#
+        </isNotEmpty>
         <isNotEmpty prepend="and" property="grp_id">
           m.grp_id = $grp_id$
         </isNotEmpty>
@@ -305,6 +359,27 @@
       Order by bl.update_time Desc
     </select>
 
+    <!--查詢某新聞清單-->
+    <select id="SelectNewsTypeView" resultMap="News1">
+      SELECT *
+      FROM news bl
+      LEFT JOIN activity_info ai
+      ON bl.activity_id = ai.activity_id
+      LEFT JOIN manager.manager_info m
+      ON bl.manager_id = m.manager_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="news_type">
+          news_type = #news_type#
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="news_style">
+          (news_style = #news_style# or news_style = '3')
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="grp_id">
+          m.grp_id = $grp_id$
+        </isNotEmpty>
+      </dynamic>
+      Order by bl.update_time Desc
+    </select>
 
     <!--查詢單筆-->
       <select id="SelectNewsOne" resultMap="NewsWithActivity">
@@ -318,11 +393,11 @@
         INSERT INTO news (
         manager_id, news_title, news_date,
         news_type, activity_id,
-        website, content
+        website, content, news_style
         ) VALUES (
         #manager_id#, #news_title#, #news_date#,
         #news_type#, #activity_id#,
-        #website#, #content#
+        #website#, #content#, #news_style#
         )
       </insert>
 
@@ -342,6 +417,7 @@
         activity_id = #activity_id#,
         website = #website#,
         content = #content#,
+        news_style = #news_style#,
         update_time = now()
         WHERE news_no = #news_no#
       </update>
@@ -371,8 +447,14 @@
           <isNotEmpty prepend="and" property="endtime">
             ai.endtime >= #endtime#
           </isNotEmpty>
+          <isNotEmpty prepend="and" property="activity_name">
+            UPPER(activity_name) like '%'||#activity_name#||'%' or UPPER(activity_name_en) like '%'||#activity_name#||'%'
+          </isNotEmpty>
+          <isNotEmpty prepend="and" property="company">
+            UPPER(company) like '%'||#company#||'%' or UPPER(company_en) like '%'||#company#||'%'
+          </isNotEmpty>
         </dynamic>
-       Order by ai.starttime  
+       Order by ai.starttime desc 
       </select>
 
       <!--查詢某活動買主資訊-->
@@ -382,6 +464,7 @@
         INNER JOIN user_info ui
         ON bl.buyer_id = ui.user_id
         Where activity_id =#activity_id#
+        order by bl.serial_no
       </select>
 
       <!--查詢買主資訊單筆-->
@@ -406,11 +489,84 @@
         </selectKey>
         INSERT INTO buyer_list (
         activity_id, buyer_id, buyer_need
+        <dynamic prepend="">
+          <isNotEmpty prepend="," property="buyer_need_en">
+            buyer_need_en
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_3y_ago">
+            annual_turnover_3y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_2y_ago">
+            annual_turnover_2y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_1y_ago">
+            annual_turnover_1y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_2y_ago">
+            estimated_purchasing_2y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_1y_ago">
+            estimated_purchasing_1y_ago
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_now">
+            estimated_purchasing_now
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution">
+            distribution
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution_en">
+            distribution_en
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items">
+            items
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items_en">
+            items_en
+          </isNotEmpty>
+        </dynamic>
         ) VALUES (
         #activity_id#, #buyer_id#, #buyer_need#
+        <dynamic prepend="">
+          <isNotEmpty prepend="," property="buyer_need_en">
+            #buyer_need_en#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_3y_ago">
+            $annual_turnover_3y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_2y_ago">
+            $annual_turnover_2y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="annual_turnover_1y_ago">
+            $annual_turnover_1y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_2y_ago">
+            $estimated_purchasing_2y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_1y_ago">
+            $estimated_purchasing_1y_ago$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="estimated_purchasing_now">
+            $estimated_purchasing_now$
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution">
+            #distribution#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="distribution_en">
+            #distribution_en#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items">
+            #items#
+          </isNotEmpty>
+          <isNotEmpty prepend="," property="items_en">
+            #items_en#
+          </isNotEmpty>
+        </dynamic>
         )
       </insert>
 
+
+    
+      
       <!--刪除買主資訊單筆-->
       <delete id="DeleteBuyerInfoOne" parameterClass="BuyerInfoModel">
         DELETE FROM buyer_list
@@ -423,6 +579,18 @@
         activity_id = #activity_id#,
         buyer_id = #buyer_id#,
         buyer_need = #buyer_need#
+        ,buyer_need_en=#buyer_need_en#
+        ,annual_turnover_3y_ago=$annual_turnover_3y_ago$
+        ,annual_turnover_2y_ago=$annual_turnover_2y_ago$
+        ,annual_turnover_1y_ago=$annual_turnover_1y_ago$
+        ,estimated_purchasing_2y_ago=$estimated_purchasing_2y_ago$
+        ,estimated_purchasing_1y_ago=$estimated_purchasing_1y_ago$
+        ,estimated_purchasing_now=$estimated_purchasing_now$
+        ,distribution=#distribution#
+        ,distribution_en=#distribution_en#
+        ,items=#items#
+        ,items_en=#items_en#
+        ,update_time=now()
         WHERE serial_no = #serial_no#
       </update>
     <!--
@@ -534,10 +702,214 @@
     <<<<<<<<<<<<<<<<<<<<<<<<<<<
     ]]
     -->
-  
+
+    <!--查詢活動照片全部-->
+    <select id="SelectPhotoListByManagerId" parameterClass="ActivityPhotoModel" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE deleted = '1' and manager_id = #manager_id#
+    </select>
+    <!--查詢網頁顯示活動照片-->
+    <select id="SelectActivityViewPhotoList" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE deleted = '1' and active = '1'
+    </select>
+    <!--查詢活動照片單筆-->
+    <select id="SelectPhotoByPhotoId" parameterClass="ActivityPhotoModel" resultMap="PhotoList-result">
+      SELECT *
+      FROM activity_photo
+      WHERE photo_id = #photo_id#
+    </select>
+    <!--假刪除活動照片-->
+    <delete id="DeletePhotoListByPhotoIdFake" parameterClass="ActivityPhotoModel">
+      UPDATE activity_photo
+      SET deleted = '0'
+      WHERE photo_id = #photo_id#
+    </delete>
+
+    <!--新增活動照片-->
+    <insert id="InsertPhotoList" parameterClass="ActivityPhotoModel">
+      <selectKey resultClass="int" property="photo_id" type="post">
+        SELECT currval('activity_photo_seq')
+      </selectKey>
+      INSERT INTO public.activity_photo(
+      manager_id, photo_time, photo_brief, photo_brief_en,
+      photo_info, photo_info_en, photo_pic_site, active,
+      deleted)
+      VALUES (#manager_id#,#photo_time#,#photo_brief#,#photo_brief_en#
+      ,#photo_info#, #photo_info_en#, #photo_pic_site#, #active#
+      , #deleted#
+      )
+    </insert>
+
+
+    <!--更新活動照片-->
+    <update id="UpdatePhotoList" parameterClass="ActivityPhotoModel">
+      UPDATE public.activity_photo
+      SET manager_id=#manager_id#, photo_time=#photo_time#, photo_brief=#photo_brief#,
+      photo_brief_en=#photo_brief_en#, photo_info=#photo_info#, photo_info_en=#photo_info_en#
+      <dynamic prepend="">
+        <isNotNull prepend="," property="photo_pic_site">
+          photo_pic_site=#photo_pic_site#
+        </isNotNull>
+      </dynamic>
+      , active=#active#, deleted=#deleted#
+      WHERE photo_id=#photo_id#
+    </update>
+
+
+    <!--更新活動照片-->
+    <update id="UpdateBannerList" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET manager_id=#manager_id#
+      <dynamic prepend="">
+        <isNotNull prepend="," property="photo_pic_site">
+          photo_pic_site=#photo_pic_site#
+        </isNotNull>
+      </dynamic>
+      , active=#active#, deleted=#deleted#
+      WHERE photo_id=#photo_id#
+    </update>
+
+
+    <!--查詢Banner照片全部-->
+    <select id="SelectBannerListByManagerId" parameterClass="BannerPhotoModel" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE deleted = '1' and manager_id = #manager_id# ORDER By photo_id DESC
+    </select>
+    <!--查詢網頁顯示Banner照片-->
+    <select id="SelectBannerViewPhotoList" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE deleted = '1' and active = '1'
+    </select>
+    <!--查詢活動照片單筆-->
+    <select id="SelectBannerByPhotoId" parameterClass="BannerPhotoModel" resultMap="BannerList-result">
+      SELECT *
+      FROM banner_photo
+      WHERE photo_id = #photo_id#
+    </select>
+
+    <!--新增Banner照片-->
+    <insert id="InsertBannerList" parameterClass="BannerPhotoModel">
+      <selectKey resultClass="int" property="photo_id" type="post">
+        SELECT currval('banner_photo_seq')
+      </selectKey>
+      INSERT INTO public.banner_photo(
+      manager_id, photo_pic_site, active,
+      deleted)
+      VALUES (#manager_id#, #photo_pic_site#, #active#
+      , #deleted#
+      )
+    </insert>
+
+    <!--假刪除Banner照片-->
+    <delete id="DeleteBannerListByPhotoIdFake" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET deleted = '0'
+      WHERE photo_id = #photo_id#
+    </delete>
+
+    
+    <update id="UpdateBannerActiveByPhotoId" parameterClass="BannerPhotoModel">
+      UPDATE public.banner_photo
+      SET active = '1'
+      WHERE photo_id = #photo_id#
+    </update>
+
+
+    <!--查詢問卷單筆-->
+    <select id="SelectQuestionnaire" resultMap="Questionnaire" parameterClass="QuestionnaireModel">
+      SELECT *
+      FROM questionnaire
+      WHERE activity_id = $activity_id$ and buyer_id = #buyer_id# and seller_id = #seller_id#
+    </select>
+
+    <!--查詢問卷多筆-->
+    <select id="SelectQuestionnaireList" resultMap="QuestionnaireExcel" parameterClass="QuestionnaireModel">
+      select a.company as buyer_name, a.company_en  as buyer_name_en, b.company as seller_name, b.company_en as seller_name_en,questionnaire.*
+      from questionnaire
+      left join user_info a on questionnaire.buyer_id=a.user_id
+      left join user_info b on questionnaire.seller_id= b.user_id
+      WHERE activity_id = $activity_id$
+      <dynamic prepend="">
+        <isNotNull prepend="and" property="buyer_id">
+          buyer_id = #buyer_id#
+        </isNotNull>
+      </dynamic>
+      ORDER BY buyer_id
+    </select>
+
+    <!--新增單筆-->
+    <insert id="InsertQuestionnaire" parameterClass="QuestionnaireModel">
+      INSERT INTO questionnaire (
+      activity_id, buyer_id, seller_id,
+      question_1, question_1_1,
+      question_1_2, question_1_2_other, question_1_4, question_2
+      ) VALUES (
+      $activity_id$, #buyer_id#, #seller_id#,
+      #question_1#, #question_1_1#,
+      #question_1_2#, #question_1_2_other#, #question_1_4#, #question_2#
+      )
+    </insert>
+
+    <!--刪除單筆-->
+    <delete id="DeleteQuestionnaire" parameterClass="QuestionnaireModel">
+      DELETE FROM questionnaire
+      WHERE activity_id = $activity_id$ and buyer_id = #buyer_id# and seller_id = #seller_id#
+    </delete>
+
+    <!--修改單筆-->
+    <update id="UpdateQuestionnaire" parameterClass="QuestionnaireModel">
+      UPDATE questionnaire SET
+      question_1 = #question_1#,
+      question_1_1 = #question_1_1#,
+      question_1_2 = #question_1_2#,
+      question_1_2_other = #question_1_2_other#,
+      question_1_4 = #question_1_4#,
+      question_2 = #question_2#,
+      update_time = now()
+      WHERE activity_id = $activity_id$ and buyer_id = #buyer_id# and seller_id = #seller_id#
+    </update>
   </statements>
 
   <resultMaps>
+    <resultMap id="Questionnaire" class="QuestionnaireModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="seller_id" column="seller_id"/>
+      <result property="question_1" column="question_1"/>
+      <result property="question_1_1" column="question_1_1"/>
+      <result property="question_1_2" column="question_1_2"/>
+      <result property="question_1_2_other" column="question_1_2_other"/>
+      <result property="question_1_4" column="question_1_4"/>
+      <result property="question_2" column="question_2"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="QuestionnaireExcel" class="QuestionnaireModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
+      <result property="buyer_name" column="buyer_name"/>
+      <result property="buyer_name_en" column="buyer_name_en"/>
+      <result property="seller_id" column="seller_id"/>
+      <result property="seller_name" column="seller_name"/>
+      <result property="seller_name_en" column="seller_name_en"/>
+      <result property="question_1" column="question_1"/>
+      <result property="question_1_1" column="question_1_1"/>
+      <result property="question_1_2" column="question_1_2"/>
+      <result property="question_1_2_other" column="question_1_2_other"/>
+      <result property="question_1_4" column="question_1_4"/>
+      <result property="question_2" column="question_2"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
     <resultMap id="ActivityInfo" class="ActivityInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="activity_id" column="activity_id"/>
@@ -600,6 +972,8 @@
       <result property="update_time" column="update_time"/>
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
+      <result property="addr" column="addr"/>
+      <result property="addr_en" column="addr_en"/>
     </resultMap>
 
     <resultMap id="SellerInfo" class="ActivityRegisterModel">
@@ -695,6 +1069,7 @@
       <result property="content" column="content"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+      <result property="news_style" column="news_style"/>
       <!--活動開始時間-->
       <result property="starttime" column="starttime"/>
     </resultMap>
@@ -711,6 +1086,7 @@
       <result property="content" column="content"/>
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
+      <result property="news_style" column="news_style"/>
     </resultMap>
 
     <resultMap id="News1" class="NewsModel">
@@ -727,6 +1103,7 @@
       <result property="update_time" column="update_time"/>
       <result property="activity_name" column="activity_name"/>
       <result property="grp_id" column="grp_id"/>
+      <result property="news_style" column="news_style"/>
     </resultMap>
 
 
@@ -736,6 +1113,18 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
     </resultMap>
 
     <resultMap id="BuyerInfo1" class="BuyerInfoModel">
@@ -744,6 +1133,19 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
+      
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
     </resultMap>
@@ -754,6 +1156,19 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+      
+      <result property="buyer_need_en" column="buyer_need_en"/>
+      <result property="annual_turnover_3y_ago" column="annual_turnover_3y_ago"/>
+      <result property="annual_turnover_2y_ago" column="annual_turnover_2y_ago"/>
+      <result property="annual_turnover_1y_ago" column="annual_turnover_1y_ago"/>
+      <result property="estimated_purchasing_2y_ago" column="estimated_purchasing_2y_ago"/>
+      <result property="estimated_purchasing_1y_ago" column="estimated_purchasing_1y_ago"/>
+      <result property="estimated_purchasing_now" column="estimated_purchasing_now"/>
+      <result property="distribution" column="distribution"/>
+      <result property="distribution_en" column="distribution_en"/>
+      <result property="items" column="items"/>
+      <result property="items_en" column="items_en"/>
+      
       <result property="activity_name" column="activity_name"/>
       <result property="company" column="company"/>
       <result property="activity_name_en" column="activity_name_en"/>
@@ -803,11 +1218,33 @@
       <result property="user_id" column="user_id"/>
       <result property="activity_id" column="activity_id"/>
       <result property="catalog_no" column="catalog_no"/>
+      <result property="catalog_name" column="catalog_name"/>
       <!--cataloglist 的 cover_file, catalog_file-->
       <result property="cover_file" column="cover_file"/>
       <result property="catalog_file" column="catalog_file"/>
     </resultMap>
-    
+
+    <resultMap id="PhotoList-result" class="ActivityPhotoModel">
+      <result property="photo_id" column="photo_id"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="photo_time" column="photo_time"/>
+      <result property="photo_brief" column="photo_brief"/>
+      <result property="photo_brief_en" column="photo_brief_en"/>
+      <result property="photo_info" column="photo_info"/>
+      <result property="photo_info_en" column="photo_info_en"/>
+      <result property="photo_pic_site" column="photo_pic_site"/>
+      <result property="active" column="active"/>
+      <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <resultMap id="BannerList-result" class="BannerPhotoModel">
+      <result property="photo_id" column="photo_id"/>
+      <result property="manager_id" column="manager_id"/>
+      <result property="photo_pic_site" column="photo_pic_site"/>
+      <result property="active" column="active"/>
+      <result property="deleted" column="deleted"/>
+    </resultMap>
+
   </resultMaps>
   
 </sqlMap>

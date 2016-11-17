@@ -7,7 +7,7 @@
 }
 
 @section pagestyle{
-    <link href="/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -18,10 +18,22 @@
             <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
                 <h2>@prj_BIZ_System.LanguageResource.User.lb_add@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
                 <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</label>
-                <div class="regis_col02R tagsbox">
-                    <ul id="taglist"></ul>
-                    <input name="msg_member" id="tags" class="tagtext">
-                </div>
+
+                @if (Request["company"] == null || Request["company"] == "")
+                {
+                    <div class="regis_col02R tagsbox">
+                        <ul id="taglist"></ul>
+                        <input name="msg_member" id="tags" class="tagtext">
+                    </div>
+                }
+                else
+                {
+                    <div class="regis_col02R">
+                        <input name="msg_member" type="hidden" value="@Request["userid"]">
+                        <label for="">@Request["company"]</label>
+                    </div>
+                }
+
                 <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</label>
                 <input name="msg_title" type="text" class="regis_col02R">
                 <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
@@ -34,7 +46,7 @@
                 </div>
                 <div class="centerbox">
                     <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
-                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">返回@(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
+                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back @(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
                 </div>
 
             </form>
@@ -81,10 +93,13 @@
             
 
 		      $("#form").submit(function () {
-
-		          setMemberValue();
-		          
 		          var msg_member = $('input[name="msg_member"]').val();
+		          if (msg_member == '')
+		          {
+		              setMemberValue();
+		              msg_member = $('input[name="msg_member"]').val();
+		          }
+//		          var msg_member = $('input[name="msg_member"]').val();
 		          var msg_title = $('input[name="msg_title"]').val();
 		          var msg_content = $("#msg_content").val();
 

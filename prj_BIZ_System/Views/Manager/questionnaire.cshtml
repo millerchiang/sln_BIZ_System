@@ -1,0 +1,235 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Manager_Activity_ViewModel
+
+
+@{
+    ViewBag.Title = "Questionnaire";
+    var company = "";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/screen.css" rel="stylesheet" />
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+    <article class="form_box article_col1">
+        <h2>商機調查[@ViewBag.activity_name] - 買主: @ViewBag.company</h2>
+        <form action="QuestionnaireEdit" method="post">
+            <input type="hidden" name="qedit" value="New">
+            <input type="hidden" name="buyer_id" value="@ViewBag.buyer_id">
+            <input type="hidden" name="activity_id" value="@ViewBag.activity_id">
+            <input type="hidden" name="activity_name" value="@ViewBag.activity_name">
+            <input type="hidden" name="company" value="@ViewBag.company">
+
+            <div class="sys_searchbox magb30">
+                賣家名稱
+                @{
+                    var dstyle = "";
+                    if (Request["seller_id"]!=null && Request["seller_id"]!="")
+                    {
+                        dstyle = "display: none";
+                    }
+                }
+                <select name="seller_id" id="" onchange="chkqnaire('2')" required style="@dstyle">
+                
+                    <option value="">--請選擇--</option>
+                    @foreach (ActivityRegisterModel sellerInfoModel in Model.activityregisterList)
+                    {
+                        if (sellerInfoModel.user_id == Request["seller_id"]){
+                            company = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sellerInfoModel, "company");
+
+                            <option value="@sellerInfoModel.user_id" selected>@company</option>
+                            
+                        }
+                        else {
+                            <option value="@sellerInfoModel.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sellerInfoModel, "company")</option>
+                        }
+                    }
+                </select>
+
+                <input type="hidden" name="seller_id01" class="borderbottom" value="@Request["seller_id"]">
+                @{
+                    if (company != "")
+                    {
+                        company = Request["seller_id"] + " - " + company;
+                    }
+                }
+                @company
+
+            </div>
+            <dl class="invchecklist ">
+                <dt>  1. What are the results of the showroom visiting/meetings ? </dt>
+                <dd>
+                    <ul>
+                        <li>
+                            <input type="radio" name="question_1" class="radioinput" value="0" id="set01" checked="">
+                            <label for="set01">Order already placed at an approx. value of US$</label>
+                            <input type="text" name="question_1_1" class="borderbottom">
+                        </li>
+                        <li>
+                            <input type="radio" name="question_1" class="radioinput setBoxCheck" value="1" id="set02">
+                            <label for="set02">
+                                Contact established, high possibility for placing order: in approx. value of
+                            </label>
+                            <ul class="setBox col2">
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="0" id="set02_1" disabled="disabled">
+                                    <label for="set02_1">Under USD 500,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="1" id="set02_2" disabled="disabled">
+                                    <label for="set02_2">USD 510,000 ~ USD 1,000,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="2" id="set02_3" disabled="disabled">
+                                    <label for="set02_3">USD 1,010,000 ~ USD 1,500,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="3" id="set02_4" disabled="disabled">
+                                    <label for="set02_4">USD 1,510,000 ~ USD 2,000,000</label>
+                                </li>
+                                <li>
+                                    <input type="radio" name="set02" class="radioinput setdisabled" value="4" id="set02_5" disabled="disabled">
+                                    <label for="set02_5">Other</label>
+                                    <input type="text" name="question_1_2_other" class="borderbottom">
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <input type="radio" name="question_1" class="radioinput" value="2" id="set03">
+                            <label for="set03">Contact established, no possibility for placing the order immediately</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="question_1" class="radioinput" value="3" id="set04">
+                            <label for="set04">Others:</label>
+                            <input type="text" name="question_1_4" class="borderbottom">
+                        </li>
+                    </ul>
+                </dd>
+                <dt> 2. We welcome all comments and suggestions to a more successful business meetings.</dt>
+                <dd>
+                    <textarea name="question_2" id="" cols="30" rows="10"></textarea>
+                </dd>
+            </dl>
+            <div class="centerbox">
+                <button type="submit" class="submitbu">儲存</button>
+            </div>
+        </form>
+
+
+    </article>
+
+<script>
+
+
+        function chkradio(setboxinput)
+        {
+            var set = $(".setBoxCheck");
+//            var setboxinput = $(this).attr("id");
+            var setdisinput = $('input[name=' + setboxinput + ']');
+            if (set.prop("checked")) {
+                setdisinput.prop("disabled", false).removeClass('setdisabled');
+            } else {
+                $(".setBox input[type='radio']").prop("disabled", true).addClass('setdisabled').attr('checked', false);
+
+            };
+        }
+
+        function clearradio() {
+            $("#set01").prop('checked', true);
+            $("#set02").prop('checked', false);
+            $("#set03").prop('checked', false);
+            $("#set04").prop('checked', false);
+            $("#set02_1").prop('checked', false);
+            $("#set02_2").prop('checked', false);
+            $("#set02_3").prop('checked', false);
+            $("#set02_4").prop('checked', false);
+            $("#set02_5").prop('checked', false);
+         
+            $("input[name='question_1_1']").val("");
+            $("input[name='question_1_2_other']").val("");
+            $("input[name='question_1_4']").val("");
+            $("textarea[name='question_2']").val("");
+            chkradio("set01");
+        }
+
+
+        $(function () {
+            if ($("input[name='seller_id01']").val() != '')
+            {
+                chkqnaire('1');
+            }
+
+            $("input[type='radio']").on('click', function () {
+                chkradio($(this).attr("id"));
+               });
+            });
+
+
+        function chkqnaire(id) {
+            var activity_id = $("input[name='activity_id']").val();
+            var buyer_id = $("input[name='buyer_id']").val();
+            var seller_id = "";
+            if (id == '1')
+            {
+                seller_id = $("input[name='seller_id01']").val();
+            }
+            else
+            {
+                seller_id = $("select[name='seller_id']").val();
+            }
+            clearradio();
+            if (activity_id != null && activity_id != '' && buyer_id != null && buyer_id != ''
+                && seller_id != null && seller_id != '')
+            {
+                $.ajax({
+                    type: "get",
+                    url: "@Url.Action("CheckQuestionnaire", "Manager")",
+                    cache: false,
+                    data: { "activity_id": activity_id, "buyer_id": buyer_id, "seller_id": seller_id },
+                dataType: "json"
+                }).done(function (result) {
+                    if (result != null) {
+//                        alert(result.question_1);
+                        if (result.question_1 == 0) {
+                            $("#set01").prop('checked', true);
+                            chkradio("set01");
+                        } else if (result.question_1 == 1) {
+                            $("#set02").prop('checked', true);
+                            chkradio("set02");
+                        } else if (result.question_1 == 2) {
+                            $("#set03").prop('checked', true);
+                            chkradio("set03");
+                        } else if (result.question_1 == 3) {
+                            $("#set04").prop('checked', true);
+                            chkradio("#set04");
+                        }
+//                        alert(result.question_1_2);
+                        if (result.question_1_2 == 0) {
+                            $("#set02_1").prop('checked', true);
+                        } else if (result.question_1_2 == 1) {
+                            $("#set02_2").prop('checked', true);
+                        } else if (result.question_1_2 == 2) {
+                            $("#set02_3").prop('checked', true);
+                        } else if (result.question_1_2 == 3) {
+                            $("#set02_4").prop('checked', true);
+                        } else if (result.question_1_2 == 4) {
+                            $("#set02_5").prop('checked', true);
+                        }
+//                        alert(result.question_1_1);
+//                        alert(result.question_1_2_other);
+//                        alert(result.question_1_4);
+//                        alert(result.question_2);
+                        $("input[name='question_1_1']").val(result.question_1_1);
+                        $("input[name='question_1_2_other']").val(result.question_1_2_other);
+                        $("input[name='question_1_4']").val(result.question_1_4);
+                        $("textarea[name='question_2']").val(result.question_2);
+
+                        $("input[name='qedit']").val("Update");
+                    }
+                    else {
+                    }
+                });
+            }
+        }
+</script>

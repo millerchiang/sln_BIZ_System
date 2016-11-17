@@ -17,6 +17,9 @@
   line-height: 2em;
   padding: 10px 0;
 }
+.loginbox label {
+  display: block;
+}
 
 .loginboxR {
   float: left;
@@ -83,11 +86,13 @@
   display: inline-block;
   padding: 15px 0;
   max-width: 130px;
+  min-width: 50px;
   width: 100%;
   border: none;
   text-align: center;
   text-decoration: none;
-  font-size: 1em;
+  font-size: 0.938em;
+  line-height: 1;
 }
 .loginbox_newid:hover, .loginbox_newid:focus, .loginbox_newid:active, .loginbox_newid.active {
   background: #f46813;
