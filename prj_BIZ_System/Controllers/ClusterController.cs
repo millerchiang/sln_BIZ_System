@@ -54,11 +54,17 @@ namespace prj_BIZ_System.Controllers
             }
             else if (Request["list"] == "3")
             {
+                //------審核
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByChecked(user_id).Pages(Request, this, 5);
+                //------------------
+            }
+            else if (Request["list"] == "4")
+            {
                 //------已加入
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1").Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "4")
+            else if (Request["list"] == "5")
             {
                 //------受邀請中
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
@@ -141,7 +147,11 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             ClusterMemberModel clusterMemberModel = new ClusterMemberModel();
             clusterMemberModel.cluster_no = int.Parse(Request["cluster_no"]);
-            clusterMemberModel.user_id= Request.Cookies["UserInfo"]["user_id"];
+            if (Request.QueryString["id"] == null || Request.QueryString["id"] == "")
+                clusterMemberModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            else
+                clusterMemberModel.user_id = Request.QueryString["id"];
+
             clusterMemberModel.cluster_enable = Request["status"];
             clusterService.ClusterMemberUpdateOne(clusterMemberModel);
 
@@ -163,6 +173,15 @@ namespace prj_BIZ_System.Controllers
             return View(clusterViewModel);
         }
 
+        public ActionResult DeleteFile(int cluster_file_no)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+            clusterService.ClusterFileDeleteOne(cluster_file_no);
+            return Redirect("Cluster_Files");
+        }
+
+
         public ActionResult Cluster_Files()
         {
             if (Request.Cookies["UserInfo"] == null)
@@ -178,6 +197,15 @@ namespace prj_BIZ_System.Controllers
             docookie("_menu", "Cluster_Files");
             return View(clusterViewModel);
         }
+
+        public ActionResult DownloadFile(string filepath,string filename)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            return File(filepath + filename, "application/", filename);
+//            return File(filepath+filename, "application/pdf", filename);
+    }
 
         public ActionResult Cluster_UploadFiles()
         {

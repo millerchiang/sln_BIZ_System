@@ -22,6 +22,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByApply", tempModel);
         }
 
+        public IList<ClusterDetailModel> GetClusterListByChecked(string user_id)
+        {
+            ClusterModel tempModel = new ClusterModel { user_id = user_id };
+            return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByChecked", tempModel);
+        }
+
         public IList<ClusterDetailModel> GetClusterListByApplyAll()
         {
             return mapper.QueryForList<ClusterDetailModel>("Cluster.ClusterListByApplyAll", null);
@@ -73,7 +79,12 @@ namespace prj_BIZ_System.Services
         public double GetClusterFileSize(int cluster_no)
         {
             ClusterFileModel tempModel = new ClusterFileModel { cluster_no = cluster_no };
-            return mapper.QueryForObject<double>("Cluster.SelectClusterFileSize", tempModel);
+            double? size = 0;
+            size = mapper.QueryForObject<double?>("Cluster.SelectClusterFileSize", tempModel);
+            if (size == null)
+                size = 0;
+
+            return (double)size;
         }
 
 
@@ -123,6 +134,11 @@ namespace prj_BIZ_System.Services
             return (int)result;
         }
 
+        public int ClusterFileDeleteOne(int cluster_file_no)//假刪
+        {
+            int result = mapper.Update("Cluster.ClusterFileDeleteOne", cluster_file_no);
+            return result;
+        }
 
     }
 }

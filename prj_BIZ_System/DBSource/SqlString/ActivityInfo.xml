@@ -828,7 +828,7 @@
     </select>
 
     <!--查詢問卷多筆-->
-    <select id="SelectQuestionnaireList" resultMap="Questionnaire" parameterClass="QuestionnaireModel">
+    <select id="SelectQuestionnaireList" resultMap="QuestionnaireExcel" parameterClass="QuestionnaireModel">
       select a.company as buyer_name, a.company_en  as buyer_name_en, b.company as seller_name, b.company_en as seller_name_en,questionnaire.*
       from questionnaire
       left join user_info a on questionnaire.buyer_id=a.user_id
@@ -880,6 +880,21 @@
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
+      <result property="seller_id" column="seller_id"/>
+      <result property="question_1" column="question_1"/>
+      <result property="question_1_1" column="question_1_1"/>
+      <result property="question_1_2" column="question_1_2"/>
+      <result property="question_1_2_other" column="question_1_2_other"/>
+      <result property="question_1_4" column="question_1_4"/>
+      <result property="question_2" column="question_2"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+    </resultMap>
+
+    <resultMap id="QuestionnaireExcel" class="QuestionnaireModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="activity_id" column="activity_id"/>
+      <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_name" column="buyer_name"/>
       <result property="buyer_name_en" column="buyer_name_en"/>
       <result property="seller_id" column="seller_id"/>
@@ -894,7 +909,6 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
     </resultMap>
-
 
     <resultMap id="ActivityInfo" class="ActivityInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
