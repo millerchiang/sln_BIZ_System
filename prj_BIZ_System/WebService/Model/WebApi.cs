@@ -124,12 +124,14 @@ namespace prj_BIZ_System.WebService.Model
 
     public class MsgPrivateReply
     {
+        public long msg_reply_no { get; set; }       //私人訊息回覆編號
         public string reply_content { get; set; }    //回覆內容
         public string create_time { get; set; }    //建立時間
 
         //UerInfo 公司名稱(中文)
         public string company { get; set; }
         public string company_en { get; set; }
+        public string msg_reply_file { get; set; }         //訊息回覆附件
     }
 
     public class MessageContent
