@@ -932,8 +932,7 @@
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <Content Include="Views\Cluster\ClusterListAll.cshtml" />
     <Content Include="Views\Cluster\ClusterListContent.cshtml" />
-    <Content Include="Views\Message\CompanyAdd.cshtml" />
-    <Content Include="Views\Message\CompanyAdd2.cshtml" />
+    <Content Include="Views\Message\MessageCompanyAdd.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

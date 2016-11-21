@@ -18,7 +18,7 @@
         <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.cluster_info).cluster_name)</h2>
         <form action="~/Message/DoMessageClusterDetail" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
             <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
-            <h2>聚落訊息</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</h2>
 
 				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
 				<span class="regis_col02R contentspan">@Model.msgPrivate.company</span>

@@ -41,14 +41,12 @@
         or msg_member like '% '||#creater_id#||',%' )
     </select>
 
-    <!--查看公司訊息權限-->
+    <!--查看公司訊息權限 (後來改成跟私人一樣)-->
     <select id="isOwnViewPowerForCompany"  resultClass="int" parameterClass="Msg">
       SELECT count(msg_no) from message.msg
       where msg_no = $msg_no$
       and ( creater_id = #creater_id#
-      or msg_member like '% '||#creater_id#||',%'
-      or user_id = #creater_id#
-      )
+      or msg_member like '% '||#creater_id#||',%' )
 
     </select>
 
@@ -158,7 +156,7 @@
       creater_id, msg_title, msg_content, cluster_no , is_public ,user_id , msg_member )
       VALUES (#creater_id#, #msg_title#,  #msg_content# , $cluster_no$ , #is_public# , #user_id# , #msg_member# );
     </insert>
-
+    
     <!--查詢單一私訊-->
     <select id="SelectMsgOne" resultMap="SelectMsgOne-result" parameterClass="Msg">
       SELECT *
@@ -240,21 +238,38 @@
       ]]>
     </select>
 
-    <!-- [查詢訊息成員裝置]-->
+    <!-- [查詢訊息成員裝置 1]-->
     <select id="SelectMsgMembers" resultMap="UserInfoForPush-result">
       SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
       FROM public.user_info ui
       join manager.mobile_device_info mb on ui.user_id = mb.user_id
       WHERE ui.user_id = #user_ids#
     </select>
-    
+
+    <!-- [查詢訊息成員裝置 2]-->
     <select id="SelectMsgMembersByLeft" resultMap="UserInfoForPush-result">
       SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
       FROM public.user_info ui
       left join manager.mobile_device_info mb on ui.user_id = mb.user_id
       WHERE ui.user_id = #user_ids#
     </select>
-    
+
+    <!-- [查詢訊息成員裝置forSales 1]-->
+    <select id="SelectMsgMembersForSales" resultMap="SalesInfoForPush-result">
+      SELECT si.sales_id , si.sales_name , mb.device_id , mb.device_os
+      FROM sales.sales_info si
+      join manager.mobile_device_info_for_sales mb on si.sales_id = mb.sales_id
+      WHERE si.sales_id = #user_ids#
+    </select>
+
+    <!-- [查詢訊息成員裝置forSales 2]-->
+    <select id="SelectMsgMembersForSalesByLeft" resultMap="SalesInfoForPush-result">
+      SELECT si.sales_id , si.sales_name , mb.device_id , mb.device_os
+      FROM sales.sales_info si
+      left join manager.mobile_device_info_for_sales mb on si.sales_id = mb.sales_id
+      WHERE si.sales_id = #user_ids#
+    </select>
+
     <!--查尋公司By業務-->
     <select id="SelectUserUserBySalesId" resultMap="UserInfo-result">
       SELECT *
@@ -293,6 +308,13 @@
       <result property="device_id" column="device_id"/>
       <result property="device_os" column="device_os"/>
     </resultMap>
+
+    <resultMap id="SalesInfoForPush-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <result property="sales_id" column="sales_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="device_id" column="device_id"/>
+      <result property="device_os" column="device_os"/>
+    </resultMap>
     
     <resultMap id="SelectMsg-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
@@ -316,6 +338,11 @@
       <result property="creater_id" column="creater_id"></result>
       <result property="msg_title" column="msg_title"></result>
       <result property="msg_content" column="msg_content"></result>
+
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="is_public"  column="is_public"></result>
+      <result property="user_id"    column="user_id"></result>
+
       <result property="msg_member" column="msg_member"></result>
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->

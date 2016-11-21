@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 
 namespace prj_BIZ_System.Services
 {
@@ -60,9 +61,9 @@ namespace prj_BIZ_System.Services
             return (int)(mapper.QueryForObject("Message.isOwnViewPower", param)) > 0;
         }
 
-        public bool isOwnViewPowerForCompany(int msg_no, string user_id, string sales_id)
+        public bool isOwnViewPowerForCompany(int msg_no, string user_id) //這裡的 user_id 有可能是 sales_id
         {
-            var target_id = string.IsNullOrEmpty(sales_id) ? user_id : sales_id;
+            //var target_id = string.IsNullOrEmpty(sales_id) ? user_id : sales_id;
             var param = new MsgModel { msg_no = msg_no, creater_id = user_id };
             return (int)(mapper.QueryForObject("Message.isOwnViewPowerForCompany", param)) > 0;
         }
@@ -113,7 +114,7 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<long>("Message.SelectMsgReadNo", param);
         }
 
-        public string transferMsg_member2Msg_company(string msg_member, prj_BIZ_System.Controllers.MessageCatalog catalog)
+        public string transferMsg_member2Msg_company(HttpCookie cookie , string msg_member, prj_BIZ_System.Controllers.MessageCatalog catalog)
         {
             string result = "";
             StringBuilder sb = new StringBuilder();
@@ -130,7 +131,7 @@ namespace prj_BIZ_System.Services
                             if (userInfoModel != null)
                             {
                                 sb.Append(separate);
-                                sb.Append(userInfoModel.company);
+                                sb.Append(LanguageResource.Localization.getPropValue(cookie , userInfoModel, "company"));
                             }
                             break;
                         case Controllers.MessageCatalog.Company:
@@ -139,6 +140,15 @@ namespace prj_BIZ_System.Services
                             {
                                 sb.Append(separate);
                                 sb.Append(salesInfoModel.sales_name);
+                            }
+                            else
+                            {
+                                userInfoModel = userService.GeUserInfoOne(msg_member_arr[i].Trim());
+                                if (userInfoModel != null)
+                                {
+                                    sb.Append(separate);
+                                    sb.Append(LanguageResource.Localization.getPropValue(cookie, userInfoModel, "company"));
+                                }
                             }
                             break;
                     }
@@ -205,33 +215,79 @@ namespace prj_BIZ_System.Services
                 msg_member_arr = msg_member_arr.Select(msg_member => msg_member.Trim()).ToArray();
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 //msg_member_set.Add(msgMd.creater_id);
-                List<UserInfoModel> temp_result = new List<UserInfoModel>();
-                foreach (string user_ids in msg_member_set)
-                {
-                    var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
-                    if (temp != null && temp.Count > 0)
+                if (!string.IsNullOrEmpty(msgMd.user_id)) {
+                    List<SalesInfoModel> temp_result = new List<SalesInfoModel>();
+                    foreach (string user_ids in msg_member_set)
                     {
-                        temp_result.AddRange(temp);
+                        var temp = mapper.QueryForList<SalesInfoModel>("Message.SelectMsgMembersForSales", user_ids);
+                        if (temp != null && temp.Count > 0)
+                        {
+                            temp_result.AddRange(temp);
+                        }
+                        else
+                        {
+                            var temp_userInfos = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                            if (temp_userInfos != null && temp_userInfos.Count > 0)
+                            {
+                                temp_result.AddRange(temp_userInfos.Select(userInfo => new SalesInfoModel
+                                {
+                                    sales_id = userInfo.user_id,
+                                    sales_name = userInfo.company,
+                                    device_id = userInfo.device_id,
+                                    device_os = userInfo.device_os
+                                }).ToList());
+                            }
+                        }
                     }
-                }
 
-                var createrInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", msgMd.creater_id);
-                result = temp_result
-                    //.Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
-                    .Select(userMd => new MsgPushModel()
+                    var createrInfo = mapper.QueryForObject<SalesInfoModel>("Message.SelectMsgMembersForSalesByLeft", msgMd.creater_id);
+                    result = temp_result
+                        //.Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
+                        .Select(salesMd => new MsgPushModel()
+                        {
+                            msg_type = getMsgType(msgMd),
+                            msg_no = msgMd.msg_no,
+                            msg_title = msgMd.msg_title,
+                            msg_content = msgMd.msg_content,
+                            //, reply_user_id = rpyMd.msg_reply
+                            company = createrInfo.sales_name,
+                            company_en = createrInfo.sales_name, //業務沒有英文名
+                            msg_reply_no = 0,      //pyMd.msg_reply_no   //手機端判斷依據
+                            reply_content = null,  //rpyMd.reply_content //手機端判斷依據
+                            device_id = salesMd.device_id,
+                            device_os = salesMd.device_os
+                        }).ToList();
+                }
+                else
+                { 
+                    List<UserInfoModel> temp_result = new List<UserInfoModel>();
+                    foreach (string user_ids in msg_member_set)
                     {
-                          msg_type = getMsgType(msgMd)
-                        , msg_no = msgMd.msg_no
-                        , msg_title = msgMd.msg_title
-                        , msg_content = msgMd.msg_content
-                        //, reply_user_id = rpyMd.msg_reply
-                        , company = createrInfo.company
-                        , company_en = createrInfo.company_en
-                        , msg_reply_no = 0      //pyMd.msg_reply_no   //手機端判斷依據
-                        , reply_content = null  //rpyMd.reply_content //手機端判斷依據
-                        , device_id = userMd.device_id
-                        , device_os = userMd.device_os
-                    }).ToList();
+                        var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                        if (temp != null && temp.Count > 0)
+                        {
+                            temp_result.AddRange(temp);
+                        }
+                    }
+
+                    var createrInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", msgMd.creater_id);
+                    result = temp_result
+                        //.Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
+                        .Select(userMd => new MsgPushModel()
+                        {
+                              msg_type = getMsgType(msgMd)
+                            , msg_no = msgMd.msg_no
+                            , msg_title = msgMd.msg_title
+                            , msg_content = msgMd.msg_content
+                            //, reply_user_id = rpyMd.msg_reply
+                            , company = createrInfo.company
+                            , company_en = createrInfo.company_en
+                            , msg_reply_no = 0      //pyMd.msg_reply_no   //手機端判斷依據
+                            , reply_content = null  //rpyMd.reply_content //手機端判斷依據
+                            , device_id = userMd.device_id
+                            , device_os = userMd.device_os
+                        }).ToList();
+                }
             }
             return result;
         }
@@ -245,34 +301,80 @@ namespace prj_BIZ_System.Services
                 msg_member_arr = msg_member_arr.Select(msg_member => msg_member.Trim()).ToArray();
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 msg_member_set.Add(msgMd.creater_id);
-                List<UserInfoModel> temp_result = new List<UserInfoModel>();
-                foreach (string user_ids in msg_member_set)
-                {
-                    var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
-                    if (temp!=null && temp.Count>0)
-                    {
-                        temp_result.AddRange(temp);
-                    }
-                }
 
-                var replyInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", rpyMd.msg_reply);
-                result = temp_result
-                    .Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
-                    .Select(userMd => new MsgPushModel()
+                if (!string.IsNullOrEmpty(msgMd.user_id))
+                {
+                    List<SalesInfoModel> temp_result = new List<SalesInfoModel>();
+                    foreach (string user_ids in msg_member_set)
                     {
-                          msg_type = getMsgType(msgMd)
-                        , msg_no = msgMd.msg_no
-                        , msg_title = msgMd.msg_title
-                        , msg_content = msgMd.msg_content
-                        //, reply_user_id = rpyMd.msg_reply
-                        , company = replyInfo.company
-                        , company_en = replyInfo.company_en
-                        , msg_reply_no = rpyMd.msg_reply_no
-                        , reply_content = rpyMd.reply_content
-                        , device_id = userMd.device_id
-                        , device_os = userMd.device_os
-                    }).ToList();
-                
+                        var temp = mapper.QueryForList<SalesInfoModel>("Message.SelectMsgMembersForSales", user_ids);
+                        if (temp != null && temp.Count > 0)
+                        {
+                            temp_result.AddRange(temp);
+                        }
+                        else
+                        {
+                            var temp_userInfos = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                            if (temp_userInfos != null && temp_userInfos.Count > 0)
+                            {
+                                temp_result.AddRange(temp_userInfos.Select(userInfo => new SalesInfoModel {
+                                    sales_id = userInfo.user_id,
+                                    sales_name = userInfo.company,
+                                    device_id = userInfo.device_id,
+                                    device_os = userInfo.device_os
+                                }).ToList());
+                            }
+                        }
+                    }
+
+                    var replyInfo = mapper.QueryForObject<SalesInfoModel>("Message.SelectMsgMembersForSalesByLeft", rpyMd.msg_reply);
+                    result = temp_result
+                        .Where(salesMd => !salesMd.sales_id.Equals(rpyMd.msg_reply))
+                        .Select(salesMd => new MsgPushModel()
+                        {
+                            msg_type = getMsgType(msgMd),
+                            msg_no = msgMd.msg_no,
+                            msg_title = msgMd.msg_title,
+                            msg_content = msgMd.msg_content,
+                            //, reply_user_id = rpyMd.msg_reply
+                            company = replyInfo.sales_name,
+                            company_en = replyInfo.sales_name,
+                            msg_reply_no = rpyMd.msg_reply_no,
+                            reply_content = rpyMd.reply_content,
+                            device_id = salesMd.device_id,
+                            device_os = salesMd.device_os
+                        }).ToList();
+                }
+                else
+                {
+                    List<UserInfoModel> temp_result = new List<UserInfoModel>();
+                    foreach (string user_ids in msg_member_set)
+                    {
+                        var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                        if (temp!=null && temp.Count>0)
+                        {
+                            temp_result.AddRange(temp);
+                        }
+                    }
+
+                    var replyInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", rpyMd.msg_reply);
+                    result = temp_result
+                        .Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
+                        .Select(userMd => new MsgPushModel()
+                        {
+                              msg_type = getMsgType(msgMd)
+                            , msg_no = msgMd.msg_no
+                            , msg_title = msgMd.msg_title
+                            , msg_content = msgMd.msg_content
+                            //, reply_user_id = rpyMd.msg_reply
+                            , company = replyInfo.company
+                            , company_en = replyInfo.company_en
+                            , msg_reply_no = rpyMd.msg_reply_no
+                            , reply_content = rpyMd.reply_content
+                            , device_id = userMd.device_id
+                            , device_os = userMd.device_os
+                        }).ToList();
+                }
             }
             return result;
         }
@@ -362,6 +464,7 @@ namespace prj_BIZ_System.Services
         {
             param.msg_member = " " + param.msg_member;
             param.is_public = "0";
+            param.cluster_no = 0;
             return mapper.Insert("Message.InsertMsg", param);
         }
         

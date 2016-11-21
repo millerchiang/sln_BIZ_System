@@ -28,6 +28,14 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<SalesInfoModel>("SalesInfo.SelectSalesInfoById", param);
         }
 
+
+
+        public IList<SalesInfoModel> SelectSalesInfos(string user_id)
+        {
+            SalesInfoModel param = new SalesInfoModel() { user_id = user_id };
+            return mapper.QueryForList<SalesInfoModel>("SalesInfo.SelectSalesInfos", param);
+        }
+
         #region 公司修改
 
         public IList<SalesInfoModel> getSalesInfoByConditionForManager(string where_sales_id, string where_company)

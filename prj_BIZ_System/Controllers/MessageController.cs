@@ -13,7 +13,8 @@ namespace prj_BIZ_System.Controllers
     public enum MessageType
     {
         Person,
-        CompanyPublic , CompanyPrivate,
+        CompanyPublic,  // 目前規劃中,還不會使用到CompanyPublic  2016/11/17
+        CompanyPrivate,
         ClusterPublic , ClusterPrivate
     }
 
@@ -28,12 +29,15 @@ namespace prj_BIZ_System.Controllers
     {
         public MessageService messageService;
         public ClusterService clusterService;
+        public SalesService salesService;
+        public UserService userService;
         public Message_ViewModel messageViewModel;
 
         public MessageController()
         {
             messageService = new MessageService();
             clusterService = new ClusterService();
+            salesService = new SalesService();
             messageViewModel = new Message_ViewModel();
         }
 
@@ -76,18 +80,7 @@ namespace prj_BIZ_System.Controllers
 
             model.creater_id = Request.Cookies["UserInfo"]["user_id"];
             model.msg_no = (long)messageService.InsertMsgPrivate(model);
-            if (model.msg_no > 0)
-            {
-                try
-                {
-                    IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
-                    PushHelper.doPush(pushMd);
-                }
-                catch (Exception e)
-                {
-                    logger.Error(e.Message);
-                }
-            }
+            doPushWork(model);
             #region 上傳訊息附件
             if (iupexls != null && model.msg_no != 0)
             {
@@ -125,12 +118,12 @@ namespace prj_BIZ_System.Controllers
 
             if (msg_no != 0 )
             {
-                if (isOwnViewPower(msg_no,MessageType.Person)) //檢查權限
+                if (isOwnViewPower(msg_no,MessageType.Person, current_user_id)) //檢查權限
                 {
                     //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
                     messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, current_user_id);
 
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(Request.Cookies["_culture"],messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
                     getReplyFileListAll(msg_no);
@@ -170,11 +163,14 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
             //int msg_no
             model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
+            MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+            bool isCompany = (!string.IsNullOrEmpty(msgMd.user_id)) && (!msgMd.user_id.Equals("0"));
+
             long insertResult = (long)(messageService.InsertMsgPrivateReply(model));
             if (insertResult > 0)
             {
                 model.msg_reply_no = insertResult;
-                MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+                //MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no); 提早判斷
                 try
                 {
                     IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
@@ -187,7 +183,7 @@ namespace prj_BIZ_System.Controllers
             }
             uploadFileByReply(model, iupexls);
 
-            return Redirect(getLabelString(MessageCatalog.Private, "detailUrl") + "?msg_no=" + model.msg_no);
+            return Redirect(getLabelString(isCompany?MessageCatalog.Company:MessageCatalog.Private, "detailUrl") + "?msg_no=" + model.msg_no);
         }
 
         /// <summary>
@@ -228,41 +224,88 @@ namespace prj_BIZ_System.Controllers
         #region --公司訊息--
         public ActionResult MessageCompanyList(string keyword)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            var user_id = Request.Cookies["UserInfo"]["user_id"];
-            IList<MsgModel> result = messageService.SelectMsgCompany(keyword, user_id).Pages(Request, this, 10); ;
+            string user_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                user_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                user_id = Request.Cookies["SalesInfo"]["sales_id"];
+            }
+
+            var totalMsg = messageService.SelectMsgCompany(keyword, user_id);
+            IList<MsgModel> result = totalMsg.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
+            IList<MsgModel> result2 = totalMsg.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
+
             ViewBag.keyword = keyword;
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
             ViewBag.searchUrl    = getLabelString(MessageCatalog.Company, "searchUrl");
             ViewBag.addUrl       = getLabelString(MessageCatalog.Company, "addUrl");
             ViewBag.detailUrl    = getLabelString(MessageCatalog.Company, "detailUrl");
             messageViewModel.msgPrivateList = result;
+            messageViewModel.msgPrivateList2 = result2;
             return View("MessagePrivateList", messageViewModel);
+            //return View(getLabelString(MessageCatalog.Company, "searchUrl"), messageViewModel);
         }
 
         public ActionResult MessageCompanyAdd()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
+
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null) {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
+                messageViewModel.userinfo = userService.GeUserInfoOne(loginer_id);
+            }
 
             ViewBag.msgType      = getLabelString(MessageCatalog.Company, "msgType");
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Company, "backUrl");
             ViewBag.doAddUrl     = getLabelString(MessageCatalog.Company, "doAddUrl");
-
-            return View(getLabelString(MessageCatalog.Private, "addUrl")); //共用
+            IList<SalesInfoModel> allSales = salesService.SelectSalesInfos(loginer_id);
+            messageViewModel.salesInfoList = allSales;
+            return View(getLabelString(MessageCatalog.Company, "addUrl"), messageViewModel); //共用
         }
 
         public ActionResult DoCompanyAdd(MsgModel model, List<HttpPostedFileBase> iupexls)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            model.user_id = Request.Cookies["UserInfo"]["user_id"]; //先寫死成登入者帳號,之後要記得用業務槷反查
-            model.creater_id = Request.Cookies["UserInfo"]["user_id"];
+
+            UserInfoModel userinfo;
+            string loginer_id = "";
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
+                userinfo = userService.GeUserInfoOne(loginer_id);
+                model.user_id = userinfo.user_id;
+            }
+
+            //model.user_id = Request.Cookies["UserInfo"]["user_id"]; //先寫死成登入者帳號,之後要記得用業務槷反查
+            model.creater_id = loginer_id; //Request.Cookies["UserInfo"]["loginer_id"];
+            model.msg_member = model.msg_members == null ? "" : string.Join(", ", model.msg_members);
             model.msg_no = (long)messageService.InsertMsgCompany(model); //這裡直接與私人訊息共用Service , 不是寫錯
 
+
+            doPushWork(model);
             #region 上傳訊息附件
             if (iupexls != null && model.msg_no != 0)
             {
@@ -288,23 +331,54 @@ namespace prj_BIZ_System.Controllers
             return Redirect(getLabelString(MessageCatalog.Company, "backUrl"));
         }
 
+        private void doPushWork(MsgModel model)
+        {
+            if (model.msg_no > 0)
+            {
+                try
+                {
+                    IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
+                    PushHelper.doPush(pushMd);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
+            }
+        }
+
         public ActionResult MessageCompanyDetailed(int msg_no)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Company, "backUrl");
 
+
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOne(loginer_id);
+            }
             if (msg_no != 0)
             {
-                if (isOwnViewPower(msg_no,MessageType.CompanyPublic)) //檢查權限
+                if (isOwnViewPower(msg_no,MessageType.CompanyPublic, loginer_id)) //檢查權限
                 {
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, loginer_id);
 
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member,MessageCatalog.Company);
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(Request.Cookies["_culture"],messageViewModel.msgPrivate.msg_member,MessageCatalog.Company);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
+                    getReplyFileListAll(msg_no);
                     return View(getLabelString(MessageCatalog.Private, "detailUrl"), messageViewModel); //共用
                 }
                 else
@@ -447,11 +521,11 @@ namespace prj_BIZ_System.Controllers
             if (msg_no != 0)
             {
                 var type = "0".Equals(is_public) ? MessageType.ClusterPrivate : MessageType.ClusterPublic ;
-                if (isOwnViewPower(msg_no, type, cluster_no)) //檢查權限
+                if (isOwnViewPower(msg_no, type, current_user_id , cluster_no)) //檢查權限
                 {
                     messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, current_user_id);
                     ViewBag.is_public = string.IsNullOrEmpty(is_public) ? "1" : is_public;
-                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
+                    ViewBag.msg_company = messageService.transferMsg_member2Msg_company(Request.Cookies["_culture"],messageViewModel.msgPrivate.msg_member, MessageCatalog.Private);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
                     messageViewModel.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no);
                     getReplyFileListAll(msg_no);
@@ -484,9 +558,9 @@ namespace prj_BIZ_System.Controllers
         }
         #endregion
 
-        private bool isOwnViewPower(int msg_no, MessageType mtype , int cluster_no = 0)
+        private bool isOwnViewPower(int msg_no, MessageType mtype ,string user_id, int cluster_no = 0)
         {
-            var user_id = Request.Cookies["UserInfo"]["user_id"];
+            //var user_id = Request.Cookies["UserInfo"]["user_id"];
             switch (mtype)
             {
                 case MessageType.Person:
@@ -494,7 +568,7 @@ namespace prj_BIZ_System.Controllers
 
                 case MessageType.CompanyPublic:
                 case MessageType.CompanyPrivate:
-                    return messageService.isOwnViewPower(msg_no, user_id);
+                    return messageService.isOwnViewPowerForCompany(msg_no, user_id);
 
                 case MessageType.ClusterPublic:
                     return messageService.isOwnViewPowerForClusterPublic(msg_no, cluster_no, user_id);
@@ -534,7 +608,7 @@ namespace prj_BIZ_System.Controllers
             {
                 case MessageCatalog.Private:
                     resultDict[msgType]         = "Private";
-                    resultDict[contentTitle]    = "私人";
+                    resultDict[contentTitle]    = LanguageResource.User.lb_msg_private;
                     resultDict[searchUrl]       = "MessagePrivateList";
                     resultDict[addUrl]          = "PrivateAdd";
                     resultDict[doAddUrl]        = "DoPrivateAdd";
@@ -544,11 +618,11 @@ namespace prj_BIZ_System.Controllers
 
                 case MessageCatalog.Company:
                     resultDict[msgType]         = "Company";
-                    resultDict[contentTitle]    = "公司";
+                    resultDict[contentTitle]    = LanguageResource.User.lb_msg_company;
                     resultDict[searchUrl]       = "MessageCompanyList";
-                    resultDict[addUrl]          = "MessageCompanyAdd";
+                    resultDict[addUrl]          = "MessageCompanyAdd";  //action name + file name
                     resultDict[doAddUrl]        = "DoCompanyAdd";
-                    resultDict[detailUrl]       = "MessageCompanyDetailed";
+                    resultDict[detailUrl]       = "MessageCompanyDetailed"; // action name
                     resultDict[backUrl]         = "MessageCompanyList";
                     break;
             }
