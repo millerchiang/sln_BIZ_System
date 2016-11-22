@@ -52,7 +52,7 @@ namespace prj_BIZ_System.WebService
                 company = msgModel.company,
                 create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
             };
-            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(msgModel.msg_member, prj_BIZ_System.Controllers.MessageCatalog.Private);
+            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(null,msgModel.msg_member, prj_BIZ_System.Controllers.MessageCatalog.Private);
             string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
                 msgFileModel =>
                 msgFileModel.msg_file_site   

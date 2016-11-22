@@ -1,0 +1,157 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Message_ViewModel
+
+
+@{
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_add + ViewBag.contentTitle + prj_BIZ_System.LanguageResource.User.lb_msg;
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+}
+
+@Styles.Render("~/Content/jqueryUI")
+
+<div class="article_col1">
+    <article class="article_col2">
+
+        <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_add@(ViewBag.contentTitle)</h2>
+
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</label>
+            <div class="regis_col02R verticalslist">
+
+                @if (Model != null && ( Model.userinfo != null || (Model.salesInfoList != null && Model.salesInfoList.Count>0 )))
+                {
+                    <input type="checkbox" name="all_msg_members" value="" class="inputCheckbox" id="busidall">
+                    <label for="busidall">全選</label>
+                    <input type="checkbox" name="all_msg_members2" value=""  class=""  id="busidall2" style="visibility:hidden">
+                    <label for="busidall2"></label>
+                }
+                @if (Model != null && Model.userinfo != null)
+                {
+                    <input type="checkbox" name="msg_members" value="@Model.userinfo.user_id" class="inputCheckbox" id="busiduser">
+                    <label for="busiduser">@Model.userinfo.company</label>
+                }
+                @if (Model != null && Model.salesInfoList != null)
+                {
+                    var i = 0;
+                    foreach (SalesInfoModel saleMd in Model.salesInfoList)
+                    {
+                        <input type="checkbox" name="msg_members" value="@saleMd.sales_id" class="inputCheckbox" id="busid@(i)">
+                        <label for="busid@(i)">@saleMd.sales_name</label>
+                        i++;
+                    }
+                }
+            </div>
+
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</label>
+            <input name="msg_title" type="text" class="regis_col02R">
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
+            <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment_upload</label>
+            <div class="regis_col02R">
+                <label class="addbu" id="upload" for="upexls">@prj_BIZ_System.LanguageResource.User.lb_select</label>
+                <input type="file" id="upexls" name="iupexls" multiple="multiple" />
+                <ul id="output"></ul>
+            </div>
+            <div class="centerbox">
+                <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
+                <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">@(prj_BIZ_System.LanguageResource.User.lb_back)@(ViewBag.contentTitle)</a>
+            </div>
+
+        </form>
+
+    </article>
+    @{
+        Html.RenderAction("_HomeLeftPartial", "Home");
+    }
+
+
+</div>
+
+@Scripts.Render("~/bundles/jqueryUI")
+
+<script>
+		  $(function() {
+		  /*
+		      $("#upexls").on('change', function () {
+				$("#upexl_name").val($(this).val());
+		      });
+			*/
+		      //var g_temp_files = [];
+			
+			 $("input#upexls").change(function() {
+			    var ele = document.getElementById($(this).attr('id'));
+			    var result = ele.files;
+
+			    $("#output").html("");
+			    for(var x = 0;x< result.length;x++){
+			     var fle = result[x];
+			        //$("#output").append("<li class='removeup'>" + fle.name + "</li>");
+			        $("#output").append("<li>" + fle.name + "</li>");
+			    }
+
+			     //g_temp_files = ele.files;
+			    if ($("#output li").size() > 0) {
+			        $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_reselect");
+			    } else {
+			        $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_select");
+			    }
+			});
+			
+		      $("input[name='all_msg_members']").change(function () {
+		          var isChecked = $("input[name='all_msg_members']").prop("checked");
+		          $("input[name='msg_members']").prop("checked", isChecked);
+		      });
+			
+		      $("input[name='msg_members']").on('change', function () {
+		          if($(this).prop("checked")==false){
+		              $("input[name='all_msg_members']").prop("checked", false);
+		          }
+		      })
+            
+
+		      $("#form").submit(function () {
+		          var selected_count = $('input[name="msg_members"]:checked').size();
+		          var msg_title = $('input[name="msg_title"]').val();
+		          var msg_content = $("#msg_content").val();
+
+		          var errMsg = checkValidationOk(selected_count, msg_title, msg_content)
+		          if (errMsg != '') {
+		              $('input[name="msg_member"]').css('display', 'inline').val("");
+		              alert(errMsg);
+		              return false;
+		          }
+
+		      });
+
+		      $("#msg_content").keydown(function (e) {
+		          if ($(this).val().length > 300) {
+		              if (e.keyCode != 8) {
+		                  return false;
+		              }
+		          }
+		      })
+
+		  });
+
+          function checkValidationOk(selected_count, msg_title, msg_content) {
+		      var errMsg = '';
+		      if (selected_count==0) {
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_object_empty\n";
+		      }
+		      
+		      if (msg_title == null || msg_title == '') {
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_subject_empty\n";
+		      }
+
+		      if (msg_content == null || msg_content == '') {
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_empty\n";
+		      } else if ($("#msg_content").val().length > 300) {
+		          errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_300 !!";
+		      }
+		      return errMsg ;
+		  }
+
+</script>
