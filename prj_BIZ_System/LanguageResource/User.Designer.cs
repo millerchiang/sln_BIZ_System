@@ -871,6 +871,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 採購範圍 的當地語系化字串。
+        /// </summary>
+        public static string lb_coverage {
+            get {
+                return ResourceManager.GetString("lb_coverage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 上傳封面 的當地語系化字串。
         /// </summary>
         public static string lb_coverupload {
@@ -1015,6 +1024,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 預估採購金額(US$) 的當地語系化字串。
+        /// </summary>
+        public static string lb_estimated_amount {
+            get {
+                return ResourceManager.GetString("lb_estimated_amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 說明 的當地語系化字串。
         /// </summary>
         public static string lb_explain {
@@ -1128,6 +1146,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_info {
             get {
                 return ResourceManager.GetString("lb_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 採購項目 的當地語系化字串。
+        /// </summary>
+        public static string lb_items {
+            get {
+                return ResourceManager.GetString("lb_items", resourceCulture);
             }
         }
         

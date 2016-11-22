@@ -368,7 +368,7 @@ namespace prj_BIZ_System.Services
                             , msg_content = msgMd.msg_content
                             //, reply_user_id = rpyMd.msg_reply
                             , company = replyInfo.company
-                            , company_en = replyInfo.company_en
+                            , company_en = replyInfo.company_en ?? ""
                             , msg_reply_no = rpyMd.msg_reply_no
                             , reply_content = rpyMd.reply_content
                             , device_id = userMd.device_id
@@ -381,7 +381,7 @@ namespace prj_BIZ_System.Services
 
         private int getMsgType(MsgModel msgMd)
         {
-            int cluster_no = (int)(msgMd.cluster_no);
+            int cluster_no = (int)(msgMd.cluster_no ?? 0);
             string user_id = msgMd.user_id;
             string is_public = msgMd.is_public;
             int result = 0;

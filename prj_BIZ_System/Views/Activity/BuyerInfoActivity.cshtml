@@ -16,7 +16,7 @@
             <div class="form_box">
                 @*<h2><a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</a></h2>*@
                 <h2>@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "company")</h2>
-                <label for="" class="regis_col02L">預估採購金額</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_estimated_amount</label>
                 <span class="regis_col02R contentspan">@buyerInfoModel.estimated_purchasing_now</span>
 
                 <label for="" class="regis_col02L">@(prj_BIZ_System.LanguageResource.User.lb_buyerneed)</label>
@@ -24,16 +24,16 @@
                 <p class="regis_col02R contentspan">
                     @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "buyer_need")
                 </p>
-                <label for="" class="regis_col02L">採購範圍</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_coverage</label>
                 <p class="regis_col02R contentspan">
                     @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "distribution")
                 </p>
-                <label for="" class="regis_col02L">採購項目</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_items</label>
                 <p class="regis_col02R contentspan">
                     @prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], buyerInfoModel, "items")
                 </p>
                 <div class="centerbox">
-                    <a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_companybrief </a>
+                    <a href="~/User/UserInfo?user_id=@buyerInfoModel.buyer_id" class="submitbu" target="_blank">@prj_BIZ_System.LanguageResource.User.lb_companybrief </a>
                 </div>
 
             </div>

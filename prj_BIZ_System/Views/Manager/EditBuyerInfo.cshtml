@@ -55,7 +55,9 @@
         <div class="form_box w100">
             <h2>中文資訊</h2>
             <label for="buyer_need" class="regis_col02L spanRed">媒合需求</label>
-            <input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" required />
+            @*<input type="text" name="buyer_need" value="@Model.buyerinfo.buyer_need" class="regis_col02R" required />*@
+            <textarea name="buyer_need" cols="30" rows="10" class="regis_col02R" required>@Model.buyerinfo.buyer_need</textarea>
+
             <label for="distribution" class="regis_col02L">採購範圍</label>
             <input type="text" name="distribution" value="@Model.buyerinfo.distribution" class="regis_col02R" />
             <label for="items" class="regis_col02L">採購項目</label>
@@ -65,7 +67,8 @@
         <div class="form_box w100">
             <h2>英文資訊</h2>
             <label for="buyer_need_en" class="regis_col02L">買主媒合需求(英)</label>
-            <input type="text" name="buyer_need_en" value="@Model.buyerinfo.buyer_need_en" class="regis_col02R" />
+            @*<input type="text" name="buyer_need_en" value="@Model.buyerinfo.buyer_need_en" class="regis_col02R" />*@
+            <textarea name="buyer_need_en" cols="30" rows="10" class="regis_col02R" required>@Model.buyerinfo.buyer_need_en</textarea>
             <label for="distribution_en" class="regis_col02L">採購範圍(英)</label>
             <input type="text" name="distribution_en" value="@Model.buyerinfo.distribution_en" class="regis_col02R" />
             <label for="items_en" class="regis_col02L">採購項目(英)</label>

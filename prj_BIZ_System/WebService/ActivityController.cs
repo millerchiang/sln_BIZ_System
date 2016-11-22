@@ -40,14 +40,15 @@ namespace prj_BIZ_System.WebService
             IList<News> allNews = activityService.GetNewsAll(null,null)
                                                 .Where(predicate)
                                                 .Select(
-                news =>
-                new News
-                {
-                    news_no = news.news_no,
-                    news_type = news.news_type,
-                    news_title = news.news_title,
-                                                        activity_id = news.activity_id                                                    }
-            ).ToArray();
+                                                    news =>
+                                                    new News
+                                                    {
+                                                        news_no = news.news_no,
+                                                        news_type = news.news_type,
+                                                        news_title = news.news_title,
+                                                        activity_id = news.activity_id
+                                                    }
+                                                ).ToArray();
 
             var activityDics = 
                 activityService.GetActivityInfoList(null,null).ToDictionary(

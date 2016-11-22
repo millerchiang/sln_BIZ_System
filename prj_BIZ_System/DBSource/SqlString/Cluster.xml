@@ -40,7 +40,9 @@
     <select id="SelectClusterFileList" resultMap="ClusterFile-result" parameterClass="ClusterFile">
       SELECT *
       FROM public.cluster_file
-      <dynamic prepend="where">
+      where 
+      deleted = '1'
+      <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = #cluster_no#
         </isNotEmpty>
@@ -50,9 +52,11 @@
     <select id="SelectClusterFileSize" resultClass="double" parameterClass="ClusterFile">
       SELECT sum(file_size)
       FROM public.cluster_file
-      <dynamic prepend="where">
+      where 
+      deleted = '1'
+      <dynamic prepend="">
         <isNotEmpty prepend="and" property="cluster_no">
-          cluster_no = #cluster_no#
+          cluster_no = $cluster_no$
         </isNotEmpty>
       </dynamic>
     </select>
@@ -109,7 +113,16 @@
     <select id="ClusterListByApplyAll" resultMap="ClusterList-result">
       select * from get_all_cluster_member_and_en_by_userid() 
     </select>
-    
+
+    <select id="ClusterListByChecked" resultMap="ClusterList-result" parameterClass="Cluster">
+      select b.cluster_no,b.user_id as cluster_members,b.cluster_enable as cluster_members_en 
+      ,c.company as creator_name
+      ,c.company_en as creator_name_en, b.create_time,cluster_name
+      ,cluster_info from cluster_member b
+      inner join cluster_info a on a.cluster_no=b.cluster_no
+      left join user_info c on c.user_id=b.user_id
+      where a.user_id = #user_id# and b.cluster_enable = '4'
+    </select>
       
     <select id="ClusterListByIdAndClusterEnableAll" resultMap="ClusterInfoMobileAll-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
@@ -265,6 +278,13 @@
       VALUES ($cluster_no$,#user_id#,#cluster_file_site#,#deleted#,$file_size$)
     </insert>
 
+    <!--更新聚落會員狀態-->
+    <update id="ClusterFileDeleteOne" parameterType= "int">
+      UPDATE public.cluster_file
+      SET deleted='0'
+      WHERE cluster_file_no=$cluster_file_no$
+    </update>
+    
 
   </statements>
 

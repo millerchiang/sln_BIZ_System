@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApiContrib.ModelBinders;
 using prj_BIZ_System.Extensions;
+using BizTimer.Config;
 
 namespace prj_BIZ_System.WebService
 {
@@ -86,22 +87,30 @@ namespace prj_BIZ_System.WebService
                 company_en = msgModel.company_en,
                 create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
             };
+
             var memberCompanyAndEn = messageService.transferMsg_member2Msg_company_AndEn(msgModel.msg_member);
             messageContent.msgPrivate.msg_member = memberCompanyAndEn.Item1;
             messageContent.msgPrivate.msg_member_en = memberCompanyAndEn.Item2;
+
             string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
-                msgFileModel =>
-                msgFileModel.msg_file_site
+                mf =>
+                mf.msg_file_site
             ).ToArray();
             messageContent.msgPrivate.msg_file = string.Join(",", fileNames);
+
             messageContent.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no).Select(
-                msgPrivateReplyModel =>
+                mpr =>
                 new MsgPrivateReply
                 {
-                    company = msgPrivateReplyModel.company,
-                    company_en = msgPrivateReplyModel.company_en,
-                    reply_content = msgPrivateReplyModel.reply_content,
-                    create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
+                    company = mpr.company,
+                    company_en = mpr.company_en,
+                    reply_content = mpr.reply_content,
+                    msg_reply_no = mpr.msg_reply_no,
+                    msg_reply_file = string.Join(",", messageService.SelectMsgReplyFileByMsg_no(msg_no)
+                                                    .Where(mprf => mpr.msg_reply_no == mprf.msg_reply_no)
+                                                    .Select(mprf => mprf.msg_reply_file_site)
+                                                    .ToArray()),
+                    create_time = mpr.create_time.ToString("yyyy-MM-dd HH:mm")
                 }
             ).ToList();
             
@@ -111,7 +120,19 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object MessageReply(MsgReplyModel model)
         {
-           return messageService.InsertMsgPrivateReply(model);
+            long insertResult = (long)messageService.InsertMsgPrivateReply(model);
+            model.msg_reply_no = insertResult;
+            MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
+            try
+            {
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
+                PushHelper.doPush(pushMd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, insertResult);
         }
 
         [HttpPost]
@@ -119,7 +140,18 @@ namespace prj_BIZ_System.WebService
         {
             model.msg_member = model.msg_member.Replace(",", ", ") + ",";
             model.is_public = "0";
-            return (long)messageService.InsertMsgPrivate(model);
+            var result = (long)messageService.InsertMsgPrivate(model);
+            model.msg_member = model.msg_member.Trim(' ');
+            try
+            {
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
+                PushHelper.doPush(pushMd);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return result;
         }
 
         [HttpGet]

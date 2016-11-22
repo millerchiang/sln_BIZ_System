@@ -891,4 +891,13 @@ To complete the registration of members, thank you!</value>
   <data name="lb_acting" xml:space="preserve">
     <value>Upcoming Activity</value>
   </data>
+  <data name="lb_coverage" xml:space="preserve">
+    <value>Distribution Coverage</value>
+  </data>
+  <data name="lb_estimated_amount" xml:space="preserve">
+    <value>Estimated Purchasing Amount from TW (US$)</value>
+  </data>
+  <data name="lb_items" xml:space="preserve">
+    <value>Purchase Items</value>
+  </data>
 </root>
