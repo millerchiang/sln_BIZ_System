@@ -236,6 +236,21 @@ namespace prj_BIZ_System.Controllers
             return View(clusterViewModel);
         }
 
+        public ActionResult Cluster_Manager()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            if (Request.QueryString["cluster_no"] != null)
+            {
+                clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+                clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));
+            }
+
+            return View(clusterViewModel);
+        }
+
+
         public ActionResult EditCluster(string no,string members, ClusterInfoModel model)
         {
             if (Request.Cookies["UserInfo"] == null)
@@ -290,7 +305,41 @@ namespace prj_BIZ_System.Controllers
             return Redirect("ClusterList");
         }
 
-        
+        public ActionResult EditClusterManager(string no, ClusterInfoModel model)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            int clusterNo = 0;
+            if (no != null && no != "" && model.manager_id!=null)
+            {
+                clusterNo = int.Parse(no);
+                model.cluster_no = clusterNo;
+                clusterService.ClusterInfoUpdateManager(model);
+            }
+            return Redirect("ClusterList");
+        }
+
+        public ActionResult ClusterManagerOk()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            ClusterInfoModel model = new ClusterInfoModel();
+
+            if (Request.QueryString["id"] != null && Request.QueryString["id"] != "" &&
+                Request.QueryString["cluster_no"] != null && Request.QueryString["cluster_no"] != ""
+                )
+            {
+                model.user_id = Request.QueryString["id"];
+                model.manager_id = "";
+                model.cluster_no = int.Parse(Request.QueryString["cluster_no"]);
+                clusterService.ClusterInfoUpdateManager(model);
+            }
+            return Redirect("ClusterList");
+        }
+
+
         [HttpPost]
         public ActionResult FilesUpload(HttpPostedFileBase upexl)
         {

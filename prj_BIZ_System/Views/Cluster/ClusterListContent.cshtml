@@ -21,7 +21,7 @@
                     <div class="form_box">
                         <h2>@newInfo.cluster_name</h2>
                         <label for="" class="regis_col02L"></label>
-                        @if (Request["list"] == "4")
+                        @if (Request["list"] == "4" && HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]) != newInfo.user_id)
                         {
                         <span class="regis_col02R contentspan"><a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="deleteSbu quit rightbox">退出聚落</a></span>
                         }
@@ -30,8 +30,20 @@
                         {
                         <label for="" class="regis_col02L">邀請時間</label>
                         <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
-                        <label for="" class="regis_col02L">建立者</label>
-                        <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                        <label for="" class="regis_col02L">管理者
+                        </label>
+                        <span class="regis_col02R contentspan">@newInfo.creator_name
+                            @if (HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]) == newInfo.user_id)
+                            {
+                                <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="deleteSbu">指定</a>
+                            }
+                            else if (HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]) == newInfo.manager_id)
+                            {
+                                <label class="fontRed">傳來要求成為管理者</label>
+                                <a href="ClusterManagerOk?cluster_no=@newInfo.cluster_no&id=@HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"])" class="deleteSbu">接受</a>
+                                <a href="ClusterManagerOk?cluster_no=@newInfo.cluster_no&id=@newInfo.user_id" class="deleteSbu">拒絕</a>
+                            }
+                        </span>
                         <label for="" class="regis_col02L">成員</label>
                         <p class="regis_col02R contentspan">
                             @newInfo.cluster_members

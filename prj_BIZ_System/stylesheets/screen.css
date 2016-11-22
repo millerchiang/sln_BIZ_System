@@ -781,6 +781,11 @@ a:hover, a:focus, a:active, a.active {
   border: 1px solid #60d500;
   background: #88de17;
 }
+.form_box h2.panelTitle {
+  padding: 10px 1%;
+  left: -1px;
+  width: 98%;
+}
 .form_box + .form_box {
   margin-top: 30px;
 }
@@ -1861,6 +1866,29 @@ input.tagtext:focus {
 
 .ui-widget-content a.addbublue, .ui-widget-content a.addbu, .ui-widget-content a.adddbured {
   color: #ffffff;
+}
+
+.panelSubmitBu, a.panelSubmitBu {
+  background: none;
+  color: #ffffff;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 5px 0;
+  max-width: 120px;
+  min-width: 50px;
+  width: 100%;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.938em;
+  line-height: 1;
+  position: absolute;
+  right: 5px;
+  top: -7px;
+  border: 1px solid #ffffff;
+}
+.panelSubmitBu:hover, a.panelSubmitBu:hover {
+  background: #189bac;
 }
 
 @media only screen and (min-width: 765px) and (max-width: 1023px) {

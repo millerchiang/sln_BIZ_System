@@ -43,7 +43,7 @@
   font-size: 0.938em;
 }
 
-.regis_col02R {
+.regis_col02R, .regis_col02_1R {
   width: 74%;
   display: inline-block;
   vertical-align: top;
@@ -93,6 +93,13 @@
 
 .regis_col02R .radioinput + label {
   width: 33%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  float: left;
+}
+
+.regis_col02_1R .radioinput + label {
+  width: 100%;
   padding-bottom: 10px;
   box-sizing: border-box;
   float: left;

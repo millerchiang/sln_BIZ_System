@@ -8,7 +8,8 @@ namespace prj_BIZ_System.Models
 
     public class ClusterModel
     {
-        public string user_id { get; set; }      /*成員帳號*/
+        public string user_id { get; set; }      /*建立成員帳號*/
+        public string manager_id { get; set; }      /*管理成員帳號*/
         public int? cluster_no { get; set; }        /*聚落編號*/
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_info { get; set; }        /*聚落簡介*/
@@ -23,6 +24,7 @@ namespace prj_BIZ_System.Models
     {
         public int? cluster_no { get; set; }        /*聚落編號*/
         public string user_id { get; set; }      /*建立者帳號*/
+        public string manager_id { get; set; }      /*管理者帳號*/
         public string cluster_name { get; set; }        /*聚落名稱*/
         public string cluster_info { get; set; }        /*聚落簡介*/
         public DateTime create_time { get; set; } /*建立日期*/
@@ -46,6 +48,9 @@ namespace prj_BIZ_System.Models
             cluster_name = clusterInfoModel.cluster_name;
             cluster_info = clusterInfoModel.cluster_info;
             enable = clusterInfoModel.enable;
+
+            user_id = clusterInfoModel.user_id;
+            manager_id = clusterInfoModel.manager_id;
         }
 
         public int? cluster_no { get; set; }        /*聚落編號*/
@@ -59,6 +64,10 @@ namespace prj_BIZ_System.Models
         public DateTime cluster_create_time { get; set; }        /*聚落成立時間*/
         public DateTime member_invite_time { get; set; }        /*聚落成員邀請時間*/
         public string enable { get; set; }        /*聚落是否成立 0：不成立；1：成立*/
+
+        public string user_id { get; set; }      /*建立成員帳號*/
+        public string manager_id { get; set; }      /*管理成員帳號*/
+
     }
 
     public class ClusterFileModel
