@@ -82,7 +82,24 @@
 
 <script>
     var fileid;
-	$(function() {
+    $(function () {
+    
+        @*@if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
+        {
+            <text>
+            
+	        function check() {
+	            var errMsg = '@TempData["errMsg"]';
+	            if (errMsg != '') {
+	                alert(errMsg);
+                }
+            }
+
+            alert("12345" +@TempData["errMsg"]);
+            check();
+            </text>
+        }*@
+
 		$( "#dialog" ).dialog({
 			autoOpen: false,
 			buttons: {
@@ -97,11 +114,10 @@
 			}
 			}
 		});
-	$( ".quit" ).click(function() {
-	    $("#dialog").dialog("open");
-	    fileid = this.id;
-	    alert(fileid);
-	});
+	    $( ".quit" ).click(function() {
+	        $("#dialog").dialog("open");
+	        fileid = this.id;
+	    });
 
 
 	});
