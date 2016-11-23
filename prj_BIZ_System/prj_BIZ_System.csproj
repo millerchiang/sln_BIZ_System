@@ -937,6 +937,7 @@
     <Content Include="Views\Cluster\ClusterListContent.cshtml" />
     <Content Include="Views\Manager\Questionnaire.cshtml" />
     <Content Include="Views\Manager\QuestionnaireList.cshtml" />
+    <Content Include="Views\Cluster\Cluster_Manager.cshtml" />
     <None Include="Views\Message\MessageClusterMain.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

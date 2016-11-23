@@ -117,6 +117,13 @@ namespace prj_BIZ_System.Services
             return (int)result;
         }
 
+        public int ClusterInfoUpdateManager(ClusterInfoModel clusterInfoModel)
+        {
+            var result = mapper.Update("Cluster.ClusterInfoUpdateManager", clusterInfoModel);
+            return (int)result;
+        }
+
+
         public int ClusterMemberInsertOne(ClusterMemberModel clusterMemberModel)
         {
             var result = mapper.Insert("Cluster.ClusterMemberInsertOne", clusterMemberModel);
