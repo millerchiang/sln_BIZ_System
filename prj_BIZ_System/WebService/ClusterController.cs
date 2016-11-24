@@ -17,6 +17,54 @@ namespace prj_BIZ_System.WebService
     {
         private ClusterService clusterService = new ClusterService();
 
+        private Func<ClusterDetailModel, object> clusterInfoSelector = clusterInfo =>
+                                                                        new
+                                                                        {
+                                                                            clusterInfo.cluster_no,
+                                                                            clusterInfo.cluster_name,
+                                                                            clusterInfo.creator_name,
+                                                                            clusterInfo.creator_name_en,
+                                                                            clusterInfo.cluster_members,
+                                                                            clusterInfo.cluster_members_en,
+                                                                            clusterInfo.cluster_info,
+                                                                            clusterInfo.enable
+                                                                        };
+
+        [HttpGet]
+        public object GetClusterByIdAndClusterEnable(string user_id, string cluster_enable)
+        {
+            if (user_id.IsNullOrEmpty() || cluster_enable.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data has null.");
+            var clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, cluster_enable)
+                                                .Select(clusterInfoSelector).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
+        }
+
+        [HttpGet]
+        public object GetClusterListByApply(string user_id)
+        {
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user_id has null.");
+            var clusterInfoList = clusterService.GetClusterListByApply(user_id)
+                                                .Select(clusterInfoSelector).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
+        }
+
+        [HttpGet]
+        public object GetClusterListByChecked(string user_id)
+        {
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user_id has null.");
+            var clusterInfoList = clusterService.GetClusterListByChecked(user_id)
+                                                .Select(clusterInfo =>
+                                                        new
+                                                        {
+                                                            clusterInfo.cluster_no,
+                                                            clusterInfo.cluster_name,
+                                                            applicant = clusterInfo.creator_name,
+                                                            applicant_en = clusterInfo.creator_name_en,
+                                                            clusterInfo.cluster_info
+                                                        }).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, clusterInfoList);
+        }
+
         [HttpGet]
         public object GetClusterInfoList(string user_id)
         {

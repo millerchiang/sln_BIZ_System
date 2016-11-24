@@ -682,6 +682,8 @@
       <result property="activity_name" column="activity_name"/>
       <result property="activity_name_en" column="activity_name_en"/>
       <result property="starttime" column="starttime"/>
+      <result property="endtime" column="endtime"/>
+
     </resultMap>
 
     <resultMap id="MatchBothResult"  class="Hashtable">

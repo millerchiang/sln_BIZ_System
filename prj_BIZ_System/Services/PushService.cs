@@ -87,7 +87,7 @@ namespace prj_BIZ_System.Services
 
         public object MobileDeviceInfoUpdateOne(MobileDeviceInfoModel model)
         {
-            object result = mapper.Insert("Push.UpdateMobileDeviceInfo", model);
+            object result = mapper.Update("Push.UpdateMobileDeviceInfo", model);
             return result;
         }
 
