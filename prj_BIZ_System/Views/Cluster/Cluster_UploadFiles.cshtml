@@ -39,8 +39,11 @@
 
 <script>
     $(function () {
+
         $("#upexl").on('change', function () {
-            $("#upexl_name").val($(this).val());
+            var upval = $(this).val();
+            var upvalfilename = upval.replace("C:\\fakepath\\", "");
+            $("#upexl_name").val(upvalfilename);
         });
 
     });

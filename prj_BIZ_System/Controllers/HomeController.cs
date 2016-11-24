@@ -237,7 +237,15 @@ namespace prj_BIZ_System.Controllers
             if (Request["Id"] !=null)
             {
                 doNewsView();
-                
+
+                indexModel.buyerinfoList = activityService.GetBuyerInfoActivity(indexModel.news.activity_id);
+                if (indexModel.buyerinfoList.Count==0)
+                {
+                    ViewBag.buyerinfo = "none";
+                } else
+                {
+                    ViewBag.buyerinfo = "ok";
+                }
                 docookie("_mainmenu", "NewsView");
                 return View(indexModel);
             }

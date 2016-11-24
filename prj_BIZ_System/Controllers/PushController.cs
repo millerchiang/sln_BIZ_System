@@ -28,6 +28,9 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
+
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -48,6 +51,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             int count = pushService.getPushListCountBySampleId(sample_id);
             return Json(count,JsonRequestBehavior.AllowGet);
         }
@@ -57,6 +62,8 @@ namespace prj_BIZ_System.Controllers
 
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -95,6 +102,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             if (model.push_id == null)
             {
                 model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; //之後要從 Cookie抓
@@ -111,6 +120,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             bool isDelSuccess = pushService.DeletePushListOne(push_id);
             return Redirect("SearchPushList");
         }
@@ -120,6 +131,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             return View();
         }
 
@@ -127,6 +140,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["push"] == "2")
@@ -143,6 +158,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             model.create_id = Request.Cookies["ManagerInfo"]["manager_id"];  // Request.Cookies["user_id"]
             if ("Insert".Equals(pagetype))
             {
@@ -161,6 +178,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["push"] == "0")
+                return Redirect("Index");
             bool isDelSuccess = pushService.PushSampleDeleteOne(sample_id);
             return Json(isDelSuccess, JsonRequestBehavior.AllowGet);
         }

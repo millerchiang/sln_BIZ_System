@@ -138,6 +138,9 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
+
             string cluster_name1 = cluster_name;
             string company1 = company;
 
@@ -417,6 +420,9 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
+
             ViewBag.Title = "ManagerInfo";
             managerViewModel.groupList = managerService.getAllGroup();
             managerViewModel.managerInfoList = managerService.getManagerInfoByCondition(where_grp_id, where_manager_id).Pages(Request, this, 10);
@@ -465,6 +471,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             managerViewModel.groupList = managerService.getAllGroup().Pages(Request, this, 10);
 
@@ -537,6 +545,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
             string manager_id = null;
             int? grp_id = null;
             ViewBag.news_style = news_style;
@@ -558,6 +568,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
             string manager_id = null;
             int? grp_id = null;
             if (Request.Cookies["ManagerInfo"]["news"] == "2")
@@ -587,6 +599,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
             if (model.news_no == 0)
@@ -602,6 +616,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
 
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList?news_type=0");
@@ -614,6 +630,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
             ViewBag.Action = "EditNewsInfoInsertUpdate";
             if (Request["Id"] == null)
             {
@@ -644,6 +662,8 @@ namespace prj_BIZ_System.Controllers
             */
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
 
             news.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
@@ -660,6 +680,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["news"] == "0")
+                return Redirect("Index");
 
             activityService.NewsDeleteOne(int.Parse(Request["Id"]));
             return Redirect("B_NewsList?news_type=1");
@@ -672,6 +694,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             ViewBag.Action = "ActivityInsertUpdate";
             if (Request["Id"] == null)
@@ -693,6 +717,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             activityService.ActivityInfoDelectOne(int.Parse(Request["Id"]));
             return Redirect("ActivityList");
@@ -703,6 +729,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
 
@@ -736,6 +764,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -758,6 +788,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -782,6 +814,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             model.register_id = register_id;
             model.manager_check = manager_check;
@@ -804,6 +838,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -835,6 +871,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -868,6 +906,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["user"] == "0")
+                return Redirect("Index");
 
             activityModel.userinfoList = userService.GetUserInfoListkw(user_id, company).Pages(Request, this, 10);
             return View(activityModel);
@@ -1095,6 +1135,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["user"] == "0")
+                return Redirect("Index");
 
             activityModel.enterprisesortList = userService.GetSortList();
             ViewBag.Action = "UserInsertUpdate";
@@ -1140,6 +1182,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["user"] == "0")
+                return Redirect("Index");
 
             if (Request.Cookies["Action"]["edit"] == "Add")//新增
             {
@@ -1181,6 +1225,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -1207,6 +1253,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             string manager_id = null;
             int? grp_id = null;
@@ -1237,6 +1285,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             if (model.serial_no == 0)
             {
@@ -1314,6 +1364,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             activityService.BuyerInfoDeleteOne(int.Parse(Request["Id"]));
             return Redirect("BuyerInfoList");
@@ -1346,6 +1398,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["user"] == "0")
+                return Redirect("Index");
 
             return View();
         }
@@ -1750,6 +1804,8 @@ namespace prj_BIZ_System.Controllers
             {
                 return Redirect("Login");
             }
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             MakeSchedule();
 
@@ -1952,6 +2008,8 @@ namespace prj_BIZ_System.Controllers
             {
                 return Redirect("Login");
             }
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             /*列出某活動的媒合大表資料*/
             matchModel.matchmakingScheduleList = matchService.GetCertainActivityMatchMakingDataList(activity_id);
@@ -2432,6 +2490,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
+            if (Request.Cookies["ManagerInfo"]["activity"] == "0")
+                return Redirect("Index");
 
             ViewBag.Action = "StoreMatchData";
 
@@ -2620,6 +2680,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             return View();
         }
@@ -2629,6 +2691,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             string current_id = "";
             string current_manager_id = Request.Cookies["ManagerInfo"]["manager_id"]; // 取 manager_id 的 cookie
@@ -2679,6 +2743,9 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
+
             ViewBag.Title = "SalesInfo";
             salesViewModel.salesInfoList = salesService.getSalesInfoByConditionForManager(where_sales_id, where_company).Pages(Request, this, 10);
             ViewBag.Where_sales_id = where_sales_id;
@@ -2695,6 +2762,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             if (model.photo_id == null)
@@ -2730,6 +2799,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             bool isDelSuccess = activityService.PhotoListDeleteFake(del_photos); //假刪
@@ -2741,6 +2812,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             IList<ActivityPhotoModel> photoLists = activityService.getAllPhoto(manager_id).Pages<ActivityPhotoModel>(Request, this, 10);
@@ -2753,6 +2826,10 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult PhotoDetail(int? photo_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
             ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "activity");
 //            docookie("_mainmenu", "ProductDetail");
@@ -2763,6 +2840,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             ActivityPhotoModel result = activityService.getPhotoOne(photo_id);
             ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "activity") : "";
 
@@ -2777,6 +2856,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             model.manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             if (model.photo_id == null)
@@ -2812,6 +2893,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             if (del_photos!=null && del_photos.Count()>0)
@@ -2830,6 +2913,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
 
             string manager_id = Request.Cookies["ManagerInfo"]["manager_id"];
             IList<BannerPhotoModel> photoLists = activityService.getAllBanner(manager_id).Pages<BannerPhotoModel>(Request, this, 10);
@@ -2842,6 +2927,10 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult BannerDetail(int? photo_id)
         {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             BannerPhotoModel result = activityService.getBannerOne(photo_id);
             ViewBag.photoDir = UploadHelper.getPictureDirPath(result.manager_id, "banner");
             //            docookie("_mainmenu", "ProductDetail");
@@ -2852,6 +2941,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             BannerPhotoModel result = activityService.getBannerOne(photo_id);
             ViewBag.photoDir = result != null ? UploadHelper.getPictureDirPath(result.manager_id, "banner") : "";
 
@@ -2867,6 +2958,8 @@ namespace prj_BIZ_System.Controllers
 
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             IList<VideoListModel> videoLists = userService.getVideoListAll().Pages(Request, this, 10);
             IList<ActiveVideoModel> activevideoLists = userService.SelectActiveVideo();
             ViewBag.active = "";
@@ -2884,6 +2977,8 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("~/Manager/Login");
+            if (Request.Cookies["ManagerInfo"]["manager"] == "0")
+                return Redirect("Index");
             userService.ActiveVideo(video_no);
             return Redirect("VideoListEdit");
         }

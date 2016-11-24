@@ -31,7 +31,11 @@
                     {
                         <a href="~/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">@prj_BIZ_System.LanguageResource.User.lb_registerinfo</a>
                     }
+
+                    @if (ViewBag.buyerinfo == "ok")
+                    {
                     <a href="~/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_buyerinfo</a>
+                    }
                 </div>
 
             }
