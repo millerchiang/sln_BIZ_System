@@ -356,6 +356,13 @@
       WHERE user_id = #user_id#
     </select>
 
+
+    <select id="SelectOneBySales" resultMap="UserInfo-result">
+      SELECT ui.*
+      FROM user_info ui JOIN sales.sales_info si on si.user_id = ui.user_id
+      WHERE si.sales_id = #sales_id#
+    </select>
+
     <!--查詢名稱密碼-->
     <select id="CheckOne" resultMap="UserInfo-result">
       SELECT *

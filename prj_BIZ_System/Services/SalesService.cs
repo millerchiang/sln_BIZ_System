@@ -28,6 +28,11 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<SalesInfoModel>("SalesInfo.SelectSalesInfoById", param);
         }
 
+        public SalesInfoModel ChkUserInfoOne(string sales_id, string sales_pw)
+        {
+            SalesInfoModel tempModel = new SalesInfoModel { sales_id = sales_id, sales_pw = sales_pw };
+            return (SalesInfoModel)mapper.QueryForObject("SalesInfo.CheckOne", tempModel);
+        }
 
 
         public IList<SalesInfoModel> SelectSalesInfos(string user_id)

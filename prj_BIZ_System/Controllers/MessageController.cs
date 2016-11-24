@@ -35,6 +35,7 @@ namespace prj_BIZ_System.Controllers
 
         public MessageController()
         {
+            userService = new UserService();
             messageService = new MessageService();
             clusterService = new ClusterService();
             salesService = new SalesService();
@@ -159,10 +160,23 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult doInsertMsgPrivateReply(MsgReplyModel model, List<HttpPostedFileBase> iupexls)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
+
+            string loginer_id = "";
+            //UserInfoModel userinfo = null;
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
+                //userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
             //int msg_no
-            model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
+            model.msg_reply = loginer_id;
             MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
             bool isCompany = (!string.IsNullOrEmpty(msgMd.user_id)) && (!msgMd.user_id.Equals("0"));
 
@@ -227,19 +241,20 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            string user_id = "";
-
+            string loginer_id = "";
+            UserInfoModel userinfo = null;
             if (Request.Cookies["UserInfo"] != null)
             {
-                user_id = Request.Cookies["UserInfo"]["user_id"];
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
             }
 
             if (Request.Cookies["SalesInfo"] != null)
             {
-                user_id = Request.Cookies["SalesInfo"]["sales_id"];
+                loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
+                userinfo = userService.GeUserInfoOneBySales(loginer_id);
             }
 
-            var totalMsg = messageService.SelectMsgCompany(keyword, user_id);
+            var totalMsg = messageService.SelectMsgCompany(keyword, loginer_id , userinfo==null?loginer_id:userinfo.user_id);
             IList<MsgModel> result = totalMsg.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
             IList<MsgModel> result2 = totalMsg.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request, this, 10); ;
 
@@ -268,14 +283,14 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["SalesInfo"] != null)
             {
                 loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
-                messageViewModel.userinfo = userService.GeUserInfoOne(loginer_id);
+                messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
             }
 
             ViewBag.msgType      = getLabelString(MessageCatalog.Company, "msgType");
             ViewBag.contentTitle = getLabelString(MessageCatalog.Company, "contentTitle");
             ViewBag.backUrl      = getLabelString(MessageCatalog.Company, "backUrl");
             ViewBag.doAddUrl     = getLabelString(MessageCatalog.Company, "doAddUrl");
-            IList<SalesInfoModel> allSales = salesService.SelectSalesInfos(loginer_id);
+            IList<SalesInfoModel> allSales = salesService.SelectSalesInfos(messageViewModel.userinfo==null?loginer_id: Request.Cookies["SalesInfo"]["user_id"]);
             messageViewModel.salesInfoList = allSales;
             return View(getLabelString(MessageCatalog.Company, "addUrl"), messageViewModel); //共用
         }
@@ -295,7 +310,7 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["SalesInfo"] != null)
             {
                 loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
-                userinfo = userService.GeUserInfoOne(loginer_id);
+                userinfo = userService.GeUserInfoOneBySales(loginer_id);
                 model.user_id = userinfo.user_id;
             }
 
@@ -366,14 +381,14 @@ namespace prj_BIZ_System.Controllers
             if (Request.Cookies["SalesInfo"] != null)
             {
                 loginer_id = Request.Cookies["SalesInfo"]["sales_id"];
-                //messageViewModel.userinfo = userService.GeUserInfoOne(loginer_id);
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
             }
             if (msg_no != 0)
             {
-                if (isOwnViewPower(msg_no,MessageType.CompanyPublic, loginer_id)) //檢查權限
+                if (isOwnViewPower(msg_no,MessageType.CompanyPrivate, loginer_id)) //檢查權限
                 {
                     //messageViewModel.msgPrivate = messageService.SelectMsgPrivateOne(msg_no);
-                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndRead(msg_no, loginer_id);
+                    messageViewModel.msgPrivate = messageService.SelectMsgPrivateOneAndReadForSales(msg_no, loginer_id);
 
                     ViewBag.msg_company = messageService.transferMsg_member2Msg_company(Request.Cookies["_culture"],messageViewModel.msgPrivate.msg_member,MessageCatalog.Company);
                     messageViewModel.msgPrivateFileList = messageService.SelectMsgPrivateFileByMsg_no(msg_no);
@@ -394,6 +409,7 @@ namespace prj_BIZ_System.Controllers
             }
         }
 
+        //Deprecated
         public ActionResult jsonMsgMemberForCompany(string term)
         {
             if (Request.Cookies["SalesInfo"] == null && Request.Cookies["UserInfo"] == null) {

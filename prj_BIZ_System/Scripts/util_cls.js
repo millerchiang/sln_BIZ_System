@@ -74,7 +74,7 @@ util_cls.json.getValueFromJsonStr = function (jsonstr, i) {
     return result;
 }
 
-util_cls.checkFileSize = function (id, limit_size) {
+util_cls.checkFileSize = function (id, limit_size, alertMsg) {
     var fileSize = 0;
     if (!limit_size) {
         limit_size = 10 * 1024 * 1024;
@@ -106,6 +106,10 @@ util_cls.checkFileSize = function (id, limit_size) {
 
     function Message(file, limit) {
         var msg = " " + file + "  " + limit + " ！"
-        alert(msg);
+        if (alertMsg) {
+            alert(alertMsg);
+        } else {
+            alert(msg);
+        }
     }
 }

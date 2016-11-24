@@ -8,6 +8,15 @@
 
   <statements>
 
+
+
+    <!--查詢名稱密碼-->
+    <select id="CheckOne" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT *
+      FROM sales.sales_info
+      WHERE sales_id = #sales_id# and sales_pw = #sales_pw#
+    </select>
+
     <!--
     [[  table=video_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

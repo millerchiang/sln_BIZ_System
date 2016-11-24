@@ -108,6 +108,12 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<MsgModel>("Message.SelectMsgOneAndRead", param);
         }
 
+        public MsgModel SelectMsgPrivateOneAndReadForSales(int msg_no, string loginer_id)
+        {
+            MsgModel param = new MsgModel() { msg_no = msg_no, user_id = loginer_id };
+            return mapper.QueryForObject<MsgModel>("Message.SelectMsgOneAndReadForSales", param);
+        }
+        
         public IList<long> SelectMsgReadNo(string user_id)
         {
             MsgModel param = new MsgModel() { user_id = user_id };
@@ -454,15 +460,15 @@ namespace prj_BIZ_System.Services
         }
 
         #region --公司訊息--
-        public IList<MsgModel> SelectMsgCompany(string keyword, string user_id)
+        public IList<MsgModel> SelectMsgCompany(string keyword, string loginer_id , string user_id)
         {
-            var param = new MsgModel { msg_title = keyword, creater_id = user_id , user_id = user_id };
+            var param = new MsgModel { msg_title = keyword, creater_id = loginer_id, user_id = user_id };
             return mapper.QueryForList<MsgModel>("Message.SelectMsg", param);
         }
 
         public object InsertMsgCompany(MsgModel param)
         {
-            param.msg_member = " " + param.msg_member;
+            param.msg_member = " " + param.msg_member+",";
             param.is_public = "0";
             param.cluster_no = 0;
             return mapper.Insert("Message.InsertMsg", param);

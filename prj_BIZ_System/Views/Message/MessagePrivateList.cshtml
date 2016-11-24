@@ -48,7 +48,7 @@
                                 @md.msg_title
                             </td>
                             <td>
-                                @md.company
+                                @(string.IsNullOrEmpty(prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company")) ? md.sales_name : prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))
                             </td>
                             <td>
                                 @md.rpy_cnt
@@ -94,7 +94,7 @@
                                 @md.msg_title
                             </td>
                             <td>
-                                @md.company
+                                @(string.IsNullOrEmpty(prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))? md.sales_name : prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))
                             </td>
                             <td>
                                 @md.rpy_cnt

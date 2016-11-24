@@ -24,6 +24,8 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }
         public string company_en { get; set; }
 
+        public string sales_name { get; set; }
+
         public int rpy_cnt { get; set; } //回覆數
         public string is_read { get; set; }     // 0 :未讀 , 1:已讀
 
@@ -69,6 +71,7 @@ namespace prj_BIZ_System.Models
         //logo_img  公司logo圖
         public string logo_img { get; set; }
 
+        public string sales_name { get; set; }
         public List<MsgReplyFileModel> msg_reply_file { get; set; } //回覆時的附件
     }
 
