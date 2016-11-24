@@ -12,8 +12,10 @@
   <statements>
 
     <select id="SelectClusterInfo" resultMap="ClusterInfo-result" parameterClass="ClusterInfo">
-      SELECT *
+      SELECT cluster_info.*, company, company_en
       FROM public.cluster_info
+      INNER JOIN user_info
+      ON cluster_info.user_id = user_info.user_id
       <dynamic prepend="where">
         <isNotEmpty prepend="and" property="cluster_no">
           cluster_no = $cluster_no$
@@ -28,12 +30,19 @@
     </select>
 
     <select id="SelectClusterInfoList" resultMap="ClusterInfo-result" parameterClass="ClusterInfo">
-      SELECT *
+      SELECT cluster_info.*, company, company_en
       FROM public.cluster_info
+      INNER JOIN user_info
+      ON cluster_info.user_id = user_info.user_id
       <dynamic prepend="where">
-        <isNotEmpty prepend="and" property="user_id">
-          user_id = #user_id#
+        <isNotEmpty prepend="and" property="cluster_name">
+          UPPER(cluster_name) like '%'||#cluster_name#||'%'
         </isNotEmpty>
+        <isNotEmpty prepend="and" property="company">
+          UPPER(user_info.company) like '%'||#company#||'%' or UPPER(user_info.company_en) like '%'||#company#||'%'
+        </isNotEmpty>
+
+
       </dynamic>
     </select>
 
@@ -92,6 +101,8 @@
       cnen.company_en as creator_name_en,
       ci.cluster_name,
       ci.cluster_info,
+      ci.user_id,
+      ci.manager_id,
       ci.enable,
       ci.create_time as cict,
       cm.create_time as cmct
@@ -251,6 +262,21 @@
       WHERE cluster_no=$cluster_no$
     </update>
 
+    <!--更新聚落管理者-->
+    <update id="ClusterInfoUpdateManager" parameterClass="ClusterInfo">
+      UPDATE public.cluster_info
+      SET user_id=#user_id#, manager_id=#manager_id#, update_time=now()
+      WHERE cluster_no=$cluster_no$
+    </update>
+
+    <!--更新聚落容量大小-->
+    <update id="ClusterInfoUpdateSize" parameterClass="ClusterInfo">
+      UPDATE public.cluster_info
+      SET file_limit=$file_limit$, update_time=now()
+      WHERE cluster_no=$cluster_no$
+    </update>
+
+
     <!--新增聚落會員-->
     <insert id="ClusterMemberInsertOne" parameterClass="ClusterMember">
       <selectKey resultClass="int" property="cluster_member_no" type="post">
@@ -294,6 +320,7 @@
     <resultMap id="Cluster-result" class="prj_BIZ_System.Models.ClusterModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="user_id" column="user_id"></result>
+      <result property="manager_id" column="manager_id"></result>
       <result property="cluster_no" column="cluster_no"></result>
       <result property="cluster_name" column="cluster_name"></result>
       <result property="cluster_info" column="cluster_info"></result>
@@ -317,6 +344,8 @@
     <resultMap id="ClusterInfoMobile-result" class="prj_BIZ_System.Models.ClusterDetailModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
+      <result property="user_id" column="user_id"></result>
+      <result property="manager_id" column="manager_id"></result>
       <result property="creator_name" column="creator_name"></result>
       <result property="creator_name_en" column="creator_name_en"></result>
       <result property="cluster_name" column="cluster_name"></result>
@@ -346,6 +375,7 @@
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="cluster_no" column="cluster_no"></result>
       <result property="user_id" column="user_id"></result>
+      <result property="manager_id" column="manager_id"></result>
       <result property="cluster_name" column="cluster_name"></result>
       <result property="cluster_info" column="cluster_info"></result>
       <result property="create_time" column="create_time"></result>
@@ -353,6 +383,8 @@
       <result property="enable" column="enable"></result>
       <result property="is_public" column="is_public"></result>
       <result property="file_limit" column="file_limit"></result>
+      <result property="company" column="company"></result>
+      <result property="company_en" column="company_en"></result>
     </resultMap>
 
     <resultMap id="ClusterFile-result" class="prj_BIZ_System.Models.ClusterFileModel">
@@ -375,7 +407,8 @@
       <result property="create_time" column="create_time"></result>
       <result property="limit" column="limit"></result>
       <result property="company" column="company"></result>
-    </resultMap>
+      <result property="company_en" column="company_en"></result>
+      </resultMap>
   
   </resultMaps>
 

@@ -2,4 +2,15 @@
   text-align: center;
 }
 
+.panelbox label + p, .panelbox p + label, .panelbox span + label {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+@media only screen and (max-width: 768px) {
+  .panelbox label + p {
+    border-top: none;
+  }
+}
+
 /*# sourceMappingURL=business.css.map */

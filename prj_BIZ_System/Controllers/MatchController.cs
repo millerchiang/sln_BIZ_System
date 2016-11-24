@@ -46,10 +46,10 @@ namespace prj_BIZ_System.Controllers
 
             //買方
             matchModel.buyerinfoList = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
-                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                                                          .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours > 0)
                                                           .ToList();
             matchModel.buyerinfoList_2 = matchService.GetUserWhenActivityBuyer(Request.Cookies["UserInfo"]["user_id"])
-                                                          .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours <= 0)
+                                                          .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours <= 0)
                                                           .ToList();
 
 

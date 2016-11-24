@@ -85,6 +85,12 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public object MobileDeviceInfoUpdateOne(MobileDeviceInfoModel model)
+        {
+            object result = mapper.Update("Push.UpdateMobileDeviceInfo", model);
+            return result;
+        }
+
         public object MobileDeviceDeleteOne(MobileDeviceInfoModel model)
         {
             object result = mapper.Delete("Push.DeleteMobileDeviceInfo", model);

@@ -143,6 +143,12 @@
       where device_id = #device_id#
     </select>
 
+    <update id="UpdateMobileDeviceInfo" parameterClass="MobileDeviceInfo">
+      UPDATE manager.mobile_device_info
+      SET user_id=#user_id#
+      WHERE device_id = #device_id#
+    </update>
+
   </statements>
 
   <resultMaps>

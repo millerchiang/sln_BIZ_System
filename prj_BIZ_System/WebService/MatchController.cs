@@ -20,11 +20,11 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetAccountActivity(string user_id)
         {
-            if (user_id == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
 
             DateTime dateNow = DateTime.Now;
             var accountActivitys = matchService.GetSellerAccountPassActivity(user_id)
-                .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours > 0)
                 .Select(
                 ar =>
                 new 
@@ -39,7 +39,45 @@ namespace prj_BIZ_System.WebService
             ).ToList();
 
             accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id)
-                .Where(act => ((TimeSpan)(act.starttime - dateNow)).TotalHours > 24)
+                .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours > 0)
+                .Select(
+                bi =>
+                new 
+                {
+                    bi.activity_id,
+                    bi.activity_name,
+                    bi.activity_name_en,
+                    is_buyer = "1",
+                    bi.seller_select,
+                    bi.matchmaking_select
+                }
+            ).ToList());
+            return Request.CreateResponse(HttpStatusCode.OK, accountActivitys);
+        }
+
+        [HttpGet]
+        public object GetAccountActivityEnd(string user_id)
+        {
+            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null");
+
+            DateTime dateNow = DateTime.Now;
+            var accountActivitys = matchService.GetSellerAccountPassActivity(user_id)
+                .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours <= 0)
+                .Select(
+                ar =>
+                new 
+                {
+                    ar.activity_id,
+                    ar.activity_name,
+                    ar.activity_name_en,
+                    is_buyer = "0",
+                    ar.seller_select,
+                    ar.matchmaking_select
+                }
+            ).ToList();
+
+            accountActivitys.AddRange(matchService.GetUserWhenActivityBuyer(user_id)
+                .Where(act => ((TimeSpan)(act.endtime - dateNow)).TotalHours <= 0)
                 .Select(
                 bi =>
                 new 
