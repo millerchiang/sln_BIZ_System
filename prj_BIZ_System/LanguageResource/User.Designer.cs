@@ -1924,6 +1924,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 回覆內容 的當地語系化字串。
+        /// </summary>
+        public static string lb_reply_content {
+            get {
+                return ResourceManager.GetString("lb_reply_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 回覆內容不能為空白 的當地語系化字串。
         /// </summary>
         public static string lb_reply_empty {

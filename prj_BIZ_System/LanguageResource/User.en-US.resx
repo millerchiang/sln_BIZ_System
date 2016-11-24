@@ -900,4 +900,7 @@ To complete the registration of members, thank you!</value>
   <data name="lb_items" xml:space="preserve">
     <value>Purchase Items</value>
   </data>
+  <data name="lb_reply_content" xml:space="preserve">
+    <value>reply content</value>
+  </data>
 </root>

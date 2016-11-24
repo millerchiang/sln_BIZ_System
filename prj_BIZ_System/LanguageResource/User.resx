@@ -901,4 +901,7 @@
   <data name="lb_items" xml:space="preserve">
     <value>採購項目</value>
   </data>
+  <data name="lb_reply_content" xml:space="preserve">
+    <value>回覆內容</value>
+  </data>
 </root>

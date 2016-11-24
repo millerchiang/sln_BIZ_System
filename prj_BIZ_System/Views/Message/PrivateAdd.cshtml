@@ -3,7 +3,7 @@
 
 
 @{
-    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_add + ViewBag.contentTitle + prj_BIZ_System.LanguageResource.User.lb_msg;
+    ViewBag.Title = prj_BIZ_System.LanguageResource.User.lb_add +" "+ ViewBag.contentTitle;
 }
 
 @section pagestyle{
@@ -16,7 +16,7 @@
     <article class="article_col2">
 
             <form id="form" action="@Url.Action(ViewBag.doAddUrl)" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
-                <h2>@prj_BIZ_System.LanguageResource.User.lb_add@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_add @(ViewBag.contentTitle)</h2>
                 <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</label>
 
                 @if (Request["company"] == null || Request["company"] == "")
@@ -46,7 +46,7 @@
                 </div>
                 <div class="centerbox">
                     <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
-                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back @(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
+                    <a href="@Url.Action(@ViewBag.backUrl)" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back @(ViewBag.contentTitle)</a>
                 </div>
 
             </form>

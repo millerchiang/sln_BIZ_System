@@ -73,7 +73,7 @@
                                 @if (r_md.msg_reply_file != null && r_md.msg_reply_file.Count > 0)
                                 {
                                     <div class="attachment">
-                                        附件:
+                                        @prj_BIZ_System.LanguageResource.User.lb_attachment:
                                         <ul>
                                             @foreach (MsgReplyFileModel rf_md in r_md.msg_reply_file)
                                             {
@@ -89,14 +89,14 @@
                                     }
             </ul>
             <div class="replybox">
-                <div class="regis_col02L">回覆內容</div>
+                <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_reply_content;</div>
                 <div class="regis_col02R">
                     <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
                     <textarea name="reply_content" id="reply_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
                 </div>
-                <div class="regis_col02L">上傳附件</div>
+                <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment_upload</div>
                 <div class="regis_col02R">
-                    <label class="editsbu" id="upload" for="upexls">選取檔案</label>
+                    <label class="editsbu" id="upload" for="upexls">@prj_BIZ_System.LanguageResource.User.lb_select</label>
                     <input type="file" id="upexls" name="iupexls" multiple="multiple" />
                     <ul id="output"></ul>
                 </div>
@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class="centerbox">
-            <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)</a>
+            <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">@prj_BIZ_System.LanguageResource.User.lb_back @(ViewBag.contentTitle)</a>
         </div>
 
     </form>
