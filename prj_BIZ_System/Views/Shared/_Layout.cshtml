@@ -35,6 +35,10 @@
                     {
                         <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "Logout", "Home")</li>
                     }
+                    if (Request.Cookies["SalesInfo"] != null)
+                    {
+                        <li class="sign_out">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_logout, "LogoutForSales", "Home")</li>
+                    }
                     if (ViewBag.Title != "Index")
                     {
                         <li class="backindex">@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_backhome, "Index", "Home")</li>
@@ -114,7 +118,8 @@
                                 <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_msg_managment</a>
                                 <ul>
                                     <li><a href="~/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_private</a></li>
-                                    @*<li><a href="~/Message/MessageCompanyList">@prj_BIZ_System.LanguageResource.User.lb_msg_company</a></li>
+                                    <li><a href="~/Message/MessageCompanyList">@prj_BIZ_System.LanguageResource.User.lb_msg_company</a></li>
+                                    @*
                                         <li><a href="~/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_cluster</a></li>*@
                                 </ul>
                             </li>

@@ -935,6 +935,7 @@
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <Content Include="Views\Cluster\ClusterListAll.cshtml" />
     <Content Include="Views\Cluster\ClusterListContent.cshtml" />
+    <Content Include="Views\Message\MessageCompanyAdd.cshtml" />
     <Content Include="Views\Manager\Questionnaire.cshtml" />
     <Content Include="Views\Manager\QuestionnaireList.cshtml" />
     <Content Include="Views\Cluster\Cluster_Manager.cshtml" />

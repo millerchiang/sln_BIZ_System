@@ -15,98 +15,102 @@
 <div class="article_col1">
     <article class="article_col2">
 			
-			<form id="form" action="@Url.Action("doInsertMsgPrivateReply")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
-				<h2>@(ViewBag.contentTitle)@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
+        <form id="form" action="@Url.Action("doInsertMsgPrivateReply")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
+            <h2>@(ViewBag.contentTitle)</h2>
 
-				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
-				<span class="regis_col02R contentspan">@Model.msgPrivate.company</span>
+            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_publisher</div>
+            <span class="regis_col02R contentspan">
+                @*@Model.msgPrivate.company*@
+                @(string.IsNullOrEmpty(prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.msgPrivate, "company")) ? Model.msgPrivate.sales_name : prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], Model.msgPrivate, "company"))
+            </span>
 
-				<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</div>
-            <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
+        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</div>
+        <span class="regis_col02R contentspan">@ViewBag.msg_company</span>
 
-            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_date</div>
-            <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
+        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_date</div>
+        <span class="regis_col02R contentspan">@Model.msgPrivate.create_time.ToShortDateString()</span>
 
-            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</div>
-            <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
+        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</div>
+        <span class="regis_col02R contentspan">@Model.msgPrivate.msg_title</span>
 
-            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</div>
-            <p class="regis_col02R contentspan">
-                @Model.msgPrivate.msg_content
-            </p>
+        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</div>
+        <p class="regis_col02R contentspan">
+            @Model.msgPrivate.msg_content
+        </p>
 
-            <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment</div>
-				<div class="regis_col02R">
-					<ul class="col2 downloadbox">
-                    @if (Model.msgPrivateFileList != null)
+        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment</div>
+        <div class="regis_col02R">
+            <ul class="col2 downloadbox">
+                @if (Model.msgPrivateFileList != null)
+                {
+                    foreach (MsgFileModel mpf in Model.msgPrivateFileList)
                     {
-                        foreach (MsgFileModel mpf in Model.msgPrivateFileList)
-                        {
-                            <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
-                        }
+                        <li><a href="@(UploadHelper.getMessageFileDirPath(Model.msgPrivate.msg_no)+@mpf.msg_file_site)" target="_blank">@mpf.msg_file_site</a></li>
                     }
-					</ul>
-				</div>
-					<div class="w100">
-				
-                        <ul class="dialoglist">
-                            @if (Model.msgPrivateReplyList != null)
-                            {
-                                foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
-                                {
-                                    <li>
-                                        <div class="dialog_img">
-                                            @{
-                                                var imgsrc = Url.Content(string.IsNullOrEmpty(r_md.logo_img) ? UploadHelper.defaultImgSmall : UploadHelper.getPictureDirPath(r_md.msg_reply, "logo") + r_md.logo_img);
-                                            }
-                                            <img src="@imgsrc" alt="" class="">
-                                        </div>
-                                        <div class="dialogbox">
-                                            <h6>@r_md.company</h6>
-                                            <span>@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span>
-                                            <p>
-                                                @r_md.reply_content
-                                            </p>
-                                            @if(r_md.msg_reply_file!=null&& r_md.msg_reply_file.Count>0)
-                                            {
-                                            <div class="attachment">
-                                                附件:
-                                                <ul>
-                                                    @foreach(MsgReplyFileModel rf_md in r_md.msg_reply_file)
-                                                    {
-                                                        <li><a href="@Url.Content((UploadHelper.getMessageFileDirPath(rf_md.msg_no)))/@(rf_md.msg_reply_no)/@(rf_md.msg_reply_file_site)" target="_blank">@rf_md.msg_reply_file_site</a></li>
-                                                    }
+                }
+            </ul>
+        </div>
+        <div class="w100">
 
-                                                </ul>
-                                            </div>
-                                            }
-                                        </div>
-                                    </li>
+            <ul class="dialoglist">
+                @if (Model.msgPrivateReplyList != null)
+                {
+                    foreach (MsgReplyModel r_md in Model.msgPrivateReplyList)
+                    {
+                        <li>
+                            <div class="dialog_img">
+                                @{
+                                    var imgsrc = Url.Content(string.IsNullOrEmpty(r_md.logo_img) ? UploadHelper.defaultImgSmall : UploadHelper.getPictureDirPath(r_md.msg_reply, "logo") + r_md.logo_img);
                                 }
-                            }
-                        </ul>	
-					<div class="replybox">
-						<div class="regis_col02L">回覆內容</div>
-						<div class="regis_col02R">
-							<input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
-							<textarea name="reply_content" id="reply_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
-						</div>
-						<div class="regis_col02L">上傳附件</div>
-						<div class="regis_col02R">
-							<label class="editsbu" id="upload" for="upexls">選取檔案</label>
-							<input type="file" id="upexls" name="iupexls" multiple="multiple" />
-					<ul id="output"></ul>
-						</div>	
-						<div class="centerbox">
-							<button type="submit" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_reply</button>
-						</div>
-					</div>
-				</div>
-				<div class="centerbox">
-						<a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle) @prj_BIZ_System.LanguageResource.User.lb_msg</a>
-				</div>				
-				
-			</form>
+                                <img src="@imgsrc" alt="" class="">
+                            </div>
+                            <div class="dialogbox">
+                                <h6>@r_md.company</h6>
+                                <span>@r_md.create_time.ToString("yyyy/MM/dd hh:mm")</span>
+                                <p>
+                                    @r_md.reply_content
+                                </p>
+                                @if (r_md.msg_reply_file != null && r_md.msg_reply_file.Count > 0)
+                                {
+                                    <div class="attachment">
+                                        附件:
+                                        <ul>
+                                            @foreach (MsgReplyFileModel rf_md in r_md.msg_reply_file)
+                                            {
+                                                <li><a href="@(Url.Content((UploadHelper.getMessageFileDirPath(rf_md.msg_no))))@(rf_md.msg_reply_no)/@(rf_md.msg_reply_file_site)" target="_blank">@rf_md.msg_reply_file_site</a></li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </li>
+                                        }
+                                    }
+            </ul>
+            <div class="replybox">
+                <div class="regis_col02L">回覆內容</div>
+                <div class="regis_col02R">
+                    <input name="msg_no" type="hidden" value="@Model.msgPrivate.msg_no" />
+                    <textarea name="reply_content" id="reply_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
+                </div>
+                <div class="regis_col02L">上傳附件</div>
+                <div class="regis_col02R">
+                    <label class="editsbu" id="upload" for="upexls">選取檔案</label>
+                    <input type="file" id="upexls" name="iupexls" multiple="multiple" />
+                    <ul id="output"></ul>
+                </div>
+                <div class="centerbox">
+                    <button type="submit" class="addbu">@prj_BIZ_System.LanguageResource.User.lb_reply</button>
+                </div>
+            </div>
+        </div>
+        <div class="centerbox">
+            <a href="@Url.Action(ViewBag.backUrl)" class="submitbu rightbox">返回@(ViewBag.contentTitle)</a>
+        </div>
+
+    </form>
+
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");

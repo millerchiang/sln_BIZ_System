@@ -41,14 +41,12 @@
         or msg_member like '% '||#creater_id#||',%' )
     </select>
 
-    <!--查看公司訊息權限-->
+    <!--查看公司訊息權限 (後來改成跟私人一樣)-->
     <select id="isOwnViewPowerForCompany"  resultClass="int" parameterClass="Msg">
       SELECT count(msg_no) from message.msg
       where msg_no = $msg_no$
       and ( creater_id = #creater_id#
-      or msg_member like '% '||#creater_id#||',%'
-      or user_id = #creater_id#
-      )
+      or msg_member like '% '||#creater_id#||',%' )
 
     </select>
 
@@ -78,9 +76,10 @@
     <!--私訊列表-->
     <select id="SelectMsg" resultMap="SelectMsg-result" parameterClass="Msg">
       SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read  from (
-      SELECT mp.*, ui.company, ui.company_en , mpr.rpy_cnt
+      SELECT mp.*, ui.company, ui.company_en , si.sales_name, mpr.rpy_cnt
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      LEFT JOIN sales.sales_info as si on mp.creater_id = si.sales_id
       LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
       where mp.cluster_no = 0 and ( mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%' )
       ) as mp2
@@ -93,7 +92,7 @@
           mp2.user_id = #user_id#
         </isNotNull>
       </dynamic>
-      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.company_en , mp2.rpy_cnt
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.company_en , mp2.sales_name , mp2.rpy_cnt
       order by mp2.create_time desc
     </select>
 
@@ -158,7 +157,7 @@
       creater_id, msg_title, msg_content, cluster_no , is_public ,user_id , msg_member )
       VALUES (#creater_id#, #msg_title#,  #msg_content# , $cluster_no$ , #is_public# , #user_id# , #msg_member# );
     </insert>
-
+    
     <!--查詢單一私訊-->
     <select id="SelectMsgOne" resultMap="SelectMsgOne-result" parameterClass="Msg">
       SELECT *
@@ -171,6 +170,12 @@
     <select id="SelectMsgOneAndRead" resultMap="SelectMsgOne-result" parameterClass="Msg">
       select *
       from message.set_msg_read_and_return_content($msg_no$, #user_id#)
+    </select>
+
+    <!--查詢單一私訊並寫入已讀Table(msg_read)-->
+    <select id="SelectMsgOneAndReadForSales" resultMap="SelectMsgOneWithSalesName-result" parameterClass="Msg">
+      select *
+      from message.set_msg_read_and_return_content_for_sales($msg_no$, #user_id#)
     </select>
 
     <!--查詢已讀私訊編號-->
@@ -240,21 +245,38 @@
       ]]>
     </select>
 
-    <!-- [查詢訊息成員裝置]-->
+    <!-- [查詢訊息成員裝置 1]-->
     <select id="SelectMsgMembers" resultMap="UserInfoForPush-result">
       SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
       FROM public.user_info ui
       join manager.mobile_device_info mb on ui.user_id = mb.user_id
       WHERE ui.user_id = #user_ids#
     </select>
-    
+
+    <!-- [查詢訊息成員裝置 2]-->
     <select id="SelectMsgMembersByLeft" resultMap="UserInfoForPush-result">
       SELECT ui.user_id , ui.company, ui.company_en , mb.device_id , mb.device_os
       FROM public.user_info ui
       left join manager.mobile_device_info mb on ui.user_id = mb.user_id
       WHERE ui.user_id = #user_ids#
     </select>
-    
+
+    <!-- [查詢訊息成員裝置forSales 1]-->
+    <select id="SelectMsgMembersForSales" resultMap="SalesInfoForPush-result">
+      SELECT si.sales_id , si.sales_name , mb.device_id , mb.device_os
+      FROM sales.sales_info si
+      join manager.mobile_device_info_for_sales mb on si.sales_id = mb.sales_id
+      WHERE si.sales_id = #user_ids#
+    </select>
+
+    <!-- [查詢訊息成員裝置forSales 2]-->
+    <select id="SelectMsgMembersForSalesByLeft" resultMap="SalesInfoForPush-result">
+      SELECT si.sales_id , si.sales_name , mb.device_id , mb.device_os
+      FROM sales.sales_info si
+      left join manager.mobile_device_info_for_sales mb on si.sales_id = mb.sales_id
+      WHERE si.sales_id = #user_ids#
+    </select>
+
     <!--查尋公司By業務-->
     <select id="SelectUserUserBySalesId" resultMap="UserInfo-result">
       SELECT *
@@ -293,6 +315,13 @@
       <result property="device_id" column="device_id"/>
       <result property="device_os" column="device_os"/>
     </resultMap>
+
+    <resultMap id="SalesInfoForPush-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <result property="sales_id" column="sales_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="device_id" column="device_id"/>
+      <result property="device_os" column="device_os"/>
+    </resultMap>
     
     <resultMap id="SelectMsg-result" class="Msg">
       <!--property是Model屬性,column是資料庫欄位名稱-->
@@ -308,6 +337,7 @@
       <result property="rpy_cnt" column="rpy_cnt"></result>
       <result property="is_read" column="is_read"></result>
 
+      <result property="sales_name" column="sales_name"></result>
     </resultMap>
 
     <resultMap id="SelectMsgOne-result" class="Msg">
@@ -316,11 +346,35 @@
       <result property="creater_id" column="creater_id"></result>
       <result property="msg_title" column="msg_title"></result>
       <result property="msg_content" column="msg_content"></result>
+
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="is_public"  column="is_public"></result>
+      <result property="user_id"    column="user_id"></result>
+
       <result property="msg_member" column="msg_member"></result>
       <result property="create_time" column="create_time"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
       <result property="company_en" column="company_en"></result>
+    </resultMap>
+
+    <resultMap id="SelectMsgOneWithSalesName-result" class="Msg">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="msg_no" column="msg_no"></result>
+      <result property="creater_id" column="creater_id"></result>
+      <result property="msg_title" column="msg_title"></result>
+      <result property="msg_content" column="msg_content"></result>
+
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="is_public"  column="is_public"></result>
+      <result property="user_id"    column="user_id"></result>
+
+      <result property="msg_member" column="msg_member"></result>
+      <result property="create_time" column="create_time"></result>
+      <!--UerInfo 公司名稱(中文)-->
+      <result property="company" column="company"></result>
+      <result property="company_en" column="company_en"></result>
+      <result property="sales_name" column="sales_name"></result>
     </resultMap>
     
     <resultMap id="Msg-result" class="Msg">

@@ -35,6 +35,11 @@ namespace prj_BIZ_System.Services
             return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOne", user_id);
         }
 
+        public UserInfoModel GeUserInfoOneBySales(string sales_id)
+        {
+            return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOneBySales", sales_id);
+        }
+
         public UserInfoModel ChkUserInfoOne(string user_id, string user_pw)
         {
             UserInfoModel tempModel = new UserInfoModel { user_id = user_id, user_pw = user_pw };

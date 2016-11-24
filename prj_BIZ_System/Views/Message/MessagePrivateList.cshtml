@@ -14,7 +14,7 @@
 
 <div class="article_col1">
     <article class="article_col2 form_box">
-        <h2>@("")@prj_BIZ_System.LanguageResource.User.lb_msg</h2>
+        <h2>@ViewBag.contentTitle</h2>
         <div class="magb30">
             <form id="form" action="@Url.Action(@ViewBag.searchUrl)" method="GET">
                 <input type="text" name="keyword" placeholder="@prj_BIZ_System.LanguageResource.User.lb_search_need" value="@ViewBag.keyword">
@@ -48,7 +48,7 @@
                                 @md.msg_title
                             </td>
                             <td>
-                                @md.company
+                                @(string.IsNullOrEmpty(prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company")) ? md.sales_name : prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))
                             </td>
                             <td>
                                 @md.rpy_cnt
@@ -58,7 +58,7 @@
                             </td>
                             <td>
                                 <div class="centerbox">
-                                    <a href="~/Message/@(ViewBag.detailUrl)?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
+                                    <a href="@(Url.Content("~/Message/"+ViewBag.detailUrl))?msg_no=@(md.msg_no)" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_detail</a>
                                 </div>
                             </td>
                         </tr>
@@ -80,6 +80,7 @@
                     <th>內容</th>
                 </tr>
                 @{
+
                     var prevCounts2 = ((List<PageList<MsgModel>>)ViewData["PageList"])[1].prevCounts;
                 }
                 @if (Model.msgPrivateList2 != null)
@@ -93,7 +94,7 @@
                                 @md.msg_title
                             </td>
                             <td>
-                                @md.company
+                                @(string.IsNullOrEmpty(prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))? md.sales_name : prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company"))
                             </td>
                             <td>
                                 @md.rpy_cnt

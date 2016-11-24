@@ -19,6 +19,7 @@ namespace prj_BIZ_System.Controllers
     {
 
         public UserService userService;
+        public SalesService salesService;
         public Index_ViewModel indexModel;
         public User_ViewModel userModel;
         public ActivityService activityService;
@@ -28,6 +29,7 @@ namespace prj_BIZ_System.Controllers
         public HomeController()
         {
             userService = new UserService();
+            salesService = new SalesService();
             activityService = new ActivityService();
             indexModel = new Index_ViewModel();
             userModel = new User_ViewModel();
@@ -293,6 +295,22 @@ namespace prj_BIZ_System.Controllers
             return Redirect("Index");
         }
 
+        public ActionResult LogoutForSales()
+        {
+
+            Session.Clear();
+            HttpCookie aCookie;
+            string cookieName;
+            //            int limit = Request.Cookies.Count;
+            //            for (int i = 0; i < limit; i++)
+            {
+                cookieName = "SalesInfo";// Request.Cookies[i].Name;
+                aCookie = new HttpCookie(cookieName);
+                aCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(aCookie);
+            }
+            return Redirect("Index");
+        }
 
         public ActionResult ReAccountMailValidate()
         {
@@ -329,6 +347,8 @@ namespace prj_BIZ_System.Controllers
                     return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
                 }
 
+               
+
                 cookie = new HttpCookie("UserInfo");
                 cookie.Values.Add("id_enable", model.id_enable);
                 cookie.Values.Add("user_id", model.user_id);
@@ -344,6 +364,46 @@ namespace prj_BIZ_System.Controllers
             return Redirect("Index");
         }
 
+        public ActionResult IdentifyUserForSales()
+        {
+            //var securityPassword = SecurityHelper.Encrypt256(Request["sales_pw"]);
+            var securityPassword = Request["sales_pw"];
+            string sales_id = Request["sales_id"];
+            SalesInfoModel model = salesService.ChkUserInfoOne(Request["sales_id"], securityPassword);
+
+            HttpCookie cookie = null;
+
+            if (model == null)
+            {
+                TempData["userpw_errMsg"] = LanguageResource.User.lb_accountpw_wrong;
+                return Redirect("Index");
+            }
+            else
+            {
+                /*
+                if (model.id_enable == "0")
+                {
+                    return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
+                }
+                */
+                UserInfoModel userinfo = userService.GeUserInfoOneBySales(sales_id);
+                cookie = new HttpCookie("SalesInfo");
+                cookie.Values.Add("id_enable", model.id_enable);
+                cookie.Values.Add("sales_id", model.sales_id);
+                cookie.Values.Add("sales_name", HttpUtility.UrlEncode(model.sales_name));
+                cookie.Values.Add("limit", model.limit);
+                cookie.Values.Add("user_id", model.user_id);
+                cookie.Values.Add("company", HttpUtility.UrlEncode(userinfo.company));
+                cookie.Values.Add("company_en", HttpUtility.UrlEncode(userinfo.company_en));
+                //                cookie.Values.Add("website", model.website);
+                //                cookie.Values.Add("info", HttpUtility.UrlEncode(model.info));
+                //                cookie.Values.Add("info_en", model.info_en);
+                //cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
+                Response.AppendCookie(cookie);
+
+            }
+            return Redirect("Index");
+        }
 
         public ActionResult Verification()
         {

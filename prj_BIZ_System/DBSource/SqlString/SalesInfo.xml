@@ -8,11 +8,31 @@
 
   <statements>
 
+
+
+    <!--查詢名稱密碼-->
+    <select id="CheckOne" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT *
+      FROM sales.sales_info
+      WHERE sales_id = #sales_id# and sales_pw = #sales_pw#
+    </select>
+
     <!--
     [[  table=video_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
 
+    <!--查詢多個業務會員-->
+    <select id="SelectSalesInfos" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT s.sales_id, s.user_id, s.sales_name, s.sales_pw, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time
+      FROM sales.sales_info s
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="user_id">
+          s.user_id = #user_id#
+        </isNotEmpty>
+      </dynamic>
+    </select>
+    
     <!--查詢業務會員ById-->
     <select id="SelectSalesInfoById" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
       SELECT s.sales_id, s.user_id, s.sales_name, s.sales_pw, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time
