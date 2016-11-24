@@ -84,7 +84,7 @@
     var fileid;
     $(function () {
     
-        @*@if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
+        @if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
         {
             <text>
             
@@ -94,11 +94,9 @@
 	                alert(errMsg);
                 }
             }
-
-            alert("12345" +@TempData["errMsg"]);
             check();
             </text>
-        }*@
+        }
 
 		$( "#dialog" ).dialog({
 			autoOpen: false,
