@@ -83,6 +83,7 @@ namespace prj_BIZ_System.Models
         public IList<BannerPhotoModel> bannerphotoList { get; set; }
         public NewsModel news { get; set; }
         public ActivityPhotoModel activityphoto { get; set; }
+        public IList<BuyerInfoModel> buyerinfoList { get; set; }
 
     }
 
