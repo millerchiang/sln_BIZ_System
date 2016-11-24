@@ -1,0 +1,81 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+
+
+@{
+    ViewBag.Title = "ClusterSize";
+}
+
+<article class="form_box article_col1">
+    <h2 class="borderTitle2">聚落共享檔案資料容量設定</h2>
+    <form class="form_box sys_searchbox">
+        <h2>關鍵字查詢</h2>
+        <div class="sys_searchboxcol01L">
+            <label for="cluster_name" class="regis_col02L">聚落名稱</label>
+            <input id="cluster_name" type="text" name="cluster_name" class="regis_col02R"
+                   value="@ViewBag.cluster_name">
+            <label for="company" class="regis_col02L">管理者名稱</label>
+            <input id="company" type="text" name="company" class="regis_col02R"
+                   value="@ViewBag.company">
+            <button type="submit" class="buinfor">查詢</button>
+        </div>
+    </form>
+    <br>
+    </br> 
+    <table class="edittable">
+        <tr>
+            <th>聚落名稱</th>
+            <th style="width:6em">管理者帳號</th>
+            <th>管理者名稱</th>
+            <th style="width:8em">建立時間</th>
+            <th style="width:13em">容量大小</th>
+            <th style="width:4em"></th>
+        </tr>
+        @foreach(ClusterInfoModel clusterInfoModel in Model.clusterInfoList)
+        {
+            var size = clusterInfoModel.file_limit / 1024;
+
+            <tr>
+                <td>@clusterInfoModel.cluster_name</td>
+                <td>@clusterInfoModel.user_id</td>
+                <td>@clusterInfoModel.company</td>
+                <td>@clusterInfoModel.create_time.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    <input type="text" id="file_limit_@clusterInfoModel.cluster_no" name="file_limit" value="@size">(MB)
+                </td>
+                <td>
+                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="doEdit(@clusterInfoModel.cluster_no)">編輯確認</a>
+                </td>
+            </tr>
+        }
+    </table>
+@Html.PagesList((List<PageList<ClusterInfoModel>>)ViewData["PageList"])
+</article>
+
+<script>
+    function doEdit(cluster_no) {
+        //var cluster_no = cluster_no;
+        var file_limit = $("#file_limit_" + cluster_no).val();
+        //alert(file_limit);
+        $.ajax({
+                type: "get",
+                url: "@Url.Action("Cluster_UpdateSize", "Manager")",
+                cache: false,
+                data: { "cluster_no": cluster_no, "file_limit": file_limit },
+                dataType: "json"
+        }).done(function (result) {
+            if (result != null) {
+                var Huser = result;
+                if (Huser == true) {
+                    alert("更新成功!!")
+                }
+                else {
+                    alert("更新失敗!!")
+                }
+            } else {
+                    alert("更新失敗!!")
+            }
+        });
+    }
+
+</script>

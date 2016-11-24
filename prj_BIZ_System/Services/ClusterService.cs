@@ -64,9 +64,9 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<ClusterInfoModel>("Cluster.SelectClusterInfo", tempModel);
         }
 
-        public IList<ClusterInfoModel> GetClusterInfoListkw(string user_id)
+        public IList<ClusterInfoModel> GetClusterInfoListkw(string company, string cluster_name)
         {
-            ClusterInfoModel tempModel = new ClusterInfoModel { user_id = user_id };
+            ClusterInfoModel tempModel = new ClusterInfoModel { company = company, cluster_name = cluster_name };
             return mapper.QueryForList<ClusterInfoModel>("Cluster.SelectClusterInfoList", tempModel);
         }
 
@@ -120,6 +120,12 @@ namespace prj_BIZ_System.Services
         public int ClusterInfoUpdateManager(ClusterInfoModel clusterInfoModel)
         {
             var result = mapper.Update("Cluster.ClusterInfoUpdateManager", clusterInfoModel);
+            return (int)result;
+        }
+
+        public int ClusterInfoUpdateSize(ClusterInfoModel clusterInfoModel)
+        {
+            var result = mapper.Update("Cluster.ClusterInfoUpdateSize", clusterInfoModel);
             return (int)result;
         }
 

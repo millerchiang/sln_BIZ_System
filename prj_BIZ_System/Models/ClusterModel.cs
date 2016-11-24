@@ -17,6 +17,8 @@ namespace prj_BIZ_System.Models
         public string cluster_enable { get; set; }        /*是否接受邀請 0：不接受；1：接受*/
         public string limit { get; set; }        /*業務會員權限 ps.業務會員權限以逗點分隔*/
         public string is_public { get; set; }      /*是否公開*/
+        public string company { get; set; }        /*管理者名稱中文*/
+        public string company_en { get; set; }        /*管理者名稱英文*/
     }
 
 
@@ -33,6 +35,10 @@ namespace prj_BIZ_System.Models
 
         public string is_public { get; set; }      /*是否公開*/
         public double file_limit { get; set; }      /*文件總量限制*/
+        public string company { get; set; }        /*管理者名稱中文*/
+        public string company_en { get; set; }        /*管理者名稱英文*/
+
+
     }
 
     public class ClusterDetailModel
@@ -90,7 +96,8 @@ namespace prj_BIZ_System.Models
         public string cluster_enable { get; set; }        /*是否接受邀請 0：不接受；1：接受*/
         public DateTime create_time { get; set; } /*建立日期*/
         public string limit { get; set; }        /*業務會員權限 ps.業務會員權限以逗點分隔*/
-        public string company { get; set; }        /*成員名稱*/
+        public string company { get; set; }        /*成員名稱中文*/
+        public string company_en { get; set; }        /*成員名稱英文*/
 
     }
 }

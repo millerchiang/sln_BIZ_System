@@ -38,6 +38,9 @@ namespace prj_BIZ_System.Controllers
         public Password_ViewModel passwordViewModel;
         public Sales_ViewModel salesViewModel;
 
+        public ClusterService clusterService;
+        public Cluster_ViewModel clusterViewModel;
+
         public ManagerController()
         {
             userService = new UserService();
@@ -54,6 +57,9 @@ namespace prj_BIZ_System.Controllers
 
             salesService = new SalesService();
             salesViewModel = new Sales_ViewModel();
+
+            clusterService = new ClusterService();
+            clusterViewModel = new Cluster_ViewModel();
 
             ViewBag.Form = "Manager";
 
@@ -127,6 +133,47 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
             return View();
         }
+
+        public ActionResult ClusterSize(string cluster_name,string company)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+            string cluster_name1 = cluster_name;
+            string company1 = company;
+
+            if (cluster_name == "") cluster_name1 = null;
+            if (company == "") company1 = null;
+            if (cluster_name1 != null) cluster_name1 = cluster_name1.ToUpper();
+            if (company1 != null) company1 = company1.ToUpper();
+
+
+            clusterViewModel.clusterInfoList = clusterService.GetClusterInfoListkw(company1, cluster_name1).Pages(Request, this, 5);
+            ViewBag.cluster_name = cluster_name;
+            ViewBag.company = company;
+            return View(clusterViewModel);
+        }
+
+        public ActionResult Cluster_UpdateSize(string cluster_no, string file_limit)
+        {
+            if (Request.Cookies["ManagerInfo"] == null)
+                return Redirect("Login");
+            ClusterInfoModel clusterInfoModel = new ClusterInfoModel();
+            clusterInfoModel.cluster_no = int.Parse(cluster_no);
+            clusterInfoModel.file_limit = Double.Parse(file_limit) *1024;
+
+            int kk = clusterService.ClusterInfoUpdateSize(clusterInfoModel);
+
+            if (kk == 0)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
 
         public ActionResult Questionnaire()
         {

@@ -195,6 +195,8 @@ namespace prj_BIZ_System.Controllers
             ViewBag.path = UploadConfig.UploadRootPath + UploadConfig.AdminManagerDirName + "/" + UploadConfig.subDirForCluster + Request["cluster_no"]+"/";
             clusterViewModel.clusterFileList = clusterService.GetClusterFileListkw(int.Parse(Request["cluster_no"])).Pages(Request, this, 10); 
             docookie("_menu", "Cluster_Files");
+            string uploadsize = ((int)(clusterMaxFileSize - clusterFileSize) * 1024).ToString();
+            docookie("_uploadsize", uploadsize);
             return View(clusterViewModel);
         }
 
@@ -345,26 +347,36 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
+            TempData["errMsg"] = null;
             if (upexl != null)
             {
                 if (upexl.ContentLength > 0)
                 {
-                    string cluster_no = Request["cluster_no"];
-                    Dictionary<string, string> uploadResult = null;
-                    uploadResult = UploadHelper.doUploadFile(upexl, UploadConfig.subDirForCluster + cluster_no, UploadConfig.AdminManagerDirName);
-                    if ("success".Equals(uploadResult["result"]))
+                    int filesize = int.Parse(Request.Cookies["_uploadsize"].Value);
+                    if (upexl.ContentLength > filesize)
                     {
-                        ClusterFileModel filemodel = new ClusterFileModel();
-                        filemodel.cluster_no = int.Parse(Request["cluster_no"]);
-                        filemodel.user_id = Request.Cookies["UserInfo"]["user_id"];
-                        filemodel.cluster_file_site = upexl.FileName;
-                        filemodel.deleted = "1";
-                        filemodel.file_size = (Double)upexl.ContentLength/1024.0;
-                        clusterService.ClusterFileInsertOne(filemodel);
+                        TempData["errMsg"] = "檔案容量超過限制!!";
                     }
                     else
                     {
-                        Console.WriteLine(LanguageResource.User.lb_upload_fail);
+
+                        string cluster_no = Request["cluster_no"];
+                        Dictionary<string, string> uploadResult = null;
+                        uploadResult = UploadHelper.doUploadFile(upexl, UploadConfig.subDirForCluster + cluster_no, UploadConfig.AdminManagerDirName);
+                        if ("success".Equals(uploadResult["result"]))
+                        {
+                            ClusterFileModel filemodel = new ClusterFileModel();
+                            filemodel.cluster_no = int.Parse(Request["cluster_no"]);
+                            filemodel.user_id = Request.Cookies["UserInfo"]["user_id"];
+                            filemodel.cluster_file_site = upexl.FileName;
+                            filemodel.deleted = "1";
+                            filemodel.file_size = (Double)upexl.ContentLength / 1024.0;
+                            clusterService.ClusterFileInsertOne(filemodel);
+                        }
+                        else
+                        {
+                            Console.WriteLine(LanguageResource.User.lb_upload_fail);
+                        }
                     }
                 }
             }
