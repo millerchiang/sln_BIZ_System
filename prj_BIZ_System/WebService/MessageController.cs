@@ -41,38 +41,6 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public object GetMessageContent(int msg_no)
-        {
-            if (msg_no == 0) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "msg_no is null");
-            MessageContent messageContent = new MessageContent();
-            MsgModel msgModel = messageService.SelectMsgPrivateOne(msg_no);
-            messageContent.msgPrivate = new MsgPrivate {
-                msg_no = msgModel.msg_no,
-                msg_title = msgModel.msg_title,
-                msg_content = msgModel.msg_content,
-                company = msgModel.company,
-                create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm")
-            };
-            messageContent.msgPrivate.msg_member = messageService.transferMsg_member2Msg_company(null,msgModel.msg_member, prj_BIZ_System.Controllers.MessageCatalog.Private);
-            string[] fileNames = messageService.SelectMsgPrivateFileByMsg_no(msg_no).Select(
-                msgFileModel =>
-                msgFileModel.msg_file_site   
-            ).ToArray();
-            messageContent.msgPrivate.msg_file = string.Join(",", fileNames);
-            messageContent.msgPrivateReplyList = messageService.SelectMsgPrivateReplyMsg_no(msg_no).Select(
-                msgPrivateReplyModel => 
-                new MsgPrivateReply
-                {
-                    company = msgPrivateReplyModel.company,
-                    reply_content = msgPrivateReplyModel.reply_content,
-                    create_time = msgPrivateReplyModel.create_time.ToString("yyyy-MM-dd HH:mm")
-                }
-            ).ToList();
-            
-            return Request.CreateResponse(HttpStatusCode.OK, messageContent);
-        }
-
-        [HttpGet]
         public object GetMessageContentAndRead(int msg_no, string user_id)
         {
             if (msg_no == 0 || user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");

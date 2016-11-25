@@ -42,7 +42,7 @@ namespace prj_BIZ_System.Controllers
             if (Request["list"] == null || Request["list"] == "1")
             {
                 //------可申請的聚落
-                user_id = user_id + ",";
+                
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApply(user_id).Pages(Request, this, 5);
                 //------------------
             }
