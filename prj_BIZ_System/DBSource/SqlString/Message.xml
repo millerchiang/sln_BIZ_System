@@ -99,9 +99,10 @@
     <!--私訊列表(手機)-->
     <select id="SelectMsgForMobile" resultMap="SelectMsg-result" parameterClass="Msg">
       SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read from (
-      SELECT mp.*, ui.company, ui.company_en , mpr.rpy_cnt
+      SELECT mp.*, ui.company, ui.company_en , si.sales_name, mpr.rpy_cnt
       FROM message.msg as mp
       LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      LEFT JOIN sales.sales_info as si on mp.creater_id = si.sales_id
       LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
       where mp.cluster_no = 0 and ( mp.creater_id = #creater_id# or mp.msg_member like '% '||#creater_id#||',%' )
       ) as mp2
@@ -114,7 +115,7 @@
           <![CDATA[ mp2.create_time <= #create_time# ]]>
         </isNotNull>
       </dynamic>
-      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.company_en , mp2.rpy_cnt
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.company_en , mp2.sales_name , mp2.rpy_cnt
       order by mp2.create_time desc
       limit 10
     </select>
