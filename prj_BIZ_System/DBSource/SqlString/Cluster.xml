@@ -21,7 +21,7 @@
           cluster_no = $cluster_no$
         </isNotEmpty>
         <isNotEmpty prepend="and" property="user_id">
-          user_id = #user_id#
+          user_info.user_id = #user_id#
         </isNotEmpty>
         <isNotEmpty prepend="and" property="cluster_name">
           cluster_name = #cluster_name#
