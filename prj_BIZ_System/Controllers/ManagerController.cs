@@ -2252,8 +2252,10 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-            var buyermaximun = matchModel.matchBuyerForbuyer_idList.Select(data => data)
-                                         .Aggregate((a, x) => (x.Length > a.Length) ? x : a);
+            var buyermaximun = matchModel.matchBuyerForbuyer_idList.Count != 0 ? 
+                               matchModel.matchBuyerForbuyer_idList.Select(data => data)
+                                         .Aggregate((a, x) => (x.Length > a.Length) ? x : a) :
+                               new string[0];
 
             int buyerRowCount;
             column = 1;
@@ -2354,8 +2356,10 @@ namespace prj_BIZ_System.Controllers
                 }
             }
 
-            var sellermaximun = matchModel.matchSellerForbuyer_idList.Select(data => data)
-                        .Aggregate((a, x) => (x.Length > a.Length) ? x : a);
+            var sellermaximun = matchModel.matchSellerForbuyer_idList.Count != 0 ? 
+                                matchModel.matchSellerForbuyer_idList.Select(data => data)
+                                          .Aggregate((a, x) => (x.Length > a.Length) ? x : a) :
+                                new string[0];
 
             int sellerRowCount;
             column = 1;
