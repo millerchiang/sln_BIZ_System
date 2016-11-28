@@ -2160,8 +2160,10 @@ namespace prj_BIZ_System.Controllers
                 bothRow = _sheet.CreateRow(rowCount);
             }
 
-            var bothmaximum = matchModel.matchBothForbuyer_idList.Select(data => data)
-                        .Aggregate((a, x) => (x.Count > a.Count) ? x : a);
+            var bothmaximum = matchModel.matchBothForbuyer_idList != null ? 
+                        matchModel.matchBothForbuyer_idList.Select(data => data)
+                                  .Aggregate((a, x) => (x.Count > a.Count) ? x : a) :
+                                  Enumerable.Empty<Tuple<string, string, string>>().ToList();
 
             for (int i = 0; i < bothmaximum.Count; i++)
             {
@@ -2192,34 +2194,37 @@ namespace prj_BIZ_System.Controllers
             bothRow = _sheet.GetRow(rowCount);
             CreateCell("雙方有媒合意願", bothRow, 0, cellStyleBoth);
 
-            for (int i = 0; i < matchModel.matchBothForbuyer_idList.Count; i++)
+            if(matchModel.matchBothForbuyer_idList != null)
             {
-                bothRow = _sheet.GetRow(rowCount);
-                if (bothRow == null)
+                for (int i = 0; i < matchModel.matchBothForbuyer_idList.Count; i++)
                 {
-                    bothRow = _sheet.CreateRow(rowCount);
-                }
-
-                for (int j = 0; j < bothmaximum.Count; j++)
-                {
-                    try
+                    bothRow = _sheet.GetRow(rowCount);
+                    if (bothRow == null)
                     {
-                        bothRow = _sheet.GetRow(rowCount);
-                        if (bothRow == null)
+                        bothRow = _sheet.CreateRow(rowCount);
+                    }
+
+                    for (int j = 0; j < bothmaximum.Count; j++)
+                    {
+                        try
                         {
-                            bothRow = _sheet.CreateRow(rowCount);
+                            bothRow = _sheet.GetRow(rowCount);
+                            if (bothRow == null)
+                            {
+                                bothRow = _sheet.CreateRow(rowCount);
+                            }
+                            CreateCell(matchModel.matchBothForbuyer_idList[i][j].Item3,
+                                        bothRow, column, cellStyleBoth);
+                            rowCount++;
                         }
-                        CreateCell(matchModel.matchBothForbuyer_idList[i][j].Item3,
-                                    bothRow, column, cellStyleBoth);
-                        rowCount++;
-                    }
-                    catch
-                    {
+                        catch
+                        {
 
+                        }
                     }
+                    rowCount = matchModel.schedulePeriodSetList.Count + 1;
+                    column++;
                 }
-                rowCount = matchModel.schedulePeriodSetList.Count + 1;
-                column++;
             }
 
             #endregion
@@ -2248,7 +2253,7 @@ namespace prj_BIZ_System.Controllers
             }
 
             var buyermaximun = matchModel.matchBuyerForbuyer_idList.Select(data => data)
-                        .Aggregate((a, x) => (x.Length > a.Length) ? x : a);
+                                         .Aggregate((a, x) => (x.Length > a.Length) ? x : a);
 
             int buyerRowCount;
             column = 1;
