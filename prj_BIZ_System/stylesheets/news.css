@@ -37,6 +37,16 @@
 .news_list a.news_newspage:hover span {
   background: #1184b9;
 }
+.news_list a:hover time {
+  color: #666;
+}
+.news_list a time {
+  color: #9e9e9e;
+  font-size: 0.875em;
+}
+.news_list a p {
+  display: inline;
+}
 
 .news_content {
   line-height: 2em;

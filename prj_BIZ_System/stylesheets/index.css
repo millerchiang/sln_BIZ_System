@@ -85,12 +85,6 @@
 .newsboxList02 a:link, .newsboxList02 a:visited {
   font-size: 0.938em;
   text-decoration: none;
-  max-width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  overflow: hidden;
-  display: inline-block;
 }
 .newsboxList02 a span {
   padding: 3px;
@@ -113,6 +107,24 @@
 }
 .newsboxList02 a.news_newspage:hover span {
   background: #1184b9;
+}
+.newsboxList02 a:hover time {
+  color: #666;
+}
+.newsboxList02 a time {
+  color: #9e9e9e;
+  font-size: 0.875em;
+  float: right;
+}
+.newsboxList02 a p {
+  line-height: 2;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  clear: left;
 }
 
 .newsphoto li {
@@ -232,7 +244,7 @@
   bottom: -107px;
   left: 30px;
   z-index: 1;
-  border: 1px solid #f4f4f4;
+  border: 1px solid #f5f5f5;
   color: #9e9e9e;
   font-size: 0.813em;
 }

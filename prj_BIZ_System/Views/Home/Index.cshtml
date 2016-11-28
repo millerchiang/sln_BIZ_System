@@ -54,7 +54,8 @@
                         <li>
                             <a href="~/Home/NewsView?Id=@newsList.news_no" class=@aa>
                                 <span>@bb</span>
-                                @newsList.news_title
+                                <time>@newsList.news_date.ToString("yyyy/MM/dd")</time>
+                                <p>@newsList.news_title</p>
                             </a>
                         </li>
                     }
