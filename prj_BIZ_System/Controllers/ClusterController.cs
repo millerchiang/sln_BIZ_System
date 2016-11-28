@@ -153,7 +153,11 @@ namespace prj_BIZ_System.Controllers
                 clusterMemberModel.user_id = Request.QueryString["id"];
 
             clusterMemberModel.cluster_enable = Request["status"];
-            clusterService.ClusterMemberUpdateOne(clusterMemberModel);
+
+            int kk= clusterService.ClusterMemberUpdateOne(clusterMemberModel);
+
+            if (kk == 0) clusterService.ClusterMemberInsertOne(clusterMemberModel);
+
 
             return Redirect("ClusterList");
 

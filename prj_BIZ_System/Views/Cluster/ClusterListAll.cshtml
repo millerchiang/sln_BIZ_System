@@ -63,7 +63,7 @@
             modal: true,
             buttons: {
                 @(prj_BIZ_System.LanguageResource.User.lb_yes): function () {
-                    window.location = "/Home/Index";
+                    window.location = "../Home/Index";
                     event.returnValue = false; //需要加上這行 Why??
                     //window.open(url); //如果是開窗就不用加 event.returnValue = false;
                     $(this).dialog("close");
