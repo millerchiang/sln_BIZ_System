@@ -48,7 +48,7 @@
                         <td>
                             <div class="centerbox">
                                 <a href="javascript:void(0)" class="editbu detailedbu" onclick="util_cls.form.row2form('@(md.sales_id)','acc_from')">修改</a>
-				                <span style="display:none" id="rowdata_@(md.sales_id)">{"sales_id":"@(md.sales_id)","sales_name":"@(md.sales_name)","phone":"@(md.phone)","email":"@(md.email)"}</span>
+				                <span style="display:none" id="rowdata_@(md.sales_id)">{"sales_id":"@(md.sales_id)","sales_name":"@(md.sales_name)","phone":"@(md.phone)","email":"@(md.email)","id_enable":"@(md.id_enable)"}</span>
                             </div>
                         </td>
 
@@ -75,6 +75,15 @@
             <label for="email" class="regis_col02L spanRed">電子郵件</label>
             <input type="text" class="regis_col02R" name="email">
 
+            <label for="email" class="regis_col02L spanRed">有效</label>
+            <div  class="regis_col02R">
+                <input type="radio" name="id_enable" class="radioinput" id="enable02" value="1">
+                <label for="enable02">是</label>
+                <input type="radio" name="id_enable" class="radioinput" id="enable01" value="0">
+                <label for="enable01">否</label>
+            </div>
+            
+
             <div class="centerbox">
                 <a href="javascript:void(0)" class="buinfor" id="acc_edit" style="display: none;">修改</a>
                 <!--<a href="javascript:void(0)" class="submitbu" id="acc_del" style="display: none;">刪除</a>-->
@@ -96,7 +105,12 @@
     function base() {
         $("input[name='sales_id']").bind("blur", chksales);
         $("#acc_add").click(function () {
-            $("#acc_from").submit();
+            var errMsg = checkEmpty();
+            alert(errMsg);
+            if (errMsg == null || errMsg == '') {
+                $("input[name='pagetype']").val("Insert");
+                $("#acc_from").submit();
+            }
         });
 
         $("#accaddbu").on('click', function () {
@@ -115,22 +129,33 @@
             $("input[name='sales_id']").prop("readonly", true).unbind("blur");
         });
 
-        $("#acc_add").click(function () {
-            $("input[name='pagetype']").val("Insert");
-            $("#acc_from").submit();
-        });
-
         $("#acc_edit").click(function () {
             $("input[name='pagetype']").val("Update");
             $("#acc_from").submit();
         });
     }
 
+    function checkEmpty() {
+        var errMsg = '';
+        /*
+        var sales_name = $("input[name='sales_name']").val();
+        if (sales_name == null || sales_name == '') {
+            errMsg += '業務姓名\r\n';
+        }
+        */
+        var email = $("input[name='email']").val();
+        if (email == null || email == '') {
+            errMsg += '電子郵件不可為空白';
+        }
+
+        return errMsg;
+    }
+
     function chksales() {
 
         var sales_id = $("input[name='sales_id']").val();
-        if (sales_id != null && sales_id != '') 
-        {
+        
+        if (sales_id != null && sales_id != '') {
             $.ajax({
                 type: "get",
                 url: "@Url.Action("CheckSales", "Sales")",
@@ -143,13 +168,15 @@
                     if (Huser === false) {
                     } else {
                         alert("該使用帳號已被使用!!");
-                        $("input[name='sales_id']").focus();                
+                        $("input[name='sales_id']").focus();
                     }
                 }
                 else {
                 }
             });
-    }
+        } else {
+            alert('業務帳號不可為空白');
+        }
     }
 </script>
 

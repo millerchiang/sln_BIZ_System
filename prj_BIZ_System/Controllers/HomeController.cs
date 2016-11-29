@@ -377,7 +377,7 @@ namespace prj_BIZ_System.Controllers
             //var securityPassword = SecurityHelper.Encrypt256(Request["sales_pw"]);
             var securityPassword = Request["sales_pw"];
             string sales_id = Request["sales_id"];
-            SalesInfoModel model = salesService.ChkUserInfoOne(Request["sales_id"], securityPassword);
+            SalesInfoModel model = salesService.ChkLoginForSales(Request["sales_id"], securityPassword);
 
             HttpCookie cookie = null;
 

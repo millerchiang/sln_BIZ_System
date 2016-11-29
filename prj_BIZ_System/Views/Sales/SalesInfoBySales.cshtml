@@ -9,28 +9,30 @@
 }
 
 <div class="article_col1s">
-    <form  action="@Url.Action("SalesInfoUpdate","Sales")" class="form_box sys_searchbox">
+    <form action="@Url.Action("SalesInfoUpdateBySales","Sales")" class="form_box sys_searchbox" method="post">
         <h2>業務帳號管理</h2>
         <label for="leader" class="regis_col02L">業務帳號</label>
         <span class="regis_col02R">roger</span>
 
         <label for="addr" class="regis_col02L">業務姓名</label>
-        <input type="text" class="regis_col02R" name="sales_name">
+        <input type="text" class="regis_col02R" name="sales_name" value="@Model.salesInfo.sales_name">
 
         <label for="addr" class="regis_col02L">電話</label>
-        <input type="text" class="regis_col02R" name="phone">
+        <input type="text" class="regis_col02R" name="phone" value="@Model.salesInfo.phone">
 
         <label for="email" class="regis_col02L">電子郵件</label>
-        <input type="text" class="regis_col02R" name="email">
-
+        <input type="text" class="regis_col02R" name="email" value="@Model.salesInfo.email">
+        <!--
         <label for="password" class="regis_col02L">舊密碼</label>
         <input type="password" class="regis_col02R" name="old_sales_pw">
         <label for="password" class="regis_col02L">新密碼</label>
         <input type="password" class="regis_col02R" name="new_sales_pw">
         <label for="password" class="regis_col02L">新密碼確認</label>
         <input type="password" class="regis_col02R" name="new_sales_pw2">
+         -->
         <div class="centerbox">
-            <button type="submit" class="buinfor">確定修改</button>
+            <a href="~/Sales/EditPasswd" class="buinfor">修改密碼</a>
+            <button type="submit" class="submitbuRed">確定修改</button>
         </div>
 
     </form>
@@ -44,13 +46,35 @@
     })
 
     function init() {
-        
+         @if (!string.IsNullOrEmpty((string)TempData["salesUpdateResult"]))
+        {
+            <text>
+            function check1() {
+                var salesUpdateResult = '@TempData["salesUpdateResult"]';
+                if (salesUpdateResult != '') {
+                    alert(MailValidateResult);
+                    @*
+                    $("#dialog").dialog({
+                                autoOpen: true,
+                                modal: true,
+                                buttons: {
+                            "@prj_BIZ_System.LanguageResource.User.lb_ok": function () {
+                                $(this).dialog("close");
+                             }
+                            }
+                     });
+                                $(".instext").text(salesUpdateResult);
+                     }
+                        *@
+         }
+             check1();
+        </text>
     }
 
     function chksales() {
 
         var sales_id = $("input[name='sales_id']").val();
-        if (sales_id != null && sales_id != '') 
+        if (sales_id != null && sales_id != '')
         {
             $.ajax({
                 type: "get",
@@ -64,7 +88,7 @@
                     if (Huser === false) {
                     } else {
                         alert("該使用帳號已被使用!!");
-                        $("input[name='sales_id']").focus();                
+                        $("input[name='sales_id']").focus();
                     }
                 }
                 else {

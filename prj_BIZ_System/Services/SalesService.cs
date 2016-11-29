@@ -28,12 +28,25 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForObject<SalesInfoModel>("SalesInfo.SelectSalesInfoById", param);
         }
 
-        public SalesInfoModel ChkUserInfoOne(string sales_id, string sales_pw)
+        public SalesInfoModel ChkLoginForSales(string sales_id, string sales_pw)
+        {
+            SalesInfoModel tempModel = new SalesInfoModel { sales_id = sales_id, sales_pw = sales_pw };
+            return (SalesInfoModel)mapper.QueryForObject("SalesInfo.ChkLoginForSales", tempModel);
+        }
+
+        public SalesInfoModel ChkSalesInfoOne(string sales_id, string sales_pw)
         {
             SalesInfoModel tempModel = new SalesInfoModel { sales_id = sales_id, sales_pw = sales_pw };
             return (SalesInfoModel)mapper.QueryForObject("SalesInfo.CheckOne", tempModel);
         }
 
+        public bool UpdateSalesPassword(string current_id, string new_pw)
+        {
+
+            //Todo 記得要先加密
+            var param = new SalesInfoModel() { sales_id = current_id, sales_pw = new_pw };
+            return mapper.Update("SalesInfo.UpdateUserPassword", param) > 0;
+        }
 
         public IList<SalesInfoModel> SelectSalesInfos(string user_id)
         {
@@ -67,6 +80,7 @@ namespace prj_BIZ_System.Services
 
         public int UpdateSalesInfoOneByCompany(SalesInfoModel model)
         {
+            model.limit = "0"; //Todo業務權限關閉
             var param = model;
             return mapper.Update("SalesInfo.UpdateSalesInfoOneByCompany", param);
         }

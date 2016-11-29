@@ -91,26 +91,36 @@
                         </li>
 
 
-                        if (Request.Cookies["UserInfo"] != null)
+                        if (Request.Cookies["UserInfo"] != null || Request.Cookies["SalesInfo"] != null)
                         {
                             <li>
                                 <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_account_info</a>
                                 <ul>
-                                    <li><a href="~/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
-                                    <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
-                                    @if (Request["_version"] != null && Request["_version"] != "2.0")
+                                    @if (Request.Cookies["UserInfo"] != null)
                                     {
-                                        <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
-                                        @*<li><a href="~/Cluster/ClusterList">產業聚落管理</a></li>*@
-                                        <li>
-                                            <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
-                                            <ul>
-                                                <li><a href="~/User/Register">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
-                                                <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
-                                                <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
-                                                <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
-                                            </ul>
-                                        </li>
+                                        <li><a href="~/User/Register">@prj_BIZ_System.LanguageResource.User.lb_mycompany</a></li>
+                                        <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
+                                        if (Request["_version"] != null && Request["_version"] != "2.0")
+                                        {
+                                            <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
+                                            @*<li><a href="~/Cluster/ClusterList">產業聚落管理</a></li>*@
+                                            <li>
+                                                <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
+                                                <ul>
+                                                    <li><a href="~/Sales/SalesInfoByCompany">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
+                                                    <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_estimate</a></li>
+                                                    <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
+                                                    <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
+                                                </ul>
+                                            </li>
+                                        }
+                                    }
+                                    else if (Request.Cookies["SalesInfo"] != null)
+                                    {
+                                        <li><a href="~/Sales/SalesInfoBySales">業務帳號管理</a></li>
+                                        <li><a href="~/Sales/RFQ">我的詢價單</a></li>
+                                        <li><a href="~/Sales/Quotation">我的報價單</a></li>
+                                        <li><a href="~/Sales/Order">我的訂單</a></li>
                                     }
                                 </ul>
                             </li>

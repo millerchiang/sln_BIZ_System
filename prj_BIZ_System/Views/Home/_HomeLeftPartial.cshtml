@@ -3,7 +3,7 @@
 
 <aside>
     @{
-        if (Request.Cookies["UserInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
+        if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
         {
             <!--login-->
         <div class="mg30 loginbox">
@@ -92,7 +92,22 @@
                 <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
             </ul>
         </div>
-        }
+                    }
+                    else if (Request.Cookies["SalesInfo"] != null)
+                    {
+                        <div class="mg30 userlist">
+                            @{
+                                var sales_name = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["sales_name"]);
+                            }
+                            <h2> @sales_name</h2>
+                            <ul class="userfn">
+                                <li><a href="~/Message/MessagePrivateList">@prj_BIZ_System.LanguageResource.User.lb_msg_private@*<span class="userfnmsg">100</span>*@</a></li>
+                                <li><a href="~/Sales/RFQ">我的詢價單</a></li>
+                                <li><a href="~/Sales/Quotation">我的報價單</a></li>
+                                <li><a href="~/Sales/Order">我的訂單</a></li>
+                            </ul>
+                        </div>
+                     }
     }
 
     <div class="searchdiv mg30">
