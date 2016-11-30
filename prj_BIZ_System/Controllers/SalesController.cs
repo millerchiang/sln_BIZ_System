@@ -162,17 +162,45 @@ namespace prj_BIZ_System.Controllers
 
             //if (salesService.isPasswdValidByCheck(old_sales_pw, model.sales_id))
             //{
+                model.sales_id = Request.Cookies["SalesInfo"]["sales_id"];
                 bool isUpdateSuccess = salesService.UpdateSalesInfoOneBySales(model);
                 TempData["salesUpdateResult"] = isUpdateSuccess? "修改成功":"修改失敗";
             //}
             //else
             //{
-                //TempData["salesUpdateResult"] = "舊密碼錯誤";
+            //TempData["salesUpdateResult"] = "舊密碼錯誤";
             //}
+            if (isUpdateSuccess) {
+                Request.Cookies["SalesInfo"]["sales_name"] = model.sales_name;
+                var name = Request.Cookies["SalesInfo"]["sales_name"];
+            }
+
             return Redirect("SalesInfoBySales");
         }
         #endregion
 
+
+        [HttpGet]
+        public ActionResult Permissions()
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
+            return View(salesViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult doUpdatePermissions()
+        {
+            /*
+            bool isUpdateSuccess = salesService.UpdateSalesPermissions(model);
+            TempData["salesUpdateResult"] = isUpdateSuccess ? "修改成功" : "修改失敗";
+            */        
+            return Redirect("Permissions");
+        }
 
     }
 }

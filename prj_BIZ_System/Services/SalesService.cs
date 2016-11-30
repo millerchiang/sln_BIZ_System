@@ -11,6 +11,7 @@ using NPOI.HSSF.UserModel;
 using System.IO;
 using NPOI.SS.UserModel;
 using prj_BIZ_System.App_Start;
+using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Services
 {
@@ -73,16 +74,31 @@ namespace prj_BIZ_System.Services
             //底下資料先寫死
             model.sales_pw = "1111"; //臨時給的密碼,之後改
             model.id_enable = "1"; //有效性
-            model.limit = "0"; //業務權限關閉
+
+            //預設權限是全開的
+            Dictionary<string, string> limits = new Dictionary<string, string>();
+            limits.Add("company", "1");
+            limits.Add("video", "1");
+            limits.Add("sales", "1");
+            limits.Add("message", "1");
+
+            model.limit = new JavaScriptSerializer().Serialize(limits); //業務權限關閉
             var param = model;
             mapper.Insert("SalesInfo.InsertSalesInfo", param);
         }
 
         public int UpdateSalesInfoOneByCompany(SalesInfoModel model)
         {
-            model.limit = "0"; //Todo業務權限關閉
+            //model.limit = "0"; //Todo業務權限關閉
             var param = model;
             return mapper.Update("SalesInfo.UpdateSalesInfoOneByCompany", param);
+        }
+
+        public int UpdateSalesPermissions(string sales_id , Dictionary<string, string> limits)
+        {
+            string limits_str = new JavaScriptSerializer().Serialize(limits);
+            var param = new SalesInfoModel() { sales_id = sales_id, limit = limits_str };
+            return mapper.Update("SalesInfo.UpdateSalesPermissions", param);
         }
 
         #endregion

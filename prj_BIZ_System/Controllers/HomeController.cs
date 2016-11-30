@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using prj_BIZ_System.Extensions;
+using System.Web.Script.Serialization;
 
 namespace prj_BIZ_System.Controllers
 {
@@ -377,7 +378,7 @@ namespace prj_BIZ_System.Controllers
             //var securityPassword = SecurityHelper.Encrypt256(Request["sales_pw"]);
             var securityPassword = Request["sales_pw"];
             string sales_id = Request["sales_id"];
-            SalesInfoModel model = salesService.ChkLoginForSales(Request["sales_id"], securityPassword);
+            SalesInfoModel model = salesService.ChkSalesInfoOne(Request["sales_id"], securityPassword);
 
             HttpCookie cookie = null;
 
@@ -388,18 +389,26 @@ namespace prj_BIZ_System.Controllers
             }
             else
             {
-                /*
+                
                 if (model.id_enable == "0")
                 {
-                    return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
+                    TempData["userpw_errMsg"] = "此帳號停用中" ;
+                    return Redirect("Index");
                 }
-                */
+
+
+                Dictionary<string, string> limitsDict = new Dictionary<string, string>();
+                limitsDict = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(model.limit);
+
                 UserInfoModel userinfo = userService.GeUserInfoOneBySales(sales_id);
                 cookie = new HttpCookie("SalesInfo");
                 cookie.Values.Add("id_enable", model.id_enable);
                 cookie.Values.Add("sales_id", model.sales_id);
                 cookie.Values.Add("sales_name", HttpUtility.UrlEncode(model.sales_name));
-                cookie.Values.Add("limit", model.limit);
+                cookie.Values.Add("limit_of_company", limitsDict["company"]);
+                cookie.Values.Add("limit_of_video", limitsDict["video"]);
+                cookie.Values.Add("limit_of_sales", limitsDict["sales"]);
+                cookie.Values.Add("limit_of_message", limitsDict["message"]);
                 cookie.Values.Add("user_id", model.user_id);
                 cookie.Values.Add("company", HttpUtility.UrlEncode(userinfo.company));
                 cookie.Values.Add("company_en", HttpUtility.UrlEncode(userinfo.company_en));

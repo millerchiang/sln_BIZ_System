@@ -46,36 +46,36 @@
     })
 
     function init() {
-         @if (!string.IsNullOrEmpty((string)TempData["salesUpdateResult"]))
+        @if (!string.IsNullOrEmpty((string)TempData["salesUpdateResult"]))
         {
             <text>
             function check1() {
                 var salesUpdateResult = '@TempData["salesUpdateResult"]';
                 if (salesUpdateResult != '') {
-                    alert(MailValidateResult);
+                    alert(salesUpdateResult);
                     @*
-                    $("#dialog").dialog({
-                                autoOpen: true,
-                                modal: true,
-                                buttons: {
-                            "@prj_BIZ_System.LanguageResource.User.lb_ok": function () {
-                                $(this).dialog("close");
-                             }
-                            }
-                     });
-                                $(".instext").text(salesUpdateResult);
-                     }
-                        *@
-         }
-             check1();
-        </text>
+                        $("#dialog").dialog({
+                                    autoOpen: true,
+                                    modal: true,
+                                    buttons: {
+                                "@prj_BIZ_System.LanguageResource.User.lb_ok": function () {
+                                    $(this).dialog("close");
+                                 }
+                                }
+                         });
+                                    $(".instext").text(salesUpdateResult);
+                         }
+                            *@
+                }
+            }
+                check1();
+            </text>
+        }
     }
-
     function chksales() {
 
         var sales_id = $("input[name='sales_id']").val();
-        if (sales_id != null && sales_id != '')
-        {
+        if (sales_id != null && sales_id != '') {
             $.ajax({
                 type: "get",
                 url: "@Url.Action("CheckSales", "Sales")",
@@ -94,7 +94,7 @@
                 else {
                 }
             });
-    }
+        }
     }
 </script>
 

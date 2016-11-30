@@ -29,7 +29,12 @@
       set sales_pw = #sales_pw#
       WHERE sales_id = #sales_id#
     </update>
-    
+
+    <update id="UpdateSalesPermissions" parameterClass="SalesInfoModel">
+      UPDATE sales.sales_info
+      set limit = #limit#
+      WHERE sales_id = #sales_id#
+    </update>
     <!--
     [[  table=video_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -101,7 +106,7 @@
     <update id="UpdateSalesInfoOneByCompany" parameterClass="SalesInfoModel">
       UPDATE sales.sales_info
       SET sales_id=#sales_id#, user_id=#user_id#, sales_name=#sales_name#, id_enable=#id_enable#,
-      phone=#phone#, email=#email#, "limit"=#limit#, update_time=now()
+      phone=#phone#, email=#email# , update_time=now()
       WHERE sales_id=#sales_id# and user_id=#user_id#
     </update>
 
