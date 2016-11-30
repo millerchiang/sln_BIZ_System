@@ -8,7 +8,14 @@
 
   <statements>
 
+    
 
+    <!--檢查登入-->
+    <select id="ChkLoginForSales" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
+      SELECT *
+      FROM sales.sales_info
+      WHERE id_enable='1' and sales_id = #sales_id# and sales_pw = #sales_pw#
+    </select>
 
     <!--查詢名稱密碼-->
     <select id="CheckOne" parameterClass="SalesInfoModel" resultMap="SalesInfo-result">
@@ -17,6 +24,17 @@
       WHERE sales_id = #sales_id# and sales_pw = #sales_pw#
     </select>
 
+    <update id="UpdateUserPassword" parameterClass="SalesInfoModel">
+      UPDATE sales.sales_info
+      set sales_pw = #sales_pw#
+      WHERE sales_id = #sales_id#
+    </update>
+
+    <update id="UpdateSalesPermissions" parameterClass="SalesInfoModel">
+      UPDATE sales.sales_info
+      set limit = #limit#
+      WHERE sales_id = #sales_id#
+    </update>
     <!--
     [[  table=video_list
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -88,7 +106,7 @@
     <update id="UpdateSalesInfoOneByCompany" parameterClass="SalesInfoModel">
       UPDATE sales.sales_info
       SET sales_id=#sales_id#, user_id=#user_id#, sales_name=#sales_name#, id_enable=#id_enable#,
-      phone=#phone#, email=#email#, "limit"=#limit#, update_time=now()
+      phone=#phone#, email=#email# , update_time=now()
       WHERE sales_id=#sales_id# and user_id=#user_id#
     </update>
 
@@ -99,9 +117,8 @@
     <!--修改業務會員-->
     <update id="UpdateSalesInfoOneBySales" parameterClass="SalesInfoModel">
       UPDATE sales.sales_info
-      SET user_id=#user_id#
-      , sales_pw=#sales_pw#
-      , sales_name=#sales_name#
+      SET
+        sales_name=#sales_name#
       , phone=#phone#
       , email=#email#
       , update_time=now()

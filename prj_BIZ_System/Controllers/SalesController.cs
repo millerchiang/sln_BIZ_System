@@ -89,6 +89,13 @@ namespace prj_BIZ_System.Controllers
             }
             return Redirect("SalesInfoByCompany");
         }
+        public ActionResult EditPasswd()
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            return View();
+        }
 
         public ActionResult DeleteSalesInfoJson(string sales_id, string enable)
         {
@@ -104,30 +111,96 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult SalesInfoBySales()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            return View();
+
+            string sales_id = Request.Cookies["SalesInfo"]["sales_id"];
+            salesViewModel.salesInfo = salesService.getSalesInfo(sales_id);
+            return View(salesViewModel);
+        }
+
+        //修改密碼
+        public ActionResult PasswordInsertUpdate(string old_pw, string new_pw)
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            string sales_id = Request.Cookies["SalesInfo"]["sales_id"];
+
+            string errMsg = "修改成功";
+            if (!string.IsNullOrEmpty(sales_id))
+            {
+                SalesInfoModel salesInfo = salesService.getSalesInfo(sales_id);
+                if (salesInfo != null)
+                {
+                    if (salesInfo.sales_pw.Equals(old_pw)) //Todo 之後要用加密後的值比較
+                    {
+                        if (salesService.UpdateSalesPassword(sales_id, new_pw))
+                        {
+                            errMsg = "修改成功";
+                        }else
+                        {
+                            errMsg = "修改失敗";
+                        }
+                    }
+                    else
+                    {
+                        errMsg = "輸入的舊密碼不正確";
+                    }
+                }
+            }
+            TempData["pw_errMsg"] = errMsg;
+
+            return Redirect("EditPasswd");
         }
 
         [HttpPost]
-        public ActionResult SalesInfoUpdateBySales(string old_sales_pw , SalesInfoModel model)
+        public ActionResult SalesInfoUpdateBySales(SalesInfoModel model)
+        {
+            if (Request.Cookies["SalesInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            //if (salesService.isPasswdValidByCheck(old_sales_pw, model.sales_id))
+            //{
+                model.sales_id = Request.Cookies["SalesInfo"]["sales_id"];
+                bool isUpdateSuccess = salesService.UpdateSalesInfoOneBySales(model);
+                TempData["salesUpdateResult"] = isUpdateSuccess? "修改成功":"修改失敗";
+            //}
+            //else
+            //{
+            //TempData["salesUpdateResult"] = "舊密碼錯誤";
+            //}
+            if (isUpdateSuccess) {
+                Request.Cookies["SalesInfo"]["sales_name"] = model.sales_name;
+                var name = Request.Cookies["SalesInfo"]["sales_name"];
+            }
+
+            return Redirect("SalesInfoBySales");
+        }
+        #endregion
+
+
+        [HttpGet]
+        public ActionResult Permissions()
         {
             if (Request.Cookies["UserInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            if (salesService.isPasswdValidByCheck(old_sales_pw, model.sales_id))
-            {
-                bool isUpdateSuccess = salesService.UpdateSalesInfoOneBySales(model);
-                TempData["salesUpdateResult"] = isUpdateSuccess? "修改成功":"修改失敗";
-            }
-            else
-            {
-                TempData["salesUpdateResult"] = "舊密碼錯誤";
-            }
-            return Redirect("SalesInfo");
-        }
-        #endregion
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
 
+            IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
+            return View(salesViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult doUpdatePermissions()
+        {
+            /*
+            bool isUpdateSuccess = salesService.UpdateSalesPermissions(model);
+            TempData["salesUpdateResult"] = isUpdateSuccess ? "修改成功" : "修改失敗";
+            */        
+            return Redirect("Permissions");
+        }
 
     }
 }

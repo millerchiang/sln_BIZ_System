@@ -8,7 +8,7 @@ util_cls.form.row2form = function (id , form_id) {
     var jsonObj = JSON.parse(jsonStr);
     var $form = $('#' + form_id);
     for (var i in jsonObj) {
-        if (i == "enable") {
+        if (i == "enable" || i == "id_enable") {
             if (jsonObj[i] == "0") {
                 $("#enable01").prop("checked", true);
             } else {
