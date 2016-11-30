@@ -923,8 +923,12 @@
     <Content Include="Views\Activity\EditActivityRegister.cshtml" />
     <Content Include="Views\Home\Faq.cshtml" />
     <Content Include="Views\Home\Support.cshtml" />
-    <Content Include="Views\Message\MessageClusterAdd.cshtml" />
-    <Content Include="Views\Message\MessageClusterDetail.cshtml" />
+    <Content Include="Views\Message\MessageClusterAdd.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Message\MessageClusterDetail.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Manager\PhotoDetailEdit.cshtml" />
     <Content Include="Views\Manager\PhotoListEdit.cshtml" />
     <Content Include="Views\Manager\VideoListEdit.cshtml" />
@@ -935,7 +939,9 @@
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <Content Include="Views\Cluster\ClusterListAll.cshtml" />
     <Content Include="Views\Cluster\ClusterListContent.cshtml" />
-    <Content Include="Views\Message\MessageCompanyAdd.cshtml" />
+    <Content Include="Views\Message\MessageCompanyAdd.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Manager\Questionnaire.cshtml" />
     <Content Include="Views\Manager\QuestionnaireList.cshtml" />
     <Content Include="Views\Cluster\Cluster_Manager.cshtml" />
@@ -996,9 +1002,15 @@
     <Content Include="Views\Home\Activity.cshtml" />
     <Content Include="Views\User\EditPasswd.cshtml" />
     <Content Include="Views\Home\NewsViewForApp.cshtml" />
-    <Content Include="Views\Message\PrivateAdd.cshtml" />
-    <Content Include="Views\Message\MessagePrivateList.cshtml" />
-    <Content Include="Views\Message\PrivateDetailed.cshtml" />
+    <Content Include="Views\Message\PrivateAdd.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Message\MessagePrivateList.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Message\PrivateDetailed.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Activity\SellerInfoActivity.cshtml" />
     <Content Include="Views\Cluster\ClusterList.cshtml" />
     <Content Include="Views\Cluster\Cluster_Add.cshtml" />
@@ -1023,6 +1035,8 @@
     <Content Include="Views\Home\Errfile.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Home\Servicepolicy.cshtml" />
+    <Content Include="Views\Sales\EditPasswd.cshtml" />
+    <Content Include="Views\Sales\Permissions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
