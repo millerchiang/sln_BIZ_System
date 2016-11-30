@@ -120,7 +120,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "2.0");
+            docookie("_version", "3.0");
 
             return View(indexModel);
         }
@@ -519,7 +519,7 @@ namespace prj_BIZ_System.Controllers
         public ActionResult LatestCatalogList()
         {
 
-            IList<CatalogListModel> catalogLists = userService.getAllCatalog(null).Pages(Request, this, 10);
+            IList<CatalogListModel> catalogLists = userService.getAllCatalog(null).Pages(Request, this, 12);
             ViewBag.coverDir = UploadConfig.UploadRootPath;
             docookie("_mainmenu", "LatestCatalogList");
             return View(catalogLists);
