@@ -20,7 +20,7 @@ namespace BizTimer.Config
         public static string gcm_senderId = "524038370393";
         public static string gcm_authToken = "AIzaSyBGwSlk6pSrwFrSdmINluQXkYlW00kzBcg";
 
-        public static string apns_dev_certificate = "Key/IOS_certificate/Biz_develop.p12";
+        public static string apns_dev_certificate = "Key/IOS_certificate/Biz.p12";
         public static string apns_dev_passwd = "1qaz2wsx"; //"1234567";
 
         public static void RegisterCustomSetting(string rootPath)
@@ -211,8 +211,8 @@ namespace BizTimer.Config
             if (File.Exists(PushConfig.apns_dev_certificate))
             {
                 var config = new ApnsConfiguration(
-                    ApnsConfiguration.ApnsServerEnvironment.Sandbox
-                    //ApnsConfiguration.ApnsServerEnvironment.Production
+                    //ApnsConfiguration.ApnsServerEnvironment.Sandbox
+                    ApnsConfiguration.ApnsServerEnvironment.Production
                     , PushConfig.apns_dev_certificate
                     , PushConfig.apns_dev_passwd); //"push-cert.p12" "push-cert-pwd"
                 apnsBroker = new ApnsServiceBroker(config);
