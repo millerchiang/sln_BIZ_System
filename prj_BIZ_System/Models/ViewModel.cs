@@ -171,6 +171,8 @@ namespace prj_BIZ_System.Models
         public IList<ClusterMemberModel> clusterMemberList { get; set; }
         public IList<ClusterDetailModel> clusterWebServiceInfoList { get; set; }
 
+        public IList<SalesInfoModel> salesList { get; set; }
+
     }
 
     public class Sales_ViewModel
