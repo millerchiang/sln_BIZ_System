@@ -45,7 +45,8 @@ namespace prj_BIZ_System.WebService
                                                         news_no = news.news_no,
                                                         news_type = news.news_type,
                                                         news_title = news.news_title,
-                                                        activity_id = news.activity_id
+                                                        activity_id = news.activity_id,
+                                                        news_date = news.news_date.ToString("yyyy-MM-dd")
                                                     }
                                                 ).ToArray();
 

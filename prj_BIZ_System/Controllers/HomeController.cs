@@ -259,7 +259,7 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
-            replaceImgSrcParamToUrlContent();
+            //replaceImgSrcParamToUrlContent();
         }
 
         private void replaceImgSrcParamToUrlContent()
