@@ -114,7 +114,6 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static string doSendMail(string to, Dictionary<string, string> param, MailType type)
         {
-            return "";
             string errorInfo = "";
             if (checkEmail(to, out errorInfo)==200 && !string.IsNullOrEmpty(to))
             {

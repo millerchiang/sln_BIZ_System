@@ -1579,6 +1579,14 @@ namespace prj_BIZ_System.Controllers
                                                         ba.company,
                                                         ba.company_en,
                                                         ba.buyer_need,
+                                                        Convert.ToString(ba.annual_turnover_3y_ago),
+                                                        Convert.ToString(ba.annual_turnover_2y_ago),
+                                                        Convert.ToString(ba.annual_turnover_1y_ago),
+                                                        Convert.ToString(ba.estimated_purchasing_2y_ago),
+                                                        Convert.ToString(ba.estimated_purchasing_1y_ago),
+                                                        Convert.ToString(ba.estimated_purchasing_now),
+                                                        Convert.ToString(ba.distribution),
+                                                        Convert.ToString(ba.items),
                                                         buyerNeedIds.IndexOf(ba.buyer_id) != -1 ? "是" : "否"
                                                     }
                                                    ).ToList();
