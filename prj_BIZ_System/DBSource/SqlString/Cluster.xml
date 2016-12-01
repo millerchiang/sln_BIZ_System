@@ -294,6 +294,14 @@
       WHERE cluster_no=$cluster_no$ AND user_id=#user_id#
     </update>
 
+    <!--更新聚落業務權限狀態-->
+    <update id="ClusterLimitUpdateOne" parameterClass="ClusterMember">
+      UPDATE public.cluster_member
+      SET "limit"=#limit#
+      WHERE cluster_no=$cluster_no$ AND user_id=#user_id#
+    </update>
+
+
     <!--新增聚落文件資料-->
     <insert id="ClusterFileInsertOne" parameterClass="ClusterFile">
       <selectKey resultClass="int" property="cluster_file_no" type="post">

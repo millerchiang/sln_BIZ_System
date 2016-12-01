@@ -141,6 +141,13 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public int ClusterLimitUpdateOne(ClusterMemberModel clusterMemberModel)
+        {
+            int result = mapper.Update("Cluster.ClusterLimitUpdateOne", clusterMemberModel);
+            return result;
+        }
+
+
         public int ClusterFileInsertOne(ClusterFileModel clusterFileModel)
         {
             var result = mapper.Insert("Cluster.ClusterFileInsertOne", clusterFileModel);

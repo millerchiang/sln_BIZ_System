@@ -121,7 +121,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "2.0");
+            docookie("_version", "3.0");
 
             return View(indexModel);
         }

@@ -40,7 +40,17 @@
             {
                 <li><a href="~/Message/MessageClusterMain">訊息管理</a></li>
             }
-            <li><a href="~/Cluster/group_sales_set.html">業務權限設定</a></li>
+            @*<li><a href="~/Cluster/group_sales_set.html">業務權限設定</a></li>*@
+            @if (Request.Cookies["_menu"].Value == "Cluster_Sales")
+            {
+                <li class="inforactive"><span>業務權限設定</span></li>
+            }
+            else
+            {
+                <li><a href="~/Cluster/Cluster_Sales">業務權限設定</a></li>
+            }
+
+
             @*<li>
                 <a href="javascript:void(0)" class="floor active">聚落明細</a>
                 <ul class="floor2 open">
