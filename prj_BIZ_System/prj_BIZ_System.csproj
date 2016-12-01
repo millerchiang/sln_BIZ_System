@@ -1037,6 +1037,7 @@
     <Content Include="Views\Home\Servicepolicy.cshtml" />
     <Content Include="Views\Sales\EditPasswd.cshtml" />
     <Content Include="Views\Sales\Permissions.cshtml" />
+    <Content Include="Views\Home\NewsViewForAppByLocale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
