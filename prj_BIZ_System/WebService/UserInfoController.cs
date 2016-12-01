@@ -90,13 +90,15 @@ namespace prj_BIZ_System.WebService
             {
                 "國內企業",
                 "國外企業",
-                "新創團隊"
+                "新創團隊",
+                "政府/公協會"
             };
             string[] enterprise_type_en = new string[]
             {
                 "Domestic",
                 "Foreign",
-                "Startup"
+                "Startup",
+                "Gov./Association"
             };
             string[] revenue = new string[] 
             {
