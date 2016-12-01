@@ -409,6 +409,8 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("limit_of_video", limitsDict["video"]);
                 cookie.Values.Add("limit_of_sales", limitsDict["sales"]);
                 cookie.Values.Add("limit_of_message", limitsDict["message"]);
+                cookie.Values.Add("phone", model.phone);
+                cookie.Values.Add("email", model.email);
                 cookie.Values.Add("user_id", model.user_id);
                 cookie.Values.Add("company", HttpUtility.UrlEncode(userinfo.company));
                 cookie.Values.Add("company_en", HttpUtility.UrlEncode(userinfo.company_en));

@@ -178,4 +178,34 @@ namespace prj_BIZ_System.Models
         public SalesInfoModel salesInfo { get; set; }
         public IList<SalesInfoModel> salesInfoList { get; set; }
     }
+
+
+    public class SalesPermission_ViewModel
+    {
+        //Read
+        public string company { get; set; }         //企業資料庫權限
+        public string video { get; set; }           //影音型錄權限
+        public string sales { get; set; }           //業務管理權限
+        public string message { get; set; }         //訊息管理權限
+
+        public List<SalesInfoModel> unCompanySalesList { get; set; }         //企業資料庫權限不可共同管理成員
+        public List<SalesInfoModel> unVideoSalesList { get; set; }           //影音型錄權限不可共同管理成員
+        public List<SalesInfoModel> unSalesSalesList { get; set; }           //業務管理權限不可共同管理成員
+        public List<SalesInfoModel> unMessageSalesList { get; set; }         //訊息管理權限不可共同管理成員
+
+        public List<SalesInfoModel> companySalesList { get; set; }         //企業資料庫權限可共同管理成員
+        public List<SalesInfoModel> videoSalesList { get; set; }           //影音型錄權限可共同管理成員
+        public List<SalesInfoModel> salesSalesList { get; set; }           //業務管理權限可共同管理成員
+        public List<SalesInfoModel> messageSalesList { get; set; }         //訊息管理權限可共同管理成員
+
+        //Write
+        public List<string> unCompanySalesIds { get; set; }
+        public List<string> companySalesIds { get; set; }
+        public List<string> unVideoSalesIds { get; set; }
+        public List<string> videoSalesIds { get; set; }
+        public List<string> unSalesSalesIds { get; set; }
+        public List<string> salesSalesIds { get; set; }
+        public List<string> unMessageSalesIds { get; set; }
+        public List<string> messageSalesIds { get; set; }
+    }
 }
