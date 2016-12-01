@@ -287,6 +287,22 @@ namespace prj_BIZ_System.Controllers
 
         }
 
+        public ActionResult NewsViewForAppByLocale(string nvkey, string locale)
+        {
+            string code = "BizNewsContent" + DateTime.Now.ToString("yyyyMMdd");
+            if (!SecurityHelper.Encrypt256(code).Equals(nvkey, StringComparison.CurrentCultureIgnoreCase))
+            {
+                return Content("很抱歉!您沒有觀看這則新聞的權限");
+            }
+            else
+            {
+                ViewBag.locale = locale;
+                doNewsView();
+                return View(indexModel);
+            }
+
+        }
+
         public ActionResult Logout()
         {
 

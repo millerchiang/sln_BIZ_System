@@ -221,7 +221,7 @@ namespace prj_BIZ_System.Services
                 msg_member_arr = msg_member_arr.Select(msg_member => msg_member.Trim()).ToArray();
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 //msg_member_set.Add(msgMd.creater_id);
-                if (!string.IsNullOrEmpty(msgMd.user_id)) {
+                if (!string.IsNullOrEmpty(msgMd.user_id) && !"0".Equals(msgMd.user_id)) {
                     List<SalesInfoModel> temp_result = new List<SalesInfoModel>();
                     foreach (string user_ids in msg_member_set)
                     {
@@ -308,7 +308,7 @@ namespace prj_BIZ_System.Services
                 ISet<string> msg_member_set = new HashSet<string>(msg_member_arr);
                 msg_member_set.Add(msgMd.creater_id);
 
-                if (!string.IsNullOrEmpty(msgMd.user_id))
+                if (!string.IsNullOrEmpty(msgMd.user_id) && !"0".Equals(msgMd.user_id))
                 {
                     List<SalesInfoModel> temp_result = new List<SalesInfoModel>();
                     foreach (string user_ids in msg_member_set)

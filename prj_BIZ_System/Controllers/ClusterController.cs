@@ -15,11 +15,13 @@ namespace prj_BIZ_System.Controllers
     {
         public ClusterService clusterService;
         public Cluster_ViewModel clusterViewModel;
+        public SalesService salesService;
 
         public ClusterController()
         {
             clusterService = new ClusterService();
             clusterViewModel = new Cluster_ViewModel();
+            salesService = new SalesService();
         }
 
         public ActionResult ClusterList()
@@ -412,6 +414,38 @@ namespace prj_BIZ_System.Controllers
             return Redirect("Cluster_Members?cluster_no=" + clusterNo);
         }
 
+        public ActionResult EditClusterLimit(string no, string set, string[] s2)
+        {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            int clusterNo = int.Parse(no);
+
+            string limit = "";
+            if (set=="1")
+            {
+                limit = "all";
+            }
+            else if (set == "2")
+            {
+                if (s2 != null)
+                {
+                    for (int i = 0; i < s2.Count(); i++)
+                    {
+                        limit = s2[i] + "," + limit;
+                    }
+                    limit = "," + limit;
+                }
+            }
+            ClusterMemberModel membermodel = new ClusterMemberModel();
+            membermodel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            membermodel.cluster_no = clusterNo;
+            membermodel.limit = limit;
+            clusterService.ClusterLimitUpdateOne(membermodel);
+            return Redirect("Cluster_Sales?cluster_no=" + clusterNo);
+        }
+
+
         public ActionResult _ClusterMenuPartial()
         {
             return PartialView();
@@ -434,6 +468,43 @@ namespace prj_BIZ_System.Controllers
             //            ViewBag.PageType = "Edit";
             return View(clusterViewModel);
 
+        }
+
+        public ActionResult Cluster_Sales()
+        {
+            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
+                return Redirect("~/Home/Index");
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            docookie("_menu", "Cluster_Sales");
+
+            clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+            //clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));
+            clusterViewModel.clusterMember = clusterService.GetClusterMember(int.Parse(Request["cluster_no"]), user_id);
+            clusterViewModel.salesList=salesService.SelectSalesInfos(user_id);
+            string limit = clusterViewModel.clusterMember.limit;
+            
+
+            foreach (SalesInfoModel si in clusterViewModel.salesList)
+            {
+                if (limit == null)
+                    si.limit = "1";
+                else if (limit == "all")
+                    si.limit = "2";
+                else
+                {
+                    string s = "," + si.sales_id + ",";
+                    if (limit.IndexOf(s) >= 0)
+                        si.limit = "2";
+                    else
+                        si.limit = "1";
+                }
+            }
+
+            docookie("cluster_no", Request["cluster_no"]);
+            docookie("cluster_name", HttpUtility.UrlEncode(clusterViewModel.clusterInfo.cluster_name));
+
+            return View(clusterViewModel);
         }
 
     }

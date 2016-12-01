@@ -1,0 +1,172 @@
+﻿
+@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Cluster_ViewModel
+@{
+    ViewBag.Title = "Cluster_Sales";
+}
+
+@section pagestyle{
+    <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
+}
+
+@Styles.Render("~/Content/jqueryUI")
+    <div class="article_col1">
+        @{
+            Html.RenderAction("_ClusterMenuPartial", "Cluster");
+
+            var option1 = "";
+            var option2 = "";
+            var option3 = "";
+            var dd="";
+            if (Model.clusterMember.limit == null || Model.clusterMember.limit == "")
+            {
+                option1 = "checked";
+                dd = "disabled";
+            }
+            else if (Model.clusterMember.limit != null && Model.clusterMember.limit == "all")
+            {
+                option2 = "checked";
+                dd = "disabled";
+            }
+            else
+            {
+                option3 = "checked";
+                dd = "";
+            }
+        }
+
+        <article class="article_col2">
+            <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
+            <div class="form_box">
+                <h2>業務權限設定</h2>
+                <form id="form" class="" action="@Url.Action("EditClusterLimit", "Cluster")" method="post">
+                    <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
+                    <p>
+                        本產業聚落的所有功能，是否可與貴公司的業務會員共同管理? <br /> <br />
+                        <input type="radio" name="set" class="radioinput" value="0" id="set01" @option1>
+                        <label for="set01">僅限企業會員管理</label> <br /> <br />
+                        <input type="radio" name="set" class="radioinput" value="1" id="set02" @option2>
+                        <label for="set02">提供所有業務會員共同管理</label> <br /> <br />
+                        <input type="radio" name="set" class="radioinput" value="2" id="set03" @option3>
+                        <label for="set03">提供部份業務會員共同管理</label>
+                    </p>
+                    <table class="multipletable" id="selcttable">
+                        <tr>
+                            <td>
+                                <div class="form_box">
+                                    <h2>不可共同管理</h2>
+                                    <select name="s1" size="5" multiple="multiple" @dd data-myid="set">
+                                    @if (Model.salesList != null)
+                                    {
+                                        foreach (SalesInfoModel md in Model.salesList)
+                                        {
+                                            if (md.limit == "1")
+                                            {
+                                            <option value="@md.sales_id">@md.sales_name</option>
+                                            }
+                                        }
+                                    }
+                                    </select>
+                                </div>
+                            </td>
+                            <td style="width: 120px;text-align:center">
+                                <input type="button" name="right" value=">" /><br /><br />
+                                <input type="button" name="left" value="<" /><br /><br />
+                                <input type="button" name="rightAll" value=">>" /><br /><br />
+                                <input type="button" name="leftAll" value="<<" />
+                            </td>
+                            <td>
+                                <div class="form_box">
+                                    <h2>可共同管理</h2>
+                                    <select name="s2" id ="s2" size="5" multiple="multiple" @dd data-myid="set">
+                                        @if (Model.salesList != null)
+                                        {
+                                            foreach (SalesInfoModel md in Model.salesList)
+                                            {
+                                                if (md.limit == "2")
+                                                {
+                                                <option value="@md.sales_id">@md.sales_name</option>
+                                                }
+                                            }
+                                        }
+
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="centerbox">
+                        <br />
+                        <button type="submit" class="buinfor">確定送出</button>
+                    </div>
+
+                </form>
+            </div>
+        </article>
+    </div>
+
+<script>
+		$(document).ready(function() {
+		 		 var move = function(s1,s2,selector){
+					var ops = s1.find(selector);
+			        s2.append(ops.clone());
+			        ops.remove();
+				}
+
+				  $('input[type=button]').on('click', function() {
+			    	var selectes = $(this).closest('tr').find('select');
+					var left = $(selectes[0]), right = $(selectes[1]);
+			        var name = 	$(this).attr('name');
+		        	if(left.attr('disabled') != 'disabled'){
+				        if(name=='right'){
+				        	move(left,right,'option:selected');
+				        }else if(name=='left'){
+				        	move(right,left,'option:selected');
+				        }else if(name == 'rightAll'){
+				        	move(left,right,'option');
+				        }else if(name == 'leftAll'){
+				        	move(right,left,'option');
+				        };
+		   			}
+			    });
+
+		    var setnoChecked = function(){
+				var selectid = $(this).attr('name'),n = $(this).index();
+				if(n==10){
+			 	 	$('select[data-myid='+selectid+']').attr('disabled', false);
+			 	}
+			 	else{
+			 		$('select[data-myid='+selectid+']').attr('disabled', true);
+			 	}
+			};
+			$("input[type='radio']").on("click",setnoChecked);
+
+		});
+
+		$("#form").submit(function () {
+		    var set = $("input[name='set']:checked").val();
+
+		    if (set == '2')
+		    {
+                if ($('#s2 option').length == 0)
+                {
+                    alert("請選取業務會員!!");
+                    return false;
+                }else
+                {
+                    //for (i = 0; i < $('#s2 option').length; i++)
+                    //{
+                    //    //$('#s2 option').eq(i).attr('selected', '');
+                    //    $('#s2 option').eq(i).select();
+                    //}
+//                    $('#s2 option').removeAttr('selected');
+                    $('#s2 option').attr('selected', '');
+//                    alert("kkk");
+                }
+            }
+//            return false;
+		});
+
+
+</script>

@@ -1,0 +1,46 @@
+﻿@using prj_BIZ_System.Models
+@model prj_BIZ_System.Models.Index_ViewModel
+
+@{
+    ViewBag.Title = "NewsView";
+}
+@*@section pagestyle{
+        <link href="~/stylesheets/news.css" rel="stylesheet" />
+    }*@
+@{
+    Layout = null;
+}
+
+<html data-livestyle-extension="available">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="~/stylesheets/app.css">
+</head>
+<body>
+
+    <div class="article_col1">
+        <article class="article_col2">
+            <h2 class="borderTitle">@Model.news.news_title</h2>
+            <p class="news_content">
+                @((ViewBag.locale == "en" ? "Date:" : "發布日期:") + Model.news.news_date.ToString("yyyy/MM/dd HH:mm"))<br />
+                @Html.Raw(@Model.news.content)
+                <br />
+                @if (Model.news.news_type == "1")
+                {
+                    <h>@(ViewBag.locale == "en" ? "Link:" : "相關資訊連結:")</h><a href="@Model.news.website" target="_block" class="linkb">@Model.news.website</a>
+                }
+                else
+                {
+                    @*
+                    <div class="centerbox">
+                        <a href="~/Activity/ActivityInfo?Id=@Model.news.activity_id" class="submitbuRed">報名資訊</a>
+                        <a href="~/Activity/BuyerInfoActivity?Id=@Model.news.activity_id" class="buinfor">買主資訊</a>
+                    </div>
+                    *@
+                }
+            </p>
+        </article>
+    </div>
+</body>
+</html>
