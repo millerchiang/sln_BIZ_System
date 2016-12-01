@@ -19,11 +19,18 @@
 
         <div id="tabs">
             <ul>
+            @if (Request.Cookies["SalesInfo"] == null || Request.Cookies["SalesInfo"]["sales_id"] == null)
+            {
                 <li><a href="ClusterListContent?list=4">已加入聚落</a></li>
                 <li><a href="ClusterListContent?list=5">受邀請聚落</a></li>
                 <li><a href="ClusterListContent?list=1">可申請聚落</a></li>
                 <li><a href="ClusterListContent?list=2">申請中聚落</a></li>
                 <li><a href="ClusterListContent?list=3">聚落審核</a></li>
+            }
+            else
+            {
+                <li><a href="ClusterListContent?list=6">已加入聚落</a></li>
+            }
             </ul>
         </div>
     </article>
@@ -39,4 +46,20 @@
     $(function () {
         $("#tabs").tabs();
     });
+
+    @if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
+    {
+            <text>
+            
+	        function check() {
+	            var errMsg = '@TempData["errMsg"]';
+	            if (errMsg != '') {
+	                alert(errMsg);
+                }
+            }
+        check();
+    </text>
+    }
+
+
 </script>

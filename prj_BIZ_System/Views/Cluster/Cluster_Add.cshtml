@@ -11,6 +11,29 @@
 }
 
 @Styles.Render("~/Content/jqueryUI")
+@{
+    var user_id = "";
+    var company = "";
+    var company_en = "";
+    if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+    {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+        company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+        company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+    }
+    else {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+        company = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company"]);
+        company_en = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company_en"]);
+    }
+    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+    {
+        if (company_en != null && company_en != "")
+        {
+            company = company_en;
+        }
+    }
+}
 
 @if (ViewBag.PageType == "Create")
 {
@@ -19,8 +42,9 @@
     Model.clusterInfo.enable = "0";
     Model.clusterInfo.is_public = "1";
     //    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["company"];
-    Model.clusterInfo.user_id = @Request.Cookies["UserInfo"]["user_id"];
+    Model.clusterInfo.user_id = user_id;
 }
+
 
 <div class="article_col1">
     <article class="article_col2">
@@ -72,50 +96,32 @@
                 <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
 
                 <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
-                <table class="article_col1" id="membertable">
+                <table class="membertable article_col1" id="membertable">
 
                     <tr>
                         <td>商家名稱</td>
-                        <td>編輯</td>
                     </tr>
-                    @{
-                        var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
-                        var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
-                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                        {
-                            if (company_en != null && company_en != "")
-                            {
-                                company = company_en;
-                            }
-                        }
-                    }
 
 
                     @if (ViewBag.PageType == "Edit")
                     {
-                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                        <tr id="grp_name_@user_id">
                             <td>
-                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
+                                <input type="hidden" name="id" value="@user_id">
 
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
-                            </td>
-                            <td>
-                                <div class="centerbox">
-                                    @*                                    <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@Request.Cookies["UserInfo"]["user_id"],@Request["cluster_no"])">退出</a>*@
-                                </div>
+                                <label>@user_id - @company</label>
                             </td>
                         </tr>
 
                     }
                     else {
 
-                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                        <tr id="grp_name_@user_id">
                             <td>
-                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <input type="hidden" name="user_id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
+                                <input type="hidden" name="id" value="@user_id">
+                                <input type="hidden" name="user_id" value="@user_id">
+                                <label>@user_id - @company</label>
                             </td>
-                            <td></td>
                         </tr>
                     }
 
@@ -123,34 +129,23 @@
                     {
                         foreach (ClusterMemberModel md in Model.clusterMemberList)
                         {
-                            if (md.user_id != Request.Cookies["UserInfo"]["user_id"])
+                            if (md.user_id != user_id)
                             {
                                 <tr id="grp_name_@md.user_id">
                                     <td>
                                         <input type="hidden" name="id" value="@md.user_id">
                                         <label>@md.user_id - @md.company</label>
-                                    </td>
-                                    <td>
 
-                                        <div class="centerbox">
                                             @if (md.cluster_enable == "2")
                                             {
-                                                <a href="javascript:void(0)" class="editbu tempeditbu" onclick="showDelete(@md.user_id,@md.cluster_no)">取消</a>
+                                                <a href="javascript:void(0)" class="removetag rightbox" onclick="showDelete(@md.user_id,@md.cluster_no)"></a>
                                             }
-                                        </div>
-
                                     </td>
+                                    
                                 </tr>
                             }
                         }
                     }
-
-
-                    @*<tr>
-                        <td>
-                        2、<input type="text" class="tags" placeholder="輸入帳號或公司名稱" required>
-                        </td>
-                        </tr>*@
                 </table>
 
                 <br />
@@ -231,9 +226,8 @@
         '<input type="hidden" name="id" value="' + user_id + '">' +
         '<input type="hidden" name="user_id" value="' + user_id + '">' +
         '<label">' + user_id + ' - ' + company + '</label>' +
-        '<td><div class="centerbox">' +
-        '<a href="javascript:void(0)" class="editbu tempeditbu" onclick="showCancel('+ user_id +')">取消</a>' +
-        '</div></td></tr>';
+        '<a href="javascript:void(0)" class="removetag rightbox" onclick="showCancel(' + user_id + ')"></a>' +
+        '</td></tr>';
         return template;
     }
     function hidebtn() {

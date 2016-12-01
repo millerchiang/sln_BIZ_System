@@ -205,7 +205,7 @@
     <value>回首頁</value>
   </data>
   <data name="lb_bizexploremisson" xml:space="preserve">
-    <value>拓銷會</value>
+    <value>會議/論壇</value>
   </data>
   <data name="lb_boss" xml:space="preserve">
     <value>代表人</value>
@@ -481,7 +481,7 @@
     <value>筆數 : </value>
   </data>
   <data name="lb_tradeshow" xml:space="preserve">
-    <value>商洽會</value>
+    <value>商洽/國際拓銷會</value>
   </data>
   <data name="lb_typethefield" xml:space="preserve">
     <value>請填寫這個欄位</value>
@@ -903,5 +903,8 @@
   </data>
   <data name="lb_reply_content" xml:space="preserve">
     <value>回覆內容</value>
+  </data>
+  <data name="lb_gov" xml:space="preserve">
+    <value>政府/公協會</value>
   </data>
 </root>

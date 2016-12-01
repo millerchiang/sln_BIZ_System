@@ -114,7 +114,30 @@
       and cluster_enable = #cluster_enable#
       and cm.user_id = #user_id#
     </select>
-
+    
+    <select id="ClusterListByIdAndClusterEnableForSales" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
+      SELECT ci.cluster_no,
+      cmen.cluster_members,
+      cmen.cluster_members_en,
+      cnen.company as creator_name,
+      cnen.company_en as creator_name_en,
+      ci.cluster_name,
+      ci.cluster_info,
+      ci.user_id,
+      ci.manager_id,
+      ci.enable,
+      ci.create_time as cict,
+      cm.create_time as cmct
+      FROM cluster_member as cm,
+      cluster_info as ci,
+      get_cluster_member_and_en_by_no_and_enable(ci.cluster_no,'1') as cmen,
+      get_company_and_en_by_user_id(ci.user_id) as cnen
+      where cm.cluster_no = ci.cluster_no
+      and cluster_enable = #cluster_enable#
+      and cm.user_id = #user_id#
+      and ci.enable = '1'
+    </select>
+    
     <select id="ClusterListByApply" resultMap="ClusterList-result" parameterClass="Cluster">
       select * from get_all_cluster_member_and_en_by_userid() 
       where cluster_members_id not 

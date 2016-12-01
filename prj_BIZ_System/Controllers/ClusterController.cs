@@ -24,9 +24,19 @@ namespace prj_BIZ_System.Controllers
             salesService = new SalesService();
         }
 
+        public string getuserid()
+        {
+            string user_id = "";
+            if (Request.Cookies["UserInfo"]!=null && Request.Cookies["UserInfo"]["user_id"]!=null)
+                user_id = Request.Cookies["UserInfo"]["user_id"];
+            else
+                user_id = Request.Cookies["SalesInfo"]["user_id"];
+            return user_id;
+        }
+
         public ActionResult ClusterList()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             docookie("_mainmenu", "ClusterList");
             return View();
@@ -34,9 +44,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ClusterListContent()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
 
             //            clusterViewModel.clusterList = clusterService.GetClusterList(user_id,"1").Pages(Request, this, 10);
             //            return View(clusterViewModel);
@@ -72,6 +82,12 @@ namespace prj_BIZ_System.Controllers
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
                 //------------------
             }
+            else if (Request["list"] == "6")
+            {
+                //------已加入已成立
+                clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnableForSales(user_id, "1").Pages(Request, this, 5);
+                //------------------
+            }
             return View(clusterViewModel);
         }
 
@@ -84,9 +100,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ClusterInvited()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
 
             clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
             return View(clusterViewModel);
@@ -123,7 +139,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Delete(string user_id, string cluster_no)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             ClusterMemberModel clusterMemberModel = new ClusterMemberModel();
             clusterMemberModel.cluster_no = int.Parse(cluster_no);
@@ -145,12 +161,12 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Status()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             ClusterMemberModel clusterMemberModel = new ClusterMemberModel();
             clusterMemberModel.cluster_no = int.Parse(Request["cluster_no"]);
             if (Request.QueryString["id"] == null || Request.QueryString["id"] == "")
-                clusterMemberModel.user_id = Request.Cookies["UserInfo"]["user_id"];
+                clusterMemberModel.user_id = getuserid();
             else
                 clusterMemberModel.user_id = Request.QueryString["id"];
 
@@ -167,9 +183,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Members()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
             clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
             clusterViewModel.clusterMemberList = clusterService.GetClusterMemberList(int.Parse(Request["cluster_no"]));
             ViewBag.PageType = "Edit";
@@ -181,7 +197,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DeleteFile(int cluster_file_no)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             clusterService.ClusterFileDeleteOne(cluster_file_no);
             return Redirect("Cluster_Files");
@@ -190,7 +206,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Files()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
@@ -208,7 +224,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DownloadFile(string filepath,string filename)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             return File(filepath + filename, "application/", filename);
@@ -217,7 +233,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_UploadFiles()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             docookie("_menu", "Cluster_Files");
             return View();
@@ -225,9 +241,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Add()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
             if (Request.QueryString["cluster_no"] != null)
             {
                 clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]),null,null);
@@ -246,9 +262,9 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Manager()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
             if (Request.QueryString["cluster_no"] != null)
             {
                 clusterViewModel.clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
@@ -261,7 +277,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditCluster(string no,string members, ClusterInfoModel model)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             int clusterNo = 0;
@@ -282,7 +298,7 @@ namespace prj_BIZ_System.Controllers
             {
                 string members1 = members.Substring(1);
                 string[] member = members1.Split(',');
-                string creatorId = Request.Cookies["UserInfo"]["user_id"];
+                string creatorId = getuserid();
                 for (int i=0;i<member.Count();i++)
                 {
                     ClusterMemberModel membermodel= new ClusterMemberModel();
@@ -315,7 +331,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditClusterManager(string no, ClusterInfoModel model)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             int clusterNo = 0;
@@ -330,7 +346,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult ClusterManagerOk()
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             ClusterInfoModel model = new ClusterInfoModel();
@@ -351,7 +367,7 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult FilesUpload(HttpPostedFileBase upexl)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
             TempData["errMsg"] = null;
             if (upexl != null)
@@ -373,7 +389,7 @@ namespace prj_BIZ_System.Controllers
                         {
                             ClusterFileModel filemodel = new ClusterFileModel();
                             filemodel.cluster_no = int.Parse(Request["cluster_no"]);
-                            filemodel.user_id = Request.Cookies["UserInfo"]["user_id"];
+                            filemodel.user_id = getuserid();
                             filemodel.cluster_file_site = upexl.FileName;
                             filemodel.deleted = "1";
                             filemodel.file_size = (Double)upexl.ContentLength / 1024.0;
@@ -392,7 +408,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditClusterMember(string no, string members)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             int clusterNo = int.Parse(no); 
@@ -401,7 +417,7 @@ namespace prj_BIZ_System.Controllers
             {
                 string members1 = members.Substring(1);
                 string[] member = members1.Split(',');
-                string creatorId = Request.Cookies["UserInfo"]["user_id"];
+                string creatorId = getuserid();
                 for (int i = 0; i < member.Count(); i++)
                 {
                     ClusterMemberModel membermodel = new ClusterMemberModel();
@@ -416,7 +432,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult EditClusterLimit(string no, string set, string[] s2)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
             int clusterNo = int.Parse(no);
@@ -438,7 +454,7 @@ namespace prj_BIZ_System.Controllers
                 }
             }
             ClusterMemberModel membermodel = new ClusterMemberModel();
-            membermodel.user_id = Request.Cookies["UserInfo"]["user_id"];
+            membermodel.user_id = getuserid();
             membermodel.cluster_no = clusterNo;
             membermodel.limit = limit;
             clusterService.ClusterLimitUpdateOne(membermodel);
@@ -453,9 +469,27 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Cluster_Detail()
         {
-            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"]==null)
+            TempData["errMsg"] = null;
+            if ((Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null) || Request["cluster_no"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
+
+            if (Request.Cookies["UserInfo"] == null)
+            {
+                clusterViewModel.clusterMember = clusterService.GetClusterMember(int.Parse(Request["cluster_no"]), user_id);
+                string limit = clusterViewModel.clusterMember.limit;
+                if (limit == null || limit == "")
+                {
+                    TempData["errMsg"] = "你的業務權限無法進入該部落!!";
+                    return Redirect("ClusterList");
+                }
+                string sales_id = "," + Request.Cookies["SalesInfo"]["sales_id"] + ",";
+                if (limit != "all" && limit.IndexOf(sales_id) < 0)
+                {
+                    TempData["errMsg"] = "你的業務權限無法進入該部落!!";
+                    return Redirect("ClusterList");
+                }
+            }
 
             docookie("_menu", "Cluster_Detail");
 
@@ -474,7 +508,7 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string user_id = getuserid();
 
             docookie("_menu", "Cluster_Sales");
 
