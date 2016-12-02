@@ -32,7 +32,7 @@
 
     <update id="UpdateSalesPermissions" parameterClass="SalesInfoModel">
       UPDATE sales.sales_info
-      set limit = #limit#
+      set "limit" = #limit#
       WHERE sales_id = #sales_id#
     </update>
     <!--

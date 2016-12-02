@@ -1,4 +1,5 @@
 ﻿using prj_BIZ_System.App_Start;
+using prj_BIZ_System.Extensions;
 using prj_BIZ_System.Models;
 using prj_BIZ_System.Services;
 using System;
@@ -240,6 +241,8 @@ namespace prj_BIZ_System.Controllers
                     default: salesPermissionViewModel.unMessageSalesList.Add(sm); break;
                 }
             });
+
+            //轉換狀態值
             int total_sales = sales.Count;
 
             if (salesPermissionViewModel.companySalesList.Count == 0)
@@ -304,16 +307,78 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("~/Home/Index");
 
             string user_id = Request.Cookies["UserInfo"]["user_id"];
-            /*
-            bool isUpdateSuccess = salesService.UpdateSalesPermissions(model);
-            TempData["salesUpdateResult"] = isUpdateSuccess ? "修改成功" : "修改失敗";
-            */
-            IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
             JavaScriptSerializer jsonParser = new JavaScriptSerializer();
-            Dictionary<string, string> limitDicts = new Dictionary<string, string>();
-            limitDicts.Add("company","");
 
-            var tuple = Tuple.Create<string, Dictionary<string, string>>("",new Dictionary<string, string>());
+            IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
+            Dictionary<string, Dictionary<string, string>> limitDicts = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (var sm in sales)
+            {
+                limitDicts.Add(sm.sales_id ,  jsonParser.Deserialize<Dictionary<string, string>>(sm.limit));
+            }
+            
+            switch (salesPermissionViewModel.company)
+            {
+                case "0":
+                    sales.ForEach(sm => limitDicts[sm.sales_id]["company"] = "0");
+                    break;
+                case "1":
+                    sales.ForEach(sm => limitDicts[sm.sales_id]["company"] = "1");
+                    break;
+                case "2":
+                    salesPermissionViewModel.companySalesIds.ForEach(sm => limitDicts[sm]["company"] = "1");
+                    salesPermissionViewModel.unCompanySalesIds.ForEach(sm =>limitDicts[sm]["company"] = "0" );
+                    break;
+            }
+
+            switch (salesPermissionViewModel.video)
+            {
+                case "0":
+                    sales.ForEach(sm =>limitDicts[sm.sales_id]["video"] = "0");
+                    break;
+                case "1":
+                    sales.ForEach(sm =>limitDicts[sm.sales_id]["video"] = "1");
+                    break;
+                case "2":
+                    salesPermissionViewModel.videoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "1");
+                    salesPermissionViewModel.unVideoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "0");
+                    break;
+            }
+
+            switch (salesPermissionViewModel.sales)
+            {
+                case "0":
+                    sales.ForEach(sm =>limitDicts[sm.sales_id]["sales"] = "0");
+                    break;
+                case "1":
+                    sales.ForEach(sm =>limitDicts[sm.sales_id]["sales"] = "1");
+                    break;
+                case "2":
+                    salesPermissionViewModel.salesSalesIds.ForEach(sm =>limitDicts[sm]["sales"] = "1");
+                    salesPermissionViewModel.unSalesSalesIds.ForEach(sm =>limitDicts[sm]["sales"] = "0");
+                    break;
+            }
+
+            switch (salesPermissionViewModel.message)
+            {
+                case "0":
+                    sales.ForEach(sm => limitDicts[sm.sales_id]["message"] = "0" );
+                    break;
+                case "1":
+                    sales.ForEach(sm => limitDicts[sm.sales_id]["message"] = "1" );
+                    break;
+                case "2":
+                    salesPermissionViewModel.messageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "1");
+                    salesPermissionViewModel.unMessageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "0");
+                    break;
+            }
+
+            foreach (KeyValuePair<string,Dictionary<string,string>> kvp in limitDicts) {
+                salesService.UpdateSalesPermissions(kvp.Key, kvp.Value);
+            }
+            
+            TempData["salesUpdatePermissionResult"] =  "修改成功" ;
+
             return Redirect("Permissions");
         }
 
