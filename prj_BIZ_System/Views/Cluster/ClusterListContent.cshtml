@@ -39,7 +39,7 @@
                         {
                             <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="panelSubmitBu">退出聚落</a>
                         }
-                        else if (user_id == newInfo.user_id)
+                        else if (user_id == newInfo.user_id && Request["list"] != "6")
                         {
                             <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="panelSubmitBu">更換管理者</a>
                         }
@@ -54,7 +54,7 @@
                         <label for="" class="regis_col02L">管理者
                         </label>
                         <span class="regis_col02R contentspan">@newInfo.creator_name
-                        @if (user_id == newInfo.manager_id)
+                        @if (user_id == newInfo.manager_id && Request["list"] != "6")
                         {
                             <label class="fontRed">傳來要求成為管理者</label>
                             <a href="ClusterManagerOk?cluster_no=@newInfo.cluster_no&id=@user_id" class="deleteSbu">接受</a>
