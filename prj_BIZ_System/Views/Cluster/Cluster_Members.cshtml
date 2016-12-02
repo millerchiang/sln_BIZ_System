@@ -106,7 +106,7 @@
                     <div class="form_box regis_dmlist">
                         <div class="regis_col02L">新增邀請</div>
                         <div class="regis_col02R">
-                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
                             <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                         </div>
                         <div class="regis_col02L" id="newmemberlabel"></div>
@@ -192,8 +192,14 @@
         '</tr>';
         return template;
     }
-    function hidebtn() {
-        $("#addgroup").hide();
+    function hidebtn(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+        else {
+            $('#addgroup').hide();
+            return true;
+        }
     }
 
     function showCancel(id) {

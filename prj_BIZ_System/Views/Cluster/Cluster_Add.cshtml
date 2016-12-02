@@ -93,7 +93,7 @@
             <label for="" class="regis_col02L spanRed">聚落商家</label>
             <div class="regis_col02R">
 
-                <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
 
                 <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                 <table class="membertable article_col1" id="membertable">
@@ -205,19 +205,12 @@
             });
         })
 
-    $(function () {
-        init();
+    $('#addgroup').on('click', function (e) {
+        $('#membertable').append(genTemplate());
+        //            g_no++;
+        $('#insert_id_cp').val('');
+        $('#addgroup').hide();
     });
-    function init() {
-
-        var $addgroup = $("#addgroup");
-        $addgroup.click(function (e) {
-            $("#membertable").append(genTemplate());
-//            g_no++;
-            $("#insert_id_cp").val("");
-            $("#addgroup").hide();
-        });
-    }
 
     function genTemplate() {
         var template =
@@ -230,8 +223,15 @@
         '</td></tr>';
         return template;
     }
-    function hidebtn() {
-        $("#addgroup").hide();
+    function hidebtn(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+        else
+        {
+            $('#addgroup').hide();
+            return true;
+        }
     }
 
     function showCancel(id) {
@@ -326,22 +326,22 @@
                     var Huser = result;
                     if (Huser == true) {
                         if (confirm("該廠商曾在該聚落,是否重新邀請?")) {
-                            $("#addgroup").show();
+                            $('#addgroup').show();
                         } else {
-                            $("#addgroup").hide();
+                            $('#addgroup').hide();
                         }
                     }
                     else {
-                        $("#addgroup").show();
+                        $('#addgroup').show();
                     }
                 } else {
-                    $("#addgroup").show();
+                    $('#addgroup').show();
                 }
             });
         }
         else
         {
-            $("#addgroup").show();
+            $('#addgroup').show();
         }
     }
 
