@@ -431,7 +431,7 @@ Any further question, please contact adminstrator.</value>
     <value>Register Info</value>
   </data>
   <data name="lb_sales_idlist" xml:space="preserve">
-    <value>Sales ID List</value>
+    <value>Sales ID Management</value>
   </data>
   <data name="lb_save" xml:space="preserve">
     <value>Save</value>

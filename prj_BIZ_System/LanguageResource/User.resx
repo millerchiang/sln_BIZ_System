@@ -436,7 +436,7 @@
     <value>報名資料</value>
   </data>
   <data name="lb_sales_idlist" xml:space="preserve">
-    <value>業務帳號列表</value>
+    <value>業務帳號管理</value>
   </data>
   <data name="lb_save" xml:space="preserve">
     <value>儲存</value>

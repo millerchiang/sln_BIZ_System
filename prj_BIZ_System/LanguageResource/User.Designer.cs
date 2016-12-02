@@ -1978,7 +1978,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 業務帳號列表 的當地語系化字串。
+        ///   查詢類似 業務帳號管理 的當地語系化字串。
         /// </summary>
         public static string lb_sales_idlist {
             get {

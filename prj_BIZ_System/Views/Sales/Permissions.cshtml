@@ -35,7 +35,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>不可共同管理</h2>
-                                <select name="unCompanySalesIds" size="5" multiple="multiple" @("2".Equals(Model.company) ? "" : "disabled") data-myid="company">
+                                <select name="unCompanySalesIds" id="s1" size="5" multiple="multiple" @("2".Equals(Model.company) ? "" : "disabled") data-myid="company">
                                     @foreach (SalesInfoModel sm in Model.unCompanySalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -52,7 +52,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>可共同管理</h2>
-                                <select name="companySalesIds" size="5" multiple="multiple" @("2".Equals(Model.company) ? "" : "disabled") data-myid="company">
+                                <select name="companySalesIds" id="s2" size="5" multiple="multiple" @("2".Equals(Model.company) ? "" : "disabled") data-myid="company">
                                     @foreach (SalesInfoModel sm in Model.companySalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -83,7 +83,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>不可共同管理</h2>
-                                <select name="unVideoSalesIds" size="5" multiple="multiple" @("2".Equals(Model.video) ? "" : "disabled") data-myid="video">
+                                <select name="unVideoSalesIds" id="s3" size="5" multiple="multiple" @("2".Equals(Model.video) ? "" : "disabled") data-myid="video">
                                     @foreach (SalesInfoModel sm in Model.unVideoSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -100,7 +100,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>可共同管理</h2>
-                                <select name="videoSalesIds" size="5" multiple="multiple" @("2".Equals(Model.video) ? "" : "disabled") data-myid="video">
+                                <select name="videoSalesIds" id="s4" size="5" multiple="multiple" @("2".Equals(Model.video) ? "" : "disabled") data-myid="video">
                                     @foreach (SalesInfoModel sm in Model.videoSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -131,7 +131,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>不可共同管理</h2>
-                                <select name="unSalesSalesIds" size="5" multiple="multiple" @("2".Equals(Model.sales) ? "" : "disabled") data-myid="sales">
+                                <select name="unSalesSalesIds" id="s5" size="5" multiple="multiple" @("2".Equals(Model.sales) ? "" : "disabled") data-myid="sales">
                                     @foreach (SalesInfoModel sm in Model.unSalesSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -148,7 +148,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>可共同管理</h2>
-                                <select name="salesSalesIds" size="5" multiple="multiple" @("2".Equals(Model.sales) ? "" : "disabled") data-myid="sales">
+                                <select name="salesSalesIds" id="s6" size="5" multiple="multiple" @("2".Equals(Model.sales) ? "" : "disabled") data-myid="sales">
                                     @foreach (SalesInfoModel sm in Model.salesSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -179,7 +179,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>不可共同管理</h2>
-                                <select name="unMessageSalesIds" size="5" multiple="multiple" @("2".Equals(Model.message) ? "" : "disabled") data-myid="message">
+                                <select name="unMessageSalesIds" id="s7" size="5" multiple="multiple" @("2".Equals(Model.message) ? "" : "disabled") data-myid="message">
                                     @foreach (SalesInfoModel sm in Model.unMessageSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -196,7 +196,7 @@
                         <td>
                             <div class="form_box">
                                 <h2>可共同管理</h2>
-                                <select name="messageSalesIds" size="5" multiple="multiple" @("2".Equals(Model.message) ? "" : "disabled") data-myid="message">
+                                <select name="messageSalesIds" id="s8" size="5" multiple="multiple" @("2".Equals(Model.message) ? "" : "disabled") data-myid="message">
                                     @foreach (SalesInfoModel sm in Model.messageSalesList)
                                     {
                                         <option value="@sm.sales_id">@sm.sales_name</option>
@@ -245,6 +245,59 @@
 				        };
 		   			}
 			    });
+
+				  $('#s1').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(left, right, 'option:selected');
+				  });
+				  $('#s2').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(right, left, 'option:selected');
+				  });
+
+				  $('#s3').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(left, right, 'option:selected');
+				  });
+				  $('#s4').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(right, left, 'option:selected');
+				  });
+
+
+				  $('#s5').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(left, right, 'option:selected');
+				  });
+				  $('#s6').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(right, left, 'option:selected');
+				  });
+
+				  $('#s7').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(left, right, 'option:selected');
+				  });
+				  $('#s8').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(right, left, 'option:selected');
+				  });
 
 		    var setnoChecked = function(){
 		        var selectid = $(this).attr('name'), n = $(this).index();
