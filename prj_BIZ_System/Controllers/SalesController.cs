@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -15,18 +16,16 @@ namespace prj_BIZ_System.Controllers
     public class SalesController : _BaseController
     {
         public SalesService salesService;
-        public Sales_ViewModel salesModel;
 
         public PasswordService passwordService;
         public Password_ViewModel passwordViewModel;
 
         public Sales_ViewModel salesViewModel;
-
+        public SalesPermission_ViewModel salesPermissionViewModel;
         public SalesController()
         {
             salesService = new SalesService();
-            salesModel = new Sales_ViewModel();
-
+            salesPermissionViewModel = new SalesPermission_ViewModel();
             passwordService = new PasswordService();
             passwordViewModel = new Password_ViewModel();
 
@@ -172,7 +171,22 @@ namespace prj_BIZ_System.Controllers
             //}
             if (isUpdateSuccess) {
                 Request.Cookies["SalesInfo"]["sales_name"] = model.sales_name;
-                var name = Request.Cookies["SalesInfo"]["sales_name"];
+                Request.Cookies["SalesInfo"].Expires = DateTime.Now.AddMinutes(-1);
+
+                var cookie = new HttpCookie("SalesInfo");
+                cookie.Values.Add("id_enable", Request.Cookies["SalesInfo"]["id_enable"]);
+                cookie.Values.Add("sales_id", Request.Cookies["SalesInfo"]["sales_id"]);
+                cookie.Values.Add("sales_name", HttpUtility.UrlEncode(model.sales_name));
+                cookie.Values.Add("limit_of_company", Request.Cookies["SalesInfo"]["limit_of_company"]);
+                cookie.Values.Add("limit_of_video", Request.Cookies["SalesInfo"]["limit_of_video"]);
+                cookie.Values.Add("limit_of_sales", Request.Cookies["SalesInfo"]["limit_of_sales"]);
+                cookie.Values.Add("limit_of_message", Request.Cookies["SalesInfo"]["limit_of_message"]);
+                cookie.Values.Add("phone", model.phone);
+                cookie.Values.Add("email", model.email);
+                cookie.Values.Add("user_id", Request.Cookies["SalesInfo"]["user_id"]);
+                cookie.Values.Add("company", Request.Cookies["SalesInfo"]["company"]);
+                cookie.Values.Add("company_en", Request.Cookies["SalesInfo"]["company_en"]);
+                Response.AppendCookie(cookie);
             }
 
             return Redirect("SalesInfoBySales");
@@ -188,17 +202,118 @@ namespace prj_BIZ_System.Controllers
 
             string user_id = Request.Cookies["UserInfo"]["user_id"];
 
+
+            salesPermissionViewModel.companySalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.videoSalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.salesSalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.messageSalesList = new List<SalesInfoModel>();
+
+            salesPermissionViewModel.unCompanySalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.unVideoSalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.unSalesSalesList = new List<SalesInfoModel>();
+            salesPermissionViewModel.unMessageSalesList = new List<SalesInfoModel>();
+
             IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
-            return View(salesViewModel);
+            JavaScriptSerializer jsonParser = new JavaScriptSerializer();
+            Dictionary<string, string> limitDict = new Dictionary<string, string>();
+            
+            ((List<SalesInfoModel>)sales).ForEach(sm => {
+                limitDict = jsonParser.Deserialize<Dictionary<string, string>>(sm.limit);
+                switch (limitDict["company"])
+                {
+                    case "1": salesPermissionViewModel.companySalesList.Add(sm); break;
+                    default : salesPermissionViewModel.unCompanySalesList.Add(sm); break;
+                }
+                switch (limitDict["video"])
+                {
+                    case "1": salesPermissionViewModel.videoSalesList.Add(sm); break;
+                    default: salesPermissionViewModel.unVideoSalesList.Add(sm); break;
+                }
+                switch (limitDict["sales"])
+                {
+                    case "1": salesPermissionViewModel.salesSalesList.Add(sm); break;
+                    default: salesPermissionViewModel.unSalesSalesList.Add(sm); break;
+                }
+                switch (limitDict["message"])
+                {
+                    case "1": salesPermissionViewModel.messageSalesList.Add(sm); break;
+                    default: salesPermissionViewModel.unMessageSalesList.Add(sm); break;
+                }
+            });
+            int total_sales = sales.Count;
+
+            if (salesPermissionViewModel.companySalesList.Count == 0)
+            {
+                salesPermissionViewModel.company = "0";
+            }
+            else if (salesPermissionViewModel.companySalesList.Count == total_sales)
+            {
+                salesPermissionViewModel.company = "1";
+            }
+            else
+            {
+                salesPermissionViewModel.company = "2";
+            }
+
+            if (salesPermissionViewModel.videoSalesList.Count == 0)
+            {
+                salesPermissionViewModel.video = "0";
+            }
+            else if (salesPermissionViewModel.videoSalesList.Count == total_sales)
+            {
+                salesPermissionViewModel.video = "1";
+            }
+            else
+            {
+                salesPermissionViewModel.video = "2";
+            }
+
+            if (salesPermissionViewModel.salesSalesList.Count == 0)
+            {
+                salesPermissionViewModel.sales = "0";
+            }
+            else if (salesPermissionViewModel.salesSalesList.Count == total_sales)
+            {
+                salesPermissionViewModel.sales = "1";
+            }
+            else
+            {
+                salesPermissionViewModel.sales = "2";
+            }
+
+            if (salesPermissionViewModel.messageSalesList.Count == 0)
+            {
+                salesPermissionViewModel.message = "0";
+            }
+            else if (salesPermissionViewModel.messageSalesList.Count == total_sales)
+            {
+                salesPermissionViewModel.message = "1";
+            }
+            else
+            {
+                salesPermissionViewModel.message = "2";
+            }
+
+            return View(salesPermissionViewModel);
         }
 
         [HttpPost]
-        public ActionResult doUpdatePermissions()
+        public ActionResult doUpdatePermissions(SalesPermission_ViewModel salesPermissionViewModel)
         {
+            if (Request.Cookies["UserInfo"] == null)
+                return Redirect("~/Home/Index");
+
+            string user_id = Request.Cookies["UserInfo"]["user_id"];
             /*
             bool isUpdateSuccess = salesService.UpdateSalesPermissions(model);
             TempData["salesUpdateResult"] = isUpdateSuccess ? "修改成功" : "修改失敗";
-            */        
+            */
+            IList<SalesInfoModel> sales = salesService.SelectSalesInfos(user_id);
+            JavaScriptSerializer jsonParser = new JavaScriptSerializer();
+            Dictionary<string, string> limitDicts = new Dictionary<string, string>();
+            limitDicts.Add("company","");
+
+            var tuple = Tuple.Create<string, Dictionary<string, string>>("",new Dictionary<string, string>());
             return Redirect("Permissions");
         }
 

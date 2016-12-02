@@ -13,209 +13,206 @@
 
 <div class="article_col1">
     <h2 class="borderTitle2">帳號權限設定</h2>
-    <div id="accordion">
-        <!---->
-        <h3>
-            企業資料庫 <br />
-            <span class="groupmember">是否可與貴公司的業會員共同管理</span>
-        </h3>
-        <div>
-            <p>
+    <form id="form" action="@Url.Action("doUpdatePermissions","Sales")" method="post">
+        <div id="accordion">
+            <!---->
+            <h3>
+                企業資料庫 <br />
+                <span class="groupmember">是否可與貴公司的業會員共同管理</span>
+            </h3>
+            <div>
+                <p>
 
-                <input type="radio" name="set" class="radioinput" value="0" id="set01" checked>
-                <label for="set01">僅限企業會員管理</label> <br /> <br />
-                <input type="radio" name="set" class="radioinput" value="1" id="set02">
-                <label for="set02">提供所有業務會員共同管理</label> <br /> <br />
-                <input type="radio" name="set" class="radioinput" value="2" id="set03">
-                <label for="set03">提供部份業務會員共同管理</label>
-            </p>
-            <table class="multipletable" id="selcttable1">
-                <tr>
-                    <td>
-                        <div class="form_box">
-                            <h2>不可共同管理</h2>
-                            <select name="s1" size="5" multiple="multiple" disabled data-myid="set">
-                                <option value="業務員1">業務員1</option>
-                                <option value="業務員2">業務員2</option>
-                                <option value="業務員3">業務員3</option>
-                                <option value="業務員4">業務員4</option>
-                                <option value="業務員5">業務員5</option>
-                                <option value="業務員6">業務員6</option>
-                                <option value="業務員7">業務員7</option>
-                                <option value="業務員8">業務員8</option>
-                                <option value="業務員9">業務員9</option>
-                                <option value="業務員10">業務員10</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td style="width: 120px;text-align:center">
-                        <input type="button" name="right" value=">" /><br /><br />
-                        <input type="button" name="left" value="<" /><br /><br />
-                        <input type="button" name="rightAll" value=">>" /><br /><br />
-                        <input type="button" name="leftAll" value="<<" />
-                    </td>
-                    <td>
-                        <div class="form_box">
-                            <h2>可共同管理</h2>
-                            <select name="s2" size="5" multiple="multiple" disabled data-myid="set"></select>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                    <input type="radio" name="company" class="radioinput" value="0" id="company01" @("0".Equals(Model.company) ? "checked" : "")>
+                    <label for="company01">僅限企業會員管理</label> <br /> <br />
+                    <input type="radio" name="company" class="radioinput" value="1" id="company02" @("1".Equals(Model.company) ? "checked" : "")>
+                    <label for="company02">提供所有業務會員共同管理</label> <br /> <br />
+                    <input type="radio" name="company" class="radioinput" value="2" id="company03" @("2".Equals(Model.company) ? "checked" : "")>
+                    <label for="company03">提供部份業務會員共同管理</label>
+                </p>
+                <table class="multipletable" id="selcttable1">
+                    <tr>
+                        <td>
+                            <div class="form_box">
+                                <h2>不可共同管理</h2>
+                                <select name="unCompanySalesIds" size="5" multiple="multiple" disabled data-myid="company">
+                                    @foreach (SalesInfoModel sm in Model.unCompanySalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td style="width: 120px;text-align:center">
+                            <input type="button" name="right" value=">" /><br /><br />
+                            <input type="button" name="left" value="<" /><br /><br />
+                            <input type="button" name="rightAll" value=">>" /><br /><br />
+                            <input type="button" name="leftAll" value="<<" />
+                        </td>
+                        <td>
+                            <div class="form_box">
+                                <h2>可共同管理</h2>
+                                <select name="companySalesIds" size="5" multiple="multiple" disabled data-myid="company">
+                                    @foreach (SalesInfoModel sm in Model.companySalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!---->
+            <!---->
+            <h3>
+                影音型錄 <br />
+                <span class="groupmember">是否可與貴公司的業會員共同管理</span>
+            </h3>
+            <div>
+                <p>
+                    <input type="radio" name="video" class="radioinput" value="0" id="video04" @("0".Equals(Model.video) ? "checked" : "")>
+                    <label for="video04">僅限企業會員管理</label> <br /> <br />
+                    <input type="radio" name="video" class="radioinput" value="1" id="video05" @("1".Equals(Model.video) ? "checked" : "")>
+                    <label for="video05">提供所有業務會員共同管理</label> <br /> <br />
+                    <input type="radio" name="video" class="radioinput" value="2" id="video06" @("2".Equals(Model.video) ? "checked" : "")>
+                    <label for="video06">提供部份業務會員共同管理</label>
+                </p>
+                <table class="multipletable" id="selcttable2">
+                    <tr>
+                        <td>
+                            <div class="form_box">
+                                <h2>不可共同管理</h2>
+                                <select name="unVideoSalesIds" size="5" multiple="multiple" disabled data-myid="video">
+                                    @foreach (SalesInfoModel sm in Model.unVideoSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td style="width: 120px;text-align:center">
+                            <input type="button" name="right" value=">" /><br /><br />
+                            <input type="button" name="left" value="<" /><br /><br />
+                            <input type="button" name="rightAll" value=">>" /><br /><br />
+                            <input type="button" name="leftAll" value="<<" />
+                        </td>
+                        <td>
+                            <div class="form_box">
+                                <h2>可共同管理</h2>
+                                <select name="videoSalesIds" size="5" multiple="multiple" disabled data-myid="video">
+                                    @foreach (SalesInfoModel sm in Model.videoSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!---->
+            <!---->
+            <h3>
+                業務管理 <br />
+                <span class="groupmember">是否可與貴公司的業會員共同管理</span>
+            </h3>
+            <div>
+                <p>
+                    <input type="radio" name="sales" class="radioinput" value="0" id="sales07" @("0".Equals(Model.sales) ? "checked" : "")>
+                    <label for="sales07">僅限企業會員管理</label> <br /> <br />
+                    <input type="radio" name="sales" class="radioinput" value="1" id="sales08" @("1".Equals(Model.sales) ? "checked" : "")>
+                    <label for="sales08">提供所有業務會員共同管理</label> <br /> <br />
+                    <input type="radio" name="sales" class="radioinput" value="2" id="sales09" @("2".Equals(Model.sales) ? "checked" : "")>
+                    <label for="sales09">提供部份業務會員共同管理</label>
+                </p>
+                <table class="multipletable" id="selcttable2">
+                    <tr>
+                        <td>
+                            <div class="form_box">
+                                <h2>不可共同管理</h2>
+                                <select name="unSalesSalesIds" size="5" multiple="multiple" disabled data-myid="sales">
+                                    @foreach (SalesInfoModel sm in Model.unSalesSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td style="width: 120px;text-align:center">
+                            <input type="button" name="right" value=">" /><br /><br />
+                            <input type="button" name="left" value="<" /><br /><br />
+                            <input type="button" name="rightAll" value=">>" /><br /><br />
+                            <input type="button" name="leftAll" value="<<" />
+                        </td>
+                        <td>
+                            <div class="form_box">
+                                <h2>可共同管理</h2>
+                                <select name="salesSalesIds" size="5" multiple="multiple" disabled data-myid="sales">
+                                    @foreach (SalesInfoModel sm in Model.salesSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!---->
+            <!---->
+            <h3>
+                訊息管理 <br />
+                <span class="groupmember">是否可與貴公司的業會員共同管理</span>
+            </h3>
+            <div>
+                <p>
+                    <input type="radio" name="message" class="radioinput" value="0" id="message10" @("0".Equals(Model.message) ? "checked" : "")>
+                    <label for="message10">僅限企業會員管理</label> <br /> <br />
+                    <input type="radio" name="message" class="radioinput" value="1" id="message11" @("1".Equals(Model.message) ? "checked" : "")>
+                    <label for="message11">提供所有業務會員共同管理</label> <br /> <br />
+                    <input type="radio" name="message" class="radioinput" value="2" id="message12" @("2".Equals(Model.message) ? "checked" : "")>
+                    <label for="message12">提供部份業務會員共同管理</label>
+                </p>
+                <table class="multipletable" id="selcttable2">
+                    <tr>
+                        <td>
+                            <div class="form_box">
+                                <h2>不可共同管理</h2>
+                                <select name="unMessageSalesIds" size="5" multiple="multiple" disabled data-myid="message">
+                                    @foreach (SalesInfoModel sm in Model.unMessageSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td style="width: 120px;text-align:center">
+                            <input type="button" name="right" value=">" /><br /><br />
+                            <input type="button" name="left" value="<" /><br /><br />
+                            <input type="button" name="rightAll" value=">>" /><br /><br />
+                            <input type="button" name="leftAll" value="<<" />
+                        </td>
+                        <td>
+                            <div class="form_box">
+                                <h2>可共同管理</h2>
+                                <select name="messageSalesIds" size="5" multiple="multiple" disabled data-myid="message">
+                                    @foreach (SalesInfoModel sm in Model.messageSalesList)
+                                    {
+                                        <option value="@sm.sales_id">@sm.sales_name</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!---->
         </div>
-        <!---->
-        <!---->
-        <h3>
-            影音型錄 <br />
-            <span class="groupmember">是否可與貴公司的業會員共同管理</span>
-        </h3>
-        <div>
-            <p>
-                <input type="radio" name="set_movie" class="radioinput" value="0" id="set04" checked>
-                <label for="set04">僅限企業會員管理</label> <br /> <br />
-                <input type="radio" name="set_movie" class="radioinput" value="1" id="set05">
-                <label for="set05">提供所有業務會員共同管理</label> <br /> <br />
-                <input type="radio" name="set_movie" class="radioinput" value="2" id="set06">
-                <label for="set06">提供部份業務會員共同管理</label>
-            </p>
-            <table class="multipletable" id="selcttable2">
-                <tr>
-                    <td>
-                        <div class="form_box">
-                            <h2>不可共同管理</h2>
-                            <select name="s3" size="5" multiple="multiple" disabled data-myid="set_movie">
-                                <option value="業務員1">業務員1</option>
-                                <option value="業務員2">業務員2</option>
-                                <option value="業務員3">業務員3</option>
-                                <option value="業務員4">業務員4</option>
-                                <option value="業務員5">業務員5</option>
-                                <option value="業務員6">業務員6</option>
-                                <option value="業務員7">業務員7</option>
-                                <option value="業務員8">業務員8</option>
-                                <option value="業務員9">業務員9</option>
-                                <option value="業務員10">業務員10</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td style="width: 120px;text-align:center">
-                        <input type="button" name="right" value=">" /><br /><br />
-                        <input type="button" name="left" value="<" /><br /><br />
-                        <input type="button" name="rightAll" value=">>" /><br /><br />
-                        <input type="button" name="leftAll" value="<<" />
-                    </td>
-                    <td>
-                        <div class="form_box">
-                            <h2>可共同管理</h2>
-                            <select name="s4" size="5" multiple="multiple" disabled data-myid="set_movie"></select>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!---->
-        <!---->
-        <h3>
-            業務管理 <br />
-            <span class="groupmember">是否可與貴公司的業會員共同管理</span>
-        </h3>
-        <div>
-            <p>
-                <input type="radio" name="set_sales" class="radioinput" value="0" id="set07" checked>
-                <label for="set07">僅限企業會員管理</label> <br /> <br />
-                <input type="radio" name="set_sales" class="radioinput" value="1" id="set08">
-                <label for="set08">提供所有業務會員共同管理</label> <br /> <br />
-                <input type="radio" name="set_sales" class="radioinput" value="2" id="set09">
-                <label for="set09">提供部份業務會員共同管理</label>
-            </p>
-            <table class="multipletable" id="selcttable2">
-                <tr>
-                    <td>
-                        <div class="form_box">
-                            <h2>不可共同管理</h2>
-                            <select name="s3" size="5" multiple="multiple" disabled data-myid="set_sales">
-                                <option value="業務員1">業務員1</option>
-                                <option value="業務員2">業務員2</option>
-                                <option value="業務員3">業務員3</option>
-                                <option value="業務員4">業務員4</option>
-                                <option value="業務員5">業務員5</option>
-                                <option value="業務員6">業務員6</option>
-                                <option value="業務員7">業務員7</option>
-                                <option value="業務員8">業務員8</option>
-                                <option value="業務員9">業務員9</option>
-                                <option value="業務員10">業務員10</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td style="width: 120px;text-align:center">
-                        <input type="button" name="right" value=">" /><br /><br />
-                        <input type="button" name="left" value="<" /><br /><br />
-                        <input type="button" name="rightAll" value=">>" /><br /><br />
-                        <input type="button" name="leftAll" value="<<" />
-                    </td>
-                    <td>
-                        <div class="form_box">
-                            <h2>可共同管理</h2>
-                            <select name="s4" size="5" multiple="multiple" disabled data-myid="set_sales"></select>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!---->
-        <!---->
-        <h3>
-            訊息管理 <br />
-            <span class="groupmember">是否可與貴公司的業會員共同管理</span>
-        </h3>
-        <div>
-            <p>
-                <input type="radio" name="set_msg" class="radioinput" value="0" id="set10" checked>
-                <label for="set10">僅限企業會員管理</label> <br /> <br />
-                <input type="radio" name="set_msg" class="radioinput" value="1" id="set11">
-                <label for="set11">提供所有業務會員共同管理</label> <br /> <br />
-                <input type="radio" name="set_msg" class="radioinput" value="2" id="set12">
-                <label for="set12">提供部份業務會員共同管理</label>
-            </p>
-            <table class="multipletable" id="selcttable2">
-                <tr>
-                    <td>
-                        <div class="form_box">
-                            <h2>不可共同管理</h2>
-                            <select name="s3" size="5" multiple="multiple" disabled data-myid="set_msg">
-                                <option value="業務員1">業務員1</option>
-                                <option value="業務員2">業務員2</option>
-                                <option value="業務員3">業務員3</option>
-                                <option value="業務員4">業務員4</option>
-                                <option value="業務員5">業務員5</option>
-                                <option value="業務員6">業務員6</option>
-                                <option value="業務員7">業務員7</option>
-                                <option value="業務員8">業務員8</option>
-                                <option value="業務員9">業務員9</option>
-                                <option value="業務員10">業務員10</option>
-                            </select>
-                        </div>
-                    </td>
-                    <td style="width: 120px;text-align:center">
-                        <input type="button" name="right" value=">" /><br /><br />
-                        <input type="button" name="left" value="<" /><br /><br />
-                        <input type="button" name="rightAll" value=">>" /><br /><br />
-                        <input type="button" name="leftAll" value="<<" />
-                    </td>
-                    <td>
-                        <div class="form_box">
-                            <h2>可共同管理</h2>
-                            <select name="s4" size="5" multiple="multiple" disabled data-myid="set_msg"></select>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!---->
-
-    </div>
+    </form>
     <div class="centerbox">
         <br />
-        <a href="javascript:void(0)" class="buinfor">確定送出</a>
+        <a id="submitBtn" href="javascript:void(0)" class="buinfor">確定送出</a>
     </div>
 </div>
 
@@ -251,7 +248,7 @@
 			    });
 
 		    var setnoChecked = function(){
-				var selectid = $(this).attr('name'),n = $(this).index();
+		        var selectid = $(this).attr('name'), n = $(this).index();
 			 	if(n==8){
 			 	 	$('select[data-myid='+selectid+']').attr('disabled', false);
 			 	}
@@ -263,6 +260,10 @@
 
 		     $( "#accordion" ).accordion();
 
+		     $("#submitBtn").click(function () {
+		         $("#form option").prop("selected", true);
+		         $("#form").submit();
+		     });
 
 		});
 </script>

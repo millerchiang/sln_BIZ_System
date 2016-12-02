@@ -529,7 +529,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 拓銷會 的當地語系化字串。
+        ///   查詢類似 會議/論壇 的當地語系化字串。
         /// </summary>
         public static string lb_bizexploremisson {
             get {
@@ -1074,6 +1074,15 @@ namespace prj_BIZ_System.LanguageResource {
         public static string lb_good_activities {
             get {
                 return ResourceManager.GetString("lb_good_activities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 政府/公協會 的當地語系化字串。
+        /// </summary>
+        public static string lb_gov {
+            get {
+                return ResourceManager.GetString("lb_gov", resourceCulture);
             }
         }
         
@@ -2248,7 +2257,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 商洽會 的當地語系化字串。
+        ///   查詢類似 商洽/國際拓銷會 的當地語系化字串。
         /// </summary>
         public static string lb_tradeshow {
             get {

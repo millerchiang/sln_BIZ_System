@@ -21,9 +21,17 @@
     {
         enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_domestic;
     }
-    else
+    else if (Model.userinfo.enterprise_type == "1")
     {
         enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_foreign;
+    }
+    else if (Model.userinfo.enterprise_type == "2")
+    {
+        enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_startup;
+    }
+    else if (Model.userinfo.enterprise_type == "3")
+    {
+        enterprise_type = @prj_BIZ_System.LanguageResource.User.lb_gov;
     }
 
     if (Model.userinfo.revenue == "0")

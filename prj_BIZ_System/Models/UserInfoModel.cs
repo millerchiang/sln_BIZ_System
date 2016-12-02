@@ -136,4 +136,4 @@ namespace prj_BIZ_System.Models
         public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
     }
 
-}
+    }

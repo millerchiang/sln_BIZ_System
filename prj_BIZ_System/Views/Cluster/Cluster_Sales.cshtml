@@ -56,7 +56,7 @@
                             <td>
                                 <div class="form_box">
                                     <h2>不可共同管理</h2>
-                                    <select name="s1" size="5" multiple="multiple" @dd data-myid="set">
+                                    <select name="s1" id="s1" size="5" multiple="multiple" @dd data-myid="set">
                                     @if (Model.salesList != null)
                                     {
                                         foreach (SalesInfoModel md in Model.salesList)
@@ -107,6 +107,7 @@
     </div>
 
 <script>
+
 		$(document).ready(function() {
 		 		 var move = function(s1,s2,selector){
 					var ops = s1.find(selector);
@@ -129,7 +130,21 @@
 				        	move(right,left,'option');
 				        };
 		   			}
-			    });
+				  });
+
+				  $('#s1').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+    				   move(left, right, 'option:selected');
+				  });
+				  $('#s2').on('dblclick', function () {
+				      var selectes = $(this).closest('tr').find('select');
+				      var left = $(selectes[0]), right = $(selectes[1]);
+				      var name = $(this).attr('name');
+				      move(right, left, 'option:selected');
+				  });
+
 
 		    var setnoChecked = function(){
 				var selectid = $(this).attr('name'),n = $(this).index();
@@ -155,18 +170,9 @@
                     return false;
                 }else
                 {
-                    //for (i = 0; i < $('#s2 option').length; i++)
-                    //{
-                    //    //$('#s2 option').eq(i).attr('selected', '');
-                    //    $('#s2 option').eq(i).select();
-                    //}
-//                    $('#s2 option').removeAttr('selected');
-                    $('#s2 option').attr('selected', '');
-//                    alert("kkk");
+                    $("#s2 option").prop("selected", true);
                 }
             }
-//            return false;
 		});
-
 
 </script>

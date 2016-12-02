@@ -13,6 +13,7 @@
     string enterprise_type01 = "checked";
     string enterprise_type02 = "";
     string enterprise_type03 = "";
+    string enterprise_type04 = "";
     string revenue00 = "";
     string revenue01 = "";
     string revenue02 = "";
@@ -52,9 +53,13 @@
         {
             enterprise_type02 = "checked";
         }
-        else
+        else if (Model.userinfo.enterprise_type == "2")
         {
             enterprise_type03 = "checked";
+        }
+        else if (Model.userinfo.enterprise_type == "3")
+        {
+            enterprise_type04 = "checked";
         }
 
         if (Model.userinfo.revenue == "0")
@@ -157,6 +162,8 @@
                     <label for="enterprise_type02">@prj_BIZ_System.LanguageResource.User.lb_foreign</label>
                     <input type="radio" class="radioinput" id="enterprise_type03" name="enterprise_type" value="2" @enterprise_type03 onclick="tipstring('2')">
                     <label for="enterprise_type03">@prj_BIZ_System.LanguageResource.User.lb_startup</label>
+                    <input type="radio" class="radioinput" id="enterprise_type04" name="enterprise_type" value="3" @enterprise_type04 onclick="tipstring('3')">
+                    <label for="enterprise_type04">@prj_BIZ_System.LanguageResource.User.lb_gov</label>
                 </div>
                 <label for="" class="regis_col01R_label spanRed">
                     @prj_BIZ_System.LanguageResource.User.lb_account_info

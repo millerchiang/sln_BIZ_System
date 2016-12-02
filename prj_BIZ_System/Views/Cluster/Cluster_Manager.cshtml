@@ -11,6 +11,16 @@
 }
 
 @Styles.Render("~/Content/jqueryUI")
+@{
+    var user_id = "";
+    if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+    {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+    }
+    else {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+    }
+}
 
 
 <div class="article_col1">
@@ -31,7 +41,7 @@
                     int i = 0;
                     foreach (ClusterMemberModel md in Model.clusterMemberList)
                     {
-                        if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "1")
+                        if (md.user_id != user_id && md.cluster_enable == "1")
                         {
                             i = i + 1;
                             var a = "";
