@@ -1355,6 +1355,7 @@ iframe {
 
 .removetag {
   cursor: pointer;
+  text-decoration: none;
 }
 .removetag:after {
   content: "x";
@@ -1864,7 +1865,7 @@ input.tagtext:focus {
   background: #f46813;
 }
 
-.ui-widget-content a.addbublue, .ui-widget-content a.addbu, .ui-widget-content a.adddbured {
+.ui-widget-content a.addbublue, .ui-widget-content a.addbu, .ui-widget-content a.adddbured, .ui-widget-content a.panelSubmitBu, .ui-widget-content a.addbured {
   color: #ffffff;
 }
 

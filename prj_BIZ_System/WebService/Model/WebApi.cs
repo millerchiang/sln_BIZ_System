@@ -69,6 +69,8 @@ namespace prj_BIZ_System.WebService.Model
         public int activity_id { get; set; }//活動編號
         public string news_date { get; set; }//發布日期
         public string starttime { get; set; }//ActivityInfoModel 的 活動開始時間
+        public string is_conference { get; set; }//是否為一般會議
+        public string has_buyer { get; set; }//ActivityInfoModel 的 活動開始時間
     }
 
     public class ActivityInfo

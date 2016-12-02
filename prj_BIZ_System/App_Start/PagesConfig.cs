@@ -37,7 +37,7 @@ namespace prj_BIZ_System.App_Start
             {
                 foreach (var k in req.QueryString.AllKeys)
                 {
-                    if (k != null)
+                    if(k != null)
                     {
                         page.paramDict.Add(k, req.QueryString[k]);
                         if (i_temp > 0)

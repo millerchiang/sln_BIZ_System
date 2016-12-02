@@ -10,6 +10,32 @@
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
 
+@{
+    var user_id = "";
+    var company = "";
+    var company_en = "";
+    if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+    {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+        company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+        company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+    }
+    else {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+        company = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company"]);
+        company_en = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company_en"]);
+    }
+    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+    {
+        if (company_en != null && company_en != "")
+        {
+            company = company_en;
+        }
+    }
+
+
+}
+
 @Styles.Render("~/Content/jqueryUI")
 
     <div class="article_col1">
@@ -28,25 +54,13 @@
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
                     <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
                     <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
-                    @{
-                        var company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
-                        var company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
-                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
-                        {
-                            if (company_en != null && company_en != "")
-                            {
-                                company = company_en;
-                            }
-                        }
-                    }
-
 
                     <div class="regis_col02L">企業聚落成員</div>
                     <table class="regis_col02R membertable" id="gmember">
-                        <tr id="grp_name_@Request.Cookies["UserInfo"]["user_id"]">
+                        <tr id="grp_name_@user_id">
                             <td>
-                                <input type="hidden" name="id" value="@Request.Cookies["UserInfo"]["user_id"]">
-                                <label>@Request.Cookies["UserInfo"]["user_id"] - @company</label>
+                                <input type="hidden" name="id" value="@user_id">
+                                <label>@user_id - @company</label>
                             </td>
                         </tr>
 
@@ -54,7 +68,7 @@
                         {
                             foreach (ClusterMemberModel md in Model.clusterMemberList)
                             {
-                                if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "1")
+                                if (md.user_id != user_id && md.cluster_enable == "1")
                                 {
                                     <tr id="grp_name_@md.user_id">
                                         <td>
@@ -74,7 +88,7 @@
                             {
                                 foreach (ClusterMemberModel md in Model.clusterMemberList)
                                 {
-                                    if (md.user_id != Request.Cookies["UserInfo"]["user_id"] && md.cluster_enable == "2")
+                                    if (md.user_id != user_id && md.cluster_enable == "2")
                                     {
                                         <tr id="grp_name_@md.user_id">
                                             <td class="removeup">
@@ -92,7 +106,7 @@
                     <div class="form_box regis_dmlist">
                         <div class="regis_col02L">新增邀請</div>
                         <div class="regis_col02R">
-                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onchange="hidebtn()">
+                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
                             <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                         </div>
                         <div class="regis_col02L" id="newmemberlabel"></div>
@@ -178,8 +192,14 @@
         '</tr>';
         return template;
     }
-    function hidebtn() {
-        $("#addgroup").hide();
+    function hidebtn(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+        else {
+            $('#addgroup').hide();
+            return true;
+        }
     }
 
     function showCancel(id) {

@@ -9,6 +9,16 @@
     <link href="~/stylesheets/sys.css" rel="stylesheet" />
     <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
+@{
+    var user_id = "";
+    if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+    {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+    }
+    else {
+        user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+    }
+}
 
 
     @Styles.Render("~/Content/jqueryUI")
@@ -58,7 +68,7 @@
                         <td>
                             <div class="centerbox">
                                 <a href="@Url.Action("DownloadFile","Cluster",new {filepath = @ViewBag.path, filename = @mo.cluster_file_site})" class="editbu">下載</a>
-                                @if (Request.Cookies["UserInfo"]["user_id"] == mo.user_id)
+                                @if (user_id == mo.user_id)
                                 {
                                     <br /><br /><a id="@mo.cluster_file_no" href="javascript:void(0)" class="deletebu quit">刪除</a>
                                 }
