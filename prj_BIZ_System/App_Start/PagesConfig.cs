@@ -37,13 +37,16 @@ namespace prj_BIZ_System.App_Start
             {
                 foreach (var k in req.QueryString.AllKeys)
                 {
-                    page.paramDict.Add(k, req.QueryString[k]);
-                    if (i_temp > 0)
+                    if(k != null)
                     {
-                        sb.Append("&");
+                        page.paramDict.Add(k, req.QueryString[k]);
+                        if (i_temp > 0)
+                        {
+                            sb.Append("&");
+                        }
+                        sb.Append(k + "=" + req.QueryString[k]);
+                        i_temp++;
                     }
-                    sb.Append(k + "=" + req.QueryString[k]);
-                    i_temp++;
                 }
             }
             page.querystring = sb.ToString();

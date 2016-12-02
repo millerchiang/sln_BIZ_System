@@ -121,7 +121,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "3.0");
+            docookie("_version", "2.0");
 
             return View(indexModel);
         }
@@ -259,7 +259,7 @@ namespace prj_BIZ_System.Controllers
         {
             indexModel.news = activityService.GetNewsOne(int.Parse(Request["Id"]));
             indexModel.news.content = HttpUtility.HtmlDecode(indexModel.news.content);
-            replaceImgSrcParamToUrlContent();
+            //replaceImgSrcParamToUrlContent();
         }
 
         private void replaceImgSrcParamToUrlContent()
