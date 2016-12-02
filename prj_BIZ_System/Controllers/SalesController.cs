@@ -326,8 +326,14 @@ namespace prj_BIZ_System.Controllers
                     sales.ForEach(sm => limitDicts[sm.sales_id]["company"] = "1");
                     break;
                 case "2":
-                    salesPermissionViewModel.companySalesIds.ForEach(sm => limitDicts[sm]["company"] = "1");
-                    salesPermissionViewModel.unCompanySalesIds.ForEach(sm =>limitDicts[sm]["company"] = "0" );
+                    if (salesPermissionViewModel.companySalesIds != null)
+                    {
+                        salesPermissionViewModel.companySalesIds.ForEach(sm => limitDicts[sm]["company"] = "1");
+                    }
+                    if (salesPermissionViewModel.unCompanySalesIds != null)
+                    {
+                        salesPermissionViewModel.unCompanySalesIds.ForEach(sm => limitDicts[sm]["company"] = "0");
+                    }
                     break;
             }
 
@@ -340,8 +346,14 @@ namespace prj_BIZ_System.Controllers
                     sales.ForEach(sm =>limitDicts[sm.sales_id]["video"] = "1");
                     break;
                 case "2":
-                    salesPermissionViewModel.videoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "1");
-                    salesPermissionViewModel.unVideoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "0");
+                    if (salesPermissionViewModel.videoSalesIds != null)
+                    {
+                        salesPermissionViewModel.videoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "1");
+                    }
+                    if (salesPermissionViewModel.unVideoSalesIds != null)
+                    {
+                        salesPermissionViewModel.unVideoSalesIds.ForEach(sm => limitDicts[sm]["video"] = "0");
+                    }
                     break;
             }
 
@@ -354,8 +366,14 @@ namespace prj_BIZ_System.Controllers
                     sales.ForEach(sm =>limitDicts[sm.sales_id]["sales"] = "1");
                     break;
                 case "2":
-                    salesPermissionViewModel.salesSalesIds.ForEach(sm =>limitDicts[sm]["sales"] = "1");
-                    salesPermissionViewModel.unSalesSalesIds.ForEach(sm =>limitDicts[sm]["sales"] = "0");
+                    if (salesPermissionViewModel.salesSalesIds != null)
+                    {
+                        salesPermissionViewModel.salesSalesIds.ForEach(sm => limitDicts[sm]["sales"] = "1");
+                    }
+                    if (salesPermissionViewModel.unSalesSalesIds != null)
+                    {
+                        salesPermissionViewModel.unSalesSalesIds.ForEach(sm => limitDicts[sm]["sales"] = "0");
+                    }
                     break;
             }
 
@@ -368,8 +386,14 @@ namespace prj_BIZ_System.Controllers
                     sales.ForEach(sm => limitDicts[sm.sales_id]["message"] = "1" );
                     break;
                 case "2":
-                    salesPermissionViewModel.messageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "1");
-                    salesPermissionViewModel.unMessageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "0");
+                    if (salesPermissionViewModel.messageSalesIds != null)
+                    {
+                        salesPermissionViewModel.messageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "1");
+                    }
+                    if (salesPermissionViewModel.unMessageSalesIds != null)
+                    {
+                        salesPermissionViewModel.unMessageSalesIds.ForEach(sm => limitDicts[sm]["message"] = "0");
+                    }
                     break;
             }
 
