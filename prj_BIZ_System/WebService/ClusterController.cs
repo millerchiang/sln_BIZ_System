@@ -194,8 +194,16 @@ namespace prj_BIZ_System.WebService
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id or cluster no is null.");
             }
-            int updateRowCount = clusterService.ClusterMemberUpdateOne(clusterMemberModel);
-            return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
+            int result;
+            if (status == "4")
+            {
+                result = clusterService.ClusterMemberInsertOne(clusterMemberModel);
+            }
+            else
+            {
+                result = clusterService.ClusterMemberUpdateOne(clusterMemberModel);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [HttpGet]
