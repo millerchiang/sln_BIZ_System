@@ -130,6 +130,7 @@ namespace prj_BIZ_System.Models
         public DateTime? update_time { get; set; }  //修改時間
 
         public string company { get; set; }         //公司名稱
+        public string company_en { get; set; }      //公司英文名稱
 
         //額外加的
         public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/

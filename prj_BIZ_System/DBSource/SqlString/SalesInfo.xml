@@ -57,7 +57,16 @@
       FROM sales.sales_info s
       WHERE s.sales_id = #sales_id#
     </select>
-    
+
+    <!--查詢業務會員ById with User-->
+    <select id="SelectSalesInfoWithUserById" parameterClass="SalesInfoModel" resultMap="SalesInfoUser-result">
+      SELECT s.sales_id, s.user_id, s.sales_name, s.sales_pw, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time, ui.company, ui.company_en
+      FROM sales.sales_info s
+      JOIN public.user_info ui 
+      ON s.user_id = ui.user_id
+      WHERE s.sales_id = #sales_id#
+    </select>
+
     <!--查詢業務會員全部-->
     <select id="SelectSalesInfoByCondition" parameterClass="SalesInfoModel" resultMap="SalesInfoCompany-result">
       SELECT s.sales_id, s.user_id, s.sales_pw, s.sales_name, s.id_enable, s.phone, s.email, s."limit", s.create_time, s.update_time ,u.company
@@ -142,7 +151,23 @@
       <result property="create_time" column="create_time"/>
       <result property="update_time" column="update_time"/>
     </resultMap>
-
+    
+    <resultMap id="SalesInfoUser-result" class="prj_BIZ_System.Models.SalesInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="sales_id" column="sales_id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="sales_name" column="sales_name"/>
+      <result property="sales_pw" column="sales_pw"/>
+      <result property="id_enable" column="id_enable"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="limit" column="limit"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      
+      <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
+    </resultMap>
 
     <resultMap id="SalesInfoCompany-result" class="prj_BIZ_System.Models.SalesInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->

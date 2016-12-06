@@ -1,4 +1,5 @@
 ﻿using prj_BIZ_System.Controllers;
+using prj_BIZ_System.Extensions;
 using prj_BIZ_System.Models;
 using System;
 using System.Collections.Generic;
@@ -482,7 +483,9 @@ namespace prj_BIZ_System.Services
             {
                 param = new MsgModel() { cluster_no = cluster_no_int , is_public ="1", msg_member = null , msg_title = kw , creater_id = user_id };
             }
-            return mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
+            var result = mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
+            FillUserInfo(result);
+            return result;
         }
 
         public IList<MsgModel> SelectMsgClusterPrivate(string cluster_no , string user_id, string kw)
@@ -491,10 +494,28 @@ namespace prj_BIZ_System.Services
             var param = new MsgModel();
             if (Int32.TryParse(cluster_no, out cluster_no_int))
             {
-                param = new MsgModel() { cluster_no = cluster_no_int , is_public = "0" , msg_title = kw , creater_id = user_id };
+                param = new MsgModel() { cluster_no = cluster_no_int, is_public = "0", msg_title = kw, creater_id = user_id };
             }
-            var result =  mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
+            var result = mapper.QueryForList<MsgModel>("Message.SelectClusterMsg", param);
+            FillUserInfo(result);
             return result;
+        }
+
+        private static void FillUserInfo(IList<MsgModel> result)
+        {
+            result.ForEach(md =>
+            {
+                if (string.IsNullOrEmpty(md.company))
+                {
+                    var param = new SalesInfoModel() { sales_id = md.sales_id };
+                    var aSales = mapper.QueryForObject<SalesInfoModel>("SalesInfo.SelectSalesInfoWithUserById", param);
+                    if (aSales != null)
+                    {
+                        md.company = aSales.company;
+                        md.company_en = aSales.company_en;
+                    }
+                }
+            });
         }
 
         public IList<ClusterInfoModel> SelectClusterByMsg_no(int msg_no)
