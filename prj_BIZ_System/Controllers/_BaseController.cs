@@ -35,6 +35,23 @@ namespace prj_BIZ_System.Controllers
             Response.Cookies.Add(cookie);
         }
 
+        public void clearcookie(string cookieName)
+        {
+            Session.Clear();
+            HttpCookie aCookie;
+            aCookie = new HttpCookie(cookieName);
+            aCookie.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(aCookie);
+
+            if (Request.Cookies["list"]!=null)
+            {
+                Session.Clear();
+                aCookie = new HttpCookie("list");
+                aCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(aCookie);
+            }
+        }
+
     }
 
     ///////////////////多國語系

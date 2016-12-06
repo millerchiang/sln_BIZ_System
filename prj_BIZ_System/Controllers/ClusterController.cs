@@ -38,56 +38,54 @@ namespace prj_BIZ_System.Controllers
         {
             if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            docookie("_mainmenu", "ClusterList");
-            return View();
-        }
-
-        public ActionResult ClusterListContent()
-        {
-            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
-                return Redirect("~/Home/Index");
             string user_id = getuserid();
 
-            //            clusterViewModel.clusterList = clusterService.GetClusterList(user_id,"1").Pages(Request, this, 10);
-            //            return View(clusterViewModel);
+            if(Request.Cookies["SalesInfo"] != null && Request.Cookies["SalesInfo"]["sales_id"] != null)
+                docookie("list", "6");
+            else if (Request["list"] == null)
+                docookie("list", "4");
+            else
+                docookie("list", Request["list"]);
 
-            if (Request["list"] == null || Request["list"] == "1")
+            string _list = Request.Cookies["list"].Value;
+            if (_list == "1")
             {
                 //------可申請的聚落
-                
+
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByApply(user_id).Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "2")
+            else if (_list == "2")
             {
                 //------申請中
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "4").Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "3")
+            else if (_list == "3")
             {
                 //------審核
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByChecked(user_id).Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "4")
+            else if (_list == "4")
             {
                 //------已加入
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1").Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "5")
+            else if (_list == "5")
             {
                 //------受邀請中
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "2").Pages(Request, this, 5);
                 //------------------
             }
-            else if (Request["list"] == "6")
+            else if (_list == "6")
             {
                 //------已加入已成立
                 clusterViewModel.clusterWebServiceInfoList = clusterService.GetClusterListByIdAndClusterEnableForSales(user_id, "1").Pages(Request, this, 5);
                 //------------------
             }
+            docookie("_mainmenu", "ClusterList");
             return View(clusterViewModel);
         }
 

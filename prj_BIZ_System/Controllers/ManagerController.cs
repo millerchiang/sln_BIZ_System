@@ -67,18 +67,7 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Logout()
         {
-
-            Session.Clear();
-            HttpCookie aCookie;
-            string cookieName;
-            //            int limit = Request.Cookies.Count;
-            //            for (int i = 0; i < limit; i++)
-            {
-                cookieName = "ManagerInfo";// Request.Cookies[i].Name;
-                aCookie = new HttpCookie(cookieName);
-                aCookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(aCookie);
-            }
+            clearcookie("ManagerInfo");
             return Redirect("Login");
         }
 
