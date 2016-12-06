@@ -196,9 +196,9 @@ namespace prj_BIZ_System.WebService
             }
             int result;
 
-            clusterMemberModel = clusterService.GetClusterMember(cluster_no, user_id);
+            var hasMember = clusterService.GetClusterMember(cluster_no, user_id);
 
-            if (clusterMemberModel == null)
+            if (hasMember == null)
             {
                 result = clusterService.ClusterMemberInsertOne(clusterMemberModel);
             }
