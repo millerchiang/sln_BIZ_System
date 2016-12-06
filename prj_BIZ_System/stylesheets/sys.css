@@ -1187,6 +1187,72 @@ tfoot p {
   color: #cccccc;
 }
 
+.bellicon {
+  text-indent: -99999px;
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: #03a9f5;
+  border-radius: 10px 10px 0 0;
+  margin-left: 15px;
+  -webkit-animation: myfirst 0.4s linear 0s alternate infinite;
+  animation: myfirst 0.4s linear 0s alternate infinite;
+}
+.bellicon:before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 10px;
+  height: 0;
+  border-bottom: 5px solid #03a9f5;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  top: 8px;
+  left: -3px;
+  border-radius: 0 0 5px 5px;
+}
+.bellicon:after {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  height: 14px;
+  width: 4px;
+  border-top: 2px solid #03a9f5;
+  border-bottom: 3px solid #03a9f5;
+  top: -2px;
+  left: 3px;
+  border-radius: 2px;
+}
+.bellicon:hover {
+  background: #1184b9;
+  -webkit-animation: myfirst 0s linear 0s alternate 1;
+  animation: myfirst 0s linear 0s alternate 1;
+}
+.bellicon:hover:before {
+  border-bottom-color: #1184b9;
+}
+.bellicon:hover:after {
+  border-top-color: #1184b9;
+  border-bottom-color: #1184b9;
+}
+
+@-webkit-keyframes myfirst {
+  0% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-15deg);
+  }
+}
+@keyframes myfirst {
+  0% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(-15deg);
+  }
+}
 @media only screen and (max-width: 520px) {
   .sys_searchboxcol01L, .sys_searchboxcol01R, .sys_searchboxco2 {
     width: 100%;

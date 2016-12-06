@@ -351,16 +351,22 @@ namespace prj_BIZ_System.Controllers
 
             ClusterInfoModel model = new ClusterInfoModel();
 
-            if (Request.QueryString["id"] != null && Request.QueryString["id"] != "" &&
-                Request.QueryString["cluster_no"] != null && Request.QueryString["cluster_no"] != ""
+            if (Request["id"] != null && Request["id"] != "" &&
+                Request["cluster_no"] != null && Request["cluster_no"] != ""
                 )
             {
-                model.user_id = Request.QueryString["id"];
+                model.user_id = Request["id"];
                 model.manager_id = "";
-                model.cluster_no = int.Parse(Request.QueryString["cluster_no"]);
-                clusterService.ClusterInfoUpdateManager(model);
+                model.cluster_no = int.Parse(Request["cluster_no"]);
+                int updateok= clusterService.ClusterInfoUpdateManager(model);
+                if (updateok > 0)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                else
+                    return Json(false, JsonRequestBehavior.AllowGet);
             }
-            return Redirect("ClusterList");
+            else
+                return Json(false, JsonRequestBehavior.AllowGet);
+            //return Redirect("ClusterList");
         }
 
 
