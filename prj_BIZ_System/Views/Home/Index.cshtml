@@ -27,7 +27,7 @@
                      {
                          foreach (var bannerList in Model.bannerphotoList)
                          {
-                            <li><img src="@(string.IsNullOrEmpty(bannerList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + bannerList.manager_id + "/Banner/" + bannerList.photo_pic_site))" /></li>
+                            <li><a href="@bannerList.hlink" target="_blank"><img src="@(string.IsNullOrEmpty(bannerList.photo_pic_site)?UploadHelper.defaultImgSmall:Url.Content(ViewBag.coverDir + bannerList.manager_id + "/Banner/" + bannerList.photo_pic_site))" /></a></li>
                          }
                      }
                 </ul>

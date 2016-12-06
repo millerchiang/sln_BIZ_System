@@ -109,8 +109,21 @@
                                             @md.msg_title
                                         </td>
                                         <td>
-                                            @md.company
+                                            @{
+                                                var publisher = "";
+                                                if (string.IsNullOrEmpty(md.sales_name))
+                                                {
+                                                    publisher = prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company");
+                                                }
+                                                else
+                                                {
+                                                    publisher = md.sales_name +"("+ prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], md, "company") +")";
+                                                }
+                                            }
+                                            @(publisher)
+                                            @*@md.company*@
                                         </td>
+
                                         <td>
                                             @md.rpy_cnt
                                         </td>

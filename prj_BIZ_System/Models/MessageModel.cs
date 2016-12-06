@@ -25,6 +25,8 @@ namespace prj_BIZ_System.Models
         public string company_en { get; set; }
 
         public string sales_name { get; set; }
+        public string sales_id { get; set; }
+        public string logintype { get; set; }
 
         public int rpy_cnt { get; set; } //回覆數
         public string is_read { get; set; }     // 0 :未讀 , 1:已讀

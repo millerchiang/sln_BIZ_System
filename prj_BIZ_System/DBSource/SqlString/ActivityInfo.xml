@@ -768,7 +768,7 @@
           photo_pic_site=#photo_pic_site#
         </isNotNull>
       </dynamic>
-      , active=#active#, deleted=#deleted#
+      , active=#active#, deleted=#deleted#, hlink=#hlink#
       WHERE photo_id=#photo_id#
     </update>
 
@@ -799,9 +799,9 @@
       </selectKey>
       INSERT INTO public.banner_photo(
       manager_id, photo_pic_site, active,
-      deleted)
+      deleted,hlink)
       VALUES (#manager_id#, #photo_pic_site#, #active#
-      , #deleted#
+      , #deleted#,#hlink#
       )
     </insert>
 
@@ -1243,6 +1243,7 @@
       <result property="photo_pic_site" column="photo_pic_site"/>
       <result property="active" column="active"/>
       <result property="deleted" column="deleted"/>
+      <result property="hlink" column="hlink"/>
     </resultMap>
 
   </resultMaps>

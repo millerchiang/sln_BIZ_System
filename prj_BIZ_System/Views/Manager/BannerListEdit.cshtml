@@ -19,8 +19,10 @@
                             <li>
                                 <div class="imgbox">
                                     <img src="@Url.Content(string.IsNullOrEmpty(md.photo_pic_site)?UploadHelper.defaultImgSmall:ViewBag.photoDir+md.photo_pic_site)" alt="">
+                                    
                                 </div>
                                 <div class="producttext productCheckT">
+                                    <label>超連結網址:@md.hlink</label>
                                     @{ 
                                         var active = "否";
                                         if (md.active=="1")

@@ -438,14 +438,26 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult MessageClusterMain(string cluster_public_where , string cluster_private_where , string is_public)
         {
-            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+            string loginer_id = "";
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+            //string user_id = Request.Cookies["UserInfo"]["user_id"];
+
             IList<IList<MsgModel>> msgLists = new List<IList<MsgModel>>();
             ViewBag.cluster_public_where = cluster_public_where;
             ViewBag.cluster_private_where = cluster_private_where;
-            var public_result = messageService.SelectMsgClusterPublic(Request["cluster_no"], user_id, cluster_public_where);
-            var private_result = messageService.SelectMsgClusterPrivate(Request["cluster_no"], user_id, cluster_private_where);
+            var public_result = messageService.SelectMsgClusterPublic(Request["cluster_no"], loginer_id, cluster_public_where);
+            var private_result = messageService.SelectMsgClusterPrivate(Request["cluster_no"], loginer_id, cluster_private_where);
             IList<MsgModel> result_public   = public_result.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request,this,10);
             IList<MsgModel> result_public2  = public_result.Where(msg => "1".Equals(msg.is_read)).ToList().Pages(Request,this,10);
             IList<MsgModel> result_private  = private_result.Where(msg => "0".Equals(msg.is_read)).ToList().Pages(Request, this, 10);
@@ -463,9 +475,23 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult MessageClusterAdd(int is_public)
         {
-            if (Request.Cookies["UserInfo"] == null || Request["cluster_no"] == null)
+            if ((Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null) || Request["cluster_no"] == null)
                 return Redirect("~/Home/Index");
-            string user_id = Request.Cookies["UserInfo"]["user_id"];
+
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+
+            //string user_id = Request.Cookies["UserInfo"]["user_id"];
 
             IList<ClusterMemberModel> allMemberAtEnable1 = new List<ClusterMemberModel>();
             if (is_public == 0) {
@@ -480,10 +506,23 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult DoClusterAdd(MsgModel model, List<HttpPostedFileBase> iupexls , string is_public)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            model.creater_id = Request.Cookies["UserInfo"]["user_id"];
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+
+            model.creater_id = loginer_id;
             model.is_public = is_public ;
             model.cluster_no = int.Parse(Request["cluster_no"]);
             model.msg_member = model.msg_members == null ? "" :string.Join(", ", model.msg_members);
@@ -513,25 +552,56 @@ namespace prj_BIZ_System.Controllers
             return Redirect("~/Message/MessageClusterMain" + "?is_public=" + is_public);
         }
 
+        /* 沒用到
         public ActionResult MessageClusterList(string keyword)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
 
-            var user_id = Request.Cookies["UserInfo"]["user_id"];
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+            //var user_id = Request.Cookies["UserInfo"]["user_id"];
+
             IList<MsgModel> result = messageService.SelectMsgPrivate(keyword, user_id).Pages(Request, this, 10); ;
             ViewBag.keyword = keyword;
             messageViewModel.msgPrivateList = result;
             return View(messageViewModel);
         }
-        
+        */
+
         [HttpGet]
         public ActionResult MessageClusterDetail(int msg_no , string is_public)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
+
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+
             ViewBag.is_public = is_public;
-            var current_user_id = Request.Cookies["UserInfo"]["user_id"];
+            //var current_user_id = Request.Cookies["UserInfo"]["user_id"];
+            var current_user_id = loginer_id; //不確定這樣寫對不對
+
             var cluster_no = int.Parse(Request["cluster_no"]);
             ViewBag.cluster_info = clusterService.GetClusterInfo(cluster_no,null,null);
             if (msg_no != 0)
@@ -562,11 +632,25 @@ namespace prj_BIZ_System.Controllers
         [HttpPost]
         public ActionResult DoMessageClusterDetail(MsgReplyModel model , string is_public, List<HttpPostedFileBase> iupexls)
         {
-            if (Request.Cookies["UserInfo"] == null)
+            if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null)
                 return Redirect("~/Home/Index");
+
+            string loginer_id = "";
+
+            if (Request.Cookies["UserInfo"] != null)
+            {
+                loginer_id = Request.Cookies["UserInfo"]["user_id"];
+            }
+
+            if (Request.Cookies["SalesInfo"] != null)
+            {
+                loginer_id = Request.Cookies["SalesInfo"]["user_id"];
+                //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
+            }
+
             ViewBag.is_public = is_public;
 
-            model.msg_reply = Request.Cookies["UserInfo"]["user_id"];
+            model.msg_reply = loginer_id; // Request.Cookies["UserInfo"]["user_id"];
             messageService.InsertMsgPrivateReply(model);
             uploadFileByReply(model, iupexls);
 
