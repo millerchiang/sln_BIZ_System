@@ -15,19 +15,30 @@
 
     @{ 
         var user_id = "";
+        var company = "";
+        var company_en = "";
         if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
         {
             user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+            company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+            company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
         }
         else {
             user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+            company = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company"]);
+            company_en = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company_en"]);
         }
-
-
+        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+        {
+            if (company_en != null && company_en != "")
+            {
+                company = company_en;
+            }
+        }
     }
 
     <div class="article_col1s">
-
+                <input type="hidden" id="company" value="@company">
     <article>
                 @foreach (var newInfo in Model.clusterWebServiceInfoList)
                 {
@@ -37,15 +48,12 @@
                         
                         @if (Request["list"] == "4" && user_id != newInfo.user_id)
                         {
-                            <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="panelSubmitBu">退出聚落</a>
+                            <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="panelSubmitBu" id="quitcluster_@newInfo.cluster_no">退出聚落</a>
                         }
                         else if (user_id == newInfo.user_id && Request["list"] != "6")
                         {
                             <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="panelSubmitBu">更換管理者</a>
                         }
-
-
-                        @*<label for="" class="regis_col02L"></label>*@
 
                         @if (Request["list"] != "3")
                         {
@@ -53,12 +61,12 @@
                         <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
                         <label for="" class="regis_col02L">管理者
                         </label>
-                        <span class="regis_col02R contentspan">@newInfo.creator_name
+                        <span class="regis_col02R contentspan"><label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
                         @if (user_id == newInfo.manager_id && Request["list"] != "6")
                         {
-                            <label class="fontRed">傳來要求成為管理者</label>
-                            <a href="ClusterManagerOk?cluster_no=@newInfo.cluster_no&id=@user_id" class="deleteSbu">接受</a>
-                            <a href="ClusterManagerOk?cluster_no=@newInfo.cluster_no&id=@newInfo.user_id" class="deleteSbu">拒絕</a>
+                            <a href="javascript:void(0)" class="bellicon" title="收到管理者邀請" id="@newInfo.cluster_no">通知</a>
+                            <input type="hidden" id="yes_@newInfo.cluster_no" value="@user_id">
+                            <input type="hidden" id="no_@newInfo.cluster_no" value="@newInfo.user_id">
                         }
                         </span>
                         <label for="" class="regis_col02L">成員</label>
@@ -127,6 +135,71 @@
                         </div>
                     </div>
                 }
+
+                <div id="dialog" title="聚落管理者邀請" style="display:none;">
+                    <p>成為:<span class="bellTitle"></span>聚落管理者?</p>
+                </div>
+
                 @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
 </article>
 </div>
+
+<script type="text/javascript" language="javascript">
+
+
+
+        $( ".bellicon" ).click(function() {
+            var _this = $(this);
+            var cluster_no = this.id;
+            var yes_Id = $("#yes_" + cluster_no).val();
+            var no_Id = $("#no_" + cluster_no).val();
+            
+            //alert(cluster_no);
+            //alert(yes_Id);
+            //alert(no_Id);
+            $("#dialog").dialog({
+                  autoOpen: true,
+                   modal: true,
+                   buttons: {
+                       "是": function () {
+                           $.ajax({
+                               type: "post",
+                               url: "@Url.Action("ClusterManagerOk", "Cluster")",
+                               cache: false,
+                               data: { "cluster_no": cluster_no, "id": yes_Id },
+                           dataType: "json",
+                           success: function (result) {
+                               if (result == true) {
+                                   $("#manager_" + cluster_no).html($("#company").val());
+                                   $("#quitcluster_" + cluster_no).hide();
+                                   _this.remove();
+                               }
+
+                           }
+                       })
+                        $(this).dialog("close");
+                    },
+                    "否": function() {
+                        $.ajax({
+                            type: "post",
+                            url: "@Url.Action("ClusterManagerOk", "Cluster")",
+                            cache: false,
+                            data: { "cluster_no": cluster_no, "id": no_Id },
+                            dataType: "json",
+                            success: function (result) {
+                                if (result == true) {
+                                    _this.remove();
+                                }
+                            }
+                      })
+                        $( this ).dialog( "close" );
+                   }
+                  }
+              });
+                 var bellTitle = $(this).parents('.form_box').find('h2').text();
+                 $(".bellTitle").text(bellTitle);
+            });
+
+
+
+</script>
