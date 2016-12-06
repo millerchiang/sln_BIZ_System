@@ -195,7 +195,10 @@ namespace prj_BIZ_System.WebService
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id or cluster no is null.");
             }
             int result;
-            if (status == "4")
+
+            clusterMemberModel = clusterService.GetClusterMember(cluster_no, user_id);
+
+            if (clusterMemberModel == null)
             {
                 result = clusterService.ClusterMemberInsertOne(clusterMemberModel);
             }
