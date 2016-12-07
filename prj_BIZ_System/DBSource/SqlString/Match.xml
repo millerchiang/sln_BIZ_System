@@ -664,6 +664,8 @@
       <result property="activity_id" column="activity_id"/>
       <result property="buyer_id" column="buyer_id"/>
       <result property="buyer_need" column="buyer_need"/>
+      <result property="buyer_need_en" column="buyer_need_en"/>
+
       <!-- UserInfo 的 company-->
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>

@@ -128,7 +128,8 @@ namespace prj_BIZ_System.WebService
                     bi.buyer_id,
                     bi.company,
                     bi.company_en,
-                    bi.buyer_need
+                    bi.buyer_need,
+                    bi.buyer_need_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, buyerForMatch);
