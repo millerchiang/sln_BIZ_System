@@ -939,7 +939,6 @@
     <Content Include="Views\Home\LatestVideoList.cshtml" />
     <Content Include="Views\Home\LatestCatalogList.cshtml" />
     <Content Include="Views\Cluster\ClusterListAll.cshtml" />
-    <Content Include="Views\Cluster\ClusterListContent.cshtml" />
     <Content Include="Views\Message\MessageCompanyAdd.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

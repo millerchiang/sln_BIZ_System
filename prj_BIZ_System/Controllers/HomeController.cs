@@ -121,7 +121,7 @@ namespace prj_BIZ_System.Controllers
 
             docookie("_mainmenu", "Index");
 
-            docookie("_version", "2.0");
+            docookie("_version", "3.0");
 
             return View(indexModel);
         }
@@ -305,35 +305,14 @@ namespace prj_BIZ_System.Controllers
 
         public ActionResult Logout()
         {
-
-            Session.Clear();
-            HttpCookie aCookie;
-            string cookieName;
-//            int limit = Request.Cookies.Count;
-//            for (int i = 0; i < limit; i++)
-            {
-                cookieName = "UserInfo";// Request.Cookies[i].Name;
-                aCookie = new HttpCookie(cookieName);
-                aCookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(aCookie);
-            }
+            clearcookie("UserInfo");
             return Redirect("Index");
         }
 
         public ActionResult LogoutForSales()
         {
 
-            Session.Clear();
-            HttpCookie aCookie;
-            string cookieName;
-            //            int limit = Request.Cookies.Count;
-            //            for (int i = 0; i < limit; i++)
-            {
-                cookieName = "SalesInfo";// Request.Cookies[i].Name;
-                aCookie = new HttpCookie(cookieName);
-                aCookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(aCookie);
-            }
+            clearcookie("SalesInfo");
             return Redirect("Index");
         }
 
@@ -372,8 +351,8 @@ namespace prj_BIZ_System.Controllers
                     return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
                 }
 
-               
 
+                clearcookie("SalesInfo"); 
                 cookie = new HttpCookie("UserInfo");
                 cookie.Values.Add("id_enable", model.id_enable);
                 cookie.Values.Add("user_id", model.user_id);
@@ -417,6 +396,7 @@ namespace prj_BIZ_System.Controllers
                 limitsDict = new JavaScriptSerializer().Deserialize<Dictionary<string, string>>(model.limit);
 
                 UserInfoModel userinfo = userService.GeUserInfoOneBySales(sales_id);
+                clearcookie("UserInfo");
                 cookie = new HttpCookie("SalesInfo");
                 cookie.Values.Add("id_enable", model.id_enable);
                 cookie.Values.Add("sales_id", model.sales_id);

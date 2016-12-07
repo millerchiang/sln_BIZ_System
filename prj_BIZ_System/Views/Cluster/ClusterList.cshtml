@@ -7,6 +7,7 @@
 
 @section pagestyle{
     <link href="~/stylesheets/sys.css" rel="stylesheet" />
+    <link href="~/stylesheets/business.css" rel="stylesheet" />
 }
 
 @Styles.Render("~/Content/jqueryUI")
@@ -19,7 +20,202 @@
         <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
             @*<a href="ClusterInvited" class="addbu2 rightbox">受邀聚落清單</a>*@
         }
-        <div id="tabs">
+
+        <div class="ui-tabs ui-corner-all ui-widget ui-widget-content">
+		    <ul class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+            @{
+                var _list = Request.Cookies["list"].Value;
+                var a = "ui-tabs-tab ui-state-default ui-tab ui-corner-top";
+                if (_list != "6")
+                {
+                    if (_list == "4")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">已加入聚落</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=4" class="ui-tabs-anchor">已加入聚落</a></li>
+                    }
+                    if (_list == "5")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">受邀請聚落</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=5" class="ui-tabs-anchor">受邀請聚落</a></li>
+                    }
+                    if (_list == "1")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">可申請聚落</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=1" class="ui-tabs-anchor">可申請聚落</a></li>
+                    }
+                    if (_list == "2")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">申請中聚落</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=2" class="ui-tabs-anchor">申請中聚落</a></li>
+                    }
+                    if (_list == "3")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">聚落審核</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=3" class="ui-tabs-anchor">聚落審核</a></li>
+                    }
+
+                }
+                else
+                {
+                    <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">已加入聚落</span></li>
+                }
+            }
+		    </ul>
+		    <div  style="padding-top: 30px" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
+<!--內容Start-->
+                @{
+                    var user_id = "";
+                    var company = "";
+                    var company_en = "";
+                    if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+                    {
+                        user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+                        company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                        company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+                    }
+                    else {
+                        user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+                        company = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company"]);
+                        company_en = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company_en"]);
+                    }
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        if (company_en != null && company_en != "")
+                        {
+                            company = company_en;
+                        }
+                    }
+                }
+
+                <div class="article_col1s">
+                    <input type="hidden" id="company" value="@company">
+                    <article>
+                        @foreach (var newInfo in Model.clusterWebServiceInfoList)
+                        {
+
+                            <div class="form_box panelbox">
+                                <h2 class="panelTitle">@newInfo.cluster_name</h2>
+
+                                @if (_list == "4" && user_id != newInfo.user_id)
+                                {
+                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="panelSubmitBu" id="quitcluster_@newInfo.cluster_no">退出聚落</a>
+                                }
+                                else if (user_id == newInfo.user_id && _list != "6")
+                                {
+                                    <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="panelSubmitBu">更換管理者</a>
+                                }
+
+                                @if (_list != "3")
+                                {
+                                    <label for="" class="regis_col02L">邀請時間</label>
+                                    <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
+                                    <label for="" class="regis_col02L">
+                                        管理者
+                                    </label>
+                                    <p class="regis_col02R contentspan">
+                                        <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
+                                        @if (user_id == newInfo.manager_id && _list != "6")
+                                        {
+                                            <a href="javascript:void(0)" class="bellicon" title="收到管理者邀請" id="@newInfo.cluster_no">通知</a>
+                                            <input type="hidden" id="yes_@newInfo.cluster_no" value="@user_id">
+                                            <input type="hidden" id="no_@newInfo.cluster_no" value="@newInfo.user_id">
+                                        }
+                                    </p>
+                                    <label for="" class="regis_col02L">成員</label>
+                                    <p class="regis_col02R contentspan">
+                                        @newInfo.cluster_members
+                                    </p>
+
+                                }
+                                else
+                                {
+                                    <label for="" class="regis_col02L">申請時間</label>
+                                    <span class="regis_col02R contentspan">@newInfo.cluster_create_time</span>
+                                    <label for="" class="regis_col02L">申請者</label>
+                                    <p class="regis_col02R contentspan">@newInfo.creator_name</p>
+                                }
+
+                                <label for="" class="regis_col02L">簡介</label>
+                                <p class="regis_col02R contentspan">
+                                    @newInfo.cluster_info
+                                </p>
+
+                                <div class="centerbox">
+                                    @if (_list == "1")
+                                    {
+                                        //------可申請的聚落
+                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=4" class="addbu">申請</a>
+                                        //------------------
+                                    }
+                                    else if (_list == "2")
+                                    {
+                                        //------申請中
+                                        //------------------
+                                    }
+                                    else if (_list == "3")
+                                    {
+                                        //------申請審核
+                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="addbu">接受申請</a>
+                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="deleteSbu">婉拒申請</a>
+                                        //------------------
+                                    }
+                                    else if (_list == "4")
+                                    {
+                                        //------已加入
+                                        <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbu">聚落邀請</a>
+
+                                        if (newInfo.enable == "1")
+                                        {
+                                            <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
+                                        }
+                                        //------------------
+                                    }
+                                    else if (_list == "5")
+                                    {
+                                        //------受邀請中
+                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbu">加入</a>
+                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu">婉拒</a>
+                                        //------------------
+                                    }
+                                    else if (_list == "6")
+                                    {
+                                        //------已加入已成立
+                                        <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
+                                        //------------------
+                                    }
+
+                                </div>
+                            </div>
+                        }
+
+                        <div id="dialog" title="聚落管理者邀請" style="display:none;">
+                            <p>成為:<span class="bellTitle"></span>聚落管理者?</p>
+                        </div>
+
+                        @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
+                    </article>
+                </div>
+<!--內容End-->
+            </div>
+        </div>	
+
+
+        @*<div id="tabs">
             <ul>
             @if (Request.Cookies["SalesInfo"] == null || Request.Cookies["SalesInfo"]["sales_id"] == null)
             {
@@ -34,7 +230,7 @@
                 <li><a href="ClusterListContent?list=6">已加入聚落</a></li>
             }
             </ul>
-        </div>
+        </div>*@
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");
@@ -44,10 +240,7 @@
 <script type="text/javascript"
         src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
-<script>
-    $(function () {
-        $("#tabs").tabs();
-    });
+<script type="text/javascript" language="javascript">
 
     @if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
     {
@@ -57,11 +250,61 @@
 	            var errMsg = '@TempData["errMsg"]';
 	            if (errMsg != '') {
 	                alert(errMsg);
-                }
-            }
+    }
+    }
         check();
     </text>
     }
 
 
+        $( ".bellicon" ).click(function() {
+
+            var _this = $(this);
+            var cluster_no = this.id;
+            var yes_Id = $("#yes_" + cluster_no).val();
+            var no_Id = $("#no_" + cluster_no).val();
+
+            $("#dialog").dialog({
+                  autoOpen: true,
+                   modal: true,
+                   buttons: {
+                       "是": function () {
+                           $.ajax({
+                               type: "post",
+                               url: "@Url.Action("ClusterManagerOk", "Cluster")",
+                               cache: false,
+                               data: { "cluster_no": cluster_no, "id": yes_Id },
+                           dataType: "json",
+                           success: function (result) {
+                               if (result == true) {
+                                   $("#manager_" + cluster_no).html($("#company").val());
+                                   $("#quitcluster_" + cluster_no).hide();
+                                   _this.remove();
+                               }
+
+                           }
+                       })
+                        $(this).dialog("close");
+                    },
+                    "否": function() {
+                        $.ajax({
+                            type: "post",
+                            url: "@Url.Action("ClusterManagerOk", "Cluster")",
+                            cache: false,
+                            data: { "cluster_no": cluster_no, "id": no_Id },
+                            dataType: "json",
+                            success: function (result) {
+                                if (result == true) {
+                                    _this.remove();
+                                }
+                            }
+                      })
+                        $( this ).dialog( "close" );
+                   }
+                  }
+              });
+                 var bellTitle = $(this).parents('.form_box').find('h2').text();
+                 $(".bellTitle").text(bellTitle);
+            });
 </script>
+
