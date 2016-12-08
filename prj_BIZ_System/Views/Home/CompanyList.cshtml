@@ -42,19 +42,47 @@
             
                 @if (ViewBag.model == "companysortList")
                 {
-                    <ul class="listlink col2 comicon article_col1">
+                    var etype = "";
+                    var typename = "";
 
-                        @foreach (var sortList in Model.companysortList)
-                        {
-                            <li><a href="~/User/UserInfo?user_id=@sortList.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sortList, "company") </a></li>
-                        }
-                    </ul>
+                    <ul class="listlink comicon article_col1">
+
+                                                @foreach (var sortList in Model.companysortList)
+                                                {
+                                                    if (sortList.enterprise_type != etype)
+                                                    {
+                                                        if (sortList.enterprise_type == "0")
+                                                        {
+                                                            typename = prj_BIZ_System.LanguageResource.User.lb_domestic;
+                                                        }
+                                                        if (sortList.enterprise_type == "1")
+                                                        {
+                                                            typename = prj_BIZ_System.LanguageResource.User.lb_foreign;
+                                                        }
+                                                        if (sortList.enterprise_type == "2")
+                                                        {
+                                                            typename = prj_BIZ_System.LanguageResource.User.lb_startup;
+                                                        }
+                                                        if (sortList.enterprise_type == "3")
+                                                        {
+                                                            typename = prj_BIZ_System.LanguageResource.User.lb_gov;
+                                                        }
+
+                                                        <h3 class="borderTitle3"><b>@typename</b></h3>
+
+                                                        etype = sortList.enterprise_type;
+                                                        <p></p>
+                                                    }
+
+                                                    <li><a href="~/User/UserInfo?user_id=@sortList.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sortList, "company") </a></li>
+                                                }
+</ul>
                 }
-                else if (ViewBag.model == "userinfoList")
-                {
+                                    else if (ViewBag.model == "userinfoList")
+                                    {
                     <ul class="listlink col2 comicon article_col1">
                     @foreach (var sortList in Model.userinfoList)
-                    {
+                                {
                         <li><a href="~/User/UserInfo?user_id=@sortList.user_id">@prj_BIZ_System.LanguageResource.Localization.getPropValue(Request.Cookies["_culture"], sortList, "company") </a></li>
                     }
                     </ul>
@@ -82,7 +110,7 @@
                                 </div>
                             </li>
                         }
-                                            @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"]);
+                        @Html.PagesList((List<PageList<ProductListModel>>)ViewData["PageList"]);
                     }
                     else
                     {

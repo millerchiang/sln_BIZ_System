@@ -62,6 +62,7 @@ namespace prj_BIZ_System.Models
         public string company { get; set; }//公司中文名稱
         public string company_en { get; set; }//公司英文名稱
         public int sort_id { get; set; }//產業別流水號 
+        public string enterprise_type { get; set; }//企業類型 
     }
 
     public class ProductListModel

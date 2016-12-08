@@ -30,12 +30,12 @@
 
 
     <select id="SelectUserSortBySortId" parameterClass="CompanySortModel" resultMap="CompanySort-result">
-      SELECT sort.user_id, sort.sort_id, user_info.company, user_info.company_en
+      SELECT sort.user_id, sort.sort_id, user_info.company, user_info.company_en, user_info.enterprise_type
       FROM enterprise_sort sort
       INNER JOIN user_info
       ON sort.user_id = user_info.user_id
       WHERE sort.sort_id = #sort_id# and (user_info.company like '%'||#company#||'%' or user_info.company_en like '%'||#company#||'%'  )
-      ORDER BY user_info.company;
+      ORDER BY user_info.enterprise_type, user_info.company;
     </select>
 
     <select id="SelectUserKw" resultMap="UserInfo-result">
@@ -507,6 +507,7 @@
       <result property="sort_id" column="sort_id"/>
       <result property="company" column="company"/>
       <result property="company_en" column="company_en"/>
+      <result property="enterprise_type" column="enterprise_type"/>
     </resultMap>
 
     <resultMap id="CatalogList-result" class="prj_BIZ_System.Models.CatalogListModel">
