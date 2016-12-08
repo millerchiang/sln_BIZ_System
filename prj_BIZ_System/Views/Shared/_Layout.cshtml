@@ -155,11 +155,18 @@
                                     <a href="javascript:void(0)">管理者權限</a>
                                     <ul>
                                         <li><a href="~/Manager/ManagerInfo">管理者帳號</a></li>
-                                        <li><a href="~/Manager/SalesInfo">業務會員帳號查詢</a></li>
+
+                                        @if (Request["_version"] != null && Request["_version"] != "2.0")
+                                        {
+                                            <li><a href="~/Manager/SalesInfo">業務會員帳號查詢</a></li>
+                                        }
                                         <li><a href="~/Manager/Group">群組權限設定</a></li>
                                         <li><a href="~/Manager/EditPasswd">管理者密碼修改</a></li>
 
-                                        <li><a href="~/Manager/ClusterSize">聚落會員容量設定</a></li>
+                                        @if (Request["_version"] != null && Request["_version"] != "2.0")
+                                        {
+                                            <li><a href="~/Manager/ClusterSize">聚落會員容量設定</a></li>
+                                        }
                                         <li>
                                             <a href="javascript:void(0)">首頁資訊管理</a>
                                             <ul>

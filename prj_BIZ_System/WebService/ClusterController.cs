@@ -55,19 +55,6 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public object GetClusterInfoList(string user_id)
-        {
-            if (user_id.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id is null.");
-
-            IList<ClusterDetailModel> clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, "1");
-
-            IDictionary<string, object[]> clusterDic = new Dictionary<string, object[]>();
-            clusterDic["enableCluster"] = getClusterByEnable(clusterInfoList, "1");
-            clusterDic["nonEnableCluster"] = getClusterByEnable(clusterInfoList, "0");
-            return Request.CreateResponse(HttpStatusCode.OK, clusterDic);
-        }
-
-        [HttpGet]
         public object GetClusterInfo(int cluster_no)
         {
             ClusterDetailModel clusterInfo = clusterService.GetClusterDetailByNo(cluster_no);
@@ -86,22 +73,6 @@ namespace prj_BIZ_System.WebService
                                                                        cluster_info = model.cluster_info };
             int updateRowCount = clusterService.ClusterInfoUpdateOne(clusterInfoModel);
             return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
-        }
-
-        private object[] getClusterByEnable(IList<ClusterDetailModel> clusterInfoList, string enable)
-        {
-            return clusterInfoList
-                            .Where(clusterInfoModel =>
-                                clusterInfoModel.enable == enable
-                            )
-                            .Select(clusterInfo =>
-                                new 
-                                {
-                                    cluster_no = clusterInfo.cluster_no,
-                                    cluster_name = clusterInfo.cluster_name,
-                                    cluster_members = clusterInfo.cluster_members
-                                }
-                            ).ToArray();
         }
 
         [HttpGet]

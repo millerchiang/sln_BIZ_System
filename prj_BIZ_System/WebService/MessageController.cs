@@ -17,25 +17,26 @@ namespace prj_BIZ_System.WebService
     public class MessageController : ApiController
     {
         private MessageService messageService = new MessageService();
-        
+
+        private Func<MsgModel, MsgPrivate> msgSelector = msgModel =>
+                                                                new MsgPrivate
+                                                                {
+                                                                    msg_no = msgModel.msg_no,
+                                                                    msg_title = msgModel.msg_title,
+                                                                    company = msgModel.company,
+                                                                    company_en = msgModel.company_en,
+                                                                    create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff"),
+                                                                    is_read = msgModel.is_read
+                                                                };
+
         [HttpGet]
         public object GetMessagePrivateList(string user_id, string date)
         {
            if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");
 
             DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
-            IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt).Select(
-                msgModel =>
-                new MsgPrivate
-                {
-                    msg_no = msgModel.msg_no,
-                    msg_title = msgModel.msg_title,
-                    company = msgModel.company,
-                    company_en = msgModel.company_en,
-                    create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff"),
-                    is_read = msgModel.is_read
-                }
-            ).ToList();
+            IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt)
+                                                          .Select(msgSelector).ToList();
             
             return Request.CreateResponse(HttpStatusCode.OK, msgPrivates);
         }
@@ -140,18 +141,12 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
-        public object GetMsgClusterPublic(string cluster_no, string user_id, string kw)
+        public object GetMessageCluster(string cluster_no, string user_id, string date, string is_public)
         {
             if (cluster_no.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster_no is null");
-            var publicResult = messageService.SelectMsgClusterPublic(cluster_no, user_id, kw);
-            return Request.CreateResponse(HttpStatusCode.OK, publicResult);
-        }
-
-        [HttpGet]
-        public object GetMsgClusterPrivate(string cluster_no, string user_id, string kw)
-        {
-            if (cluster_no.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster_no is null");
-            var publicResult = messageService.SelectMsgClusterPrivate(cluster_no, user_id, kw);
+            DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
+            var publicResult = messageService.SelectMsgClusterForMobile(cluster_no, user_id, is_public, dt)
+                                             .Select(msgSelector).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, publicResult);
         }
     }

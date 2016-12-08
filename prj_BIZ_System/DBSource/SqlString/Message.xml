@@ -150,6 +150,40 @@
       order by mp2.create_time desc
     </select>
 
+    <!--聚落訊息列表(手機)-->
+    <select id="SelectClusterMsgForMobile" resultMap="SelectMsgForCluster-result" parameterClass="Msg">
+      SELECT mp2.*, message.is_msg_read(mp2.msg_no, #creater_id#) as is_read  from (
+      SELECT mp.*, ui.company, ui.company_en , si.sales_id, si.sales_name, mpr.rpy_cnt
+      FROM message.msg as mp
+      LEFT JOIN public.user_info as ui on mp.creater_id = ui.user_id
+      LEFT JOIN sales.sales_info as si on mp.creater_id = si.sales_id
+      LEFT JOIN ( select msg_no , count(msg_reply_no) as rpy_cnt from message.msg_reply group by msg_no ) as mpr on mp.msg_no = mpr.msg_no
+      ) as mp2
+      LEFT JOIN message.msg_reply as mpr2 on mp2.msg_no = mpr2.msg_no
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="msg_title">
+          ( mp2.msg_title like '%'||#msg_title#||'%' or mp2.msg_content like '%'||#msg_title#||'%' or mpr2.reply_content like '%'||#msg_title#||'%' )
+        </isNotEmpty>
+        <isNotNull prepend="and" property="create_time">
+          <![CDATA[ mp2.create_time <= #create_time# ]]>
+        </isNotNull>
+        <isNotNull prepend="and" property="is_public">
+          <![CDATA[
+            mp2.cluster_no <> 0
+          ]]>
+          and mp2.is_public = #is_public#
+          and mp2.cluster_no = $cluster_no$
+          and ( mp2.creater_id = #creater_id# or #creater_id# in (select user_id from public.cluster_member cm where cm.cluster_no = $cluster_no$ ) )
+          <isEqual prepend="and" property="is_public" compareValue="0">
+            (  mp2.creater_id = #creater_id# or mp2.msg_member like '% '||#creater_id#||',%' )
+          </isEqual>
+        </isNotNull>
+      </dynamic>
+      group by mp2.msg_no , mp2.creater_id , mp2.msg_title , mp2.msg_content , mp2.cluster_no , mp2.is_public, mp2.user_id , mp2.msg_member , mp2.create_time , mp2.company , mp2.company_en , mp2.sales_id , mp2.sales_name , mp2.rpy_cnt
+      order by mp2.create_time desc
+      limit 10
+    </select>
+
     <!--建立新私訊-->
     <insert id="InsertMsg" parameterClass="Msg">
       <selectKey resultClass="long" property="msg_no" type="post">

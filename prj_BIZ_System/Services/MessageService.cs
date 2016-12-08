@@ -501,6 +501,19 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public IList<MsgModel> SelectMsgClusterForMobile(string cluster_no, string user_id, string is_public, DateTime create_time)
+        {
+            var cluster_no_int = 0;
+            var param = new MsgModel();
+            if (Int32.TryParse(cluster_no, out cluster_no_int))
+            {
+                param = new MsgModel() { cluster_no = cluster_no_int, is_public = is_public, creater_id = user_id, create_time = create_time };
+            }
+            var result = mapper.QueryForList<MsgModel>("Message.SelectClusterMsgForMobile", param);
+            FillUserInfo(result);
+            return result;
+        }
+
         private static void FillUserInfo(IList<MsgModel> result)
         {
             result.ForEach(md =>
