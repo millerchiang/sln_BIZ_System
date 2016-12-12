@@ -896,7 +896,7 @@
     <value>採購範圍</value>
   </data>
   <data name="lb_estimated_amount" xml:space="preserve">
-    <value>預估採購金額(US$)</value>
+    <value>預估採購金額(USD)</value>
   </data>
   <data name="lb_items" xml:space="preserve">
     <value>採購項目</value>

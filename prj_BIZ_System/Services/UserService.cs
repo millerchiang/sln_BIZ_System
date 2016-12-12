@@ -24,16 +24,36 @@ namespace prj_BIZ_System.Services
             return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAll", null);
         }
 
-        public IList<UserInfoModel> GetUserInfoListkw(string user_id, string company)
+        public IList<UserInfoModel> GetUserInfoListkw(string user_id, string company, string cluster_no)
         {
-            UserInfoModel tempModel = new UserInfoModel { user_id = user_id, company = company };
-            return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAllkw", tempModel);
+            if (user_id == "") user_id = null;
+            if (company == "") company = null;
+            if (cluster_no == "") cluster_no = null;
+
+            if (cluster_no == null)
+            {
+                UserInfoModel tempModel = new UserInfoModel { user_id = user_id, company = company };
+                return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAllkw", tempModel);
+            }
+            else
+            {
+                int id = int.Parse(cluster_no);
+                UserInfoModel tempModel = new UserInfoModel { user_id = user_id, company = company, id = id };
+                return mapper.QueryForList<UserInfoModel>("UserInfo.SelectAllkwc", tempModel);
+            }
+
         }
 
         public UserInfoModel GeUserInfoOne(string user_id)
         {
             return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOne", user_id);
         }
+
+        public UserInfoModel GeUserInfoOneManager(string user_id)
+        {
+            return (UserInfoModel)mapper.QueryForObject("UserInfo.SelectOneManager", user_id);
+        }
+
 
         public UserInfoModel GeUserInfoOneBySales(string sales_id)
         {
@@ -57,6 +77,17 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
+        public object UserInfoInsertOneManager(UserInfoModel userInfoModel)
+        {
+            if (!string.IsNullOrEmpty(userInfoModel.user_pw))
+            {
+                userInfoModel.user_pw = SecurityHelper.Encrypt256(userInfoModel.user_pw);
+            }
+            var result = mapper.Insert("UserInfo.InsertOneManager", userInfoModel);
+            return result;
+        }
+
+
         public object UserInfoInsertForMobile(UserInfoModel userInfoModel)
         {
             var result = mapper.Insert("UserInfo.InsertOne", userInfoModel);
@@ -68,6 +99,13 @@ namespace prj_BIZ_System.Services
             Object obj = mapper.Update("UserInfo.UpdateOne", userInfoModel);
             return (int)obj;
         }
+
+        public int UserInfoUpdateOneManager(UserInfoModel userInfoModel)
+        {
+            Object obj = mapper.Update("UserInfo.UpdateOneManager", userInfoModel);
+            return (int)obj;
+        }
+
 
         public int UserInfoUpdateOneForMobile(UserInfoModel userInfoModel)
         {

@@ -25,6 +25,7 @@ namespace prj_BIZ_System.Models
         public IList<UserInfoToIdAndCpModel> userinfotoidandcpList { get; set; }
         public QuestionnaireModel questionnaire { get; set; }
         public IList<QuestionnaireModel> questionnaireList { get; set; }
+        public IList<ClusterModel> clusterList { get; set; }
     }
 
     public class Activity_ViewModel

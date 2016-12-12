@@ -1024,7 +1024,7 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
-        ///   查詢類似 預估採購金額(US$) 的當地語系化字串。
+        ///   查詢類似 預估採購金額(USD) 的當地語系化字串。
         /// </summary>
         public static string lb_estimated_amount {
             get {

@@ -792,7 +792,7 @@ a.rightbox + a.rightbox {
   border-color: #ff9000 transparent transparent transparent;
 }
 
-ul + .borderTitle3 {
+li + .borderTitle3 {
   margin-top: 20px;
 }
 
@@ -803,6 +803,9 @@ ul + .borderTitle3 {
   padding: 10px;
   margin-bottom: 10px;
   color: #777;
+  clear: both;
+  display: inline-block;
+  width: 100%;
 }
 .borderTitle3 b {
   color: #00bcd5;

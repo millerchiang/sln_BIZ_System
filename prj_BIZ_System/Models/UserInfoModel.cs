@@ -37,6 +37,9 @@ namespace prj_BIZ_System.Models
         public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
         public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
 
+        public string phone2 { get; set; }//備用聯絡電話
+        public string email2 { get; set; }//備用電子郵件
+
     }
 
     public class EnterpriseSortListModel //enterprise_sort_list
@@ -45,6 +48,9 @@ namespace prj_BIZ_System.Models
         public string enterprise_sort_id { get; set; }//產業別編號
         public string enterprise_sort_name { get; set; }//產業別名稱
         public string enterprise_sort_name_en { get; set; }//產業別名稱
+        public string enterprise_sort_id_b { get; set; }//產業別編號(大分類)
+        public string enterprise_sort_name_b { get; set; }//產業別名稱(大分類)
+        public string enterprise_sort_name_en_b { get; set; }//產業別名稱(大分類)
     }
 
     public class EnterpriseSortModel  //enterprise_sort
@@ -54,6 +60,9 @@ namespace prj_BIZ_System.Models
         public string enterprise_sort_id { get; set; }//產業別編號
         public string enterprise_sort_name { get; set; }//產業別名稱
         public string enterprise_sort_name_en { get; set; }//產業別名稱
+        public string enterprise_sort_id_b { get; set; }//產業別編號(大分類)
+        public string enterprise_sort_name_b { get; set; }//產業別名稱(大分類)
+        public string enterprise_sort_name_en_b { get; set; }//產業別名稱(大分類)
     }
 
     public class CompanySortModel  //company_sort

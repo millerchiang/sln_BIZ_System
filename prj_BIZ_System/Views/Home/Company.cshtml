@@ -16,21 +16,39 @@
         </h2>
         <section class="form_box">
             <h2>@prj_BIZ_System.LanguageResource.User.lb_scope</h2>
-            <ul class="listlink col2 comicon article_col1">
-
+             <ul id="industryList">  
+             <li>
 
                 @foreach (var sortList in Model.enterprisesortList)
                 {
-                    if (Request.Cookies["_culture"] == null || Request.Cookies["_culture"].Value == "zh-TW")
+
+                    var enterprise_sort_name_b = sortList.enterprise_sort_name_b;
+                    var enterprise_sort_name = sortList.enterprise_sort_name;
+                    var sstring="<ul class='listlink col2 comicon article_col1 industryText'>";
+                    var estring="</ul>";
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                     {
-                        <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name</a></li>
-                    }
-                    else{
-                        <li><a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id - @sortList.enterprise_sort_name_en</a></li>
+                        enterprise_sort_name_b = sortList.enterprise_sort_name_en_b;
+                        enterprise_sort_name = sortList.enterprise_sort_name_en;
                     }
 
+                    if (sortList.enterprise_sort_id_b.Length>1 && sortList.enterprise_sort_id_b.Substring(1,1) == "S")
+                    {
+                    <a href="javascript:void(0)" class="industryTitle">@sortList.enterprise_sort_id.Substring(0, 1) - @enterprise_sort_name_b</a>
+                     @Html.Raw(sstring)
+                    }
+
+                    <li>
+                        <a href="CompanyList?sort_id=@sortList.sort_id">@sortList.enterprise_sort_id @enterprise_sort_name </a> 
+                    </li>
+
+                    if ((sortList.enterprise_sort_id_b.Length > 1 && sortList.enterprise_sort_id_b.Substring(1,1) == "E") || (sortList.enterprise_sort_id_b.Length > 2 && sortList.enterprise_sort_id_b.Substring(2,1) == "E"))
+                    {
+                    @Html.Raw(estring)
+                    }
                 }
 
+            </li>
             </ul>
         </section>
         <section class="form_box">
@@ -63,6 +81,14 @@
     $(function () {
         init();
     })
+
+    $(function () {
+        $("#industryList a").on('click', function () {
+            $(this).toggleClass('active');
+        })
+    })
+
+
 
     function init() {
         $(".fancybox").fancybox({
