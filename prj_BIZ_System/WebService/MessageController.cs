@@ -17,6 +17,7 @@ namespace prj_BIZ_System.WebService
     public class MessageController : ApiController
     {
         private MessageService messageService = new MessageService();
+        private ClusterService clusterService = new ClusterService();
 
         private Func<MsgModel, MsgPrivate> msgSelector = msgModel =>
                                                                 new MsgPrivate
@@ -32,12 +33,12 @@ namespace prj_BIZ_System.WebService
         [HttpGet]
         public object GetMessagePrivateList(string user_id, string date)
         {
-           if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");
+            if (user_id.IsNullOrEmpty() || date.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "data is null");
 
             DateTime dt = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss:fff", System.Globalization.CultureInfo.CurrentCulture);
             IList<MsgPrivate> msgPrivates = messageService.SelectMsgPrivateForMobile(user_id, dt)
                                                           .Select(msgSelector).ToList();
-            
+
             return Request.CreateResponse(HttpStatusCode.OK, msgPrivates);
         }
 
@@ -82,7 +83,7 @@ namespace prj_BIZ_System.WebService
                     create_time = mpr.create_time.ToString("yyyy-MM-dd HH:mm")
                 }
             ).ToList();
-            
+
             return Request.CreateResponse(HttpStatusCode.OK, messageContent);
         }
 
@@ -148,6 +149,47 @@ namespace prj_BIZ_System.WebService
             var publicResult = messageService.SelectMsgClusterForMobile(cluster_no, user_id, is_public, dt)
                                              .Select(msgSelector).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, publicResult);
+        }
+
+        [HttpPost]
+        public object AddClusterMessage(MsgModel model)
+        {
+            if (model.creater_id.IsNullOrEmpty() || model.cluster_no == 0 ||
+                model.is_public.IsNullOrEmpty())
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "creater_id or is_public is null or cluster_no is 0");
+
+            if (!model.msg_member.IsNullOrEmpty())
+            {
+                model.msg_member = model.msg_member.Replace(",", ", ") + ",";
+                model.msg_member = model.msg_member.Trim(' ');
+            }
+            var result = (long)messageService.InsertMsgCluster(model);
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public object GetClusterMsgMember(int cluster_no, string user_id)
+        {
+            if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null");
+            var memberList = clusterService.GetClusterMemberListWithEnable1(cluster_no).Select(
+                clusterMemberModel =>
+                new 
+                {
+                    user_id = clusterMemberModel.user_id,
+                    company = clusterMemberModel.company,
+                    company_en = clusterMemberModel.company_en
+                }
+            ).Where(clusterMember => clusterMember.user_id != user_id)
+             .ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, memberList);
         }
     }
 }
