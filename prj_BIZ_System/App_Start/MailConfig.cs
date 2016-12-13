@@ -159,8 +159,8 @@ namespace prj_BIZ_System.App_Start
             string validate_linkX = SecurityHelper.Encrypt(link);
             //檢查用
             string check_link = SecurityHelper.Decrypt(validate_linkX);
-
-            var param = MailHelper.fillAccountMailValidte(user_id, "http://" + ip + ":" + port.ToString() + validateActionName + "?validate_linkX=" + validate_linkX);
+            string full_host = HttpContext.Current.Request.IsSecureConnection ? "https://" + ip : "http://" + ip + ":" + port.ToString();
+            var param = MailHelper.fillAccountMailValidte(user_id, full_host + validateActionName + "?validate_linkX=" + validate_linkX);
             if (!string.IsNullOrEmpty(email))
             {
                 MailHelper.doSendMail(email, param, MailType.AccountMailValidate);
@@ -260,7 +260,7 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static int checkEmail(string mailAddress, out string errorInfo)
         {
-            Regex reg = new Regex("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$");
+            Regex reg = new Regex("^[_a-zA-Z0-9-]+([.][_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+([.][a-zA-Z0-9-]+)*$");
             if (!reg.IsMatch(mailAddress))
             {
                 errorInfo = "Email Format error!";
@@ -315,7 +315,7 @@ namespace prj_BIZ_System.App_Start
         /// </summary>
         public static bool checkMailValidate(string mailAddress)
         {
-            return (!string.IsNullOrEmpty(mailAddress)) && new Regex("^[_a-z0-9-]+([.][_a-z0-9-]+)*@[a-z0-9-]+([.][a-z0-9-]+)*$").IsMatch(mailAddress);
+            return (!string.IsNullOrEmpty(mailAddress)) && new Regex("^[_a-zA-Z0-9-]+([.][_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+([.][a-zA-Z0-9-]+)*$").IsMatch(mailAddress);
         }
 
         private static string getMailServer(string strEmail)

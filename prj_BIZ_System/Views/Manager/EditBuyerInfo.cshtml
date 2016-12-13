@@ -7,8 +7,9 @@
 
 @section pagestyle{
     <link href="~/stylesheets/registerd.css" rel="stylesheet" />
-    <link href="http://code.jquery.com/ui/1.11.4/themes/hot-sneaks/jquery-ui.css" rel="stylesheet">
 }
+
+@Styles.Render("~/Content/jqueryUI")
 
 @{ 
     if(ViewBag.PageType == "Create")
