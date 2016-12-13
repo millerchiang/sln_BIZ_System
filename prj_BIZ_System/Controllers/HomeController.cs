@@ -351,6 +351,8 @@ namespace prj_BIZ_System.Controllers
                     return Redirect("Verification?user_id=" + model.user_id + "&name=" + model.company + "&email=" + model.email);
                 }
 
+                model.last_login_time = DateTime.Now;
+                userService.UserInfoUpdateOne(model);
 
                 clearcookie("SalesInfo"); 
                 cookie = new HttpCookie("UserInfo");

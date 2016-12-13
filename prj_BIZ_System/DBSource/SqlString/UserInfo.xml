@@ -443,7 +443,7 @@
     <!--修改單筆-->
     <update id="UpdateOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
       UPDATE user_info
-      SET 
+      SET
       enterprise_type = #enterprise_type#,
       company = #company#,
       id_enable = #id_enable#,
@@ -462,7 +462,8 @@
       addr_en = #addr_en#,
       contact_en = #contact_en#,
       info_en = #info_en#,
-      update_time = #update_time#
+      update_time = #update_time#,
+      last_login_time = #last_login_time#
       WHERE user_id = #user_id#
     </update>
 

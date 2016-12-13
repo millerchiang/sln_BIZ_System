@@ -526,6 +526,7 @@ namespace prj_BIZ_System.Controllers
             model.is_public = is_public ;
             model.cluster_no = int.Parse(Request["cluster_no"]);
             model.msg_member = model.msg_members == null ? "" :string.Join(", ", model.msg_members);
+            model.msg_member += model.msg_members != null ? ", " : "";
             model.msg_no = (long)messageService.InsertMsgCluster(model);
 
             #region 上傳訊息附件

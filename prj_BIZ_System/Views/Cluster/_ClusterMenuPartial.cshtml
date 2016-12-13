@@ -31,7 +31,7 @@
                 <li><a href="~/Cluster/Cluster_Files">文件管理</a></li>
             }
             
-            <li><a href="~/Cluster/group_order_manager.html">聚落訂單管理</a></li>
+            @*<li><a href="~/Cluster/group_order_manager.html">聚落訂單管理</a></li>*@
             @if (Request.Cookies["_menu"].Value == "MessageClusterMain")
             {
                 <li class="inforactive"><span>訊息管理</span></li>
@@ -43,14 +43,14 @@
             @if (Request.Cookies["SalesInfo"] == null || Request.Cookies["SalesInfo"]["sales_id"] == null)
             {
 
-                if (Request.Cookies["_menu"].Value == "Cluster_Sales")
+                @*if (Request.Cookies["_menu"].Value == "Cluster_Sales")
                 {
                 <li class="inforactive"><span>業務權限設定</span></li>
                 }
                 else
                 {
                 <li><a href="~/Cluster/Cluster_Sales">業務權限設定</a></li>
-                }
+                }*@
             }
 
             @*<li>
