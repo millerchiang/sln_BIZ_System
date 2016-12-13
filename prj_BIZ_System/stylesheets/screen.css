@@ -1,3 +1,4 @@
+﻿@charset "UTF-8";
 /* Welcome to Compass.
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
@@ -17,7 +18,7 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video, button {
   margin: 0;
   padding: 0;
-  border: 0;
+  /*border: 0 */
   font: inherit;
   font-size: 100%;
   vertical-align: baseline;
@@ -903,11 +904,11 @@ a:hover, a:focus, a:active, a.active {
 }
 
 .inputCheckbox:checked + label:after {
-  content: "v";
+  content: "✓";
   color: #ffffff;
   position: absolute;
-  top: 1px;
-  left: 9px;
+  top: 2px;
+  left: 8px;
   font-size: 0.813em;
 }
 
@@ -1644,6 +1645,33 @@ input.tagtext:focus {
 
 .mg30 + .mg30 {
   margin-top: 30px;
+}
+
+#industryList > li {
+  clear: both;
+}
+#industryList > li a.industryTitle:link, #industryList > li a.industryTitle:visited {
+  text-decoration: none;
+  background: #f5f5f5;
+  color: #717171;
+  border: 1px solid #ddd;
+  padding: 5px;
+  display: block;
+  font-size: 0.813em;
+  margin-bottom: 10px;
+  line-height: 29px;
+}
+#industryList > li a.industryTitle:hover, #industryList > li a.industryTitle.active {
+  background: #00bcd5;
+  color: #ffffff;
+  border-color: #189bac;
+}
+#industryList > li .industryText {
+  padding: 5px 0 15px 0;
+  display: none;
+}
+#industryList > li a.industryTitle.active + .industryText {
+  display: inline-block;
 }
 
 .edittable input {

@@ -92,6 +92,13 @@
       </dynamic>
     </select>
 
+    <select id="SelectClusterAll" resultMap="ClusterBase-result">
+      SELECT *
+      FROM cluster_info
+      Order By cluster_name
+    </select>
+
+
     <!--查詢(邀請中、已加入)聚落列表-->
     <select id="ClusterListByIdAndClusterEnable" resultMap="ClusterInfoMobile-result" parameterClass="Cluster">
       SELECT ci.cluster_no,
@@ -440,7 +447,14 @@
       <result property="company" column="company"></result>
       <result property="company_en" column="company_en"></result>
       </resultMap>
-  
+
+    <resultMap id="ClusterBase-result" class="prj_BIZ_System.Models.ClusterModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="cluster_no" column="cluster_no"></result>
+      <result property="cluster_name" column="cluster_name"></result>
+    </resultMap>
+
+
   </resultMaps>
 
 </sqlMap>

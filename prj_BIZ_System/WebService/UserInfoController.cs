@@ -239,7 +239,10 @@ namespace prj_BIZ_System.WebService
                     enterpriseSortListModel.sort_id,
                     enterpriseSortListModel.enterprise_sort_id,
                     enterpriseSortListModel.enterprise_sort_name,
-                    enterpriseSortListModel.enterprise_sort_name_en
+                    enterpriseSortListModel.enterprise_sort_name_en,
+                    enterpriseSortListModel.enterprise_sort_id_b,
+                    enterpriseSortListModel.enterprise_sort_name_b,
+                    enterpriseSortListModel.enterprise_sort_name_en_b
                 }
             ).ToList();
         }

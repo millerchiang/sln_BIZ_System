@@ -614,20 +614,20 @@
     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     -->
       <select id="SelectEnterpriseAll" resultMap="EnterpriseSort">
-        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en
+        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en, list.enterprise_sort_id_b, list.enterprise_sort_name_b, list.enterprise_sort_name_en_b
         FROM enterprise_sort sort
         INNER JOIN enterprise_sort_list list
         ON sort.sort_id = list.sort_id
-        ORDER BY sort.user_id;
+        ORDER BY sort.user_id,list.enterprise_sort_id;
       </select>
 
       <select id="SelectEnterpriseByUserId" resultMap="EnterpriseSort">
-        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en
+        SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en, list.enterprise_sort_id_b, list.enterprise_sort_name_b, list.enterprise_sort_name_en_b
         FROM enterprise_sort sort
         INNER JOIN enterprise_sort_list list
         ON sort.sort_id = list.sort_id
         WHERE sort.user_id = #user_id#
-        ORDER BY sort.user_id;
+        ORDER BY sort.user_id,list.enterprise_sort_id;
       </select>
       
     <!--
@@ -1183,6 +1183,9 @@
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
       <result property="enterprise_sort_name" column="enterprise_sort_name"/>
       <result property="enterprise_sort_name_en" column="enterprise_sort_name_en"/>
+      <result property="enterprise_sort_id_b" column="enterprise_sort_id_b"/>
+      <result property="enterprise_sort_name_b" column="enterprise_sort_name_b"/>
+      <result property="enterprise_sort_name_en_b" column="enterprise_sort_name_en_b"/>
     </resultMap>
 
     <resultMap id="ActivityProductSelect" class="ActivityProductSelectModel">

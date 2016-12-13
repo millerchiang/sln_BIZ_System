@@ -75,12 +75,12 @@
     -->
     <!--查詢使用者產業別對應結果全部-->
     <select id="SelectUserSortByUserId" parameterClass="EnterpriseSortModel" resultMap="UserSort-result">
-      SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en
+      SELECT sort.user_id, sort.sort_id, list.enterprise_sort_id, list.enterprise_sort_name, list.enterprise_sort_name_en, list.enterprise_sort_id_b, list.enterprise_sort_name_b, list.enterprise_sort_name_en_b
       FROM enterprise_sort sort
       INNER JOIN enterprise_sort_list list
       ON sort.sort_id = list.sort_id
       WHERE sort.user_id = #user_id#
-      ORDER BY sort.user_id;
+      ORDER BY sort.user_id,list.enterprise_sort_id;
 
 
     </select>
@@ -348,9 +348,34 @@
       ORDER BY id DESC
     </select>
 
+    <!--關鍵字查詢-->
+    <select id="SelectAllkwc" resultMap="UserInfo-result">
+      SELECT user_info.*
+      FROM user_info
+      inner join cluster_member on user_info.user_id=cluster_member.user_id
+      <dynamic prepend="where">
+        <isNotEmpty prepend="and" property="user_id">
+          user_info.user_id  like '%'||#user_id#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="company">
+          user_info.company like '%'||#company#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="and" property="id">
+          cluster_member.cluster_no = #id# and cluster_member.cluster_enable = '1'
+        </isNotEmpty>
+      </dynamic>
+      ORDER BY id DESC
+    </select>
 
     <!--查詢單筆-->
     <select id="SelectOne" resultMap="UserInfo-result">
+      SELECT *
+      FROM user_info
+      WHERE user_id = #user_id#
+    </select>
+
+    <!--查詢單筆-->
+    <select id="SelectOneManager" resultMap="UserInfoManager-result">
       SELECT *
       FROM user_info
       WHERE user_id = #user_id#
@@ -389,6 +414,25 @@
       )
     </insert>
 
+    <!--新增單筆-->
+    <insert id="InsertOneManager" parameterClass="prj_BIZ_System.Models.UserInfoModel">
+      <selectKey resultClass="int" property="id" type="post">
+        SELECT currval('user_info_seq')
+      </selectKey>
+      INSERT INTO user_info (
+      user_id, user_pw,id_enable,
+      enterprise_type, company, leader,
+      addr, contact, phone, email, capital, revenue, website, info,phone2, email2,
+      logo_img, company_en, leader_en, addr_en, contact_en, info_en
+      ) VALUES (
+      #user_id#, #user_pw#,#id_enable#,
+      #enterprise_type#, #company#, #leader#,
+      #addr#, #contact#, #phone#, #email#, #capital#, #revenue#, #website#, #info#, #phone2#, #email2#,
+      #logo_img#, #company_en#, #leader_en#, #addr_en#, #contact_en#, #info_en#
+      )
+    </insert>
+
+
     <!--刪除單筆-->
     <delete id="DeleteOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
       DELETE FROM user_info
@@ -421,6 +465,35 @@
       update_time = #update_time#
       WHERE user_id = #user_id#
     </update>
+
+    <!--修改單筆-->
+    <update id="UpdateOneManager" parameterClass="prj_BIZ_System.Models.UserInfoModel">
+      UPDATE user_info
+      SET
+      enterprise_type = #enterprise_type#,
+      company = #company#,
+      id_enable = #id_enable#,
+      leader = #leader#,
+      addr = #addr#,
+      contact = #contact#,
+      phone = #phone#,
+      email = #email#,
+      capital = #capital#,
+      revenue = #revenue#,
+      website = #website#,
+      info = #info#,
+      logo_img = #logo_img#,
+      company_en = #company_en#,
+      leader_en = #leader_en#,
+      addr_en = #addr_en#,
+      contact_en = #contact_en#,
+      info_en = #info_en#,
+      phone2 = #phone2#,
+      email2 = #email2#,
+      update_time = #update_time#
+      WHERE user_id = #user_id#
+    </update>
+
 
     <!--修改單筆(手機)-->
     <update id="UpdateOneForMobile" parameterClass="prj_BIZ_System.Models.UserInfoModel">
@@ -487,11 +560,45 @@
       <result property="info_en" column="info_en"/>
     </resultMap>
 
+    <resultMap id="UserInfoManager-result" class="prj_BIZ_System.Models.UserInfoModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="id" column="id"/>
+      <result property="user_id" column="user_id"/>
+      <result property="user_pw" column="user_pw"/>
+      <result property="id_enable" column="id_enable"/>
+      <result property="enterprise_type" column="enterprise_type"/>
+      <result property="company" column="company"/>
+      <result property="leader" column="leader"/>
+      <result property="addr" column="addr"/>
+      <result property="contact" column="contact"/>
+      <result property="phone" column="phone"/>
+      <result property="email" column="email"/>
+      <result property="phone2" column="phone2"/>
+      <result property="email2" column="email2"/>
+      <result property="capital" column="capital"/>
+      <result property="revenue" column="revenue"/>
+      <result property="website" column="website"/>
+      <result property="info" column="info"/>
+      <result property="create_time" column="create_time"/>
+      <result property="update_time" column="update_time"/>
+      <result property="last_login_time" column="last_login_time"/>
+      <result property="logo_img" column="logo_img"/>
+      <result property="company_en" column="company_en"/>
+      <result property="leader_en" column="leader_en"/>
+      <result property="addr_en" column="addr_en"/>
+      <result property="contact_en" column="contact_en"/>
+      <result property="info_en" column="info_en"/>
+    </resultMap>
+
+
     <resultMap id="Enterprise_sort-result" class="prj_BIZ_System.Models.EnterpriseSortListModel">
       <result property="sort_id" column="sort_id"/>
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
       <result property="enterprise_sort_name" column="enterprise_sort_name"/>
       <result property="enterprise_sort_name_en" column="enterprise_sort_name_en"/>
+      <result property="enterprise_sort_id_b" column="enterprise_sort_id_b"/>
+      <result property="enterprise_sort_name_b" column="enterprise_sort_name_b"/>
+      <result property="enterprise_sort_name_en_b" column="enterprise_sort_name_en_b"/>
     </resultMap>
 
     <resultMap id="UserSort-result" class="prj_BIZ_System.Models.EnterpriseSortModel">
@@ -500,6 +607,9 @@
       <result property="enterprise_sort_id" column="enterprise_sort_id"/>
       <result property="enterprise_sort_name" column="enterprise_sort_name"/>
       <result property="enterprise_sort_name_en" column="enterprise_sort_name_en"/>
+      <result property="enterprise_sort_id_b" column="enterprise_sort_id_b"/>
+      <result property="enterprise_sort_name_b" column="enterprise_sort_name_b"/>
+      <result property="enterprise_sort_name_en_b" column="enterprise_sort_name_en_b"/>
     </resultMap>
 
     <resultMap id="CompanySort-result" class="prj_BIZ_System.Models.CompanySortModel">

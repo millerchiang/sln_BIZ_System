@@ -191,10 +191,15 @@
             {
                 <input type="hidden" name="user_pw" value="@Model.userinfo.user_pw">
             }
-            <label for="name" class="regis_col01R_label spanRed">電話/分機</label>
+            <label for="phone" class="regis_col01R_label spanRed">電話/分機</label>
             <input type="text" name="phone" value="@Model.userinfo.phone" class="regis_col01R_input" required>
             <label for="email" class="regis_col01R_label spanRed">電子郵件</label>
-            <input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input">
+            <input type="email" name="email" value="@Model.userinfo.email" class="regis_col01R_input" required>
+
+            <label for="phone2" class="regis_col01R_label">備用電話/分機</label>
+            <input type="text" name="phone2" value="@Model.userinfo.phone2" class="regis_col01R_input">
+            <label for="email2" class="regis_col01R_label">備用電子郵件</label>
+            <input type="email" name="email2" value="@Model.userinfo.email2" class="regis_col01R_input">
 
         </div>
 
@@ -257,7 +262,7 @@
             <label for="revenue06">一億以上</label>
         </div>
         <label for="verticals" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_scope (@prj_BIZ_System.LanguageResource.User.lb_multiple)</label>
-        <div class="regis_col02R verticalslist">
+        @*<div class="regis_col02R verticalslist">
 
             @foreach (var sortList in Model.enterprisesortList)
             {
@@ -270,7 +275,39 @@
                 }
 
             }
-        </div>
+        </div>*@
+        <ul id="industryList">
+            <li>
+                @foreach (var sortList in Model.enterprisesortList)
+                {
+
+                    var enterprise_sort_name_b = sortList.enterprise_sort_name_b;
+                    var enterprise_sort_name = sortList.enterprise_sort_name;
+                    var sstring = " <div class='verticalslist industryText w100'>";
+                    var estring = "</div>";
+                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                    {
+                        enterprise_sort_name_b = sortList.enterprise_sort_name_en_b;
+                        enterprise_sort_name = sortList.enterprise_sort_name_en;
+                    }
+
+                    if (sortList.enterprise_sort_id_b.Length > 1 && sortList.enterprise_sort_id_b.Substring(1, 1) == "S")
+                    {
+                        <a href="javascript:void(0)" class="industryTitle">@sortList.enterprise_sort_id.Substring(0, 1) - @enterprise_sort_name_b</a>
+                            @Html.Raw(sstring)
+                    }
+
+                    <input type="checkbox" class="inputCheckbox" name="sort_id" id="@sortList.sort_id" value="@sortList.sort_id" id2="@sortList.enterprise_sort_id"><label for="@sortList.sort_id">@sortList.enterprise_sort_id - @enterprise_sort_name</label>
+
+                    if ((sortList.enterprise_sort_id_b.Length > 1 && sortList.enterprise_sort_id_b.Substring(1, 1) == "E") || (sortList.enterprise_sort_id_b.Length > 2 && sortList.enterprise_sort_id_b.Substring(2, 1) == "E"))
+                    {
+                        @Html.Raw(estring)
+                    }
+                }
+
+            </li>
+        </ul>
+
         <label for="website" class="regis_col02L">企業網址</label>
         <input type="text" name="website" value="@Model.userinfo.website" class="regis_col02R">
         <div class="centerbox">
@@ -281,6 +318,12 @@
 </article>
 
 <script>
+    $(function(){
+        $("#industryList a").on('click',function(){
+            $(this).toggleClass('active');
+        })
+    })
+
     $(function () {
         init();
         render();

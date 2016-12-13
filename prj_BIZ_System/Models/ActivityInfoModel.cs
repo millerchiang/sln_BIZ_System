@@ -158,6 +158,9 @@ namespace prj_BIZ_System.Models
         public string enterprise_sort_id { get; set; }//產業別編號
         public string enterprise_sort_name { get; set; }//產業別名稱
         public string enterprise_sort_name_en { get; set; }//產業別名稱(英文)
+        public string enterprise_sort_id_b { get; set; }//產業別編號
+        public string enterprise_sort_name_b { get; set; }//產業別名稱
+        public string enterprise_sort_name_en_b { get; set; }//產業別名稱(英文)
     }
 
     public class ActivityProductSelectModel

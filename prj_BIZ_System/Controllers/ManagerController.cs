@@ -299,6 +299,9 @@ namespace prj_BIZ_System.Controllers
                                                     ar.seller_name,
                                                     ar.seller_name_en,
                                                     ar.question_1+","+ar.question_1_1+","+ar.question_1_2+","+ar.question_1_2_other+","+ar.question_1_4,
+                                                    ar.question_1_1,
+                                                    ar.question_1_2+","+ar.question_1_2_other,
+                                                    ar.question_1_4,
                                                     ar.question_2
                                                }
                                             ).ToList();
@@ -325,6 +328,43 @@ namespace prj_BIZ_System.Controllers
                 for (int j = 0; j < columns.Length; j++)
                 {
                     ICell _cell = row.CreateCell(j);
+                    if (j == 7)
+                    {
+                        if (columns[j] != null && columns[j]!="")
+                            columns[j] = "USD " + columns[j];
+                    }
+
+                    if (j==8)
+                    {
+                        string[] result = columns[j].Split(',');
+                        string r = "";
+                        if (columns[j] == ",")
+                            columns[j] = "";
+                        if (result[1] != null && result[1] != "")
+                        {
+                            r = "USD " + result[1];
+                        }else if (result[0] != null && result[0] != "")
+                        {
+                            if (result[0] == "0")
+                            {
+                                r = "Under USD 500,000";
+                            }
+                            else if (result[0] == "1")
+                            {
+                                r = "USD 510,000 ~ USD 1,000,000";
+                            }
+                            else if (result[0] == "2")
+                            {
+                                r = "USD 1,010,000 ~ USD 1,500,000";
+                            }
+                            else if (result[0] == "3")
+                            {
+                                r = "USD 1,510,000 ~ USD 2,000,000";
+                            }
+                            columns[j] = r;
+                        }
+                    }
+
                     if (j==6)
                     {
                         string[] result = columns[j].Split(',');
@@ -332,42 +372,42 @@ namespace prj_BIZ_System.Controllers
                         if (result[0] == "0")
                         {
                             r = "1：訂單已成立";
-                            if (result[1] != "")
-                            {
-                                r = r + "(訂單成交金額:US$ " + result[1] + ")";
-                            }
+                            //if (result[1] != "")
+                            //{
+                            //    r = r + "(訂單成交金額:USD " + result[1] + ")";
+                            //}
                         }
                         else if (result[0] == "1")
                         {
                             r = "2：訂單成立可能性高";
-                            if (result[2] != "")
-                            {
-                                string m = "";
-                                if (result[2] == "0"){
-                                    m = "Under USD 500,000";
-                                }else if (result[2] == "1")
-                                {
-                                    m = "USD 510,000 ~ USD 1,000,000";
-                                }
-                                else if (result[2] == "2")
-                                {
-                                    m = "USD 1,010,000 ~ USD 1,500,000";
-                                }
-                                else if (result[2] == "3")
-                                {
-                                    m = "USD 1,510,000 ~ USD 2,000,000";
-                                }
-                                else if (result[2] == "4")
-                                {
-                                    m = "Other";
-                                    if (result[3] != "")
-                                    {
-                                        m=m+" [USD "+ result[3] + "]";
-                                    }
-                                }
+                            //if (result[2] != "")
+                            //{
+                            //    string m = "";
+                            //    if (result[2] == "0"){
+                            //        m = "Under USD 500,000";
+                            //    }else if (result[2] == "1")
+                            //    {
+                            //        m = "USD 510,000 ~ USD 1,000,000";
+                            //    }
+                            //    else if (result[2] == "2")
+                            //    {
+                            //        m = "USD 1,010,000 ~ USD 1,500,000";
+                            //    }
+                            //    else if (result[2] == "3")
+                            //    {
+                            //        m = "USD 1,510,000 ~ USD 2,000,000";
+                            //    }
+                            //    else if (result[2] == "4")
+                            //    {
+                            //        m = "Other";
+                            //        if (result[3] != "")
+                            //        {
+                            //            m=m+" [USD "+ result[3] + "]";
+                            //        }
+                            //    }
 
-                                r = r + "(訂單預估成交金額:" + m + ")";
-                            }
+                            //    r = r + "(訂單預估成交金額:" + m + ")";
+                            //}
                         }
                         else if (result[0] == "2")
                         {
@@ -376,10 +416,10 @@ namespace prj_BIZ_System.Controllers
                         else if (result[0] == "3")
                         {
                             r = "4：其他";
-                            if (result[4] != "")
-                            {
-                                r = r + "  說明:" + result[4];
-                            }
+                            //if (result[4] != "")
+                            //{
+                            //    r = r + "  說明:" + result[4];
+                            //}
                         }
                         columns[j] = r;
                     }
@@ -891,14 +931,16 @@ namespace prj_BIZ_System.Controllers
 
         #region 使用者資料管理
 
-        public ActionResult UserList(string user_id, string company)
+        public ActionResult UserList(string user_id, string company,string cluster_no)
         {
             if (Request.Cookies["ManagerInfo"] == null)
                 return Redirect("Login");
             if (Request.Cookies["ManagerInfo"]["user"] == "0")
                 return Redirect("Index");
 
-            activityModel.userinfoList = userService.GetUserInfoListkw(user_id, company).Pages(Request, this, 10);
+            ViewBag.cluster_no = cluster_no;
+            activityModel.clusterList = clusterService.GetClusterAll();
+            activityModel.userinfoList = userService.GetUserInfoListkw(user_id, company, cluster_no).Pages(Request, this, 10);
             return View(activityModel);
         }
         public ActionResult DeleteUser()
@@ -984,46 +1026,161 @@ namespace prj_BIZ_System.Controllers
             string NewSortId = "";
             //New sort_id------------
             if (QldSortId == "C1" || QldSortId == "C2")
-                NewSortId = "A";
+            {
+                if (QldSortId == "C1")
+                    NewSortId = "A1";
+                else if (QldSortId == "C2")
+                    NewSortId = "A2";
+            }
             else if (QldSortId == "C3"
                 || QldSortId == "CI" || QldSortId == "CJ"
                 || QldSortId == "CK" || QldSortId == "CL"
                 || QldSortId == "C4")
-                NewSortId = "B";
+            {
+                if (QldSortId == "C3")
+                    NewSortId = "B1";
+                else if (QldSortId == "C4")
+                    NewSortId = "B2";
+                else if (QldSortId == "CI")
+                    NewSortId = "B3";
+                else if (QldSortId == "CJ")
+                    NewSortId = "B4";
+                else if (QldSortId == "CK")
+                    NewSortId = "B5";
+                else if (QldSortId == "CL")
+                    NewSortId = "B6";
+            }
             else if (QldSortId == "C8" || QldSortId == "C9"
                 || QldSortId == "CA" || QldSortId == "CB"
                 || QldSortId == "CC" || QldSortId == "CD"
                 || QldSortId == "CE" || QldSortId == "CF"
                 || QldSortId == "CG")
-                NewSortId = "C";
+            {
+                if (QldSortId == "C8")
+                    NewSortId = "C1";
+                else if (QldSortId == "C9")
+                    NewSortId = "C2";
+                else if (QldSortId == "CA")
+                    NewSortId = "C3";
+                else if (QldSortId == "CB")
+                    NewSortId = "C4";
+                else if (QldSortId == "CC")
+                    NewSortId = "C5";
+                else if (QldSortId == "CD")
+                    NewSortId = "C6";
+                else if (QldSortId == "CE")
+                    NewSortId = "C7";
+                else if (QldSortId == "CF")
+                    NewSortId = "C8";
+                else if (QldSortId == "CG")
+                    NewSortId = "C9";
+
+            }
             else if (QldSortId == "C5" || QldSortId == "C6"
                 || QldSortId == "CH" || QldSortId == "CM"
                 || QldSortId == "CN" || QldSortId == "CO"
                 || QldSortId == "C7")
-                NewSortId = "D";
+            {
+                if (QldSortId == "C5")
+                    NewSortId = "D1";
+                else if (QldSortId == "C6")
+                    NewSortId = "D2";
+                else if (QldSortId == "C7")
+                    NewSortId = "D3";
+                else if (QldSortId == "CH")
+                    NewSortId = "D4";
+                else if (QldSortId == "CM")
+                    NewSortId = "D5";
+                else if (QldSortId == "CN")
+                    NewSortId = "D6";
+                else if (QldSortId == "CO")
+                    NewSortId = "D7";
+            }
             else if (QldSortId == "CP" || QldSortId == "CQ"
                 || QldSortId == "CR"
                 || QldSortId == "CZ")
-                NewSortId = "E";
+            {
+                if (QldSortId == "CP")
+                    NewSortId = "E1";
+                else if (QldSortId == "CQ")
+                    NewSortId = "E2";
+                else if (QldSortId == "CR")
+                    NewSortId = "E3";
+                else if (QldSortId == "CZ")
+                    NewSortId = "E4";
+            }
             else if (QldSortId == "G1" || QldSortId == "G2"
                 || QldSortId == "G3" || QldSortId == "G4"
                 || QldSortId == "G5" || QldSortId == "G6"
                 || QldSortId == "G7")
-                NewSortId = "F";
+            {
+                if (QldSortId == "G1")
+                    NewSortId = "F1";
+                else if (QldSortId == "G2")
+                    NewSortId = "F2";
+                else if (QldSortId == "G3")
+                    NewSortId = "F3";
+                else if (QldSortId == "G4")
+                    NewSortId = "F4";
+                else if (QldSortId == "G5")
+                    NewSortId = "F5";
+                else if (QldSortId == "G6")
+                    NewSortId = "F6";
+                else if (QldSortId == "G7")
+                    NewSortId = "F7";
+            }
             else if (QldSortId == "G8" || QldSortId == "G9"
                 || QldSortId == "IE"
                 || QldSortId == "GA")
-                NewSortId = "G";
+            {
+                if (QldSortId == "G8")
+                    NewSortId = "G1";
+                else if (QldSortId == "G9")
+                    NewSortId = "G2";
+                else if (QldSortId == "GA")
+                    NewSortId = "G3";
+                else if (QldSortId == "IE")
+                    NewSortId = "G4";
+            }
             else if (QldSortId == "I1" || QldSortId == "I3"
                 || QldSortId == "I4" || QldSortId == "IC"
                 || QldSortId == "ID" || QldSortId == "IF"
                 || QldSortId == "IG" || QldSortId == "IZ"
                 || QldSortId == "I5")
-                NewSortId = "H";
+            {
+                if (QldSortId == "I1")
+                    NewSortId = "H1";
+                else if (QldSortId == "I3")
+                    NewSortId = "H2";
+                else if (QldSortId == "I4")
+                    NewSortId = "H3";
+                else if (QldSortId == "I5")
+                    NewSortId = "H4";
+                else if (QldSortId == "IC")
+                    NewSortId = "H5";
+                else if (QldSortId == "ID")
+                    NewSortId = "H6";
+                else if (QldSortId == "IF")
+                    NewSortId = "H7";
+                else if (QldSortId == "IG")
+                    NewSortId = "H8";
+                else if (QldSortId == "IZ")
+                    NewSortId = "H9";
+
+            }
             else if (QldSortId == "I7" || QldSortId == "I8"
                 || QldSortId == "I9"
                 || QldSortId == "IB")
-                NewSortId = "I";
+            {
+                if (QldSortId == "I7")
+                    NewSortId = "I1";
+                else if (QldSortId == "I8")
+                    NewSortId = "I2";
+                else if (QldSortId == "I9")
+                    NewSortId = "I3";
+                else if (QldSortId == "IB")
+                    NewSortId = "I4";
+            }
             else
                 NewSortId = "J";
             //-------------------------------
@@ -1145,7 +1302,7 @@ namespace prj_BIZ_System.Controllers
             else //修改
             {
                 ViewBag.tname = "會員資料";
-                activityModel.userinfo = userService.GeUserInfoOne(userid);
+                activityModel.userinfo = userService.GeUserInfoOneManager(userid);
                 ViewBag.user = activityModel.userinfo;
                 activityModel.usersortList = userService.SelectUserSortByUserId(activityModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -1181,7 +1338,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                var id = userService.UserInfoInsertOne(model);
+                var id = userService.UserInfoInsertOneManager(model);
 
             }
             else //修改
@@ -1197,7 +1354,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                userService.UserInfoUpdateOne(model);
+                userService.UserInfoUpdateOneManager(model);
 
             }
 
