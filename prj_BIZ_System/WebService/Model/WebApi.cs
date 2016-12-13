@@ -94,6 +94,7 @@ namespace prj_BIZ_System.WebService.Model
     public class ActivityRegister
     {
         public string activity_name { get; set; }//活動名稱(中文)
+        public string activity_name_en { get; set; }//活動名稱(英文)
         public string starttime { get; set; }//活動時間(起) yyyy/mm/dd hh:mm
         public string endtime { get; set; }//活動時間(迄) yyyy/mm/dd hh:mm
         public string addr { get; set; }//活動地點(中文)

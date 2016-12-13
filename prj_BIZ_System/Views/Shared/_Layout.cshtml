@@ -104,7 +104,7 @@
                                         {
                                             <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
                                             @*<li><a href="~/Cluster/ClusterList">產業聚落管理</a></li>*@
-                                            <li>
+                                            @*<li>
                                                 <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                                 <ul>
                                                     <li><a href="~/Sales/SalesInfoByCompany">@prj_BIZ_System.LanguageResource.User.lb_sales_idlist</a></li>
@@ -113,7 +113,7 @@
                                                     <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_quotation_list</a></li>
                                                     <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_order_list</a></li>
                                                 </ul>
-                                            </li>
+                                            </li>*@
                                         }
                                     }
                                     else if (Request.Cookies["SalesInfo"] != null)
@@ -158,7 +158,7 @@
 
                                         @if (Request["_version"] != null && Request["_version"] != "2.0")
                                         {
-                                            <li><a href="~/Manager/SalesInfo">業務會員帳號查詢</a></li>
+                                            @*<li><a href="~/Manager/SalesInfo">業務會員帳號查詢</a></li>*@
                                         }
                                         <li><a href="~/Manager/Group">群組權限設定</a></li>
                                         <li><a href="~/Manager/EditPasswd">管理者密碼修改</a></li>

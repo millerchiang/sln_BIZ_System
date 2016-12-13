@@ -80,7 +80,7 @@ namespace prj_BIZ_System.Controllers
             {
                 ViewBag.tname = LanguageResource.User.lb_signup;
                 userModel.userinfo = new UserInfoModel();
-                ViewBag.PageType = "Create";
+                ViewBag.PageType[] = "Create";
                 ViewBag.SubmitName = LanguageResource.User.lb_submit_sure;
                 cookie.Values.Add("edit", "Add");
                 ViewBag.userSortList = "[]";

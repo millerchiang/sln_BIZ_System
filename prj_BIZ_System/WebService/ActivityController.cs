@@ -110,6 +110,7 @@ namespace prj_BIZ_System.WebService
             return new ActivityRegister
             {
                 activity_name = activityInfoModel.activity_name,
+                activity_name_en = activityInfoModel.activity_name_en,
                 starttime = activityInfoModel.starttime.ToString("yyyy-MM-dd HH:mm"),
                 endtime = activityInfoModel.endtime.ToString("yyyy-MM-dd HH:mm"),
                 addr = activityInfoModel.addr,
