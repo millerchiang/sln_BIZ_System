@@ -383,6 +383,7 @@
       <result property="msg_content" column="msg_content"></result>
       <result property="msg_member" column="msg_member"></result>
       <result property="create_time" column="create_time"></result>
+      <result property="is_public" column="is_public"></result>
       <!--UerInfo 公司名稱(中文)-->
       <result property="company" column="company"></result>
       <result property="company_en" column="company_en"></result>
