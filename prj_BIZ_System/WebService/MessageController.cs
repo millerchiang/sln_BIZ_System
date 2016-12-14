@@ -167,7 +167,8 @@ namespace prj_BIZ_System.WebService
             var result = (long)messageService.InsertMsgCluster(model);
             try
             {
-
+                IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
+                PushHelper.doPush(pushMd);
             }
             catch (Exception e)
             {
