@@ -528,6 +528,8 @@ namespace prj_BIZ_System.Controllers
             model.msg_member = model.msg_members == null ? "" :string.Join(", ", model.msg_members);
             model.msg_member += model.msg_members != null ? ", " : "";
             model.msg_no = (long)messageService.InsertMsgCluster(model);
+            model.msg_member = model.msg_member.Trim(' ');
+            doPushWork(model);
 
             #region 上傳訊息附件
             if (iupexls != null && model.msg_no != 0)

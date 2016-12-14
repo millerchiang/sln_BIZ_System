@@ -494,6 +494,8 @@
     <Content Include="Content\Template\Import\questionnaire.xls" />
     <Content Include="Content\UploadRootDir\support\support_en_161206.pdf" />
     <Content Include="Content\UploadRootDir\support\support_tw_161206.pdf" />
+    <Content Include="Key\IOS_certificate\Biz.p12" />
+    <Content Include="Key\IOS_certificate\Biz_develop.p12" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -1047,7 +1049,6 @@
     <Folder Include="Content\UploadRootDir\12345678\Catalog\cover_file\" />
     <Folder Include="Content\UploadRootDir\12345678\News\" />
     <Folder Include="Content\UploadRootDir\NewFolder1\" />
-    <Folder Include="Key\" />
     <Folder Include="Scripts\fancybox\helpers\" />
     <Folder Include="Views\File\" />
     <Folder Include="Views\_Base\" />

@@ -97,6 +97,7 @@ namespace prj_BIZ_System.Models
         /// </summary>
         public int    msg_type { get; set; }         //訊息種類
         public long   msg_no { get; set; }           //私人訊息編號         (必傳)
+        public int? cluster_no { get; set; }         //聚落編號 (Default 0，代表沒有聚落)
         public string msg_title { get; set; }        //訊息主題             (必傳)
         public string msg_content { get; set; }      //訊息內文             (必傳)
         public string reply_user_id { get; set; }    //回覆者id

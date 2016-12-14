@@ -12,11 +12,13 @@ namespace prj_BIZ_System.Services
     public class MessageService : _BaseService
     {
         private UserService userService;
+        private ClusterService clusterService;
         private SalesService salesService;
 
         public MessageService()
         {
             userService = new UserService();
+            clusterService = new ClusterService();
             salesService = new SalesService();
         }
         
@@ -284,6 +286,7 @@ namespace prj_BIZ_System.Services
                         {
                               msg_type = getMsgType(msgMd)
                             , msg_no = msgMd.msg_no
+                            , cluster_no = msgMd.cluster_no ?? 0
                             , msg_title = msgMd.msg_title
                             , msg_content = msgMd.msg_content
                             //, reply_user_id = rpyMd.msg_reply
@@ -296,6 +299,48 @@ namespace prj_BIZ_System.Services
                         }).ToList();
                 }
             }
+            else
+            {
+                result = getMessageClusterPublicPushMd(msgMd);
+            }
+            return result;
+        }
+
+        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd)
+        {
+            IList<MsgPushModel> result;
+            string[] clusterMembers = clusterService.GetClusterMemberListWithEnable1(msgMd.cluster_no)
+                                                    .Where(cm => cm.user_id != msgMd.creater_id)
+                                                    .Select(cm => cm.user_id)
+                                                    .ToArray();
+            List<UserInfoModel> temp_result = new List<UserInfoModel>();
+            foreach (string user_ids in clusterMembers)
+            {
+                var temp = mapper.QueryForList<UserInfoModel>("Message.SelectMsgMembers", user_ids);
+                if (temp != null && temp.Count > 0)
+                {
+                    temp_result.AddRange(temp);
+                }
+            }
+
+            var createrInfo = mapper.QueryForObject<UserInfoModel>("Message.SelectMsgMembersByLeft", msgMd.creater_id);
+            result = temp_result
+                //.Where(userMd => !userMd.user_id.Equals(rpyMd.msg_reply))
+                .Select(userMd => new MsgPushModel()
+                {
+                    msg_type = getMsgType(msgMd)
+                    , msg_no = msgMd.msg_no
+                    , cluster_no = msgMd.cluster_no ?? 0
+                    , msg_title = msgMd.msg_title
+                    , msg_content = msgMd.msg_content
+                    //, reply_user_id = rpyMd.msg_reply
+                    , company = createrInfo.company
+                    , company_en = createrInfo.company_en
+                    , msg_reply_no = 0      //pyMd.msg_reply_no   //手機端判斷依據
+                    , reply_content = null  //rpyMd.reply_content //手機端判斷依據
+                    , device_id = userMd.device_id
+                    , device_os = userMd.device_os
+                }).ToList();
             return result;
         }
 
@@ -371,6 +416,7 @@ namespace prj_BIZ_System.Services
                         {
                               msg_type = getMsgType(msgMd)
                             , msg_no = msgMd.msg_no
+                            , cluster_no = msgMd.cluster_no ?? 0
                             , msg_title = msgMd.msg_title
                             , msg_content = msgMd.msg_content
                             //, reply_user_id = rpyMd.msg_reply
@@ -382,6 +428,10 @@ namespace prj_BIZ_System.Services
                             , device_os = userMd.device_os
                         }).ToList();
                 }
+            }
+            else
+            {
+                result = getMessageClusterPublicPushMd(msgMd);
             }
             return result;
         }
