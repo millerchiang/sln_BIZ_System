@@ -27,7 +27,8 @@ namespace prj_BIZ_System.WebService
                                                                     company = msgModel.company,
                                                                     company_en = msgModel.company_en,
                                                                     create_time = msgModel.create_time.ToString("yyyy-MM-dd HH:mm:ss:fff"),
-                                                                    is_read = msgModel.is_read
+                                                                    is_read = msgModel.is_read,
+                                                                    is_public = msgModel.is_public
                                                                 };
 
         [HttpGet]

@@ -124,6 +124,7 @@ namespace prj_BIZ_System.WebService.Model
         public string company { get; set; }
         public string company_en { get; set; }
         public string is_read { get; set; }
+        public string is_public { get; set; }
     }
 
     public class MsgPrivateReply
