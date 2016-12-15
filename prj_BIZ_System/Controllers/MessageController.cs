@@ -654,9 +654,23 @@ namespace prj_BIZ_System.Controllers
             ViewBag.is_public = is_public;
 
             model.msg_reply = loginer_id; // Request.Cookies["UserInfo"]["user_id"];
-            messageService.InsertMsgPrivateReply(model);
+            long insertResult = (long)messageService.InsertMsgPrivateReply(model);
             uploadFileByReply(model, iupexls);
-
+            if (insertResult > 0)
+            {
+                model.msg_reply_no = insertResult;
+                MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no); //提早判斷
+                msgMd.msg_member = msgMd.msg_member.Trim(' ');
+                try
+                {
+                    IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
+                    PushHelper.doPush(pushMd);
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e.Message);
+                }
+            }
             return Redirect("~/Message/MessageClusterDetail" + "?is_public="+ is_public + "&msg_no=" + model.msg_no);
         }
         #endregion
