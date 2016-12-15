@@ -131,7 +131,7 @@
     --> 
     <!--查詢用戶資訊的帳號和公司名稱-->
     <select id="SelectUserInfoToIdandCp" resultMap="UserInfo">
-      select user_id,company
+      select user_id,company,company_en
       from user_info
       where id_enable = '1'
     </select>
@@ -1055,6 +1055,7 @@
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="user_id" column="user_id"/>
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="NewsWithActivity" class="NewsModel">

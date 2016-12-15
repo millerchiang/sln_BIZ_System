@@ -95,7 +95,7 @@
                 <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
 
                 <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
-                <table class="membertable article_col1" id="membertable">
+                <table class="membertable article_col1 listlink" id="membertable">
 
                     <tr>
                         <td>商家名稱</td>
@@ -130,14 +130,24 @@
                         {
                             if (md.user_id != user_id)
                             {
+                                company = md.company;
+                                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                {
+                                    if (md.company_en != null && md.company_en != "")
+                                    {
+                                        company = md.company_en;
+                                    }
+                                }
+
                                 <tr id="grp_name_@md.user_id">
                                     <td>
                                         <input type="hidden" name="id" value="@md.user_id">
-                                        <label>@md.user_id - @md.company</label>
+                                        <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
 
                                             @if (md.cluster_enable == "2")
                                             {
-                                                <a href="javascript:void(0)" class="removetag rightbox" onclick="showDelete(@md.user_id,@md.cluster_no)"></a>
+                                                @*<a href="javascript:void(0)" class="removetag rightbox" onclick="showDelete(@md.user_id,@md.cluster_no)"></a>*@
+                                                <a href="javascript:void(0)" class="removetag rightbox" onclick="doDelete('@md.user_id',@md.cluster_no,'@company',1)"></a>
                                             }
                                     </td>
                                     
@@ -160,9 +170,6 @@
             </div>
 
         </form>
-        <div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_delete" style="display:none;">
-            <p>@prj_BIZ_System.LanguageResource.User.lb_delete<span class="salesid"></span>?</p>
-        </div>
     </article>
 @{
     Html.RenderAction("_HomeLeftPartial", "Home");
@@ -170,6 +177,12 @@
 
 </div>
 
+<div id="dialog" title="邀請成員" style="display:none;">
+    <p>
+        <span class="instext"></span><br />
+        <span id="business_id"></span>
+    </p>
+</div>
 
 <script type="text/javascript"
         src="~/Scripts/jquery-ui-1.10.2.min.js">
@@ -217,8 +230,10 @@
         '<td>' +
         '<input type="hidden" name="id" value="' + user_id + '">' +
         '<input type="hidden" name="user_id" value="' + user_id + '">' +
-        '<label">' + user_id + ' - ' + company + '</label>' +
-        '<a href="javascript:void(0)" class="removetag rightbox" onclick="showCancel(' + user_id + ')"></a>' +
+        //'<label">' + user_id + ' - ' + company + '</label>' +
+        //'<a href="javascript:void(0)" class="removetag rightbox" onclick="showCancel(' + user_id + ')"></a>' +
+        '<a href="/User/UserInfo?user_id=' + user_id + '" target="_blank">' + user_id + ' - ' + company + '</a>' +
+        '<a href="javascript:doDelete(\'' + user_id + '\',0,\'' + company + '\',2)" class="removetag rightbox"></a>' +
         '</td></tr>';
         return template;
     }
@@ -268,6 +283,28 @@
             });
         }
     }
+
+    function doDelete(id, cid, inputtext,m) {
+        $(".instext").text("是否刪除邀請中的");
+        $("#business_id").text(inputtext);
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    if (m == 1)
+                        showDelete(id, cid);
+                    else
+                        showCancel(id);
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    }
+
 
     function idexist(userid) {
         var e=false;

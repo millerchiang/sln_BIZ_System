@@ -28,7 +28,7 @@
                     <div class="regis_col02L">管理者帳號</div>
                     <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
                     <div class="regis_col02L">聚落商家</div>
-                    <table class="regis_col02R membertable">
+                    <table class="regis_col02R membertable listlink">
                         @if (Model.clusterMemberList != null)
                         {
                             foreach (ClusterMemberModel md in Model.clusterMemberList)
@@ -37,7 +37,7 @@
                                 {
                                     <tr id="grp_name_@md.user_id">
                                         <td>
-                                            <label>@md.user_id - @md.company</label>
+                                            <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @md.company</a>
                                         </td>
                                     </tr>
                                 }
