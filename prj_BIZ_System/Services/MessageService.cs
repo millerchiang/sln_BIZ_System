@@ -306,7 +306,7 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
-        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd)
+        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd, long replyNo = 0, string replyContent = "")
         {
             IList<MsgPushModel> result;
             string[] clusterMembers = clusterService.GetClusterMemberListWithEnable1(msgMd.cluster_no)
@@ -336,8 +336,8 @@ namespace prj_BIZ_System.Services
                     //, reply_user_id = rpyMd.msg_reply
                     , company = createrInfo.company
                     , company_en = createrInfo.company_en
-                    , msg_reply_no = 0      //pyMd.msg_reply_no   //手機端判斷依據
-                    , reply_content = null  //rpyMd.reply_content //手機端判斷依據
+                    , msg_reply_no = replyNo      //pyMd.msg_reply_no   //手機端判斷依據
+                    , reply_content = replyContent  //rpyMd.reply_content //手機端判斷依據
                     , device_id = userMd.device_id
                     , device_os = userMd.device_os
                 }).ToList();
@@ -431,7 +431,7 @@ namespace prj_BIZ_System.Services
             }
             else
             {
-                result = getMessageClusterPublicPushMd(msgMd);
+                result = getMessageClusterPublicPushMd(msgMd, rpyMd.msg_reply_no, rpyMd.reply_content);
             }
             return result;
         }
