@@ -96,6 +96,7 @@ namespace prj_BIZ_System.WebService
             MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
             try
             {
+                msgMd.msg_member = msgMd.msg_member.Trim(' ');
                 IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
                 PushHelper.doPush(pushMd);
             }
@@ -165,6 +166,7 @@ namespace prj_BIZ_System.WebService
                 model.msg_member = model.msg_member.Trim(' ');
             }
             var result = (long)messageService.InsertMsgCluster(model);
+            model.msg_member = model.msg_member.Trim(' ');
             try
             {
                 IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
