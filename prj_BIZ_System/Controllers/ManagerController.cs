@@ -1493,7 +1493,16 @@ namespace prj_BIZ_System.Controllers
 
             foreach (UserInfoToIdAndCpModel model in activityModel.userinfotoidandcpList)
             {
-                arrayList.Add(model.user_id + "," + model.company);
+                if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    if (model.company_en!=null && model.company_en!="")
+                        arrayList.Add(model.user_id + "," + model.company_en);
+                    else
+                        arrayList.Add(model.user_id + "," + model.company);
+
+                }
+                else
+                    arrayList.Add(model.user_id + "," + model.company);
             }
 
             string[] items = (string[])arrayList.ToArray(typeof(string));

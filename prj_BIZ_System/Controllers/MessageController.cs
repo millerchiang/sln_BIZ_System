@@ -470,6 +470,7 @@ namespace prj_BIZ_System.Controllers
             ViewBag.ClusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]),null,null);
             messageViewModel.msgLists = msgLists;
             docookie("_menu", "MessageClusterMain");
+            docookie("cluster_no", Request["cluster_no"]);
             return View(messageViewModel);
         }
 

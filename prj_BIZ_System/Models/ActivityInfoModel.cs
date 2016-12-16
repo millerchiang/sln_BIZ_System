@@ -70,6 +70,7 @@ namespace prj_BIZ_System.Models
     {
         public string user_id { get; set; }//使用者帳號
         public string company { get; set; }//公司名稱
+        public string company_en { get; set; }//公司名稱
     }
 
     public class QuestionnaireModel

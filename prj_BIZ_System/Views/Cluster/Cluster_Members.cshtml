@@ -57,11 +57,11 @@
                     <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
 
                     <div class="regis_col02L">企業聚落成員</div>
-                    <table class="regis_col02R membertable" id="gmember">
+                    <table class="regis_col02R membertable listlink" id="gmember">
                         <tr id="grp_name_@user_id">
                             <td>
                                 <input type="hidden" name="id" value="@user_id">
-                                <label>@user_id - @company</label>
+                                <a href="~/User/UserInfo?user_id=@user_id" target="_blank">@user_id - @company</a>
                             </td>
                         </tr>
 
@@ -71,10 +71,19 @@
                             {
                                 if (md.user_id != user_id && md.cluster_enable == "1")
                                 {
+                                    company = md.company;
+                                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                    {
+                                        if (md.company_en != null && md.company_en != "")
+                                        {
+                                            company = md.company_en;
+                                        }
+                                    }
+
                                     <tr id="grp_name_@md.user_id">
                                         <td>
                                             <input type="hidden" name="id" value="@md.user_id">
-                                            <label>@md.user_id - @md.company</label>
+                                            <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
                                         </td>
                                     </tr>
                                 }
@@ -82,20 +91,30 @@
                         }
                     </table>
 
-                    <div class="form_box regis_dmlist">
+                    <div class="form_box w100">
                         <div class="regis_col02L">邀請中成員</div>
-                        <table class="regis_col02R membertable" id="membertable">
+                        <table class="regis_col02R membertable listlink" id="membertable">
                             @if (Model.clusterMemberList != null)
-                            {
-                                foreach (ClusterMemberModel md in Model.clusterMemberList)
                                 {
-                                    if (md.user_id != user_id && md.cluster_enable == "2")
+                                    foreach (ClusterMemberModel md in Model.clusterMemberList)
                                     {
+                                        if (md.user_id != user_id && md.cluster_enable == "2")
+                                        {
+                                            company = md.company;
+                                            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                            {
+                                                if (md.company_en != null && md.company_en != "")
+                                                {
+                                                    company = md.company_en;
+                                                }
+                                            }
+
                                         <tr id="grp_name_@md.user_id">
                                             <td class="removeup">
                                                 <input type="hidden" name="id" value="@md.user_id">
                                                 <input type="hidden" name="cid" value="@md.cluster_no">
-                                                <label>@md.user_id - @md.company</label>
+                                                <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
+                                                <a href="javascript:void(0)" class="removetag rightbox" onclick="doDelete('@md.user_id',@md.cluster_no,'@company',1)"></a>
                                             </td>
                                         </tr>
                                     }
@@ -104,14 +123,14 @@
                         </table>
                     </div>
 
-                    <div class="form_box regis_dmlist">
+                    <div class="form_box w100">
                         <div class="regis_col02L">新增邀請</div>
                         <div class="regis_col02R">
                             <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
                             <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                         </div>
                         <div class="regis_col02L" id="newmemberlabel"></div>
-                        <table class="regis_col02R membertable" id="newmembertable"></table>
+                        <table class="regis_col02R membertable listlink" id="newmembertable"></table>
 
                         <div class="centerbox">
                             <button id="sendinvite" type="submit" class="buinfor" style="display:none">送出邀請</button>
@@ -183,13 +202,16 @@
     }
 
     function genTemplate() {
+        var cluster_no = $("input[name='no']").val();
         var template =
         '<tr id="grp_name_' + user_id + '">' +
             '<td class="removeup">' +
                 '<input type="hidden" name="id" value="' + user_id + '">' +
                 '<input type="hidden" name="user_id" value="' + user_id + '">' +
-                '<label>' + user_id + ' - ' + company + '</label>' +
-            '</td>' + 
+                //'<label>' + user_id + ' - ' + company + '</label>' +
+                '<a href="/User/UserInfo?user_id=' + user_id + '" target="_blank">' + user_id + ' - ' + company + '</a>' +
+                '<a href="javascript:doDelete(\'' + user_id + '\',' + cluster_no + ',\'' + company + '\',2)" class="removetag rightbox"></a>' +
+            '</td>' +
         '</tr>';
         return template;
     }
@@ -233,6 +255,29 @@
             });
         }
     }
+
+    function doDelete(id,cid,inputtext,m){
+        $("#dialog").dialog({
+            autoOpen: true,
+            modal: true,
+            buttons: {
+                "是": function () {
+                    showDelete(id,cid);
+                    $(this).dialog("close");
+                },
+                "否": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        if (m == 1)
+            $(".instext").text("是否刪除邀請中的");
+        else
+            $(".instext").text("是否取消新邀請的");
+
+        $("#business_id").text(inputtext);
+    }
+
 
     function idexist(userid) {
         var e=false;
@@ -357,57 +402,57 @@
 
     })
 
-    $("#membertable").on('click', 'tr', function () {
-        var inputtext = $(this).text();
-        var _this = $(this);
-        var id = $(this).find('td').eq(0).find("input[name='id']").val();
-        var cid = $(this).find('td').eq(0).find("input[name='cid']").val();
 
-        $("#dialog").dialog({
-            autoOpen: true,
-            modal: true,
-            buttons: {
-                "是": function () {
-                    showDelete(id,cid);
-//                    _this.remove();
-                    $(this).dialog("close");
-                },
-                "否": function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-        $(".instext").text("是否刪除邀請中的");
-        $("#business_id").text(inputtext);
-    })
+//    $("#membertable").on('click', 'tr', function () {
+//        var inputtext = $(this).text();
+//        var _this = $(this);
+//        var id = $(this).find('td').eq(0).find("input[name='id']").val();
+//        var cid = $(this).find('td').eq(0).find("input[name='cid']").val();
+
+//        $("#dialog").dialog({
+//            autoOpen: true,
+//            modal: true,
+//            buttons: {
+//                "是": function () {
+//                    showDelete(id,cid);
+//                    $(this).dialog("close");
+//                },
+//                "否": function () {
+//                    $(this).dialog("close");
+//                }
+//            }
+//        });
+//        $(".instext").text("是否刪除邀請中的");
+//        $("#business_id").text(inputtext);
+//    })
 
 
-    $("#newmembertable").on('click', 'tr', function () {
-        var inputtext = $(this).text();
-        var _this = $(this);
-        var id = $(this).find('td').eq(0).find("input[name='user_id']").val();
-        $("#dialog").dialog({
-            autoOpen: true,
-            modal: true,
-            buttons: {
-                "是": function () {
-                    showCancel(id);
-//                    _this.remove();
-                    $(this).dialog("close");
-                    if (g_new <= 0) {
-                        $("#sendinvite").hide();
-                        $("#newmemberlabel").html("");
-                    }
+//    $("#newmembertable").on('click', 'tr', function () {
+//        var inputtext = $(this).text();
+//        var _this = $(this);
+//        var id = $(this).find('td').eq(0).find("input[name='user_id']").val();
+//        $("#dialog").dialog({
+//            autoOpen: true,
+//            modal: true,
+//            buttons: {
+//                "是": function () {
+//                    showCancel(id);
+////                    _this.remove();
+//                    $(this).dialog("close");
+//                    if (g_new <= 0) {
+//                        $("#sendinvite").hide();
+//                        $("#newmemberlabel").html("");
+//                    }
 
-                },
-                "否": function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-        $(".instext").text("是否取消新邀請的");
-        $("#business_id").text(inputtext);
-    })
+//                },
+//                "否": function () {
+//                    $(this).dialog("close");
+//                }
+//            }
+//        });
+//        $(".instext").text("是否取消新邀請的");
+//        $("#business_id").text(inputtext);
+//    })
 
 
 </script>
