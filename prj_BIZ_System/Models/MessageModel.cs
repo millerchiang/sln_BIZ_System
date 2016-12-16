@@ -33,6 +33,8 @@ namespace prj_BIZ_System.Models
 
         public string cluster_user { get; set; } //聚落使用者的id
         public string[] msg_members { get; set; }       //成員陣列
+
+        public string cluster_name { get; set; } //聚落名稱
     }
 
     /*
@@ -108,5 +110,6 @@ namespace prj_BIZ_System.Models
         public string reply_content { get; set; }    //訊息回覆的內容       (必傳) //手機端判斷依據
         public string device_id { get; set; }       /*MobileDeviceInfo 的 裝置識別碼*/
         public string device_os { get; set; }       /*MobileDeviceInfo 的 裝置作業系統*/
+        public string cluster_name { get; set; }     //聚落名稱
     }
 }

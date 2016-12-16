@@ -96,6 +96,12 @@ namespace prj_BIZ_System.WebService
             MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no);
             try
             {
+                if(msgMd.cluster_no != 0)
+                {
+                    ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(msgMd.cluster_no, null, null);
+                    msgMd.cluster_name = clusterInfo.cluster_name;
+                }
+
                 msgMd.msg_member = msgMd.msg_member.Trim(' ');
                 IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);
                 PushHelper.doPush(pushMd);
@@ -169,6 +175,9 @@ namespace prj_BIZ_System.WebService
             model.msg_member = model.msg_member.Trim(' ');
             try
             {
+                ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(model.cluster_no,null,null);
+                model.cluster_name = clusterInfo.cluster_name;
+
                 IList<MsgPushModel> pushMd = messageService.getPushMdFromCreateMsg(model);
                 PushHelper.doPush(pushMd);
             }
@@ -185,7 +194,7 @@ namespace prj_BIZ_System.WebService
             if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null");
             var memberList = clusterService.GetClusterMemberListWithEnable1(cluster_no).Select(
                 clusterMemberModel =>
-                new 
+                new
                 {
                     user_id = clusterMemberModel.user_id,
                     company = clusterMemberModel.company,

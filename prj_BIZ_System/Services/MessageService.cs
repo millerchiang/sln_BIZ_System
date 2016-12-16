@@ -296,6 +296,7 @@ namespace prj_BIZ_System.Services
                             , reply_content = null  //rpyMd.reply_content //手機端判斷依據
                             , device_id = userMd.device_id
                             , device_os = userMd.device_os
+                            , cluster_name = msgMd.cluster_name
                         }).ToList();
                 }
             }
@@ -340,6 +341,7 @@ namespace prj_BIZ_System.Services
                     , reply_content = replyContent  //rpyMd.reply_content //手機端判斷依據
                     , device_id = userMd.device_id
                     , device_os = userMd.device_os
+                    , cluster_name = msgMd.cluster_name
                 }).ToList();
             return result;
         }
@@ -426,6 +428,7 @@ namespace prj_BIZ_System.Services
                             , reply_content = rpyMd.reply_content
                             , device_id = userMd.device_id
                             , device_os = userMd.device_os
+                            , cluster_name = msgMd.cluster_name
                         }).ToList();
                 }
             }

@@ -523,6 +523,8 @@ namespace prj_BIZ_System.Controllers
                 //messageViewModel.userinfo = userService.GeUserInfoOneBySales(loginer_id);
             }
 
+            ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
+
             model.creater_id = loginer_id;
             model.is_public = is_public ;
             model.cluster_no = int.Parse(Request["cluster_no"]);
@@ -530,6 +532,7 @@ namespace prj_BIZ_System.Controllers
             model.msg_member += model.msg_members != null ? ", " : "";
             model.msg_no = (long)messageService.InsertMsgCluster(model);
             model.msg_member = model.msg_member.Trim(' ');
+            model.cluster_name = clusterInfo.cluster_name;
             doPushWork(model);
 
             #region 上傳訊息附件
@@ -662,6 +665,13 @@ namespace prj_BIZ_System.Controllers
                 model.msg_reply_no = insertResult;
                 MsgModel msgMd = messageService.SelectMsgPrivateOne(model.msg_no); //提早判斷
                 msgMd.msg_member = msgMd.msg_member.Trim(' ');
+
+                if(msgMd.cluster_no != 0)
+                {
+                    ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(msgMd.cluster_no, null, null);
+                    msgMd.cluster_name = clusterInfo.cluster_name;
+                }
+
                 try
                 {
                     IList<MsgPushModel> pushMd = messageService.getPushMdFromReply(model, msgMd);

@@ -122,7 +122,7 @@ namespace BizTimer.Config
                 List<string> tempList = new List<string> { md.device_id };
                 GcmNotification notification = new GcmNotification {
                     RegistrationIds = tempList,
-                    Data = JObject.Parse("{\"msg_type\":" + md.msg_type +",\"msg_title\":\"" + md.msg_title + "\",\"msg_content\":\"" + md.msg_content + "\",\"reply_content\":\"" + md.reply_content + "\",\"msg_no\":\"" + md.msg_no + "\",\"cluster_no\":\"" + md.cluster_no + "\",\"msg_reply_no\":\"" + md.msg_reply_no + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}")
+                    Data = JObject.Parse("{\"msg_type\":" + md.msg_type +",\"msg_title\":\"" + md.msg_title + "\",\"msg_content\":\"" + md.msg_content + "\",\"reply_content\":\"" + md.reply_content + "\",\"msg_no\":\"" + md.msg_no + "\",\"cluster_no\":\"" + md.cluster_no + "\",\"cluster_name\":\"" + md.cluster_name +  "\",\"msg_reply_no\":\"" + md.msg_reply_no + "\",\"company\":\"" + md.company + "\",\"company_en\":\"" + md.company_en + "\"}")
                 };
                 gcmBroker.QueueNotification(notification);
             }
@@ -187,7 +187,7 @@ namespace BizTimer.Config
                 {
                     DeviceToken = md.device_id.Replace(" ", ""), //deviceToken
                     //Payload = JObject.Parse("{\"aps\":{\"badge\":1,\"content-available\":1 ,\"alert\":{\"title\":\"" + md.msg_content + "\",\"body\":\"" + md.company+" - "+md.reply_content + "\"}}}")
-                    Payload = JObject.Parse("{\"aps\":{\"content-available\":1,\"sound\":\"default\","+"\"alert\":{\"title\":\"" + md.company + "\",\"body\":\"" + (md.msg_reply_no != 0 ? md.reply_content : md.msg_title) + "\"}"+",\"msg_type\":" + md.msg_type + ",\"msg_no\":" + md.msg_no + ",\"cluster_no\":" + md.cluster_no + ",\"msg_reply_no\":" + md.msg_reply_no + "}}")
+                    Payload = JObject.Parse("{\"aps\":{\"content-available\":1,\"sound\":\"default\","+"\"alert\":{\"title\":\"" + md.company + "\",\"body\":\"" + (md.msg_reply_no != 0 ? md.reply_content : md.msg_title) + "\"}"+",\"msg_type\":" + md.msg_type + ",\"msg_no\":" + md.msg_no + ",\"cluster_no\":" + md.cluster_no + ",\"cluster_name\":\"" + md.cluster_name + "\",\"msg_reply_no\":" + md.msg_reply_no + "}}")
                 });
             }
             apnsBroker.Stop();
