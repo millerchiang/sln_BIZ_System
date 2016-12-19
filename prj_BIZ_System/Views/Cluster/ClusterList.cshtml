@@ -14,10 +14,10 @@
 
 <div class="article_col1">
     <article class="article_col2">
-        <h2 class="borderTitle2">產業聚落管理</h2>
+        <h2 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_cluster</h2>
         @if (Request.Cookies["SalesInfo"] == null)
         {
-        <a href="Cluster_Add" class="addbu2 rightbox">新建產業聚落</a>
+        <a href="Cluster_Add" class="addbu2 rightbox">@prj_BIZ_System.LanguageResource.User.lb_add</a>
             @*<a href="ClusterInvited" class="addbu2 rightbox">受邀聚落清單</a>*@
         }
 
@@ -76,7 +76,8 @@
                 }
             }
 		    </ul>
-		    <div  style="padding-top: 30px" class="ui-tabs-panel ui-corner-bottom ui-widget-content">
+		    @*<div  style="padding-top: 30px" class="ui-tabs-panel ui-corner-bottom ui-widget-content">*@
+            <dl class="clusterBox w100">
 <!--內容Start-->
                 @{
                     var user_id = "";
@@ -101,136 +102,119 @@
                         }
                     }
                 }
+                <input type="hidden" id="company" value="@company">
 
-                <div class="article_col1s">
-                    <input type="hidden" id="company" value="@company">
-                    <article>
-                        @foreach (var newInfo in Model.clusterWebServiceInfoList)
+                @foreach (var newInfo in Model.clusterWebServiceInfoList)
+                {
+                <dt>
+                    <a href="javascript:void(0)" class="moreData">+</a>
+                    @if (_list == "6" || (_list == "4" && newInfo.enable == "1"))
+                    {
+                        //------已加入已成立
+                        <a href="~/Message/MessageClusterMain?cluster_no=@newInfo.cluster_no" class="clusterTitle" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_enter">@newInfo.cluster_name</a>
+                        //------------------
+                    }
+                    else
+                    {
+                        <span for=""><font color="gray">@newInfo.cluster_name</font></span>
+                    }
+
+                    @if (_list != "3" && user_id == newInfo.manager_id && _list != "6")
+                    {
+                        <a href="javascript:void(0)" class="bellicon" title="收到管理者邀請" id="@newInfo.cluster_no">通知</a>
+                        <input type="hidden" id="yes_@newInfo.cluster_no" value="@user_id">
+                        <input type="hidden" id="no_@newInfo.cluster_no" value="@newInfo.user_id">
+                    }
+                    
+                    <div class="clusterBoxBtn">
+
+                    @if (_list == "1")
+                    {
+                        //------可申請的聚落
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=4" class="clusterAddBtn" title="申請">申請</a>
+                        //------------------
+                    }
+                    else if (_list == "2")
+                    {
+                        //------申請中
+                        //------------------
+                    }
+                    else if (_list == "3")
+                    {
+                        //------申請審核
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="clusterAcceptAddBtn" title="接受申請">接受申請</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="clusterRejectAddBtn" title="婉拒申請">婉拒申請</a>
+                        //------------------
+                    }
+                    else if (_list == "4")
+                    {
+                        //------已加入
+                        <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="clusterInviteBtn" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_invite">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</a>
+
+                        if (user_id != newInfo.user_id)
                         {
-
-                            <div class="form_box panelbox">
-                                <h2 class="panelTitle">@newInfo.cluster_name</h2>
-
-                                @if (_list == "4" && user_id != newInfo.user_id)
-                                {
-                                    <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="panelSubmitBu" id="quitcluster_@newInfo.cluster_no">退出聚落</a>
-                                }
-                                else if (user_id == newInfo.user_id && _list != "6")
-                                {
-                                    <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="panelSubmitBu">更換管理者</a>
-                                }
-
-                                @if (_list != "3")
-                                {
-                                    <label for="" class="regis_col02L">邀請時間</label>
-                                    <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
-                                    <label for="" class="regis_col02L">
-                                        管理者
-                                    </label>
-                                    <p class="regis_col02R contentspan">
-                                        <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
-                                        @if (user_id == newInfo.manager_id && _list != "6")
-                                        {
-                                            <a href="javascript:void(0)" class="bellicon" title="收到管理者邀請" id="@newInfo.cluster_no">通知</a>
-                                            <input type="hidden" id="yes_@newInfo.cluster_no" value="@user_id">
-                                            <input type="hidden" id="no_@newInfo.cluster_no" value="@newInfo.user_id">
-                                        }
-                                    </p>
-                                    <label for="" class="regis_col02L">成員</label>
-                                    <p class="regis_col02R contentspan">
-                                        @newInfo.cluster_members
-                                    </p>
-
-                                }
-                                else
-                                {
-                                    <label for="" class="regis_col02L">申請時間</label>
-                                    <span class="regis_col02R contentspan">@newInfo.cluster_create_time</span>
-                                    <label for="" class="regis_col02L">申請者</label>
-                                    <p class="regis_col02R contentspan">@newInfo.creator_name</p>
-                                }
-
-                                <label for="" class="regis_col02L">簡介</label>
-                                <p class="regis_col02R contentspan">
-                                    @newInfo.cluster_info
-                                </p>
-
-                                <div class="centerbox">
-                                    @if (_list == "1")
-                                    {
-                                        //------可申請的聚落
-                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=4" class="addbu">申請</a>
-                                        //------------------
-                                    }
-                                    else if (_list == "2")
-                                    {
-                                        //------申請中
-                                        //------------------
-                                    }
-                                    else if (_list == "3")
-                                    {
-                                        //------申請審核
-                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="addbu">接受申請</a>
-                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="deleteSbu">婉拒申請</a>
-                                        //------------------
-                                    }
-                                    else if (_list == "4")
-                                    {
-                                        //------已加入
-                                        <a href="Cluster_Add?cluster_no=@newInfo.cluster_no" class="addbu">聚落邀請</a>
-
-                                        if (newInfo.enable == "1")
-                                        {
-                                            <a href="~/Message/MessageClusterMain?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
-                                        }
-                                        //------------------
-                                    }
-                                    else if (_list == "5")
-                                    {
-                                        //------受邀請中
-                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="addbu">加入</a>
-                                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="deleteSbu">婉拒</a>
-                                        //------------------
-                                    }
-                                    else if (_list == "6")
-                                    {
-                                        //------已加入已成立
-                                        <a href="Cluster_Detail?cluster_no=@newInfo.cluster_no" class="addbured">進入聚落</a>
-                                        //------------------
-                                    }
-
-                                </div>
-                            </div>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=3" class="clusterOutBtn" id="quitcluster_@newInfo.cluster_no" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_leave">@prj_BIZ_System.LanguageResource.User.lb_cluster_leave</a>
                         }
 
-                        <div id="dialog" title="聚落管理者邀請" style="display:none;">
-                            <p>成為:<span class="bellTitle"></span>聚落管理者?</p>
-                        </div>
+                        //------------------
+                    }
+                    else if (_list == "5")
+                    {
+                        //------受邀請中
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="clusterAcceptInvBtn" title="加入">加入</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="clusterRejectInvBtn" title="婉拒">婉拒</a>
+                        //------------------
+                    }
 
-                        @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
-                    </article>
-                </div>
+                    @if (user_id == newInfo.user_id && _list != "6")
+                    {
+                    <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="clusterChangeBtn" title="更換管理者">更換管理者</a>
+                    }
+                    </div>
+                </dt>
+
+                <dd class="panelbox clusterBoxContent">
+                    @if (_list != "3")
+                    {
+                        <label for="" class="regis_col02L">邀請時間</label>
+                        <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
+                        <label for="" class="regis_col02L">
+                            @prj_BIZ_System.LanguageResource.User.lb_cluster_manager
+                        </label>
+                        <p class="regis_col02R contentspan">
+                            <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
+                        </p>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
+                        <p class="regis_col02R contentspan">
+                            <span class="overFont">@newInfo.cluster_members</span>
+                        </p>
+
+                    }
+                    else
+                    {
+                        <label for="" class="regis_col02L">申請時間</label>
+                        <span class="regis_col02R contentspan">@newInfo.cluster_create_time</span>
+                        <label for="" class="regis_col02L">申請者</label>
+                        <p class="regis_col02R contentspan">@newInfo.creator_name</p>
+                    }
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
+                        <p class="regis_col02R contentspan">
+                            @newInfo.cluster_info
+                        </p>
+                </dd>
+                }
+
 <!--內容End-->
+            </dl>
+
+            <div id="dialog" title="聚落管理者邀請" style="display:none;">
+                <p>成為:<span class="bellTitle"></span>聚落管理者?</p>
             </div>
+
+            @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
+
         </div>	
 
-
-        @*<div id="tabs">
-            <ul>
-            @if (Request.Cookies["SalesInfo"] == null || Request.Cookies["SalesInfo"]["sales_id"] == null)
-            {
-                <li><a href="ClusterListContent?list=4">已加入聚落</a></li>
-                <li><a href="ClusterListContent?list=5">受邀請聚落</a></li>
-                <li><a href="ClusterListContent?list=1">可申請聚落</a></li>
-                <li><a href="ClusterListContent?list=2">申請中聚落</a></li>
-                <li><a href="ClusterListContent?list=3">聚落審核</a></li>
-            }
-            else
-            {
-                <li><a href="ClusterListContent?list=6">已加入聚落</a></li>
-            }
-            </ul>
-        </div>*@
     </article>
     @{
         Html.RenderAction("_HomeLeftPartial", "Home");
@@ -241,6 +225,12 @@
         src="~/Scripts/jquery-ui-1.10.2.min.js">
 </script>
 <script type="text/javascript" language="javascript">
+
+    $(".moreData").on('click', function () {
+        $(this).toggleClass('active');
+        $(this).parents('dt').toggleClass("clusterActive");
+        $(this).parents('dt').next('dd').toggleClass("w100");
+    })
 
     @if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
     {

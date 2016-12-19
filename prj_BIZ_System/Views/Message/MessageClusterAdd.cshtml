@@ -19,10 +19,10 @@
         <h2 class="borderTitle2">@(((ClusterInfoModel)ViewBag.ClusterInfo).cluster_name)</h2>
         <form id="form" action="@Url.Action("DoClusterAdd","Message")" class="form_box sys_searchbox" method="post" enctype="multipart/form-data">
             <input type="hidden" name="is_public" value="@ViewBag.is_public" />
-            <h2>@(ViewBag.is_public_text)訊息</h2>
+            <h2>@(ViewBag.is_public_text)</h2>
             @if ("0".Equals(ViewBag.is_public.ToString()))
             {
-                <label for="" class="regis_col02L">對象</label>
+                <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_object</label>
                 <div class="regis_col02R verticalslist">
                     @if (ViewBag.AllMember != null)
                     {
@@ -36,20 +36,20 @@
                     }
                 </div>
             }
-            <label for="" class="regis_col02L">主題</label>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_subject</label>
             <input name="msg_title" type="text" class="regis_col02R">
-            <label for="" class="regis_col02L">內容</label>
-                <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="三百字以內" maxlength="300"></textarea>
-            <label for="" class="regis_col02L">上傳附件</label>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
+                <textarea class="regis_col02R" name="msg_content" id="msg_content" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300"></textarea>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_attachment_upload</label>
             <div class="regis_col02R">
-                <label class="addbu" id="upload" for="upexls">選取檔案</label>
+                <label class="addbu" id="upload" for="upexls">@prj_BIZ_System.LanguageResource.User.lb_select</label>
                 <input type="file" id="upexls" name="iupexls" multiple="multiple" />
                 <!--<input type="text" id="upexl_name" name="upexl_name">-->
                 <ul id="output"></ul>
             </div>
             <div class="centerbox">
-                <button type="submit" class="buinfor">確定新增</button>
-                <a href="~/Message/MessageClusterMain?is_public=@ViewBag.is_public" class="submitbu">返回訊息管理</a>
+                <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_add</button>
+                <a href="~/Message/MessageClusterMain?is_public=@ViewBag.is_public" class="submitbu">@prj_BIZ_System.LanguageResource.User.lb_back</a>
             </div>
 
         </form>
@@ -71,9 +71,9 @@
 
             //g_temp_files = ele.files;
             if ($("#output li").size() > 0) {
-                $("#upload").text("重選檔案");
+                $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_reselect");
             } else {
-                $("#upload").text("選擇檔案");
+                $("#upload").text("@prj_BIZ_System.LanguageResource.User.lb_select");
             }
         });
 
@@ -104,19 +104,19 @@
         @if("0".Equals(ViewBag.is_public)){
             <text>
             if (msg_member == null || msg_member == '') {
-                errMsg += "對象不能為空白\n";
+                errMsg += "@prj_BIZ_System.LanguageResource.User.lb_object_empty\n";
             }
             </text>
         }
 
         if (msg_title == null || msg_title == '') {
-            errMsg += "主題不能為空白\n";
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_subject_empty\n";
         }
 
         if (msg_content == null || msg_content == '') {
-            errMsg += "訊息內容不能為空白!!\n";
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_empty!!\n";
         } else if ($("#msg_content").val().length > 300) {
-            errMsg += "訊息不能超過三百字!!";
+            errMsg += "@prj_BIZ_System.LanguageResource.User.lb_msg_300!!";
         }
         return errMsg;
     }

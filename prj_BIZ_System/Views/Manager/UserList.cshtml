@@ -27,7 +27,7 @@
             <input id="company" type="text" name="company" class="regis_col02R"
                    value="@Request["company"]">
 
-            <label for="cluster_name" class="regis_col02L">聚落名稱</label>
+            <label for="cluster_name" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
             <select name="cluster_no" class="regis_col02R">
                 <option value=""></option>
                 @if (Model != null)

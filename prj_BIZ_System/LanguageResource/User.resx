@@ -907,4 +907,82 @@
   <data name="lb_gov" xml:space="preserve">
     <value>政府/公協會</value>
   </data>
+  <data name="lb_cluster" xml:space="preserve">
+    <value>產業聚落</value>
+  </data>
+  <data name="lb_cluster_about" xml:space="preserve">
+    <value>關於聚落</value>
+  </data>
+  <data name="lb_cluster_brief" xml:space="preserve">
+    <value>聚落簡介</value>
+  </data>
+  <data name="lb_cluster_create" xml:space="preserve">
+    <value>成立時間</value>
+  </data>
+  <data name="lb_cluster_doc" xml:space="preserve">
+    <value>聚落文件</value>
+  </data>
+  <data name="lb_cluster_enter" xml:space="preserve">
+    <value>進入聚落</value>
+  </data>
+  <data name="lb_cluster_invite" xml:space="preserve">
+    <value>聚落邀請</value>
+  </data>
+  <data name="lb_cluster_join" xml:space="preserve">
+    <value>申請加入聚落</value>
+  </data>
+  <data name="lb_cluster_leave" xml:space="preserve">
+    <value>退出聚落</value>
+  </data>
+  <data name="lb_cluster_manager" xml:space="preserve">
+    <value>管理者</value>
+  </data>
+  <data name="lb_cluster_member" xml:space="preserve">
+    <value>聚落商家</value>
+  </data>
+  <data name="lb_cluster_name" xml:space="preserve">
+    <value>聚落名稱</value>
+  </data>
+  <data name="lb_cluster_pending" xml:space="preserve">
+    <value>邀請中成員</value>
+  </data>
+  <data name="lb_cluster_upload" xml:space="preserve">
+    <value>上傳文件</value>
+  </data>
+  <data name="lb_download" xml:space="preserve">
+    <value>下載</value>
+  </data>
+  <data name="lb_filename" xml:space="preserve">
+    <value>檔案名稱</value>
+  </data>
+  <data name="lb_filesize" xml:space="preserve">
+    <value>檔案大小</value>
+  </data>
+  <data name="lb_forum" xml:space="preserve">
+    <value>公開討論區</value>
+  </data>
+  <data name="lb_is_public" xml:space="preserve">
+    <value>是否公開</value>
+  </data>
+  <data name="lb_is_public_no" xml:space="preserve">
+    <value>不公開</value>
+  </data>
+  <data name="lb_is_public_yes" xml:space="preserve">
+    <value>公開</value>
+  </data>
+  <data name="lb_member_management" xml:space="preserve">
+    <value>商家管理</value>
+  </data>
+  <data name="lb_owner" xml:space="preserve">
+    <value>上傳者</value>
+  </data>
+  <data name="lb_uploadtime" xml:space="preserve">
+    <value>上傳時間</value>
+  </data>
+  <data name="lb_usedsize" xml:space="preserve">
+    <value>目前使用量</value>
+  </data>
+  <data name="lb_my" xml:space="preserve">
+    <value>我的</value>
+  </data>
 </root>

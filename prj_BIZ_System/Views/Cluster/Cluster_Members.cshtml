@@ -47,7 +47,7 @@
         <article class="article_col2">
             <h2 class="borderTitle2">@HttpUtility.UrlDecode(Request["cluster_name"])</h2>
             <div class="form_box">
-                <h2>商家管理</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_member_management</h2>
                 <form id="form" class="" action="@Url.Action("EditClusterMember", "Cluster")" method="post">
                     <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
                     <input type="hidden" name="members" value="">
@@ -56,7 +56,7 @@
                     <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
                     <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
 
-                    <div class="regis_col02L">企業聚落成員</div>
+                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
                     <table class="regis_col02R membertable listlink" id="gmember">
                         <tr id="grp_name_@user_id">
                             <td>
@@ -83,6 +83,7 @@
                                     <tr id="grp_name_@md.user_id">
                                         <td>
                                             <input type="hidden" name="id" value="@md.user_id">
+                                            <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
                                             <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
                                         </td>
                                     </tr>
@@ -92,7 +93,7 @@
                     </table>
 
                     <div class="form_box w100">
-                        <div class="regis_col02L">邀請中成員</div>
+                        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_pending</div>
                         <table class="regis_col02R membertable listlink" id="membertable">
                             @if (Model.clusterMemberList != null)
                                 {
@@ -113,6 +114,7 @@
                                             <td class="removeup">
                                                 <input type="hidden" name="id" value="@md.user_id">
                                                 <input type="hidden" name="cid" value="@md.cluster_no">
+                                                <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
                                                 <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
                                                 <a href="javascript:void(0)" class="removetag rightbox" onclick="doDelete('@md.user_id',@md.cluster_no,'@company',1)"></a>
                                             </td>
@@ -124,7 +126,7 @@
                     </div>
 
                     <div class="form_box w100">
-                        <div class="regis_col02L">新增邀請</div>
+                        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</div>
                         <div class="regis_col02R">
                             <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
                             <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>

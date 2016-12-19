@@ -21,8 +21,8 @@
 
         <div id="tabs">
             <ul>
-                <li><a href="#tabs-0">公告訊息</a></li>
-                <li><a href="#tabs-1">私人訊息</a></li>
+                <li><a href="#tabs-0">@prj_BIZ_System.LanguageResource.User.lb_forum</a></li>
+                <li><a href="#tabs-1">@prj_BIZ_System.LanguageResource.User.lb_msg_private</a></li>
             </ul>
 
 
@@ -30,12 +30,12 @@
                 <div id="tabs-0">
                     <div class="magb30">
                         <input type="hidden" name="is_public" value="0" />
-                        <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="請輸入查詢條件">
-                        <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">查詢</a>
-                        <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">新增</a>
+                        <input name="cluster_public_where" value="@ViewBag.cluster_public_where" type="text" placeholder="@prj_BIZ_System.LanguageResource.User.lb_search_need">
+                        <a href="javascript:void(0)" class="addbublue magb10" onclick="query(1)">@prj_BIZ_System.LanguageResource.User.lb_search</a>
+                        <a href="~/Message/MessageClusterAdd?is_public=1" class="addbu rightbox">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                     </div>
                     <div class="magb30">
-                        <h3 class="borderTitle2">未讀公告訊息</h3>
+                        <h3 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_unread@(" ")@prj_BIZ_System.LanguageResource.User.lb_forum</h3>
                         <table class="edittable">
                             <tr>
                                 <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
@@ -84,7 +84,7 @@
                         @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "1" } }, 0)
                     </div>
                     <div class="magb30">
-                        <h3 class="borderTitle2">已讀公告訊息</h3>
+                        <h3 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_read@(" ")@prj_BIZ_System.LanguageResource.User.lb_forum</h3>
                         <table class="edittable">
                             <tr>
                                 <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
@@ -149,12 +149,12 @@
                 <div id="tabs-1">
                     @*<form id="form2" action="~/Message/MessageClusterMain" method="GET">*@
                     <div class="magb30">
-                        <input type="text" name="cluster_private_where" value="@ViewBag.cluster_private_where" placeholder="請輸入查詢條件">
-                        <a href="javascript:void(0)" onclick="query(0)" class="addbublue magb10">查詢</a>
-                        <a href="~/Message/MessageClusterAdd?is_public=0" class="addbu rightbox">新增</a>
+                        <input type="text" name="cluster_private_where" value="@ViewBag.cluster_private_where" placeholder="@prj_BIZ_System.LanguageResource.User.lb_search_need">
+                        <a href="javascript:void(0)" onclick="query(0)" class="addbublue magb10">@prj_BIZ_System.LanguageResource.User.lb_search</a>
+                        <a href="~/Message/MessageClusterAdd?is_public=0" class="addbu rightbox">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                     </div>
                     <div class="magb30">
-                        <h3 class="borderTitle2">未讀私人訊息</h3>
+                        <h3 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_unread@(" ")@prj_BIZ_System.LanguageResource.User.lb_msg_private</h3>
                         <table class="edittable">
                             <tr>
                                 <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>
@@ -198,7 +198,7 @@
                         @Html.PagesListX((List<PageList<MsgModel>>)ViewData["PageList"], new Dictionary<string, string>() { { "is_public", "0" } }, 2)
                     </div>
                     <div class="magb30">
-                        <h3 class="borderTitle2">已讀私人訊息</h3>
+                        <h3 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_read@(" ")@prj_BIZ_System.LanguageResource.User.lb_msg_private</h3>
                         <table class="edittable">
                             <tr>
                                 <th style="width: 8%">@prj_BIZ_System.LanguageResource.User.lb_id</th>

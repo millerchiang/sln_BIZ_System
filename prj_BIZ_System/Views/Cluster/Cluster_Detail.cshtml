@@ -18,16 +18,16 @@
         <article class="article_col2">
             <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
             <div class="form_box">
-                <h2>聚落明細</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_cluster_about</h2>
                 <form id="form" class="" action="@Url.Action("EditCluster", "Cluster")" method="post">
                     <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
                     <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
-                    <div class="regis_col02L">聚落名稱</div>
+                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</div>
                     <span class="regis_col02R contentspan">@Model.clusterInfo.cluster_name</span>
-                    <div class="regis_col02L">管理者帳號</div>
+                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_manager</div>
                     <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
-                    <div class="regis_col02L">聚落商家</div>
+                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
                     <table class="regis_col02R membertable listlink">
                         @if (Model.clusterMemberList != null)
                         {
@@ -35,20 +35,30 @@
                             {
                                 if (md.cluster_enable != "2")
                                 {
+                                    var company = md.company;
+                                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                    {
+                                        if (md.company_en != null && md.company_en != "")
+                                        {
+                                            company = md.company_en;
+                                        }
+                                    }
+
+
                                     <tr id="grp_name_@md.user_id">
                                         <td>
-                                            <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @md.company</a>
+                                            <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
                                         </td>
                                     </tr>
                                 }
                             }
                         }
                     </table>
-                    <label for="" class="regis_col02L">聚落簡介</label>
+                    <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
                     <textarea class="regis_col02R" name="cluster_info" id="" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
 
                     <div class="centerbox">
-                        <button type="submit" class="buinfor">修改</button>
+                        <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_edit</button>
                     </div>
                 </form>
             </div>

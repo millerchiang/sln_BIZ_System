@@ -28,7 +28,7 @@
             <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
             <input type="hidden" name="user_id" value="@Model.clusterInfo.user_id">
             <h2>指定管理者</h2>
-            <label for="" class="regis_col02L">聚落名稱</label>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
             <span class="regis_col02R contentspan">@Model.clusterInfo.cluster_name</span>
             <label for="" class="regis_col02L">現有管理者</label>
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
@@ -58,7 +58,7 @@
 
             <div class="centerbox">
                 <button type="submit" class="buinfor">送出要求</button>
-                <button type="button" class="submitbu" onclick="javascript:history.back()">返回前頁</button>
+                <button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>
             </div>
 
         </form>

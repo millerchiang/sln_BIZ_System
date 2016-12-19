@@ -13,30 +13,39 @@
 
 <div class="article_col1">
     <article class="article_col2">
-        <h2 class="borderTitle2">產業聚落列表</h2>
-        @foreach (var newInfo in Model.clusterWebServiceInfoList)
-            {
-            <div class="form_box">
-                <h2>@newInfo.cluster_name</h2>
-                <label for="" class="regis_col02L">成立日期</label>
-                <span class="regis_col02R contentspan">@newInfo.cluster_create_time.ToString("yyyy/MM/dd tt hh:mm")</span>
-                <label for="" class="regis_col02L">管理者</label>
-                <span class="regis_col02R contentspan">@newInfo.creator_name</span>
-                <label for="" class="regis_col02L">成員</label>
-                <p class="regis_col02R contentspan">
-                    @newInfo.cluster_members
-                </p>
+        <h2 class="borderTitle2">@prj_BIZ_System.LanguageResource.User.lb_cluster</h2>
 
-                <label for="" class="regis_col02L">簡介</label>
-                <p class="regis_col02R contentspan">
-                    @newInfo.cluster_info
-                </p>
+            <dl class="clusterBox w100">
+                <!--內容Start-->
+                @foreach (var newInfo in Model.clusterWebServiceInfoList)
+                {
+                    <dt>
+                        <a href="javascript:void(0)" class="moreData">+</a>
+                        <span for=""><font color="gray">@newInfo.cluster_name</font></span>
+                        <div class="clusterBoxBtn">
+                            <a href="javascript:showmsg()" class="clusterAddBtn" title="申請">申請</a>
+                        </div>
+                    </dt>
 
-                <div class="centerbox">
-                    <a id="checkmember" href="javascript:void(0)" class="submitbu">申請加入聚落</a>
-                </div>
-            </div>
-        }
+                    <dd class="panelbox clusterBoxContent">
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_create</label>
+                        <span class="regis_col02R contentspan">@newInfo.cluster_create_time.ToString("yyyy/MM/dd tt hh:mm")</span>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_manager</label>
+                        <span class="regis_col02R contentspan">@newInfo.creator_name</span>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
+                        <p class="regis_col02R contentspan">
+                            <apan class="overFont">@newInfo.cluster_members</apan>
+                        </p>
+
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
+                        <p class="regis_col02R contentspan">
+                            @newInfo.cluster_info
+                        </p>
+                    </dd>
+                }
+                <!--內容End-->
+            </dl>
+
         @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
     </article>
     @{
@@ -55,8 +64,13 @@
 </script>
 
 <script type="text/javascript" language="javascript">
+    $(".moreData").on('click', function () {
+        $(this).toggleClass('active');
+        $(this).parents('dt').toggleClass("clusterActive");
+        $(this).parents('dt').next('dd').toggleClass("w100");
+    })
 
-    $("#checkmember").click(function (e) {
+    function showmsg() {
         //       alert("報名必須註冊會員，如果是會員請至首頁<<會員登入>>，如尚未加入會員，請至首頁<<創建新帳號>>加入會員!!");
         $("#dialog").dialog({
             autoOpen: true,
@@ -75,7 +89,7 @@
         });
         $(".instext").text("您好，請先登入會員再申請加入聚落，是否回首頁登入?");
 
-    });
+    }
 
 
 
