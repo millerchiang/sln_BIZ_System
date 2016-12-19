@@ -296,6 +296,7 @@ namespace prj_BIZ_System.Services
                             , reply_content = null  //rpyMd.reply_content //手機端判斷依據
                             , device_id = userMd.device_id
                             , device_os = userMd.device_os
+                            , cluster_name = msgMd.cluster_name
                         }).ToList();
                 }
             }
@@ -306,11 +307,24 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
-        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd, long replyNo = 0, string replyContent = "")
+        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd, long replyNo = 0, string replyContent = "", string msg_reply = "")
         {
             IList<MsgPushModel> result;
+            Func<ClusterMemberModel, bool> predicate = null;
+            Tuple<string, string> memberCompanyAndEn = null;
+
+            if ( replyNo != 0)
+            {
+                predicate = cm => cm.user_id != msg_reply;
+                memberCompanyAndEn = transferMsg_member2Msg_company_AndEn(msg_reply);
+
+            }
+            else
+            {
+                predicate = cm => cm.user_id != msgMd.creater_id;
+            }
             string[] clusterMembers = clusterService.GetClusterMemberListWithEnable1(msgMd.cluster_no)
-                                                    .Where(cm => cm.user_id != msgMd.creater_id)
+                                                    .Where(predicate)
                                                     .Select(cm => cm.user_id)
                                                     .ToArray();
             List<UserInfoModel> temp_result = new List<UserInfoModel>();
@@ -334,12 +348,13 @@ namespace prj_BIZ_System.Services
                     , msg_title = msgMd.msg_title
                     , msg_content = msgMd.msg_content
                     //, reply_user_id = rpyMd.msg_reply
-                    , company = createrInfo.company
-                    , company_en = createrInfo.company_en
+                    , company = replyNo == 0 ? createrInfo.company : memberCompanyAndEn.Item1
+                    , company_en = replyNo == 0 ? createrInfo.company_en : memberCompanyAndEn.Item2
                     , msg_reply_no = replyNo      //pyMd.msg_reply_no   //手機端判斷依據
                     , reply_content = replyContent  //rpyMd.reply_content //手機端判斷依據
                     , device_id = userMd.device_id
                     , device_os = userMd.device_os
+                    , cluster_name = msgMd.cluster_name
                 }).ToList();
             return result;
         }
@@ -426,12 +441,13 @@ namespace prj_BIZ_System.Services
                             , reply_content = rpyMd.reply_content
                             , device_id = userMd.device_id
                             , device_os = userMd.device_os
+                            , cluster_name = msgMd.cluster_name
                         }).ToList();
                 }
             }
             else
             {
-                result = getMessageClusterPublicPushMd(msgMd, rpyMd.msg_reply_no, rpyMd.reply_content);
+                result = getMessageClusterPublicPushMd(msgMd, rpyMd.msg_reply_no, rpyMd.reply_content, rpyMd.msg_reply);
             }
             return result;
         }
