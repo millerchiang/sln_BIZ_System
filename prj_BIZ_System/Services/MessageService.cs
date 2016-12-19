@@ -307,17 +307,16 @@ namespace prj_BIZ_System.Services
             return result;
         }
 
-        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd, long replyNo = 0, string replyContent = "", string msg_reply = "")
+        private IList<MsgPushModel> getMessageClusterPublicPushMd(MsgModel msgMd, MsgReplyModel replyMd = null)
         {
             IList<MsgPushModel> result;
             Func<ClusterMemberModel, bool> predicate = null;
             Tuple<string, string> memberCompanyAndEn = null;
 
-            if ( replyNo != 0)
+            if (replyMd != null && replyMd.msg_reply_no != 0)
             {
-                predicate = cm => cm.user_id != msg_reply;
-                memberCompanyAndEn = transferMsg_member2Msg_company_AndEn(msg_reply);
-
+                predicate = cm => cm.user_id != replyMd.msg_reply;
+                memberCompanyAndEn = transferMsg_member2Msg_company_AndEn(replyMd.msg_reply);
             }
             else
             {
@@ -348,10 +347,10 @@ namespace prj_BIZ_System.Services
                     , msg_title = msgMd.msg_title
                     , msg_content = msgMd.msg_content
                     //, reply_user_id = rpyMd.msg_reply
-                    , company = replyNo == 0 ? createrInfo.company : memberCompanyAndEn.Item1
-                    , company_en = replyNo == 0 ? createrInfo.company_en : memberCompanyAndEn.Item2
-                    , msg_reply_no = replyNo      //pyMd.msg_reply_no   //手機端判斷依據
-                    , reply_content = replyContent  //rpyMd.reply_content //手機端判斷依據
+                    , company = replyMd == null ? createrInfo.company : memberCompanyAndEn.Item1
+                    , company_en = replyMd == null ? createrInfo.company_en : memberCompanyAndEn.Item2
+                    , msg_reply_no = replyMd == null ? 0 : replyMd.msg_no      //pyMd.msg_reply_no   //手機端判斷依據
+                    , reply_content = replyMd == null ? "" : replyMd.reply_content  //rpyMd.reply_content //手機端判斷依據
                     , device_id = userMd.device_id
                     , device_os = userMd.device_os
                     , cluster_name = msgMd.cluster_name
@@ -447,7 +446,7 @@ namespace prj_BIZ_System.Services
             }
             else
             {
-                result = getMessageClusterPublicPushMd(msgMd, rpyMd.msg_reply_no, rpyMd.reply_content, rpyMd.msg_reply);
+                result = getMessageClusterPublicPushMd(msgMd, rpyMd);
             }
             return result;
         }
