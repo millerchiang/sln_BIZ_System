@@ -433,6 +433,7 @@
     <Content Include="images\icon\bu_serch.png" />
     <Content Include="images\icon\capplicaicon-01.png" />
     <Content Include="images\icon\capplicaicon-02.png" />
+    <Content Include="images\icon\group_icon.png" />
     <Content Include="images\icon\icon_fpw.png" />
     <Content Include="images\icon\indexicon.png" />
     <Content Include="images\iosqr.jpg" />

@@ -501,7 +501,11 @@ namespace prj_BIZ_System.Controllers
             ViewBag.AllMember = allMemberAtEnable1 ;
             ViewBag.ClusterInfo = clusterService.GetClusterInfo(int.Parse(Request["cluster_no"]), null, null);
             ViewBag.is_public = Convert.ToString(is_public);
-            ViewBag.is_public_text = "0".Equals(ViewBag.is_public.ToString()) ? "私人" : "公告";
+
+            string s1 = LanguageResource.User.lb_msg_private;
+            string s2 = LanguageResource.User.lb_forum;
+
+            ViewBag.is_public_text = "0".Equals(ViewBag.is_public.ToString()) ? s1 : s2;
             return View();
         }
 

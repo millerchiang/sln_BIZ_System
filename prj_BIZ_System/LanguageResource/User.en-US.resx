@@ -906,4 +906,82 @@ To complete the registration of members, thank you!</value>
   <data name="lb_gov" xml:space="preserve">
     <value>Gov./Association</value>
   </data>
+  <data name="lb_cluster" xml:space="preserve">
+    <value>Industry Cluster</value>
+  </data>
+  <data name="lb_cluster_about" xml:space="preserve">
+    <value>About Cluster</value>
+  </data>
+  <data name="lb_cluster_brief" xml:space="preserve">
+    <value>Cluster Brief</value>
+  </data>
+  <data name="lb_cluster_create" xml:space="preserve">
+    <value>Create Time</value>
+  </data>
+  <data name="lb_cluster_doc" xml:space="preserve">
+    <value>Cluster Document</value>
+  </data>
+  <data name="lb_cluster_enter" xml:space="preserve">
+    <value>Enter</value>
+  </data>
+  <data name="lb_cluster_invite" xml:space="preserve">
+    <value>Invite</value>
+  </data>
+  <data name="lb_cluster_join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="lb_cluster_leave" xml:space="preserve">
+    <value>Leave</value>
+  </data>
+  <data name="lb_cluster_manager" xml:space="preserve">
+    <value>Cluster Manager</value>
+  </data>
+  <data name="lb_cluster_member" xml:space="preserve">
+    <value>Cluster Members</value>
+  </data>
+  <data name="lb_cluster_name" xml:space="preserve">
+    <value>Cluster Name</value>
+  </data>
+  <data name="lb_cluster_pending" xml:space="preserve">
+    <value>Pending Member</value>
+  </data>
+  <data name="lb_cluster_upload" xml:space="preserve">
+    <value>upload file</value>
+  </data>
+  <data name="lb_download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="lb_filename" xml:space="preserve">
+    <value>file name</value>
+  </data>
+  <data name="lb_filesize" xml:space="preserve">
+    <value>file size</value>
+  </data>
+  <data name="lb_forum" xml:space="preserve">
+    <value>Public Forum</value>
+  </data>
+  <data name="lb_is_public" xml:space="preserve">
+    <value>Is Pubilc?</value>
+  </data>
+  <data name="lb_is_public_no" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="lb_is_public_yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="lb_member_management" xml:space="preserve">
+    <value>Member Managemet</value>
+  </data>
+  <data name="lb_owner" xml:space="preserve">
+    <value>owner</value>
+  </data>
+  <data name="lb_uploadtime" xml:space="preserve">
+    <value>update time</value>
+  </data>
+  <data name="lb_usedsize" xml:space="preserve">
+    <value> is used</value>
+  </data>
+  <data name="lb_my" xml:space="preserve">
+    <value>My </value>
+  </data>
 </root>

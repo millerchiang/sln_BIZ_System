@@ -59,11 +59,11 @@
             {
                 <h2>編輯聚落</h2>
             }
-            <label for="" class="regis_col02L spanRed">聚落名稱</label>
+            <label for="" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
             <input type="hidden" name="cluster_name_old" value="@Model.clusterInfo.cluster_name">
             <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" onblur="chkname()" required>
 
-            <label for="" class="regis_col02L">管理者帳號</label>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_manager</label>
 
             <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
@@ -81,15 +81,15 @@
                 }
             }
 
-            <label for="is_public" class="regis_col02L spanRed">是否公開</label>
+            <label for="is_public" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_is_public</label>
             <div class="regis_col01R_input">
                 <input type="radio" class="radioinput" id="is_public01" name="is_public" value="0" @a>
-                <label for="is_public01">不公開</label>
+                <label for="is_public01">@prj_BIZ_System.LanguageResource.User.lb_is_public_no</label>
                 <input type="radio" class="radioinput" id="is_public02" name="is_public" value="1" @b>
-                <label for="is_public02">公開</label>
+                <label for="is_public02">@prj_BIZ_System.LanguageResource.User.lb_is_public_yes</label>
             </div>
 
-            <label for="" class="regis_col02L spanRed">聚落商家</label>
+            <label for="" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
             <div class="regis_col02R">
 
                 <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
@@ -98,7 +98,7 @@
                 <table class="membertable article_col1 listlink" id="membertable">
 
                     <tr>
-                        <td>商家名稱</td>
+                        <td>@prj_BIZ_System.LanguageResource.User.lb_cluster_member</td>
                     </tr>
 
 
@@ -142,6 +142,7 @@
                                 <tr id="grp_name_@md.user_id">
                                     <td>
                                         <input type="hidden" name="id" value="@md.user_id">
+                                        <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
                                         <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
 
                                             @if (md.cluster_enable == "2")
@@ -161,12 +162,12 @@
 
             </div>
 
-            <label for="" class="regis_col02L">內容</label>
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
             <textarea class="regis_col02R" name="cluster_info" id="" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
 
             <div class="centerbox">
                 <button type="submit" class="buinfor">送出邀請</button>
-                <button type="button" class="submitbu" onclick="javascript:history.back()">返回前頁</button>
+                <button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>
             </div>
 
         </form>

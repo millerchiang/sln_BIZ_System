@@ -30,12 +30,12 @@
                         <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
                         <label for="" class="regis_col02L">建立者</label>
                         <span class="regis_col02R contentspan">@newInfo.creator_name</span>
-                        <label for="" class="regis_col02L">成員</label>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
                         <p class="regis_col02R contentspan">
                             @newInfo.cluster_members
                         </p>
 
-                        <label for="" class="regis_col02L">簡介</label>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief </label>
                         <p class="regis_col02R contentspan">
                             @newInfo.cluster_info
                         </p>
@@ -48,5 +48,5 @@
                 }
             @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
         </article>
-        <button type="button" class="submitbu" onclick="javascript:history.back()">返回前頁</button>
+        <button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>
     </div>

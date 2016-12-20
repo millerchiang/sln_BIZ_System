@@ -2,44 +2,44 @@
 
 <aside>
     <div class="datalist">
-        <h3>我的產業聚落</h3>
+        <h3>@prj_BIZ_System.LanguageResource.User.lb_my@prj_BIZ_System.LanguageResource.User.lb_cluster</h3>
         <ul class="listlink comicon inforlist">
             @if (Request.Cookies["_menu"].Value == "MessageClusterMain")
             {
-                <li class="inforactive"><span>訊息管理</span></li>
+                <li class="inforactive"><span>@prj_BIZ_System.LanguageResource.User.lb_msg_managment</span></li>
             }
             else
             {
-                <li><a href="~/Message/MessageClusterMain">訊息管理</a></li>
+                <li><a href="~/Message/MessageClusterMain">@prj_BIZ_System.LanguageResource.User.lb_msg_managment</a></li>
             }
 
             @if (Request.Cookies["_menu"].Value == "Cluster_Files")
             {
-                <li class="inforactive"><span>文件管理</span></li>
+                <li class="inforactive"><span>@prj_BIZ_System.LanguageResource.User.lb_cluster_doc</span></li>
             }
             else
             {
-                <li><a href="~/Cluster/Cluster_Files">文件管理</a></li>
+                <li><a href="~/Cluster/Cluster_Files">@prj_BIZ_System.LanguageResource.User.lb_cluster_doc</a></li>
             }
 
             @*<li><a href="~/Cluster/group_order_manager.html">聚落訂單管理</a></li>*@
 
             @if (Request.Cookies["_menu"].Value == "Cluster_Detail")
             {
-                <li class="inforactive"><span>聚落明細</span></li>
+                <li class="inforactive"><span>@prj_BIZ_System.LanguageResource.User.lb_cluster_about</span></li>
             }
             else
             {
-                <li><a href="~/Cluster/Cluster_Detail">聚落明細</a></li>
+                <li><a href="~/Cluster/Cluster_Detail">@prj_BIZ_System.LanguageResource.User.lb_cluster_about</a></li>
             }
 
             @if (Request.Cookies["_menu"].Value == "Cluster_Members")
             {
-                <li class="inforactive"><span>商家管理</span></li>
+                <li class="inforactive"><span>@prj_BIZ_System.LanguageResource.User.lb_member_management</span></li>
             }
             else
             {
-                <li><a href="~/Cluster/Cluster_Members">商家管理</a></li>
+                <li><a href="~/Cluster/Cluster_Members">@prj_BIZ_System.LanguageResource.User.lb_member_management</a></li>
             }
 
             @if (Request.Cookies["SalesInfo"] == null || Request.Cookies["SalesInfo"]["sales_id"] == null)

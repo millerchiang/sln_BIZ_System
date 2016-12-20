@@ -32,25 +32,35 @@
     <article class="article_col2">
         <h2 class="borderTitle2">@HttpUtility.UrlDecode(Request["cluster_name"])</h2>
         <div class="form_box">
-            <h2>文件管理</h2>
+            <h2>@prj_BIZ_System.LanguageResource.User.lb_cluster_doc</h2>
             <div class="regis_col02R">
 
                 <div class="regis_completebox">
-                    <span>目前使用量 @ViewBag.fs%</span>
+
+                @if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                {
+                    <span>@ViewBag.fs% @prj_BIZ_System.LanguageResource.User.lb_usedsize</span>
+                }
+                else
+                {
+                    <span>@prj_BIZ_System.LanguageResource.User.lb_usedsize @ViewBag.fs%</span>
+                }
+
+
                     <div class="regis_complete" style="width:@ViewBag.fs%"></div>
                 </div>	
             </div>
 
 
-            <a href="Cluster_UploadFiles" class="addbu rightbox">上傳文件</a>
+            <a href="Cluster_UploadFiles" class="addbu rightbox">@prj_BIZ_System.LanguageResource.User.lb_cluster_upload</a>
             <table class="edittable">
                 <tr>
-                    <th>編號</th>
-                    <th style="width: 50%">檔案名稱</th>
-                    <th>上傳者</th>
-                    <th>上傳時間</th>
-                    <th>檔案大小</th>
-                    <th>下載</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_id</th>
+                    <th style="width: 50%">@prj_BIZ_System.LanguageResource.User.lb_filename</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_owner</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_uploadtime</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_filesize</th>
+                    <th>@prj_BIZ_System.LanguageResource.User.lb_download</th>
                 </tr>
                 @foreach (var mo in Model.clusterFileList)
                 {
@@ -69,10 +79,10 @@
                         </td>
                         <td>
                             <div class="centerbox">
-                                <a href="@Url.Action("DownloadFile","Cluster",new {filepath = @ViewBag.path, filename = @mo.cluster_file_site})" class="editbu">下載</a>
+                                <a href="@Url.Action("DownloadFile","Cluster",new {filepath = @ViewBag.path, filename = @mo.cluster_file_site})" class="editbu">@prj_BIZ_System.LanguageResource.User.lb_download</a>
                                 @if (user_id == mo.user_id)
                                 {
-                                    <br /><br /><a id="@mo.cluster_file_no" href="javascript:void(0)" class="deletebu quit">刪除</a>
+                                    <br /><br /><a id="@mo.cluster_file_no" href="javascript:void(0)" class="deletebu quit">@prj_BIZ_System.LanguageResource.User.lb_delete</a>
                                 }
 
                             </div>

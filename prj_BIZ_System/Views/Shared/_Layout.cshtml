@@ -80,6 +80,20 @@
                     @if (ViewBag.Form != "Manager")
                     {
 
+                        if (Request.Cookies["UserInfo"] != null || Request.Cookies["SalesInfo"] != null)
+                        {
+                            if (Request["_version"] != null && Request["_version"] != "2.0")
+                            {
+                                <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster</a></li>
+                            }
+                        }
+                        else
+                        {
+                            if (Request["_version"] != null && Request["_version"] != "2.0")
+                            {
+                                <li><a href="~/Cluster/ClusterListAll">@prj_BIZ_System.LanguageResource.User.lb_cluster</a></li>
+                            }
+                        }
 
                         <li>@Html.ActionLink(@prj_BIZ_System.LanguageResource.User.lb_company, "Company", "Home")</li>
                         <li>
@@ -89,7 +103,6 @@
                                 <li><a href="~/Home/News?type=0">@prj_BIZ_System.LanguageResource.User.lb_activities</a></li>
                             </ul>
                         </li>
-
 
                         if (Request.Cookies["UserInfo"] != null || Request.Cookies["SalesInfo"] != null)
                         {
@@ -102,7 +115,6 @@
                                         <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
                                         if (Request["_version"] != null && Request["_version"] != "2.0")
                                         {
-                                            <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
                                             @*<li>
                                                 <a href="javascript:void(0)">@prj_BIZ_System.LanguageResource.User.lb_performance</a>
                                                 <ul>
@@ -121,7 +133,7 @@
                                         <li><a href="~/Sales/RFQ">我的詢價單</a></li>
                                         <li><a href="~/Sales/Quotation">我的報價單</a></li>
                                         <li><a href="~/Sales/Order">我的訂單</a></li>
-                                        <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
+                                        <li><a href="~/Cluster/ClusterList">@prj_BIZ_System.LanguageResource.User.lb_cluster</a></li>
                                     }
                                 </ul>
                             </li>
@@ -135,14 +147,6 @@
                                 </ul>
                             </li>
                         }
-                        else
-                        {
-                            if (Request["_version"] != null && Request["_version"] != "2.0")
-                            {
-                                <li><a href="~/Cluster/ClusterListAll">@prj_BIZ_System.LanguageResource.User.lb_cluster_list</a></li>
-                            }
-                        }
-
                     }
                     else
                     {
