@@ -88,7 +88,7 @@ namespace prj_BIZ_System.Controllers
             else //修改
             {
                 ViewBag.tname = LanguageResource.User.lb_myinfo;
-                userModel.userinfo = userService.GeUserInfoOne(userid);
+                userModel.userinfo = userService.GeUserInfoOneManager(userid);
                 ViewBag.user = userModel.userinfo;
                 userModel.usersortList = userService.SelectUserSortByUserId(userModel.userinfo.user_id);
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -121,7 +121,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                var id = userService.UserInfoInsertOne(model);
+                var id = userService.UserInfoInsertOneManager(model);
                 if( id != null)
                 {
                     MailHelper.sendAccountMailValidate( id , model.user_id,model.email );
@@ -144,7 +144,7 @@ namespace prj_BIZ_System.Controllers
                     UploadHelper.doUploadFile(logo_img, UploadConfig.subDirForLogo, model.user_id);
                     model.logo_img = logo_img.FileName;
                 }
-                userService.UserInfoUpdateOne(model);
+                userService.UserInfoUpdateOneManager(model);
 
             }
 

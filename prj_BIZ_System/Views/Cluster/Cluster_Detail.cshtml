@@ -13,6 +13,28 @@
     <div class="article_col1">
         @{
             Html.RenderAction("_ClusterMenuPartial", "Cluster");
+
+            var user_id = "";
+            var company = "";
+            var company_en = "";
+            if (Request.Cookies["UserInfo"] != null && Request.Cookies["UserInfo"]["user_id"] != null)
+            {
+                user_id = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["user_id"]);
+                company = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company"]);
+                company_en = HttpUtility.UrlDecode(Request.Cookies["UserInfo"]["company_en"]);
+            }
+            else {
+                user_id = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["user_id"]);
+                company = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company"]);
+                company_en = HttpUtility.UrlDecode(Request.Cookies["SalesInfo"]["company_en"]);
+            }
+            if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+            {
+                if (company_en != null && company_en != "")
+                {
+                    company = company_en;
+                }
+            }
         }
 
         <article class="article_col2">
@@ -29,13 +51,18 @@
                     <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
                     <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
                     <table class="regis_col02R membertable listlink">
+                        <tr id="grp_name_@user_id">
+                            <td>
+                                @user_id - @company
+                            </td>
+                        </tr>
                         @if (Model.clusterMemberList != null)
                         {
                             foreach (ClusterMemberModel md in Model.clusterMemberList)
                             {
                                 if (md.cluster_enable != "2")
                                 {
-                                    var company = md.company;
+                                    company = md.company;
                                     if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                                     {
                                         if (md.company_en != null && md.company_en != "")
@@ -44,23 +71,37 @@
                                         }
                                     }
 
-
+                                    if (user_id != md.user_id)
+                                    {
                                     <tr id="grp_name_@md.user_id">
                                         <td>
+                                            <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
                                             <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
                                         </td>
                                     </tr>
+                                    }
                                 }
                             }
                         }
                     </table>
                     <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
+                    @if (user_id == Model.clusterInfo.user_id)
+                    {
                     <textarea class="regis_col02R" name="cluster_info" id="" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
-
                     <div class="centerbox">
                         <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_edit</button>
                     </div>
-                </form>
+                    }
+                    else
+                    {
+                    <span class="regis_col02R">@Model.clusterInfo.cluster_info</span>
+                    <div class="centerbox">
+                        @*<button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>*@
+                    </div>
+                    }
+
+
+            </form>
             </div>
         </article>
     </div>
