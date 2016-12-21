@@ -520,6 +520,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 備用電子郵件 的當地語系化字串。
+        /// </summary>
+        public static string lb_backupemail {
+            get {
+                return ResourceManager.GetString("lb_backupemail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 備用電話/分機 的當地語系化字串。
+        /// </summary>
+        public static string lb_backuptel {
+            get {
+                return ResourceManager.GetString("lb_backuptel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 商務媒合需求 的當地語系化字串。
         /// </summary>
         public static string lb_biz_requirement {

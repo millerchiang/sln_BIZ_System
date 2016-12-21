@@ -984,4 +984,10 @@ To complete the registration of members, thank you!</value>
   <data name="lb_my" xml:space="preserve">
     <value>My </value>
   </data>
+  <data name="lb_backuptel" xml:space="preserve">
+    <value>Alternate Tel</value>
+  </data>
+  <data name="lb_backupemail" xml:space="preserve">
+    <value>Alternate Email</value>
+  </data>
 </root>

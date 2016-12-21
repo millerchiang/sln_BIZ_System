@@ -985,4 +985,10 @@
   <data name="lb_my" xml:space="preserve">
     <value>我的</value>
   </data>
+  <data name="lb_backuptel" xml:space="preserve">
+    <value>備用電話/分機</value>
+  </data>
+  <data name="lb_backupemail" xml:space="preserve">
+    <value>備用電子郵件</value>
+  </data>
 </root>
