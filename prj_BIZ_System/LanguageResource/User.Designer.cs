@@ -1186,6 +1186,15 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 *檔案大小不得超過10MB 的當地語系化字串。
+        /// </summary>
+        public static string lb_file_max_length {
+            get {
+                return ResourceManager.GetString("lb_file_max_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 檔案名稱 的當地語系化字串。
         /// </summary>
         public static string lb_filename {

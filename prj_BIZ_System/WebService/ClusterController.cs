@@ -40,12 +40,12 @@ namespace prj_BIZ_System.WebService
                 clusterInfoList = clusterService.GetClusterListByIdAndClusterEnable(user_id, cluster_enable)
                                                 .Select(clusterInfoSelector).ToList();
             }
-            else if(cluster_enable == "3")
+            else if (cluster_enable == "3")
             {
                 clusterInfoList = clusterService.GetClusterListByApply(user_id)
                                                 .Select(clusterInfoSelector).ToList();
             }
-            else if(cluster_enable == "5")
+            else if (cluster_enable == "5")
             {
                 clusterInfoList = clusterService.GetClusterListByChecked(user_id)
                                                 .Select(clusterInfoSelector).ToList();
@@ -66,10 +66,7 @@ namespace prj_BIZ_System.WebService
         [HttpPost]
         public object ModifyClusterInfo(ClusterDetailModel model)
         {
-            if(model.cluster_name.IsNullOrEmpty()) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster name is null.");
-
             ClusterInfoModel clusterInfoModel = new ClusterInfoModel { cluster_no = model.cluster_no,
-                                                                       cluster_name = model.cluster_name,
                                                                        cluster_info = model.cluster_info };
             int updateRowCount = clusterService.ClusterInfoUpdateOne(clusterInfoModel);
             return Request.CreateResponse(HttpStatusCode.OK, updateRowCount);
@@ -86,9 +83,9 @@ namespace prj_BIZ_System.WebService
                                     clusterMember.cluster_enable == "1"
                                 ).Select(clusterMember =>
                                 new {
-                                        clusterMember.user_id,
-                                        clusterMember.company
-                                    }
+                                    clusterMember.user_id,
+                                    clusterMember.company
+                                }
                                 ).ToArray();
             members["nonEnableMember"] = memberList
                                     .Where(clusterMember =>
@@ -120,6 +117,31 @@ namespace prj_BIZ_System.WebService
             }
             int insertSuccessCount = insertMember(cluster_no, "", cluster_members);
             return Request.CreateResponse(HttpStatusCode.OK, insertSuccessCount);
+        }
+
+        [HttpGet]
+        public object GetClusterFile(int cluster_no)
+        {
+            if (cluster_no == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "cluster no is null.");
+            ClusterInfoModel clusterInfo = clusterService.GetClusterInfo(cluster_no, null, null);
+            double clusterMaxFileSize = clusterInfo.file_limit;
+            double clusterFileSize = clusterService.GetClusterFileSize(cluster_no);
+            int capital = (int)(clusterFileSize / clusterMaxFileSize * 100);
+
+            var fileList = clusterService.GetClusterFileListkw(cluster_no)
+                                         .Select(cf =>
+                                            new
+                                            {
+                                                cf.cluster_file_site,
+                                                cf.user_id,
+                                                create_time = cf.create_time.ToString("yyyy-MM-dd HH:mm"),
+                                                file_size = cf.file_size.ToString("0.00")
+                                            } 
+                                         )
+                                         .ToList();
+            var clusterFile = new Dictionary<string, object>() { {"capital", capital}, {"fileList", fileList} };
+
+            return Request.CreateResponse(HttpStatusCode.OK, clusterFile);
         }
 
         [HttpPost]

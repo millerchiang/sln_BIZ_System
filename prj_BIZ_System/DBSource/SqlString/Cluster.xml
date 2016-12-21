@@ -294,7 +294,7 @@
     <!--更新聚落-->
     <update id="ClusterInfoUpdateOne" parameterClass="ClusterInfo">
       UPDATE public.cluster_info
-      SET cluster_name=#cluster_name#, cluster_info=#cluster_info#, update_time=now()
+      SET cluster_info=#cluster_info#, update_time=now()
       WHERE cluster_no=$cluster_no$
     </update>
 

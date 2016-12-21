@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace prj_BIZ_System.App_Start
 {
@@ -177,8 +179,14 @@ namespace prj_BIZ_System.App_Start
         public static Dictionary<string, string> doUploadFile(HttpPostedFileBase uploadFile, string subFileDir, string user_id )
         {
             Dictionary<string, string> resultDict = new Dictionary<string, string>();
-            
+
+            //判斷檔案大小用
+            //HttpRuntimeSection section = ConfigurationManager.GetSection("system.web/httpRuntime") as HttpRuntimeSection;
+            //var requestMaxLength = section.MaxRequestLength;
+            //var maxFileSize = (Double)uploadFile.ContentLength / 1024.0;
+
             string targetRootDir = Path.Combine(UploadConfig.UploadRootDir, user_id);
+
             string targetFilePath = "";
             targetFilePath = Path.Combine(targetRootDir, subFileDir);
             if (!Directory.Exists(UploadConfig.UploadRootDir))

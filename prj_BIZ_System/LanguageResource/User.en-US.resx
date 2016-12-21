@@ -984,4 +984,7 @@ To complete the registration of members, thank you!</value>
   <data name="lb_my" xml:space="preserve">
     <value>My </value>
   </data>
+  <data name="lb_file_max_length" xml:space="preserve">
+    <value>*File size should not exceed 10MB</value>
+  </data>
 </root>
