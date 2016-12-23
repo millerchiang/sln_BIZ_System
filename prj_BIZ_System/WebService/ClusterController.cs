@@ -171,10 +171,25 @@ namespace prj_BIZ_System.WebService
                 membermodel.user_id = members[i];
                 membermodel.cluster_no = clusterNo;
                 membermodel.cluster_enable = creatorId == members[i] ? "1" : "2";
-                int clusterMemberNo = clusterService.ClusterMemberInsertOne(membermodel);
-                insertSuccessCount = insertSuccessCount + (clusterMemberNo > 0 ? 1 : 0);
+                insertSuccessCount += modifyClusterMember(membermodel) > 0 ? 1 : 0;
             }
             return insertSuccessCount;
+        }
+
+        private int modifyClusterMember(ClusterMemberModel membermodel)
+        {
+            int result = 0;
+            var hasMember = clusterService.GetClusterMember(membermodel.cluster_no, membermodel.user_id);
+
+            if (hasMember == null)
+            {
+                result += clusterService.ClusterMemberInsertOne(membermodel);
+            }
+            else
+            {
+                result += clusterService.ClusterMemberUpdateOne(membermodel);
+            }
+            return result;
         }
 
         [HttpPost]
@@ -188,17 +203,7 @@ namespace prj_BIZ_System.WebService
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "user id or cluster no is null.");
             }
             int result;
-
-            var hasMember = clusterService.GetClusterMember(cluster_no, user_id);
-
-            if (hasMember == null)
-            {
-                result = clusterService.ClusterMemberInsertOne(clusterMemberModel);
-            }
-            else
-            {
-                result = clusterService.ClusterMemberUpdateOne(clusterMemberModel);
-            }
+            result = modifyClusterMember(clusterMemberModel);
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 

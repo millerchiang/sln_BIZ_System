@@ -994,4 +994,55 @@
   <data name="lb_file_max_length" xml:space="preserve">
     <value>*檔案大小不得超過10MB</value>
   </data>
+  <data name="lb_accept" xml:space="preserve">
+    <value>接受申請</value>
+  </data>
+  <data name="lb_applicant" xml:space="preserve">
+    <value>申請者</value>
+  </data>
+  <data name="lb_applicanttime" xml:space="preserve">
+    <value>申請時間</value>
+  </data>
+  <data name="lb_become" xml:space="preserve">
+    <value>成為</value>
+  </data>
+  <data name="lb_changemanager" xml:space="preserve">
+    <value>更換管理者</value>
+  </data>
+  <data name="lb_clusterinvited" xml:space="preserve">
+    <value>受邀請聚落</value>
+  </data>
+  <data name="lb_clustermanager" xml:space="preserve">
+    <value>聚落管理者</value>
+  </data>
+  <data name="lb_decline" xml:space="preserve">
+    <value>婉拒</value>
+  </data>
+  <data name="lb_invitation" xml:space="preserve">
+    <value>聚落管理者邀請</value>
+  </data>
+  <data name="lb_invitetime" xml:space="preserve">
+    <value>邀請時間</value>
+  </data>
+  <data name="lb_join" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="lb_membercheck" xml:space="preserve">
+    <value>聚落審核</value>
+  </data>
+  <data name="lb_notice" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="lb_othercluster" xml:space="preserve">
+    <value>可申請聚落</value>
+  </data>
+  <data name="lb_pendingcluster" xml:space="preserve">
+    <value>申請中聚落</value>
+  </data>
+  <data name="lb_receivenotice" xml:space="preserve">
+    <value>收到管理者邀請</value>
+  </data>
+  <data name="lb_yourcluster" xml:space="preserve">
+    <value>已加入聚落</value>
+  </data>
 </root>

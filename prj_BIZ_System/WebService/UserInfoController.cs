@@ -230,19 +230,30 @@ namespace prj_BIZ_System.WebService
         }
 
         [HttpGet]
+        public object GetSortCatalog()
+        {
+            return userService.GetSortList().Select(
+                em =>
+                new
+                {
+                    enterprise_sort_id_b = em.enterprise_sort_id_b[0],
+                    em.enterprise_sort_name_b,
+                    em.enterprise_sort_name_en_b
+                }
+            ).Distinct().ToList();
+        }
+
+        [HttpGet]
         public object GetSortList()
         {
             return userService.GetSortList().Select(
-                enterpriseSortListModel =>
+                em =>
                 new
                 {
-                    enterpriseSortListModel.sort_id,
-                    enterpriseSortListModel.enterprise_sort_id,
-                    enterpriseSortListModel.enterprise_sort_name,
-                    enterpriseSortListModel.enterprise_sort_name_en,
-                    enterpriseSortListModel.enterprise_sort_id_b,
-                    enterpriseSortListModel.enterprise_sort_name_b,
-                    enterpriseSortListModel.enterprise_sort_name_en_b
+                    em.sort_id,
+                    em.enterprise_sort_id,
+                    em.enterprise_sort_name,
+                    em.enterprise_sort_name_en
                 }
             ).ToList();
         }

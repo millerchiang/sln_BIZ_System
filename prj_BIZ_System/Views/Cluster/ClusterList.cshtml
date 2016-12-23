@@ -30,49 +30,49 @@
                 {
                     if (_list == "4")
                     {
-                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">已加入聚落</span></li>
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_yourcluster</span></li>
                     }
                     else
                     {
-                        <li class="@a"><a href="ClusterList?list=4" class="ui-tabs-anchor">已加入聚落</a></li>
-                    }
-                    if (_list == "5")
-                    {
-                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">受邀請聚落</span></li>
-                    }
-                    else
-                    {
-                        <li class="@a"><a href="ClusterList?list=5" class="ui-tabs-anchor">受邀請聚落</a></li>
+                        <li class="@a"><a href="ClusterList?list=4" class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_yourcluster</a></li>
                     }
                     if (_list == "1")
                     {
-                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">可申請聚落</span></li>
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_othercluster</span></li>
                     }
                     else
                     {
-                        <li class="@a"><a href="ClusterList?list=1" class="ui-tabs-anchor">可申請聚落</a></li>
+                        <li class="@a"><a href="ClusterList?list=1" class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_othercluster</a></li>
+                    }
+                    if (_list == "5")
+                    {
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_clusterinvited</span></li>
+                    }
+                    else
+                    {
+                        <li class="@a"><a href="ClusterList?list=5" class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_clusterinvited</a></li>
                     }
                     if (_list == "2")
                     {
-                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">申請中聚落</span></li>
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_pendingcluster</span></li>
                     }
                     else
                     {
-                        <li class="@a"><a href="ClusterList?list=2" class="ui-tabs-anchor">申請中聚落</a></li>
+                        <li class="@a"><a href="ClusterList?list=2" class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_pendingcluster</a></li>
                     }
                     if (_list == "3")
                     {
-                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">聚落審核</span></li>
+                        <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_membercheck</span></li>
                     }
                     else
                     {
-                        <li class="@a"><a href="ClusterList?list=3" class="ui-tabs-anchor">聚落審核</a></li>
+                        <li class="@a"><a href="ClusterList?list=3" class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_membercheck</a></li>
                     }
 
                 }
                 else
                 {
-                    <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">已加入聚落</span></li>
+                    <li class="@a ui-tabs-active"><span class="ui-tabs-anchor">@prj_BIZ_System.LanguageResource.User.lb_yourcluster</span></li>
                 }
             }
 		    </ul>
@@ -121,7 +121,7 @@
 
                     @if (_list != "3" && user_id == newInfo.manager_id && _list != "6")
                     {
-                        <a href="javascript:void(0)" class="bellicon" title="收到管理者邀請" id="@newInfo.cluster_no">通知</a>
+                        <a href="javascript:void(0)" class="bellicon" title="@prj_BIZ_System.LanguageResource.User.lb_receivenotice" id="@newInfo.cluster_no">@prj_BIZ_System.LanguageResource.User.lb_notice</a>
                         <input type="hidden" id="yes_@newInfo.cluster_no" value="@user_id">
                         <input type="hidden" id="no_@newInfo.cluster_no" value="@newInfo.user_id">
                     }
@@ -131,7 +131,7 @@
                     @if (_list == "1")
                     {
                         //------可申請的聚落
-                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=4" class="clusterAddBtn" title="申請">申請</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=4" class="clusterAddBtn" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_join">@prj_BIZ_System.LanguageResource.User.lb_cluster_join</a>
                         //------------------
                     }
                     else if (_list == "2")
@@ -142,8 +142,8 @@
                     else if (_list == "3")
                     {
                         //------申請審核
-                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="clusterAcceptAddBtn" title="接受申請">接受申請</a>
-                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="clusterRejectAddBtn" title="婉拒申請">婉拒申請</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1&id=@newInfo.cluster_members" class="clusterAcceptAddBtn" title="@prj_BIZ_System.LanguageResource.User.lb_accept">@prj_BIZ_System.LanguageResource.User.lb_accept</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0&id=@newInfo.cluster_members" class="clusterRejectAddBtn" title="@prj_BIZ_System.LanguageResource.User.lb_decline">@prj_BIZ_System.LanguageResource.User.lb_decline</a>
                         //------------------
                     }
                     else if (_list == "4")
@@ -161,14 +161,14 @@
                     else if (_list == "5")
                     {
                         //------受邀請中
-                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="clusterAcceptInvBtn" title="加入">加入</a>
-                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="clusterRejectInvBtn" title="婉拒">婉拒</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=1" class="clusterAcceptInvBtn" title="@prj_BIZ_System.LanguageResource.User.lb_join">@prj_BIZ_System.LanguageResource.User.lb_join</a>
+                        <a href="Cluster_Status?cluster_no=@newInfo.cluster_no&status=0" class="clusterRejectInvBtn" title="@prj_BIZ_System.LanguageResource.User.lb_decline">@prj_BIZ_System.LanguageResource.User.lb_decline</a>
                         //------------------
                     }
 
                     @if (user_id == newInfo.user_id && _list != "6")
                     {
-                    <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="clusterChangeBtn" title="更換管理者">更換管理者</a>
+                    <a href="Cluster_Manager?cluster_no=@newInfo.cluster_no" class="clusterChangeBtn" title="@prj_BIZ_System.LanguageResource.User.lb_changemanager">@prj_BIZ_System.LanguageResource.User.lb_changemanager</a>
                     }
                     </div>
                 </dt>
@@ -176,14 +176,26 @@
                 <dd class="panelbox clusterBoxContent">
                     @if (_list != "3")
                     {
-                        <label for="" class="regis_col02L">邀請時間</label>
-                        <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
+                        if (_list == "2" || _list == "5")
+                        {
+                            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_invitetime</label>
+                            <span class="regis_col02R contentspan">@newInfo.member_invite_time</span>
+                        }
                         <label for="" class="regis_col02L">
                             @prj_BIZ_System.LanguageResource.User.lb_cluster_manager
                         </label>
-                        <p class="regis_col02R contentspan">
-                            <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
-                        </p>
+                        if (_list == "2" || _list == "5")
+                        {
+                            <p class="regis_col02R contentspan">
+                                <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
+                            </p>
+                        }
+                        else
+                        {
+                            <span class="regis_col02R contentspan">
+                                <label for="" id="manager_@newInfo.cluster_no">@newInfo.creator_name</label>
+                            </span>
+                        }
                         <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
                         <p class="regis_col02R contentspan">
                             <span class="overFont">@newInfo.cluster_members</span>
@@ -192,9 +204,9 @@
                     }
                     else
                     {
-                        <label for="" class="regis_col02L">申請時間</label>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_applicanttime</label>
                         <span class="regis_col02R contentspan">@newInfo.cluster_create_time</span>
-                        <label for="" class="regis_col02L">申請者</label>
+                        <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_applicant</label>
                         <p class="regis_col02R contentspan">@newInfo.creator_name</p>
                     }
                         <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
@@ -207,8 +219,8 @@
 <!--內容End-->
             </dl>
 
-            <div id="dialog" title="聚落管理者邀請" style="display:none;">
-                <p>成為:<span class="bellTitle"></span>聚落管理者?</p>
+            <div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_invitation" style="display:none;">
+                <p>@(prj_BIZ_System.LanguageResource.User.lb_become+":")<span class="bellTitle"></span>@(prj_BIZ_System.LanguageResource.User.lb_clustermanager+"?")</p>
             </div>
 
             @Html.PagesList((List<PageList<prj_BIZ_System.Models.ClusterDetailModel>>)ViewData["PageList"])
@@ -235,7 +247,7 @@
     @if (!string.IsNullOrEmpty((string)TempData["errMsg"]))
     {
             <text>
-            
+
 	        function check() {
 	            var errMsg = '@TempData["errMsg"]';
 	            if (errMsg != '') {
@@ -253,12 +265,11 @@
             var cluster_no = this.id;
             var yes_Id = $("#yes_" + cluster_no).val();
             var no_Id = $("#no_" + cluster_no).val();
-
             $("#dialog").dialog({
                   autoOpen: true,
                    modal: true,
                    buttons: {
-                       "是": function () {
+                       '@(prj_BIZ_System.LanguageResource.User.lb_yes)': function () {
                            $.ajax({
                                type: "post",
                                url: "@Url.Action("ClusterManagerOk", "Cluster")",
@@ -276,7 +287,7 @@
                        })
                         $(this).dialog("close");
                     },
-                    "否": function() {
+                       '@(prj_BIZ_System.LanguageResource.User.lb_no)': function () {
                         $.ajax({
                             type: "post",
                             url: "@Url.Action("ClusterManagerOk", "Cluster")",

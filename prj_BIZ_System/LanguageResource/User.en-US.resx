@@ -993,4 +993,55 @@ To complete the registration of members, thank you!</value>
   <data name="lb_file_max_length" xml:space="preserve">
     <value>*File size should not exceed 10MB</value>
   </data>
+  <data name="lb_accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="lb_applicant" xml:space="preserve">
+    <value>Applicant</value>
+  </data>
+  <data name="lb_applicanttime" xml:space="preserve">
+    <value>Applicant Time</value>
+  </data>
+  <data name="lb_become" xml:space="preserve">
+    <value>Become</value>
+  </data>
+  <data name="lb_changemanager" xml:space="preserve">
+    <value>change the cluster manager</value>
+  </data>
+  <data name="lb_clusterinvited" xml:space="preserve">
+    <value>Inviations</value>
+  </data>
+  <data name="lb_clustermanager" xml:space="preserve">
+    <value>Cluster Manager</value>
+  </data>
+  <data name="lb_decline" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="lb_invitation" xml:space="preserve">
+    <value>invitation of Cluster manager</value>
+  </data>
+  <data name="lb_invitetime" xml:space="preserve">
+    <value>Invite Time</value>
+  </data>
+  <data name="lb_join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="lb_membercheck" xml:space="preserve">
+    <value>New member check</value>
+  </data>
+  <data name="lb_notice" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="lb_othercluster" xml:space="preserve">
+    <value>Other Cluster</value>
+  </data>
+  <data name="lb_pendingcluster" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="lb_receivenotice" xml:space="preserve">
+    <value>you received a new notice</value>
+  </data>
+  <data name="lb_yourcluster" xml:space="preserve">
+    <value>Your Cluster</value>
+  </data>
 </root>
