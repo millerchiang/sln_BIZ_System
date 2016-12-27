@@ -41,7 +41,7 @@
             <h2 class="borderTitle2">@Model.clusterInfo.cluster_name</h2>
             <div class="form_box">
                 <h2>@prj_BIZ_System.LanguageResource.User.lb_cluster_about</h2>
-                <form id="form" class="" action="@Url.Action("EditCluster", "Cluster")" method="post">
+                <form id="form" class="" action="@Url.Action("EditClusterInfo", "Cluster")" method="post">
                     <input type="hidden" name="no" value="@Model.clusterInfo.cluster_no">
                     <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
@@ -49,7 +49,46 @@
                     <span class="regis_col02R contentspan">@Model.clusterInfo.cluster_name</span>
                     <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_manager</div>
                     <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
-                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
+                    <input type="hidden" name="user_id" value="@Model.clusterInfo.user_id">
+
+                    @{
+                        var a = "";
+                        var b = "";
+                        if (Model.clusterInfo.is_public == "0")
+                        {
+                            a = "checked";
+                        }
+                        else if (Model.clusterInfo.is_public == "1")
+                        {
+                            b = "checked";
+                        }
+                    }
+
+
+                    @if (user_id == Model.clusterInfo.user_id)
+                     {
+                        <label for="is_public" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_is_public</label>
+                        <div class="regis_col01R_input">
+                            <input type="radio" class="radioinput" id="is_public01" name="is_public" value="0" @a>
+                            <label for="is_public01">@prj_BIZ_System.LanguageResource.User.lb_is_public_no</label>
+                            <input type="radio" class="radioinput" id="is_public02" name="is_public" value="1" @b>
+                            <label for="is_public02">@prj_BIZ_System.LanguageResource.User.lb_is_public_yes</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <label for="is_public" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_is_public</label>
+                        if (Model.clusterInfo.is_public == "0")
+                        {
+                            <span class="regis_col02R contentspan">@prj_BIZ_System.LanguageResource.User.lb_is_public_no</span>
+                        }
+                        else if (Model.clusterInfo.is_public == "1")
+                        {
+                            <span class="regis_col02R contentspan">@prj_BIZ_System.LanguageResource.User.lb_is_public_yes</span>
+                        }
+                    }
+
+                    @*<div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
                     <table class="regis_col02R membertable listlink">
                         <tr id="grp_name_@user_id">
                             <td>
@@ -83,7 +122,7 @@
                                 }
                             }
                         }
-                    </table>
+                    </table>*@
                     <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_brief</label>
                     @if (user_id == Model.clusterInfo.user_id)
                     {

@@ -471,6 +471,8 @@ namespace prj_BIZ_System.Controllers
             messageViewModel.msgLists = msgLists;
             docookie("_menu", "MessageClusterMain");
             docookie("cluster_no", Request["cluster_no"]);
+            docookie("cluster_name", HttpUtility.UrlEncode(ViewBag.ClusterInfo.cluster_name));
+
             return View(messageViewModel);
         }
 

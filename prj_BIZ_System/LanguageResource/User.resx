@@ -1051,4 +1051,25 @@
   <data name="lb_app_download_title" xml:space="preserve">
     <value>BIZ 行動版</value>
   </data>
+  <data name="lb_createcluster" xml:space="preserve">
+    <value>新建聚落</value>
+  </data>
+  <data name="lb_editcluster" xml:space="preserve">
+    <value>編輯聚落</value>
+  </data>
+  <data name="lb_clusterexist" xml:space="preserve">
+    <value>該建立者的聚落名稱已存在,請更改其他名稱!!</value>
+  </data>
+  <data name="lb_re_invite" xml:space="preserve">
+    <value>該廠商曾在該聚落,是否重新邀請?</value>
+  </data>
+  <data name="lb_atleast3" xml:space="preserve">
+    <value>至少須三家廠商以上!!</value>
+  </data>
+  <data name="lb_newcluster" xml:space="preserve">
+    <value>新邀請成員</value>
+  </data>
+  <data name="lb_typeid" xml:space="preserve">
+    <value>請輸入帳號或公司名稱關鍵字</value>
+  </data>
 </root>

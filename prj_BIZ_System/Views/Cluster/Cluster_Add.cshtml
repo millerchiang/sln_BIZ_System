@@ -53,19 +53,25 @@
             <input type="hidden" name="enable" value="@Model.clusterInfo.enable">
             @if (ViewBag.PageType == "Create")
             {
-                <h2>新建聚落</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_createcluster</h2>
             }
             else
             {
-                <h2>編輯聚落</h2>
+                <h2>@prj_BIZ_System.LanguageResource.User.lb_editcluster</h2>
             }
-            <label for="" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
             <input type="hidden" name="cluster_name_old" value="@Model.clusterInfo.cluster_name">
+            @if (user_id == Model.clusterInfo.user_id)
+            {
+            <label for="" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
             <input type="text" class="regis_col02R" name="cluster_name" value="@Model.clusterInfo.cluster_name" onblur="chkname()" required>
-
+            }
+            else
+            {
+            <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_name</label>
+            <span class="regis_col02R contentspan">@Model.clusterInfo.cluster_name</span>
+            }
             <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_manager</label>
-
-            <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
+            <input type="hidden" name="user_id" value="@Model.clusterInfo.user_id">
             <span class="regis_col02R contentspan">@Model.clusterInfo.user_id</span>
 
             @{
@@ -81,6 +87,9 @@
                 }
             }
 
+            
+            @if (user_id == Model.clusterInfo.user_id)
+            {
             <label for="is_public" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_is_public</label>
             <div class="regis_col01R_input">
                 <input type="radio" class="radioinput" id="is_public01" name="is_public" value="0" @a>
@@ -88,11 +97,24 @@
                 <input type="radio" class="radioinput" id="is_public02" name="is_public" value="1" @b>
                 <label for="is_public02">@prj_BIZ_System.LanguageResource.User.lb_is_public_yes</label>
             </div>
+            }
+            else
+            {
+                <label for="is_public" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_is_public</label>
+                if (Model.clusterInfo.is_public == "0")
+                {
+                    <span class="regis_col02R contentspan">@prj_BIZ_System.LanguageResource.User.lb_is_public_no</span>
+                }
+                else if (Model.clusterInfo.is_public == "1")
+                {
+                    <span class="regis_col02R contentspan">@prj_BIZ_System.LanguageResource.User.lb_is_public_yes</span>
+                }
+            }
 
             <label for="" class="regis_col02L spanRed">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</label>
             <div class="regis_col02R">
 
-                <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
+                <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="@prj_BIZ_System.LanguageResource.User.lb_typeid" onkeyup="return hidebtn(event)">
 
                 <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
                 <table class="membertable article_col1 listlink" id="membertable">
@@ -163,10 +185,17 @@
             </div>
 
             <label for="" class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_detail</label>
-            <textarea class="regis_col02R" name="cluster_info" id="" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
+
+            @if (user_id == Model.clusterInfo.user_id)
+            {
+                <textarea class="regis_col02R" name="cluster_info" id="" placeholder="@prj_BIZ_System.LanguageResource.User.lb_300less" maxlength="300">@Model.clusterInfo.cluster_info</textarea>
+            }
+            else {
+                <span class="regis_col02R contentspan">@Model.clusterInfo.cluster_info</span>
+            }
 
             <div class="centerbox">
-                <button type="submit" class="buinfor">送出邀請</button>
+                <button type="submit" class="buinfor">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</button>
                 <button type="button" class="submitbu" onclick="javascript:history.back()">@prj_BIZ_System.LanguageResource.User.lb_back</button>
             </div>
 
@@ -178,7 +207,7 @@
 
 </div>
 
-<div id="dialog" title="邀請成員" style="display:none;">
+<div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_invite" style="display:none;">
     <p>
         <span class="instext"></span><br />
         <span id="business_id"></span>
@@ -208,7 +237,7 @@
                     //                    $(this).appendTo($("table.membertable tr").last().find("td").last());
                     if (!idexist(user_id)) {
 //                        $("#addgroup").show();
-                        
+
                         chkexist(user_id);
                     }
                     else {
@@ -233,6 +262,8 @@
         '<input type="hidden" name="user_id" value="' + user_id + '">' +
         //'<label">' + user_id + ' - ' + company + '</label>' +
         //'<a href="javascript:void(0)" class="removetag rightbox" onclick="showCancel(' + user_id + ')"></a>' +
+
+        '<a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="/Message/PrivateAdd?company=' + company + '&userid=' + user_id + '" class="group_contact" target="_blank"></a>' +
         '<a href="/User/UserInfo?user_id=' + user_id + '" target="_blank">' + user_id + ' - ' + company + '</a>' +
         '<a href="javascript:doDelete(\'' + user_id + '\',0,\'' + company + '\',2)" class="removetag rightbox"></a>' +
         '</td></tr>';
@@ -286,20 +317,20 @@
     }
 
     function doDelete(id, cid, inputtext,m) {
-        $(".instext").text("是否刪除邀請中的");
+        $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_deleteornot");
         $("#business_id").text(inputtext);
         $("#dialog").dialog({
             autoOpen: true,
             modal: true,
             buttons: {
-                "是": function () {
+                "@prj_BIZ_System.LanguageResource.User.lb_yes": function () {
                     if (m == 1)
                         showDelete(id, cid);
                     else
                         showCancel(id);
                     $(this).dialog("close");
                 },
-                "否": function () {
+                "@prj_BIZ_System.LanguageResource.User.lb_no": function () {
                     $(this).dialog("close");
                 }
             }
@@ -325,7 +356,7 @@
 
     function chkname() {
 
-        var user_id = $("input[name='userid']").val();
+        var user_id = $("input[name='user_id']").val();
         var cluster_name = $("input[name='cluster_name']").val();
         var cluster_name_old = $("input[name='cluster_name_old']").val();
 
@@ -340,7 +371,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        alert("該建立者的聚落名稱已存在,請更改其他名稱!!");
+                        alert("@prj_BIZ_System.LanguageResource.User.lb_clusterexist");
                         $("input[name='cluster_name']").focus();
                     }
                 }
@@ -362,7 +393,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        if (confirm("該廠商曾在該聚落,是否重新邀請?")) {
+                        if (confirm("@prj_BIZ_System.LanguageResource.User.lb_re_invite")) {
                             $('#addgroup').show();
                         } else {
                             $('#addgroup').hide();
@@ -396,7 +427,7 @@
         });
 
         if (g_no < 3) {
-            alert("至少須三家廠商以上!!");
+            alert("@prj_BIZ_System.LanguageResource.User.lb_atleast3");
             return false;
         }
         $("input[name='members']").val(members);

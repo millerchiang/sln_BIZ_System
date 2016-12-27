@@ -353,7 +353,7 @@ Any further question, please contact adminstrator.</value>
     <value>Company Msg</value>
   </data>
   <data name="lb_msg_managment" xml:space="preserve">
-    <value>Message management</value>
+    <value>Message</value>
   </data>
   <data name="lb_msg_private" xml:space="preserve">
     <value>Private Msg</value>
@@ -1049,5 +1049,26 @@ To complete the registration of members, thank you!</value>
   </data>
   <data name="lb_app_download_title" xml:space="preserve">
     <value>NTPC BIZ APP</value>
+  </data>
+  <data name="lb_createcluster" xml:space="preserve">
+    <value>Create a Cluster</value>
+  </data>
+  <data name="lb_editcluster" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="lb_clusterexist" xml:space="preserve">
+    <value>This Cluster name Already Exists, Please Re-Enter a new name</value>
+  </data>
+  <data name="lb_re_invite" xml:space="preserve">
+    <value>this company has left the cluster,would you like to re-invite?</value>
+  </data>
+  <data name="lb_atleast3" xml:space="preserve">
+    <value>at least need 3 companies in the cluster</value>
+  </data>
+  <data name="lb_newcluster" xml:space="preserve">
+    <value>new member(pending)</value>
+  </data>
+  <data name="lb_typeid" xml:space="preserve">
+    <value>Type your acount id or company name</value>
   </data>
 </root>

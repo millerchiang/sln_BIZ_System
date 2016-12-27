@@ -345,7 +345,7 @@
           company like '%'||#company#||'%'
         </isNotEmpty>
       </dynamic>
-      ORDER BY id DESC
+      ORDER BY user_id
     </select>
 
     <!--關鍵字查詢-->
@@ -364,7 +364,7 @@
           cluster_member.cluster_no = #id# and cluster_member.cluster_enable = '1'
         </isNotEmpty>
       </dynamic>
-      ORDER BY id DESC
+      ORDER BY user_id
     </select>
 
     <!--查詢單筆-->

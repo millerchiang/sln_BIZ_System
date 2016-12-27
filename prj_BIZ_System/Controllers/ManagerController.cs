@@ -941,6 +941,11 @@ namespace prj_BIZ_System.Controllers
             ViewBag.cluster_no = cluster_no;
             activityModel.clusterList = clusterService.GetClusterAll();
             activityModel.userinfoList = userService.GetUserInfoListkw(user_id, company, cluster_no).Pages(Request, this, 10);
+
+            string page = Request["currentPage0"];
+            if (page == null || page == "")
+                page = "1";
+            docookie("_page", page);
             return View(activityModel);
         }
         public ActionResult DeleteUser()
@@ -949,7 +954,11 @@ namespace prj_BIZ_System.Controllers
                 return Redirect("Login");
 
             userService.UserInfoDelectOne(Request["user_id"]);
-            return Redirect("UserList");
+
+            string page = Request["_page"];
+            if (page == null || page == "")
+                page = "1";
+            return Redirect("UserList?currentPage0=" + page);
         }
 
 
@@ -1359,7 +1368,10 @@ namespace prj_BIZ_System.Controllers
             }
 
             bool refreshResult = userService.RefreshUserSort(model.user_id, sort_id);
-            return Redirect("UserList");
+            string page = Request["_page"];
+            if (page == null || page == "")
+                page = "1";
+            return Redirect("UserList?currentPage0=" + page);
         }
 
         #endregion

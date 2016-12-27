@@ -55,43 +55,59 @@
                     <input type="hidden" name="cluster_name" value="@Model.clusterInfo.cluster_name">
                     <input type="hidden" name="userid" value="@Model.clusterInfo.user_id">
                     <input type="hidden" name="cluster_info" value="@Model.clusterInfo.cluster_info">*@
+                    <div class="form_box w100">
+                        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</div>
+                        <div class="regis_col02R">
+                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="@prj_BIZ_System.LanguageResource.User.lb_typeid" onkeyup="return hidebtn(event)">
+                            <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
+                        </div>
+                        <div class="regis_col02L" id="newmemberlabel"></div>
+                        <table class="regis_col02R membertable listlink" id="newmembertable"></table>
 
-                    <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
-                    <table class="regis_col02R membertable listlink" id="gmember">
-                        <tr id="grp_name_@user_id">
-                            <td>
-                                <input type="hidden" name="id" value="@user_id">
-                                <a href="~/User/UserInfo?user_id=@user_id" target="_blank">@user_id - @company</a>
-                            </td>
-                        </tr>
+                        <div class="centerbox">
+                            <button id="sendinvite" type="submit" class="buinfor" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</button>
 
-                        @if (Model.clusterMemberList != null)
-                        {
-                            foreach (ClusterMemberModel md in Model.clusterMemberList)
+                        </div>
+
+                    </div>
+
+                    <div class="form_box w100">
+                        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_member</div>
+                        <table class="regis_col02R membertable listlink" id="gmember">
+                            <tr id="grp_name_@user_id">
+                                <td>
+                                    <input type="hidden" name="id" value="@user_id">
+                                    <a href="~/User/UserInfo?user_id=@user_id" target="_blank">@user_id - @company</a>
+                                </td>
+                            </tr>
+
+                            @if (Model.clusterMemberList != null)
                             {
-                                if (md.user_id != user_id && md.cluster_enable == "1")
+                                foreach (ClusterMemberModel md in Model.clusterMemberList)
                                 {
-                                    company = md.company;
-                                    if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
+                                    if (md.user_id != user_id && md.cluster_enable == "1")
                                     {
-                                        if (md.company_en != null && md.company_en != "")
+                                        company = md.company;
+                                        if (Request.Cookies["_culture"] != null && Request.Cookies["_culture"].Value != "zh-TW")
                                         {
-                                            company = md.company_en;
+                                            if (md.company_en != null && md.company_en != "")
+                                            {
+                                                company = md.company_en;
+                                            }
                                         }
-                                    }
 
-                                    <tr id="grp_name_@md.user_id">
-                                        <td>
-                                            <input type="hidden" name="id" value="@md.user_id">
-                                            <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
-                                            <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
-                                        </td>
-                                    </tr>
+                                        <tr id="grp_name_@md.user_id">
+                                            <td>
+                                                <input type="hidden" name="id" value="@md.user_id">
+                                                <a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="~/Message/PrivateAdd?company=@company&userid=@md.user_id" class="group_contact" target="_blank"></a>
+                                                <a href="~/User/UserInfo?user_id=@md.user_id" target="_blank">@md.user_id - @company</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
-                        }
-                    </table>
-
+                        </table>
+                    </div>
                     <div class="form_box w100">
                         <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_pending</div>
                         <table class="regis_col02R membertable listlink" id="membertable">
@@ -124,29 +140,12 @@
                             }
                         </table>
                     </div>
-
-                    <div class="form_box w100">
-                        <div class="regis_col02L">@prj_BIZ_System.LanguageResource.User.lb_cluster_invite</div>
-                        <div class="regis_col02R">
-                            <input id="insert_id_cp" type="text" name="insert_id_cp" value="" class="regis_col02R" placeholder="請輸入帳號或公司名稱關鍵字" onkeyup="return hidebtn(event)">
-                            <a id="addgroup" href="javascript:void(0)" class="addbu rightbox" style="display:none">@prj_BIZ_System.LanguageResource.User.lb_add</a>
-                        </div>
-                        <div class="regis_col02L" id="newmemberlabel"></div>
-                        <table class="regis_col02R membertable listlink" id="newmembertable"></table>
-
-                        <div class="centerbox">
-                            <button id="sendinvite" type="submit" class="buinfor" style="display:none">送出邀請</button>
-
-                        </div>
-
-                    </div>
-
             </form>
             </div>
         </article>
     </div>
 
-    <div id="dialog" title="邀請成員" style="display:none;">
+    <div id="dialog" title="@prj_BIZ_System.LanguageResource.User.lb_cluster_invite" style="display:none;">
         <p>
             <span class="instext"></span><br />
             <span id="business_id"></span>
@@ -198,7 +197,7 @@
             $("#insert_id_cp").val("");
             $("#addgroup").hide();
             $("#sendinvite").show();
-            $("#newmemberlabel").html("新邀請成員");
+            $("#newmemberlabel").html("@prj_BIZ_System.LanguageResource.User.lb_newcluster");
 
         });
     }
@@ -211,6 +210,7 @@
                 '<input type="hidden" name="id" value="' + user_id + '">' +
                 '<input type="hidden" name="user_id" value="' + user_id + '">' +
                 //'<label>' + user_id + ' - ' + company + '</label>' +
+                '<a title="@prj_BIZ_System.LanguageResource.User.lb_sendmsg" href="/Message/PrivateAdd?company=' + company + '&userid=' + user_id + '" class="group_contact" target="_blank"></a>' +
                 '<a href="/User/UserInfo?user_id=' + user_id + '" target="_blank">' + user_id + ' - ' + company + '</a>' +
                 '<a href="javascript:doDelete(\'' + user_id + '\',' + cluster_no + ',\'' + company + '\',2)" class="removetag rightbox"></a>' +
             '</td>' +
@@ -263,19 +263,19 @@
             autoOpen: true,
             modal: true,
             buttons: {
-                "是": function () {
+                "@prj_BIZ_System.LanguageResource.User.lb_yes": function () {
                     showDelete(id,cid);
                     $(this).dialog("close");
                 },
-                "否": function () {
+                "@prj_BIZ_System.LanguageResource.User.lb_no": function () {
                     $(this).dialog("close");
                 }
             }
         });
         if (m == 1)
-            $(".instext").text("是否刪除邀請中的");
+            $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_deleteornot");
         else
-            $(".instext").text("是否取消新邀請的");
+            $(".instext").text("@prj_BIZ_System.LanguageResource.User.lb_deleteornot");
 
         $("#business_id").text(inputtext);
     }
@@ -339,7 +339,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        alert("該建立者的聚落名稱已存在,請更改其他名稱!!");
+                        alert("@prj_BIZ_System.LanguageResource.User.lb_clusterexist");
                         $("input[name='cluster_name']").focus();
                     }
                 }
@@ -361,7 +361,7 @@
                 if (result != null) {
                     var Huser = result;
                     if (Huser == true) {
-                        if (confirm("該廠商曾在該聚落,是否重新邀請?")) {
+                        if (confirm("@prj_BIZ_System.LanguageResource.User.lb_re_invite")) {
                             $("#addgroup").show();
                         } else {
                             $("#addgroup").hide();
@@ -397,7 +397,7 @@
         });
 
         if (g_no < 3) {
-            alert("至少須三家廠商以上!!");
+            alert("@prj_BIZ_System.LanguageResource.User.lb_atleast3");
             return false;
         }
         $("input[name='members']").val(members);
