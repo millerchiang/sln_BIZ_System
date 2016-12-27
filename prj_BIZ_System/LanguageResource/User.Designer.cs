@@ -439,6 +439,24 @@ namespace prj_BIZ_System.LanguageResource {
         }
         
         /// <summary>
+        ///   查詢類似 產業升級 智慧管理 的當地語系化字串。
+        /// </summary>
+        public static string lb_app_download_subtitle {
+            get {
+                return ResourceManager.GetString("lb_app_download_subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 BIZ 行動版 的當地語系化字串。
+        /// </summary>
+        public static string lb_app_download_title {
+            get {
+                return ResourceManager.GetString("lb_app_download_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 APP下載 的當地語系化字串。
         /// </summary>
         public static string lb_appdownload {

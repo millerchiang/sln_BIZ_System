@@ -143,7 +143,7 @@ namespace prj_BIZ_System.WebService
                 {
                     user_id = userInfoModel.user_id,
                     company = userInfoModel.company,
-                    company_en = userInfoModel.company_en,
+                    company_en = userInfoModel.company_en
                 }
             ).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, companySort);

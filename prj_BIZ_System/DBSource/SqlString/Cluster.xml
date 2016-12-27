@@ -287,8 +287,8 @@
         SELECT currval('cluster_info_cluster_no_seq')
       </selectKey>
       INSERT INTO public.cluster_info(
-      user_id, cluster_name, cluster_info, enable )
-      VALUES (#user_id#,#cluster_name#,#cluster_info#,#enable#)
+      user_id, cluster_name, cluster_info, enable, is_public )
+      VALUES (#user_id#,#cluster_name#,#cluster_info#,#enable#,#is_public#)
     </insert>
 
     <!--更新聚落-->

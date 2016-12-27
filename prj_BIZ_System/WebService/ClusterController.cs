@@ -84,7 +84,8 @@ namespace prj_BIZ_System.WebService
                                 ).Select(clusterMember =>
                                 new {
                                     clusterMember.user_id,
-                                    clusterMember.company
+                                    clusterMember.company,
+                                    clusterMember.company_en
                                 }
                                 ).ToArray();
             members["nonEnableMember"] = memberList
@@ -93,7 +94,8 @@ namespace prj_BIZ_System.WebService
                                     ).Select(clusterMember =>
                                         new {
                                             clusterMember.user_id,
-                                            clusterMember.company
+                                            clusterMember.company,
+                                            clusterMember.company_en
                                         }
                                     ).ToArray();
             return Request.CreateResponse(HttpStatusCode.OK, members);
