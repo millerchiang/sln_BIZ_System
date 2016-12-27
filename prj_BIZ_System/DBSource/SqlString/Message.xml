@@ -341,6 +341,7 @@
       <result property="user_id" column="user_id"/>
       <!--<result property="id_enable" column="id_enable"/>-->
       <result property="company" column="company"/>
+      <result property="company_en" column="company_en"/>
     </resultMap>
 
     <resultMap id="UserInfoForPush-result" class="prj_BIZ_System.Models.UserInfoModel">

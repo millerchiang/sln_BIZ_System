@@ -1045,4 +1045,10 @@
   <data name="lb_yourcluster" xml:space="preserve">
     <value>已加入聚落</value>
   </data>
+  <data name="lb_app_download_subtitle" xml:space="preserve">
+    <value>產業升級 智慧管理</value>
+  </data>
+  <data name="lb_app_download_title" xml:space="preserve">
+    <value>BIZ 行動版</value>
+  </data>
 </root>

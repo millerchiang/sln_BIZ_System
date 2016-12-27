@@ -1044,4 +1044,10 @@ To complete the registration of members, thank you!</value>
   <data name="lb_yourcluster" xml:space="preserve">
     <value>Your Cluster</value>
   </data>
+  <data name="lb_app_download_subtitle" xml:space="preserve">
+    <value>Upgrading Industry x Bringing Intelligence​</value>
+  </data>
+  <data name="lb_app_download_title" xml:space="preserve">
+    <value>NTPC BIZ APP</value>
+  </data>
 </root>
