@@ -1,6 +1,7 @@
 ﻿@using prj_BIZ_System.Models
 @model prj_BIZ_System.Models.Index_ViewModel
 
+@Styles.Render("~/Scripts/css/fancybox")
 <aside>
     @{
         if (Request.Cookies["UserInfo"] == null && Request.Cookies["SalesInfo"] == null && Request["_mainmenu"] != null && Request["_mainmenu"] == "Index")
@@ -90,6 +91,12 @@
                     </a>
                 </li>
                 <li><a href="~/Match/AccountManage">@prj_BIZ_System.LanguageResource.User.lb_matchmaking</a></li>
+
+                @if (Request["_bee"] == "1")
+                {
+                <li><a href="~/Home/ActivityPhotoView?Id=6" target="_blank" class="fancybox">領取HonestBee</a></li>
+                }
+
             </ul>
         </div>
                     }
@@ -182,7 +189,18 @@
     </div>
 </aside>
 
+@Scripts.Render("~/bundles/fancybox")
+
 <script type="text/javascript" language="javascript">
+    $(function () {
+        $(".fancybox").fancybox({
+            width: 600,
+            height: 300,
+            type: 'iframe'
+        });
+    })
+
+
 
     $(document).ready(function () {
         $("#searchbox").on('change', function () {

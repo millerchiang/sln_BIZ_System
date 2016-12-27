@@ -6,7 +6,7 @@
 }
 @section pagestyle{
     <link href="~/stylesheets/company_info.css" rel="stylesheet" />
-    @Styles.Render("~/Scripts/css/fancybox")
+    @*@Styles.Render("~/Scripts/css/fancybox")*@
 }
 
 <div class="article_col1">
@@ -75,7 +75,7 @@
         Html.RenderAction("_HomeLeftPartial", "Home");
     }
 </div>
-@Scripts.Render("~/bundles/fancybox")
+@*@Scripts.Render("~/bundles/fancybox")*@
 
 <script>
     $(function () {
@@ -91,11 +91,11 @@
 
 
     function init() {
-        $(".fancybox").fancybox({
-            width: 600,
-            height: 300,
-            type: 'iframe'
-        });
+        //$(".fancybox").fancybox({
+        //    width: 600,
+        //    height: 300,
+        //    type: 'iframe'
+        //});
         $("#deleteLink").click(function () {
             if (confirm("@prj_BIZ_System.LanguageResource.User.lb_deleteornot")) {
                 $("#deleteForm").submit();

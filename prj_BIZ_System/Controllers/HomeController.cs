@@ -366,6 +366,15 @@ namespace prj_BIZ_System.Controllers
                 cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
                 Response.AppendCookie(cookie);
 
+                HonestbeeModel hmodel = userService.ChkComplete(Request["user_id"]);
+                if (hmodel != null)
+                {
+                    docookie("_bee", "1");
+                }else
+                {
+                    docookie("_bee", "0");
+                }
+
             }
             return Redirect("Index");
         }
@@ -418,6 +427,15 @@ namespace prj_BIZ_System.Controllers
                 //cookie.Values.Add("logo_img", HttpUtility.UrlEncode(model.logo_img));
                 Response.AppendCookie(cookie);
 
+                HonestbeeModel hmodel = userService.ChkComplete(model.user_id);
+                if (hmodel != null)
+                {
+                    docookie("_bee", "1");
+                }
+                else
+                {
+                    docookie("_bee", "0");
+                }
             }
             return Redirect("Index");
         }

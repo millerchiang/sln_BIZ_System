@@ -42,6 +42,16 @@ namespace prj_BIZ_System.Models
 
     }
 
+    public class HonestbeeModel  //honestbee_coupon
+    {
+        public string user_id { get; set; }//使用者帳號 
+        public string user_info_complete { get; set; }//客戶資料完整性
+        public string user_product_complete { get; set; }//產品資料完整性
+        public DateTime create_time { get; set; }//建立時間
+    }
+
+
+
     public class EnterpriseSortListModel //enterprise_sort_list
     {
         public int sort_id { get; set; }//產業別流水號 

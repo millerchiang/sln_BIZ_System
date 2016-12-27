@@ -395,6 +395,12 @@
       WHERE user_id = #user_id# and user_pw = #user_pw#
     </select>
 
+    <!--查詢資料完整性-->
+    <select id="CheckComplete" resultMap="Honestbee-result">
+      SELECT *
+      FROM honestbee_coupon
+      WHERE user_id = #user_id# and create_time > '1911-01-02'
+    </select>
 
     <!--新增單筆-->
     <insert id="InsertOne" parameterClass="prj_BIZ_System.Models.UserInfoModel">
@@ -561,6 +567,15 @@
       <result property="info_en" column="info_en"/>
     </resultMap>
 
+    <resultMap id="Honestbee-result" class="prj_BIZ_System.Models.HonestbeeModel">
+      <!--property是Model屬性,column是資料庫欄位名稱-->
+      <result property="user_id" column="user_id"/>
+      <result property="user_info_complete" column="user_info_complete"/>
+      <result property="user_product_complete" column="user_product_complete"/>
+      <result property="create_time" column="create_time"/>
+    </resultMap>
+    
+      
     <resultMap id="UserInfoManager-result" class="prj_BIZ_System.Models.UserInfoModel">
       <!--property是Model屬性,column是資料庫欄位名稱-->
       <result property="id" column="id"/>

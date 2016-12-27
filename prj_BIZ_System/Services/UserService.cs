@@ -66,6 +66,11 @@ namespace prj_BIZ_System.Services
             return (UserInfoModel)mapper.QueryForObject("UserInfo.CheckOne", tempModel);
         }
 
+        public HonestbeeModel ChkComplete(string user_id)
+        {
+            HonestbeeModel tempModel = new HonestbeeModel { user_id = user_id };
+            return (HonestbeeModel)mapper.QueryForObject("UserInfo.CheckComplete", tempModel);
+        }
 
         public object UserInfoInsertOne(UserInfoModel userInfoModel)
         {
